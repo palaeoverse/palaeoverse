@@ -4,7 +4,7 @@
 #'
 #' @param size A single numeric value of more than 0, and less than or equal to 90.
 #' @param fit A logical value indicating whether a bin size check should be performed to ensure that the
-#' entire latitudinal range is covered (-90º to 90º). If \code{fit = TRUE}, bin size is set to the nearest integer
+#' entire latitudinal range is covered (90ºS to 90ºN). If \code{fit = TRUE}, bin size is set to the nearest integer
 #' which is divisible into 180 (the entire latitudinal range).
 #' @return A \code{data.frame} of latitudinal bins for a given size.
 #' @examples
