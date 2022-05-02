@@ -4,14 +4,16 @@
 \alias{lat_bins}
 \title{Generate latitudinal bins}
 \usage{
-lat_bins(size = 10, fit = FALSE)
+lat_bins(size = 10, fit = FALSE, plot = TRUE)
 }
 \arguments{
-\item{size}{A single numeric value of more than 0, and less than or equal to 90.}
+\item{size}{\code{numeric}. A single numeric value of more than 0, and less than or equal to 90.}
 
-\item{fit}{A logical value indicating whether a bin size check should be performed to ensure that the
-entire latitudinal range is covered (90ºS to 90ºN). If \code{fit = TRUE}, bin size is set to the nearest integer
+\item{fit}{\code{logical}. Should the bin size be checked to ensure that the entire
+latitudinal range is covered (90ºS to 90ºN)? If \code{fit = TRUE}, bin size is set to the nearest integer
 which is divisible into 180 (the entire latitudinal range).}
+
+\item{plot}{\code{logical}. Should a plot of the latitudinal bins be generated?}
 }
 \value{
 A \code{data.frame} of latitudinal bins for a given size.
