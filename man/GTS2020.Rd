@@ -5,36 +5,28 @@
 \alias{GTS2020}
 \title{Geological Time Scale 2020}
 \format{
-A data frame with 189 rows and 29 variables:
+A data frame with 189 rows and 20 variables:
 \describe{
-\item{INDEX}{Add description}
-\item{STAGE_NUMBER}{Add description}
-\item{SERIES_NUMBER}{Add description}
-\item{SYSTEM_NUMBER}{Add description}
-\item{NAME}{Add description}
-\item{RANK}{Add description}
-\item{BASE_Ma}{Add description}
-\item{MIDPOINT_Ma}{Add description}
-\item{TOP_Ma}{Add description}
-\item{DURATION_Myr}{Add description}
-\item{CLIMATE_STATE_FRAKES_1992}{Add description}
-\item{CLIMATE_STATE_HAY_2016}{Add description}
-\item{CLIMATE_GRADIENT_BOUCOT_2013}{Add description}
-\item{CO2_FOSTER_2017}{Add description}
-\item{GLACIOGENIC_DETRITUS_CATHER_2009}{Add description}
-\item{GLACIAL_DEPOSITS_CAO_2019}{Add description}
-\item{CLIMATE_BIN}{Add description}
-\item{CLIMATE_STATE}{Add description}
-\item{FONT_COLOUR}{Add description}
-\item{CMYK}{Add description}
-\item{CYAN}{Add description}
-\item{MAGNETA}{Add description}
-\item{YELLOW}{Add description}
-\item{BLACK}{Add description}
-\item{RGB}{Add description}
-\item{RED}{Add description}
-\item{GREEN}{Add description}
-\item{BLUE}{Add description}
+\item{index}{Add description}
+\item{stage_number}{Add description}
+\item{series_number}{Add description}
+\item{system_number}{Add description}
+\item{interval_name}{Add description}
+\item{rank}{Add description}
+\item{max_ma}{Add description}
+\item{mid_ma}{Add description}
+\item{min_ma}{Add description}
+\item{duration_myr}{Add description}
+\item{climate_state_frakes_1992}{Add description}
+\item{climate_state_hay_2016}{Add description}
+\item{climate_Gradient_boucot_2013}{Add description}
+\item{co2_foster_2017}{Add description}
+\item{glaciogenic_detritus_cather_2009}{Add description}
+\item{glacial_deposits_cao_2019}{Add description}
+\item{climate_bin}{Add description}
+\item{climate_state}{Add description}
+\item{font}{Add description}
+\item{colour}{Add description}
 ...
 }
 }
