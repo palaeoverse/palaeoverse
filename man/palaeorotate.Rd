@@ -12,7 +12,7 @@ following named columns: "lng", "lat", "age". Age should be supplied in millions
 that data is entered correctly to prevent errors such as longitude and latitude being confused.}
 }
 \value{
-A \code{data.frame} containing the original occurrence dataframe, age of rotation (Ma), and
+A \code{data.frame} containing the original input occurrence dataframe, age of rotation (Ma), and
 reconstructed coordinates. Age of rotation is deduced from the reference ages supplied and closest midpoint of a stratigraphic stage.
 }
 \description{

@@ -6,8 +6,10 @@
 #' @param x \code{data.frame}. Fossil occurrences to be palaeogeographically reconstructed. \code{x} should be a dataframe containing the
 #' following named columns: "lng", "lat", "age". Age should be supplied in millions of years before present (Ma). This format is intentionally strict to ensure
 #' that data is entered correctly to prevent errors such as longitude and latitude being confused.
-#' @return A \code{data.frame} containing the original occurrence dataframe, age of rotation (Ma), and
+#'
+#' @return A \code{data.frame} containing the original input occurrence dataframe, age of rotation (Ma), and
 #' reconstructed coordinates. Age of rotation is deduced from the reference ages supplied and closest midpoint of a stratigraphic stage.
+#'
 #' @details This function generates palaeocoordinates by spatiotemporally linking present-day geographic coordinates and age estimates with a spatial
 #' grid (1º x 1º) rotated to the midpoint of stratigraphic stages (GTS, 2020; \url{https://stratigraphy.org/timescale/}). As such, palaeocoordinates can be efficiently generated for large datasets with
 #' relatively little computational power. A further benefit of this approach is that no internet connection is required as in previously implemented API approaches.
