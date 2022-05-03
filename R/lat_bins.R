@@ -1,13 +1,15 @@
 #' Generate latitudinal bins
 #'
-#' A function to generate latitudinal bins of a given size.
+#' A function to generate latitudinal bins of a given size. If the desired size of the bins is not compatible
+#' with the entire latitudinal range (90ºS to 90ºN), bin size can be updated to the nearest integer which is
+#' divisible into 180 to fit the entire range.
 #'
 #' @param size \code{numeric}. A single numeric value of more than 0, and less than or equal to 90.
-#' @param fit \code{logical}. Should the bin size be checked to ensure that the entire
-#' latitudinal range is covered (90ºS to 90ºN)? If \code{fit = TRUE}, bin size is set to the nearest integer
+#' @param fit \code{logical}. Should bin size be checked to ensure that the entire latitudinal
+#' range is covered (90ºS to 90ºN)? If \code{fit = TRUE}, bin size is set to the nearest integer
 #' which is divisible into 180 (the entire latitudinal range).
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be generated?
-#' @return A \code{data.frame} of latitudinal bins for a given size.
+#' @return A \code{data.frame} of latitudinal bins of a given size.
 #' @examples
 #' lat_bins(size = 20)
 #' lat_bins(size = 13, fit = TRUE)

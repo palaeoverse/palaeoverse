@@ -1,35 +1,57 @@
 #' Generate time bins
 #'
-#' A function to generate time bins for a given study interval.
+#' A function to generate time bins for a given study interval. This function is flexible in that either stage-level or higher bins can be generated. In addition, the option to
+#' generate near equal-length time bins by grouping stages together is available. In this implementation, intervals are grouped together in a way that minimises the mean and
+#' standard deviation between bins based on the user's specified bin size. However, users may also wish to group stages based on subjective reasoning e.g.availability of outcrop.
 #'
 #' @param interval \code{character or numeric}. Interval name of age available in \code{GTS2020}. If a single interval name is provided, this interval is returned.
 #' If two interval names are provided, these intervals and those existing between are returned. If a single interval age is provided, the age matching this interval is returned.
-#' If two interval ages are provided, the intervals occurring in the range of these ages are returned.
-#' @param equal \code{logical}. Should equal-length time bins be generated?
-#' @param size \code{numeric}. If equal == \code{true}, specify the length in millions of years (Myr) of time bin desired. Defaults to 10 Myr.
+#' If two interval ages are provided, the intervals occurring in the range of these ages are returned. If higher than stage bins are required, these can only be specified using a
+#' \code{character} input as the function defaults to using stratigraphic stages for \code{numeric} inputs.
+#' @param equal \code{logical}. Should near equal-length time bins be generated?
+#' @param size \code{numeric}. If equal == \code{TRUE}, specify the length in millions of years (Myr) of the time bins desired. Defaults to 10 Myr.
 #' @param plot \code{logical}. Should a plot of time bins be generated?
+#'
 #' @return A \code{data.frame} of time bins for a specified interval.
+#'
+#' @details This function uses the Geological Timescale 2020. Age data were compiled from: \url{https://stratigraphy.org/timescale/}.
+#' Available intervals names are accessible via GTS2020$interval_name.
 #' @examples
 #' Using interval midpoint age
 #' time_bins(interval = 10, equal = FALSE, plot = TRUE)
+#'
 #' Using interval age range
 #' time_bins(interval = c(50, 100), equal = FALSE, plot = TRUE)
+#'
 #' Using a single interval name
 #' time_bins(interval = c("Maastrichtian"), equal = FALSE, plot = TRUE)
+#'
 #' Using a range of intervals defined by two named intervals and equal duration bins
 #' time_bins(interval = c("Fortunian", "Meghalayan"), equal = TRUE, size = 10, plot = TRUE)
 time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, size = 10, plot = TRUE){
   #download data
   df <- palaeoverse::GTS2020
+
+  #which rank is required? Non-stage level is only available for character string.
+  if(is.character(interval)){
+    rnk <- df[which(df$interval_name %in% interval), c("rank")]
+
+    if(length(rnk) != length(interval)){stop(paste0("Checking spelling of specified intervals.
+    Available intervals are accessible via GTS2020$interval_name."))}
+
+    rnk <- unique(rnk)}else{rnk <- "Stage"}
+
+  if(length(rnk) != 1){stop("Interval ranks should be the same, e.g. specifiy only stage or period names, not a mixture")}
+
   #subset to stages
-  df <- subset(df, rank == "Stage")
+  df <- subset(df, rank == rnk)
 
   #character string entered
   if(is.character(interval)){
     if(length(interval) == 1){
       w <- which(df$interval_name %in% interval)
-      if(length(w) != length(interval)){stop(paste0("Checking spelling of specified intervals. \n Available intervals are: ",
-                                                    toString(df$interval_name)))}
+      if(length(w) != length(interval)){stop(paste0("Checking spelling of specified intervals.
+    Available intervals are accessible via GTS2020$interval_name."))}
       df <- df[w,]
     }
     if(length(interval) == 2){
