@@ -8,7 +8,9 @@
 #' that data is entered correctly to prevent errors such as longitude and latitude being confused.
 #'
 #' @return A \code{data.frame} containing the original input occurrence dataframe, age of rotation (Ma), and
-#' reconstructed coordinates. Age of rotation is deduced from the reference ages supplied and closest midpoint of a stratigraphic stage.
+#' reconstructed coordinates. "rot_age" refers to the age of rotation and is deduced from the reference ages
+#' supplied and closest midpoint age of a stratigraphic stage. "rot_lng" and "rot_lat" refer to the coordinates rotated.
+#' "p_lng" and "p_lat" refer to the reconstructed coordinates.
 #'
 #' @details This function generates palaeocoordinates by spatiotemporally linking present-day geographic coordinates and age estimates with a spatial
 #' grid (1º x 1º) rotated to the midpoint of stratigraphic stages (GTS, 2020; \url{https://stratigraphy.org/timescale/}). As such, palaeocoordinates can be efficiently generated for large datasets with

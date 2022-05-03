@@ -13,7 +13,9 @@ that data is entered correctly to prevent errors such as longitude and latitude 
 }
 \value{
 A \code{data.frame} containing the original input occurrence dataframe, age of rotation (Ma), and
-reconstructed coordinates. Age of rotation is deduced from the reference ages supplied and closest midpoint of a stratigraphic stage.
+reconstructed coordinates. "rot_age" refers to the age of rotation and is deduced from the reference ages
+supplied and closest midpoint age of a stratigraphic stage. "rot_lng" and "rot_lat" refer to the coordinates rotated.
+"p_lng" and "p_lat" refer to the reconstructed coordinates.
 }
 \description{
 A function to generate stage-level palaeocoordinates (0--540 Ma) for fossil occurrence data (i.e. reconstruct the geographic distribution of organism's remains
