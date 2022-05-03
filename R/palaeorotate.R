@@ -41,6 +41,7 @@
 #'
 #' Rotate the data
 #' x <- palaeorotate(x = x)
+#' @export
 palaeorotate <- function(x){
   #error handling to go here
   if(sum((c("lng", "lat", "age") %in% colnames(x))) != 3){

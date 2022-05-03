@@ -13,7 +13,7 @@
 #' @examples
 #' lat_bins(size = 20)
 #' lat_bins(size = 13, fit = TRUE)
-
+#' @export
 lat_bins <- function(size = 10, fit = FALSE, plot = TRUE){
   #divide latitudinal range by size of bins
   bins <- 180/size

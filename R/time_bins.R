@@ -28,6 +28,7 @@
 #'
 #' Using a range of intervals defined by two named intervals and equal duration bins
 #' time_bins(interval = c("Fortunian", "Meghalayan"), equal = TRUE, size = 10, plot = TRUE)
+#' @export
 time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, size = 10, plot = TRUE){
   #download data
   df <- palaeoverse::GTS2020
