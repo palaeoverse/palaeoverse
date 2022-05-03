@@ -58,18 +58,21 @@ palaeorotate <- function(x){
   x$rot_age <- rot_age[sapply(1:nrow(x), function(i){which.min(abs(x[i,c("age")] - rot_age))})]
 
   #search for matching longitude, latitude and ages
-  age_lng <- paste0("lng_",x$age)
-  age_lat <- paste0("lat_",x$age)
+  x$rot_lng <- sapply(1:nrow(x), function(i){
+    palaeo_rots[which.min(abs(palaeo_rots[,c("lng")]  - x$lng[i])),1] #extract closest longitude
+  }, simplify = TRUE)
 
-  x$p_lng <- sapply(1:nrow(x), function(i){
-    palaeo_rots[which.min(abs(palaeo_rots[,c("lng")] - x$lng[i])),
-                which(colnames(palaeo_rots) == paste0("lng_", x$rot_age[i]))]
-    })
+  x$rot_lat <- sapply(1:nrow(x), function(i){
+    palaeo_rots[which.min(abs(palaeo_rots[,c("lat")]  - x$lat[i])),2] #extract closest longitude
+  }, simplify = TRUE)
 
-  x$p_lat <- sapply(1:nrow(x), function(i){
-    palaeo_rots[which.min(abs(palaeo_rots[,c("lat")] - x$lat[i])),
-                which(colnames(palaeo_rots) == paste0("lat_", x$rot_age[i]))]
+  pcoords <- sapply(1:nrow(x), function(i){
+    palaeo_rots[which(palaeo_rots[,c("lng")] == x[i,"rot_lng"] & palaeo_rots[,c("lat")] == x[i,"rot_lat"]),
+           c(paste0("lng_",x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
   })
+
+  x$p_lng <- pcoords[1,]
+  x$p_lat <- pcoords[2,]
 
   return(x)
 }
