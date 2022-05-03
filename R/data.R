@@ -7,46 +7,68 @@
 #'
 #' @format A data frame with 189 rows and 20 variables:
 #' \describe{
-#'   \item{index}{Add description}
-#'   \item{stage_number}{Add description}
-#'   \item{series_number}{Add description}
-#'   \item{system_number}{Add description}
-#'   \item{interval_name}{Add description}
-#'   \item{rank}{Add description}
-#'   \item{max_ma}{Add description}
-#'   \item{mid_ma}{Add description}
-#'   \item{min_ma}{Add description}
-#'   \item{duration_myr}{Add description}
-#'   \item{climate_state_frakes_1992}{Add description}
-#'   \item{climate_state_hay_2016}{Add description}
-#'   \item{climate_Gradient_boucot_2013}{Add description}
-#'   \item{co2_foster_2017}{Add description}
-#'   \item{glaciogenic_detritus_cather_2009}{Add description}
-#'   \item{glacial_deposits_cao_2019}{Add description}
-#'   \item{climate_bin}{Add description}
-#'   \item{climate_state}{Add description}
-#'   \item{font}{Add description}
-#'   \item{colour}{Add description}
+#'   \item{index}{Index number for the temporal order of all intervals present in the dataset}
+#'   \item{stage_number}{Index number for stages}
+#'   \item{series_number}{Index number for series}
+#'   \item{system_number}{Index number for system}
+#'   \item{interval_name}{Names of intervals in the dataset}
+#'   \item{rank}{The temporal rank of intervals in the dataset}
+#'   \item{max_ma}{The maximum age of the interval in millions of years before present}
+#'   \item{mid_ma}{The midpoint age of the interval in millions of years before present}
+#'   \item{min_ma}{The minimum age of the interval in millions of years before present}
+#'   \item{duration_myr}{The duration of the interval in millions of years}
+#'   \item{climate_state_frakes_1992}{Climate states/modes according to Frakes et al., (1992).}
+#'   \item{climate_state_hay_2016}{Climate states/modes according to Hay (2016).}
+#'   \item{climate_gradient_boucot_2013}{The strength of the climate gradient according to Boucot (2013).}
+#'   \item{co2_foster_2017}{Atmospheric CO2 concentrations according to Foster et al., (2017).}
+#'   \item{glaciogenic_detritus_cather_2009}{The presence of glaciogenic detritus according to Cather et al., (2009).}
+#'   \item{glacial_deposits_cao_2019}{The presence of glacial deposits according to Cao et al., (2019).}
+#'   \item{climate_bin}{Near equal-length climatic time bins based on the compiled literature.}
+#'   \item{climate_state}{Respective climate states deduced from the compiled literature.}
+#'   \item{font}{Colour of font to use for plotting in conjunction with the colour column.}
+#'   \item{colour}{Colours of stages based on the ICS timescale \url{https://stratigraphy.org/timescale/}.}
 #'   ...
 #' }
+#' @section References:
+#' Frakes, L.A. et al. (1992). Climate Modes of the Phanerozoic. Cambridge University Press. 288pp. \url{http://dx.doi.org/10.1017/CBO9780511628948}.
+#' \cr
+#' \cr
+#' Cather, S.M. et al. (2009). Climate forcing by iron fertilization from repeated ignimbrite eruptions:
+#' The icehouse–silicic large igneous province (SLIP) hypothesis. Geosphere 5(3): 315--324. \url{https://doi.org/10.1130/GES00188.1}.
+#' \cr
+#' \cr
+#' Boucot, A. et al. (2013). Phanerozoic Paleoclimate: An Atlas of Lithologic Indicators of Climate. SEPM. 478pp. \url{https://doi.org/10.2110/sepmcsp.11}.
+#' \cr
+#' \cr
+#' Hay, W.W. (2016). Experimenting on a Small Planet: A History of Scientific Discoveries, a Future of Climate Change and Global Warming. (2nd edition). Springer. 983pp.
+#' \cr
+#' \cr
+#' Foster, G. et al. (2017). Future climate forcing potentially without precedent in the last 420 million years. Nature Communications 8(14845): 1--8. \url{https://doi.org/10.1038/ncomms14845}.
+#' \cr
+#' \cr
+#' Cao, W. et al. (2019). Palaeolatitudinal distribution of lithologic indicators of climate in a palaeogeographic framework. Geological Magazine 156(2):331--354. \url{https://doi.org/10.1017/S0016756818000110}.
+#' \cr
 #' @source Compiled by Lewis A. Jones from various sources. See item descriptions for details.
 "GTS2020"
 #' Palaeogeographic reconstruction grid
 #'
 #' Palaeogeographic coordinates of a 1º x 1º spatial grid rotated to the midpoints of stratigraphic stages
-#' throughout the Phanerozoic (0--540 Ma). Midpoint ages are based on the Geological Timescale 2020 and \url{https://stratigraphy.org/timescale/}.
+#' throughout the Phanerozoic (0--540 Ma). Midpoint ages are based on the Geological Timescale 2020 and
+#' \url{https://stratigraphy.org/timescale/}.
 #'
 #' @format A matrix with 64800 rows and 198 columns:
 #' \describe{
-#'   \item{lng}{Add description}
-#'   \item{lat}{Add description}
-#'   \item{lng_}{Add description}
-#'   \item{lat_}{Add description}
+#'   \item{lng}{Centroid longitudes of a 1º x 1º spatial grid}
+#'   \item{lat}{Centroid latitudes of a 1º x 1º spatial grid}
+#'   \item{lng_X}{Centroid palaeolongitudes of a 1º x 1º spatial grid reconstructed to X time interval.}
+#'   \item{lat_X}{Centroid palaeolatitudes of a 1º x 1º spatial grid reconstructed to X time interval.}
 #'   ...
 #' }
 #' @source Generated by Lewis A. Jones using a 1º x 1º spatial grid with the
 #' GPlates software \url{https://www.gplates.org} and the plate rotation model
 #' PALEOMAP (Scotese and Wright, 2018).
+#' \cr
+#' \cr
 #' Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (PaleoDEMS) for the Phanerozoic. PALEOMAP Project.
-#' \url{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}
+#' \url{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}.
 "palaeo_rots"
