@@ -105,7 +105,7 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, si
     }
 
     #generate bin information
-    bin <- 1:length(upper)
+    bin <- length(upper):1
     max_ma <- df[upper,c("max_ma")]
     min_ma <- df[lower,c("min_ma")]
     mid_ma <- (max_ma + min_ma)/2
@@ -138,7 +138,8 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, si
     }
 
     if(equal == FALSE){
-      df <- df[,c("interval_name", "max_ma", "mid_ma", "min_ma", "duration_myr")]
+      df$bin <- nrow(df):1
+      df <- df[,c("bin","interval_name", "max_ma", "mid_ma", "min_ma", "duration_myr")]
     }
 
     }
