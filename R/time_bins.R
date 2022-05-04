@@ -141,10 +141,9 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, si
       df$bin <- nrow(df):1
       df <- df[,c("bin","interval_name", "max_ma", "mid_ma", "min_ma", "duration_myr")]
     }
+    df <- df[order(df$bin, decreasing = FALSE),]
 
   }
-
-  df <- df[order(df$bin, decreasing = FALSE),]
 
   return(df)
 }

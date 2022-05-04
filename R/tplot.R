@@ -19,7 +19,7 @@ all_period_end <- c(485.4,443.8,419.2,358.9,298.9,251.902,201.3,145,66,23.03,0)
 all_periods <- c("Cambrian","Ordovician","Silurian","Devonian","Carboniferous","Permian","Triassic","Jurassic","Cretaceous", "Paleogene", "Neogene")
 all_periods_short <- c("Cb","O", "S", "D", "C", "P",
                 "T", "J", "K", "Pg", "N")
-all_stages <- rev((time_bins(plot=FALSE))$interval_name)
+all_stages <- time_bins(plot=FALSE)$interval_name
 all_stage_end <- rev((time_bins(plot=FALSE))$min_ma)
 all_stage_start <- rev((time_bins(plot=FALSE))$max_ma)
 all_stages_short <- substring(all_stages,1,2)
