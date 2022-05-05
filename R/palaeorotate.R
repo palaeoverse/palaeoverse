@@ -42,7 +42,7 @@
 #' Rotate the data
 #' x <- palaeorotate(x = x)
 #' @export
-palaeorotate <- function(x){
+palaeorotate <- function(x, model = "PALEOMAP"){
   #error handling to go here
   if(sum((c("lng", "lat", "age") %in% colnames(x))) != 3){
     stop("Column names should be: lng, lat, age")
@@ -54,7 +54,15 @@ palaeorotate <- function(x){
 
   #reconstruct coordinates
   #get palaeorotation grid
-  palaeo_rots <- palaeoverse::palaeo_rots
+  temp <- tempfile()
+  if(model == "PALEOMAP"){
+    download.file("https://github.com/LewisAJones/PalaeoData/raw/main/data/Prot_PALEOMAP.rda", temp)
+    load(temp)
+    palaeo_rots <- Prot_PALEOMAP
+    rm(Prot_PALEOMAP)
+    }
+
+
   rot_age <- colnames(palaeo_rots)[3:ncol(palaeo_rots)]
   rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
   #calculate rotation ages for data
@@ -77,5 +85,6 @@ palaeorotate <- function(x){
   x$p_lng <- pcoords[1,]
   x$p_lat <- pcoords[2,]
 
+  unlink(temp)
   return(x)
 }
