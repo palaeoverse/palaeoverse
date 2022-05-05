@@ -11,10 +11,14 @@
 # add Quaternary as seperate period
 # allow for manual axis marks, labels and range
 # add Mesozoic, Phanerozoic, ...
-#
+# allow for single period input
+# allow for age input rather than stage or period
+# add colour
+# use palaeoverse::GTS2020 for period ages
+# time_bins(c("Cambrian","Quaternary"), plot = FALSE)
 
 tplot <- function(x,y,time = NA, level = "period", start = NA, end = NA,
-                  xlab = "x", ylab = "y", color = "black", type = "o",
+                  xlab = "x", ylab = "y", colour = "black", type = "o",
                   pch = 19, cex = 1, lty = 0, lwd = 1) {
   opar <- par(las = par("las"))
   par(las = 1)
@@ -104,7 +108,7 @@ tplot <- function(x,y,time = NA, level = "period", start = NA, end = NA,
 
     plot(x,y, xlim = c(max(periodbase), min(periodtop)),
          ylim = c(y1,y3), yaxs = "i", xaxs = "i", yaxt = "n",
-         xlab = xlab, ylab = ylab, col = color, type = type,
+         xlab = xlab, ylab = ylab, col = colour, type = type,
          pch = pch, cex = cex, lty = lty, lwd = lwd)
 
     yaxis_low <- ifelse(par("yaxp")[1] < y2, seq(par("yaxp")[1],par("yaxp")[2],length.out=par("yaxp")[3]+1)[2], par("yaxp")[1])
@@ -130,7 +134,7 @@ tplot <- function(x,y,time = NA, level = "period", start = NA, end = NA,
 
     plot(x,y, xlim = c(max(stagebase), min(stagetop)),
          ylim = c(y1,y3), yaxs = "i", xaxs = "i", yaxt = "n",
-         xlab = xlab, ylab = ylab, col = color, type = type,
+         xlab = xlab, ylab = ylab, col = colour, type = type,
          pch = pch, cex = cex, lty = lty, lwd = lwd)
 
     yaxis_low <- ifelse(par("yaxp")[1] < y2, seq(par("yaxp")[1],par("yaxp")[2],length.out=par("yaxp")[3]+1)[2], par("yaxp")[1])
