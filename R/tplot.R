@@ -3,10 +3,15 @@
 #' @param x
 #' @examples
 #' Just specifying x and y
-#' tplot(x = runif(100,30,410), y = rnorm(100,50,1))
+#' tplot(x = runif(100,30,410), y = rnorm(100,50,1), time = c("Devonian","Neogene"))
 #' Using stages, specifying first and last stage
 #' tplot(x = runif(100,0,200), y = rnorm(100,0,1), time = c("Oxfordian","Campanian"), level = "stage")
 #' @export
+
+# add Quaternary as seperate period
+# allow for manual axis marks, labels and range
+# add Mesozoic, Phanerozoic, ...
+#
 
 tplot <- function(x,y,time = NA, level = "period", start = NA, end = NA,
                   xlab = "x", ylab = "y", color = "black", type = "o",
@@ -124,7 +129,7 @@ tplot <- function(x,y,time = NA, level = "period", start = NA, end = NA,
 
 
     plot(x,y, xlim = c(max(stagebase), min(stagetop)),
-         ylim = c(y1,y3), yaxs = "i", xaxs = "i", xaxt = "n",
+         ylim = c(y1,y3), yaxs = "i", xaxs = "i", yaxt = "n",
          xlab = xlab, ylab = ylab, col = color, type = type,
          pch = pch, cex = cex, lty = lty, lwd = lwd)
 
