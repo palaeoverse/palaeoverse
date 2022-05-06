@@ -53,15 +53,36 @@ palaeorotate <- function(x, model = "PALEOMAP"){
   }
 
   #reconstruct coordinates
-  #get palaeorotation grid
-  temp <- tempfile()
-  if(model == "PALEOMAP"){
-    download.file("https://github.com/LewisAJones/PalaeoData/raw/main/data/Prot_PALEOMAP.rda", temp)
-    load(temp)
-    palaeo_rots <- Prot_PALEOMAP
-    rm(Prot_PALEOMAP)
+  #get palaeorotation grid (installing of PalaeoData may be needed if not already installed)
+  is_PalaeoData_available <- require("PalaeoData", quietly = TRUE)
+
+  #install PalaeoData package if not available
+  if(is_PalaeoData_available == FALSE){
+
+    instructions <- paste("Please try installing the package for yourself",
+                          "using the following command: \n",
+                          "    devtools::install_github(\"LewisAJones/PalaeoData\")")
+
+    error_func <- function(e) {
+      stop(paste("Failed to install the PalaeoData package.\n", instructions))
     }
 
+    input <- utils::menu(c("Yes", "No"), title = "Install the PalaeoData package? \n Package size is approximately 50 mb")
+
+      if(input == 1){
+        message("Installing the PalaeoData package.")
+        tryCatch(
+        devtools::install_github("LewisAJones/PalaeoData", quiet = FALSE),
+        error = error_func, warning = error_func)
+      } else {
+        stop(paste("The PalaeoData package is necessary for this method to run.\n", instructions))
+      }
+
+  }
+
+  if(model == "PALEOMAP"){
+    palaeo_rots <- PalaeoData::Prot_PALEOMAP
+  }
 
   rot_age <- colnames(palaeo_rots)[3:ncol(palaeo_rots)]
   rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
@@ -84,7 +105,7 @@ palaeorotate <- function(x, model = "PALEOMAP"){
 
   x$p_lng <- pcoords[1,]
   x$p_lat <- pcoords[2,]
+  x$model <- model
 
-  unlink(temp)
   return(x)
 }

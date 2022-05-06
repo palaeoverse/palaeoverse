@@ -4,7 +4,7 @@
 \alias{palaeorotate}
 \title{Palaeorotate fossil occurrences}
 \usage{
-palaeorotate(x)
+palaeorotate(x, model = "PALEOMAP")
 }
 \arguments{
 \item{x}{\code{data.frame}. Fossil occurrences to be palaeogeographically reconstructed. \code{x} should be a dataframe containing the

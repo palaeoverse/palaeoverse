@@ -13,7 +13,7 @@ tplot(
   end = NA,
   xlab = "x",
   ylab = "y",
-  color = "black",
+  colour = "black",
   type = "o",
   pch = 19,
   cex = 1,
@@ -26,7 +26,7 @@ Plot a Phanerozoic time series
 }
 \examples{
 Just specifying x and y
-tplot(x = runif(100,30,410), y = rnorm(100,50,1))
+tplot(x = runif(100,30,410), y = rnorm(100,50,1), time = c("Devonian","Neogene"))
 Using stages, specifying first and last stage
 tplot(x = runif(100,0,200), y = rnorm(100,0,1), time = c("Oxfordian","Campanian"), level = "stage")
 }
