@@ -1,7 +1,7 @@
 # 'palaeoverse' R package
 A package developed by palaeobiologists for palaeobiologists.
 
-<div style ="text-align: justify">The aim of the palaeoverse package is to generate a community-driven package of generic functions for the palaeobiology community. The package does not aim to provide implementations of statistical analyses, rather it provides auxilary functions to help streamline analyses and improve code readability and reproducibility.</div>
+<div style="text-align: justify">The aim of the palaeoverse package is to generate a community-driven package of generic functions for the palaeobiology community. The package does not aim to provide implementations of statistical analyses, rather it provides auxilary functions to help streamline analyses and improve code readability and reproducibility.</div>
 
 Developed by:
 - [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), University of Vigo
