@@ -80,6 +80,8 @@ palaeorotate <- function(x, model = "PALEOMAP"){
 
   }
 
+  #which model should be used?
+
   if(model == "PALEOMAP"){
     palaeo_rots <- PalaeoData::Prot_PALEOMAP
   }
