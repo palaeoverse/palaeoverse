@@ -10,6 +10,10 @@
 #' which is divisible into 180 (the entire latitudinal range).
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be generated?
 #' @return A \code{data.frame} of latitudinal bins of a given size.
+#' @section Developer:
+#' Lewis A. Jones
+#' @section Auditor:
+#' Missing
 #' @examples
 #' lat_bins(size = 20)
 #' lat_bins(size = 13, fit = TRUE)

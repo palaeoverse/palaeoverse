@@ -35,6 +35,16 @@ standard deviation between bins based on the user's specified bin size. However,
 This function uses the Geological Timescale 2020. Age data were compiled from: \url{https://stratigraphy.org/timescale/}.
 Available intervals names are accessible via GTS2020$interval_name.
 }
+\section{Developer}{
+
+Lewis A. Jones
+}
+
+\section{Auditor}{
+
+Missing
+}
+
 \examples{
 Using interval midpoint age
 time_bins(interval = 10, equal = FALSE, plot = TRUE)

@@ -25,7 +25,10 @@
 #' Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (PaleoDEMS) for the Phanerozoic. PALEOMAP Project.
 #' \url{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}
 #' \cr
-#'
+#' @section Developer:
+#' Lewis A. Jones
+#' @section Auditor:
+#' Missing
 #' @examples
 #' Generic example with a few occurrences
 #' x <- data.frame(lng = c(54, 95, 12), lat = c(86, 12, -65), age = c(45, 203, 467))
@@ -43,9 +46,12 @@
 #' x <- palaeorotate(x = x)
 #' @export
 palaeorotate <- function(x, model = "PALEOMAP"){
-  #error handling to go here
+  #error handling
+  if(!exists("x") | !is.data.frame(x)) {
+    stop("Please supply x as a dataframe")
+  }
   if(sum((c("lng", "lat", "age") %in% colnames(x))) != 3){
-    stop("Column names should be: lng, lat, age")
+    stop("Column names should be: lng, lat, and age")
   }
 
   if(sum(x$lat > 90) != 0 | sum(x$lat < -90) != 0){

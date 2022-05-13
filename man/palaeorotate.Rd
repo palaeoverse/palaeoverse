@@ -38,6 +38,16 @@ Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (Pal
 \cr
 }
 
+\section{Developer}{
+
+Lewis A. Jones
+}
+
+\section{Auditor}{
+
+Missing
+}
+
 \examples{
 Generic example with a few occurrences
 x <- data.frame(lng = c(54, 95, 12), lat = c(86, 12, -65), age = c(45, 203, 467))

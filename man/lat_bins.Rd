@@ -23,6 +23,16 @@ A function to generate latitudinal bins of a given size. If the desired size of 
 with the entire latitudinal range (90ºS to 90ºN), bin size can be updated to the nearest integer which is
 divisible into 180 to fit the entire range.
 }
+\section{Developer}{
+
+Lewis A. Jones
+}
+
+\section{Auditor}{
+
+Missing
+}
+
 \examples{
 lat_bins(size = 20)
 lat_bins(size = 13, fit = TRUE)
