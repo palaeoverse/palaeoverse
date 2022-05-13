@@ -1,5 +1,5 @@
-# The 'palaeoverse' R package
-## A package developed by palaeobiologists for palaeobiologists
+# 'palaeoverse' R package
+A package developed by palaeobiologists, for palaeobiologists
 
 Developed by:
 - [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), University of Vigo
