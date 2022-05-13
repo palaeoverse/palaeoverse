@@ -10,7 +10,7 @@ Developed by:
 - [Emma Dunne](mailto:dunne.emma.m@gmail.com), Friedrich-Alexander-Universität Erlangen-Nürnberg
 - [Miranta Kouvari](mailto:kouvari.miranta@gmail.com), University College London
 - [Will Gearty](mailto:willgearty@gmail.com), University of Nebraska-Lincoln
-- [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), University of Vigo
+- [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), École Normale Supérieure de Lyon
 - [Sofía Galván](mailto:sofia.galvan@uvigo.es), University of Vigo
 - [Alessandro Chiarenza](mailto:a.chiarenza15@gmail.com), University of Vigo
 - [Christopher D. Dean](christopherdaviddean@gmail.com), University College London
