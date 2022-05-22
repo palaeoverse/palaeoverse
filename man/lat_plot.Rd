@@ -25,36 +25,47 @@ lat_plot(
 )
 }
 \arguments{
-\item{size}{\code{numeric}. A single numeric value of more than 0, and less than or equal to 90.}
+\item{x}{\code{numeric}. A numeric vector of latitudes (or palaeolatitudes) to use for plotting.}
 
-\item{fit}{\code{logical}. Should bin size be checked to ensure that the entire latitudinal
-range is covered (90ºS to 90ºN)? If \code{fit = TRUE}, bin size is set to the nearest integer
-which is divisible into 180 (the entire latitudinal range).}
+\item{y}{\code{logical}. A numeric vector of respective counts (e.g. species richness) to use for plotting.}
 
-\item{plot}{\code{logical}. Should a plot of the latitudinal bins be generated?}
+\item{xlim}{\code{numeric}. A numeric vector of length two to}
+
+\item{main}{\code{character}.}
+
+\item{ylab}{\code{character}.}
+
+\item{xlab}{\code{character}.}
+
+\item{tropics}{\code{logical}.}
+
+\item{equator}{\code{logical}.}
+
+\item{palaeo}{\code{character}.}
+
+\item{tropics.col}{\code{character}.}
+
+\item{equator.col}{\code{character}.}
+
+\item{tropics.lty}{\code{numeric}.}
+
+\item{equator.lty}{\code{numeric}.}
+
+\item{type}{\code{character}.}
+
+\item{col}{\code{character}.}
+
+\item{cex}{\code{numeric}.}
+
+\item{lwd}{\code{numeric}.}
 }
 \value{
-A \code{data.frame} of latitudinal bins of a given size.
+A latitudinal plot.
 }
 \description{
-A generic function for generating a latitudinal plot e.g. for studying the latitudinal biodiversity gradient.
+A generic function for generating a latitudinal plot (e.g. for plotting the latitudinal biodiversity gradient).
 }
 \examples{
-Grab some data from the Paleobiology Database
-x <- read.csv("https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia&interval=Anisian,Piacenzian")
-
-Assign midpoint age of fossil occurrence data for rotation
-x$age <- (x$max_ma + x$min_ma)/2
-
-Rotate the data
-x <- palaeorotate(x = x)
-
-#get latitudinal bins
-bins <- lat_bins(size = 15)
-
-#count number of collections per bin
-
-
 #plot data
-lat_plot(x = x$p_lat, y = x$lat)
+lat_plot(x = c(-20, 0, 20), y = c(10, 15, 10))
 }

@@ -10,32 +10,38 @@
 #' \code{character} input as the function defaults to using stratigraphic stages for \code{numeric} inputs.
 #' @param equal \code{logical}. Should near equal-length time bins be generated?
 #' @param size \code{numeric}. If equal == \code{TRUE}, specify the length in millions of years (Myr) of the time bins desired. Defaults to 10 Myr.
+#' @param assign \code{numeric}.A numeric vector of age estimates (i.e. midpoint age in specified age range) to use to assign to bins of
+#' a given size. If assign is specified, a numeric vector is returned of the midpoint age of the specified bins.
 #' @param plot \code{logical}. Should a plot of time bins be generated?
 #'
-#' @return A \code{data.frame} of time bins for a specified interval.
+#' @return A \code{dataframe} of time bins for a specified interval or a list with a \code{dataframe} of time bins and \code{numeric} of binned age estimates (midpoint of specified
+#' bins) if assign specified.
 #'
 #' @details This function uses the Geological Timescale 2020. Age data were compiled from: \url{https://stratigraphy.org/timescale/}.
 #' Available intervals names are accessible via GTS2020$interval_name.
 #' @section Developer:
 #' Lewis A. Jones
 #' @section Auditor:
-#' Missing
+#' To be validated
 #' @examples
-#' Using interval midpoint age
+#' #Using interval midpoint age
 #' time_bins(interval = 10, equal = FALSE, plot = TRUE)
 #'
-#' Using interval age range
+#' #Using interval age range
 #' time_bins(interval = c(50, 100), equal = FALSE, plot = TRUE)
 #'
-#' Using a single interval name
+#' #Using a single interval name
 #' time_bins(interval = c("Maastrichtian"), equal = FALSE, plot = TRUE)
 #'
-#' Using a range of intervals defined by two named intervals and equal duration bins
+#' #Using a range of intervals defined by two named intervals and equal duration bins
 #' time_bins(interval = c("Fortunian", "Meghalayan"), equal = TRUE, size = 10, plot = TRUE)
+#'
+#' #Assign bins based on given age estimates
+#' time_bins(interval = c("Fortunian", "Meghalayan"), assign = c(232, 167, 33), plot = TRUE)
 #' @export
-time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, size = 10, plot = TRUE){
+time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, size = 10, assign = NULL, plot = TRUE){
   #download data
-  df <- palaeoverse::GTS2020
+  df <- palaeoverse:::GTS2020
 
   #which rank is required? Non-stage level is only available for character string.
   if(is.character(interval)){
@@ -147,6 +153,21 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, si
     }
     df <- df[order(df$bin, decreasing = FALSE),]
 
+  }
+
+  if(!is.null(assign)){
+    if(class(assign) == "numeric"){
+      if(any(assign > max(df$max_ma) | assign < min(df$min_ma))){
+        stop("One or more ages is more than or less than the specified time interval range")
+      }
+      tmp <- assign
+      for(i in 1:nrow(df)){
+        assign[which(tmp <= df$max_ma[i] & tmp >= df$min_ma[i])] <- df$mid_ma[i]
+      }
+      assign <- list(df, assign)
+      names(assign) <- c("Bins", "Assignation")
+      return(assign)
+    }else{stop("assign should be a numeric")}
   }
 
   return(df)
