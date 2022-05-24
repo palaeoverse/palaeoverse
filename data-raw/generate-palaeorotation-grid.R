@@ -31,13 +31,86 @@ rot_ages$mid_ma <- round(rot_ages$mid_ma, digits = 0)
 # Save data
 saveRDS(object = rot_ages, file = "./data-raw/rot_ages.RDS")
 
-#### Build rotation grid ####
-#####################
-# Andrew S. Merdith, Simon E. Williams, Alan S. Collins, Michael G. Tetley, Jacob A. Mulder, Morgan L. Blades,
-# Alexander Young, Sheree E. Armistead, John Cannon, Sabin Zahirovic, R. Dietmar Müller. (2021).
+#### Build rotation grids ####
+######WRIGHT2013#####
+# Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013).
+# Towards community-driven paleogeographic reconstructions: integrating open-access
+# paleogeographic and paleobiology data with plate tectonics. Biogeosciences, 10(3),
+# 1529-1541. doi:10.5194/bg-10-1529-2013.
+
+Wright2013 <- raster::as.data.frame(r)
+Wright2013 <- Wright2013[,c("lng", "lat")]
+
+#run loop to bind all ages
+for(i in unique(rot_ages$mid_ma)){
+  #load shape file
+  shp <- shapefile(paste0("./data-raw/Wright2013/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
+  #extract coordinates
+  reconstruction <- raster::as.data.frame(shp[,c("lng", "lat")])
+  #name coordinates
+  colnames(reconstruction) <- c("lng", "lat", paste0("lng_", i), paste0("lat_", i))
+
+  #search for matching longitude, latitude and ages
+  reconstruction$index <- sapply(1:nrow(reconstruction), function(j){
+    which(reconstruction$lng[j] == Wright2013$lng & reconstruction$lat[j] == Wright2013$lat) #extract closest longitude
+  }, simplify = TRUE)
+
+  #add empty columns to dataframe
+  Wright2013[, c(paste0("lng_", i), paste0("lat_", i))] <- NA
+  #add rotation coordinates to reference dataframe
+  Wright2013[reconstruction$index,][, c(paste0("lng_", i), paste0("lat_", i))] <- round(c(reconstruction[,3], reconstruction[,4]), digits = 2)
+}
+# Set points not rotated to NA
+for(i in 1:nrow(Wright2013)){
+  if(length(unique(as.numeric(Wright2013[i,]))) == 2){
+    Wright2013[i,3:ncol(Wright2013)] <- NA
+  }else{next}
+}
+# Save data
+saveRDS(object = Wright2013, file = "./data-raw/Wright2013.RDS", compress = "xz")
+
+######SCOTESE2018#####
+# Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models
+# (PaleoDEMS) for the Phanerozoic. PALEOMAP Project.
+# https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/.
+
+Scotese2018 <- raster::as.data.frame(r)
+Scotese2018 <- Scotese2018[,c("lng", "lat")]
+
+#run loop to bind all ages
+for(i in unique(rot_ages$mid_ma)){
+  #load shape file
+  shp <- shapefile(paste0("./data-raw/Scotese2018/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
+  #extract coordinates
+  reconstruction <- raster::as.data.frame(shp[,c("lng", "lat")])
+  #name coordinates
+  colnames(reconstruction) <- c("lng", "lat", paste0("lng_", i), paste0("lat_", i))
+
+  #search for matching longitude, latitude and ages
+  reconstruction$index <- sapply(1:nrow(reconstruction), function(j){
+    which(reconstruction$lng[j] == Scotese2018$lng & reconstruction$lat[j] == Scotese2018$lat) #extract closest longitude
+  }, simplify = TRUE)
+
+  #add empty columns to dataframe
+  Scotese2018[, c(paste0("lng_", i), paste0("lat_", i))] <- NA
+  #add rotation coordinates to reference dataframe
+  Scotese2018[reconstruction$index,][, c(paste0("lng_", i), paste0("lat_", i))] <- round(c(reconstruction[,3], reconstruction[,4]), digits = 2)
+}
+# Set points not rotated to NA
+for(i in 1:nrow(Scotese2018)){
+  if(length(unique(as.numeric(Scotese2018[i,]))) == 2){
+    Scotese2018[i,3:ncol(Scotese2018)] <- NA
+  }else{next}
+}
+# Save data
+saveRDS(object = Scotese2018, file = "./data-raw/Scotese2018.RDS", compress = "xz")
+
+
+#####MERDITH2021#########
+# Merdith, A.S., Williams, S.E., Collins, A.S., Tetley, M. G.,  Mulder, J. A., Blades, M. L.,
+# Young, A., Armistead, S.E., Cannon, J., Zahirovic, S., Müller, R. D. (2021).
 # Extending full-plate tectonic models into deep time: Linking the Neoproterozoic and the Phanerozoic.
-# Earth-Science Reviews 214 (103477). \url{https://doi.org/10.1016/j.earscirev.2020.103477}.
-#####################
+# Earth-Science Reviews 214 (103477). https://doi.org/10.1016/j.earscirev.2020.103477.
 
 # Convert spatial grid to dataframe to serve as reference frame for rotations
 Merdith2021 <- raster::as.data.frame(r)
@@ -46,7 +119,7 @@ Merdith2021 <- Merdith2021[,c("lng", "lat")]
 #run loop to bind all ages
 for(i in unique(rot_ages$mid_ma)){
   #load shape file
-  shp <- shapefile(paste0("./data-raw/Merdith2021/reconstructed_", i, ".00Ma.shp"))
+  shp <- shapefile(paste0("./data-raw/Merdith2021/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
   #extract coordinates
   reconstruction <- raster::as.data.frame(shp[,c("lng", "lat")])
   #name coordinates
@@ -62,5 +135,11 @@ for(i in unique(rot_ages$mid_ma)){
   #add rotation coordinates to reference dataframe
   Merdith2021[reconstruction$index,][, c(paste0("lng_", i), paste0("lat_", i))] <- round(c(reconstruction[,3], reconstruction[,4]), digits = 2)
 }
+# Set points not rotated to NA
+for(i in 1:nrow(Merdith2021)){
+  if(length(unique(as.numeric(Merdith2021[i,]))) == 2){
+    Merdith2021[i,3:ncol(Merdith2021)] <- NA
+  }else{next}
+}
 # Save data
-saveRDS(object = rot_ages, file = "./data-raw/Merdith2021.RDS", compress = "xz")
+saveRDS(object = Merdith2021, file = "./data-raw/Merdith2021.RDS", compress = "xz")

@@ -6,6 +6,10 @@
 #' @param x \code{dataframe}. Fossil occurrences to be palaeogeographically reconstructed. \code{x} should be a dataframe containing the
 #' following named columns: "lng", "lat", "age". Age should be supplied in millions of years before present (Ma). This format is intentionally strict to ensure
 #' that data is entered correctly to prevent errors such as longitude and latitude being confused.
+#' @param model \code{character}. The name of the plate rotation model to use to reconstruct palaeocoordinates. Choose from: "Merdith2021", "Scotese2018", and "Wright2013".
+#' The default is "Merdith2021". See details below for further information on each model.
+#' @param uncertainty \code{logical}. Should uncertainty in palaeogeographic reconstructions be returned? If set to TRUE, the palaeocoordinates from the three plate rotation models
+#' are returned ("Merdith2021", "Scotese2018", and "Wright2013"), along with their respective longitudinal and latitudinal range.
 #'
 #' @return A \code{dataframe} containing the original input occurrence dataframe, age of rotation (Ma), and
 #' the reference coordinates rotated. "rot_age" refers to the age of rotation and is deduced from the reference age
@@ -34,7 +38,7 @@
 #' Missing
 #' @examples
 #' #Generic example with a few occurrences
-#' x <- data.frame(lng = c(54, 95, 12), lat = c(86, 12, -65), age = c(45, 203, 467))
+#' x <- data.frame(lng = c(2, 95, 12), lat = c(46, 12, -65), age = c(88, 203, 467))
 #' palaeorotate(x = x)
 #'
 #' #Now with some real fossil occurrence data!
@@ -48,52 +52,140 @@
 #' #Rotate the data
 #' x <- palaeorotate(x = x)
 #' @export
-palaeorotate <- function(x, model = "Merdith2021"){
-  #error handling
-  if(!exists("x") | !is.data.frame(x)) {
-    stop("Please supply x as a dataframe")
+palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
+    #error handling
+    if (!exists("x") | !is.data.frame(x)) {
+      stop("Please supply x as a dataframe")
+    }
+    if (sum((c("lng", "lat", "age") %in% colnames(x))) != 3) {
+      stop("Column names should be: lng, lat, and age")
+    }
+
+    if (sum(x$lat > 90) != 0 | sum(x$lat < -90) != 0) {
+      stop("Latitude should be more than -90 and less than 90")
+    }
+
+    #reconstruct coordinates
+
+    if (uncertainty == TRUE) {
+      rot_age <- colnames(palaeoverse:::Merdith2021)[3:ncol(palaeoverse:::Merdith2021)]
+      rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
+      #calculate rotation ages for data
+      x$rot_age <-
+        rot_age[sapply(1:nrow(x), function(i) {
+          which.min(abs(x[i, c("age")] - rot_age))
+        })]
+      #search for matching longitude, latitude and ages
+      x$rot_lng <- sapply(1:nrow(x), function(i) {
+        palaeoverse:::Merdith2021[which.min(abs(palaeoverse:::Merdith2021[, c("lng")]  - x$lng[i])), 1] #extract closest longitude
+      }, simplify = TRUE)
+
+      x$rot_lat <- sapply(1:nrow(x), function(i) {
+        palaeoverse:::Merdith2021[which.min(abs(palaeoverse:::Merdith2021[, c("lat")]  - x$lat[i])), 2] #extract closest longitude
+      }, simplify = TRUE)
+
+      #get coordinates for each model
+      Merdith <- data.frame(t(sapply(1:nrow(x), function(i) {
+        palaeoverse:::Merdith2021[which(palaeoverse:::Merdith2021[, c("lng")] == x[i, "rot_lng"] &
+                                          palaeoverse:::Merdith2021[, c("lat")] == x[i, "rot_lat"]),
+                                  c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
+      })))
+      Scotese <- data.frame(t(sapply(1:nrow(x), function(i) {
+        palaeoverse:::Scotese2018[which(palaeoverse:::Scotese2018[, c("lng")] == x[i, "rot_lng"] &
+                                          palaeoverse:::Scotese2018[, c("lat")] == x[i, "rot_lat"]),
+                                  c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
+      })))
+      Wright <- data.frame(t(sapply(1:nrow(x), function(i) {
+        palaeoverse:::Wright2013[which(palaeoverse:::Wright2013[, c("lng")] == x[i, "rot_lng"] &
+                                         palaeoverse:::Wright2013[, c("lat")] == x[i, "rot_lat"]),
+                                 c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
+      })))
+      #bind data
+      colnames(Merdith) <- c("p_lng_Merdith2021", "p_lat_Merdith2021")
+      colnames(Scotese) <- c("p_lng_Scotese2018", "p_lat_Scotese2018")
+      colnames(Wright) <- c("p_lng_Wright2013", "p_lat_Wright2013")
+      x <- cbind.data.frame(x, Merdith, Scotese, Wright)
+      #calculate uncertainty
+      uncertain_lng <- cbind(Merdith$p_lng_Merdith2021,
+                                  Scotese$p_lng_Scotese2018,
+                                  Wright$p_lng_Wright2013)
+      uncertain_lat <- cbind(Merdith$p_lat_Merdith2021,
+                                  Scotese$p_lat_Scotese2018,
+                                  Wright$p_lat_Wright2013)
+
+      uncertainty_p_lng <- vector("numeric")
+      for(i in 1:nrow(uncertain_lng)){
+
+        mx <- max(as.numeric(uncertain_lng[i,]))
+        mn <- min(as.numeric(uncertain_lng[i,]))
+
+        range <- abs((mx %% 360) - (mn %% 360))
+
+        if(is.na(range)){
+          uncertainty_p_lng[i] <- range
+          next
+          }
+
+        if(range >= 180){
+          range <- abs(range - 360)
+          }
+        else{
+          range <- abs(range)
+          }
+        uncertainty_p_lng[i] <- range
+      }
+
+      uncertainty_p_lat <- vector("numeric")
+      for(i in 1:nrow(uncertain_lat)){
+        uncertainty_p_lat[i] <- max(as.numeric(uncertain_lat[i,])) - min(as.numeric(uncertain_lat[i,]))
+      }
+
+      x <- cbind.data.frame(x, uncertainty_p_lng, uncertainty_p_lat)
+
+    }
+
+    if (uncertainty == FALSE) {
+      #which model should be used?
+      if (model == "Merdith2021") {
+        palaeo_rots <- palaeoverse:::Merdith2021
+      } else if (model == "Scotese2018") {
+        palaeo_rots <- palaeoverse::Scotese2018
+      } else if (model == "Wright2013") {
+        palaeo_rots <- palaeoverse::Wright2013
+      }
+
+      rot_age <- colnames(palaeo_rots)[3:ncol(palaeo_rots)]
+      rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
+      #calculate rotation ages for data
+      x$rot_age <-
+        rot_age[sapply(1:nrow(x), function(i) {
+          which.min(abs(x[i, c("age")] - rot_age))
+        })]
+
+      #search for matching longitude, latitude and ages
+      x$rot_lng <- sapply(1:nrow(x), function(i) {
+        palaeo_rots[which.min(abs(palaeo_rots[, c("lng")]  - x$lng[i])), 1] #extract closest longitude
+      }, simplify = TRUE)
+
+      x$rot_lat <- sapply(1:nrow(x), function(i) {
+        palaeo_rots[which.min(abs(palaeo_rots[, c("lat")]  - x$lat[i])), 2] #extract closest longitude
+      }, simplify = TRUE)
+
+      pcoords <- sapply(1:nrow(x), function(i) {
+        palaeo_rots[which(palaeo_rots[, c("lng")] == x[i, "rot_lng"] &
+                            palaeo_rots[, c("lat")] == x[i, "rot_lat"]),
+                    c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
+      })
+
+      x$p_lng <- pcoords[1, ]
+      x$p_lat <- pcoords[2, ]
+      x$model <- model
+      if (any(is.na(x$p_lng) | is.na(x$p_lat))) {
+        message(
+          "Palaeocoordinates could not be reconstructed for all points. Georeferenced plate does not exist at time of reconstruction."
+        )
+      }
+    }
+
+    return(x)
   }
-  if(sum((c("lng", "lat", "age") %in% colnames(x))) != 3){
-    stop("Column names should be: lng, lat, and age")
-  }
-
-  if(sum(x$lat > 90) != 0 | sum(x$lat < -90) != 0){
-    stop("Latitude should be more than -90 and less than 90")
-  }
-
-  #reconstruct coordinates
-  #which model should be used?
-
-  if(model == "Merdith2021"){
-    palaeo_rots <- palaeoverse:::Merdith2021
-  }
-
-  rot_age <- colnames(palaeo_rots)[3:ncol(palaeo_rots)]
-  rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
-  #calculate rotation ages for data
-  x$rot_age <- rot_age[sapply(1:nrow(x), function(i){which.min(abs(x[i,c("age")] - rot_age))})]
-
-  #search for matching longitude, latitude and ages
-  x$rot_lng <- sapply(1:nrow(x), function(i){
-    palaeo_rots[which.min(abs(palaeo_rots[,c("lng")]  - x$lng[i])),1] #extract closest longitude
-  }, simplify = TRUE)
-
-  x$rot_lat <- sapply(1:nrow(x), function(i){
-    palaeo_rots[which.min(abs(palaeo_rots[,c("lat")]  - x$lat[i])),2] #extract closest longitude
-  }, simplify = TRUE)
-
-  pcoords <- sapply(1:nrow(x), function(i){
-    palaeo_rots[which(palaeo_rots[,c("lng")] == x[i,"rot_lng"] & palaeo_rots[,c("lat")] == x[i,"rot_lat"]),
-           c(paste0("lng_",x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
-  })
-
-  x$p_lng <- pcoords[1,]
-  x$p_lat <- pcoords[2,]
-  x$model <- model
-
-  if(any(is.na(x$p_lng) | is.na(x$p_lat))){
-    message("Palaeocoordinates could not be reconstructed for all points. Georeferenced plate does not exist at time of reconstruction.")
-  }
-
-  return(x)
-}
