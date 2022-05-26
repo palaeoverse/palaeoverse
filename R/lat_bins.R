@@ -50,7 +50,7 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = TRUE){
   df <- cbind.data.frame(bin, df)
   #plot latitudinal bins
   if(plot == TRUE){
-    plot(1, type = "n", xlim = c(-180, 180), ylim = c(max(df$max), min(df$min)), xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
+    plot(1, type = "n", xlim = c(-180, 180), ylim = c(min(df$min), max(df$max)), xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
     cols <- rep(c("#2166ac", "#b2182b"), nrow(df))
     for(i in 1:nrow(df)){
       polygon(x = c(-180, -180, 180, 180),
