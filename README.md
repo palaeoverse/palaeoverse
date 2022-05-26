@@ -1,9 +1,10 @@
 # palaeoverse
-`palaeoverse` is an *R* package developed by palaeobiologists, for palaeobiologists.
 
 <img align="right" width="250" src="man/figures/hexlogo.png">
 
 <p align="right"; style="font-size:11px">Hexlogo by Miranta Kouvari</p>
+
+`palaeoverse` is an *R* package developed by palaeobiologists, for palaeobiologists.
 
 The aim of `palaeoverse` is to generate a community-driven software package of generic functions for the palaeobiology community. The package does not provide implementations of statistical analyses, rather it provides auxiliary functions to help streamline analyses, and improve code readability and reproducibility.
 
