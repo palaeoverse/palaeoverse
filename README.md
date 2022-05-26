@@ -1,8 +1,8 @@
 # palaeoverse
 
-<p align="right"; style="font-size:11px">Hexlogo by Miranta Kouvari</p>
+<img align="right" src="man/figures/hexbanner.png">
 
-<img align="right" width="250" src="man/figures/hexbanner.png">
+<p align="right"; style="font-size:11px">Hexlogo by Miranta Kouvari</p>
 
 `palaeoverse` is an *R* package developed by palaeobiologists, for palaeobiologists.
 
