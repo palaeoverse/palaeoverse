@@ -1,6 +1,6 @@
 # palaeoverse
 
-<p align="right"; style="font-size:11px">Hexlogo by Miranta Kouvari</p>
+<p align="right"; style="font-size:8px">Hexlogo by Miranta Kouvari</p>
 
 <img align="right" width="250" src="man/figures/hexlogo.png">
 
