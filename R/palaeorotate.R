@@ -86,20 +86,23 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
 
       #get coordinates for each model
       Merdith <- data.frame(t(sapply(1:nrow(x), function(i) {
-        palaeoverse:::Merdith2021[which(palaeoverse:::Merdith2021[, c("lng")] == x[i, "rot_lng"] &
+        as.numeric(palaeoverse:::Merdith2021[which(palaeoverse:::Merdith2021[, c("lng")] == x[i, "rot_lng"] &
                                           palaeoverse:::Merdith2021[, c("lat")] == x[i, "rot_lat"]),
-                                  c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
+                                  c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))])
       })))
+
       Scotese <- data.frame(t(sapply(1:nrow(x), function(i) {
-        palaeoverse:::Scotese2018[which(palaeoverse:::Scotese2018[, c("lng")] == x[i, "rot_lng"] &
+        as.numeric(palaeoverse:::Scotese2018[which(palaeoverse:::Scotese2018[, c("lng")] == x[i, "rot_lng"] &
                                           palaeoverse:::Scotese2018[, c("lat")] == x[i, "rot_lat"]),
-                                  c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
+                                  c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))])
       })))
+
       Wright <- data.frame(t(sapply(1:nrow(x), function(i) {
-        palaeoverse:::Wright2013[which(palaeoverse:::Wright2013[, c("lng")] == x[i, "rot_lng"] &
+        as.numeric(palaeoverse:::Wright2013[which(palaeoverse:::Wright2013[, c("lng")] == x[i, "rot_lng"] &
                                          palaeoverse:::Wright2013[, c("lat")] == x[i, "rot_lat"]),
-                                 c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
+                                 c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))])
       })))
+
       #bind data
       colnames(Merdith) <- c("p_lng_Merdith2021", "p_lat_Merdith2021")
       colnames(Scotese) <- c("p_lng_Scotese2018", "p_lat_Scotese2018")

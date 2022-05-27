@@ -12,16 +12,16 @@ time_bins()
 #near-equal length time bins
 time_bins(equal = TRUE, size = 6)
 #assign data
-time_bins(assign = df$age)
+time_bins(assign = df$age, size = 10)
 
 #latitudinal bins
 lat_bins(size = 10)
 #fit latitudinal bins
 lat_bins(size = 13, fit = TRUE)
 #assign to latitudinal bins
-lat_bins(size = 10, assign = df$lat)
+lat_bins(size = 5, assign = df$lat)
 
 #palaeorotate
-palaeorotate(x = df, model = "Merdith2021")
+test <- palaeorotate(x = df, model = "Wright2013")
 #palaeorotation uncertainity
-palaeorotate(x = df, uncertainty = "TRUE")
+test <- palaeorotate(x = df, uncertainty = "TRUE")

@@ -4,12 +4,18 @@
 \alias{palaeorotate}
 \title{Palaeorotate fossil occurrences}
 \usage{
-palaeorotate(x, model = "Merdith2021")
+palaeorotate(x, model = "Merdith2021", uncertainty = FALSE)
 }
 \arguments{
 \item{x}{\code{dataframe}. Fossil occurrences to be palaeogeographically reconstructed. \code{x} should be a dataframe containing the
 following named columns: "lng", "lat", "age". Age should be supplied in millions of years before present (Ma). This format is intentionally strict to ensure
 that data is entered correctly to prevent errors such as longitude and latitude being confused.}
+
+\item{model}{\code{character}. The name of the plate rotation model to use to reconstruct palaeocoordinates. Choose from: "Merdith2021", "Scotese2018", and "Wright2013".
+The default is "Merdith2021". See details below for further information on each model.}
+
+\item{uncertainty}{\code{logical}. Should uncertainty in palaeogeographic reconstructions be returned? If set to TRUE, the palaeocoordinates from the three plate rotation models
+are returned ("Merdith2021", "Scotese2018", and "Wright2013"), along with their respective longitudinal and latitudinal range.}
 }
 \value{
 A \code{dataframe} containing the original input occurrence dataframe, age of rotation (Ma), and
@@ -53,10 +59,10 @@ Missing
 
 \examples{
 #Generic example with a few occurrences
-x <- data.frame(lng = c(54, 95, 12), lat = c(86, 12, -65), age = c(45, 203, 467))
+x <- data.frame(lng = c(2, 95, 12), lat = c(46, 12, -65), age = c(88, 203, 467))
 palaeorotate(x = x)
 
-#Now with some real fossil occurrence data
+#Now with some real fossil occurrence data!
 
 #Grab some data from the Paleobiology Database
 x <- read.csv("https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia&interval=Anisian,Piacenzian")
