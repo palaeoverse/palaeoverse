@@ -6,6 +6,5 @@
 inst/doc
 /doc/
 /Meta/
-/data-raw/Merdith2021/
-/data-raw/Scotese2018/
-/data-raw/Wright2013/
+/data-raw/
+/inst/

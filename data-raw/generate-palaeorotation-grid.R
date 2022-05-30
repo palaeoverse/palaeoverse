@@ -14,7 +14,7 @@ r$begin <- 540
 r$end <- 0
 r <- SpatialPointsDataFrame(coords = r[,c("lng", "lat")], data = r)
 # Save as shapefile to palaeorotate in GPlates software
-shapefile(x = r, "./data-raw/spatial-grid.shp", overwrite = TRUE)
+shapefile(x = r, "./inst/extdata/spatial-grid.shp", overwrite = TRUE)
 
 #### Rotate shapefile in GPlates software####
 # Rotate data to given midpoints using Merdith et al. (2021) plate rotation model
@@ -29,7 +29,7 @@ rot_ages <- rot_ages[,c("interval_name", "mid_ma")]
 # Round to nearest million years for rotation
 rot_ages$mid_ma <- round(rot_ages$mid_ma, digits = 0)
 # Save data
-saveRDS(object = rot_ages, file = "./data-raw/rot_ages.RDS")
+saveRDS(object = rot_ages, file = "./inst/extdata/rot_ages.RDS")
 
 #### Build rotation grids ####
 ######WRIGHT2013#####
@@ -44,7 +44,7 @@ Wright2013 <- Wright2013[,c("lng", "lat")]
 #run loop to bind all ages
 for(i in unique(rot_ages$mid_ma)){
   #load shape file
-  shp <- shapefile(paste0("./data-raw/Wright2013/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
+  shp <- shapefile(paste0("./inst/extdata/Wright2013/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
   #extract coordinates
   reconstruction <- raster::as.data.frame(shp[,c("lng", "lat")])
   #name coordinates
@@ -67,7 +67,7 @@ for(i in 1:nrow(Wright2013)){
   }else{next}
 }
 # Save data
-saveRDS(object = Wright2013, file = "./data-raw/Wright2013.RDS", compress = "xz")
+saveRDS(object = Wright2013, file = "./inst/extdata/Wright2013.RDS", compress = "xz")
 
 ######SCOTESE2018#####
 # Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models
@@ -80,7 +80,7 @@ Scotese2018 <- Scotese2018[,c("lng", "lat")]
 #run loop to bind all ages
 for(i in unique(rot_ages$mid_ma)){
   #load shape file
-  shp <- shapefile(paste0("./data-raw/Scotese2018/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
+  shp <- shapefile(paste0("./inst/extdata/Scotese2018/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
   #extract coordinates
   reconstruction <- raster::as.data.frame(shp[,c("lng", "lat")])
   #name coordinates
@@ -103,7 +103,7 @@ for(i in 1:nrow(Scotese2018)){
   }else{next}
 }
 # Save data
-saveRDS(object = Scotese2018, file = "./data-raw/Scotese2018.RDS", compress = "xz")
+saveRDS(object = Scotese2018, file = "./inst/extdata/Scotese2018.RDS", compress = "xz")
 
 
 #####MERDITH2021#########
@@ -119,7 +119,7 @@ Merdith2021 <- Merdith2021[,c("lng", "lat")]
 #run loop to bind all ages
 for(i in unique(rot_ages$mid_ma)){
   #load shape file
-  shp <- shapefile(paste0("./data-raw/Merdith2021/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
+  shp <- shapefile(paste0("./inst/extdata/Merdith2021/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
   #extract coordinates
   reconstruction <- raster::as.data.frame(shp[,c("lng", "lat")])
   #name coordinates
@@ -142,4 +142,4 @@ for(i in 1:nrow(Merdith2021)){
   }else{next}
 }
 # Save data
-saveRDS(object = Merdith2021, file = "./data-raw/Merdith2021.RDS", compress = "xz")
+saveRDS(object = Merdith2021, file = "./inst/extdata/Merdith2021.RDS", compress = "xz")
