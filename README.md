@@ -12,11 +12,13 @@ Developed by:
 - [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), Universidade de Vigo
 - [Kilian Eichenseer](mailto:kilian.eichenseer@gmail.com), Durham University
 - [Bethany Allen](mailto:Bethany.Allen@bsse.ethz.ch), ETH Zürich
+- [Will Gearty](mailto:willgearty@gmail.com), University of Nebraska-Lincoln
 - [Emma Dunne](mailto:dunne.emma.m@gmail.com), Friedrich-Alexander-Universität Erlangen-Nürnberg
 - [Miranta Kouvari](mailto:kouvari.miranta@gmail.com), University College London
-- [Will Gearty](mailto:willgearty@gmail.com), University of Nebraska-Lincoln
 - [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), École Normale Supérieure de Lyon
 - [Sofía Galván](mailto:sofia.galvan@uvigo.es), Universidade de Vigo
+- [Cecily Nicholl](cecily.nicholl@ucl.ac.uk), University College London
+- [Christopher D. Dean](christopherdaviddean@gmail.com), University College London
 - [Alessandro Chiarenza](mailto:a.chiarenza15@gmail.com), Universidade de Vigo
 
 # Installation
