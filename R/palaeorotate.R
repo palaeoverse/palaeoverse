@@ -66,6 +66,32 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
     }
 
     #reconstruct coordinates
+    #get palaeorotation grid (installing of palaeoverseData may be needed if not already installed)
+    is_PalaeoData_available <- require("palaeoverseData", quietly = TRUE)
+
+    #install PalaeoData package if not available
+    if(is_PalaeoData_available == FALSE){
+
+      instructions <- paste("Please try installing the package for yourself",
+                            "using the following command: \n",
+                            "    devtools::install_github(\"palaeoverse-community/palaeoverseData\")")
+
+      error_func <- function(e) {
+        stop(paste("Failed to install the palaeoverseData package.\n", instructions))
+      }
+
+      input <- utils::menu(c("Yes", "No"), title = "Install the palaeoverseData package? \n Package size is approximately 25 MB")
+
+      if(input == 1){
+        message("Installing the palaeoverseData package.")
+        tryCatch(
+          devtools::install_github("palaeoverse-community/palaeoverseData", quiet = FALSE),
+          error = error_func, warning = error_func)
+      } else {
+        stop(paste("The palaeoverseData package is necessary for this method to run.\n", instructions))
+      }
+
+    }
 
     if (uncertainty == TRUE) {
       rot_age <- colnames(palaeoverse:::Merdith2021)[3:ncol(palaeoverse:::Merdith2021)]
