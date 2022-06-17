@@ -44,6 +44,7 @@ Supplementary information is also included in the dataset for plotting functiona
 }
 \section{References}{
 
+Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2020). Geologic time scale 2020. Elsevier.
 Frakes, L.A. et al. (1992). Climate Modes of the Phanerozoic. Cambridge University Press. 288pp. \url{http://dx.doi.org/10.1017/CBO9780511628948}.
 \cr
 \cr
