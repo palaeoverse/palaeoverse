@@ -74,35 +74,31 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
     }
 
     #reconstruct coordinates
-    #get palaeorotation grid (installing of palaeoverseData may be needed if not already installed)
-    is_PalaeoData_available <- require("palaeoverseData", quietly = TRUE)
 
-    #install PalaeoData package if not available
-    if(is_PalaeoData_available == FALSE){
-
-      instructions <- paste("Please try installing the package for yourself",
-                            "using the following command: \n",
-                            "    devtools::install_github(\"palaeoverse-community/palaeoverseData\")")
-
-      error_func <- function(e) {
-        stop(paste("Failed to install the palaeoverseData package.\n", instructions))
-      }
-
-      input <- utils::menu(c("Yes", "No"), title = "Install the palaeoverseData package? \n Package size is approximately 25 MB")
-
-      if(input == 1){
-        message("Installing the palaeoverseData package.")
-        tryCatch(
-          devtools::install_github("palaeoverse-community/palaeoverseData", quiet = FALSE),
-          error = error_func, warning = error_func)
-      } else {
-        stop(paste("The palaeoverseData package is necessary for this method to run.\n", instructions))
-      }
-
-    }
+    #generate temp directory and download files
+    files <- tempdir()
 
     if (uncertainty == TRUE) {
-      rot_age <- colnames(palaeoverseData:::Merdith2021)[3:ncol(palaeoverseData:::Merdith2021)]
+      #download all rotations
+      download.file(
+        url = "https://dl.dropboxusercontent.com/s/g5ii9ymu6ew0r7i/Merdith2021.RDS?dl=0",
+        destfile = paste0(files, "/Merdith2021.RDS")
+      )
+      download.file(
+        url = "https://dl.dropboxusercontent.com/s/tomlmx6qc56xsun/Scotese2018.RDS?dl=0",
+        destfile = paste0(files, "/Scotese2018.RDS")
+      )
+      download.file(
+        url = "https://dl.dropboxusercontent.com/s/d7emo8gdlhitrds/Wright2013.RDS?dl=0",
+        destfile = paste0(files, "/Wright2013.RDS")
+      )
+
+      #load rotation files
+      Merdith2021 <- readRDS(paste0(files, "/Merdith2021.RDS"))
+      Scotese2018 <- readRDS(paste0(files, "/Scotese2018.RDS"))
+      Wright2013 <- readRDS(paste0(files, "/Wright2013.RDS"))
+
+      rot_age <- colnames(Merdith2021)[3:ncol(Merdith2021)]
       rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
       #calculate rotation ages for data
       x$rot_age <-
@@ -111,29 +107,29 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
         })]
       #search for matching longitude, latitude and ages
       x$rot_lng <- sapply(1:nrow(x), function(i) {
-        palaeoverseData:::Merdith2021[which.min(abs(palaeoverseData:::Merdith2021[, c("lng")]  - x$lng[i])), 1] #extract closest longitude
+        Merdith2021[which.min(abs(Merdith2021[, c("lng")]  - x$lng[i])), 1] #extract closest longitude
       }, simplify = TRUE)
 
       x$rot_lat <- sapply(1:nrow(x), function(i) {
-        palaeoverseData:::Merdith2021[which.min(abs(palaeoverseData:::Merdith2021[, c("lat")]  - x$lat[i])), 2] #extract closest longitude
+        Merdith2021[which.min(abs(Merdith2021[, c("lat")]  - x$lat[i])), 2] #extract closest longitude
       }, simplify = TRUE)
 
       #get coordinates for each model
       Merdith <- data.frame(t(sapply(1:nrow(x), function(i) {
-        as.numeric(palaeoverseData:::Merdith2021[which(palaeoverseData:::Merdith2021[, c("lng")] == x[i, "rot_lng"] &
-                                                         palaeoverseData:::Merdith2021[, c("lat")] == x[i, "rot_lat"]),
+        as.numeric(Merdith2021[which(Merdith2021[, c("lng")] == x[i, "rot_lng"] &
+                                                         Merdith2021[, c("lat")] == x[i, "rot_lat"]),
                                   c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))])
       })))
 
       Scotese <- data.frame(t(sapply(1:nrow(x), function(i) {
-        as.numeric(palaeoverseData:::Scotese2018[which(palaeoverseData:::Scotese2018[, c("lng")] == x[i, "rot_lng"] &
-                                                     palaeoverseData:::Scotese2018[, c("lat")] == x[i, "rot_lat"]),
+        as.numeric(Scotese2018[which(Scotese2018[, c("lng")] == x[i, "rot_lng"] &
+                                                     Scotese2018[, c("lat")] == x[i, "rot_lat"]),
                                   c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))])
       })))
 
       Wright <- data.frame(t(sapply(1:nrow(x), function(i) {
-        as.numeric(palaeoverseData:::Wright2013[which(palaeoverseData:::Wright2013[, c("lng")] == x[i, "rot_lng"] &
-                                                    palaeoverseData:::Wright2013[, c("lat")] == x[i, "rot_lat"]),
+        as.numeric(Wright2013[which(Wright2013[, c("lng")] == x[i, "rot_lng"] &
+                                                    Wright2013[, c("lat")] == x[i, "rot_lat"]),
                                  c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))])
       })))
 
@@ -184,11 +180,24 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
     if (uncertainty == FALSE) {
       #which model should be used?
       if (model == "Merdith2021") {
-        palaeo_rots <- palaeoverseData:::Merdith2021
+        download.file(
+          url = "https://dl.dropboxusercontent.com/s/g5ii9ymu6ew0r7i/Merdith2021.RDS?dl=0",
+          destfile = paste0(files, "/Merdith2021.RDS")
+        )
+        palaeo_rots <- readRDS(paste0(files, "/Merdith2021.RDS"))
+
       } else if (model == "Scotese2018") {
-        palaeo_rots <- palaeoverseData:::Scotese2018
+        download.file(
+          url = "https://dl.dropboxusercontent.com/s/tomlmx6qc56xsun/Scotese2018.RDS?dl=0",
+          destfile = paste0(files, "/Scotese2018.RDS")
+        )
+        palaeo_rots <- readRDS(paste0(files, "/Scotese2018.RDS"))
       } else if (model == "Wright2013") {
-        palaeo_rots <- palaeoverseData:::Wright2013
+        download.file(
+          url = "https://dl.dropboxusercontent.com/s/d7emo8gdlhitrds/Wright2013.RDS?dl=0",
+          destfile = paste0(files, "/Wright2013.RDS")
+        )
+        palaeo_rots <- readRDS(paste0(files, "/Wright2013.RDS"))
       }
 
       rot_age <- colnames(palaeo_rots)[3:ncol(palaeo_rots)]
@@ -223,6 +232,9 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
         )
       }
     }
+
+    #remove downloaded files
+    unlink(x = paste0(files, "/", list.files(files)))
 
     return(x)
   }
