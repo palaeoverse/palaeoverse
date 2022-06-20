@@ -30,8 +30,7 @@ at time of deposition). Each occurrence is assigned palaeocoordinates based on i
 \details{
 This function generates palaeocoordinates by spatiotemporally linking present-day geographic coordinates and age estimates with a spatial
 grid (1º x 1º) rotated to the midpoint of stratigraphic stages (GTS, 2020; \url{https://stratigraphy.org/timescale/}). As such, palaeocoordinates can be efficiently generated for large datasets with
-relatively little computational power. A further benefit of this approach is that no internet connection is required as in previously implemented API approaches
-(after initial installation of palaeoverseData). In addition, no additional software or knowledge is required from the user (i.e. GPlates). However, it should be noted that if specific ages of rotation are required,
+relatively little computational power. In addition, no additional software or knowledge is required from the user (i.e. GPlates). However, it should be noted that if specific ages of rotation are required,
 or fine-scale spatial analyses is being conducted, use of \url{https://www.gplates.org} might be preferable for the user.
 
 The current palaeorotations (0--540 Ma) provided were generated using a 1º x 1º spatial grid with the GPlates software \url{https://www.gplates.org} and three different plate rotation models
