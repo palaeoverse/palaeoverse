@@ -45,8 +45,8 @@ lat_plot(
 
 \item{palaeo}{\code{logical}. Is the x-axis representing palaeolatitudes?}
 
-\item{tropics.set}{\code{numeric}. A numeric vector of length two indicating tropics' latitudinal boundaries.
-By default, tropics' latitudinal limits are set to -23.26º to 23.26º based on the modern geographic definition.}
+\item{tropics.set}{\code{numeric}. A numeric vector of length two indicating the tropics' latitudinal boundaries.
+By default, the tropics' latitudinal limits are set to -23.26º to 23.26º based on the modern geographic definition.}
 
 \item{tropics.col}{\code{character}. The colour of the lines indicating the tropics.}
 
