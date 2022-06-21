@@ -7,7 +7,7 @@
 axis_geo(
   side = 1,
   dat = "epochs",
-  height = 5,
+  height = 0.05,
   fill = NULL,
   lab = TRUE,
   lab_color = NULL,
@@ -31,9 +31,9 @@ axis_geo(
 B) a string indicating a timescale from macrostrat (see list here: \url{https://macrostrat.org/api/defs/timescales?all}),
 or C) a custom data.frame of time interval boundaries (see Details).}
 
-\item{height}{The height (or width if \code{side} is \code{2} or \code{4}) of the scale.
-This is in axis value units, so \code{height} should be increased as the value range
-of the axis opposite to the added axis increases.}
+\item{height}{The relative height (or width if \code{side} is \code{2} or \code{4}) of the scale.
+This is relative to the height (if \code{side} is \code{1} or \code{3}) or
+width (if \code{side} is \code{2} or \code{4}) of the plot.}
 
 \item{fill}{The fill color of the boxes. The default is to use the \code{color} column included in \code{dat}.
 If a custom dataset is provided with \code{dat} without a \code{color} column and without fill, a greyscale will be used.

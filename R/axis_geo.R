@@ -24,9 +24,9 @@
 #' @param dat Either A) a string indicating a built-in dataframe with interval data from the ICS ("periods", "epochs", "stages", "eons", or "eras"),
 #'   B) a string indicating a timescale from macrostrat (see list here: \url{https://macrostrat.org/api/defs/timescales?all}),
 #'   or C) a custom data.frame of time interval boundaries (see Details).
-#' @param height The height (or width if \code{side} is \code{2} or \code{4}) of the scale.
-#'   This is in axis value units, so \code{height} should be increased as the value range
-#'   of the axis opposite to the added axis increases.
+#' @param height The relative height (or width if \code{side} is \code{2} or \code{4}) of the scale.
+#'   This is relative to the height (if \code{side} is \code{1} or \code{3}) or
+#'   width (if \code{side} is \code{2} or \code{4}) of the plot.
 #' @param fill The fill color of the boxes. The default is to use the \code{color} column included in \code{dat}.
 #'   If a custom dataset is provided with \code{dat} without a \code{color} column and without fill, a greyscale will be used.
 #'   Custom fill colors can be provided with this option (overriding the \code{color} column) and will be recycled if/as necessary.
@@ -65,7 +65,7 @@
 #' box()
 #' axis(2)
 #' axis_geo(side = 1, dat = list("epochs", "periods"))
-axis_geo <- function(side = 1, dat = "epochs", height = 5,
+axis_geo <- function(side = 1, dat = "epochs", height = 0.05,
                      fill = NULL, # fill arguments
                      lab = TRUE, lab_color = NULL, size = 1, rot = 0, abbrv = TRUE, # label arguments
                      center_end_labels = FALSE, skip = c("Quaternary", "Holocene", "Late Pleistocene"),
@@ -93,9 +93,15 @@ axis_geo <- function(side = 1, dat = "epochs", height = 5,
 
   # height should be "negative" if the axis is reversed
   if (side %in% c(1,3)) {
-    height <- lapply(height, function(x) x * c(-1, 1)[(plot_lims[3] < plot_lims[4]) + 1])
+    height <- lapply(height, function(ht) {
+      abs_ht <- ht * abs(plot_lims[3] - plot_lims[4])
+      abs_ht * c(-1, 1)[(plot_lims[3] < plot_lims[4]) + 1]
+    })
   } else if (side %in% c(2,4)) {
-    height <- lapply(height, function(x) x * c(-1, 1)[(plot_lims[1] < plot_lims[2]) + 1])
+    height <- lapply(height, function(ht) {
+      abs_ht <- ht * abs(plot_lims[1] - plot_lims[2])
+      abs_ht * c(-1, 1)[(plot_lims[1] < plot_lims[2]) + 1]
+    })
   } else {
     stop("Invalid value supplied for side, must be 1, 2, 3, or 4")
   }

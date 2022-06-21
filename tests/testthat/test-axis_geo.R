@@ -5,7 +5,7 @@ test_that("axis_geo() works", {
     box()
 
     axis(side = 2)
-    axis_geo(side = 1, dat = "periods", height = 50)
+    axis_geo(side = 1, dat = "periods")
   })
 })
 
@@ -17,7 +17,7 @@ test_that("axis_geo() works with multiple scales", {
     box()
 
     axis(side = 2)
-    axis_geo(side = 1, dat = list("stages", "periods"), height = 50,
+    axis_geo(side = 1, dat = list("stages", "periods"),
              at = seq(0, 250, 25), lab = list(FALSE, TRUE),
              abbrv = FALSE)
   })
@@ -29,11 +29,11 @@ test_that("axis_geo() can be used on multiple sides", {
     plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(95, 0), xlab = NA, ylab = NA)
     box()
 
-    axis_geo(side = 1, dat = list("epochs", "periods"), height = list(5,3), at = seq(0, 100, 25))
-    axis_geo(side = 3, height = list(3,5), dat = list("epochs", "periods"),
+    axis_geo(side = 1, dat = list("epochs", "periods"), height = list(.05,.03), at = seq(0, 100, 25))
+    axis_geo(side = 3, height = list(.03, .05), dat = list("epochs", "periods"),
              abbrv = FALSE, skip = c("Paleogene", "Holocene", "Pleistocene", "Pliocene", "Quaternary"))
-    axis_geo(side = 2, height = list(3,5), dat = list("epochs", "periods"), bord_color = "purple",
+    axis_geo(side = 2, height = list(.03, .05), dat = list("epochs", "periods"), bord_color = "purple",
              center_end_labels = list(FALSE, TRUE))
-    axis_geo(side = 4, height = list(4,3), dat = list("epochs", "periods"), lty = list("solid", "dashed"))
+    axis_geo(side = 4, height = list(.04, .03), dat = list("epochs", "periods"), lty = list("solid", "dashed"))
   })
 })
