@@ -28,6 +28,23 @@
 #' lat_bins(assign = c(-20, 45, 11, 67))
 #' @export
 lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = TRUE){
+  #error handling
+  if (is.numeric(size) == FALSE) {
+    stop("Size should be a numeric")
+  }
+
+  if (is.logical(fit) == FALSE) {
+    stop("fit should be logical (TRUE/FALSE)")
+  }
+
+  if (sum(assign > 90) != 0 | sum(assign < -90) != 0) {
+    stop("Latitude should be more than -90 and less than 90")
+  }
+
+  if (is.logical(plot) == FALSE) {
+    stop("plot should be logical (TRUE/FALSE)")
+  }
+
   #divide latitudinal range by size of bins
   bins <- 180/size
   #if fit is set true, generate equal size bins to fit range
