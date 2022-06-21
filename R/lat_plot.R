@@ -25,7 +25,7 @@
 #' #plot data
 #' lat_plot(x = c(-20, 0, 20), y = c(10, 15, 10))
 #' @export
-lat_plot <- function(x, y, xlim = c(-90, 90),
+lat_plot <- function(x, y, xlim = c(-90, 90), ylim = NULL,
                      main = NULL, ylab = "User variable", xlab = "Latitude",
                      tropics = TRUE, equator = FALSE, palaeo = FALSE,
                      tropics.col = "black", equator.col = "black",
@@ -41,6 +41,7 @@ lat_plot <- function(x, y, xlim = c(-90, 90),
   plot(x = x,
        y = y,
        xlim = xlim,
+       ylim = ylim,
        main = main,
        xlab = paste0(xlab, " (\u00B0)"),
        ylab = ylab,
