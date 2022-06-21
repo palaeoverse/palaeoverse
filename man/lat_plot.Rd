@@ -8,6 +8,7 @@ lat_plot(
   x,
   y,
   xlim = c(-90, 90),
+  ylim = NULL,
   main = NULL,
   ylab = "User variable",
   xlab = "Latitude",

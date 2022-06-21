@@ -9,11 +9,12 @@ time_bins(
   equal = FALSE,
   size = 10,
   assign = NULL,
+  scale = "GTS2020",
   plot = TRUE
 )
 }
 \arguments{
-\item{interval}{\code{character or numeric}. Interval name of age available in \code{GTS2020}. If a single interval name is provided, this interval is returned.
+\item{interval}{\code{character or numeric}. Interval name of age available in \code{palaeoverse::GTS2020 or palaeoverse::GTS2012}. If a single interval name is provided, this interval is returned.
 If two interval names are provided, these intervals and those existing between are returned. If a single interval age is provided, the age matching this interval is returned.
 If two interval ages are provided, the intervals occurring in the range of these ages are returned. If higher than stage bins are required, these can only be specified using a
 \code{character} input as the function defaults to using stratigraphic stages for \code{numeric} inputs.}
@@ -23,7 +24,8 @@ If two interval ages are provided, the intervals occurring in the range of these
 \item{size}{\code{numeric}. If equal == \code{TRUE}, specify the length in millions of years (Myr) of the time bins desired. Defaults to 10 Myr.}
 
 \item{assign}{\code{numeric}. A numeric vector of age estimates (i.e. midpoint age in specified age range) to use to assign to bins of
-a given size. If assign is specified, a numeric vector is returned of the midpoint age of the specified bins.}
+a given size. If assign is specified, a numeric vector is returned of the midpoint age of the specified bins. Note this is a simplified approach to assignment and assumes you
+already have age estimates you would like to use for assigning your data. See \code{time_binning()} for a wider range of binning protocols.}
 
 \item{plot}{\code{logical}. Should a plot of time bins be generated?}
 }
@@ -37,8 +39,9 @@ by grouping stages together. In this implementation, intervals are grouped toget
 standard deviation between bins based on the user's specified bin size. However, users may also wish to group stages based on subjective reasoning e.g.availability of outcrop.
 }
 \details{
-This function uses the Geological Timescale 2020. Age data were compiled from: \url{https://stratigraphy.org/timescale/}.
-Available intervals names are accessible via GTS2020$interval_name.
+This function uses the Geological Timescale 2020 or the Geological Timescale 2012 (depending on user specification). Age data were compiled from: \url{https://stratigraphy.org/timescale/}.
+Available intervals names are accessible via GTS2020$interval_name or GTS2012$interval_name. The Geological Timescale 2020 was compiled by Lewis A. Jones and the Geological Timescale 2012 was compiled
+by Alessandro Chiarenza.
 }
 \section{Developer}{
 
