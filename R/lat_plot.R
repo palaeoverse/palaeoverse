@@ -1,27 +1,33 @@
-#' Generate latitudinal plot
+#' Generate generic latitudinal plot
 #'
-#' A generic function for generating a latitudinal plot (e.g. for plotting the latitudinal biodiversity gradient).
+#' A generic function for generating a latitudinal plot for a given variable
+#' (e.g. for plotting the latitudinal biodiversity gradient).
 #'
 #' @param x \code{numeric}. A numeric vector of latitudes (or palaeolatitudes) to use for plotting.
-#' @param y \code{logical}. A numeric vector of respective counts (e.g. species richness) to use for plotting.
+#' @param y \code{numeric}. A numeric vector of respective counts (e.g. species richness) to use for plotting.
 #' @param xlim \code{numeric}. A numeric vector of length two indicating the x limits of the plot.
-#' @param main \code{character}. An overall tittle for the plot.
-#' @param ylab \code{character}. A tittle for the y axis.
-#' @param xlab \code{character}. A tittle for the x axis.
-#' @param palaeo \code{logical}. Is the x axis representing palaeolatitudes?
+#' @param main \code{character}. The main title for the plot.
+#' @param ylab \code{character}. A title for the y-axis.
+#' @param xlab \code{character}. A title for the x-axis.
+#' @param palaeo \code{logical}. Is the x-axis representing palaeolatitudes?
 #' @param type \code{character}. What type of plot should be drawn. See ?plot()
 #' @param col \code{character}. The color for points.
 #' @param cex \code{numeric}. A numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.
-#' @param tropics \code{logical}. Should straight lines indicating the tropics be added to the plot?
-#' @param equator \code{logical}. Should a straight line indicating the equator be added to the plot?
-#' @param tropics.set \code{numeric}. A numeric vector of length two indicating tropics' latitudinal boundaries. By default, tropics' latitudinal limits are set to c(-23.26, 23.26) based on ().
-#' @param tropics.col \code{character}. The color for tropics lines.
-#' @param equator.col \code{character}. The color for the equator line.
+#' @param tropics \code{logical}. Should lines indicating the tropics be added to the plot?
+#' @param equator \code{logical}. Should a line indicating the equator be added to the plot?
+#' @param tropics.set \code{numeric}. A numeric vector of length two indicating the tropics' latitudinal boundaries.
+#' By default, the tropics' latitudinal limits are set to -23.26º to 23.26º based on the modern geographic definition.
+#' @param tropics.col \code{character}. The colour of the lines indicating the tropics.
+#' @param equator.col \code{character}. The colour of the line indicating the equator.
 #' @param tropics.lty \code{numeric}. The line type for the tropics lines. See ?par()
 #' @param equator.lty \code{numeric}. The line type for the equator line. See ?par()
-#' @param lwd \code{numeric}. The line width.
+#' @param lwd \code{numeric}. The width of the lines to plot (equator/tropics).
 #'
 #' @return A latitudinal plot.
+#' @section Developer:
+#' Lewis A. Jones & Sofía Galván
+#' @section Auditor:
+#' To be audited
 #' @examples
 #' #plot data
 #' lat_plot(x = c(-20, 0, 20), y = c(10, 15, 10))

@@ -2,7 +2,7 @@
 % Please edit documentation in R/lat_plot.R
 \name{lat_plot}
 \alias{lat_plot}
-\title{Generate latitudinal plot}
+\title{Generate generic latitudinal plot}
 \usage{
 lat_plot(
   x,
@@ -15,6 +15,7 @@ lat_plot(
   tropics = TRUE,
   equator = FALSE,
   palaeo = FALSE,
+  tropics.set = c(-23.26, 23.26),
   tropics.col = "black",
   equator.col = "black",
   tropics.lty = 2,
@@ -28,44 +29,58 @@ lat_plot(
 \arguments{
 \item{x}{\code{numeric}. A numeric vector of latitudes (or palaeolatitudes) to use for plotting.}
 
-\item{y}{\code{logical}. A numeric vector of respective counts (e.g. species richness) to use for plotting.}
+\item{y}{\code{numeric}. A numeric vector of respective counts (e.g. species richness) to use for plotting.}
 
-\item{xlim}{\code{numeric}. A numeric vector of length two to}
+\item{xlim}{\code{numeric}. A numeric vector of length two indicating the x limits of the plot.}
 
-\item{main}{\code{character}.}
+\item{main}{\code{character}. The main title for the plot.}
 
-\item{ylab}{\code{character}.}
+\item{ylab}{\code{character}. A title for the y-axis.}
 
-\item{xlab}{\code{character}.}
+\item{xlab}{\code{character}. A title for the x-axis.}
 
-\item{tropics}{\code{logical}.}
+\item{tropics}{\code{logical}. Should lines indicating the tropics be added to the plot?}
 
-\item{equator}{\code{logical}.}
+\item{equator}{\code{logical}. Should a line indicating the equator be added to the plot?}
 
-\item{palaeo}{\code{character}.}
+\item{palaeo}{\code{logical}. Is the x-axis representing palaeolatitudes?}
 
-\item{tropics.col}{\code{character}.}
+\item{tropics.set}{\code{numeric}. A numeric vector of length two indicating tropics' latitudinal boundaries.
+By default, tropics' latitudinal limits are set to -23.26º to 23.26º based on the modern geographic definition.}
 
-\item{equator.col}{\code{character}.}
+\item{tropics.col}{\code{character}. The colour of the lines indicating the tropics.}
 
-\item{tropics.lty}{\code{numeric}.}
+\item{equator.col}{\code{character}. The colour of the line indicating the equator.}
 
-\item{equator.lty}{\code{numeric}.}
+\item{tropics.lty}{\code{numeric}. The line type for the tropics lines. See ?par()}
 
-\item{type}{\code{character}.}
+\item{equator.lty}{\code{numeric}. The line type for the equator line. See ?par()}
 
-\item{col}{\code{character}.}
+\item{type}{\code{character}. What type of plot should be drawn. See ?plot()}
 
-\item{cex}{\code{numeric}.}
+\item{col}{\code{character}. The color for points.}
 
-\item{lwd}{\code{numeric}.}
+\item{cex}{\code{numeric}. A numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.}
+
+\item{lwd}{\code{numeric}. The width of the lines to plot (equator/tropics).}
 }
 \value{
 A latitudinal plot.
 }
 \description{
-A generic function for generating a latitudinal plot (e.g. for plotting the latitudinal biodiversity gradient).
+A generic function for generating a latitudinal plot for a given variable
+(e.g. for plotting the latitudinal biodiversity gradient).
 }
+\section{Developer}{
+
+Lewis A. Jones & Sofía Galván
+}
+
+\section{Auditor}{
+
+To be audited
+}
+
 \examples{
 #plot data
 lat_plot(x = c(-20, 0, 20), y = c(10, 15, 10))

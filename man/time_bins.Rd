@@ -27,6 +27,8 @@ If two interval ages are provided, the intervals occurring in the range of these
 a given size. If assign is specified, a numeric vector is returned of the midpoint age of the specified bins. Note this is a simplified approach to assignment and assumes you
 already have age estimates you would like to use for assigning your data. See \code{time_binning()} for a wider range of binning protocols.}
 
+\item{scale}{\code{character}. Specify the desired geological timescale to be used "GTS2020" or "GTS2012". "GTS2020" is the default.}
+
 \item{plot}{\code{logical}. Should a plot of time bins be generated?}
 }
 \value{
