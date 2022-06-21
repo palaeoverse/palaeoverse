@@ -1,7 +1,7 @@
 #' Generate time bins
 #'
-#' A function to generate time bins for a given study interval. This function is flexible in that either stage-level or higher bins can be generated. In addition, the option to
-#' generate near equal-length time bins by grouping stages together is available. In this implementation, intervals are grouped together in a way that minimises the mean and
+#' A function to generate time bins for a given study interval. This function is flexible in that either stage-level or near equal-length time bins can be generated
+#' by grouping stages together. In this implementation, intervals are grouped together in a way that minimizes the mean and
 #' standard deviation between bins based on the user's specified bin size. However, users may also wish to group stages based on subjective reasoning e.g.availability of outcrop.
 #'
 #' @param interval \code{character or numeric}. Interval name of age available in \code{GTS2020}. If a single interval name is provided, this interval is returned.
@@ -10,7 +10,7 @@
 #' \code{character} input as the function defaults to using stratigraphic stages for \code{numeric} inputs.
 #' @param equal \code{logical}. Should near equal-length time bins be generated?
 #' @param size \code{numeric}. If equal == \code{TRUE}, specify the length in millions of years (Myr) of the time bins desired. Defaults to 10 Myr.
-#' @param assign \code{numeric}.A numeric vector of age estimates (i.e. midpoint age in specified age range) to use to assign to bins of
+#' @param assign \code{numeric}. A numeric vector of age estimates (i.e. midpoint age in specified age range) to use to assign to bins of
 #' a given size. If assign is specified, a numeric vector is returned of the midpoint age of the specified bins.
 #' @param plot \code{logical}. Should a plot of time bins be generated?
 #'

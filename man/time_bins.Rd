@@ -32,8 +32,7 @@ A \code{dataframe} of time bins for a specified interval or a list with a \code{
 bins) if assign specified.
 }
 \description{
-A function to generate time bins for a given study interval. This function is flexible in that either stage-level or higher bins can be generated. In addition, the option to
-generate near equal-length time bins by grouping stages together is available. In this implementation, intervals are grouped together in a way that minimises the mean and
+A function to generate time bins for a given study interval. This function is flexible in that either stage-level or near equal-length time bins by grouping stages together is available. In this implementation, intervals are grouped together in a way that minimises the mean and
 standard deviation between bins based on the user's specified bin size. However, users may also wish to group stages based on subjective reasoning e.g.availability of outcrop.
 }
 \details{
