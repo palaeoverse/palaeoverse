@@ -41,7 +41,7 @@
 #' @export
 time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, size = 10, assign = NULL, plot = TRUE){
   #download data
-  df <- palaeoverse:::GTS2020
+  df <- palaeoverse::GTS2020
 
   #which rank is required? Non-stage level is only available for character string.
   if(is.character(interval)){
