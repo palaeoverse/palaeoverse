@@ -4,21 +4,22 @@
 #'
 #' @param x \code{numeric}. A numeric vector of latitudes (or palaeolatitudes) to use for plotting.
 #' @param y \code{logical}. A numeric vector of respective counts (e.g. species richness) to use for plotting.
-#' @param xlim \code{numeric}. A numeric vector of length two to
-#' @param main \code{character}.
-#' @param ylab \code{character}.
-#' @param xlab \code{character}.
-#' @param palaeo \code{character}.
-#' @param type \code{character}.
-#' @param col \code{character}.
-#' @param cex \code{numeric}.
-#' @param tropics \code{logical}.
-#' @param equator \code{logical}.
-#' @param tropics.col \code{character}.
-#' @param equator.col \code{character}.
-#' @param tropics.lty \code{numeric}.
-#' @param equator.lty \code{numeric}.
-#' @param lwd \code{numeric}.
+#' @param xlim \code{numeric}. A numeric vector of length two indicating the x limits of the plot.
+#' @param main \code{character}. An overall tittle for the plot.
+#' @param ylab \code{character}. A tittle for the y axis.
+#' @param xlab \code{character}. A tittle for the x axis.
+#' @param palaeo \code{logical}. Is the x axis representing palaeolatitudes?
+#' @param type \code{character}. What type of plot should be drawn. See ?plot()
+#' @param col \code{character}. The color for points.
+#' @param cex \code{numeric}. A numerical vector giving the amount by which plotting characters and symbols should be scaled relative to the default.
+#' @param tropics \code{logical}. Should straight lines indicating the tropics be added to the plot?
+#' @param equator \code{logical}. Should a straight line indicating the equator be added to the plot?
+#' @param tropics.set \code{numeric}. A numeric vector of length two indicating tropics' latitudinal boundaries. By default, tropics' latitudinal limits are set to c(-23.26, 23.26) based on ().
+#' @param tropics.col \code{character}. The color for tropics lines.
+#' @param equator.col \code{character}. The color for the equator line.
+#' @param tropics.lty \code{numeric}. The line type for the tropics lines. See ?par()
+#' @param equator.lty \code{numeric}. The line type for the equator line. See ?par()
+#' @param lwd \code{numeric}. The line width.
 #'
 #' @return A latitudinal plot.
 #' @examples
@@ -28,12 +29,17 @@
 lat_plot <- function(x, y, xlim = c(-90, 90),
                      main = NULL, ylab = "User variable", xlab = "Latitude",
                      tropics = TRUE, equator = FALSE, palaeo = FALSE,
+                     tropics.set = c(-23.26, 23.26),
                      tropics.col = "black", equator.col = "black",
                      tropics.lty = 2, equator.lty = 2,
                      type = "o", col = "firebrick4", cex = 1, lwd = 1){
 
   if(any(x > 90 | x < -90)){
     stop("One or more latitudes is more than or less than 90/-90")
+  }
+
+  if(any(tropics.set > 90 | tropics.set < -90)){
+    stop("Tropics' boundaries can not be more than or less than 90/-90")
   }
 
   if(palaeo == TRUE){xlab <- "Palaeolatitude"}
@@ -52,8 +58,8 @@ lat_plot <- function(x, y, xlim = c(-90, 90),
        lwd = lwd)
 
   if(tropics == TRUE){
-    abline(v = 23.26, lty = tropics.lty, col = tropics.col)
-    abline(v = -23.26, lty = tropics.lty, col = tropics.col)
+    abline(v = tropics.set[1], lty = tropics.lty, col = tropics.col)
+    abline(v = tropics.set[2], lty = tropics.lty, col = tropics.col)
   }
 
   if(equator == TRUE){
