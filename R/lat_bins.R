@@ -33,6 +33,10 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = TRUE){
     stop("Size should be a numeric")
   }
 
+  if (size > 90 | size < 0) {
+    stop("Size should be more than 0 and less or equal to 90")
+  }
+
   if (is.logical(fit) == FALSE) {
     stop("fit should be logical (TRUE/FALSE)")
   }
