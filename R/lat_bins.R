@@ -8,7 +8,7 @@
 #' @param fit \code{logical}. Should bin size be checked to ensure that the entire latitudinal
 #' range is covered (90ºS to 90ºN)? If \code{fit = TRUE}, bin size is set to the nearest integer
 #' which is divisible into 180 (the entire latitudinal range).
-#' @param assign \code{numeric}.A numeric vector of latitudes (or palaeolatitudes) to use to assign to bins of
+#' @param assign \code{numeric}. A numeric vector of latitudes (or palaeolatitudes) to use to assign to bins of
 #' a given size. If assign is specified, a numeric vector is returned of the midpoint latitudes of the specified bins.
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be generated?
 #' @return A \code{dataframe} of latitudinal bins of a given size or a list with a \code{dataframe} of latitudinal bins
