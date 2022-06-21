@@ -21,7 +21,7 @@ are returned ("Merdith2021", "Scotese2018", and "Wright2013"), along with their 
 A \code{dataframe} containing the original input occurrence dataframe, age of rotation (Ma), and
 the reference coordinates rotated. "rot_age" refers to the age of rotation and is deduced from the reference age
 provided and the closest midpoint age of a stratigraphic stage. "rot_lng" and "rot_lat" refer to the reference coordinates rotated.
-"p_lng" and "p_lat" are the reconstructed coordinates.
+"p_lng" and "p_lat" are the reconstructed coordinates for respective plate rotation models.
 }
 \description{
 A function to generate stage-level palaeocoordinates (0--540 Ma) for fossil occurrence data (i.e. reconstruct the geographic distribution of organism's remains
@@ -29,9 +29,9 @@ at time of deposition). Each occurrence is assigned palaeocoordinates based on i
 }
 \details{
 This function generates palaeocoordinates by spatiotemporally linking present-day geographic coordinates and age estimates with a spatial
-grid (1º x 1º) rotated to the midpoint of stratigraphic stages (GTS, 2020; \url{https://stratigraphy.org/timescale/}). As such, palaeocoordinates can be efficiently generated for large datasets with
+grid (1º x 1º) rotated to the midpoint of stratigraphic stages (Geological Timescale, 2020; \url{https://stratigraphy.org/timescale/}). As such, palaeocoordinates can be efficiently generated for large datasets with
 relatively little computational power. In addition, no additional software or knowledge is required from the user (i.e. GPlates). However, it should be noted that if specific ages of rotation are required,
-or fine-scale spatial analyses is being conducted, use of \url{https://www.gplates.org} might be preferable for the user.
+or fine-scale spatial analyses is being conducted, use of \url{https://www.gplates.org} might be preferable for the user (particularly if your occurrences are close to plate boundaries).
 
 The current palaeorotations (0--540 Ma) provided were generated using a 1º x 1º spatial grid with the GPlates software \url{https://www.gplates.org} and three different plate rotation models
 "Merdith2021" (Merdith et al., 2021), "Scotese2018" (Scotese & Wright, 2018), and "Wright2013" (Wright et al. 2013). A finer-scale spatial grid will be implemented in the future, along with the inclusion of more plate rotation models.
@@ -77,5 +77,8 @@ x <- read.csv("https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleracti
 x$age <- (x$max_ma + x$min_ma)/2
 
 #Rotate the data
-x <- palaeorotate(x = x)
+palaeorotate(x = x)
+
+#Calculate uncertainity in palaeocoordinates from models
+palaeorotate(x = x, uncertainty = TRUE)
 }
