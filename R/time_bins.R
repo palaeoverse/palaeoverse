@@ -40,7 +40,15 @@
 #' time_bins(interval = c("Fortunian", "Meghalayan"), assign = c(232, 167, 33), plot = TRUE)
 #' @export
 time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, size = 10, assign = NULL, plot = TRUE){
-  #download data
+  #error handling
+  if (is.numeric(size) == FALSE) {
+    stop("Size should be a numeric")
+  }
+
+  if (is.logical(plot) == FALSE) {
+    stop("plot should be logical (TRUE/FALSE)")
+  }
+  #grab data
   df <- palaeoverse::GTS2020
 
   #which rank is required? Non-stage level is only available for character string.

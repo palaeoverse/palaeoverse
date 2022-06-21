@@ -22,7 +22,7 @@ If two interval ages are provided, the intervals occurring in the range of these
 
 \item{size}{\code{numeric}. If equal == \code{TRUE}, specify the length in millions of years (Myr) of the time bins desired. Defaults to 10 Myr.}
 
-\item{assign}{\code{numeric}.A numeric vector of age estimates (i.e. midpoint age in specified age range) to use to assign to bins of
+\item{assign}{\code{numeric}. A numeric vector of age estimates (i.e. midpoint age in specified age range) to use to assign to bins of
 a given size. If assign is specified, a numeric vector is returned of the midpoint age of the specified bins.}
 
 \item{plot}{\code{logical}. Should a plot of time bins be generated?}
@@ -32,7 +32,8 @@ A \code{dataframe} of time bins for a specified interval or a list with a \code{
 bins) if assign specified.
 }
 \description{
-A function to generate time bins for a given study interval. This function is flexible in that either stage-level or near equal-length time bins by grouping stages together is available. In this implementation, intervals are grouped together in a way that minimises the mean and
+A function to generate time bins for a given study interval. This function is flexible in that either stage-level or near equal-length time bins can be generated
+by grouping stages together. In this implementation, intervals are grouped together in a way that minimizes the mean and
 standard deviation between bins based on the user's specified bin size. However, users may also wish to group stages based on subjective reasoning e.g.availability of outcrop.
 }
 \details{

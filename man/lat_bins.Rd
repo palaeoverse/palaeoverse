@@ -13,7 +13,7 @@ lat_bins(size = 10, fit = FALSE, assign = NULL, plot = TRUE)
 range is covered (90ºS to 90ºN)? If \code{fit = TRUE}, bin size is set to the nearest integer
 which is divisible into 180 (the entire latitudinal range).}
 
-\item{assign}{\code{numeric}.A numeric vector of latitudes (or palaeolatitudes) to use to assign to bins of
+\item{assign}{\code{numeric}. A numeric vector of latitudes (or palaeolatitudes) to use to assign to bins of
 a given size. If assign is specified, a numeric vector is returned of the midpoint latitudes of the specified bins.}
 
 \item{plot}{\code{logical}. Should a plot of the latitudinal bins be generated?}
