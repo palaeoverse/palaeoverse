@@ -20,7 +20,8 @@ Developed by:
 - [Cecily Nicholl](cecily.nicholl@ucl.ac.uk), University College London
 - [Christopher D. Dean](christopherdaviddean@gmail.com), University College London
 - [Alessandro Chiarenza](mailto:a.chiarenza15@gmail.com), Universidade de Vigo
+- [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), Federal University of Paraná/Stony Brook University
 
 # Installation
-`palaeoverse` is not yet available on CRAN, and is still in development. We hope to have the initial release of the package later this year. If you have suggestions for additional functions, or are interested in joining the `palaeoverse` community and development team, please feel free to contact [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es).
+`palaeoverse` is not yet available on CRAN, and is still in development. We hope to have the initial release of the package later this year. If you have suggestions for additional functions, or are interested in joining the `palaeoverse` community and development team, please feel free to contact [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), or a member of the development of team.
  
