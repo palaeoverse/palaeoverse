@@ -45,7 +45,7 @@
 #' Missing
 #' @examples
 #' #Generic example with a few occurrences
-#' x <- data.frame(lng = c(2, 95, 12), lat = c(46, 12, -65), age = c(88, 203, 467))
+#' x <- data.frame(lng = c(2), lat = c(46), age = c(88))
 #' palaeorotate(x = x)
 #'
 #' #Now with some real fossil occurrence data! (to be updated with internal data from Bethany/Emma)
