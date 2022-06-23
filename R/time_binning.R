@@ -161,7 +161,11 @@ time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
       #--- Method 4: Random ---
       else if(method == "random"){
         # Randomly sample from the list of bins that occurrence appears in, and add to the bin column for the occurrence.
-        occdf$newbin[[o]] <- sample(bin_list[[o]], 1)
+        if(length(test_list[[o]]) == 1){
+          occdf$newbin[[o]] <- test_list[[o]]
+        } else {
+          occdf$newbin[[o]] <- sample(bin_list[[o]], 1)
+        }
       }
 
       #--- Method 5: Distribution
