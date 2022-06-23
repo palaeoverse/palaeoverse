@@ -16,17 +16,14 @@
 
 #' @export
 
-time_binning <- function(occdf, bins, method = "mid", threshold = 2, scale = "GTS2020"){
+time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
 
   #=== Handling errors ===
   if (is.data.frame(occdf) == FALSE) {
-    stop("Occdf should be a dataframe")
+    stop("Occdf should be a dataframe.")
   }
   if (is.data.frame(bins) == FALSE) {
-    stop("Bins should be a dataframe")
-  }
-  if (is.numeric(threshold) == FALSE) {
-    stop("Threshold should be numeric")
+    stop("Bins should be a dataframe.")
   }
   TYPE <- c("all", "majority", "random", "dist", "mid")
   if (is.na(pmatch(method, TYPE))){
@@ -69,8 +66,8 @@ time_binning <- function(occdf, bins, method = "mid", threshold = 2, scale = "GT
   #=== Reporting Info ===
 
   # Make an empty list that's the length of the occurrence dataframe.
-  test_list <- list()
-  test_list <- sapply(occdf$occname,function(x) NULL)
+  bin_list <- list()
+  bin_list <- sapply(occdf$occname,function(x) NULL)
 
   # For each occurrence, find all the bins that it is present within, and add as elements to that part of the list.
   for(o in 1:nrow(occdf)){
@@ -79,23 +76,21 @@ time_binning <- function(occdf, bins, method = "mid", threshold = 2, scale = "GT
       if(occdf$max_ma[o] > bins$min_ma[b] &&
          occdf$min_ma[o] < bins$max_ma[b]){
         tracker <- tracker + 1
-        test_list[[o]][tracker] <- bins$bin[b]
+        bin_list[[o]][tracker] <- bins$bin[b]
       }
     }
   }
 
+  # Generate empty column for recording number of bins an occurrence appears in, and an empty column for the new bin allocation.
+  occdf$n_bins <- NA
+  occdf$newbin <- NA
+
+  # Assign number of bins per occurrence.
+  occdf$n_bins <- lengths(bin_list)
+
   # Generate temporary id column for data (this is for tracking duplicate rows).
   id <- 1:nrow(occdf)
   occdf$id <- id
-
-  # Generate empty column for recording number of bins an occurrence appears in.
-  occdf$n_bins <- NA
-
-  # Assign number of bins per occurrence.
-  occdf$n_bins <- lengths(test_list)
-
-  # Generate empty column for new bin.
-  occdf$newbin <- NA
 
   #=== Methods ===
 
@@ -111,6 +106,7 @@ time_binning <- function(occdf, bins, method = "mid", threshold = 2, scale = "GT
     occdf$newbin <- cut(occdf$mid_ma, (c(bins[,2], bins[nrow(bins), 4])), rev(bins[,1]))
 
     # Return the dataframe and end the function.
+    assign("occdf", occdf, envir = .GlobalEnv)
     return(occdf)
   }
 
@@ -123,23 +119,24 @@ time_binning <- function(occdf, bins, method = "mid", threshold = 2, scale = "GT
     # Use id to track unique rows and update bin numbers.
     for(i in id){
       id_vec <- which(occdf$id == i)
-      vec <- test_list[[i]]
+      vec <- bin_list[[i]]
       occdf$newbin[id_vec] <- bins$bin[vec]
     }
 
     # Return the dataframe and end the function.
+    assign("occdf", occdf, envir = .GlobalEnv)
     return(occdf)
   }
 
   else{
     # Run through occurrences to assign bins under methods "majority", "random" or "dist".
-    for(o in 1:length(test_list)){
+    for(o in 1:length(bin_list)){
 
       #--- Method 3: Majority ---
       if(method == "majority"){
 
         # Find the bins that current occurrence appears in and max/min ma of the occurrence.
-        tmpbin <- bins[bins$bin %in% test_list[[o]], ]
+        tmpbin <- bins[bins$bin %in% bin_list[[o]], ]
         tmpocc <- occdf[o,c('occname', 'min_ma', 'max_ma')]
 
         # Change column name to allow bind of dataframes and then add the occurrence to the bins that it appears in.
@@ -164,16 +161,15 @@ time_binning <- function(occdf, bins, method = "mid", threshold = 2, scale = "GT
       #--- Method 4: Random ---
       else if(method == "random"){
         # Randomly sample from the list of bins that occurrence appears in, and add to the bin column for the occurrence.
-        occdf$newbin[[o]] <- sample(test_list[[o]], 1)
+        occdf$newbin[[o]] <- sample(bin_list[[o]], 1)
       }
 
       #--- Method 5: Distribution
       else if(method == "dist"){
 
-
-
-
       }
     }
+    assign("occdf", occdf, envir = .GlobalEnv)
+    return(occdf)
   }
 }
