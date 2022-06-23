@@ -51,7 +51,7 @@
 #' #Now with some real fossil occurrence data! (to be updated with internal data from Bethany/Emma)
 #'
 #' #Grab some data from the Paleobiology Database
-#' x <- read.csv("https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia&interval=Anisian,Piacenzian")
+#' x <- read.csv("https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia")
 #'
 #' #Assign midpoint age of fossil occurrence data for rotation
 #' x$age <- (x$max_ma + x$min_ma)/2
@@ -73,6 +73,14 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
 
     if (sum(x$lat > 90) != 0 | sum(x$lat < -90) != 0) {
       stop("Latitude should be more than -90 and less than 90")
+    }
+
+    if (sum(model %in% c("Merdith2021", "Scotese2018", "Wright2013")) == 0) {
+      stop("model should be one of the following: Merdith2021, Scotese2018, Wright2013")
+    }
+
+    if (!is.logical(uncertainty)){
+      stop("uncertainty should be logical: TRUE/FALSE")
     }
 
     #reconstruct coordinates
