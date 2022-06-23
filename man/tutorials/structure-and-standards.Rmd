@@ -58,7 +58,7 @@ We recommend using the following conventions to make your code easier for us (an
 
 **Progress:** if your code may take a long time to run (more than a minute), include a progress bar such as `'txtProgressBar()'` in your function.
 
-**Sections:** use lines of '-' or '=' to indicate section breaks. It is hard to provide exact details on how long a section break should be. However, we tend to think of them as paragraphs in our code.
+**Sections:** use lines of '-' or '=' to indicate section breaks. It is hard to provide exact details on how long a section break should be. However, we tend to think of them as paragraphs in our code. **Tip:** In RStudio, you can use `'# SECTION NAME ###'` to make a section which is interpreted by the outline feature. You can also make subsections by adding more `'#"` before the section name.
 
 **Spacing:** add spaces to your code to make it more human-readable.
 
@@ -90,7 +90,7 @@ However, for the sake of file size efficiency, please only include data and vari
 Raw data should always be included in `inst/extdata`. If you want to include cleaned data in `data/`, it is generally a good idea to include the code used to process the raw data. If you ever need to reproduce or update your cleaned data, this will save you precious time. The code for processing your data should be included in `data-raw/`. Strictly speaking, raw data does not need to be documented. However, it is a good idea to include the original source and version (including a download date) in your code.
 
 ## Internal data
-Data you do not wish to directly make available to the user should be saved as `R/sysdata.rda`. This is the best option for pre-computed data tables that are needed for a function to run. For example, in palaeoverse we include the Geological Timescale 2020 for use in `time_bins()`. Objects in `R/sysdata.rda` are not exported, so again, strictly speaking raw data does not need to be documented. However, it is a good idea to document the internal data in the function documentation. 
+Data you do not wish to directly make available to the user should be saved as `R/sysdata.rda`. This is the best option for pre-computed data tables that are needed for a function to run. Strictly speaking raw data does not need to be documented. However, it is a good idea to document the internal data in the function documentation. 
 
 ## Exported data
 Package data you wish to make available to the user should be stored in `data/`. Each file in this directory should be either a `'.rda'` or `'.RData'`. This file type is fast, small and explicit. The most appropriate way to include exported data is to use `usethis::use_data()`.
@@ -200,7 +200,17 @@ To implement error messages in R, the `stop()` function can be used:
 
 ```{r error, include = TRUE, eval = FALSE}
 #generate error message
-if(!is.numeric(x)) stop(“Error: 'x' must be a numeric vector.”)
+if(!is.numeric(x)) stop("Error: 'x' must be a numeric vector.")
+```
+
+## Warning messages
+In general, we try to minimise the use of warning messages in `palaeoverse` as these can be easily ignored by the user, or completely skipped in pipeline analyses ([see more?](https://www.r-bloggers.com/2012/05/a-warning-about-warning/)). However, as with most things in life, there is a time and a place. So, while the use of `warning()` is generally discouraged if throwing an error will suffice, we do allow the use of warning messages in `palaeoverse`, where appropiate. 
+
+To implement warning messages in R, the `warning()` function can be used:
+
+```{r warning, include = TRUE, eval = FALSE}
+#generate error message
+if(!is.numeric(x)) warning("Warning: 'x' must be a numeric vector.")
 ```
 
 ## Tests
