@@ -10,6 +10,7 @@
 #' The default is "Merdith2021". See details below for further information on each model.
 #' @param uncertainty \code{logical}. Should uncertainty in palaeogeographic reconstructions be returned? If set to TRUE, the palaeocoordinates from the three plate rotation models
 #' are returned ("Merdith2021", "Scotese2018", and "Wright2013"), along with their respective longitudinal and latitudinal range.
+#' @importFrom utils download.file
 #'
 #' @return A \code{dataframe} containing the original input occurrence dataframe, age of rotation (Ma), and
 #' the reference coordinates rotated. "rot_age" refers to the age of rotation and is deduced from the reference age
@@ -51,7 +52,8 @@
 #' #Now with some real fossil occurrence data! (to be updated with internal data from Bethany/Emma)
 #'
 #' #Grab some data from the Paleobiology Database
-#' x <- read.csv("https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia&interval=Anisian,Piacenzian")
+#' x <- read.csv(paste0("https://paleobiodb.org/data1.2/colls/list.csv",
+#'                      "?base_name=Scleractinia&interval=Anisian,Piacenzian"))
 #'
 #' #Assign midpoint age of fossil occurrence data for rotation
 #' x$age <- (x$max_ma + x$min_ma)/2

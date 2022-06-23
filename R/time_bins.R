@@ -15,6 +15,8 @@
 #' already have age estimates you would like to use for assigning your data. See \code{time_binning()} for a wider range of binning protocols.
 #' @param scale \code{character}. Specify the desired geological timescale to be used "GTS2020" or "GTS2012". "GTS2020" is the default.
 #' @param plot \code{logical}. Should a plot of time bins be generated?
+#' @importFrom graphics polygon title
+#' @importFrom stats sd
 #'
 #' @return A \code{dataframe} of time bins for a specified interval or a list with a \code{dataframe} of time bins and \code{numeric} of binned age estimates (midpoint of specified
 #' bins) if assign specified.
@@ -171,7 +173,7 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), equal = FALSE, si
   }
 
   if(!is.null(assign)){
-    if(class(assign) == "numeric"){
+    if(is.numeric(assign)){
       if(any(assign > max(df$max_ma) | assign < min(df$min_ma))){
         stop("One or more ages is more than or less than the specified time interval range")
       }

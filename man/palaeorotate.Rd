@@ -71,7 +71,8 @@ palaeorotate(x = x)
 #Now with some real fossil occurrence data! (to be updated with internal data from Bethany/Emma)
 
 #Grab some data from the Paleobiology Database
-x <- read.csv("https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia&interval=Anisian,Piacenzian")
+x <- read.csv(paste0("https://paleobiodb.org/data1.2/colls/list.csv",
+                     "?base_name=Scleractinia&interval=Anisian,Piacenzian"))
 
 #Assign midpoint age of fossil occurrence data for rotation
 x$age <- (x$max_ma + x$min_ma)/2
