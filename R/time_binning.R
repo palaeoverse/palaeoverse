@@ -16,18 +16,6 @@
 
 #' @export
 
-# Test dataset 1
-occdf <- data.frame(occname = c("occ1", "occ2", "occ3", "occ4"),
-                    max_ma = c("Jurassic", "Campanian", "Cenomanian", "Mesozoic"),
-                    min_ma = c("Cretaceous", "Maastrichtian", "Coniacian", "Cenozoic")
-)
-
-# Test dataset 2
-occdf <- data.frame(occname = c("occ1", "occ2", "occ3", "occ4", "occ5"),
-                    max_ma = c(43.1, 69.5, 145.2, 238, 177),
-                    min_ma = c(38.1, 66.5, 144.5, 220.7, 166)
-)
-
 time_binning <- function(occdf, bins, method = "mid", threshold = 2, scale = "GTS2020"){
 
   #=== Handling errors ===
@@ -76,26 +64,9 @@ time_binning <- function(occdf, bins, method = "mid", threshold = 2, scale = "GT
                  collapse = "\n"))
     }
   }
-  #=== Methods ===
 
-  #--- Method 1: Midpoint ---
-  if(method == "mid"){
 
-    # If no mid point is present for occurrence age range...
-    if(("mid_ma" %in% colnames(occdf)) == 0){
-
-    # ...add one in a new column.
-      occdf$mid_ma <- (occdf$max_ma + occdf$min_ma) / 2
-    }
-
-    # Cut the midpoints according to the chosen bins, and add to the occurrence bin column.
-    occdf$newbin <- cut(occdf$mid_ma, (c(bins[,2], bins[nrow(bins), 4])), rev(bins[,1]))
-
-    # Return the dataframe and end the function.
-    return(occdf)
-  }
-
-  #--- All other methods ---
+  #=== Reporting Info ===
 
   # Make an empty list that's the length of the occurrence dataframe.
   test_list <- list()
@@ -113,73 +84,98 @@ time_binning <- function(occdf, bins, method = "mid", threshold = 2, scale = "GT
     }
   }
 
-  # Run through occurrences to assign bins under methods "all", "majority", "random" or "dist".
-  for(o in 1:length(test_list)){
+  #generate temporary id column for data (this is for tracking duplicate rows)
+  id <- 1:nrow(occdf)
+  occdf$id <- id
 
-    # If occurrence is present in only one bin, assign that occurrence a bin number.
-    if(length(test_list[[o]]) == 1){
-      occdf$newbin[[o]] <- test_list[[o]]
+  #generate empty column for recording number of bins an occurrence appears in
+  occdf$n_bins <- NA
+
+  #assign number of bins per occurrence
+  occdf$n_bins <- lengths(test_list)
+
+  #generate empty column for new bin
+  occdf$newbin <- NA
+
+  #=== Methods ===
+
+  #--- Method 1: Midpoint ---
+  if(method == "mid"){
+
+    # If no mid point is present for occurrence age range...
+    if(("mid_ma" %in% colnames(occdf)) == 0){
+
+      # ...add one in a new column.
+      occdf$mid_ma <- (occdf$max_ma + occdf$min_ma) / 2
     }
 
-    #--- Method 2: All ---
-    else if(method == "all"){
+    # Cut the midpoints according to the chosen bins, and add to the occurrence bin column.
+    occdf$newbin <- cut(occdf$mid_ma, (c(bins[,2], bins[nrow(bins), 4])), rev(bins[,1]))
 
-      #generate temporary id column for data (this is for tracking duplicate rows)
-      id <- 1:nrow(occdf)
-      occdf$id <- id
+    # Return the dataframe and end the function.
+    return(occdf)
+  }
 
-      #generate empty column for recording number of bins an occurrence appears in
-      occdf$n_bins <- NA
+  #--- Method 2: All ---
+  if(method == "all"){
 
-      #assign number of bins per occurrence
-      occdf$n_bins <- lengths(test_list)
+    #duplicate rows by number of bins
+    occdf <- occdf[rep(seq_len(dim(occdf)[1]), occdf$n_bins),]
 
-      #duplicate rows by number of bins
-      occdf <- occdf[rep(seq_len(dim(occdf)[1]), occdf$n_bins),]
+    #use id to track unique rows and update bin numbers
+    for(i in id){
+      id_vec <- which(occdf$id == i)
+      vec <- test_list[[i]]
+      occdf$newbin[id_vec] <- bins$bin[vec]
+    }
 
-      #generate empty column for bin
-      occdf$bin <- NA
+    # Return the dataframe and end the function.
+    return(occdf)
+  }
 
-      #use id to track unique rows
-      for(i in id){
-        id_vec <- which(occdf$id == i)
-        vec <- suppressWarnings(which(bins$max_ma <= occdf$bin_max[id_vec] & bins$min_ma >= occdf$bin_min[id_vec]))
-        occdf$bin[id_vec] <- bins$bin[vec]
+  else{
+    # Run through occurrences to assign bins under methods "majority", "random" or "dist".
+    for(o in 1:length(test_list)){
+
+      # If occurrence is present in only one bin, assign that occurrence a bin number.
+      if(length(test_list[[o]]) == 1){
+        occdf$newbin[[o]] <- test_list[[o]]
       }
-    }
 
-    #--- Method 3: Majority ---
-    else if(method == "majority"){
+      #--- Method 3: Majority ---
+      else if(method == "majority"){
 
-      # Find the bins that current occurrence appears in and max/min ma of the occurrence.
-      tmpbin <- bins[bins$bin %in% test_list[[o]], ]
-      tmpocc <- occdf[o,c('occname', 'min_ma', 'max_ma')]
+        # Find the bins that current occurrence appears in and max/min ma of the occurrence.
+        tmpbin <- bins[bins$bin %in% test_list[[o]], ]
+        tmpocc <- occdf[o,c('occname', 'min_ma', 'max_ma')]
 
-      # Change column name to allow bind of dataframes and then add the occurrence to the bins that it appears in.
-      colnames(tmpocc)[1] <- 'bin'
-      df <- rbind(tmpocc, tmpbin[,c('bin', 'min_ma','max_ma')])
+        # Change column name to allow bind of dataframes and then add the occurrence to the bins that it appears in.
+        colnames(tmpocc)[1] <- 'bin'
+        df <- rbind(tmpocc, tmpbin[,c('bin', 'min_ma','max_ma')])
 
-      # Produce table of percentages of overlap between bins and occurrence. First column shows percentage overlap between occurrence range and bin ranges.
-      out <- 100 * with(df, t((outer(max_ma, max_ma, pmin) - outer(min_ma, min_ma, pmax)) / (max_ma - min_ma)))
+        # Produce table of percentages of overlap between bins and occurrence. First column shows percentage overlap between occurrence range and bin ranges.
+        out <- 100 * with(df, t((outer(max_ma, max_ma, pmin) - outer(min_ma, min_ma, pmax)) / (max_ma - min_ma)))
 
-      # Add col/row names and remove first row which records the occurrence (and so always has the highest overlap).
-      dimnames(out) <- list(df$bin, df$bin)
-      out <- out[-1,]
+        # Add col/row names and remove first row which records the occurrence (and so always has the highest overlap).
+        dimnames(out) <- list(df$bin, df$bin)
+        out <- out[-1,]
 
-      # Find the bin with the largest overlap, and add to the bin column for the occurrence.
-      occdf$newbin[[o]] <- as.numeric(rownames(out)[which.max(out[,1])])
-    }
+        # Find the bin with the largest overlap, and add to the bin column for the occurrence.
+        occdf$newbin[[o]] <- as.numeric(rownames(out)[which.max(out[,1])])
+      }
 
-    #--- Method 4: Random ---
+      #--- Method 4: Random ---
 
-    # Randomly sample from the list of bins that occurrence appears in, and add to the bin column for the occurrence.
-    else if(method == "random"){
-      occdf$newbin[[o]] <- sample(test_list[[o]], 1)
-    }
+      # Randomly sample from the list of bins that occurrence appears in, and add to the bin column for the occurrence.
+      else if(method == "random"){
+        occdf$newbin[[o]] <- sample(test_list[[o]], 1)
+      }
 
-    #--- Method 5: Distribution
-    else if(method == "dist"){
+      #--- Method 5: Distribution
+      else if(method == "dist"){
 
+
+      }
     }
   }
 }
