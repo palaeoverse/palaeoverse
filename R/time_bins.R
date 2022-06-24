@@ -59,6 +59,10 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), size = NULL, assi
   You can transform your data using abs().")
   }
 
+  if (scale != "GTS2012" & scale != "GTS2020") {
+    stop("Scale must be either 'GTS2012' or 'GTS2020'")
+  }
+
   #grab data
 
   #which geological timescale to use?
