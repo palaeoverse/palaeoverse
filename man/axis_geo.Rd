@@ -154,3 +154,6 @@ box()
 axis(2)
 axis_geo(side = 1, intervals = list("epochs", "periods"))
 }
+\author{
+William Gearty & Kilian Eichenseer
+}

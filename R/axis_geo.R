@@ -86,6 +86,7 @@
 #' @param labels Labels to be placed at the tickpoints. Passed to
 #'   \code{\link[graphics]{axis}}.
 #' @param ... Further arguments to pass to \code{\link[graphics]{axis}}.
+#' @author William Gearty & Kilian Eichenseer
 #' @importFrom graphics rect text clip axis par
 #' @importFrom deeptime getScaleData
 #' @importFrom methods is
