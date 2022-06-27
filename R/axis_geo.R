@@ -4,35 +4,35 @@
 #' adds an axis to the specified side of of base R plot. The main difference
 #' is that it also adds a geological timescale between the plot and the axis.
 #'
-#' If a custom data.frame is provided (with \code{interval}), it should consist of at least 3 columns of data. See \code{deeptime::periods} for an example.
+#' If a custom data.frame is provided (with \code{intervals}), it should consist of at least 3 columns of data. See \code{deeptime::periods} for an example.
 #' \itemize{
 #'   \item The \code{name} column lists the names of each time interval. These will be used as labels if no abbreviations are provided.
-#'   \item The \code{max_age} column lists the oldest boundary of each time interval.
-#'   \item The \code{min_age} column lists the youngest boundary of each time interval.
+#'   \item The \code{max_age} column lists the oldest boundary of each time interval. Values should always be positive.
+#'   \item The \code{min_age} column lists the youngest boundary of each time interval. Values should always be positive.
 #'   \item The \code{abbr} column is optional and lists abbreviations that may be used as labels.
 #'   \item The \code{color} column is also optional and lists a  for the background for each time interval (see the Color Specification section \code{\link[graphics:par]{here}}).
 #'   \item The \code{lab_color} column is also optional and lists a color for the label for each time interval (see the Color Specification section \code{\link[graphics:par]{here}}).
 #' }
 #'
-#' \code{interval} may also be a list if multiple time scales should be added to the plot.
+#' \code{intervals} may also be a list if multiple time scales should be added to the plot.
 #' In this case, \code{height}, \code{fill}, \code{lab}, \code{lab_color}, \code{size},
 #' \code{rot}, \code{abbrv}, \code{center_end_labels}, \code{skip}, \code{bord_color},
 #' \code{lty}, and \code{lwd} can also be lists.
-#' If these lists are not as long as \code{interval}, the elements will be recycled.
+#' If these lists are not as long as \code{intervals}, the elements will be recycled.
 #' If individual values (or vectors, e.g., for \code{skip}) are used for these parameters, they will be applied to all time scales (and recycled as necessary).
 #' @param side Which side to add the axis to (\code{1}: bottom, \code{2}: left, \code{3}: top, \code{4}: right).
-#' @param interval Either A) a string indicating a built-in dataframe with interval data from the ICS ("periods", "epochs", "stages", "eons", or "eras"),
+#' @param intervals Either A) a string indicating a built-in dataframe with interval data from the ICS ("periods", "epochs", "stages", "eons", or "eras"),
 #'   B) a string indicating a timescale from macrostrat (see list here: \url{https://macrostrat.org/api/defs/timescales?all}),
 #'   or C) a custom data.frame of time interval boundaries (see Details).
 #' @param height The relative height (or width if \code{side} is \code{2} or \code{4}) of the scale.
 #'   This is relative to the height (if \code{side} is \code{1} or \code{3}) or
 #'   width (if \code{side} is \code{2} or \code{4}) of the plot.
-#' @param fill The fill color of the boxes. The default is to use the \code{color} column included in \code{interval}.
-#'   If a custom dataset is provided with \code{interval} without a \code{color} column and without fill, a greyscale will be used.
+#' @param fill The fill color of the boxes. The default is to use the \code{color} column included in \code{intervals}.
+#'   If a custom dataset is provided with \code{intervals} without a \code{color} column and without fill, a greyscale will be used.
 #'   Custom fill colors can be provided with this option (overriding the \code{color} column) and will be recycled if/as necessary.
 #' @param lab Whether to include interval labels.
-#' @param lab_color The color of the labels. The default is to use the \code{lab_color} column included in \code{interval}.
-#'   If a custom dataset is provided with \code{interval} without a \code{lab_color} column and without fill, all labels will be black.
+#' @param lab_color The color of the labels. The default is to use the \code{lab_color} column included in \code{intervals}.
+#'   If a custom dataset is provided with \code{intervals} without a \code{lab_color} column and without fill, all labels will be black.
 #'   Custom label colors can be provided with this option (overriding the \code{lab_color} column) and will be recycled if/as necessary.
 #' @param size Label size (see \code{cex} in \code{\link[graphics:par]{graphics parameters}}).
 #' @param rot The amount of counter-clockwise rotation to add to the labels (in degrees).
@@ -46,12 +46,18 @@
 #' @param bord_color The border color of the interval boxes.
 #' @param lty Line type (see \code{lty} in \code{\link[graphics:par]{graphics parameters}}).
 #' @param lwd Line width (see \code{lwd} in \code{\link[graphics:par]{graphics parameters}}).
-#' @param neg Set this to true if your x-axis is using negative values.
+#' @param neg Set this to true if your x-axis is using negative values. If the entire
+#'   axis is already negative, this will set to \code{TRUE} for you.
 #' @param exact Set this to true if you want axis labels placed at the interval boundaries.
-#' @param round Number of integers to which exact axis labels should be rounded.
+#' @param round Number of decimal places to which exact axis labels should be rounded (using \code{\link[base]{round}}).
+#'   If no value is specified, the exact values will be used. Trailing zeros are always removed.
+#'   \code{at} and \code{labels} can be used to include labels with trailing zeros.
+#' @param at Points at which tick marks are to be drawn. Passed to \code{\link[graphics]{axis}}.
+#' @param labels Labels to be placed at the tickpoints. Passed to \code{\link[graphics]{axis}}.
 #' @param ... Further arguments to pass to \code{\link[graphics]{axis}}.
-#' @importFrom graphics rect text clip axis
+#' @importFrom graphics rect text clip axis par
 #' @importFrom deeptime getScaleData
+#' @importFrom methods is
 #' @export
 #' @examples
 #' #single scale on bottom
@@ -59,23 +65,23 @@
 #' plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0), xlab = NA, ylab = "Depth (m)")
 #' box()
 #' axis(2)
-#' axis_geo(side = 1, interval = "periods")
+#' axis_geo(side = 1, intervals = "periods")
 #'
 #' #stack multiple scales
 #' par(mar = c(6.6, 4.1, 4.1, 2.1)) # expanded bottom margin
 #' plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0), xlab = NA, ylab = "Depth (m)")
 #' box()
 #' axis(2)
-#' axis_geo(side = 1, interval = list("epochs", "periods"))
-axis_geo <- function(side = 1, interval = "epochs", height = 0.05,
+#' axis_geo(side = 1, intervals = list("epochs", "periods"))
+axis_geo <- function(side = 1, intervals = "epochs", height = 0.05,
                      fill = NULL, # fill arguments
                      lab = TRUE, lab_color = NULL, size = 1, rot = 0, abbrv = TRUE, # label arguments
                      center_end_labels = TRUE, skip = c("Quaternary", "Holocene", "Late Pleistocene"),
                      bord_color = "black", lty = par("lty"), lwd = par("lwd"), # rect border arguments
-                     neg = FALSE, exact = FALSE, round = FALSE,
+                     neg = FALSE, exact = FALSE, round = FALSE, # applied to the entire axis
                      at = NULL, labels = NULL, ...) { # passed on to axis()
-  interval <- make_list(interval)
-  n_scales <- length(interval)
+  intervals <- make_list(intervals)
+  n_scales <- length(intervals)
 
   height <- rep(make_list(height), length.out = n_scales)
   fill <- rep(make_list(fill), length.out = n_scales)
@@ -138,58 +144,58 @@ axis_geo <- function(side = 1, interval = "epochs", height = 0.05,
 
   for (scale in 1:n_scales) {
     # get the requested data if necessary
-    scale_interval <- interval[[scale]]
-    if (!is(scale_interval, "data.frame")) {
-      scale_interval <- getScaleData(scale_interval)
+    scale_intervals <- intervals[[scale]]
+    if (!is(scale_intervals, "data.frame")) {
+      scale_intervals <- getScaleData(scale_intervals)
     }
 
     # subset the data to only those that will fit on the axis?
-    interval_sub <- interval
+    intervals_sub <- intervals
 
     # set `neg` to TRUE if both limits are negative
-    if(side %in% c(1,3) & all(plot_lims[1:2]<=0)) neg <- TRUE
-    if(side %in% c(2,4) & all(plot_lims[3:4]<=0)) neg <- TRUE
+    if (side %in% c(1, 3) & all(plot_lims[1:2] <= 0)) neg <- TRUE
+    if (side %in% c(2, 4) & all(plot_lims[3:4] <= 0)) neg <- TRUE
 
     # make the min and max values negative if requested
     if (neg) {
-      scale_interval$max_age <- -1 * (scale_interval$max_age)
-      scale_interval$min_age <- -1 * (scale_interval$min_age)
+      scale_intervals$max_age <- -1 * (scale_intervals$max_age)
+      scale_intervals$min_age <- -1 * (scale_intervals$min_age)
     }
-    scale_interval$mid_age <- (scale_interval$max_age + scale_interval$min_age)/2
+    scale_intervals$mid_age <- (scale_intervals$max_age + scale_intervals$min_age)/2
 
     scale_fill <- fill[[scale]]
     if (!is.null(scale_fill)) {
-      scale_interval$color <- rep(scale_fill, length.out = nrow(scale_interval))
-    } else if (!("color" %in% colnames(scale_interval))) {
-      scale_interval$color <- rep(c("grey60","grey80"), length.out = nrow(scale_interval))
+      scale_intervals$color <- rep(scale_fill, length.out = nrow(scale_intervals))
+    } else if (!("color" %in% colnames(scale_intervals))) {
+      scale_intervals$color <- rep(c("grey60","grey80"), length.out = nrow(scale_intervals))
     }
     scale_lab_color <- lab_color[[scale]]
     if (!is.null(scale_lab_color)) {
-      scale_interval$lab_color <- rep(scale_lab_color, length.out = nrow(scale_interval))
-    } else if (!("lab_color" %in% colnames(scale_interval))) {
-      scale_interval$lab_color <- "black"
+      scale_intervals$lab_color <- rep(scale_lab_color, length.out = nrow(scale_intervals))
+    } else if (!("lab_color" %in% colnames(scale_intervals))) {
+      scale_intervals$lab_color <- "black"
     }
-    if (abbrv[[scale]] & "abbr" %in% colnames(scale_interval)) {
-      scale_interval$label <- scale_interval$abbr
-      scale_interval$label[scale_interval$abbr %in% skip] <- ""
+    if (abbrv[[scale]] & "abbr" %in% colnames(scale_intervals)) {
+      scale_intervals$label <- scale_intervals$abbr
+      scale_intervals$label[scale_intervals$abbr %in% skip] <- ""
     } else {
-      scale_interval$label <- scale_interval$name
+      scale_intervals$label <- scale_intervals$name
     }
-    scale_interval$label[scale_interval$name %in% skip[[scale]]] <- ""
+    scale_intervals$label[scale_intervals$name %in% skip[[scale]]] <- ""
 
     # plot the desired polygons in the unclipped margin
     scale_lty <- lty[[scale]]
     scale_lwd <- lwd[[scale]]
     scale_bord_color <- bord_color[[scale]]
     if (side %in% c(1,3)) {
-      rect(xleft = scale_interval$min_age, xright = scale_interval$max_age,
+      rect(xleft = scale_intervals$min_age, xright = scale_intervals$max_age,
            ybottom = scale_lims[3], ytop = scale_lims[4],
-           col = scale_interval$color, border = scale_bord_color,
+           col = scale_intervals$color, border = scale_bord_color,
            lty = scale_lty, lwd = scale_lwd)
     } else {
-      rect(ybottom = scale_interval$min_age, ytop = scale_interval$max_age,
+      rect(ybottom = scale_intervals$min_age, ytop = scale_intervals$max_age,
            xleft = scale_lims[1], xright = scale_lims[2],
-           col = scale_interval$color, border = scale_bord_color,
+           col = scale_intervals$color, border = scale_bord_color,
            lty = scale_lty, lwd = scale_lwd)
     }
 
@@ -202,31 +208,31 @@ axis_geo <- function(side = 1, interval = "epochs", height = 0.05,
         } else {
           lims <- c(scale_lims[3], scale_lims[4])
         }
-        max_end <- (scale_interval$max_age > max(lims) & scale_interval$min_age < max(lims)) |
-          (scale_interval$max_age < max(lims) & scale_interval$min_age > max(lims))
-        min_end <- (scale_interval$max_age > min(lims) & scale_interval$min_age < min(lims)) |
-          (scale_interval$max_age < min(lims) & scale_interval$min_age > min(lims))
+        max_end <- (scale_intervals$max_age > max(lims) & scale_intervals$min_age < max(lims)) |
+          (scale_intervals$max_age < max(lims) & scale_intervals$min_age > max(lims))
+        min_end <- (scale_intervals$max_age > min(lims) & scale_intervals$min_age < min(lims)) |
+          (scale_intervals$max_age < min(lims) & scale_intervals$min_age > min(lims))
         if (any(max_end)) {
-          ends <- scale_interval[max_end,c("min_age","max_age")]
-          scale_interval$mid_age[max_end] <- (ends[ends < max(lims) & ends > min(lims)] + max(lims))/2
+          ends <- scale_intervals[max_end,c("min_age","max_age")]
+          scale_intervals$mid_age[max_end] <- (ends[ends < max(lims) & ends > min(lims)] + max(lims))/2
         }
         if (any(min_end)) {
-          ends <- scale_interval[min_end,c("min_age","max_age")]
-          scale_interval$mid_age[min_end] <- (ends[ends < max(lims) & ends > min(lims)] + min(lims))/2
+          ends <- scale_intervals[min_end,c("min_age","max_age")]
+          scale_intervals$mid_age[min_end] <- (ends[ends < max(lims) & ends > min(lims)] + min(lims))/2
         }
       }
       scale_size <- size[[scale]]
       scale_rot <- rot[[scale]]
       if (side %in% c(1,3)) {
-        text(x = scale_interval$mid_age,
+        text(x = scale_intervals$mid_age,
              y = (scale_lims[3] + scale_lims[4])/2,
-             adj = c(0.5, 0.5), labels = scale_interval$label,
-             col = scale_interval$lab_color, srt = scale_rot, cex = scale_size)
+             adj = c(0.5, 0.5), labels = scale_intervals$label,
+             col = scale_intervals$lab_color, srt = scale_rot, cex = scale_size)
       } else {
-        text(y = scale_interval$mid_age,
+        text(y = scale_intervals$mid_age,
              x = (scale_lims[1] + scale_lims[2])/2,
-             adj = c(0.5, 0.5), labels = scale_interval$label,
-             col = scale_interval$lab_color, srt = 90 + scale_rot, cex = scale_size)
+             adj = c(0.5, 0.5), labels = scale_intervals$label,
+             col = scale_intervals$lab_color, srt = 90 + scale_rot, cex = scale_size)
       }
     }
 
@@ -257,9 +263,12 @@ axis_geo <- function(side = 1, interval = "epochs", height = 0.05,
   # use interval boundaries if `exact` is TRUE
   if(exact == TRUE & is.null(at)) {
     # Use the interval breaks from the outer-most scale
-    at <- unique(c(scale_interval$min_age, scale_interval$max_age))
-    if(is.numeric(round)) labels <- round(at,round) else {
-    labels <- as.character(at)} # removes trailing zeros
+    at <- unique(c(scale_intervals$min_age, scale_intervals$max_age))
+    if (is.numeric(round)) {
+      labels <- round(at, round)
+    } else {
+      labels <- as.character(at) # removes trailing zeros
+    }
   }
   if (side == 1) {
     axis(side = side, pos = clip_lims[3], at = at, labels = labels, ...)

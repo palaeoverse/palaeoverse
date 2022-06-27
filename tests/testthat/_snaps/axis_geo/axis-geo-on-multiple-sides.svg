@@ -177,7 +177,7 @@
 <text x='384.24' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Eo</text>
 <text x='307.20' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>Pal</text>
 <text x='200.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>LC</text>
-<text x='10.80' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>EC</text>
+<text x='109.20' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>EC</text>
 <text x='-140.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.68px' lengthAdjust='spacingAndGlyphs'>LJ</text>
 <text x='-210.24' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.01px' lengthAdjust='spacingAndGlyphs'>MJ</text>
 <text x='-300.96' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.01px' lengthAdjust='spacingAndGlyphs'>EJ</text>
@@ -220,7 +220,7 @@
 <rect x='-4200.00' y='493.92' width='1344.00' height='11.23' style='stroke-width: 0.75; fill: #FFA5D2;' />
 <text x='538.52' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>Ng</text>
 <text x='386.33' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pg</text>
-<text x='93.60' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>K</text>
+<text x='192.00' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>K</text>
 <text x='-231.12' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.00px' lengthAdjust='spacingAndGlyphs'>J</text>
 <text x='-487.68' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='11.33px' lengthAdjust='spacingAndGlyphs'>Tr</text>
 <text x='-721.92' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>P</text>
@@ -290,7 +290,7 @@
 <text x='384.24' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.71px' lengthAdjust='spacingAndGlyphs'>Eocene</text>
 <text x='307.20' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='56.72px' lengthAdjust='spacingAndGlyphs'>Paleocene</text>
 <text x='200.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='88.07px' lengthAdjust='spacingAndGlyphs'>Late Cretaceous</text>
-<text x='10.80' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='92.06px' lengthAdjust='spacingAndGlyphs'>Early Cretaceous</text>
+<text x='109.20' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='92.06px' lengthAdjust='spacingAndGlyphs'>Early Cretaceous</text>
 <text x='-140.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='70.72px' lengthAdjust='spacingAndGlyphs'>Late Jurassic</text>
 <text x='-210.24' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='82.71px' lengthAdjust='spacingAndGlyphs'>Middle Jurassic</text>
 <text x='-300.96' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='74.71px' lengthAdjust='spacingAndGlyphs'>Early Jurassic</text>
@@ -332,7 +332,7 @@
 <rect x='-2856.00' y='70.85' width='408.00' height='18.72' style='stroke-width: 0.75; fill: #FFAFD7;' />
 <rect x='-4200.00' y='70.85' width='1344.00' height='18.72' style='stroke-width: 0.75; fill: #FFA5D2;' />
 <text x='538.52' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='48.72px' lengthAdjust='spacingAndGlyphs'>Neogene</text>
-<text x='93.60' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
+<text x='192.00' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
 <text x='-231.12' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Jurassic</text>
 <text x='-487.68' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='41.34px' lengthAdjust='spacingAndGlyphs'>Triassic</text>
 <text x='-721.92' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.69px' lengthAdjust='spacingAndGlyphs'>Permian</text>
@@ -345,14 +345,19 @@
 <text x='-2652.00' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cryogenian</text>
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<line x1='600.00' y1='70.85' x2='100.80' y2='70.85' style='stroke-width: 0.75;' />
+<line x1='600.00' y1='70.85' x2='120.00' y2='70.85' style='stroke-width: 0.75;' />
 <line x1='600.00' y1='70.85' x2='600.00' y2='63.65' style='stroke-width: 0.75;' />
-<line x1='587.58' y1='70.85' x2='587.58' y2='63.65' style='stroke-width: 0.75;' />
-<line x1='489.46' y1='70.85' x2='489.46' y2='63.65' style='stroke-width: 0.75;' />
-<line x1='283.20' y1='70.85' x2='283.20' y2='63.65' style='stroke-width: 0.75;' />
-<text x='283.20' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='36.71px' lengthAdjust='spacingAndGlyphs'>66.000</text>
-<text x='489.46' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='36.71px' lengthAdjust='spacingAndGlyphs'>23.030</text>
-<text x='587.58' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.03px' lengthAdjust='spacingAndGlyphs'>2.588</text>
+<line x1='504.00' y1='70.85' x2='504.00' y2='63.65' style='stroke-width: 0.75;' />
+<line x1='408.00' y1='70.85' x2='408.00' y2='63.65' style='stroke-width: 0.75;' />
+<line x1='312.00' y1='70.85' x2='312.00' y2='63.65' style='stroke-width: 0.75;' />
+<line x1='216.00' y1='70.85' x2='216.00' y2='63.65' style='stroke-width: 0.75;' />
+<line x1='120.00' y1='70.85' x2='120.00' y2='63.65' style='stroke-width: 0.75;' />
+<text x='120.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='20.02px' lengthAdjust='spacingAndGlyphs'>100</text>
+<text x='216.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>80</text>
+<text x='312.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>60</text>
+<text x='408.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>40</text>
+<text x='504.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>20</text>
+<text x='600.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>0</text>
 </g>
 <defs>
   <clipPath id='cpNTkuMzN8NjE5LjIwfDEwMC44MHw0NzUuMjA='>
@@ -463,8 +468,8 @@
 <line x1='59.33' y1='124.11' x2='52.13' y2='124.11' style='stroke-width: 0.75;' />
 <line x1='59.33' y1='198.71' x2='52.13' y2='198.71' style='stroke-width: 0.75;' />
 <line x1='59.33' y1='355.51' x2='52.13' y2='355.51' style='stroke-width: 0.75;' />
-<text transform='translate(42.05,355.51) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='36.71px' lengthAdjust='spacingAndGlyphs'>66.000</text>
-<text transform='translate(42.05,198.71) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='36.71px' lengthAdjust='spacingAndGlyphs'>23.030</text>
+<text transform='translate(42.05,355.51) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>66</text>
+<text transform='translate(42.05,198.71) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.03px' lengthAdjust='spacingAndGlyphs'>23.03</text>
 <text transform='translate(42.05,124.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.03px' lengthAdjust='spacingAndGlyphs'>2.588</text>
 </g>
 <defs>
@@ -513,7 +518,7 @@
 <text transform='translate(633.70,218.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.00px' lengthAdjust='spacingAndGlyphs'>Ol</text>
 <text transform='translate(633.70,278.69) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Eo</text>
 <text transform='translate(633.70,337.26) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>Pal</text>
-<text transform='translate(633.70,418.46) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>LC</text>
+<text transform='translate(633.70,415.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>LC</text>
 <text transform='translate(633.70,562.60) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>EC</text>
 <text transform='translate(633.70,677.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.68px' lengthAdjust='spacingAndGlyphs'>LJ</text>
 <text transform='translate(633.70,730.64) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.01px' lengthAdjust='spacingAndGlyphs'>MJ</text>
@@ -557,7 +562,7 @@
 <rect x='639.94' y='2742.04' width='15.55' height='1021.75' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFA5D2;' />
 <text transform='translate(651.84,161.41) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>Ng</text>
 <text transform='translate(651.84,277.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pg</text>
-<text transform='translate(651.84,499.65) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>K</text>
+<text transform='translate(651.84,415.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>K</text>
 <text transform='translate(651.84,746.51) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.00px' lengthAdjust='spacingAndGlyphs'>J</text>
 <text transform='translate(651.84,941.56) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='11.33px' lengthAdjust='spacingAndGlyphs'>Tr</text>
 <text transform='translate(651.84,1119.64) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>P</text>
@@ -576,8 +581,8 @@
 <line x1='655.49' y1='124.11' x2='662.69' y2='124.11' style='stroke-width: 0.75;' />
 <line x1='655.49' y1='198.71' x2='662.69' y2='198.71' style='stroke-width: 0.75;' />
 <line x1='655.49' y1='355.51' x2='662.69' y2='355.51' style='stroke-width: 0.75;' />
-<text transform='translate(681.41,355.51) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='36.71px' lengthAdjust='spacingAndGlyphs'>66.000</text>
-<text transform='translate(681.41,198.71) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='36.71px' lengthAdjust='spacingAndGlyphs'>23.030</text>
-<text transform='translate(681.41,124.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.03px' lengthAdjust='spacingAndGlyphs'>2.588</text>
+<text transform='translate(681.41,355.51) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>66</text>
+<text transform='translate(681.41,198.71) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>23</text>
+<text transform='translate(681.41,124.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>2.6</text>
 </g>
 </svg>

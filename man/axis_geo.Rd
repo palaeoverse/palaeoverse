@@ -6,7 +6,7 @@
 \usage{
 axis_geo(
   side = 1,
-  dat = "epochs",
+  intervals = "epochs",
   height = 0.05,
   fill = NULL,
   lab = TRUE,
@@ -14,20 +14,23 @@ axis_geo(
   size = 1,
   rot = 0,
   abbrv = TRUE,
-  center_end_labels = FALSE,
+  center_end_labels = TRUE,
   skip = c("Quaternary", "Holocene", "Late Pleistocene"),
   bord_color = "black",
   lty = par("lty"),
   lwd = par("lwd"),
   neg = FALSE,
+  exact = FALSE,
+  round = FALSE,
   at = NULL,
+  labels = NULL,
   ...
 )
 }
 \arguments{
 \item{side}{Which side to add the axis to (\code{1}: bottom, \code{2}: left, \code{3}: top, \code{4}: right).}
 
-\item{dat}{Either A) a string indicating a built-in dataframe with interval data from the ICS ("periods", "epochs", "stages", "eons", or "eras"),
+\item{intervals}{Either A) a string indicating a built-in dataframe with interval data from the ICS ("periods", "epochs", "stages", "eons", or "eras"),
 B) a string indicating a timescale from macrostrat (see list here: \url{https://macrostrat.org/api/defs/timescales?all}),
 or C) a custom data.frame of time interval boundaries (see Details).}
 
@@ -35,14 +38,14 @@ or C) a custom data.frame of time interval boundaries (see Details).}
 This is relative to the height (if \code{side} is \code{1} or \code{3}) or
 width (if \code{side} is \code{2} or \code{4}) of the plot.}
 
-\item{fill}{The fill color of the boxes. The default is to use the \code{color} column included in \code{dat}.
-If a custom dataset is provided with \code{dat} without a \code{color} column and without fill, a greyscale will be used.
+\item{fill}{The fill color of the boxes. The default is to use the \code{color} column included in \code{intervals}.
+If a custom dataset is provided with \code{intervals} without a \code{color} column and without fill, a greyscale will be used.
 Custom fill colors can be provided with this option (overriding the \code{color} column) and will be recycled if/as necessary.}
 
 \item{lab}{Whether to include interval labels.}
 
-\item{lab_color}{The color of the labels. The default is to use the \code{lab_color} column included in \code{dat}.
-If a custom dataset is provided with \code{dat} without a \code{lab_color} column and without fill, all labels will be black.
+\item{lab_color}{The color of the labels. The default is to use the \code{lab_color} column included in \code{intervals}.
+If a custom dataset is provided with \code{intervals} without a \code{lab_color} column and without fill, all labels will be black.
 Custom label colors can be provided with this option (overriding the \code{lab_color} column) and will be recycled if/as necessary.}
 
 \item{size}{Label size (see \code{cex} in \code{\link[graphics:par]{graphics parameters}}).}
@@ -65,7 +68,18 @@ If \code{abbrv} is \code{TRUE}, this can also include interval abbreviations.}
 
 \item{lwd}{Line width (see \code{lwd} in \code{\link[graphics:par]{graphics parameters}}).}
 
-\item{neg}{Set this to true if your x-axis is using negative values.}
+\item{neg}{Set this to true if your x-axis is using negative values. If the entire
+axis is already negative, this will set to \code{TRUE} for you.}
+
+\item{exact}{Set this to true if you want axis labels placed at the interval boundaries.}
+
+\item{round}{Number of decimal places to which exact axis labels should be rounded (using \code{\link[base]{round}}).
+If no value is specified, the exact values will be used. Trailing zeros are always removed.
+\code{at} and \code{labels} can be used to include labels with trailing zeros.}
+
+\item{at}{Points at which tick marks are to be drawn. Passed to \code{\link[graphics]{axis}}.}
+
+\item{labels}{Labels to be placed at the tickpoints. Passed to \code{\link[graphics]{axis}}.}
 
 \item{...}{Further arguments to pass to \code{\link[graphics]{axis}}.}
 }
@@ -75,21 +89,21 @@ adds an axis to the specified side of of base R plot. The main difference
 is that it also adds a geological timescale between the plot and the axis.
 }
 \details{
-If a custom data.frame is provided (with \code{dat}), it should consist of at least 3 columns of data. See \code{deeptime::periods} for an example.
+If a custom data.frame is provided (with \code{intervals}), it should consist of at least 3 columns of data. See \code{deeptime::periods} for an example.
 \itemize{
 \item The \code{name} column lists the names of each time interval. These will be used as labels if no abbreviations are provided.
-\item The \code{max_age} column lists the oldest boundary of each time interval.
-\item The \code{min_age} column lists the youngest boundary of each time interval.
+\item The \code{max_age} column lists the oldest boundary of each time interval. Values should always be positive.
+\item The \code{min_age} column lists the youngest boundary of each time interval. Values should always be positive.
 \item The \code{abbr} column is optional and lists abbreviations that may be used as labels.
 \item The \code{color} column is also optional and lists a  for the background for each time interval (see the Color Specification section \code{\link[graphics:par]{here}}).
 \item The \code{lab_color} column is also optional and lists a color for the label for each time interval (see the Color Specification section \code{\link[graphics:par]{here}}).
 }
 
-\code{dat} may also be a list if multiple time scales should be added to the plot.
+\code{intervals} may also be a list if multiple time scales should be added to the plot.
 In this case, \code{height}, \code{fill}, \code{lab}, \code{lab_color}, \code{size},
 \code{rot}, \code{abbrv}, \code{center_end_labels}, \code{skip}, \code{bord_color},
 \code{lty}, and \code{lwd} can also be lists.
-If these lists are not as long as \code{dat}, the elements will be recycled.
+If these lists are not as long as \code{intervals}, the elements will be recycled.
 If individual values (or vectors, e.g., for \code{skip}) are used for these parameters, they will be applied to all time scales (and recycled as necessary).
 }
 \examples{
@@ -98,12 +112,12 @@ par(mar = c(5.1, 4.1, 4.1, 2.1)) # default margins
 plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0), xlab = NA, ylab = "Depth (m)")
 box()
 axis(2)
-axis_geo(side = 1, dat = "periods")
+axis_geo(side = 1, intervals = "periods")
 
 #stack multiple scales
 par(mar = c(6.6, 4.1, 4.1, 2.1)) # expanded bottom margin
 plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0), xlab = NA, ylab = "Depth (m)")
 box()
 axis(2)
-axis_geo(side = 1, dat = list("epochs", "periods"))
+axis_geo(side = 1, intervals = list("epochs", "periods"))
 }
