@@ -110,7 +110,24 @@ time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
     return(occdf)
   }
 
-  #--- Method 2: All ---
+  #--- Method 2: Distribution
+  if(method == "dist"){
+
+    # Make dataframe of occurrence max and min ages
+    tmpocc <- (occdf[,c('min_ma', 'max_ma')])
+
+    # For each occurrence max/min age, make probability distribution and sample from it. Record that with each occurrence.
+    for (t in 1:nrow(tmpocc)){
+      test <- seq(tmpocc[t, 1], tmpocc[t, 2], by = 0.1)
+      prob <- dnorm(test, mean = (test[1]+tail(test, 1))/2)
+      occdf$prob[t] <- sample(test, 1, prob = prob)
+    }
+
+    # Cut the probabilities according to the chosen bins, and add to the occurrence bin column.
+    occdf$newbin <- cut(occdf$prob, (c(bins[,2], bins[nrow(bins), 4])), rev(bins[,1]))
+  }
+
+  #--- Method 3: All ---
   if(method == "all"){
 
     # Duplicate rows by number of bins.
@@ -132,7 +149,7 @@ time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
     # Run through occurrences to assign bins under methods "majority", "random" or "dist".
     for(o in 1:length(bin_list)){
 
-      #--- Method 3: Majority ---
+      #--- Method 4: Majority ---
       if(method == "majority"){
 
         # Find the bins that current occurrence appears in and max/min ma of the occurrence.
@@ -158,7 +175,7 @@ time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
         }
       }
 
-      #--- Method 4: Random ---
+      #--- Method 5: Random ---
       else if(method == "random"){
         # Randomly sample from the list of bins that occurrence appears in, and add to the bin column for the occurrence.
         if(length(test_list[[o]]) == 1){
@@ -166,11 +183,6 @@ time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
         } else {
           occdf$newbin[[o]] <- sample(bin_list[[o]], 1)
         }
-      }
-
-      #--- Method 5: Distribution
-      else if(method == "dist"){
-
       }
     }
     assign("occdf", occdf, envir = .GlobalEnv)
