@@ -11,9 +11,9 @@ axis_geo(
   fill = NULL,
   lab = TRUE,
   lab_color = NULL,
-  size = 1,
+  lab_size = 1,
   rot = 0,
-  abbrv = TRUE,
+  abbr = TRUE,
   center_end_labels = TRUE,
   skip = c("Quaternary", "Holocene", "Late Pleistocene"),
   bord_color = "black",
@@ -22,90 +22,97 @@ axis_geo(
   neg = FALSE,
   exact = FALSE,
   round = FALSE,
-  at = NULL,
-  labels = NULL,
+  tick_at = NULL,
+  tick_labels = TRUE,
   ...
 )
 }
 \arguments{
-\item{side}{Which side to add the axis to (\code{1}: bottom, \code{2}: left,
-\code{3}: top, \code{4}: right).}
+\item{side}{\code{integer}. Which side to add the axis to (\code{1}: bottom,
+\code{2}: left, \code{3}: top, \code{4}: right).}
 
-\item{intervals}{Either A) a string indicating a built-in dataframe with
-interval data from the ICS ("periods", "epochs", "stages", "eons", or
-"eras"), B) a string indicating a timescale from macrostrat (see list here:
-\url{https://macrostrat.org/api/defs/timescales?all}),
-or C) a custom data.frame of time interval boundaries (see Details).}
+\item{intervals}{The interval information to use to plot the axis: either A)
+a \code{character} string indicating a built-in or remotely hosted
+\code{data.frame} (see \code{\link[deeptime]{getScaleData}}), or B) a
+custom \code{data.frame} of time interval boundaries (see Details).}
 
-\item{height}{The relative height (or width if \code{side} is \code{2} or
+\item{height}{\code{numeric}. The relative height (or width if \code{side} is \code{2} or
 \code{4}) of the scale. This is relative to the height (if \code{side} is
 \code{1} or \code{3}) or width (if \code{side} is \code{2} or \code{4}) of
 the plot.}
 
-\item{fill}{The fill color of the boxes. The default is to use the
-\code{color} column included in \code{intervals}. If a custom dataset is
-provided with \code{intervals} without a \code{color} column and without
-fill, a greyscale will be used. Custom fill colors can be provided with
-this option (overriding the \code{color} column) and will be recycled if/as
-necessary.}
+\item{fill}{\code{character}. The fill color of the boxes. The default is to
+use the \code{color} column included in \code{intervals}. If a custom
+dataset is provided with \code{intervals} without a \code{color} column and
+without specifying \code{fill}, a greyscale will be used. Custom fill
+colors can be provided with this option (overriding the \code{color}
+column) and will be recycled if/as necessary.}
 
-\item{lab}{Whether to include interval labels.}
+\item{lab}{\code{logical}. Should interval labels be included?}
 
-\item{lab_color}{The color of the labels. The default is to use the
-\code{lab_color} column included in \code{intervals}. If a custom dataset
-is provided with \code{intervals} without a \code{lab_color} column and
-without fill, all labels will be black. Custom label colors can be provided
-with this option (overriding the \code{lab_color} column) and will be
-recycled if/as necessary.}
+\item{lab_color}{\code{character}. The color of the labels. The default is to
+use the \code{lab_color} column included in \code{intervals}. If a custom
+dataset is provided with \code{intervals} without a \code{lab_color} column
+and without specifying \code{lab_color}, all labels will be black. Custom
+label colors can be provided with this option (overriding the
+\code{lab_color} column) and will be recycled if/as necessary.}
 
-\item{size}{Label size (see \code{cex} in \code{\link[graphics:par]{graphics
-parameters}}).}
+\item{lab_size}{\code{numeric}. The size of the labels (see \code{cex} in
+\code{\link[graphics:par]{graphics parameters}}).}
 
-\item{rot}{The amount of counter-clockwise rotation to add to the labels (in
-degrees). Note, labels for axes added to the left or right sides are
-already rotated 90 degrees.}
+\item{rot}{\code{numeric}. The amount of counter-clockwise rotation to add to
+the labels (in degrees). Note, labels for axes added to the left or right
+sides are already rotated 90 degrees.}
 
-\item{abbrv}{If including labels, whether to use abbreviations instead of
-full interval names. This only works if the data has an \code{abbr} column,
-otherwise the \code{name} column will be used regardless of this setting.}
+\item{abbr}{\code{logical}. Should labels be abbreviated? This only works
+if the data has an \code{abbr} column, otherwise the \code{name} column
+will be used regardless of this setting.}
 
-\item{center_end_labels}{Should labels be centered within the visible range
-of intervals at the ends of the axis?}
+\item{center_end_labels}{\code{logical}. Should labels be centered within the
+visible range of intervals at the ends of the axis?}
 
-\item{skip}{A vector of interval names indicating which intervals should not
-be labeled. If \code{abbrv} is \code{TRUE}, this can also include interval
+\item{skip}{A \code{character} vector of interval names indicating which intervals should not
+be labeled. If \code{abbr} is \code{TRUE}, this can also include interval
 abbreviations.}
 
-\item{bord_color}{The border color of the interval boxes.}
+\item{bord_color}{\code{character}. The border color of the interval boxes.}
 
-\item{lty}{Line type (see \code{lty} in \code{\link[graphics:par]{graphics
-parameters}}).}
+\item{lty}{\code{character}. Line type (see \code{lty} in
+\code{\link[graphics:par]{graphics parameters}}).}
 
-\item{lwd}{Line width (see \code{lwd} in \code{\link[graphics:par]{graphics
-parameters}}).}
+\item{lwd}{\code{numeric}. Line width (see \code{lwd} in
+\code{\link[graphics:par]{graphics parameters}}).}
 
-\item{neg}{Set this to true if your x-axis is using negative values. If the
-entire axis is already negative, this will set to \code{TRUE} for you.}
+\item{neg}{\code{logical}. Set this to \code{TRUE} if your x-axis is using
+negative values. If the entire axis is already negative, this will be set
+to \code{TRUE} for you.}
 
-\item{exact}{Set this to true if you want axis labels placed at the interval
-boundaries.}
+\item{exact}{\code{logical}. Set this to \code{TRUE} if you want axis tick
+marks and numeric tick labels placed at the interval boundaries.}
 
-\item{round}{Number of decimal places to which exact axis labels should be
-rounded (using \code{\link[base]{round}}). If no value is specified, the
-exact values will be used. Trailing zeros are always removed. \code{at} and
-\code{labels} can be used to include labels with trailing zeros.}
+\item{round}{\code{integer}. Number of decimal places to which exact axis
+labels should be rounded (using \code{\link[base]{round}}). If no value is
+specified, the exact values will be used. Trailing zeros are always
+removed. \code{tick_at} and \code{tick_labels} can be used to include labels with
+trailing zeros.}
 
-\item{at}{Points at which tick marks are to be drawn. Passed to
+\item{tick_at}{A \code{numeric} vector specifying custom points at which tick
+marks are to be drawn on the axis. If specified, this is passed directly to
+\code{\link[graphics]{axis}}. The default is to compute tick mark locations
+automatically (see \code{\link[graphics]{axTicks}}).}
+
+\item{tick_labels}{Either a) a \code{logical} value specifying whether
+(numerical) annotations should be made at the tick marks specified by
+\code{at}, or b) a custom \code{character} or \code{expression} vector of
+labels to be placed at the tick marks. If \code{at} is specified, this
+argument is passed directly to \code{\link[graphics]{axis}}.}
+
+\item{...}{Further arguments that are passed directly to
 \code{\link[graphics]{axis}}.}
-
-\item{labels}{Labels to be placed at the tickpoints. Passed to
-\code{\link[graphics]{axis}}.}
-
-\item{...}{Further arguments to pass to \code{\link[graphics]{axis}}.}
 }
 \description{
 \code{axis_geo} behaves similarly to \code{\link[graphics]{axis}} in that it
-adds an axis to the specified side of of base R plot. The main difference
+adds an axis to the specified side of a base R plot. The main difference
 is that it also adds a geological timescale between the plot and the axis.
 }
 \details{
@@ -120,7 +127,7 @@ interval. Values should always be positive.
 interval. Values should always be positive.
 \item The \code{abbr} column is optional and lists abbreviations that may
 be used as labels.
-\item The \code{color} column is also optional and lists a  for the
+\item The \code{color} column is also optional and lists a color for the
 background for each time interval (see the Color Specification
 section \code{\link[graphics:par]{here}}).
 \item The \code{lab_color} column is also optional and lists a color for
@@ -130,13 +137,18 @@ the label for each time interval (see the Color Specification section
 
 \code{intervals} may also be a list if multiple time scales should be added
 to the plot. In this case, \code{height}, \code{fill}, \code{lab},
-\code{lab_color}, \code{size}, \code{rot}, \code{abbrv},
+\code{lab_color}, \code{lab_size}, \code{rot}, \code{abbr},
 \code{center_end_labels}, \code{skip}, \code{bord_color}, \code{lty}, and
 \code{lwd} can also be lists. If these lists are not as long as
 \code{intervals}, the elements will be recycled. If individual values
 (or vectors, e.g., for \code{skip}) are used for these parameters, they will
 be applied to all time scales (and recycled as necessary).
 }
+\section{Reviewer(s)}{
+
+Lewis A. Jones
+}
+
 \examples{
 #single scale on bottom
 par(mar = c(5.1, 4.1, 4.1, 2.1)) # default margins

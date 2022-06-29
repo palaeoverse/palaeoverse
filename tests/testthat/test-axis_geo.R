@@ -18,8 +18,8 @@ test_that("axis_geo() works with multiple scales", {
 
     axis(side = 2)
     axis_geo(side = 1, intervals = list("stages", "periods"),
-             at = seq(0, 250, 25), lab = list(FALSE, TRUE),
-             abbrv = FALSE)
+             tick_at = seq(0, 250, 25), lab = list(FALSE, TRUE),
+             abbr = FALSE)
   })
 })
 
@@ -31,12 +31,12 @@ test_that("axis_geo() can be used on multiple sides", {
     box()
 
     axis_geo(side = 1, intervals = list("epochs", "periods"),
-             height = list(.05, .03), at = seq(0, 100, 25))
+             height = list(.05, .03), tick_at = seq(0, 100, 25))
     axis_geo(side = 2, height = list(.03, .05),
              intervals = list("epochs", "periods"), bord_color = "purple",
              center_end_labels = list(FALSE, TRUE), exact = TRUE)
     axis_geo(side = 3, height = list(.03, .05),
-             intervals = list("epochs", "periods"), abbrv = FALSE,
+             intervals = list("epochs", "periods"), abbr = FALSE,
              skip = c("Paleogene", "Holocene", "Pleistocene", "Pliocene",
                       "Quaternary"))
     axis_geo(side = 4, height = list(.04, .03),

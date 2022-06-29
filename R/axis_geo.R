@@ -1,7 +1,7 @@
 #' Add an axis with a geological timescale
 #'
 #' \code{axis_geo} behaves similarly to \code{\link[graphics]{axis}} in that it
-#' adds an axis to the specified side of of base R plot. The main difference
+#' adds an axis to the specified side of a base R plot. The main difference
 #' is that it also adds a geological timescale between the plot and the axis.
 #'
 #' If a custom data.frame is provided (with \code{intervals}), it should consist
@@ -15,7 +15,7 @@
 #'         interval. Values should always be positive.
 #'   \item The \code{abbr} column is optional and lists abbreviations that may
 #'         be used as labels.
-#'   \item The \code{color} column is also optional and lists a  for the
+#'   \item The \code{color} column is also optional and lists a color for the
 #'         background for each time interval (see the Color Specification
 #'         section \code{\link[graphics:par]{here}}).
 #'   \item The \code{lab_color} column is also optional and lists a color for
@@ -25,68 +25,78 @@
 #'
 #' \code{intervals} may also be a list if multiple time scales should be added
 #' to the plot. In this case, \code{height}, \code{fill}, \code{lab},
-#' \code{lab_color}, \code{size}, \code{rot}, \code{abbrv},
+#' \code{lab_color}, \code{lab_size}, \code{rot}, \code{abbr},
 #' \code{center_end_labels}, \code{skip}, \code{bord_color}, \code{lty}, and
 #' \code{lwd} can also be lists. If these lists are not as long as
 #' \code{intervals}, the elements will be recycled. If individual values
 #' (or vectors, e.g., for \code{skip}) are used for these parameters, they will
 #' be applied to all time scales (and recycled as necessary).
-#' @param side Which side to add the axis to (\code{1}: bottom, \code{2}: left,
-#'   \code{3}: top, \code{4}: right).
-#' @param intervals Either A) a string indicating a built-in dataframe with
-#'   interval data from the ICS ("periods", "epochs", "stages", "eons", or
-#'   "eras"), B) a string indicating a timescale from macrostrat (see list here:
-#'   \url{https://macrostrat.org/api/defs/timescales?all}),
-#'   or C) a custom data.frame of time interval boundaries (see Details).
-#' @param height The relative height (or width if \code{side} is \code{2} or
+#'
+#' @param side \code{integer}. Which side to add the axis to (\code{1}: bottom,
+#'   \code{2}: left, \code{3}: top, \code{4}: right).
+#' @param intervals The interval information to use to plot the axis: either A)
+#'   a \code{character} string indicating a built-in or remotely hosted
+#'   \code{data.frame} (see \code{\link[deeptime]{getScaleData}}), or B) a
+#'   custom \code{data.frame} of time interval boundaries (see Details).
+#' @param height \code{numeric}. The relative height (or width if \code{side} is \code{2} or
 #'   \code{4}) of the scale. This is relative to the height (if \code{side} is
 #'   \code{1} or \code{3}) or width (if \code{side} is \code{2} or \code{4}) of
 #'   the plot.
-#' @param fill The fill color of the boxes. The default is to use the
-#'   \code{color} column included in \code{intervals}. If a custom dataset is
-#'   provided with \code{intervals} without a \code{color} column and without
-#'   fill, a greyscale will be used. Custom fill colors can be provided with
-#'   this option (overriding the \code{color} column) and will be recycled if/as
-#'   necessary.
-#' @param lab Whether to include interval labels.
-#' @param lab_color The color of the labels. The default is to use the
-#'   \code{lab_color} column included in \code{intervals}. If a custom dataset
-#'   is provided with \code{intervals} without a \code{lab_color} column and
-#'   without fill, all labels will be black. Custom label colors can be provided
-#'   with this option (overriding the \code{lab_color} column) and will be
-#'   recycled if/as necessary.
-#' @param size Label size (see \code{cex} in \code{\link[graphics:par]{graphics
-#'   parameters}}).
-#' @param rot The amount of counter-clockwise rotation to add to the labels (in
-#'   degrees). Note, labels for axes added to the left or right sides are
-#'   already rotated 90 degrees.
-#' @param abbrv If including labels, whether to use abbreviations instead of
-#'   full interval names. This only works if the data has an \code{abbr} column,
-#'   otherwise the \code{name} column will be used regardless of this setting.
-#' @param center_end_labels Should labels be centered within the visible range
-#'   of intervals at the ends of the axis?
-#' @param skip A vector of interval names indicating which intervals should not
-#'   be labeled. If \code{abbrv} is \code{TRUE}, this can also include interval
+#' @param fill \code{character}. The fill color of the boxes. The default is to
+#'   use the \code{color} column included in \code{intervals}. If a custom
+#'   dataset is provided with \code{intervals} without a \code{color} column and
+#'   without specifying \code{fill}, a greyscale will be used. Custom fill
+#'   colors can be provided with this option (overriding the \code{color}
+#'   column) and will be recycled if/as necessary.
+#' @param lab \code{logical}. Should interval labels be included?
+#' @param lab_color \code{character}. The color of the labels. The default is to
+#'   use the \code{lab_color} column included in \code{intervals}. If a custom
+#'   dataset is provided with \code{intervals} without a \code{lab_color} column
+#'   and without specifying \code{lab_color}, all labels will be black. Custom
+#'   label colors can be provided with this option (overriding the
+#'   \code{lab_color} column) and will be recycled if/as necessary.
+#' @param lab_size \code{numeric}. The size of the labels (see \code{cex} in
+#'   \code{\link[graphics:par]{graphics parameters}}).
+#' @param rot \code{numeric}. The amount of counter-clockwise rotation to add to
+#'   the labels (in degrees). Note, labels for axes added to the left or right
+#'   sides are already rotated 90 degrees.
+#' @param abbr \code{logical}. Should labels be abbreviated? This only works
+#'   if the data has an \code{abbr} column, otherwise the \code{name} column
+#'   will be used regardless of this setting.
+#' @param center_end_labels \code{logical}. Should labels be centered within the
+#'   visible range of intervals at the ends of the axis?
+#' @param skip A \code{character} vector of interval names indicating which intervals should not
+#'   be labeled. If \code{abbr} is \code{TRUE}, this can also include interval
 #'   abbreviations.
-#' @param bord_color The border color of the interval boxes.
-#' @param lty Line type (see \code{lty} in \code{\link[graphics:par]{graphics
-#'   parameters}}).
-#' @param lwd Line width (see \code{lwd} in \code{\link[graphics:par]{graphics
-#'   parameters}}).
-#' @param neg Set this to true if your x-axis is using negative values. If the
-#'   entire axis is already negative, this will set to \code{TRUE} for you.
-#' @param exact Set this to true if you want axis labels placed at the interval
-#'   boundaries.
-#' @param round Number of decimal places to which exact axis labels should be
-#'   rounded (using \code{\link[base]{round}}). If no value is specified, the
-#'   exact values will be used. Trailing zeros are always removed. \code{at} and
-#'   \code{labels} can be used to include labels with trailing zeros.
-#' @param at Points at which tick marks are to be drawn. Passed to
+#' @param bord_color \code{character}. The border color of the interval boxes.
+#' @param lty \code{character}. Line type (see \code{lty} in
+#'   \code{\link[graphics:par]{graphics parameters}}).
+#' @param lwd \code{numeric}. Line width (see \code{lwd} in
+#'   \code{\link[graphics:par]{graphics parameters}}).
+#' @param neg \code{logical}. Set this to \code{TRUE} if your x-axis is using
+#'   negative values. If the entire axis is already negative, this will be set
+#'   to \code{TRUE} for you.
+#' @param exact \code{logical}. Set this to \code{TRUE} if you want axis tick
+#'   marks and numeric tick labels placed at the interval boundaries.
+#' @param round \code{integer}. Number of decimal places to which exact axis
+#'   labels should be rounded (using \code{\link[base]{round}}). If no value is
+#'   specified, the exact values will be used. Trailing zeros are always
+#'   removed. \code{tick_at} and \code{tick_labels} can be used to include labels with
+#'   trailing zeros.
+#' @param tick_at A \code{numeric} vector specifying custom points at which tick
+#'   marks are to be drawn on the axis. If specified, this is passed directly to
+#'   \code{\link[graphics]{axis}}. The default is to compute tick mark locations
+#'   automatically (see \code{\link[graphics]{axTicks}}).
+#' @param tick_labels Either a) a \code{logical} value specifying whether
+#'   (numerical) annotations should be made at the tick marks specified by
+#'   \code{at}, or b) a custom \code{character} or \code{expression} vector of
+#'   labels to be placed at the tick marks. If \code{at} is specified, this
+#'   argument is passed directly to \code{\link[graphics]{axis}}.
+#' @param ... Further arguments that are passed directly to
 #'   \code{\link[graphics]{axis}}.
-#' @param labels Labels to be placed at the tickpoints. Passed to
-#'   \code{\link[graphics]{axis}}.
-#' @param ... Further arguments to pass to \code{\link[graphics]{axis}}.
 #' @author William Gearty & Kilian Eichenseer
+#' @section Reviewer(s):
+#'   Lewis A. Jones
 #' @importFrom graphics rect text clip axis par
 #' @importFrom deeptime getScaleData
 #' @importFrom methods is
@@ -112,15 +122,15 @@ axis_geo <- function(
     # fill arguments:
     fill = NULL,
     # label arguments:
-    lab = TRUE, lab_color = NULL, size = 1, rot = 0, abbrv = TRUE,
+    lab = TRUE, lab_color = NULL, lab_size = 1, rot = 0, abbr = TRUE,
     center_end_labels = TRUE,
     skip = c("Quaternary", "Holocene", "Late Pleistocene"),
     # rect border arguments:
     bord_color = "black", lty = par("lty"), lwd = par("lwd"),
     # applied to the entire axis:
     neg = FALSE, exact = FALSE, round = FALSE,
-    # passed on to axis():
-    at = NULL, labels = NULL, ...
+    # passed to axis():
+    tick_at = NULL, tick_labels = TRUE, ...
     ) {
   intervals <- make_list(intervals)
   n_scales <- length(intervals)
@@ -129,9 +139,9 @@ axis_geo <- function(
   fill <- rep(make_list(fill), length.out = n_scales)
   lab <- rep(make_list(lab), length.out = n_scales)
   lab_color <- rep(make_list(lab_color), length.out = n_scales)
-  size <- rep(make_list(size), length.out = n_scales)
+  lab_size <- rep(make_list(lab_size), length.out = n_scales)
   rot <- rep(make_list(rot), length.out = n_scales)
-  abbrv <- rep(make_list(abbrv), length.out = n_scales)
+  abbr <- rep(make_list(abbr), length.out = n_scales)
   skip <- rep(make_list(skip), length.out = n_scales)
   center_end_labels <- rep(make_list(center_end_labels), length.out = n_scales)
   bord_color <- rep(make_list(bord_color), length.out = n_scales)
@@ -218,7 +228,7 @@ axis_geo <- function(
     } else if (!("lab_color" %in% colnames(scale_intervals))) {
       scale_intervals$lab_color <- "black"
     }
-    if (abbrv[[scale]] && "abbr" %in% colnames(scale_intervals)) {
+    if (abbr[[scale]] && "abbr" %in% colnames(scale_intervals)) {
       scale_intervals$label <- scale_intervals$abbr
       scale_intervals$label[scale_intervals$abbr %in% skip] <- ""
     } else {
@@ -270,20 +280,20 @@ axis_geo <- function(
             (ends[ends < max(lims) & ends > min(lims)] + min(lims)) / 2
         }
       }
-      scale_size <- size[[scale]]
+      scale_lab_size <- lab_size[[scale]]
       scale_rot <- rot[[scale]]
       if (side %in% c(1, 3)) {
         text(x = scale_intervals$mid_age,
              y = (scale_lims[3] + scale_lims[4]) / 2,
              adj = c(0.5, 0.5), labels = scale_intervals$label,
              col = scale_intervals$lab_color, srt = scale_rot,
-             cex = scale_size)
+             cex = scale_lab_size)
       } else {
         text(y = scale_intervals$mid_age,
              x = (scale_lims[1] + scale_lims[2]) / 2,
              adj = c(0.5, 0.5), labels = scale_intervals$label,
              col = scale_intervals$lab_color, srt = 90 + scale_rot,
-             cex = scale_size)
+             cex = scale_lab_size)
       }
     }
 
@@ -312,23 +322,23 @@ axis_geo <- function(
 
 
   # use interval boundaries if `exact` is TRUE
-  if (exact == TRUE && is.null(at)) {
+  if (exact == TRUE && is.null(tick_at)) {
     # Use the interval breaks from the outer-most scale
-    at <- unique(c(scale_intervals$min_age, scale_intervals$max_age))
+    tick_at <- unique(c(scale_intervals$min_age, scale_intervals$max_age))
     if (is.numeric(round)) {
-      labels <- round(at, round)
+      tick_labels <- round(tick_at, round)
     } else {
-      labels <- as.character(at) # removes trailing zeros
+      tick_labels <- as.character(tick_at) # removes trailing zeros
     }
   }
   if (side == 1) {
-    axis(side = side, pos = clip_lims[3], at = at, labels = labels, ...)
+    axis(side = side, pos = clip_lims[3], at = tick_at, labels = tick_labels, ...)
   } else if (side == 2) {
-    axis(side = side, pos = clip_lims[1], at = at, labels = labels, ...)
+    axis(side = side, pos = clip_lims[1], at = tick_at, labels = tick_labels, ...)
   } else if (side == 3) {
-    axis(side = side, pos = clip_lims[4], at = at, labels = labels, ...)
+    axis(side = side, pos = clip_lims[4], at = tick_at, labels = tick_labels, ...)
   } else if (side == 4) {
-    axis(side = side, pos = clip_lims[2], at = at, labels = labels, ...)
+    axis(side = side, pos = clip_lims[2], at = tick_at, labels = tick_labels, ...)
   }
   # place an axis label as well?
 
