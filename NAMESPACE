@@ -3,5 +3,6 @@
 export(lat_bins)
 export(lat_plot)
 export(palaeorotate)
+export(time_binning)
 export(time_bins)
 export(tplot)

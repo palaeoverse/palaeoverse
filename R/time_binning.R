@@ -1,33 +1,52 @@
-#' Add occurrences to time bins
+#' Assign occurrences to time bins
 #'
-#' A function to
+#' A function to blah blah blah
 #'
-#' @param
+#' @param occdf \code{dataframe}. Add info here.
+#' @param bins \code{dataframe}. Add info here.
+#' @param method \code{character}. Add info here.
+#' @param reps \code{integer}. Add info here.
+#' @param scale \code{character}. Specify the desired geological timescale to be used "GTS2020" or "GTS2012".
+#' This argument is only relevant if "min_ma" and "max_ma" columns are interval names. The function will attempt
+#' to match supplied interval names with "GTS2020" or "GTS2012" to pull numeric boundary values for the interval.
+#' Note that the function will throw an error if interval names do not match precisely. Available interval names can
+#' be access via the call GTS2020$interval_name or GTS2012$interval_name. "GTS2020" is the default option.
+#' @param return_error \code{logical}. Add info here.
 #'
 #' @return A \code{dataframe} of time bins for a specified interval or a list with a \code{dataframe} of time bins and \code{numeric} of binned age estimates (midpoint of specified
 #' bins) if assign specified.
 #'
-#' @details
-#' @section Developer:
+#' @details Add details here
+#' @section Developer(s):
 #' Christopher D. Dean & Lewis A. Jones
-#' @section Auditor:
-#' To be validated
+#' @section Reviewer(s):
+#' To be reviewed
 #' @examples
-
+#' Add usage examples
 #' @export
-
-time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
+time_binning <- function(occdf, bins, method = "mid", reps = 100, scale = "GTS2020", return_error = FALSE){
 
   #=== Handling errors ===
   if (is.data.frame(occdf) == FALSE) {
-    stop("Occdf should be a dataframe.")
+    stop("`occdf` should be a dataframe.")
   }
   if (is.data.frame(bins) == FALSE) {
-    stop("Bins should be a dataframe.")
+    stop("`bins` should be a dataframe.")
   }
-  TYPE <- c("all", "majority", "random", "dist", "mid")
-  if (is.na(pmatch(method, TYPE))){
-    stop("Invalid drawing method. Choose either 'all', 'majority', 'random', 'dist', or 'mid'.") # If the user has entered a non-valid term for the "method" argument, generate an error and warn the user.
+  if (method %in% c("all", "majority", "random", "point", "mid") == FALSE){
+    stop("Invalid `method`. Choose either 'all', 'majority', 'random', 'point', or 'mid'.") # If the user has entered a non-valid term for the "method" argument, generate an error and warn the user.
+  }
+  if(scale %in% c("GTS2020", "GTS2012") == FALSE){
+    stop("Invalid `scale`. Choose either 'GTS2020' or 'GTS2012'")
+  }
+  if(is.numeric(reps) == FALSE){
+    stop("Invalid `reps`. Choose an numeric value.")
+  }
+  if(is.logical(return_error) == FALSE){
+    stop("Invalid `return_error`. Choose a logical value (i.e. TRUE or FALSE).")
+  }
+  if(class(occdf$max_ma) != class(occdf$min_ma)){
+    stop("Invalid occdf$max_ma or occdf$min_ma. Columns should be of the same class.")
   }
 
   #=== Sorting non-numeric age designations ===
@@ -37,60 +56,60 @@ time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
     if(scale == "GTS2020"){df <- palaeoverse::GTS2020}
     if(scale == "GTS2012"){df <- palaeoverse::GTS2012}
 
-    # Merge dataframes.
-    occdf <- merge(occdf, df[,c(5,7)], by.x = "max_ma", by.y = "interval_name", all.x = TRUE, ) # Merge dataframes by interval name.
-
-    # re-name columns to work with rest of function.
+    # Re-name columns to work with rest of function.
     names(occdf)[names(occdf) == "max_ma"] <- "max_interval"
-    names(occdf)[names(occdf) == "max_ma.y"] <- "max_ma"
-
-    # Merge dataframes.
-    occdf <- merge(occdf, df[,c(5,9)], by.x = "min_ma", by.y = "interval_name", all.x = TRUE)
-
-    # re-name columns to work with rest of function.
     names(occdf)[names(occdf) == "min_ma"] <- "min_interval"
-    names(occdf)[names(occdf) == "min_ma.y"] <- "min_ma"
+
+    # Merge dataframes (max ma)
+    occdf <- merge(x = occdf, y = df[,c("interval_name","max_ma")],
+                   by.x = "max_interval", by.y = "interval_name", all.x = TRUE)
+
+    # Merge dataframes (min ma)
+    occdf <- merge(x = occdf, y = df[,c("interval_name","min_ma")],
+                   by.x = "min_interval", by.y = "interval_name", all.x = TRUE)
 
     # If not all intervals can be matched, produce error report and message to fix spellings.
-    if(sum(is.na(occdf$min_ma)) > 0 | sum(is.na(occdf$max_ma)) > 0){
-      error_df <- occdf[rowSums(is.na(occdf)) > 0,]
-      stop(paste(c("Unable to match interval to numeric value for all occurrences. Check interval spelling for occurrences listed below.
-      Intervals names are accessible via GTS2020$interval_name and GTS2012$interval_name.
-     ",
-                   capture.output(print(error_df, row.names = FALSE))),
-                 collapse = "\n"))
-    }
+    if(any(is.na(occdf$min_ma)) == TRUE | any(is.na(occdf$max_ma)) == TRUE){
+      # Generate error vector
+      error_vec <- which(is.na(occdf$min_ma) | is.na(occdf$max_ma))
+      # return error message
+      stop(paste(c("Unable to match interval to numeric value for all occurrences.
+Intervals names are accessible via GTS2020$interval_name and GTS2012$interval_name.
+Please check interval spelling for the following rows in `occdf` (note: an error
+vector can be returned with the `return_error` argument):",
+                   capture.output(print(error_vec))),
+                                  collapse = "\n"),
+           # Should an error vector be returned to the user?
+           if(return_error == TRUE){
+             return(error_vec)
+           })
   }
-
+}
 
   #=== Reporting Info ===
 
   # Make an empty list that's the length of the occurrence dataframe.
   bin_list <- list()
-  bin_list <- sapply(occdf$occname,function(x) NULL)
+  bin_list <- sapply(1:nrow(occdf),function(x) NULL)
 
   # For each occurrence, find all the bins that it is present within, and add as elements to that part of the list.
-  for(o in 1:nrow(occdf)){
-    tracker <- 0
-    for(b in 1:nrow(bins)){
-      if(occdf$max_ma[o] > bins$min_ma[b] &&
-         occdf$min_ma[o] < bins$max_ma[b]){
-        tracker <- tracker + 1
-        bin_list[[o]][tracker] <- bins$bin[b]
-      }
+  for(i in 1:nrow(bins)){
+    v <- which(occdf$max_ma > bins$min_ma[i] & occdf$min_ma < bins$max_ma[i])
+    for(j in v){
+      bin_list[[j]] <- append(bin_list[[j]], bins$bin[i])
     }
   }
 
+  # Generate id column for data (this is for tracking duplicate rows).
+  id <- 1:nrow(occdf)
+  occdf$id <- id
+
   # Generate empty column for recording number of bins an occurrence appears in, and an empty column for the new bin allocation.
   occdf$n_bins <- NA
-  occdf$newbin <- NA
+  occdf$bin_assignment <- NA
 
   # Assign number of bins per occurrence.
   occdf$n_bins <- lengths(bin_list)
-
-  # Generate temporary id column for data (this is for tracking duplicate rows).
-  id <- 1:nrow(occdf)
-  occdf$id <- id
 
   #=== Methods ===
 
@@ -98,33 +117,35 @@ time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
   if(method == "mid"){
 
     # If no mid point is present for occurrence age range, add one in a new column.
-    if(("mid_ma" %in% colnames(occdf)) == 0){
+    if(("mid_ma" %in% colnames(occdf)) == FALSE){
       occdf$mid_ma <- (occdf$max_ma + occdf$min_ma) / 2
     }
 
-    # Cut the midpoints according to the chosen bins, and add to the occurrence bin column.
-    occdf$newbin <- cut(occdf$mid_ma, (c(bins[,2], bins[nrow(bins), 4])), rev(bins[,1]))
+    # Assign bin based on midpoint age of the age range
+    for(i in 1:nrow(bins)){
+      v <- which(occdf$mid_ma > bins$min_ma[i] & occdf$mid_ma < bins$max_ma[i])
+      occdf$bin_assignment[v] <- bins$bin[i]
+      }
 
     # Return the dataframe and end the function.
-    assign("occdf", occdf, envir = .GlobalEnv)
     return(occdf)
   }
 
-  #--- Method 2: Distribution
-  if(method == "dist"){
+  #--- Method 2: Point estimates ---
+  if(method == "point"){
 
-    # Make dataframe of occurrence max and min ages
-    tmpocc <- (occdf[,c('min_ma', 'max_ma')])
+    # Rename bin assignment column for point estimates
+    names(occdf)[names(occdf) == "bin_assignment"] <- "point_estimates"
 
     # For each occurrence max/min age, make probability distribution and sample from it. Record that with each occurrence.
-    for (t in 1:nrow(tmpocc)){
-      test <- seq(tmpocc[t, 1], tmpocc[t, 2], by = 0.1)
-      prob <- dnorm(test, mean = (test[1]+tail(test, 1))/2)
-      occdf$prob[t] <- sample(test, 1, prob = prob)
+    for (i in 1:nrow(occdf)){
+      occ_seq <- seq(occdf[i, "min_ma"], occdf[i, "max_ma"], by = 0.01)
+      prob <- dnorm(occ_seq, mean = median(occ_seq))
+      estimates <- sample(x = occ_seq, size = reps, replace = TRUE, prob = prob)
+      if(reps == 1){occdf$point_estimates[i] <- estimates}
+      else{occdf$point_estimates[i] <- list(estimates)}
     }
-
-    # Cut the probabilities according to the chosen bins, and add to the occurrence bin column.
-    occdf$newbin <- cut(occdf$prob, (c(bins[,2], bins[nrow(bins), 4])), rev(bins[,1]))
+    return(occdf)
   }
 
   #--- Method 3: All ---
@@ -136,56 +157,46 @@ time_binning <- function(occdf, bins, method = "mid", scale = "GTS2020"){
     # Use id to track unique rows and update bin numbers.
     for(i in id){
       id_vec <- which(occdf$id == i)
-      vec <- bin_list[[i]]
-      occdf$newbin[id_vec] <- bins$bin[vec]
+      occdf$bin_assignment[id_vec] <- bin_list[[i]]
     }
 
     # Return the dataframe and end the function.
-    assign("occdf", occdf, envir = .GlobalEnv)
     return(occdf)
   }
 
-  else{
-    # Run through occurrences to assign bins under methods "majority", "random" or "dist".
-    for(o in 1:length(bin_list)){
+  #--- Method 4: Majority ---
+  if(method == "majority"){
 
-      #--- Method 4: Majority ---
-      if(method == "majority"){
+    occdf$overlap_percentage <- NA
 
-        # Find the bins that current occurrence appears in and max/min ma of the occurrence.
-        tmpbin <- bins[bins$bin %in% bin_list[[o]], ]
-        tmpocc <- occdf[o,c('occname', 'min_ma', 'max_ma')]
-
-        # Change column name to allow bind of dataframes and then add the occurrence to the bins that it appears in.
-        colnames(tmpocc)[1] <- 'bin'
-        df <- rbind(tmpocc, tmpbin[,c('bin', 'min_ma','max_ma')])
-
-        # Produce table of percentages of overlap between bins and occurrence. First column shows percentage overlap between occurrence range and bin ranges.
-        out <- 100 * with(df, t((outer(max_ma, max_ma, pmin) - outer(min_ma, min_ma, pmax)) / (max_ma - min_ma)))
-
-        # Add col/row names and remove first row which records the occurrence (and so always has the highest overlap).
-        # Then find the bin with the largest overlap, and add to the bin column for the occurrence.
-        dimnames(out) <- list(df$bin, df$bin)
-        if(nrow(out) == 2){
-          occdf$newbin[[o]] <- as.numeric(rownames(out))[2]
-        }
-        else{
-          out <- out[-1,]
-          occdf$newbin[[o]] <- as.numeric(rownames(out)[which.max(out[,1])])
-        }
+    # Run across bin list
+    for (i in 1:length(bin_list)){
+      # Dataframe of bins occurrence known to occur in
+      tmpbin <- bins[bins$bin %in% bin_list[[i]],]
+      # Generate sequence of length 1000 for percentage calculations
+      occ_seq <- seq(occdf[i, "min_ma"], occdf[i, "max_ma"], length.out = 10000)
+      # Calculate overlap across known bins
+      percentage <- vector()
+      for(j in 1:nrow(tmpbin)){
+        percentage[j] <- (length(which(occ_seq >= tmpbin$min_ma[j] & occ_seq <= tmpbin$max_ma[j]))/10000)*100
       }
-
-      #--- Method 5: Random ---
-      else if(method == "random"){
-        # Randomly sample from the list of bins that occurrence appears in, and add to the bin column for the occurrence.
-        if(length(test_list[[o]]) == 1){
-          occdf$newbin[[o]] <- test_list[[o]]
-        } else {
-          occdf$newbin[[o]] <- sample(bin_list[[o]], 1)
-        }
-      }
+      occdf[i, "bin_assignment"] <- tmpbin$bin[which.max(percentage)]
+      occdf[i, "overlap_percentage"] <- percentage[which.max(percentage)]
     }
-    assign("occdf", occdf, envir = .GlobalEnv)
     return(occdf)
   }
+
+  #--- Method 5: Random ---
+  if(method == "random"){
+  # Randomly sample from the list of bins that occurrence appears in, and add to the bin column for the occurrence.
+    for (i in 1:length(bin_list)){
+      # Dataframe of bins occurrence known to occur in
+      tmpbin <- bins[bins$bin %in% bin_list[[i]], ]
+      # Sample bin
+      rsamp <- sample(x = tmpbin$bin, size = reps, replace = TRUE)
+      if(reps == 1){occdf$bin_assignment[i] <- rsamp}
+      else{occdf$bin_assignment[i] <- list(rsamp)}
+    }
+    return(occdf)
+    }
 }
