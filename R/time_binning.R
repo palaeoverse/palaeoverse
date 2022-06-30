@@ -192,10 +192,20 @@ vector can be returned with the `return_error` argument):",
     for (i in 1:length(bin_list)){
       # Dataframe of bins occurrence known to occur in
       tmpbin <- bins[bins$bin %in% bin_list[[i]], ]
-      # Sample bin
-      rsamp <- sample(x = tmpbin$bin, size = reps, replace = TRUE)
-      if(reps == 1){occdf$bin_assignment[i] <- rsamp}
-      else{occdf$bin_assignment[i] <- list(rsamp)}
+
+      # If occurrence only appears in one bin
+      if(length(bin_list[[i]]) == 1){
+        if(reps == 1){occdf$bin_assignment[i] <- bin_list[[i]]}
+        else{
+          rsamp <- list(rep(x = bin_list[[i]], times = reps))
+          occdf$bin_assignment[i] <- rsamp
+        }
+      } else {
+        # Sample bin
+        rsamp <- sample(x = tmpbin$bin, size = reps, replace = TRUE)
+        if(reps == 1){occdf$bin_assignment[i] <- rsamp}
+        else{occdf$bin_assignment[i] <- list(rsamp)}
+      }
     }
     return(occdf)
     }
