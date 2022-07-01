@@ -118,10 +118,20 @@ argument is passed directly to \code{\link[graphics]{axis}}.}
 \code{axis_geo} behaves similarly to \code{\link[graphics]{axis}} in that it
 adds an axis to the specified side of a base R plot. The main difference
 is that it also adds a geological timescale between the plot and the axis.
+The default scale includes international \code{\link[deeptime]{periods}} from
+ICS. However, international \code{\link[deeptime]{epochs}},
+\code{\link[deeptime]{stages}}, \code{\link[deeptime]{eons}}, and
+\code{\link[deeptime]{eras}} and any interval data hosted by Macrostrat are
+also available from the \code{deeptime} package (see
+\code{\link[deeptime]{getScaleData}}). A custom interval dataset can also
+be provided (see Details below). The appearance of the axis is highly
+customizable (see Usage below), with the intent that plots will be
+publication-ready.
 }
 \details{
-If a custom data.frame is provided (with \code{intervals}), it should consist
-of at least 3 columns of data. See \code{deeptime::periods} for an example.
+If a custom \code{data.frame} is provided (with \code{intervals}), it should
+consist of at least 3 columns of data. See \code{deeptime::periods} for an
+example.
 \itemize{
 \item The \code{name} column lists the names of each time interval. These
 will be used as labels if no abbreviations are provided.
@@ -140,13 +150,15 @@ the label for each time interval (see the Color Specification section
 }
 
 \code{intervals} may also be a list if multiple time scales should be added
-to the plot. In this case, \code{height}, \code{fill}, \code{lab},
-\code{lab_color}, \code{lab_size}, \code{rot}, \code{abbr},
+to a single side of the plot. In this case, \code{height}, \code{fill},
+\code{lab}, \code{lab_color}, \code{lab_size}, \code{rot}, \code{abbr},
 \code{center_end_labels}, \code{skip}, \code{bord_color}, \code{lty}, and
 \code{lwd} can also be lists. If these lists are not as long as
 \code{intervals}, the elements will be recycled. If individual values
 (or vectors, e.g., for \code{skip}) are used for these parameters, they will
-be applied to all time scales (and recycled as necessary).
+be applied to all time scales (and recycled as necessary). If multiple scales
+are requested they will be added sequentially outwards starting from the plot
+border. The axis will always be placed on the outside of the last scale.
 }
 \section{Authors}{
 
