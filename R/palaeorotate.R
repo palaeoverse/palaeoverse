@@ -45,6 +45,7 @@
 #' @section Auditor:
 #' Missing
 #' @examples
+#' \dontrun{
 #' #Generic example with a few occurrences
 #' x <- data.frame(lng = c(2, 95, 12), lat = c(46, 12, -65), age = c(88, 203, 467))
 #' palaeorotate(x = x)
@@ -63,6 +64,7 @@
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
 #' palaeorotate(x = x, uncertainty = TRUE)
+#' }
 #' @export
 palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
     #error handling
