@@ -7,11 +7,11 @@ test_that("time_bins() works", {
 
   #correct amount of data returned
   expect_equal(nrow(time_bins(interval = c("Maastrichtian"))), 1)
-  expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"), size = 10)), 50)
-  expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"), size = 6)), 76)
+  expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"), size = 10)), 52)
+  expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"), size = 6)), 74)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"), scale = "GTS2020")), 102)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Holocene"), scale = "GTS2012")), 100)
-  expect_equal(nrow(time_bins(interval = c("Fortunian", "Holocene"), scale = "GTS2012", size = 10)), 51)
+  expect_equal(nrow(time_bins(interval = c("Fortunian", "Holocene"), scale = "GTS2012", size = 10)), 52)
   expect_true(is.list(time_bins(interval = c("Fortunian", "Holocene"), scale = "GTS2012", assign = c(232, 167, 33), plot = FALSE)))
   expect_equal(nrow(time_bins(interval = c(500, 0), scale = "GTS2012")), 94)
   expect_equal(nrow(time_bins(interval = "Mesozoic", scale = "GTS2012", plot = TRUE)), 1)
