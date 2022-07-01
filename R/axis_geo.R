@@ -50,10 +50,10 @@
 #'   a \code{character} string indicating a built-in or remotely hosted
 #'   \code{data.frame} (see \code{\link[deeptime]{getScaleData}}), or B) a
 #'   custom \code{data.frame} of time interval boundaries (see Details).
-#' @param height \code{numeric}. The relative height (or width if \code{side} is \code{2} or
-#'   \code{4}) of the scale. This is relative to the height (if \code{side} is
-#'   \code{1} or \code{3}) or width (if \code{side} is \code{2} or \code{4}) of
-#'   the plot.
+#' @param height \code{numeric}. The relative height (or width if \code{side} is
+#'   \code{2} or \code{4}) of the scale. This is relative to the height (if
+#'   \code{side} is \code{1} or \code{3}) or width (if \code{side} is \code{2}
+#'   or \code{4}) of the plot.
 #' @param fill \code{character}. The fill color of the boxes. The default is to
 #'   use the \code{color} column included in \code{intervals}. If a custom
 #'   dataset is provided with \code{intervals} without a \code{color} column and
@@ -77,9 +77,9 @@
 #'   will be used regardless of this setting.
 #' @param center_end_labels \code{logical}. Should labels be centered within the
 #'   visible range of intervals at the ends of the axis?
-#' @param skip A \code{character} vector of interval names indicating which intervals should not
-#'   be labeled. If \code{abbr} is \code{TRUE}, this can also include interval
-#'   abbreviations.
+#' @param skip A \code{character} vector of interval names indicating which
+#'   intervals should not be labeled. If \code{abbr} is \code{TRUE}, this can
+#'   also include interval abbreviations.
 #' @param bord_color \code{character}. The border color of the interval boxes.
 #' @param lty \code{character}. Line type (see \code{lty} in
 #'   \code{\link[graphics:par]{graphics parameters}}).
@@ -95,8 +95,8 @@
 #' @param round \code{integer}. Number of decimal places to which exact axis
 #'   labels should be rounded (using \code{\link[base]{round}}). If no value is
 #'   specified, the exact values will be used. Trailing zeros are always
-#'   removed. \code{tick_at} and \code{tick_labels} can be used to include labels with
-#'   trailing zeros.
+#'   removed. \code{tick_at} and \code{tick_labels} can be used to include
+#'   labels with trailing zeros.
 #' @param tick_at A \code{numeric} vector specifying custom points at which tick
 #'   marks are to be drawn on the axis. If specified, this is passed directly to
 #'   \code{\link[graphics]{axis}}. The default is to compute tick mark locations
@@ -415,13 +415,17 @@ axis_geo <- function(
     }
   }
   if (side == 1) {
-    axis(side = side, pos = clip_lims[3], at = tick_at, labels = tick_labels, ...)
+    axis(side = side, pos = clip_lims[3], at = tick_at, labels = tick_labels,
+         ...)
   } else if (side == 2) {
-    axis(side = side, pos = clip_lims[1], at = tick_at, labels = tick_labels, ...)
+    axis(side = side, pos = clip_lims[1], at = tick_at, labels = tick_labels,
+         ...)
   } else if (side == 3) {
-    axis(side = side, pos = clip_lims[4], at = tick_at, labels = tick_labels, ...)
+    axis(side = side, pos = clip_lims[4], at = tick_at, labels = tick_labels,
+         ...)
   } else if (side == 4) {
-    axis(side = side, pos = clip_lims[2], at = tick_at, labels = tick_labels, ...)
+    axis(side = side, pos = clip_lims[2], at = tick_at, labels = tick_labels,
+         ...)
   }
   # place an axis label as well?
   # both mtext() and title() use lines instead of coordinates, which makes
