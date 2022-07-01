@@ -20,6 +20,7 @@ test_that("time_bins() works", {
   expect_error(time_bins(interval = "Mastrichtian", scale = "GTS2012", plot = TRUE))
   expect_error(time_bins(interval = "Mastrichtian", scale = "2012", plot = TRUE))
   expect_error(time_bins(interval = -1, plot = TRUE))
+  expect_error(time_bins(interval = data.frame()))
   expect_error(time_bins(interval = c(50, 10, 20), plot = TRUE))
   expect_error(time_bins(interval = "Mesozoic", plot = "TRUE"))
   expect_error(time_bins(interval = "Mesozoic", assign = 40))

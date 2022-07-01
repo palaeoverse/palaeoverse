@@ -46,6 +46,10 @@
 #' @export
 time_bins <- function(interval = c("Fortunian", "Meghalayan"), size = NULL, assign = NULL, scale = "GTS2020", plot = FALSE){
   #error handling
+  if (class(interval) != "character" & class(interval) != "numeric") {
+    stop("`interval` must be of class 'character' or 'numeric'")
+  }
+
   if (is.numeric(size) == FALSE & is.null(size) == FALSE) {
     stop("Size should be a numeric or NULL")
   }
