@@ -94,8 +94,9 @@
 #'   argument is passed directly to \code{\link[graphics]{axis}}.
 #' @param ... Further arguments that are passed directly to
 #'   \code{\link[graphics]{axis}}.
-#' @author William Gearty & Kilian Eichenseer
-#' @section Reviewer(s):
+#' @section Authors:
+#'   William Gearty & Kilian Eichenseer
+#' @section Reviewer:
 #'   Lewis A. Jones
 #' @importFrom graphics rect text clip axis par
 #' @importFrom deeptime getScaleData
@@ -170,21 +171,25 @@ axis_geo <- function(
   height_sum <- do.call(sum, height)
   if (side == 1) {
     clip_lims[3] <- plot_lims[3] - height_sum
+    clip_lims[4] <- plot_lims[3]
   } else if (side == 2) {
     clip_lims[1] <- plot_lims[1] - height_sum
+    clip_lims[2] <- plot_lims[1]
   } else if (side == 3) {
     clip_lims[4] <- plot_lims[4] + height_sum
+    clip_lims[3] <- plot_lims[4]
   } else if (side == 4) {
     clip_lims[2] <- plot_lims[2] + height_sum
+    clip_lims[1] <- plot_lims[2]
   }
   do.call("clip", as.list(clip_lims))
 
   # set up the limits of the first scale
   if (side == 1) {
     scale_lims <- c(plot_lims[1], plot_lims[2],
-                    plot_lims[3], plot_lims[3] - height[[1]])
+                    plot_lims[3] - height[[1]], plot_lims[3])
   } else if (side == 2) {
-    scale_lims <- c(plot_lims[1], plot_lims[1] - height[[1]],
+    scale_lims <- c(plot_lims[1] - height[[1]], plot_lims[1],
                     plot_lims[3], plot_lims[4])
   } else if (side == 3) {
     scale_lims <- c(plot_lims[1], plot_lims[2],
@@ -301,11 +306,11 @@ axis_geo <- function(
       # set up scale limits for the next scale
       if (side == 1) {
         scale_lims <- c(scale_lims[1], scale_lims[2],
-                        scale_lims[3] - height[[scale]],
-                        scale_lims[4] - height[[scale + 1]])
+                        scale_lims[3] - height[[scale + 1]],
+                        scale_lims[4] - height[[scale]])
       } else if (side == 2) {
-        scale_lims <- c(scale_lims[1] - height[[scale]],
-                        scale_lims[2] - height[[scale + 1]],
+        scale_lims <- c(scale_lims[1] - height[[scale + 1]],
+                        scale_lims[2] - height[[scale]],
                         scale_lims[3], scale_lims[4])
       } else if (side == 3) {
         scale_lims <- c(scale_lims[1], scale_lims[2],
