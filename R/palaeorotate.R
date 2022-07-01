@@ -31,14 +31,14 @@
 #' Merdith, A., Williams, S.E., Collins, A.S., Tetley, M.G., Mulder, J.A., Blades, M.L.,
 #' Young, A., Armistead, S.E., Cannon, J., Zahirovic, S.,  Müller. R.D. (2021).
 #' Extending full-plate tectonic models into deep time: Linking the Neoproterozoic and the Phanerozoic.
-#' Earth-Science Reviews 214 (103477). \url{https://doi.org/10.1016/j.earscirev.2020.103477}.
+#' Earth-Science Reviews 214 (103477). \doi{https://doi.org/10.1016/j.earscirev.2020.103477}.
 #'
 #' Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (PaleoDEMs) for the Phanerozoic. PALEOMAP Project.
 #' \url{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}.
 #'
 #' Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013). Towards community-driven paleogeographic reconstructions:
 #' integrating open-access paleogeographic and paleobiology data with plate tectonics. Biogeosciences, 10(3), 1529–1541.
-#' \url{https://doi.org/10.5194/bg-10-1529-2013}.
+#' \doi{https://doi.org/10.5194/bg-10-1529-2013}.
 #' \cr
 #' @section Developer:
 #' Lewis A. Jones
