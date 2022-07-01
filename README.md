@@ -28,4 +28,4 @@ Developed by:
 `palaeoverse` is not yet available on CRAN, and is still in development. We hope to have the initial release of the package later this year. If you have suggestions for additional functions, or are interested in joining the `palaeoverse` community and development team, please feel free to contact [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), or a member of the development of team.
  
 # Structure and standards
-At `palaeoverse` we have adopted a set of [standards and structure]("https://github.com/palaeoverse-community/palaeoverse/raw/main/man/tutorials/structure-and-standards.pdf") to follow for contributing to the project. If you would like to contribute to `palaeoverse`, we strongly advise reading this document.
+At `palaeoverse` we have adopted a set of [standards and structure](https://github.com/palaeoverse-community/palaeoverse/raw/main/man/tutorials/structure-and-standards.pdf) to follow for contributing to the project. If you would like to contribute to `palaeoverse`, we strongly advise reading this document.
