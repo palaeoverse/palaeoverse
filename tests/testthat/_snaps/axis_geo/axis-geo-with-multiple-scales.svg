@@ -86,11 +86,13 @@
 <text transform='translate(41.76,108.48) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='26.70px' lengthAdjust='spacingAndGlyphs'>1500</text>
 </g>
 <defs>
-  <clipPath id='cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUyMy4xNQ=='>
-    <rect x='59.04' y='59.04' width='630.72' height='464.11' />
+  <clipPath id='cpNTkuMDR8Njg5Ljc2fDQ4MC45Nnw1MjMuMTU='>
+    <rect x='59.04' y='480.96' width='630.72' height='42.19' />
   </clipPath>
 </defs>
-<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUyMy4xNQ==)'>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDQ4MC45Nnw1MjMuMTU=)'>
+<rect x='59.04' y='480.96' width='630.72' height='42.19' style='stroke-width: 0.75; stroke: none; fill: #E5E5E5;' />
+<line x1='59.04' y1='480.96' x2='689.76' y2='480.96' style='stroke-width: 0.75;' />
 <rect x='666.39' y='480.96' width='0.0098' height='21.10' style='stroke-width: 0.75; fill: #FEF2E0;' />
 <rect x='666.38' y='480.96' width='0.0093' height='21.10' style='stroke-width: 0.75; fill: #FEF2E0;' />
 <rect x='666.37' y='480.96' width='0.0082' height='21.10' style='stroke-width: 0.75; fill: #FEF2E0;' />
@@ -193,6 +195,8 @@
 <rect x='-550.66' y='480.96' width='16.35' height='21.10' style='stroke-width: 0.75; fill: #A6C583;' />
 <rect x='-569.34' y='480.96' width='18.69' height='21.10' style='stroke-width: 0.75; fill: #A6BA80;' />
 <rect x='-597.38' y='480.96' width='28.03' height='21.10' style='stroke-width: 0.75; fill: #99B575;' />
+<line x1='59.04' y1='502.06' x2='59.04' y2='480.96' style='stroke-width: 0.75;' />
+<line x1='689.76' y1='502.06' x2='689.76' y2='480.96' style='stroke-width: 0.75;' />
 <rect x='660.35' y='502.06' width='6.05' height='21.10' style='stroke-width: 0.75; fill: #F9F97F;' />
 <rect x='612.60' y='502.06' width='47.75' height='21.10' style='stroke-width: 0.75; fill: #FFE619;' />
 <rect x='512.22' y='502.06' width='100.38' height='21.10' style='stroke-width: 0.75; fill: #FD9A52;' />
@@ -211,6 +215,8 @@
 <rect x='-2136.80' y='502.06' width='467.20' height='21.10' style='stroke-width: 0.75; fill: #FFA5D2;' />
 <rect x='-2604.00' y='502.06' width='467.20' height='21.10' style='stroke-width: 0.75; fill: #FF98CC;' />
 <rect x='-3071.20' y='502.06' width='467.20' height='21.10' style='stroke-width: 0.75; fill: #FF8BC5;' />
+<line x1='59.04' y1='523.15' x2='59.04' y2='502.06' style='stroke-width: 0.75;' />
+<line x1='689.76' y1='523.15' x2='689.76' y2='502.06' style='stroke-width: 0.75;' />
 <text x='636.48' y='516.73' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='48.72px' lengthAdjust='spacingAndGlyphs'>Neogene</text>
 <text x='562.41' y='516.73' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='57.39px' lengthAdjust='spacingAndGlyphs'>Paleogene</text>
 <text x='419.95' y='516.73' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
@@ -228,6 +234,7 @@
 <text x='-1903.20' y='516.73' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.70px' lengthAdjust='spacingAndGlyphs'>Stenian</text>
 <text x='-2370.40' y='516.73' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='46.04px' lengthAdjust='spacingAndGlyphs'>Ectasian</text>
 <text x='-2837.60' y='516.73' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='60.03px' lengthAdjust='spacingAndGlyphs'>Calymmian</text>
+<line x1='59.04' y1='523.15' x2='689.76' y2='523.15' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <line x1='666.40' y1='523.15' x2='82.40' y2='523.15' style='stroke-width: 0.75;' />

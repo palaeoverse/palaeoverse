@@ -73,6 +73,8 @@
 #'   \code{\link[graphics:par]{graphics parameters}}).
 #' @param lwd \code{numeric}. Line width (see \code{lwd} in
 #'   \code{\link[graphics:par]{graphics parameters}}).
+#' @param bkgd \code{character}. The color of the background color of the scale
+#'   when no intervals are being shown.
 #' @param neg \code{logical}. Set this to \code{TRUE} if your x-axis is using
 #'   negative values. If the entire axis is already negative, this will be set
 #'   to \code{TRUE} for you.
@@ -98,7 +100,7 @@
 #'   William Gearty & Kilian Eichenseer
 #' @section Reviewer:
 #'   Lewis A. Jones
-#' @importFrom graphics rect text clip axis par
+#' @importFrom graphics rect text clip axis par segments
 #' @importFrom deeptime getScaleData
 #' @importFrom methods is
 #' @export
@@ -156,7 +158,7 @@ axis_geo <- function(
     # rect border arguments:
     bord_color = "black", lty = par("lty"), lwd = par("lwd"),
     # applied to the entire axis:
-    neg = FALSE, exact = FALSE, round = FALSE,
+    bkgd = "grey90", neg = FALSE, exact = FALSE, round = FALSE,
     # passed to axis():
     tick_at = NULL, tick_labels = TRUE, ...
     ) {
@@ -226,6 +228,25 @@ axis_geo <- function(
                     plot_lims[3], plot_lims[4])
   }
 
+  # add a neutral background color in case scales don't span entire axis
+  rect(xleft = clip_lims[1], xright = clip_lims[2],
+       ytop = clip_lims[3], ybottom = clip_lims[4], col = bkgd, border = NA)
+
+  # add segments to inner side of scale
+  if (side == 1) {
+    segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[4],
+             col = bord_color[[1]], lty = lty[[1]], lwd = lwd[[1]])
+  } else if (side == 2) {
+    segments(x0 = scale_lims[2], y0 = scale_lims[3], y1 = scale_lims[4],
+             col = bord_color[[1]], lty = lty[[1]], lwd = lwd[[1]])
+  } else if (side == 3) {
+    segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[3],
+             col = bord_color[[1]], lty = lty[[1]], lwd = lwd[[1]])
+  } else if (side == 4) {
+    segments(x0 = scale_lims[1], y0 = scale_lims[3], y1 = scale_lims[4],
+             col = bord_color[[1]], lty = lty[[1]], lwd = lwd[[1]])
+  }
+
   for (scale in 1:n_scales) {
     # get the requested data if necessary
     scale_intervals <- intervals[[scale]]
@@ -269,6 +290,7 @@ axis_geo <- function(
     scale_intervals$label[scale_intervals$name %in% skip[[scale]]] <- ""
 
     # plot the desired polygons in the unclipped margin
+    # also add line segments at the ends in case intervals extend beyond axis
     scale_lty <- lty[[scale]]
     scale_lwd <- lwd[[scale]]
     scale_bord_color <- bord_color[[scale]]
@@ -277,11 +299,15 @@ axis_geo <- function(
            ybottom = scale_lims[3], ytop = scale_lims[4],
            col = scale_intervals$color, border = scale_bord_color,
            lty = scale_lty, lwd = scale_lwd)
+      segments(x0 = scale_lims[1:2], y0 = scale_lims[3], y1 = scale_lims[4],
+               col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
     } else {
       rect(ybottom = scale_intervals$min_age, ytop = scale_intervals$max_age,
            xleft = scale_lims[1], xright = scale_lims[2],
            col = scale_intervals$color, border = scale_bord_color,
            lty = scale_lty, lwd = scale_lwd)
+      segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[3:4],
+               col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
     }
 
     if (lab[[scale]]) {
@@ -350,9 +376,22 @@ axis_geo <- function(
       }
     }
   }
+  # add segments to outer side of scale
+  if (side == 1) {
+    segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[3],
+             col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+  } else if (side == 2) {
+    segments(x0 = scale_lims[1], y0 = scale_lims[3], y1 = scale_lims[4],
+             col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+  } else if (side == 3) {
+    segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[4],
+             col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+  } else if (side == 4) {
+    segments(x0 = scale_lims[2], y0 = scale_lims[3], y1 = scale_lims[4],
+             col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+  }
+
   # after placing the scales, add an axis with ticks and labels
-
-
   # use interval boundaries if `exact` is TRUE
   if (exact == TRUE && is.null(tick_at)) {
     # Use the interval breaks from the outer-most scale

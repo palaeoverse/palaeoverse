@@ -19,6 +19,7 @@ axis_geo(
   bord_color = "black",
   lty = par("lty"),
   lwd = par("lwd"),
+  bkgd = "grey90",
   neg = FALSE,
   exact = FALSE,
   round = FALSE,
@@ -82,6 +83,9 @@ abbreviations.}
 
 \item{lwd}{\code{numeric}. Line width (see \code{lwd} in
 \code{\link[graphics:par]{graphics parameters}}).}
+
+\item{bkgd}{\code{character}. The color of the background color of the scale
+when no intervals are being shown.}
 
 \item{neg}{\code{logical}. Set this to \code{TRUE} if your x-axis is using
 negative values. If the entire axis is already negative, this will be set

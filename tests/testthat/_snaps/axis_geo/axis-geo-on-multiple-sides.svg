@@ -131,11 +131,13 @@
 <polygon points='100.80,475.20 619.20,475.20 619.20,100.80 100.80,100.80 ' style='stroke-width: 0.75; fill: none;' />
 </g>
 <defs>
-  <clipPath id='cpMTAwLjgwfDYxOS4yMHwxMDAuODB8NTA1LjE1'>
-    <rect x='100.80' y='100.80' width='518.40' height='404.35' />
+  <clipPath id='cpMTAwLjgwfDYxOS4yMHw0NzUuMjB8NTA1LjE1'>
+    <rect x='100.80' y='475.20' width='518.40' height='29.95' />
   </clipPath>
 </defs>
-<g clip-path='url(#cpMTAwLjgwfDYxOS4yMHwxMDAuODB8NTA1LjE1)'>
+<g clip-path='url(#cpMTAwLjgwfDYxOS4yMHw0NzUuMjB8NTA1LjE1)'>
+<rect x='100.80' y='475.20' width='518.40' height='29.95' style='stroke-width: 0.75; stroke: none; fill: #E5E5E5;' />
+<line x1='100.80' y1='475.20' x2='619.20' y2='475.20' style='stroke-width: 0.75;' />
 <rect x='599.94' y='475.20' width='0.056' height='18.72' style='stroke-width: 0.75; fill: #FEF2E0;' />
 <rect x='587.58' y='475.20' width='12.37' height='18.72' style='stroke-width: 0.75; fill: #FFF2AE;' />
 <rect x='574.40' y='475.20' width='13.18' height='18.72' style='stroke-width: 0.75; fill: #FFFF99;' />
@@ -170,6 +172,8 @@
 <rect x='-1843.20' y='475.20' width='57.60' height='18.72' style='stroke-width: 0.75; fill: #A6CF86;' />
 <rect x='-1900.80' y='475.20' width='57.60' height='18.72' style='stroke-width: 0.75; fill: #99C078;' />
 <rect x='-1996.80' y='475.20' width='96.00' height='18.72' style='stroke-width: 0.75; fill: #8CB06C;' />
+<line x1='100.80' y1='493.92' x2='100.80' y2='475.20' style='stroke-width: 0.75;' />
+<line x1='619.20' y1='493.92' x2='619.20' y2='475.20' style='stroke-width: 0.75;' />
 <text x='593.76' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>Ple</text>
 <text x='580.99' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.33px' lengthAdjust='spacingAndGlyphs'>Pli</text>
 <text x='531.93' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Mio</text>
@@ -218,6 +222,8 @@
 <rect x='-2448.00' y='493.92' width='451.20' height='11.23' style='stroke-width: 0.75; fill: #FFC3E1;' />
 <rect x='-2856.00' y='493.92' width='408.00' height='11.23' style='stroke-width: 0.75; fill: #FFAFD7;' />
 <rect x='-4200.00' y='493.92' width='1344.00' height='11.23' style='stroke-width: 0.75; fill: #FFA5D2;' />
+<line x1='100.80' y1='505.15' x2='100.80' y2='493.92' style='stroke-width: 0.75;' />
+<line x1='619.20' y1='505.15' x2='619.20' y2='493.92' style='stroke-width: 0.75;' />
 <text x='538.52' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>Ng</text>
 <text x='386.33' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pg</text>
 <text x='192.00' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>K</text>
@@ -231,6 +237,7 @@
 <text x='-1863.36' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>Cm</text>
 <text x='-2222.40' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>E</text>
 <text x='-2652.00' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.66px' lengthAdjust='spacingAndGlyphs'>Cr</text>
+<line x1='100.80' y1='505.15' x2='619.20' y2='505.15' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <line x1='600.00' y1='505.15' x2='120.00' y2='505.15' style='stroke-width: 0.75;' />
@@ -246,11 +253,13 @@
 <text x='600.00' y='531.07' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>0</text>
 </g>
 <defs>
-  <clipPath id='cpNTkuMzN8NjE5LjIwfDEwMC44MHw0NzUuMjA='>
-    <rect x='59.33' y='100.80' width='559.87' height='374.40' />
+  <clipPath id='cpNTkuMzN8MTAwLjgwfDEwMC44MHw0NzUuMjA='>
+    <rect x='59.33' y='100.80' width='41.47' height='374.40' />
   </clipPath>
 </defs>
-<g clip-path='url(#cpNTkuMzN8NjE5LjIwfDEwMC44MHw0NzUuMjA=)'>
+<g clip-path='url(#cpNTkuMzN8MTAwLjgwfDEwMC44MHw0NzUuMjA=)'>
+<rect x='59.33' y='100.80' width='41.47' height='374.40' style='stroke-width: 0.75; stroke: none; fill: #E5E5E5;' />
+<line x1='100.80' y1='475.20' x2='100.80' y2='100.80' style='stroke-width: 0.75; stroke: #A020F0;' />
 <rect x='85.25' y='114.67' width='15.55' height='0.043' style='stroke-width: 0.75; stroke: #A020F0; fill: #FEF2E0;' />
 <rect x='85.25' y='114.71' width='15.55' height='9.40' style='stroke-width: 0.75; stroke: #A020F0; fill: #FFF2AE;' />
 <rect x='85.25' y='124.11' width='15.55' height='10.02' style='stroke-width: 0.75; stroke: #A020F0; fill: #FFFF99;' />
@@ -285,6 +294,8 @@
 <rect x='85.25' y='1928.28' width='15.55' height='43.79' style='stroke-width: 0.75; stroke: #A020F0; fill: #A6CF86;' />
 <rect x='85.25' y='1972.07' width='15.55' height='43.79' style='stroke-width: 0.75; stroke: #A020F0; fill: #99C078;' />
 <rect x='85.25' y='2015.86' width='15.55' height='72.98' style='stroke-width: 0.75; stroke: #A020F0; fill: #8CB06C;' />
+<line x1='85.25' y1='475.20' x2='100.80' y2='475.20' style='stroke-width: 0.75; stroke: #A020F0;' />
+<line x1='85.25' y1='100.80' x2='100.80' y2='100.80' style='stroke-width: 0.75; stroke: #A020F0;' />
 <text transform='translate(97.15,119.41) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>Ple</text>
 <text transform='translate(97.15,129.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.33px' lengthAdjust='spacingAndGlyphs'>Pli</text>
 <text transform='translate(97.15,166.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Mio</text>
@@ -333,6 +344,8 @@
 <rect x='59.33' y='2088.84' width='25.92' height='343.02' style='stroke-width: 0.75; stroke: #A020F0; fill: #FFC3E1;' />
 <rect x='59.33' y='2431.86' width='25.92' height='310.18' style='stroke-width: 0.75; stroke: #A020F0; fill: #FFAFD7;' />
 <rect x='59.33' y='2742.04' width='25.92' height='1021.75' style='stroke-width: 0.75; stroke: #A020F0; fill: #FFA5D2;' />
+<line x1='59.33' y1='475.20' x2='85.25' y2='475.20' style='stroke-width: 0.75; stroke: #A020F0;' />
+<line x1='59.33' y1='100.80' x2='85.25' y2='100.80' style='stroke-width: 0.75; stroke: #A020F0;' />
 <text transform='translate(76.42,161.41) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>Ng</text>
 <text transform='translate(76.42,277.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pg</text>
 <text transform='translate(76.42,415.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>K</text>
@@ -347,6 +360,7 @@
 <text transform='translate(76.42,2260.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>E</text>
 <text transform='translate(76.42,2586.95) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.66px' lengthAdjust='spacingAndGlyphs'>Cr</text>
 <text transform='translate(76.42,3252.91) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='7.33px' lengthAdjust='spacingAndGlyphs'>T</text>
+<line x1='59.33' y1='475.20' x2='59.33' y2='100.80' style='stroke-width: 0.75; stroke: #A020F0;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <line x1='59.33' y1='114.67' x2='59.33' y2='475.20' style='stroke-width: 0.75;' />
@@ -359,11 +373,13 @@
 <text transform='translate(42.05,124.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.03px' lengthAdjust='spacingAndGlyphs'>2.588</text>
 </g>
 <defs>
-  <clipPath id='cpMTAwLjgwfDYxOS4yMHw3MC44NXw0NzUuMjA='>
-    <rect x='100.80' y='70.85' width='518.40' height='404.35' />
+  <clipPath id='cpMTAwLjgwfDYxOS4yMHw3MC44NXwxMDAuODA='>
+    <rect x='100.80' y='70.85' width='518.40' height='29.95' />
   </clipPath>
 </defs>
-<g clip-path='url(#cpMTAwLjgwfDYxOS4yMHw3MC44NXw0NzUuMjA=)'>
+<g clip-path='url(#cpMTAwLjgwfDYxOS4yMHw3MC44NXwxMDAuODA=)'>
+<rect x='100.80' y='70.85' width='518.40' height='29.95' style='stroke-width: 0.75; stroke: none; fill: #E5E5E5;' />
+<line x1='100.80' y1='100.80' x2='619.20' y2='100.80' style='stroke-width: 0.75;' />
 <rect x='599.94' y='89.57' width='0.056' height='11.23' style='stroke-width: 0.75; fill: #FEF2E0;' />
 <rect x='587.58' y='89.57' width='12.37' height='11.23' style='stroke-width: 0.75; fill: #FFF2AE;' />
 <rect x='574.40' y='89.57' width='13.18' height='11.23' style='stroke-width: 0.75; fill: #FFFF99;' />
@@ -398,6 +414,8 @@
 <rect x='-1843.20' y='89.57' width='57.60' height='11.23' style='stroke-width: 0.75; fill: #A6CF86;' />
 <rect x='-1900.80' y='89.57' width='57.60' height='11.23' style='stroke-width: 0.75; fill: #99C078;' />
 <rect x='-1996.80' y='89.57' width='96.00' height='11.23' style='stroke-width: 0.75; fill: #8CB06C;' />
+<line x1='100.80' y1='100.80' x2='100.80' y2='89.57' style='stroke-width: 0.75;' />
+<line x1='619.20' y1='100.80' x2='619.20' y2='89.57' style='stroke-width: 0.75;' />
 <text x='531.93' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='45.37px' lengthAdjust='spacingAndGlyphs'>Miocene</text>
 <text x='463.37' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Oligocene</text>
 <text x='384.24' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.71px' lengthAdjust='spacingAndGlyphs'>Eocene</text>
@@ -444,6 +462,8 @@
 <rect x='-2448.00' y='70.85' width='451.20' height='18.72' style='stroke-width: 0.75; fill: #FFC3E1;' />
 <rect x='-2856.00' y='70.85' width='408.00' height='18.72' style='stroke-width: 0.75; fill: #FFAFD7;' />
 <rect x='-4200.00' y='70.85' width='1344.00' height='18.72' style='stroke-width: 0.75; fill: #FFA5D2;' />
+<line x1='100.80' y1='89.57' x2='100.80' y2='70.85' style='stroke-width: 0.75;' />
+<line x1='619.20' y1='89.57' x2='619.20' y2='70.85' style='stroke-width: 0.75;' />
 <text x='538.52' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='48.72px' lengthAdjust='spacingAndGlyphs'>Neogene</text>
 <text x='192.00' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
 <text x='-231.12' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Jurassic</text>
@@ -456,6 +476,7 @@
 <text x='-1863.36' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.03px' lengthAdjust='spacingAndGlyphs'>Cambrian</text>
 <text x='-2222.40' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Ediacaran</text>
 <text x='-2652.00' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cryogenian</text>
+<line x1='100.80' y1='70.85' x2='619.20' y2='70.85' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <line x1='600.00' y1='70.85' x2='120.00' y2='70.85' style='stroke-width: 0.75;' />
@@ -473,11 +494,13 @@
 <text x='600.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>0</text>
 </g>
 <defs>
-  <clipPath id='cpMTAwLjgwfDY1NS40OXwxMDAuODB8NDc1LjIw'>
-    <rect x='100.80' y='100.80' width='554.69' height='374.40' />
+  <clipPath id='cpNjE5LjIwfDY1NS40OXwxMDAuODB8NDc1LjIw'>
+    <rect x='619.20' y='100.80' width='36.29' height='374.40' />
   </clipPath>
 </defs>
-<g clip-path='url(#cpMTAwLjgwfDY1NS40OXwxMDAuODB8NDc1LjIw)'>
+<g clip-path='url(#cpNjE5LjIwfDY1NS40OXwxMDAuODB8NDc1LjIw)'>
+<rect x='619.20' y='100.80' width='36.29' height='374.40' style='stroke-width: 0.75; stroke: none; fill: #E5E5E5;' />
+<line x1='619.20' y1='475.20' x2='619.20' y2='100.80' style='stroke-width: 0.75;' />
 <rect x='619.20' y='114.67' width='20.74' height='0.043' style='stroke-width: 0.75; fill: #FEF2E0;' />
 <rect x='619.20' y='114.71' width='20.74' height='9.40' style='stroke-width: 0.75; fill: #FFF2AE;' />
 <rect x='619.20' y='124.11' width='20.74' height='10.02' style='stroke-width: 0.75; fill: #FFFF99;' />
@@ -512,6 +535,8 @@
 <rect x='619.20' y='1928.28' width='20.74' height='43.79' style='stroke-width: 0.75; fill: #A6CF86;' />
 <rect x='619.20' y='1972.07' width='20.74' height='43.79' style='stroke-width: 0.75; fill: #99C078;' />
 <rect x='619.20' y='2015.86' width='20.74' height='72.98' style='stroke-width: 0.75; fill: #8CB06C;' />
+<line x1='619.20' y1='475.20' x2='639.94' y2='475.20' style='stroke-width: 0.75;' />
+<line x1='619.20' y1='100.80' x2='639.94' y2='100.80' style='stroke-width: 0.75;' />
 <text transform='translate(633.70,119.41) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>Ple</text>
 <text transform='translate(633.70,129.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.33px' lengthAdjust='spacingAndGlyphs'>Pli</text>
 <text transform='translate(633.70,166.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Mio</text>
@@ -560,6 +585,8 @@
 <rect x='639.94' y='2088.84' width='15.55' height='343.02' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFC3E1;' />
 <rect x='639.94' y='2431.86' width='15.55' height='310.18' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFAFD7;' />
 <rect x='639.94' y='2742.04' width='15.55' height='1021.75' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFA5D2;' />
+<line x1='639.94' y1='475.20' x2='655.49' y2='475.20' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
+<line x1='639.94' y1='100.80' x2='655.49' y2='100.80' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
 <text transform='translate(651.84,161.41) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>Ng</text>
 <text transform='translate(651.84,277.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pg</text>
 <text transform='translate(651.84,415.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>K</text>
@@ -574,6 +601,7 @@
 <text transform='translate(651.84,2260.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>E</text>
 <text transform='translate(651.84,2586.95) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.66px' lengthAdjust='spacingAndGlyphs'>Cr</text>
 <text transform='translate(651.84,3252.91) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='7.33px' lengthAdjust='spacingAndGlyphs'>T</text>
+<line x1='655.49' y1='475.20' x2='655.49' y2='100.80' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <line x1='655.49' y1='114.67' x2='655.49' y2='475.20' style='stroke-width: 0.75;' />

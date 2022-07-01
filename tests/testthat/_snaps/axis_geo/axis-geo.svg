@@ -86,11 +86,13 @@
 <text transform='translate(41.76,111.01) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='26.70px' lengthAdjust='spacingAndGlyphs'>1500</text>
 </g>
 <defs>
-  <clipPath id='cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUyNC43NA=='>
-    <rect x='59.04' y='59.04' width='630.72' height='465.70' />
+  <clipPath id='cpNTkuMDR8Njg5Ljc2fDUwMi41Nnw1MjQuNzQ='>
+    <rect x='59.04' y='502.56' width='630.72' height='22.18' />
   </clipPath>
 </defs>
-<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUyNC43NA==)'>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDUwMi41Nnw1MjQuNzQ=)'>
+<rect x='59.04' y='502.56' width='630.72' height='22.18' style='stroke-width: 0.75; stroke: none; fill: #E5E5E5;' />
+<line x1='59.04' y1='502.56' x2='689.76' y2='502.56' style='stroke-width: 0.75;' />
 <rect x='660.35' y='502.56' width='6.05' height='22.18' style='stroke-width: 0.75; fill: #F9F97F;' />
 <rect x='612.60' y='502.56' width='47.75' height='22.18' style='stroke-width: 0.75; fill: #FFE619;' />
 <rect x='512.22' y='502.56' width='100.38' height='22.18' style='stroke-width: 0.75; fill: #FD9A52;' />
@@ -109,6 +111,8 @@
 <rect x='-2136.80' y='502.56' width='467.20' height='22.18' style='stroke-width: 0.75; fill: #FFA5D2;' />
 <rect x='-2604.00' y='502.56' width='467.20' height='22.18' style='stroke-width: 0.75; fill: #FF98CC;' />
 <rect x='-3071.20' y='502.56' width='467.20' height='22.18' style='stroke-width: 0.75; fill: #FF8BC5;' />
+<line x1='59.04' y1='524.74' x2='59.04' y2='502.56' style='stroke-width: 0.75;' />
+<line x1='689.76' y1='524.74' x2='689.76' y2='502.56' style='stroke-width: 0.75;' />
 <text x='636.48' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>Ng</text>
 <text x='562.41' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pg</text>
 <text x='419.95' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>K</text>
@@ -126,6 +130,7 @@
 <text x='-1903.20' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='11.34px' lengthAdjust='spacingAndGlyphs'>St</text>
 <text x='-2370.40' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.01px' lengthAdjust='spacingAndGlyphs'>Ec</text>
 <text x='-2837.60' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>Ca</text>
+<line x1='59.04' y1='524.74' x2='689.76' y2='524.74' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <line x1='666.40' y1='524.74' x2='82.40' y2='524.74' style='stroke-width: 0.75;' />
