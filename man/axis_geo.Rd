@@ -144,28 +144,57 @@ to the plot. In this case, \code{height}, \code{fill}, \code{lab},
 (or vectors, e.g., for \code{skip}) are used for these parameters, they will
 be applied to all time scales (and recycled as necessary).
 }
-\section{Reviewer(s)}{
+\section{Authors}{
+
+William Gearty & Kilian Eichenseer
+}
+
+\section{Reviewer}{
 
 Lewis A. Jones
 }
 
 \examples{
-#single scale on bottom
-par(mar = c(5.1, 4.1, 4.1, 2.1)) # default margins
+# single scale on bottom
+par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
 plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
      xlab = NA, ylab = "Depth (m)")
 box()
 axis(2)
 axis_geo(side = 1, intervals = "periods")
+# the line argument here depends on the absolute size of the plot
+title(xlab = "Time (Ma)", line = 4)
 
-#stack multiple scales
-par(mar = c(6.6, 4.1, 4.1, 2.1)) # expanded bottom margin
+# stack multiple scales
+par(mar = c(7.1, 4.1, 4.1, 2.1)) # further expand bottom margin
 plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
      xlab = NA, ylab = "Depth (m)")
 box()
 axis(2)
 axis_geo(side = 1, intervals = list("epochs", "periods"))
-}
-\author{
-William Gearty & Kilian Eichenseer
+# the line argument here depends on the absolute size of the plot
+title(xlab = "Time (Ma)", line = 6)
+
+# scale with MacroStrat intervals
+par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
+plot(0:30, axes = FALSE, xlim = c(30, 0), ylim = c(30, 0),
+     xlab = NA, ylab = "Depth (m)")
+box()
+axis(2)
+axis_geo(side = 1, intervals = "North American land mammal ages")
+# the line argument here depends on the absolute size of the plot
+title(xlab = "Time (Ma)", line = 4)
+
+# scale with custom intervals
+intervals <- data.frame(min_age = c(0, 10, 25, 32),
+                        max_age = c(10, 25, 32, 40),
+                        name = c("A", "B", "C", "D"))
+par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
+plot(0:40, axes = FALSE, xlim = c(40, 0), ylim = c(40, 0),
+     xlab = NA, ylab = "Depth (m)")
+box()
+axis(2)
+axis_geo(side = 1, intervals = intervals)
+# the line argument here depends on the absolute size of the plot
+title(xlab = "Time (Ma)", line = 4)
 }

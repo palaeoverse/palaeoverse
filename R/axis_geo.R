@@ -103,21 +103,48 @@
 #' @importFrom methods is
 #' @export
 #' @examples
-#' #single scale on bottom
-#' par(mar = c(5.1, 4.1, 4.1, 2.1)) # default margins
+#' # single scale on bottom
+#' par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
 #' plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
 #'      xlab = NA, ylab = "Depth (m)")
 #' box()
 #' axis(2)
 #' axis_geo(side = 1, intervals = "periods")
+#' # the line argument here depends on the absolute size of the plot
+#' title(xlab = "Time (Ma)", line = 4)
 #'
-#' #stack multiple scales
-#' par(mar = c(6.6, 4.1, 4.1, 2.1)) # expanded bottom margin
+#' # stack multiple scales
+#' par(mar = c(7.1, 4.1, 4.1, 2.1)) # further expand bottom margin
 #' plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
 #'      xlab = NA, ylab = "Depth (m)")
 #' box()
 #' axis(2)
 #' axis_geo(side = 1, intervals = list("epochs", "periods"))
+#' # the line argument here depends on the absolute size of the plot
+#' title(xlab = "Time (Ma)", line = 6)
+#'
+#' # scale with MacroStrat intervals
+#' par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
+#' plot(0:30, axes = FALSE, xlim = c(30, 0), ylim = c(30, 0),
+#'      xlab = NA, ylab = "Depth (m)")
+#' box()
+#' axis(2)
+#' axis_geo(side = 1, intervals = "North American land mammal ages")
+#' # the line argument here depends on the absolute size of the plot
+#' title(xlab = "Time (Ma)", line = 4)
+#'
+#' # scale with custom intervals
+#' intervals <- data.frame(min_age = c(0, 10, 25, 32),
+#'                         max_age = c(10, 25, 32, 40),
+#'                         name = c("A", "B", "C", "D"))
+#' par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
+#' plot(0:40, axes = FALSE, xlim = c(40, 0), ylim = c(40, 0),
+#'      xlab = NA, ylab = "Depth (m)")
+#' box()
+#' axis(2)
+#' axis_geo(side = 1, intervals = intervals)
+#' # the line argument here depends on the absolute size of the plot
+#' title(xlab = "Time (Ma)", line = 4)
 axis_geo <- function(
     side = 1, intervals = "epochs", height = 0.05,
     # fill arguments:
@@ -346,7 +373,8 @@ axis_geo <- function(
     axis(side = side, pos = clip_lims[2], at = tick_at, labels = tick_labels, ...)
   }
   # place an axis label as well?
-
+  # both mtext() and title() use lines instead of coordinates, which makes
+  # this tricky/messy...
 }
 
 make_list <- function(x) {
