@@ -26,7 +26,7 @@
 #' by Alessandro Chiarenza (2022-06-21).
 #' @section Developer:
 #' Lewis A. Jones
-#' @section Auditor(s):
+#' @section Reviewer(s):
 #' Kilian Eichenseer
 #' @examples
 #' #Using interval midpoint age
@@ -124,34 +124,29 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), size = NULL, assi
 
   #are equal length time bins required?
   if(is.numeric(size) == TRUE){
-    #track cumulative sum
-    tracker <- list()
-    for(i in 1:nrow(df)){
-      tracker[[i]] <- rep(NA, length.out = nrow(df))
-      tracker[[i]][i:nrow(df)] <- abs(cumsum(df$duration_myr[i:nrow(df)]) - size)
-    }
-
-    #calculate upper and lower limits for each bin
-    lower <- NULL
-    upper <- NULL
-    count <- 1
-    while(count <= nrow(df)){
-      upper <- append(upper, which.min(tracker[[count]]))
-      lower <- append(lower, (count))
-      count <- which.min(tracker[[count]]) + 1
-    }
+    # duration of interval we want to bin
+    dur <- max(df$max_ma)-min(df$min_ma)
+    # number of bins, based on bin size
+    nbin <- max(c(round(dur/size),1))
+    # sort mid ages into bins
+    binlist <- cut(df$mid_ma,breaks = seq(min(df$min_ma),max(df$max_ma), length.out = nbin + 1),include.lowest = T)
+    levels(binlist) <- 1:nbin # levels from 1:nbin for convenience
+    # convert to interval names
+    binlist <- sapply(1:nbin,function(x) df$interval_name[which(binlist == x)])
+    # make list if its only one bin
+    if(!("list" %in% class(binlist))) binlist <- list(binlist)
+    # remove empty bins
+    binlist <- binlist[which(sapply(binlist,function(x) !(identical(x,character(0)))))]
 
     #generate bin information
-    bin <- length(upper):1
-    max_ma <- df[upper,c("max_ma")]
-    min_ma <- df[lower,c("min_ma")]
+    bin <- length(binlist):1
+    max_ma <- sapply(binlist,function(x)
+      max(df$max_ma[which(df$interval_name %in% x)]))
+    min_ma <- sapply(binlist,function(x)
+      min(df$min_ma[which(df$interval_name %in% x)]))
     mid_ma <- (max_ma + min_ma)/2
     duration_myr <- max_ma - min_ma
-    intervals <- vector("character")
-    #get interval names
-    for(i in 1:length(upper)){
-      intervals[i] <- toString(df[lower[i]:upper[i], c("interval_name")])
-    }
+    intervals <- sapply(binlist,function(x) toString(x,sep=", "))
 
     #generate dataframe
     grouping_rank <- rnk
