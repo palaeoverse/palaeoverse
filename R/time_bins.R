@@ -22,8 +22,7 @@
 #' bins) if assign specified.
 #'
 #' @details This function uses the Geological Timescale 2020 and the Geological Timescale 2012 (depending on user specification). Age data were compiled from: \url{https://stratigraphy.org/timescale/}.
-#' Available intervals names are accessible via GTS2020$interval_name or GTS2012$interval_name. The Geological Timescale 2020 was compiled by Lewis A. Jones (2022-03-03) and the Geological Timescale 2012 was compiled
-#' by Alessandro Chiarenza (2022-06-21).
+#' Available intervals names are accessible via GTS2020$interval_name or GTS2012$interval_name. The Geological Timescale 2012 and 2020 was compiled by Lewis A. Jones (2022-07-02).
 #' @section Developer:
 #' Lewis A. Jones
 #' @section Reviewer(s):
