@@ -2,10 +2,12 @@
 #'
 #' @param x
 #' @examples
+#' \dontrun{
 #' Just specifying x and y
 #' tplot(x = runif(100,30,410), y = rnorm(100,50,1), time = c("Devonian","Neogene"))
 #' Using stages, specifying first and last stage
 #' tplot(x = runif(100,0,200), y = rnorm(100,0,1), time = c("Oxfordian","Campanian"), level = "stage")
+#' }
 #' @export
 
 # add Quaternary as seperate period
