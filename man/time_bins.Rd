@@ -29,7 +29,7 @@ a given size. If assign is specified, a numeric vector is returned of the midpoi
 \item{plot}{\code{logical}. Should a plot of time bins be generated?}
 }
 \value{
-A \code{dataframe} of time bins for a specified interval or a list with a \code{dataframe} of time bins and \code{numeric} vector of binned age estimates (midpoint of specified
+A \code{dataframe} of time bins for the specified intervals or a list with a \code{dataframe} of time bins and \code{numeric} vector of binned age estimates (midpoint of specified
 bins) if assign is specified.
 }
 \description{

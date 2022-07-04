@@ -18,7 +18,7 @@
 #' @importFrom graphics polygon title
 #' @importFrom stats sd
 #'
-#' @return A \code{dataframe} of time bins for a specified interval or a list with a \code{dataframe} of time bins and \code{numeric} vector of binned age estimates (midpoint of specified
+#' @return A \code{dataframe} of time bins for the specified intervals or a list with a \code{dataframe} of time bins and \code{numeric} vector of binned age estimates (midpoint of specified
 #' bins) if assign is specified.
 #'
 #' @details This function uses the Geological Timescale 2020 and the Geological Timescale 2012 (depending on user specification). Age data were compiled from:
