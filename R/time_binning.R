@@ -1,36 +1,51 @@
 #' Assign fossil occurrences to time bins
 #'
-#' A function to assign fossil occurrences to specified time bins based on different approaches commonly applied in
-#' palaeobiology.
+#' A function to assign fossil occurrences to specified time bins based on
+#' different approaches commonly applied in palaeobiology.
 #'
-#' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you wish to bin. This dataframe should contain
-#' at least the following named columns: "max_ma" and "min_ma". These columns may be either `numeric` or `character`
-#' values. Ages given in `numeric` form are preferred for bin assignment. However, if interval names are provided, the function will
-#' try to match names to the Geological Timescale 2012/2020 (depending on user specification) to generate `numeric` ages for
-#' occurrences.
-#' @param bins \code{dataframe}. A dataframe of the bins that you wish to allocate fossil occurrences to. This dataframe
-#' must contain at least the following named columns: "max_ma" and "min_ma", and must be `numeric` values.
-#' @param method \code{character}. The method desired for binning fossil occurrences. Currently, five methods exist in this function:
-#' "mid", "majority", "all", "random", and "point". The "mid" method is the simplest, and uses the midpoint of the fossil occurrence age
-#' range to bin the occurrence. The "majority" method bins occurrences into bins which it most overlaps with. As part of this method, the
-#' majority percentage overlap of the occurrence is also calculated. If desired, this percentage can be used to further filter an occurrence dataset.
-#' The "all" method bins occurrences into every bin the age ranges covers. The "random" method randomly samples X amount of bins (with replacement) which
-#' the fossil occurrence age range cover. The "point" method randomly samples X amount of point age estimates based on a normal probability
-#' distribution, defined by the age range of the fossil occurrence.
-#' @param reps \code{numeric}. A non-negative `numeric` specifying the number of replications for sampling. This argument is only
-#' useful in the case of the "random" or "point" method being specified in the `method` argument. Defaults to 100.
-#' @param scale \code{character}. Specify the desired geological timescale to be used "GTS2020" or "GTS2012".
-#' This argument is only relevant if "min_ma" and "max_ma" columns are interval names. The function will attempt
-#' to match supplied interval names with "GTS2020" or "GTS2012" in `occdf` to pull numeric boundary values for the interval.
-#' Note that the function will return an error if interval names do not match precisely. Available interval names can
-#' be accessed via the call GTS2020$interval_name or GTS2012$interval_name. "GTS2020" is the default option.
-#' @param return_error \code{logical}. Should a vector of numbers be returned to flag the rows of the `occdf` that cannot be matched to
-#' the interval names of the Geological Timescale 2012/2020?
+#' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you wish
+#' to bin. This dataframe should contain  the following named columns:
+#' "max_ma" and "min_ma". These columns may be either `numeric` or `character`
+#' values. Ages given in `numeric` form are preferred for bin assignment.
+#' However, if interval names are provided, the function will try to match names
+#' to the Geological Timescale 2012/2020 (depending on user specification) to
+#' generate `numeric` ages for occurrences.
+#' @param bins \code{dataframe}. A dataframe of the bins that you wish to allocate
+#' fossil occurrences to. This dataframe must contain at least the following named
+#'  columns: "max_ma" and "min_ma", and must be `numeric` values.
+#' @param method \code{character}. The method desired for binning fossil occurrences.
+#' Currently, five methods exist in this function: "mid", "majority", "all", "random",
+#' and "point". See Details for a description of each.
+#' @param reps \code{numeric}. A non-negative `numeric` specifying the number of
+#' replications for sampling. This argument is only useful in the case of the "random"
+#' or "point" method being specified in the `method` argument. Defaults to 100.
+#' @param scale \code{character}. Specify the desired geological timescale to be used
+#' "GTS2020" or "GTS2012". This argument is only relevant if "min_ma" and "max_ma"
+#' columns are interval names. The function will attempt to match supplied interval
+#' names with "GTS2020" or "GTS2012" in `occdf` to pull numeric boundary values for
+#' the interval. Note that the function will return an error if interval names do
+#' not match precisely. Available interval names can be accessed via the call
+#' GTS2020$interval_name or GTS2012$interval_name. "GTS2020" is the default option.
+#' @param return_error \code{logical}. Should a vector of numbers be returned to flag
+#' the rows of the `occdf` that cannot be matched to the interval names?
 #'
-#' @return A \code{dataframe} of time bins for a specified interval or a list with a \code{dataframe} of time bins and \code{numeric} of binned age estimates (midpoint of specified
-#' bins) if assign specified.
+#' @return A \code{dataframe} of the original input `occdf` with appended bin assignment.
+#' If `method` is specified as "random" or "point", assignments are stored as a
+#' \code{list} in the dataframe.
 #'
-#' @details Add details here
+#' @details Five approaches (methods) exist in the `time_binning()` function for
+#' assigning occurrences to time bins:
+#' - Midpoint: The "mid" method is the simplest approach, and uses the midpoint of
+#' the fossil occurrence age range to bin the occurrence.
+#' - Majority: The "majority" method bins an occurrence into the bin which it most overlaps with.
+#' As part of this implementation, the majority percentage overlap of the occurrence is also calculated.
+#' If desired, these percentages can be used to further filter an occurrence dataset.
+#' - All: The "all" method bins an occurrence into every bin its age ranges covers.
+#' - Random: The "random" method randomly samples X amount of bins (with replacement) from the bins
+#' that the fossil occurrence age range covers.
+#' - Point: The "point" method randomly samples X amount of point age estimates from the
+#' age range of the fossil occurrences. Sampling is weighted by a normal probability
+#' distribution defined by the age range of the fossil occurrence.
 #'
 #' @section Developer(s):
 #' Christopher D. Dean & Lewis A. Jones
