@@ -12,7 +12,7 @@
 #' generate `numeric` ages for occurrences.
 #' @param bins \code{dataframe}. A dataframe of the bins that you wish to allocate
 #' fossil occurrences to. This dataframe must contain at least the following named
-#'  columns: "max_ma" and "min_ma", and must be `numeric` values.
+#'  columns: "bin", "max_ma" and "min_ma", and must be `numeric` values.
 #' @param method \code{character}. The method desired for binning fossil occurrences.
 #' Currently, five methods exist in this function: "mid", "majority", "all", "random",
 #' and "point". See Details for a description of each.

@@ -24,7 +24,7 @@ generate \code{numeric} ages for occurrences.}
 
 \item{bins}{\code{dataframe}. A dataframe of the bins that you wish to allocate
 fossil occurrences to. This dataframe must contain at least the following named
-columns: "max_ma" and "min_ma", and must be \code{numeric} values.}
+columns: "bin", "max_ma" and "min_ma", and must be \code{numeric} values.}
 
 \item{method}{\code{character}. The method desired for binning fossil occurrences.
 Currently, five methods exist in this function: "mid", "majority", "all", "random",
