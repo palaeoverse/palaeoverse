@@ -18,11 +18,11 @@
 #' "p_lng" and "p_lat" are the reconstructed coordinates for respective plate rotation models.
 #'
 #' @details This function generates palaeocoordinates by spatiotemporally linking present-day geographic coordinates and age estimates with a spatial
-#' grid (1º x 1º) rotated to the midpoint of stratigraphic stages (Geological Timescale, 2020; \url{https://stratigraphy.org/timescale/}). As such, palaeocoordinates can be efficiently generated for large datasets with
+#' grid (1 x 1 degree) rotated to the midpoint of stratigraphic stages (Geological Timescale, 2020; \url{https://stratigraphy.org/timescale/}). As such, palaeocoordinates can be efficiently generated for large datasets with
 #' relatively little computational power. In addition, no additional software or knowledge is required from the user (i.e. GPlates). However, it should be noted that if specific ages of rotation are required,
 #' or fine-scale spatial analyses is being conducted, use of \url{https://www.gplates.org} might be preferable for the user (particularly if your occurrences are close to plate boundaries).
 #'
-#' The current palaeorotations (0--540 Ma) provided were generated using a 1º x 1º spatial grid with the GPlates software \url{https://www.gplates.org} and three different plate rotation models
+#' The current palaeorotations (0--540 Ma) provided were generated using a 1 x 1 degree spatial grid with the GPlates software \url{https://www.gplates.org} and three different plate rotation models
 #' "Merdith2021" (Merdith et al., 2021), "Scotese2018" (Scotese & Wright, 2018), and "Wright2013" (Wright et al. 2013). A finer-scale spatial grid will be implemented in the future, along with the inclusion of more plate rotation models.
 #'
 #' @section Reference:
@@ -31,20 +31,21 @@
 #' Merdith, A., Williams, S.E., Collins, A.S., Tetley, M.G., Mulder, J.A., Blades, M.L.,
 #' Young, A., Armistead, S.E., Cannon, J., Zahirovic, S.,  Müller. R.D. (2021).
 #' Extending full-plate tectonic models into deep time: Linking the Neoproterozoic and the Phanerozoic.
-#' Earth-Science Reviews 214 (103477). \url{https://doi.org/10.1016/j.earscirev.2020.103477}.
+#' Earth-Science Reviews 214 (103477). \doi{https://doi.org/10.1016/j.earscirev.2020.103477}.
 #'
 #' Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (PaleoDEMs) for the Phanerozoic. PALEOMAP Project.
 #' \url{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}.
 #'
 #' Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013). Towards community-driven paleogeographic reconstructions:
 #' integrating open-access paleogeographic and paleobiology data with plate tectonics. Biogeosciences, 10(3), 1529–1541.
-#' \url{https://doi.org/10.5194/bg-10-1529-2013}.
+#' \doi{https://doi.org/10.5194/bg-10-1529-2013}.
 #' \cr
 #' @section Developer:
 #' Lewis A. Jones
 #' @section Auditor:
 #' Missing
 #' @examples
+#' \dontrun{
 #' #Generic example with a few occurrences
 #' x <- data.frame(lng = c(2, 95, 12), lat = c(46, 12, -65), age = c(88, 203, 467))
 #' palaeorotate(x = x)
@@ -63,6 +64,7 @@
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
 #' palaeorotate(x = x, uncertainty = TRUE)
+#' }
 #' @export
 palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
     #error handling

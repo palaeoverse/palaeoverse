@@ -6,6 +6,7 @@
 #' @param x \code{numeric}. A numeric vector of latitudes (or palaeolatitudes) to use for plotting.
 #' @param y \code{numeric}. A numeric vector of respective counts (e.g. species richness) to use for plotting.
 #' @param xlim \code{numeric}. A numeric vector of length two indicating the x limits of the plot.
+#' @param ylim \code{numeric}. A numeric vector of length two indicating the y limits of the plot.
 #' @param main \code{character}. The main title for the plot.
 #' @param ylab \code{character}. A title for the y-axis.
 #' @param xlab \code{character}. A title for the x-axis.
