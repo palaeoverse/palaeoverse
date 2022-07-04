@@ -12,13 +12,14 @@ test_that("time_bins() works", {
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"), scale = "GTS2020")), 102)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Holocene"), scale = "GTS2012")), 100)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Holocene"), scale = "GTS2012", size = 10)), 52)
-  expect_true(is.list(time_bins(interval = c("Fortunian", "Holocene"), scale = "GTS2012", assign = c(232, 167, 33), plot = FALSE)))
   expect_equal(nrow(time_bins(interval = c(500, 0), scale = "GTS2012")), 94)
   expect_equal(nrow(time_bins(interval = "Mesozoic", scale = "GTS2012", plot = TRUE)), 1)
 
   #error handling
   expect_error(time_bins(interval = "Mastrichtian", scale = "GTS2012", plot = TRUE))
   expect_error(time_bins(interval = "Mastrichtian", scale = "2012", plot = TRUE))
+  expect_error(time_bins(interval = c("Permian", "Danian"), scale = "GTS2012", plot = TRUE))
+  expect_error(time_bins(interval = 700, scale = "GTS2020", plot = TRUE))
   expect_error(time_bins(interval = -1, plot = TRUE))
   expect_error(time_bins(interval = data.frame()))
   expect_error(time_bins(interval = c(50, 10, 20), plot = TRUE))
