@@ -1,15 +1,13 @@
 Package: palaeoverse
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Authors@R: c(
+    person(given = "Lewis A.", family = "Jones", email = "LewisAlan.Jones@uvigo.es", role = c("aut", "cre")),
+    person(given = "William", family = "Gearty", email = "willgearty@gmail.com", role = c("aut")),
+    person(given = "Kilian", family = "Eichenseer", email = "kilian.eichenseer@gmail.com", role = c("aut")),
+    person(given = "Sofia", family = "Galvan", email = "sofia.galvan@uvigo.es", role = c("aut")))
+Description: A community-driven software package of generic functions for the palaeobiology community. The package streamlines analyses, improves code readability and reproducibility for palaeobiological analyses.
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
