@@ -21,11 +21,9 @@
 #' or "point" method being specified in the `method` argument. Defaults to 100.
 #' @param scale \code{character}. Specify the desired geological timescale to be used
 #' "GTS2020" or "GTS2012". This argument is only relevant if "min_ma" and "max_ma"
-#' columns are interval names. The function will attempt to match supplied interval
-#' names with "GTS2020" or "GTS2012" in `occdf` to pull numeric boundary values for
-#' the interval. Note that the function will return an error if interval names do
-#' not match precisely. Available interval names can be accessed via the call
-#' GTS2020$interval_name or GTS2012$interval_name. "GTS2020" is the default option.
+#' columns are `character` values of interval names. Available interval names can be
+#' accessed via the call GTS2020$interval_name or GTS2012$interval_name. "GTS2020" is
+#' the default option.
 #' @param return_error \code{logical}. Should a vector of numbers be returned to flag
 #' the rows of the `occdf` that cannot be matched to the interval names?
 #'
@@ -38,14 +36,22 @@
 #' - Midpoint: The "mid" method is the simplest approach, and uses the midpoint of
 #' the fossil occurrence age range to bin the occurrence.
 #' - Majority: The "majority" method bins an occurrence into the bin which it most overlaps with.
-#' As part of this implementation, the majority percentage overlap of the occurrence is also calculated.
-#' If desired, these percentages can be used to further filter an occurrence dataset.
-#' - All: The "all" method bins an occurrence into every bin its age ranges covers.
+#' As part of this implementation, the majority percentage overlap of the occurrence is also calculated
+#' and returned as an additional column in occdf. If desired, these percentages can be used to further
+#' filter an occurrence dataset.
+#' - All: The "all" method bins an occurrence into every bin its age ranges covers. For occurrences
+#' with age ranges of more than one bin, the occurrence row is duplicated. Each occurrence is assigned
+#' an ID in the column occdf$id so that duplicates can be tracked. Additionally, occdf$n_bins records
+#' the number of bins each occurrence appears within.
 #' - Random: The "random" method randomly samples X amount of bins (with replacement) from the bins
-#' that the fossil occurrence age range covers.
+#' that the fossil occurrence age range covers. The "reps" parameter determines the number of
+#' times the sample process is repeated. All reps for each occurrence are stored as a list within the
+#' occdf$bin_assignment column.
 #' - Point: The "point" method randomly samples X amount of point age estimates from the
 #' age range of the fossil occurrences. Sampling is weighted by a normal probability
-#' distribution defined by the age range of the fossil occurrence.
+#' distribution defined by the age range of the fossil occurrence. The "reps" parameter determines the
+#' number of times the sample process is repeated. All reps for each occurrence are stored as a list
+#' within the occdf$bin_assignment column.
 #'
 #' @section Developer(s):
 #' Christopher D. Dean & Lewis A. Jones
