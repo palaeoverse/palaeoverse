@@ -13,6 +13,7 @@
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be generated?
 #' @return A \code{dataframe} of latitudinal bins of a given size or a list with a \code{dataframe} of latitudinal bins
 #' and \code{numeric} vector of binned latitudes (midpoint latitude of bin) if assign specified.
+#' @importFrom graphics polygon abline title
 #' @section Developer:
 #' Lewis A. Jones
 #' @section Auditor:
@@ -89,7 +90,7 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = TRUE){
   }
 
   if(!is.null(assign)){
-    if(class(assign) == "numeric"){
+    if(is.numeric(assign)){
       if(any(assign > 90 | assign < -90)){
         stop("One or more latitudes is more than or less than 90/-90")
      }

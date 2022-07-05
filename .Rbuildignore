@@ -1,6 +1,11 @@
-^palaeoverse\.Rproj$
+^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
-^doc$
-^Meta$
-/data-raw/
+^\.github$
+cran-comments.md
+^CRAN-RELEASE$
+^CRAN-SUBMISSION$
+^revdep$
+codecov.yml
+[.]docx$
+^LICENSE\.md$

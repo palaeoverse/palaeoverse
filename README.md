@@ -20,7 +20,12 @@ Developed by:
 - [Cecily Nicholl](cecily.nicholl@ucl.ac.uk), University College London
 - [Christopher D. Dean](christopherdaviddean@gmail.com), University College London
 - [Alessandro Chiarenza](mailto:a.chiarenza15@gmail.com), Universidade de Vigo
+- [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), Federal University of Paraná/Stony Brook University
+- [Pedro Monarrez](mailto:pmonarrez@stanford.edu), Stanford University
+- [Erin Dillon](mailto:erinmdillon@ucsb.edu), Smithsonian Tropical Research Institute/University of California
 
 # Installation
-`palaeoverse` is not yet available on CRAN, and is still in development. We hope to have the initial release of the package later this year. If you have suggestions for additional functions, or are interested in joining the `palaeoverse` community and development team, please feel free to contact [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es).
+`palaeoverse` is not yet available on CRAN, and is still in development. We hope to have the initial release of the package later this year. If you have suggestions for additional functions, or are interested in joining the `palaeoverse` community and development team, please feel free to contact [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), or a member of the development of team.
  
+# Structure and standards
+At `palaeoverse` we have adopted a set of [standards and structure](https://github.com/palaeoverse-community/palaeoverse/raw/main/man/tutorials/structure-and-standards.pdf) to follow for contributing to the project. If you would like to contribute to `palaeoverse`, we strongly advise reading this document.
