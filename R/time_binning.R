@@ -26,10 +26,10 @@
 #' the default option.
 #' @param return_error \code{logical}. Should a vector of numbers be returned to flag
 #' the rows of the `occdf` that cannot be matched to `character` interval names? This is
-#' only relevant if occdf$max_ma and occdf$min_ma are non-`numeric` values.
+#' only relevant if `occdf$max_ma` and `occdf$min_ma` are `character` values.
 #'
 #' @return A \code{dataframe} of the original input `occdf` with the following appended
-#' columns: occurrence id (`id`), number of bins the occurrences covers (`n_bins`), bin assignment
+#' columns: occurrence id (`id`), number of bins the occurrence age range covers (`n_bins`), bin assignment
 #' (`bin_assignment`), and bin midpoint (`bin_midpoint`). In the case of the "random" method,
 #' a \code{list} is appended for the bin assignment and midpoint columns. If `method` is
 #' specified as "point", only point age estimates are appended (`point_estimates`) as a
@@ -61,6 +61,8 @@
 #' Christopher D. Dean & Lewis A. Jones
 #' @section Reviewer(s):
 #' To be reviewed
+#' @importFrom stats dnorm sd
+#' @importFrom utils capture.output
 #' @examples
 #' #Grab some data from the Paleobiology Database
 #' occdf <- read.csv("https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia")
@@ -197,7 +199,7 @@ vector can be returned with the `return_error` argument):",
       occdf$bin_midpoint[v] <- bins$mid_ma[i]
     }
 
-    # Remove mid_ma for fossil occurrences
+    # Remove mid_ma for fossil occurrences (if not already present as input)
     if(rmcol == TRUE){occdf <- occdf[,-which(colnames(occdf) == "mid_ma")]}
 
     # Return the dataframe and end the function.

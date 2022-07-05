@@ -20,7 +20,7 @@ to bin. This dataframe should contain  the following named columns:
 values. Ages given in \code{numeric} form are preferred for bin assignment.
 However, if interval names are provided, the function will try to match names
 to the Geological Timescale 2012/2020 (depending on user specification) to
-generate \code{numeric} ages for occurrences.}
+generate \code{numeric} ages for occurrences (see "return_error" for additional information).}
 
 \item{bins}{\code{dataframe}. A dataframe of the bins that you wish to allocate
 fossil occurrences to. This dataframe must contain at least the following named
@@ -41,11 +41,12 @@ accessed via the call GTS2020$interval_name or GTS2012$interval_name. "GTS2020" 
 the default option.}
 
 \item{return_error}{\code{logical}. Should a vector of numbers be returned to flag
-the rows of the \code{occdf} that cannot be matched to the interval names?}
+the rows of the \code{occdf} that cannot be matched to \code{character} interval names? This is
+only relevant if \code{occdf$max_ma} and \code{occdf$min_ma} are \code{character} values.}
 }
 \value{
 A \code{dataframe} of the original input \code{occdf} with the following appended
-columns: occurrence id (\code{id}), number of bins the occurrences covers (\code{n_bins}), bin assignment
+columns: occurrence id (\code{id}), number of bins the occurrence age range covers (\code{n_bins}), bin assignment
 (\code{bin_assignment}), and bin midpoint (\code{bin_midpoint}). In the case of the "random" method,
 a \code{list} is appended for the bin assignment and midpoint columns. If \code{method} is
 specified as "point", only point age estimates are appended (\code{point_estimates}) as a
@@ -72,7 +73,7 @@ the number of bins each occurrence appears within.
 \item Random: The "random" method randomly samples X amount of bins (with replacement) from the bins
 that the fossil occurrence age range covers. The \code{reps} argument determines the number of
 times the sample process is repeated. All replications for each occurrence are stored as a list within the
-\code{occdf$bin_assignment} and \code{occdf$bin_midpoint} column.
+\code{occdf$bin_assignment} and \code{occdf$bin_midpoint} columns.
 \item Point: The "point" method randomly samples X amount of point age estimates from the
 age range of the fossil occurrence. Sampling is weighted by a normal probability
 distribution defined by the age range of the fossil occurrence. The \code{reps} argument determines the
