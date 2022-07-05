@@ -30,7 +30,7 @@ axis_geo(
 }
 \arguments{
 \item{side}{\code{integer}. Which side to add the axis to (\code{1}: bottom,
-\code{2}: left, \code{3}: top, \code{4}: right).}
+the default; \code{2}: left; \code{3}: top; \code{4}: right).}
 
 \item{intervals}{The interval information to use to plot the axis: either A)
 a \code{character} string indicating a built-in or remotely hosted
@@ -74,7 +74,8 @@ visible range of intervals at the ends of the axis?}
 
 \item{skip}{A \code{character} vector of interval names indicating which
 intervals should not be labeled. If \code{abbr} is \code{TRUE}, this can
-also include interval abbreviations.}
+also include interval abbreviations. Quaternary, Holocene, and Late
+Pleistocene are skipped by default. Set to NULL if this is not desired.}
 
 \item{bord_color}{\code{character}. The border color of the interval boxes.}
 

@@ -45,7 +45,7 @@
 #' border. The axis will always be placed on the outside of the last scale.
 #'
 #' @param side \code{integer}. Which side to add the axis to (\code{1}: bottom,
-#'   \code{2}: left, \code{3}: top, \code{4}: right).
+#'   the default; \code{2}: left; \code{3}: top; \code{4}: right).
 #' @param intervals The interval information to use to plot the axis: either A)
 #'   a \code{character} string indicating a built-in or remotely hosted
 #'   \code{data.frame} (see \code{\link[deeptime]{getScaleData}}), or B) a
@@ -79,7 +79,8 @@
 #'   visible range of intervals at the ends of the axis?
 #' @param skip A \code{character} vector of interval names indicating which
 #'   intervals should not be labeled. If \code{abbr} is \code{TRUE}, this can
-#'   also include interval abbreviations.
+#'   also include interval abbreviations. Quaternary, Holocene, and Late
+#'   Pleistocene are skipped by default. Set to NULL if this is not desired.
 #' @param bord_color \code{character}. The border color of the interval boxes.
 #' @param lty \code{character}. Line type (see \code{lty} in
 #'   \code{\link[graphics:par]{graphics parameters}}).
@@ -178,17 +179,65 @@ axis_geo <- function(
   n_scales <- length(intervals)
 
   height <- rep(make_list(height), length.out = n_scales)
+  if (!all(sapply(height, function(x) is.numeric(x) && length(x) == 1))) {
+    stop("Invalid value supplied for height, must be a single numeric value
+         per scale", call. = FALSE)
+  }
   fill <- rep(make_list(fill), length.out = n_scales)
+  if (!all(sapply(fill, is_type_or_null, "character"))) {
+    stop("Invalid value supplied for fill, must be character (or NULL)",
+         call. = FALSE)
+  }
   lab <- rep(make_list(lab), length.out = n_scales)
+  if (!all(sapply(lab, function(x) is.logical(x) && length(x) == 1))) {
+    stop("Invalid value supplied for lab, must be a single logical value per
+         scale", call. = FALSE)
+  }
   lab_color <- rep(make_list(lab_color), length.out = n_scales)
+  if (!all(sapply(lab_color, is_type_or_null, "character"))) {
+    stop("Invalid value supplied for lab_color, must be character (or NULL)",
+         call. = FALSE)
+  }
   lab_size <- rep(make_list(lab_size), length.out = n_scales)
+  if (!all(sapply(lab_size, is.numeric))) {
+    stop("Invalid value supplied for lab_size, must be numeric", call. = FALSE)
+  }
   rot <- rep(make_list(rot), length.out = n_scales)
+  if (!all(sapply(rot, function(x) is.numeric(x) && length(x) == 1))) {
+    stop("Invalid value supplied for rot, must be a single numeric value per
+         scale", call. = FALSE)
+  }
   abbr <- rep(make_list(abbr), length.out = n_scales)
+  if (!all(sapply(abbr, function(x) is.logical(x) && length(x) == 1))) {
+    stop("Invalid value supplied for abbr, must be a single numeric value per
+         scale", call. = FALSE)
+  }
   skip <- rep(make_list(skip), length.out = n_scales)
+  if (!all(sapply(skip, is_type_or_null, "character"))) {
+    stop("Invalid value supplied for skip, must be character (or NULL)",
+         call. = FALSE)
+  }
   center_end_labels <- rep(make_list(center_end_labels), length.out = n_scales)
+  if (!all(sapply(center_end_labels, function(x) is.logical(x) &&
+                                                 length(x) == 1))) {
+    stop("Invalid value supplied for center_end_labels, must be a single logical
+         value per scale", call. = FALSE)
+  }
   bord_color <- rep(make_list(bord_color), length.out = n_scales)
+  if (!all(sapply(bord_color, is_type_or_null, "character"))) {
+    stop("Invalid value supplied for bord_color, must be character (or NULL)",
+         call. = FALSE)
+  }
   lty <- rep(make_list(lty), length.out = n_scales)
+  if (!all(sapply(lty, is_type_or_null, "character"))) {
+    stop("Invalid value supplied for lty, must be character (or NULL)",
+         call. = FALSE)
+  }
   lwd <- rep(make_list(lwd), length.out = n_scales)
+  if (!all(sapply(lwd, is_type_or_null, "numeric"))) {
+    stop("Invalid value supplied for lwd, must be numeric (or NULL)",
+         call. = FALSE)
+  }
 
   # get the limits of the plot
   clip_lims <- plot_lims <- par("usr") # x1, x2, y1, y2
@@ -205,7 +254,8 @@ axis_geo <- function(
       abs_ht * c(-1, 1)[(plot_lims[1] < plot_lims[2]) + 1]
     })
   } else {
-    stop("Invalid value supplied for side, must be 1, 2, 3, or 4")
+    stop("Invalid value supplied for side, must be 1, 2, 3, or 4",
+         call. = FALSE)
   }
 
   # expand clipping outside the desired axis
@@ -434,4 +484,8 @@ axis_geo <- function(
 
 make_list <- function(x) {
   if (is.list(x) && !is(x, "data.frame")) x else list(x)
+}
+
+is_type_or_null <- function(x, type) {
+  is(x, type) || is.null(x)
 }
