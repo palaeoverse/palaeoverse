@@ -19,11 +19,11 @@ shapefile(x = r, "./inst/extdata/spatial-grid.shp", overwrite = TRUE)
 #### Rotate shapefile in GPlates software####
 # Rotate data to given midpoints using Merdith et al. (2021) plate rotation model
 # Load GTS2020 ages
-GTS2020 <- palaeoverse:::GTS2020
+data("GTS2020")
 # Subset to stages
 rot_ages <- subset(GTS2020, rank == "Stage")
-# Remove time intervals older than 1000 Myr
-rot_ages <- subset(rot_ages, mid_ma < 1000)
+# Remove time intervals older than 541 Myr
+rot_ages <- subset(rot_ages, mid_ma < 541)
 # Get midpoint ages of stages
 rot_ages <- rot_ages[,c("interval_name", "mid_ma")]
 # Round to nearest million years for rotation
@@ -44,7 +44,7 @@ Wright2013 <- Wright2013[,c("lng", "lat")]
 #run loop to bind all ages
 for(i in unique(rot_ages$mid_ma)){
   #load shape file
-  shp <- shapefile(paste0("./inst/extdata/Wright2013/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
+  shp <- shapefile(paste0("./inst/extdata/Wright2013/spatial-grid/reconstructed_", i, ".00Ma.shp"))
   #extract coordinates
   reconstruction <- raster::as.data.frame(shp[,c("lng", "lat")])
   #name coordinates
@@ -80,7 +80,7 @@ Scotese2018 <- Scotese2018[,c("lng", "lat")]
 #run loop to bind all ages
 for(i in unique(rot_ages$mid_ma)){
   #load shape file
-  shp <- shapefile(paste0("./inst/extdata/Scotese2018/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
+  shp <- shapefile(paste0("./inst/extdata/Scotese2018/spatial-grid/reconstructed_", i, ".00Ma.shp"))
   #extract coordinates
   reconstruction <- raster::as.data.frame(shp[,c("lng", "lat")])
   #name coordinates
@@ -119,7 +119,7 @@ Merdith2021 <- Merdith2021[,c("lng", "lat")]
 #run loop to bind all ages
 for(i in unique(rot_ages$mid_ma)){
   #load shape file
-  shp <- shapefile(paste0("./inst/extdata/Merdith2021/reconstruction-grid/reconstructed_", i, ".00Ma.shp"))
+  shp <- shapefile(paste0("./inst/extdata/Merdith2021/spatial-grid/reconstructed_", i, ".00Ma.shp"))
   #extract coordinates
   reconstruction <- raster::as.data.frame(shp[,c("lng", "lat")])
   #name coordinates
