@@ -36,18 +36,19 @@ or "point" method being specified in the \code{method} argument. Defaults to 100
 
 \item{scale}{\code{character}. Specify the desired geological timescale to be used
 "GTS2020" or "GTS2012". This argument is only relevant if "min_ma" and "max_ma"
-columns are interval names. The function will attempt to match supplied interval
-names with "GTS2020" or "GTS2012" in \code{occdf} to pull numeric boundary values for
-the interval. Note that the function will return an error if interval names do
-not match precisely. Available interval names can be accessed via the call
-GTS2020$interval_name or GTS2012$interval_name. "GTS2020" is the default option.}
+columns are \code{character} values of interval names. Available interval names can be
+accessed via the call GTS2020$interval_name or GTS2012$interval_name. "GTS2020" is
+the default option.}
 
 \item{return_error}{\code{logical}. Should a vector of numbers be returned to flag
 the rows of the \code{occdf} that cannot be matched to the interval names?}
 }
 \value{
-A \code{dataframe} of the original input \code{occdf} with appended bin assignment.
-If \code{method} is specified as "random" or "point", assignments are stored as a
+A \code{dataframe} of the original input \code{occdf} with the following appended
+columns: occurrence id (\code{id}), number of bins the occurrences covers (\code{n_bins}), bin assignment
+(\code{bin_assignment}), and bin midpoint (\code{bin_midpoint}). In the case of the "random" method,
+a \code{list} is appended for the bin assignment and midpoint columns. If \code{method} is
+specified as "point", only point age estimates are appended (\code{point_estimates}) as a
 \code{list} in the dataframe.
 }
 \description{
@@ -61,14 +62,22 @@ assigning occurrences to time bins:
 \item Midpoint: The "mid" method is the simplest approach, and uses the midpoint of
 the fossil occurrence age range to bin the occurrence.
 \item Majority: The "majority" method bins an occurrence into the bin which it most overlaps with.
-As part of this implementation, the majority percentage overlap of the occurrence is also calculated.
-If desired, these percentages can be used to further filter an occurrence dataset.
-\item All: The "all" method bins an occurrence into every bin its age ranges covers.
+As part of this implementation, the majority percentage overlap of the occurrence is also calculated
+and returned as an additional column in \code{occdf}. If desired, these percentages can be used to further
+filter an occurrence dataset.
+\item All: The "all" method bins an occurrence into every bin its age range covers. For occurrences
+with age ranges of more than one bin, the occurrence row is duplicated. Each occurrence is assigned
+an ID in the column \code{occdf$id} so that duplicates can be tracked. Additionally, \code{occdf$n_bins} records
+the number of bins each occurrence appears within.
 \item Random: The "random" method randomly samples X amount of bins (with replacement) from the bins
-that the fossil occurrence age range covers.
+that the fossil occurrence age range covers. The \code{reps} argument determines the number of
+times the sample process is repeated. All replications for each occurrence are stored as a list within the
+\code{occdf$bin_assignment} and \code{occdf$bin_midpoint} column.
 \item Point: The "point" method randomly samples X amount of point age estimates from the
-age range of the fossil occurrences. Sampling is weighted by a normal probability
-distribution defined by the age range of the fossil occurrence.
+age range of the fossil occurrence. Sampling is weighted by a normal probability
+distribution defined by the age range of the fossil occurrence. The \code{reps} argument determines the
+number of times the sample process is repeated. All replications for each occurrence are stored as a list
+within the \code{occdf$point_estimates} column.
 }
 }
 \section{Developer(s)}{
@@ -84,6 +93,7 @@ To be reviewed
 \examples{
 #Grab some data from the Paleobiology Database
 occdf <- read.csv("https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia")
+bins <- data.frame(bin = 1:30, max_ma = seq(10, 300, 10), min_ma = seq(0, 290, 10))
 
 #Assign via midpoint age of fossil occurrence data
 time_binning(occdf = occdf, bins = bins, method = "mid")
