@@ -9,7 +9,7 @@
 #' values. Ages given in `numeric` form are preferred for bin assignment.
 #' However, if interval names are provided, the function will try to match names
 #' to the Geological Timescale 2012/2020 (depending on user specification) to
-#' generate `numeric` ages for occurrences.
+#' generate `numeric` ages for occurrences (see "return_error" for additional information).
 #' @param bins \code{dataframe}. A dataframe of the bins that you wish to allocate
 #' fossil occurrences to. This dataframe must contain at least the following named
 #'  columns: "bin", "max_ma" and "min_ma", and must be `numeric` values.
@@ -25,7 +25,8 @@
 #' accessed via the call GTS2020$interval_name or GTS2012$interval_name. "GTS2020" is
 #' the default option.
 #' @param return_error \code{logical}. Should a vector of numbers be returned to flag
-#' the rows of the `occdf` that cannot be matched to the interval names?
+#' the rows of the `occdf` that cannot be matched to `character` interval names? This is
+#' only relevant if occdf$max_ma and occdf$min_ma are non-`numeric` values.
 #'
 #' @return A \code{dataframe} of the original input `occdf` with the following appended
 #' columns: occurrence id (`id`), number of bins the occurrences covers (`n_bins`), bin assignment
@@ -49,7 +50,7 @@
 #' - Random: The "random" method randomly samples X amount of bins (with replacement) from the bins
 #' that the fossil occurrence age range covers. The `reps` argument determines the number of
 #' times the sample process is repeated. All replications for each occurrence are stored as a list within the
-#' `occdf$bin_assignment` and `occdf$bin_midpoint` column.
+#' `occdf$bin_assignment` and `occdf$bin_midpoint` columns.
 #' - Point: The "point" method randomly samples X amount of point age estimates from the
 #' age range of the fossil occurrence. Sampling is weighted by a normal probability
 #' distribution defined by the age range of the fossil occurrence. The `reps` argument determines the
@@ -152,7 +153,8 @@ vector can be returned with the `return_error` argument):",
   bin_list <- list()
   bin_list <- sapply(1:nrow(occdf),function(x) NULL)
 
-  # For each occurrence, find all the bins that it is present within, and add as elements to that part of the list.
+  # For each occurrence, find all the bins that it is present within, and add as
+  # elements to that part of the list.
   for(i in 1:nrow(bins)){
     v <- which(occdf$max_ma > bins$min_ma[i] & occdf$min_ma < bins$max_ma[i])
     for(j in v){
@@ -164,7 +166,8 @@ vector can be returned with the `return_error` argument):",
   id <- 1:nrow(occdf)
   occdf$id <- id
 
-  # Generate empty column for recording number of bins an occurrence appears in, and an empty column for the new bin allocation.
+  # Generate empty column for recording the number of bins an occurrence appears in,
+  # and empty columns for the new bin allocation and bin midpoint.
   occdf$n_bins <- NA
   occdf$bin_assignment <- NA
   occdf$bin_midpoint <- NA
@@ -207,7 +210,8 @@ vector can be returned with the `return_error` argument):",
     # Add column for point estimates
     occdf$point_estimates <- NA
 
-    # For each occurrence max/min age, make probability distribution and sample from it. Record that with each occurrence.
+    # For each occurrence max/min age, make probability distribution and sample from it.
+    # Record that with each occurrence.
     for (i in 1:nrow(occdf)){
       occ_seq <- seq(occdf[i, "min_ma"], occdf[i, "max_ma"], by = 0.01)
       prob <- dnorm(occ_seq, mean = mean(occ_seq), sd = sd(occ_seq))
@@ -236,7 +240,7 @@ vector can be returned with the `return_error` argument):",
       id_vec <- which(occdf$id == i)
       occdf$bin_assignment[id_vec] <- bin_list[[i]]
     }
-
+    # Add bin midpoints to dataframe
     for(i in 1:nrow(bins)){
       vec <- which(occdf$bin_assignment == bins$bin[i])
       occdf$bin_midpoint[vec] <- bins$mid_ma[i]
@@ -251,19 +255,25 @@ vector can be returned with the `return_error` argument):",
   #--- Method 4: Majority ---
   if(method == "majority"){
 
+    # Setup column for calculating overlap of age range with bin
     occdf$overlap_percentage <- NA
 
     # Run across bin list
     for (i in 1:length(bin_list)){
+
       # Dataframe of bins occurrence known to occur in
       tmpbin <- bins[bins$bin %in% bin_list[[i]],]
+
       # Generate sequence of length 1000 for percentage calculations
       occ_seq <- seq(occdf[i, "min_ma"], occdf[i, "max_ma"], length.out = 10000)
+
       # Calculate overlap across known bins
       percentage <- vector()
       for(j in 1:nrow(tmpbin)){
         percentage[j] <- (length(which(occ_seq >= tmpbin$min_ma[j] & occ_seq <= tmpbin$max_ma[j]))/10000)*100
       }
+
+      # Assign bins, bin midpoints and overlap percentage
       occdf[i, "bin_assignment"] <- tmpbin$bin[which.max(percentage)]
       occdf[i, "bin_midpoint"] <- tmpbin$mid_ma[which.max(percentage)]
       occdf[i, "overlap_percentage"] <- percentage[which.max(percentage)]
@@ -273,25 +283,34 @@ vector can be returned with the `return_error` argument):",
 
   #--- Method 5: Random ---
   if(method == "random"){
-  # Randomly sample from the list of bins that occurrence appears in, and add to the bin column for the occurrence.
+
+  # Randomly sample from the list of bins that occurrence appears in, and add to
+  # the bin column for the occurrence.
     for (i in 1:length(bin_list)){
+
       # Dataframe of bins occurrence known to occur in
       tmpbin <- bins[bins$bin %in% bin_list[[i]], ]
 
-      # If occurrence only appears in one bin
+      # If occurrence only appears in one bin, assign bin
       if(length(bin_list[[i]]) == 1){
+
+        # If there's only one rep
         if(reps == 1){occdf$bin_assignment[i] <- bin_list[[i]]}
+
+        # Assign bin and midpoint without sampling, and add to correct part of list
         else{
           rsamp <- bin_list[[i]]
           occdf$bin_assignment[i] <- list(rep(x = rsamp,
                                               times = reps))
           occdf$bin_midpoint[i] <- list(rep(x = bins$mid_ma[which(bins$bin == rsamp)],
                                             times = reps))
-
         }
-      } else {
-        # Sample bin
+      } else { # Otherwise:
+
+        # Randomly sample from possible bins
         rsamp <- sample(x = tmpbin$bin, size = reps, replace = TRUE)
+
+        # Assign bin and bin midpoint
         if(reps == 1){occdf$bin_assignment[i] <- rsamp
         occdf$bin_midpoint[i] <- bins$mid_ma[which(bins$bin == rsamp)]
         }
