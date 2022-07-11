@@ -80,7 +80,7 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), size = NULL, assi
   if(is.character(interval)){
     rnk <- df[which(df$interval_name %in% interval), c("rank")]
 
-    if(length(rnk) != length(interval)){stop(paste0("Checking spelling of specified intervals.
+    if(length(rnk) != length(interval)){stop(paste0("Check spelling of specified intervals.
     Available intervals are accessible via GTS2020$interval_name and GTS2012$interval_name."))}
 
     rnk <- unique(rnk)}else{rnk <- "Stage"}
