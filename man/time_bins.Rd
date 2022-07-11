@@ -6,7 +6,7 @@
 \usage{
 time_bins(
   interval = c("Fortunian", "Meghalayan"),
-  rank = NULL,
+  rank = "stage",
   size = NULL,
   assign = NULL,
   scale = "GTS2020",

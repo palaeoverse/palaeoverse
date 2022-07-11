@@ -80,7 +80,7 @@
 #' time_bins(interval = c("Fortunian", "Meghalayan"), assign = c(232, 167, 33))
 time_bins <-
   function(interval = c("Fortunian", "Meghalayan"),
-           rank = NULL,
+           rank = "stage",
            size = NULL,
            assign = NULL,
            scale = "GTS2020",
@@ -106,11 +106,19 @@ time_bins <-
     }
 
     if (scale != "GTS2012" & scale != "GTS2020") {
-      stop("`scale` must be either 'GTS2012' or 'GTS2020'")
+      stop("`scale` must be either GTS2012 or GTS2020")
     }
 
     if (length(interval) > 2) {
       stop("`interval` must be a character or numeric vector of length 1 or 2")
+    }
+
+    if ((rank %in% c("stage", "epoch", "period", "era", "eon")) == FALSE) {
+      stop("`rank` must be either: stage, epoch, period, era, or eon")
+    }
+
+    if (length(rank) > 1) {
+      stop("`rank` must be of length 1")
     }
 
     # Grab data
@@ -123,100 +131,76 @@ time_bins <-
       df <- palaeoverse::GTS2012
     }
 
-    # Which rank is required?
-    if (is.character(interval)) {
-      # Is rank supplied?
-      if (is.null(rank)) {
-        rank <- df[which(df$interval_name %in% interval), c("rank")]
-
-        if (length(rank) != length(interval)) {
-          stop(
-            paste0(
-              "Check spelling of specified intervals.
-    Available intervals are accessible via GTS2020$interval_name
-    and GTS2012$interval_name."
-            )
-          )
-        }
-      }
-
-      rank <- unique(rank)
-    }
-
-    if (length(rank) != 1) {
-      stop(
-        "Interval ranks should be the same, e.g. specify only stage or period
-      names, not a combination."
-      )
-    }
+    #drop columns
+    drop <- c("index", "stage_number", "series_number", "system_number")
+    df <- df[,-which(colnames(df) %in% drop)]
 
     # rank ages
     rank_ages <- df[which(df$rank == rank),]
 
     #character string entered
-    if (is.character(interval)) {
-      if (length(interval) == 1) {
+    if (is.character(interval) & length(interval) == 1) {
         w <- which(df$interval_name %in% interval)
         if (length(w) != length(interval)) {
           stop(
             paste0(
               "Check spelling of specified intervals.
-  Available intervals are accessible via GTS2020$interval_name."
+  Available intervals are accessible via GTS2020 and GTS2012."
             )
           )
         }
         rank_ages <-
-          rank_ages[which(rank_ages$max_ma >= df$max_ma[w] &
-                            rank_ages$min_ma <= df$min_ma[w]), ]
+          rank_ages[which(rank_ages$max_ma > df$min_ma[w] &
+                            rank_ages$min_ma < df$max_ma[w]), ]
         df <- rank_ages
       }
-      if (length(interval) == 2) {
+      if (is.character(interval) & length(interval) == 2) {
         w <- which(df$interval_name %in% interval)
         if (length(w) != length(interval)) {
           stop(
             paste0(
               "Check spelling of specified intervals.
-  Available intervals are accessible via GTS2020$interval_name."
+  Available intervals are accessible via GTS2020 and GTS2012."
             )
           )
         }
         rank_ages <-
-          rank_ages[which(rank_ages$max_ma >= df$max_ma[w] &
-                            rank_ages$min_ma <= df$min_ma[w]), ]
+          rank_ages[which(rank_ages$max_ma > min(df$min_ma[w]) &
+                            rank_ages$min_ma < max(df$max_ma[w])), ]
         df <- subset(df, max_ma <= max(rank_ages$max_ma))
-        df <- subset(df, min_ma <= max(rank_ages$min_ma))
+        df <- subset(df, min_ma >= min(rank_ages$min_ma))
       }
-    }
 
     #subset to rank
     df <- df[which(df$rank == rank),]
 
     #numeric ages entered
-    if (is.numeric(interval)) {
-      if (length(interval) == 1) {
+    if (is.numeric(interval) & length(interval) == 1) {
         if (interval > max(df$max_ma) | interval < min(df$min_ma)) {
-          stop("Value does not appear in range of available intervals:
+          stop("Value does not appear in the range of available intervals:
           0 to 541")
         }
         int_index <-
-          which(interval < df$max_ma & interval >= df$min_ma)
+          which(interval <= df$max_ma & interval >= df$min_ma)
         df <- df[int_index,]
       }
 
-      if (length(interval) == 2) {
+      if (is.numeric(interval) & length(interval) == 2) {
         max_int <- max(interval)
         min_int <- min(interval)
 
         if (max_int > max(df$max_ma) | min_int < min(df$min_ma)) {
-          stop("Values do not appear in range of available intervals:
+          stop("Values do not appear in the range of available intervals:
           0 to 541")
         }
 
         int_index <-
-          which(min_int < df$max_ma & max_int >= df$min_ma)
+          which(min_int <= df$max_ma & max_int >= df$min_ma)
         df <- df[int_index,]
       }
-    }
+
+    bin <- nrow(df):1
+    df <- cbind.data.frame(bin, df)
 
     #are equal length time bins required?
     if (is.numeric(size) == TRUE) {
@@ -335,7 +319,7 @@ time_bins <-
         tmp <- assign
         for (i in 1:nrow(df)) {
           assign[which(tmp <= df$max_ma[i] &
-                         tmp >= df$min_ma[i])] <- df$mid_ma[i]
+                         tmp >= df$min_ma[i])] <- df$interval_name[i]
         }
         assign <- list(df, assign)
         names(assign) <- c("Bins", "Assignation")
