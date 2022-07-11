@@ -94,7 +94,7 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), size = NULL, assi
   if(is.character(interval)){
     if(length(interval) == 1){
       w <- which(df$interval_name %in% interval)
-      if(length(w) != length(interval)){stop(paste0("Checking spelling of specified intervals.
+      if(length(w) != length(interval)){stop(paste0("Check spelling of specified intervals.
     Available intervals are accessible via GTS2020$interval_name."))}
       df <- df[w,]
     }
