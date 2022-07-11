@@ -10,7 +10,7 @@
 #' If two interval ages are provided, the intervals occurring in the range of these ages are returned. If higher-level units than stages are required, these can only be specified using a
 #' \code{character} input as the function defaults to using stratigraphic stages for \code{numeric} inputs. The default input for this argument is `c("Fortunian", "Meghalayan"`).
 #' @param size \code{numeric}. If equal-length time bins are desired, specify the length in millions of years (Myr) of the time bins desired.
-#' @param assign \code{numeric}. A numeric vector of age estimates (e.g. midpoint age in specified age range) to use to assign to bins of
+#' @param assign \code{numeric}. A numeric vector of age estimates (e.g., midpoint age in specified age range) to use to assign to bins of
 #' a given size. If assign is specified, a numeric vector is returned of the midpoint age of the specified bins. Note this is the simplified approach of assignment in `palaeoverse`. See
 #' \code{time_binning()} for a wider range of binning approaches.
 #' @param scale \code{character}. Specify the desired geological timescale to be used "GTS2020" or "GTS2012". "GTS2020" is the default.
@@ -53,20 +53,20 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), size = NULL, assi
   }
 
   if (is.numeric(size) == FALSE & is.null(size) == FALSE) {
-    stop("Size should be a numeric or NULL")
+    stop("`size` should be a numeric or NULL")
   }
 
   if (is.logical(plot) == FALSE) {
-    stop("plot should be logical (TRUE/FALSE)")
+    stop("`plot` should be logical (TRUE/FALSE)")
   }
 
   if (is.numeric(assign) == TRUE & any(assign < 0) == TRUE) {
-    stop("Age estimates should be non-negative values.
+    stop("Age estimates for `assign` should be non-negative values.
   You can transform your data using abs().")
   }
 
   if (scale != "GTS2012" & scale != "GTS2020") {
-    stop("Scale must be either 'GTS2012' or 'GTS2020'")
+    stop("`scale` must be either 'GTS2012' or 'GTS2020'")
   }
 
   #grab data
@@ -198,7 +198,7 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), size = NULL, assi
       assign <- list(df, assign)
       names(assign) <- c("Bins", "Assignation")
       return(assign)
-    }else{stop("assign should be a numeric")}
+    }else{stop("`assign` should be a numeric")}
   }
 
   return(df)
