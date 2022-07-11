@@ -34,7 +34,8 @@
 #' midpoint age in specified age range) to use to assign to bins of a given
 #' size. If assign is specified, a numeric vector is returned of the midpoint
 #' age of the specified bins. Note this is the simplified approach of
-#' assignment in `palaeoverse`. See \code{\link[palaeoverse]{time_binning()}}
+#' assignment in `palaeoverse`.
+#' See \code{\link[palaeoverse]{time_binning()}}
 #' for a wider range of binning approaches.
 #' @param scale \code{character}. Specify the desired geological timescale to
 #' be used "GTS2020" or "GTS2012". "GTS2020" is the default.
@@ -73,7 +74,7 @@
 #' time_bins(interval = c("Maastrichtian"), plot = TRUE)
 #'
 #' #Using a range of intervals defined by two named intervals and equal
-#' duration bins
+#' #duration bins
 #' time_bins(interval = c("Fortunian", "Meghalayan"), size = 10, plot = TRUE)
 #'
 #' #Assign bins based on given age estimates
@@ -99,10 +100,8 @@ time_bins <-
     }
 
     if (is.numeric(assign) == TRUE & any(assign < 0) == TRUE) {
-      stop(
-        "Age estimates for `assign` should be non-negative values.
-  You can transform your data using abs()."
-      )
+      stop("Age estimates for `assign` should be non-negative values.
+  You can transform your data using abs().")
     }
 
     if (scale != "GTS2012" & scale != "GTS2020") {
@@ -134,12 +133,12 @@ time_bins <-
     #drop columns
     drop <- c("index", "stage_number", "series_number", "system_number")
     df <- df[,-which(colnames(df) %in% drop)]
-
-    # rank ages
-    rank_ages <- df[which(df$rank == rank),]
+    rm(drop)
 
     #character string entered
     if (is.character(interval) & length(interval) == 1) {
+      #rank ages
+      rank_ages <- df[which(df$rank == rank),]
         w <- which(df$interval_name %in% interval)
         if (length(w) != length(interval)) {
           stop(
@@ -153,8 +152,11 @@ time_bins <-
           rank_ages[which(rank_ages$max_ma > df$min_ma[w] &
                             rank_ages$min_ma < df$max_ma[w]), ]
         df <- rank_ages
+        rm(rank_ages)
       }
       if (is.character(interval) & length(interval) == 2) {
+        # rank ages
+        rank_ages <- df[which(df$rank == rank),]
         w <- which(df$interval_name %in% interval)
         if (length(w) != length(interval)) {
           stop(
@@ -169,6 +171,7 @@ time_bins <-
                             rank_ages$min_ma < max(df$max_ma[w])), ]
         df <- subset(df, max_ma <= max(rank_ages$max_ma))
         df <- subset(df, min_ma >= min(rank_ages$min_ma))
+        rm(rank_ages)
       }
 
     #subset to rank
@@ -183,6 +186,7 @@ time_bins <-
         int_index <-
           which(interval <= df$max_ma & interval >= df$min_ma)
         df <- df[int_index,]
+        rm(int_index)
       }
 
       if (is.numeric(interval) & length(interval) == 2) {
@@ -197,6 +201,7 @@ time_bins <-
         int_index <-
           which(min_int <= df$max_ma & max_int >= df$min_ma)
         df <- df[int_index,]
+        rm(int_index)
       }
 
     bin <- nrow(df):1
@@ -251,6 +256,13 @@ time_bins <-
                          duration_myr,
                          grouping_rank,
                          intervals)
+      rm(bin,
+         max_ma,
+         mid_ma,
+         min_ma,
+         duration_myr,
+         grouping_rank,
+         intervals)
 
       #message user
       message(

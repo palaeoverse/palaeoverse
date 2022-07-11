@@ -38,7 +38,8 @@ the length in millions of years (Myr) of the time bins desired.}
 midpoint age in specified age range) to use to assign to bins of a given
 size. If assign is specified, a numeric vector is returned of the midpoint
 age of the specified bins. Note this is the simplified approach of
-assignment in \code{palaeoverse}. See \code{\link[palaeoverse]{time_binning()}}
+assignment in \code{palaeoverse}.
+See \code{\link[palaeoverse]{time_binning()}}
 for a wider range of binning approaches.}
 
 \item{scale}{\code{character}. Specify the desired geological timescale to
@@ -101,7 +102,7 @@ time_bins(interval = c(50, 100), plot = TRUE)
 time_bins(interval = c("Maastrichtian"), plot = TRUE)
 
 #Using a range of intervals defined by two named intervals and equal
-duration bins
+#duration bins
 time_bins(interval = c("Fortunian", "Meghalayan"), size = 10, plot = TRUE)
 
 #Assign bins based on given age estimates
