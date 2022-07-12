@@ -139,7 +139,6 @@ time_bins <-
           rank_ages[which(rank_ages$max_ma > df$min_ma[w] &
                             rank_ages$min_ma < df$max_ma[w]), ]
         df <- rank_ages
-        rm(rank_ages)
       }
       if (is.character(interval) & length(interval) == 2) {
         # rank ages
@@ -158,7 +157,6 @@ time_bins <-
                             rank_ages$min_ma < max(df$max_ma[w])), ]
         df <- subset(df, max_ma <= max(rank_ages$max_ma))
         df <- subset(df, min_ma >= min(rank_ages$min_ma))
-        rm(rank_ages)
       }
 
     #subset to rank
@@ -173,7 +171,6 @@ time_bins <-
         int_index <-
           which(interval <= df$max_ma & interval >= df$min_ma)
         df <- df[int_index,]
-        rm(int_index)
       }
 
       if (is.numeric(interval) & length(interval) == 2) {
@@ -188,7 +185,6 @@ time_bins <-
         int_index <-
           which(min_int <= df$max_ma & max_int >= df$min_ma)
         df <- df[int_index,]
-        rm(int_index)
       }
 
     #are equal length time bins required?
@@ -236,20 +232,6 @@ time_bins <-
                              duration_myr,
                              grouping_rank,
                              intervals)
-
-      #remove objects
-      rm(n_bins,
-         upper,
-         lower,
-         tracker,
-         count,
-         bin,
-         max_ma,
-         mid_ma,
-         min_ma,
-         duration_myr,
-         grouping_rank,
-         intervals)
 
       #message user
       message(
@@ -322,7 +304,6 @@ time_bins <-
         }
         assign <- list(df, assign)
         names(assign) <- c("Bins", "Assignation")
-        rm(tmp)
         return(assign)
       } else{
         stop("`assign` should be a numeric")

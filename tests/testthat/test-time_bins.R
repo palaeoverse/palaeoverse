@@ -13,7 +13,7 @@ test_that("time_bins() works", {
   #correct amount of data returned
   expect_equal(nrow(time_bins(interval = c("Maastrichtian"))), 1)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"),
-                              size = 10)), 50)
+                              size = 10, plot = TRUE)), 50)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"),
                               size = 6)), 74)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"),
