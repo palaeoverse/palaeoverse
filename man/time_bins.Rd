@@ -14,33 +14,27 @@ time_bins(
 )
 }
 \arguments{
-\item{interval}{\code{character or numeric}. Interval name of age available
+\item{interval}{\code{character or numeric}. Interval name available
 in \code{\link{GTS2020}} or \code{\link{GTS2012}}.
 If a single interval name is provided, this interval is returned.
 If two interval names are provided, these intervals and those existing
 between are returned. If a single numeric age is provided, the interval that
 covers this age is returned.
-If two interval ages are provided, the intervals occurring in the range of
-these ages are returned. If higher-level units than stages are required,
-these can only be specified using a  \code{character} input as the function
-defaults to using stratigraphic stages for \code{numeric} inputs. The
-default input for this argument is \verb{c("Fortunian", "Meghalayan"}).}
+If two numeric ages are provided, the intervals occurring in the range of
+these ages are returned.}
 
 \item{rank}{\code{character}. Which stratigraphic rank is desired? Choose
-from: "stage", "epoch", "period", "era", and "eon".
-This argument defaults to NULL, in which case the rank will be identified
-from the interval names.}
+from: "stage", "epoch", "period", "era", and "eon".}
 
 \item{size}{\code{numeric}. If equal-length time bins are desired, specify
 the length in millions of years (Myr) of the time bins desired.}
 
-\item{assign}{\code{numeric}. A numeric vector of age estimates (e.g.,
-midpoint age in specified age range) to use to assign to bins of a given
-size. If assign is specified, a numeric vector is returned of the midpoint
-age of the specified bins. Note this is the simplified approach of
-assignment in \code{palaeoverse}.
-See \code{\link[palaeoverse]{time_binning}}
-for a wider range of binning approaches.}
+\item{assign}{\code{numeric}. A numeric vector of age estimates to use to
+assign to bins of a given size. If assign is specified, a numeric vector is
+returned of the midpoint age of the specified bins. Note this is the
+simplified approach of assignment in \code{palaeoverse}.
+See \code{\link[palaeoverse:time_binning]{palaeoverse::time_binning()}}
+for a wider range of binning methods}
 
 \item{scale}{\code{character}. Specify the desired geological timescale to
 be used "GTS2020" or "GTS2012". "GTS2020" is the default.}
@@ -69,15 +63,14 @@ reasoning e.g. availability of outcrop (see Dean et al. (2020);
 \details{
 This function uses the Geological Timescale 2020 and the Geological
 Timescale 2012 (depending on user specification).
-Additional information on each timescale and source can be accessed via the
-calls:
+Additional information on each timescale and source can be accessed via:
 \itemize{
-\item \code{?GTS2020}
-\item \code{?GTS2012}
+\item \code{\link{GTS2020}}
+\item \code{\link{GTS2012}}
 }
 
 Available intervals names are also accessible via
-\code{GTS2020$interval_name} or \code{GTS2012$interval_name}. Data from the
+\code{GTS2020$interval_name} or \code{GTS2012$interval_name}. Data of the
 Geological Timescale 2020 and 2012 were compiled by Lewis A. Jones
 (2022-07-02).
 }
@@ -88,21 +81,20 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Kilian Eichenseer
+Kilian Eichenseer & William Gearty
 }
 
 \examples{
-#Using interval midpoint age
+#Using numeric age
 time_bins(interval = 10, plot = TRUE)
 
-#Using interval age range
+#Using numeric age range
 time_bins(interval = c(50, 100), plot = TRUE)
 
 #Using a single interval name
 time_bins(interval = c("Maastrichtian"), plot = TRUE)
 
-#Using a range of intervals defined by two named intervals and equal
-#duration bins
+#Using a range of intervals and near-equal duration bins
 time_bins(interval = c("Fortunian", "Meghalayan"), size = 10, plot = TRUE)
 
 #Assign bins based on given age estimates

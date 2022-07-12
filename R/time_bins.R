@@ -13,30 +13,24 @@
 #' reasoning e.g. availability of outcrop (see Dean et al. (2020);
 #' \doi{https://doi.org/10.1111/pala.12492}).
 #'
-#' @param interval \code{character or numeric}. Interval name of age available
+#' @param interval \code{character or numeric}. Interval name available
 #' in \code{\link{GTS2020}} or \code{\link{GTS2012}}.
 #' If a single interval name is provided, this interval is returned.
 #' If two interval names are provided, these intervals and those existing
 #' between are returned. If a single numeric age is provided, the interval that
 #' covers this age is returned.
-#' If two interval ages are provided, the intervals occurring in the range of
-#' these ages are returned. If higher-level units than stages are required,
-#' these can only be specified using a  \code{character} input as the function
-#' defaults to using stratigraphic stages for \code{numeric} inputs. The
-#' default input for this argument is `c("Fortunian", "Meghalayan"`).
+#' If two numeric ages are provided, the intervals occurring in the range of
+#' these ages are returned.
 #' @param rank \code{character}. Which stratigraphic rank is desired? Choose
 #' from: "stage", "epoch", "period", "era", and "eon".
-#' This argument defaults to NULL, in which case the rank will be identified
-#' from the interval names.
 #' @param size \code{numeric}. If equal-length time bins are desired, specify
 #' the length in millions of years (Myr) of the time bins desired.
-#' @param assign \code{numeric}. A numeric vector of age estimates (e.g.,
-#' midpoint age in specified age range) to use to assign to bins of a given
-#' size. If assign is specified, a numeric vector is returned of the midpoint
-#' age of the specified bins. Note this is the simplified approach of
-#' assignment in `palaeoverse`.
-#' See \code{\link[palaeoverse]{time_binning}}
-#' for a wider range of binning approaches.
+#' @param assign \code{numeric}. A numeric vector of age estimates to use to
+#' assign to bins of a given size. If assign is specified, a numeric vector is
+#' returned of the midpoint age of the specified bins. Note this is the
+#' simplified approach of assignment in `palaeoverse`.
+#' See \code{\link[palaeoverse:time_binning]{palaeoverse::time_binning()}}
+#' for a wider range of binning methods
 #' @param scale \code{character}. Specify the desired geological timescale to
 #' be used "GTS2020" or "GTS2012". "GTS2020" is the default.
 #' @param plot \code{logical}. Should a plot of time bins be generated?
@@ -49,32 +43,30 @@
 #'
 #' @details This function uses the Geological Timescale 2020 and the Geological
 #' Timescale 2012 (depending on user specification).
-#' Additional information on each timescale and source can be accessed via the
-#' calls:
-#' - \code{?GTS2020}
-#' - \code{?GTS2012}
+#' Additional information on each timescale and source can be accessed via:
+#' - \code{\link{GTS2020}}
+#' - \code{\link{GTS2012}}
 #'
 #' Available intervals names are also accessible via
-#' \code{GTS2020$interval_name} or \code{GTS2012$interval_name}. Data from the
+#' \code{GTS2020$interval_name} or \code{GTS2012$interval_name}. Data of the
 #' Geological Timescale 2020 and 2012 were compiled by Lewis A. Jones
 #' (2022-07-02).
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Kilian Eichenseer
+#' Kilian Eichenseer & William Gearty
 #' @export
 #' @examples
-#' #Using interval midpoint age
+#' #Using numeric age
 #' time_bins(interval = 10, plot = TRUE)
 #'
-#' #Using interval age range
+#' #Using numeric age range
 #' time_bins(interval = c(50, 100), plot = TRUE)
 #'
 #' #Using a single interval name
 #' time_bins(interval = c("Maastrichtian"), plot = TRUE)
 #'
-#' #Using a range of intervals defined by two named intervals and equal
-#' #duration bins
+#' #Using a range of intervals and near-equal duration bins
 #' time_bins(interval = c("Fortunian", "Meghalayan"), size = 10, plot = TRUE)
 #'
 #' #Assign bins based on given age estimates
@@ -129,11 +121,6 @@ time_bins <-
     if (scale == "GTS2012") {
       df <- palaeoverse::GTS2012
     }
-
-    #drop columns
-    drop <- c("index", "stage_number", "series_number", "system_number")
-    df <- df[,-which(colnames(df) %in% drop)]
-    rm(drop)
 
     #character string entered
     if (is.character(interval) & length(interval) == 1) {
@@ -204,59 +191,59 @@ time_bins <-
         rm(int_index)
       }
 
-    bin <- nrow(df):1
-    df <- cbind.data.frame(bin, df)
-
     #are equal length time bins required?
-    if (is.numeric(size) == TRUE) {
-      # duration of interval we want to bin
-      dur <- max(df$max_ma) - min(df$min_ma)
-      # number of bins, based on bin size
-      nbin <- max(c(round(dur / size), 1))
-      # sort mid ages into bins
-      binlist <-
-        cut(
-          df$mid_ma,
-          breaks = seq(min(df$min_ma), max(df$max_ma), length.out = nbin + 1),
-          include.lowest = T
-        )
-      levels(binlist) <- 1:nbin # levels from 1:nbin for convenience
-      # convert to interval names
-      binlist <-
-        sapply(1:nbin, function(x)
-          df$interval_name[which(binlist == x)])
-      # make list if its only one bin
-      if (!("list" %in% class(binlist)))
-        binlist <- list(binlist)
-      # remove empty bins
-      binlist <-
-        binlist[which(sapply(binlist, function(x)
-          ! (identical(x, character(
-            0
-          )))))]
+
+    if(is.numeric(size) == TRUE){
+      # Update bin size for age range
+      # How many bins should be generated?
+      n_bins <- round((max(df$max_ma)-min(df$min_ma))/size)
+      size <- (max(df$max_ma)-min(df$min_ma))/n_bins
+      #track cumulative sum
+      tracker <- list()
+      for(i in 1:nrow(df)){
+        tracker[[i]] <- rep(NA, length.out = nrow(df))
+        tracker[[i]][i:nrow(df)] <- abs(cumsum(df$duration_myr[i:nrow(df)]) - size)
+      }
+
+      #calculate upper and lower limits for each bin
+      lower <- NULL
+      upper <- NULL
+      count <- 1
+      while(count <= nrow(df)){
+        upper <- append(upper, which.min(tracker[[count]]))
+        lower <- append(lower, (count))
+        count <- which.min(tracker[[count]]) + 1
+      }
 
       #generate bin information
-      bin <- length(binlist):1
-      max_ma <- sapply(binlist, function(x)
-        max(df$max_ma[which(df$interval_name %in% x)]))
-      min_ma <- sapply(binlist, function(x)
-        min(df$min_ma[which(df$interval_name %in% x)]))
-      mid_ma <- (max_ma + min_ma) / 2
+      bin <- length(upper):1
+      max_ma <- df[upper,c("max_ma")]
+      min_ma <- df[lower,c("min_ma")]
+      mid_ma <- (max_ma + min_ma)/2
       duration_myr <- max_ma - min_ma
-      intervals <- sapply(binlist, function(x)
-        toString(x, sep = ", "))
+      intervals <- vector("character")
+      #get interval names
+      for(i in 1:length(upper)){
+        intervals[i] <- toString(df[lower[i]:upper[i], c("interval_name")])
+      }
 
       #generate dataframe
       grouping_rank <- rank
-      df <-
-        cbind.data.frame(bin,
-                         max_ma,
-                         mid_ma,
-                         min_ma,
-                         duration_myr,
-                         grouping_rank,
-                         intervals)
-      rm(bin,
+      df <- cbind.data.frame(bin,
+                             max_ma,
+                             mid_ma,
+                             min_ma,
+                             duration_myr,
+                             grouping_rank,
+                             intervals)
+
+      #remove objects
+      rm(n_bins,
+         upper,
+         lower,
+         tracker,
+         count,
+         bin,
          max_ma,
          mid_ma,
          min_ma,
@@ -331,10 +318,11 @@ time_bins <-
         tmp <- assign
         for (i in 1:nrow(df)) {
           assign[which(tmp <= df$max_ma[i] &
-                         tmp >= df$min_ma[i])] <- df$interval_name[i]
+                         tmp >= df$min_ma[i])] <- df$mid_ma[i]
         }
         assign <- list(df, assign)
         names(assign) <- c("Bins", "Assignation")
+        rm(tmp)
         return(assign)
       } else{
         stop("`assign` should be a numeric")

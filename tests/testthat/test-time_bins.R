@@ -13,7 +13,7 @@ test_that("time_bins() works", {
   #correct amount of data returned
   expect_equal(nrow(time_bins(interval = c("Maastrichtian"))), 1)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"),
-                              size = 10)), 52)
+                              size = 10)), 50)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"),
                               size = 6)), 74)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"),
@@ -21,7 +21,7 @@ test_that("time_bins() works", {
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Holocene"),
                               scale = "GTS2012")), 100)
   expect_equal(nrow(time_bins(interval = c("Fortunian", "Holocene"),
-                              scale = "GTS2012", size = 10)), 52)
+                              scale = "GTS2012", size = 10)), 51)
   expect_equal(nrow(time_bins(interval = c(500, 0), scale = "GTS2012")), 94)
   expect_equal(nrow(time_bins(interval = "Mesozoic", scale = "GTS2012",
                               plot = TRUE)), 30)
@@ -33,7 +33,8 @@ test_that("time_bins() works", {
                               rank = "stage")), 8)
   expect_equal(nrow(time_bins(interval = c("Permian", "Danian"), rank = "period",
                          scale = "GTS2012")), 5)
-  expect_equal(colnames(time_bins()), c("bin", "interval_name", "rank",
+  expect_equal(colnames(time_bins()), c("interval_number", "interval_name",
+                                        "rank",
                                        "max_ma", "mid_ma", "min_ma",
                                        "duration_myr", "font", "colour"))
   expect_equal(colnames(time_bins(size = 10)), c("bin",

@@ -1,19 +1,15 @@
 #' Geological Timescale 2020
 #'
 #' A dataframe of the Geological Timescale 2020. Age data from the
-#' International Commission on Stratigraphy GTS
-#' \href{
-#' https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf}{2020/03}.
+#' International Commission on Stratigraphy:
+#' \url{https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf}.
 #' Supplementary information is included in the dataset for plotting
 #' functionality (e.g. GTS2020 colour scheme).
 #'
-#' @format A data frame with 189 rows and 12 variables:
+#' @format A data frame with 189 rows and 9 variables:
 #' \describe{
-#'   \item{index}{Index number for the temporal order of all intervals present
-#'   in the dataset.}
-#'   \item{stage_number}{Index number for stages.}
-#'   \item{series_number}{Index number for series.}
-#'   \item{system_number}{Index number for systems.}
+#'   \item{interval_number}{Index number for the temporal order of all
+#'   intervals present in the dataset.}
 #'   \item{interval_name}{Names of intervals in the dataset.}
 #'   \item{rank}{The temporal rank of intervals in the dataset.}
 #'   \item{max_ma}{The maximum age of the interval in millions of years before
@@ -39,19 +35,15 @@
 #' Geological Timescale 2012
 #'
 #' A dataframe of the Geological Timescale 2012. Age data from the
-#' International Commission on Stratigraphy GTS
-#' \href{
-#' https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf}{2012}.
+#' International Commission on Stratigraphy:
+#' \url{https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf}.
 #' Supplementary information is also included in the dataset for plotting
 #' functionality (e.g. GTS2012 colour scheme).
 #'
-#' @format A data frame with 189 rows and 12 variables:
+#' @format A data frame with 186 rows and 9 variables:
 #' \describe{
-#'   \item{index}{Index number for the temporal order of all intervals present
-#'   in the dataset.}
-#'   \item{stage_number}{Index number for stages.}
-#'   \item{series_number}{Index number for series.}
-#'   \item{system_number}{Index number for systems.}
+#'   \item{interval_number}{Index number for the temporal order of all
+#'   intervals present in the dataset.}
 #'   \item{interval_name}{Names of intervals in the dataset.}
 #'   \item{rank}{The temporal rank of intervals in the dataset.}
 #'   \item{max_ma}{The maximum age of the interval in millions of years before
