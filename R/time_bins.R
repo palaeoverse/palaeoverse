@@ -104,12 +104,12 @@ time_bins <-
       stop("`interval` must be a character or numeric vector of length 1 or 2")
     }
 
-    if ((rank %in% c("stage", "epoch", "period", "era", "eon")) == FALSE) {
-      stop("`rank` must be either: stage, epoch, period, era, or eon")
-    }
-
     if (length(rank) > 1) {
       stop("`rank` must be of length 1")
+    }
+
+    if ((rank %in% c("stage", "epoch", "period", "era", "eon")) == FALSE) {
+      stop("`rank` must be either: stage, epoch, period, era, or eon")
     }
 
     # Grab data
@@ -255,7 +255,7 @@ time_bins <-
       message(
         paste0(
           "Target equal length time bins was set to ",
-          size,
+          round(size, digits = 2),
           " Myr. \nGenerated time bins have a mean length of ",
           round(mean(df$duration_myr), digits = 2),
           " Myr and a standard deviation of ",
