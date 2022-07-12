@@ -15,7 +15,7 @@ time_bins(
 }
 \arguments{
 \item{interval}{\code{character or numeric}. Interval name of age available
-in \code{\link[palaeoverse]{GTS2020}} or \code{\link[palaeoverse]{GTS2012}}.
+in \code{\link{GTS2020}} or \code{\link{GTS2012}}.
 If a single interval name is provided, this interval is returned.
 If two interval names are provided, these intervals and those existing
 between are returned. If a single numeric age is provided, the interval that
@@ -39,7 +39,7 @@ midpoint age in specified age range) to use to assign to bins of a given
 size. If assign is specified, a numeric vector is returned of the midpoint
 age of the specified bins. Note this is the simplified approach of
 assignment in \code{palaeoverse}.
-See \code{\link[palaeoverse]{time_binning()}}
+See \code{\link[palaeoverse]{time_binning}}
 for a wider range of binning approaches.}
 
 \item{scale}{\code{character}. Specify the desired geological timescale to
@@ -72,8 +72,8 @@ Timescale 2012 (depending on user specification).
 Additional information on each timescale and source can be accessed via the
 calls:
 \itemize{
-\item \code{?palaeoverse::GTS2020()}
-\item \code{?palaeoverse::GTS2012()}
+\item \code{?GTS2020}
+\item \code{?GTS2012}
 }
 
 Available intervals names are also accessible via

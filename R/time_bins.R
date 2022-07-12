@@ -14,7 +14,7 @@
 #' \doi{https://doi.org/10.1111/pala.12492}).
 #'
 #' @param interval \code{character or numeric}. Interval name of age available
-#' in \code{\link[palaeoverse]{GTS2020}} or \code{\link[palaeoverse]{GTS2012}}.
+#' in \code{\link{GTS2020}} or \code{\link{GTS2012}}.
 #' If a single interval name is provided, this interval is returned.
 #' If two interval names are provided, these intervals and those existing
 #' between are returned. If a single numeric age is provided, the interval that
@@ -35,7 +35,7 @@
 #' size. If assign is specified, a numeric vector is returned of the midpoint
 #' age of the specified bins. Note this is the simplified approach of
 #' assignment in `palaeoverse`.
-#' See \code{\link[palaeoverse]{time_binning()}}
+#' See \code{\link[palaeoverse]{time_binning}}
 #' for a wider range of binning approaches.
 #' @param scale \code{character}. Specify the desired geological timescale to
 #' be used "GTS2020" or "GTS2012". "GTS2020" is the default.
@@ -51,8 +51,8 @@
 #' Timescale 2012 (depending on user specification).
 #' Additional information on each timescale and source can be accessed via the
 #' calls:
-#' - \code{?palaeoverse::GTS2020()}
-#' - \code{?palaeoverse::GTS2012()}
+#' - \code{?GTS2020}
+#' - \code{?GTS2012}
 #'
 #' Available intervals names are also accessible via
 #' \code{GTS2020$interval_name} or \code{GTS2012$interval_name}. Data from the
