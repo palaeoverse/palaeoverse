@@ -20,7 +20,7 @@
 #' replications for sampling. This argument is only useful in the case of the "random"
 #' or "point" method being specified in the `method` argument. Defaults to 100.
 #' @param scale \code{character}. Specify the desired geological timescale to be used
-#' "GTS2020" or "GTS2012". This argument is only relevant if "min_ma" and "max_ma"
+#' ("GTS2020" or "GTS2012"). This argument is only relevant if "min_ma" and "max_ma"
 #' columns are `character` values of interval names. Available interval names can be
 #' accessed via the call GTS2020$interval_name or GTS2012$interval_name. "GTS2020" is
 #' the default option.
