@@ -38,11 +38,19 @@ test_that("time_binning() works", {
   expect_equal(class(time_binning(occdf = occdf, bins = bins,
                                   method = "mid")$bin_assignment), "integer")
 
+  expect_equal(class(time_binning(occdf = occdf, bins = bins,
+                                  scale = "GTS2012",
+                                  method = "mid")$bin_assignment), "integer")
+
   expect_equal(nrow(time_binning(occdf = occdf, bins = bins,
                                  method = "random")), nrow(occdf))
 
   expect_equal(is.list(time_binning(occdf = occdf, bins = bins,
                                     method = "point")$point_estimates), TRUE)
+
+  expect_equal(is.list(time_binning(occdf = occdf, bins = bins,
+                                    reps = 1,
+                                    method = "random")$bin_midpoint), FALSE)
 
   expect_equal(length(time_binning(occdf = occdf,
                                    bins = bins,

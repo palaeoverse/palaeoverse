@@ -370,6 +370,8 @@ time_binning <-
           # If there's only one rep
           if (reps == 1) {
             occdf$bin_assignment[i] <- bin_list[[i]]
+            rsamp <- bin_list[[i]]
+            occdf$bin_midpoint[i] <- bins$mid_ma[which(bins$bin == rsamp)]
           }
 
           # Assign bin and midpoint without sampling, and add to correct part
