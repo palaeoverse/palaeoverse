@@ -266,7 +266,7 @@ vector can be returned with the `return_error` argument):",
       # Dataframe of bins occurrence known to occur in
       tmpbin <- bins[bins$bin %in% bin_list[[i]],]
 
-      # Generate sequence of length 1000 for percentage calculations
+      # Generate sequence of length 10000 for percentage calculations
       occ_seq <- seq(occdf[i, "min_ma"], occdf[i, "max_ma"], length.out = 10000)
 
       # Calculate overlap across known bins
