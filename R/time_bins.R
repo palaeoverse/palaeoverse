@@ -218,6 +218,19 @@ time_bins <-
       mid_ma <- (max_ma + min_ma)/2
       duration_myr <- max_ma - min_ma
       intervals <- vector("character")
+
+      #resolve any edge effect
+      if(duration_myr[length(duration_myr)] < size/2){
+        upper[length(upper)-1] <- upper[length(upper)]
+        upper <- upper[-length(upper)]
+        lower <- lower[-length(lower)]
+        bin <- length(upper):1
+        max_ma <- df[upper,c("max_ma")]
+        min_ma <- df[lower,c("min_ma")]
+        mid_ma <- (max_ma + min_ma)/2
+        duration_myr <- max_ma - min_ma
+      }
+
       #get interval names
       for(i in 1:length(upper)){
         intervals[i] <- toString(df[lower[i]:upper[i], c("interval_name")])
