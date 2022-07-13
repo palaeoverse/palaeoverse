@@ -37,7 +37,7 @@
 #'
 #' @details Five approaches (methods) exist in the `time_binning()` function for
 #' assigning occurrences to time bins:
-#' - Midpoint: The "mid" method is the simplest approach, and uses the midpoint of
+#' - Midpoint: The "mid" method is the simplest approach and uses the midpoint of
 #' the fossil occurrence age range to bin the occurrence.
 #' - Majority: The "majority" method bins an occurrence into the bin which it most overlaps with.
 #' As part of this implementation, the majority percentage overlap of the occurrence is also calculated
