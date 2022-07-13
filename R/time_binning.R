@@ -111,12 +111,17 @@ time_binning <-
     if (is.data.frame(bins) == FALSE) {
       stop("`bins` should be a dataframe.")
     }
-    if (method %in% c("all", "majority", "random", "point", "mid") == FALSE) {
+
+    possible_methods <- c("all", "majority", "random", "point", "mid")
+    method_match <- charmatch(method, possible_methods)
+
+    if (is.na(method_match) == TRUE) {
       # If the user has entered a non-valid term for the "method" argument,
       # generate an error and warn the user.
       stop("Invalid `method`. Choose either:
-           'all', 'majority', 'random', 'point', or 'mid'.")
-    }
+  'all', 'majority', 'random', 'point', or 'mid'.")
+    }else{method <- possible_methods[method_match]}
+
     if (scale %in% c("GTS2020", "GTS2012") == FALSE) {
       stop("Invalid `scale`. Choose either 'GTS2020' or 'GTS2012'")
     }
