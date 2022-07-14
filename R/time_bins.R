@@ -71,19 +71,14 @@
 #'
 #' #Assign bins based on given age estimates
 #' time_bins(interval = c("Fortunian", "Meghalayan"), assign = c(232, 167, 33))
-time_bins <-
-  function(interval = c("Fortunian", "Meghalayan"),
-           rank = "stage",
-           size = NULL,
-           assign = NULL,
-           scale = "GTS2020",
-           plot = FALSE) {
+time_bins <- function(interval = c("Fortunian", "Meghalayan"), rank = "stage",
+           size = NULL, assign = NULL, scale = "GTS2020", plot = FALSE) {
     # Error handling
-    if (!is.character(interval) & !is.numeric(interval)) {
+    if (!is.character(interval) && !is.numeric(interval)) {
       stop("`interval` must be of class 'character' or 'numeric'")
     }
 
-    if (is.numeric(size) == FALSE & is.null(size) == FALSE) {
+    if (is.numeric(size) == FALSE && is.null(size) == FALSE) {
       stop("`size` should be a numeric or NULL")
     }
 
@@ -91,12 +86,12 @@ time_bins <-
       stop("`plot` should be logical (TRUE/FALSE)")
     }
 
-    if (is.numeric(assign) == TRUE & any(assign < 0) == TRUE) {
+    if (is.numeric(assign) == TRUE && any(assign < 0) == TRUE) {
       stop("Age estimates for `assign` should be non-negative values.
   You can transform your data using abs().")
     }
 
-    if (scale != "GTS2012" & scale != "GTS2020") {
+    if (scale != "GTS2012" && scale != "GTS2020") {
       stop("`scale` must be either GTS2012 or GTS2020")
     }
 
@@ -125,9 +120,9 @@ time_bins <-
     colnames(df)[which(colnames(df) == "interval_number")] <- "bin"
 
     #character string entered
-    if (is.character(interval) & length(interval) == 1) {
+    if (is.character(interval) && length(interval) == 1) {
       #rank ages
-      rank_ages <- df[which(df$rank == rank),]
+      rank_ages <- df[which(df$rank == rank), ]
         w <- which(df$interval_name %in% interval)
         if (length(w) != length(interval)) {
           stop(
@@ -142,9 +137,9 @@ time_bins <-
                             rank_ages$min_ma < df$max_ma[w]), ]
         df <- rank_ages
       }
-      if (is.character(interval) & length(interval) == 2) {
+      if (is.character(interval) && length(interval) == 2) {
         # rank ages
-        rank_ages <- df[which(df$rank == rank),]
+        rank_ages <- df[which(df$rank == rank), ]
         w <- which(df$interval_name %in% interval)
         if (length(w) != length(interval)) {
           stop(
@@ -162,43 +157,43 @@ time_bins <-
       }
 
     #subset to rank
-    df <- df[which(df$rank == rank),]
+    df <- df[which(df$rank == rank), ]
 
     #numeric ages entered
-    if (is.numeric(interval) & length(interval) == 1) {
-        if (interval > max(df$max_ma) | interval < min(df$min_ma)) {
+    if (is.numeric(interval) && length(interval) == 1) {
+        if (interval > max(df$max_ma) || interval < min(df$min_ma)) {
           stop("Value does not appear in the range of available intervals:
           0 to 541")
         }
         int_index <-
           which(interval <= df$max_ma & interval >= df$min_ma)
-        df <- df[int_index,]
+        df <- df[int_index, ]
       }
 
-      if (is.numeric(interval) & length(interval) == 2) {
+      if (is.numeric(interval) && length(interval) == 2) {
         max_int <- max(interval)
         min_int <- min(interval)
 
-        if (max_int > max(df$max_ma) | min_int < min(df$min_ma)) {
+        if (max_int > max(df$max_ma) || min_int < min(df$min_ma)) {
           stop("Values do not appear in the range of available intervals:
           0 to 541")
         }
 
         int_index <-
           which(min_int <= df$max_ma & max_int >= df$min_ma)
-        df <- df[int_index,]
+        df <- df[int_index, ]
       }
 
     #are equal length time bins required?
 
-    if(is.numeric(size) == TRUE){
+    if(is.numeric(size) == TRUE) {
       # Update bin size for age range
       # How many bins should be generated?
       n_bins <- round((max(df$max_ma)-min(df$min_ma))/size)
       size <- (max(df$max_ma)-min(df$min_ma))/n_bins
       #track cumulative sum
       tracker <- list()
-      for(i in 1:nrow(df)){
+      for(i in 1:nrow(df)) {
         tracker[[i]] <- rep(NA, length.out = nrow(df))
         tracker[[i]][i:nrow(df)] <- abs(cumsum(df$duration_myr[i:nrow(df)]) - size)
       }
@@ -207,7 +202,7 @@ time_bins <-
       lower <- NULL
       upper <- NULL
       count <- 1
-      while(count <= nrow(df)){
+      while(count <= nrow(df)) {
         upper <- append(upper, which.min(tracker[[count]]))
         lower <- append(lower, (count))
         count <- which.min(tracker[[count]]) + 1
@@ -215,26 +210,26 @@ time_bins <-
 
       #generate bin information
       bin <- length(upper):1
-      max_ma <- df[upper,c("max_ma")]
-      min_ma <- df[lower,c("min_ma")]
+      max_ma <- df[upper, c("max_ma")]
+      min_ma <- df[lower, c("min_ma")]
       mid_ma <- (max_ma + min_ma)/2
       duration_myr <- max_ma - min_ma
       intervals <- vector("character")
 
       #resolve any edge effect
-      if(duration_myr[length(duration_myr)] < size/2){
+      if(duration_myr[length(duration_myr)] < size/2) {
         upper[length(upper)-1] <- upper[length(upper)]
         upper <- upper[-length(upper)]
         lower <- lower[-length(lower)]
         bin <- length(upper):1
-        max_ma <- df[upper,c("max_ma")]
-        min_ma <- df[lower,c("min_ma")]
+        max_ma <- df[upper, c("max_ma")]
+        min_ma <- df[lower, c("min_ma")]
         mid_ma <- (max_ma + min_ma)/2
         duration_myr <- max_ma - min_ma
       }
 
       #get interval names
-      for(i in 1:length(upper)){
+      for(i in 1:length(upper)) {
         intervals[i] <- toString(df[lower[i]:upper[i], c("interval_name")])
       }
 
@@ -309,7 +304,7 @@ time_bins <-
 
     if (!is.null(assign)) {
       if (is.numeric(assign)) {
-        if (any(assign > max(df$max_ma) | assign < min(df$min_ma))) {
+        if (any(assign > max(df$max_ma) || assign < min(df$min_ma))) {
           stop("One or more ages is outside the specified time interval range")
         }
         tmp <- assign
@@ -320,7 +315,7 @@ time_bins <-
         assign <- list(df, assign)
         names(assign) <- c("Bins", "Assignation")
         return(assign)
-      } else{
+      } else {
         stop("`assign` should be a numeric")
       }
     }
