@@ -304,7 +304,7 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), rank = "stage",
 
     if (!is.null(assign)) {
       if (is.numeric(assign)) {
-        if (any(assign > max(df$max_ma) || assign < min(df$min_ma))) {
+        if (any(assign > max(df$max_ma) | assign < min(df$min_ma))) {
           stop("One or more ages is outside the specified time interval range")
         }
         tmp <- assign
