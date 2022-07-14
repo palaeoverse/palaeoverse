@@ -33,7 +33,7 @@ the length in millions of years (Myr) of the time bins desired.}
 assign to bins of a given size. If assign is specified, a numeric vector is
 returned of the midpoint age of the specified bins. Note this is the
 simplified approach of assignment in \code{palaeoverse}.
-See \code{\link[palaeoverse:time_binning]{palaeoverse::time_binning()}}
+See \code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}
 for a wider range of binning methods}
 
 \item{scale}{\code{character}. Specify the desired geological timescale to

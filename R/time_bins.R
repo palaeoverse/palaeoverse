@@ -29,7 +29,7 @@
 #' assign to bins of a given size. If assign is specified, a numeric vector is
 #' returned of the midpoint age of the specified bins. Note this is the
 #' simplified approach of assignment in `palaeoverse`.
-#' See \code{\link[palaeoverse:time_binning]{palaeoverse::time_binning()}}
+#' See \code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}
 #' for a wider range of binning methods
 #' @param scale \code{character}. Specify the desired geological timescale to
 #' be used "GTS2020" or "GTS2012". "GTS2020" is the default.
@@ -121,6 +121,8 @@ time_bins <-
     if (scale == "GTS2012") {
       df <- palaeoverse::GTS2012
     }
+
+    colnames(df)[which(colnames(df) == "interval_number")] <- "bin"
 
     #character string entered
     if (is.character(interval) & length(interval) == 1) {
