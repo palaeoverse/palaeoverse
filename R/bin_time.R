@@ -101,13 +101,8 @@
 #' #Assign point estimates based on fossil occurrence age range
 #' bin_time(occdf = occdf, bins = bins, method = "point", reps = 100)
 #' @export
-bin_time <-
-  function(occdf,
-           bins,
-           method = "mid",
-           reps = 100,
-           scale = "GTS2020",
-           return_error = FALSE) {
+bin_time <- function(occdf, bins, method = "mid", reps = 100,
+           scale = "GTS2020", return_error = FALSE) {
     #=== Handling errors ===
     if (is.data.frame(occdf) == FALSE) {
       stop("`occdf` should be a dataframe.")
@@ -124,7 +119,8 @@ bin_time <-
       # generate an error and warn the user.
       stop("Invalid `method`. Choose either:
   'all', 'majority', 'random', 'point', or 'mid'.")
-    }else{method <- possible_methods[method_match]}
+    }else {method <- possible_methods[method_match]
+    }
 
     if (scale %in% c("GTS2020", "GTS2012") == FALSE) {
       stop("Invalid `scale`. Choose either 'GTS2020' or 'GTS2012'")
@@ -141,7 +137,7 @@ bin_time <-
            Columns should be of the same class.")
     }
 
-    if (is.numeric(occdf$max_ma) &
+    if (is.numeric(occdf$max_ma) &&
         max(occdf$max_ma) > max(bins$max_ma)) {
       stop("Maximum age of occurrence data surpasses maximum age of bins")
     }
@@ -195,7 +191,7 @@ bin_time <-
         # Should an error vector be returned to the user?
         if (return_error == TRUE) {
           return(error_vec)
-        } else{
+        } else {
           # return error message
           stop(paste(c(
   "Unable to match interval to numeric value for all occurrences. Available
@@ -287,10 +283,10 @@ bin_time <-
                        to = occdf[i, "max_ma"],
                        by = 0.01)
         #if max/min ages are the same replicate age
-        if(length(occ_seq) == 1){
+        if (length(occ_seq) == 1) {
           occ_list[[i]] <- rep(occ_seq, times = reps)
           next
-        }else{
+        }else {
         prob <- dunif(occ_seq,
                       max = max(occ_seq),
                       min = min(occ_seq))
@@ -314,8 +310,8 @@ bin_time <-
       occ_df_list <- sapply(1:reps, function(x) NULL)
 
       #add point estimates to each dataframe
-      for(i in 1:reps){
-        occdf$point_estimates <- do.call(rbind, occ_list)[,i]
+      for (i in 1:reps) {
+        occdf$point_estimates <- do.call(rbind, occ_list)[, i]
         occ_df_list[[i]] <- occdf
       }
 
@@ -393,13 +389,13 @@ bin_time <-
       # add to the bin column for the occurrence.
       for (i in 1:length(bin_list)) {
         # Dataframe of bins occurrence known to occur in
-        tmpbin <- bins[bins$bin %in% bin_list[[i]],]
+        tmpbin <- bins[bins$bin %in% bin_list[[i]], ]
 
         # If occurrence only appears in one bin, assign bin
         if (length(bin_list[[i]]) == 1) {
           occ_list[[i]] <- rep(x = bin_list[[i]], times = reps)
           next
-        }else{
+        } else {
           # Randomly sample from possible bins
           occ_list[[i]] <- sample(x = tmpbin$bin,
                                   size = reps,
@@ -408,8 +404,8 @@ bin_time <-
       }
 
         #add point estimates to each dataframe
-        for(i in 1:reps){
-          occdf$bin_assignment <- do.call(rbind, occ_list)[,i]
+        for (i in 1:reps) {
+          occdf$bin_assignment <- do.call(rbind, occ_list)[, i]
           occdf$bin_midpoint <- bins$mid_ma[
             sapply(occdf$bin_assignment, function(x) {
               which(bins$bin == x)}, simplify = TRUE)]
