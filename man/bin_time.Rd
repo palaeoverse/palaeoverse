@@ -87,14 +87,15 @@ equal probability regardless of bin length.
 The \code{reps} argument determines the number of times the sample process is
 repeated. All replications are stored as individual elements
 within the returned list with an appended \code{bin_assignment} and
-\code{bin_midpoint} columns to the original input \code{occdf}.
+\code{bin_midpoint} column to the original input \code{occdf}.
 \item Point: The "point" method randomly samples X amount of point age estimates
 from the age range of the fossil occurrence. Sampling follows a
 uniform probability distribution defined by the age range of the fossil
-occurrence. The \code{reps} argument determines the number of times the sample
-process is repeated. All replications are stored as individual elements
-within the returned list with an appended \code{point_estimates} column to
-the original input \code{occdf}.
+occurrence. As such, bins which cover more of the age range of the fossil
+occurrence are more likely to be assigned. The \code{reps} argument determines
+the number of times the sample process is repeated. All replications are
+stored as individual elements within the returned list with an appended
+\code{bin_assignment} and \code{point_estimates} column to the original input \code{occdf}.
 }
 }
 \section{Developer(s)}{

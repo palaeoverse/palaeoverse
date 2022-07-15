@@ -64,14 +64,15 @@
 #' The `reps` argument determines the number of times the sample process is
 #' repeated. All replications are stored as individual elements
 #' within the returned list with an appended `bin_assignment` and
-#' `bin_midpoint` columns to the original input `occdf`.
+#' `bin_midpoint` column to the original input `occdf`.
 #' - Point: The "point" method randomly samples X amount of point age estimates
 #' from the age range of the fossil occurrence. Sampling follows a
 #' uniform probability distribution defined by the age range of the fossil
-#' occurrence. The `reps` argument determines the number of times the sample
-#' process is repeated. All replications are stored as individual elements
-#' within the returned list with an appended `point_estimates` column to
-#' the original input `occdf`.
+#' occurrence. As such, bins which cover more of the age range of the fossil
+#' occurrence are more likely to be assigned. The `reps` argument determines
+#' the number of times the sample process is repeated. All replications are
+#' stored as individual elements within the returned list with an appended
+#' `bin_assignment` and `point_estimates` column to the original input `occdf`.
 #'
 #' @section Developer(s):
 #' Christopher D. Dean & Lewis A. Jones
