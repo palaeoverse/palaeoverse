@@ -84,8 +84,7 @@
 #' #Grab some data from the Paleobiology Database
 #' occdf <- read.csv(
 #' "https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia")
-#' bins <- data.frame(bin = 1:30,
-#' max_ma = seq(10, 300, 10), min_ma = seq(0, 290, 10))
+#' bins <- time_bins()
 #'
 #' #Assign via midpoint age of fossil occurrence data
 #' bin_time(occdf = occdf, bins = bins, method = "mid")
