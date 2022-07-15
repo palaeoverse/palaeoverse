@@ -38,8 +38,9 @@
 #' @importFrom stats sd
 #'
 #' @return A \code{dataframe} of time bins for the specified intervals or a
-#' list with a \code{dataframe} of time bins and \code{numeric} vector of
-#' binned age estimates (midpoint of specified bins) if assign is specified.
+#' list with a \code{dataframe} of time bins and \code{numeric} a named
+#' vector (bin number) of binned age estimates (midpoint of specified bins) if
+#' assign is specified.
 #'
 #' @details This function uses the Geological Timescale 2020 and the Geological
 #' Timescale 2012 (depending on user specification).
@@ -186,50 +187,51 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), rank = "stage",
 
     #are equal length time bins required?
 
-    if(is.numeric(size) == TRUE) {
+    if (is.numeric(size) == TRUE) {
       # Update bin size for age range
       # How many bins should be generated?
-      n_bins <- round((max(df$max_ma)-min(df$min_ma))/size)
-      size <- (max(df$max_ma)-min(df$min_ma))/n_bins
+      n_bins <- round((max(df$max_ma) - min(df$min_ma)) / size)
+      size <- (max(df$max_ma) - min(df$min_ma)) / n_bins
       #track cumulative sum
       tracker <- list()
-      for(i in 1:nrow(df)) {
+      for (i in seq_len(length.out = nrow(df))) {
         tracker[[i]] <- rep(NA, length.out = nrow(df))
-        tracker[[i]][i:nrow(df)] <- abs(cumsum(df$duration_myr[i:nrow(df)]) - size)
+        tracker[[i]][i:nrow(df)] <- abs(
+          cumsum(df$duration_myr[i:nrow(df)]) - size)
       }
 
       #calculate upper and lower limits for each bin
       lower <- NULL
       upper <- NULL
       count <- 1
-      while(count <= nrow(df)) {
+      while (count <= nrow(df)) {
         upper <- append(upper, which.min(tracker[[count]]))
         lower <- append(lower, (count))
         count <- which.min(tracker[[count]]) + 1
       }
 
       #generate bin information
-      bin <- length(upper):1
+      bin <- rev(seq_along(upper))
       max_ma <- df[upper, c("max_ma")]
       min_ma <- df[lower, c("min_ma")]
-      mid_ma <- (max_ma + min_ma)/2
+      mid_ma <- (max_ma + min_ma) / 2
       duration_myr <- max_ma - min_ma
       intervals <- vector("character")
 
       #resolve any edge effect
-      if(duration_myr[length(duration_myr)] < size/2) {
-        upper[length(upper)-1] <- upper[length(upper)]
+      if (duration_myr[length(duration_myr)] < size / 2) {
+        upper[length(upper) - 1] <- upper[length(upper)]
         upper <- upper[-length(upper)]
         lower <- lower[-length(lower)]
-        bin <- length(upper):1
+        bin <- rev(seq_along(upper))
         max_ma <- df[upper, c("max_ma")]
         min_ma <- df[lower, c("min_ma")]
-        mid_ma <- (max_ma + min_ma)/2
+        mid_ma <- (max_ma + min_ma) / 2
         duration_myr <- max_ma - min_ma
       }
 
       #get interval names
-      for(i in 1:length(upper)) {
+      for (i in seq_along(upper)) {
         intervals[i] <- toString(df[lower[i]:upper[i], c("interval_name")])
       }
 
@@ -269,7 +271,7 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), rank = "stage",
         xlab = "Time (Ma)",
         ylab = "Duration (Myr)"
       )
-      for (i in 1:nrow(df)) {
+      for (i in seq_len(length.out = nrow(df))) {
         polygon(
           x = c(df$min_ma[i], df$max_ma[i], df$max_ma[i], df$min_ma[i]),
           y = c(0, 0, df$duration_myr[i], df$duration_myr[i]),
@@ -284,11 +286,11 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), rank = "stage",
           round(sd(df$duration_myr), digits = 2),
           ")"
         ))
-        df <- df[,-which(colnames(df) == "colour")]
+        df <- df[, -which(colnames(df) == "colour")]
       }
 
       if (is.numeric(size) == FALSE) {
-        df$bin <- nrow(df):1
+        df$bin <- rev(seq_len(length.out = nrow(df)))
         df <-
           df[, c("bin",
                  "interval_name",
@@ -298,7 +300,7 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), rank = "stage",
                  "duration_myr",
                  "rank")]
       }
-      df <- df[order(df$bin, decreasing = FALSE),]
+      df <- df[order(df$bin, decreasing = FALSE), ]
 
     }
 
@@ -308,9 +310,11 @@ time_bins <- function(interval = c("Fortunian", "Meghalayan"), rank = "stage",
           stop("One or more ages is outside the specified time interval range")
         }
         tmp <- assign
-        for (i in 1:nrow(df)) {
+        for (i in seq_len(length.out = nrow(df))) {
           assign[which(tmp <= df$max_ma[i] &
                          tmp >= df$min_ma[i])] <- df$mid_ma[i]
+          names(assign)[which(tmp <= df$max_ma[i] &
+                         tmp >= df$min_ma[i])] <- df$bin[i]
         }
         assign <- list(df, assign)
         names(assign) <- c("Bins", "Assignation")

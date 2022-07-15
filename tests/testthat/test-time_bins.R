@@ -31,8 +31,9 @@ test_that("time_bins() works", {
                               rank = "period", size = 20)), 4)
   expect_equal(nrow(time_bins(interval = c("Albian", "Danian"),
                               rank = "stage")), 8)
-  expect_equal(nrow(time_bins(interval = c("Permian", "Danian"), rank = "period",
-                         scale = "GTS2012")), 5)
+  expect_equal(nrow(time_bins(interval = c("Permian", "Danian"),
+                              rank = "period",
+                              scale = "GTS2012")), 5)
   expect_equal(colnames(time_bins()), c("bin", "interval_name",
                                         "rank",
                                        "max_ma", "mid_ma", "min_ma",

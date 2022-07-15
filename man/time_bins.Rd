@@ -43,8 +43,9 @@ be used "GTS2020" or "GTS2012". "GTS2020" is the default.}
 }
 \value{
 A \code{dataframe} of time bins for the specified intervals or a
-list with a \code{dataframe} of time bins and \code{numeric} vector of
-binned age estimates (midpoint of specified bins) if assign is specified.
+list with a \code{dataframe} of time bins and \code{numeric} a named
+vector (bin number) of binned age estimates (midpoint of specified bins) if
+assign is specified.
 }
 \description{
 A function to generate time bins for a given study interval. This function
