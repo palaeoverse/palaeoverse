@@ -77,7 +77,7 @@
 #' @section Developer(s):
 #' Christopher D. Dean & Lewis A. Jones
 #' @section Reviewer(s):
-#' To be reviewed
+#' William Gearty
 #' @importFrom stats dunif
 #' @importFrom utils capture.output
 #' @examples
