@@ -26,6 +26,9 @@ Developed by:
 
 # Installation
 `palaeoverse` is not yet available on CRAN, and is still in development. We hope to have the initial release of the package later this year. If you have suggestions for additional functions, or are interested in joining the `palaeoverse` community and development team, please feel free to contact [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), or a member of the development of team.
- 
-# Structure and standards
-At `palaeoverse` we have adopted a set of [standards and structure](https://github.com/palaeoverse-community/palaeoverse/raw/main/man/tutorials/structure-and-standards.pdf) to follow for contributing to the project. If you would like to contribute to `palaeoverse`, we strongly advise reading this document.
+
+# How to contribute?
+If you are interested in contributing to the `palaeoverse` R package, you can do so by following these [guidelines](https://github.com/palaeoverse-community/palaeoverse/blob/01f345757a69b5219c72eb74d5af5b7adf7ab8f6/CONTRIBUTING.md). We have also adopted a set of [standards and structure](https://github.com/palaeoverse-community/palaeoverse/raw/main/man/tutorials/structure-and-standards.pdf) to follow for contributing to the project. If you would like to contribute to `palaeoverse`, we strongly advise reading this document.
+
+# Code of Conduct
+As with any community project, society, or meeting we feel it is important to established some expectations of behaviour in the `palaeoverse` community. Please read our [Code of conduct](https://github.com/palaeoverse-community/palaeoverse/blob/01f345757a69b5219c72eb74d5af5b7adf7ab8f6/CODE_OF_CONDUCT.md) and feel free to reach out if you ever face any issues. Everyone deserves to live and work in a harassment-free environment.
