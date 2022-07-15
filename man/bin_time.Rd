@@ -58,7 +58,7 @@ range covers (\code{n_bins}), bin assignment (\code{bin_assignment}), and bin mi
 (\code{bin_midpoint}). In the case of the "random" and "point" method, a
 \code{list} is returned (of length reps) with each element a copy of
 the \code{occdf} and appended columns (random: \code{bin_assignment} and
-\code{bin_midpoint}; point: \code{point_estimates}).
+\code{bin_midpoint}; point: \code{bin_assignment} and \code{point_estimates}).
 }
 \description{
 A function to assign fossil occurrences to specified time bins based on

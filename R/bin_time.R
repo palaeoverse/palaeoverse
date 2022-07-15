@@ -41,7 +41,7 @@
 #' (`bin_midpoint`). In the case of the "random" and "point" method, a
 #' \code{list} is returned (of length reps) with each element a copy of
 #' the `occdf` and appended columns (random: `bin_assignment` and
-#' `bin_midpoint`; point: `point_estimates`).
+#' `bin_midpoint`; point: `bin_assignment` and `point_estimates`).
 #'
 #' @details Five approaches (methods) exist in the `bin_time()` function
 #' for assigning occurrences to time bins:
@@ -119,7 +119,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       # generate an error and warn the user.
       stop("Invalid `method`. Choose either:
   'all', 'majority', 'random', 'point', or 'mid'.")
-    }else {method <- possible_methods[method_match]
+    }else{method <- possible_methods[method_match]
     }
 
     if (scale %in% c("GTS2020", "GTS2012") == FALSE) {
@@ -155,7 +155,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       }
 
       # Re-name columns to work with rest of function.
-      occdf$tmp_bin <- 1:nrow(occdf)
+      occdf$tmp_bin <- seq_len(nrow(occdf))
       names(occdf)[names(occdf) == "max_ma"] <- "max_interval"
       names(occdf)[names(occdf) == "min_ma"] <- "min_interval"
 
@@ -210,11 +210,11 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
 
     # Make an empty list that's the length of the occurrence dataframe.
     bin_list <- list()
-    bin_list <- sapply(1:nrow(occdf), function(x) NULL)
+    bin_list <- sapply(seq_len(nrow(occdf)), function(x) NULL)
 
     # For each occurrence, find all the bins that it is present within, and
     # add as elements to that part of the list.
-    for (i in 1:nrow(bins)) {
+    for (i in seq_len(nrow(bins))) {
       v <-
         which(occdf$max_ma > bins$min_ma[i] &
                 occdf$min_ma < bins$max_ma[i])
@@ -224,7 +224,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
     }
 
     # Generate id column for data (this is for tracking duplicate rows).
-    id <- 1:nrow(occdf)
+    id <- seq_len(nrow(occdf))
     occdf$id <- id
 
     # Generate empty column for recording the number of bins an occurrence
@@ -252,7 +252,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       }
 
       # Assign bin based on midpoint age of the age range
-      for (i in 1:nrow(bins)) {
+      for (i in seq_len(nrow(bins))) {
         v <-
           which(occdf$mid_ma > bins$min_ma[i] &
                   occdf$mid_ma < bins$max_ma[i])
@@ -273,11 +273,11 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
     if (method == "point") {
       # make occurrence list for filling with reps
       occ_list <- list()
-      occ_list <- sapply(1:nrow(occdf), function(x) NULL)
+      occ_list <- sapply(seq_len(nrow(occdf)), function(x) NULL)
 
       # For each occurrence max/min age, make probability distribution and
       # sample from it. Record that with each occurrence.
-      for (i in 1:nrow(occdf)) {
+      for (i in seq_len(nrow(occdf))) {
         #generate occurrence sequence for sampling
         occ_seq <- seq(from = occdf[i, "min_ma"],
                        to = occdf[i, "max_ma"],
@@ -303,7 +303,6 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
 
       occdf$point_estimates <- NA
       #drop cols that are not needed
-      occdf <- occdf[, -which(colnames(occdf) == "bin_assignment")]
       occdf <- occdf[, -which(colnames(occdf) == "bin_midpoint")]
 
       occ_df_list <- list()
@@ -312,6 +311,11 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       #add point estimates to each dataframe
       for (i in 1:reps) {
         occdf$point_estimates <- do.call(rbind, occ_list)[, i]
+          for(j in seq_len(nrow(bins))){
+            vec <- which(occdf$point_estimates <= bins$max_ma[j] &
+                    occdf$point_estimates >= bins$min_ma[j])
+            occdf$bin_assignment[vec] <- bins$bin[j]
+          }
         occ_df_list[[i]] <- occdf
       }
 
@@ -331,12 +335,12 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
         occdf$bin_assignment[id_vec] <- bin_list[[i]]
       }
       # Add bin midpoints to dataframe
-      for (i in 1:nrow(bins)) {
+      for (i in seq_len(nrow(occdf))) {
         vec <- which(occdf$bin_assignment == bins$bin[i])
         occdf$bin_midpoint[vec] <- bins$mid_ma[i]
       }
 
-      rownames(occdf) <- 1:nrow(occdf)
+      rownames(occdf) <- seq_len(nrow(occdf))
 
       # Return the dataframe and end the function.
       return(occdf)
@@ -348,7 +352,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       occdf$overlap_percentage <- NA
 
       # Run across bin list
-      for (i in 1:length(bin_list)) {
+      for (i in seq_along(bin_list)) {
         # Dataframe of bins occurrence known to occur in
         tmpbin <- bins[bins$bin %in% bin_list[[i]], ]
 
@@ -358,7 +362,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
 
         # Calculate overlap across known bins
         percentage <- vector()
-        for (j in 1:nrow(tmpbin)) {
+        for (j in seq_len(nrow(tmpbin))) {
           percentage[j] <-
             (length(
               which(occ_seq >= tmpbin$min_ma[j] &
@@ -381,13 +385,13 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
     if (method == "random") {
       # Generate empty lists for populating
       occ_list <- list()
-      occ_list <- sapply(1:nrow(occdf), function(x) NULL)
+      occ_list <- sapply(seq_len(nrow(occdf)), function(x) NULL)
       occ_df_list <- list()
-      occ_df_list <- sapply(1:reps, function(x) NULL)
+      occ_df_list <- sapply(seq_len(reps), function(x) NULL)
 
       # Randomly sample from the list of bins that occurrence appears in, and
       # add to the bin column for the occurrence.
-      for (i in 1:length(bin_list)) {
+      for (i in seq_along(bin_list)) {
         # Dataframe of bins occurrence known to occur in
         tmpbin <- bins[bins$bin %in% bin_list[[i]], ]
 
