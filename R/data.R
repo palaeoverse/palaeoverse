@@ -52,7 +52,7 @@
 #' @source Compiled by Alessandro Chiarenza. See item descriptions for details.
 "GTS2012"
 
-#' Early tetrapod data from the Paleobiology Database
+#' Example dataset: Early tetrapod data from the Paleobiology Database
 #'
 #' A dataset of tetrapod occurrences ranging from the Carboniferous through to
 #' the Early Triassic. Data from: \url{https://paleobiodb.org/}.
@@ -60,8 +60,11 @@
 #' environmental context, traits and more. Those relevant to common paleobiological
 #' analyses are described below, but more information (and information on other
 #' variables) can be found at \url{https://paleobiodb.org/data1.2/}.
+#' The downloaded data is unaltered, with the exception of removing some
+#' superfluous variables, and can be used to demonstrate how the functions
+#' in the palaeoverse package might be applied.
 #'
-#' @format A data frame with 5270 rows and 73 variables:
+#' @format A data frame with 5270 rows and 57 variables:
 #' \describe{
 #'   \item{occurrence_no}{Reference number given to the particular occurrence in
 #'   the Paleobiology Database}
@@ -92,10 +95,6 @@
 #'   which the occurrence belongs to, typically a spatio-temporally restricted
 #'   locality}
 #'   \item{cc}{The country (code) where the fossils were discovered}
-#'   \item{paleolng, paleolat}{The longitude and latitude at which the fossils
-#'   were deposited, estimated by rotating the modern-day co-ordinates back to
-#'   the age of the collection using a global plate model (see
-#'   \url{https://paleobiodb.org/} for more details)}
 #'   \item{formation, stratgroup, member}{The geological units from which the
 #'   fossils were collected}
 #'   \item{zone}{The biozone which the occurrence is attributed to}
@@ -115,5 +114,6 @@
 #' @section References:
 #' Uhen MD et al. (in prep). Paleobiology Database User Guide.
 #' \cr
-#' @source Compiled by Bethany Allen. See item descriptions for details.
-"early_tetrapods"
+#' @source Compiled by Bethany Allen, current version downloaded on 14th July
+#' 2022. See item descriptions for details.
+"tetrapods"
