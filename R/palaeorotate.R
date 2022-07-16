@@ -76,9 +76,9 @@
 #' @importFrom utils download.file
 #' @examples
 #' #Generic example with a few occurrences
-#' x <- data.frame(lng = c(2, -103, -12),
-#' lat = c(46, 35, -47),
-#' age = c(88, 125, 205))
+#' x <- data.frame(lng = c(2, -103, -66),
+#'                 lat = c(46, 35, -7),
+#'                 age = c(88, 125, 200))
 #' palaeorotate(x = x)
 #'
 #' #Now with some real fossil occurrence data!
@@ -101,7 +101,7 @@ palaeorotate <-
            model = "Merdith2021",
            uncertainty = FALSE) {
     #error handling
-    if (!exists("x") | !is.data.frame(x)) {
+    if (!exists("x") || !is.data.frame(x)) {
       stop("Please supply x as a dataframe")
     }
     if (sum((c("lng", "lat", "age") %in% colnames(x))) != 3) {
@@ -139,75 +139,75 @@ palaeorotate <-
                     destfile = paste0(files, "/Wright2013.RDS"))
 
       #load rotation files
-      Merdith2021 <- readRDS(paste0(files, "/Merdith2021.RDS"))
-      Scotese2018 <- readRDS(paste0(files, "/Scotese2018.RDS"))
-      Wright2013 <- readRDS(paste0(files, "/Wright2013.RDS"))
+      merdith2021 <- readRDS(paste0(files, "/Merdith2021.RDS"))
+      scotese2018 <- readRDS(paste0(files, "/Scotese2018.RDS"))
+      wright2013 <- readRDS(paste0(files, "/Wright2013.RDS"))
 
-      rot_age <- colnames(Merdith2021)[3:ncol(Merdith2021)]
+      rot_age <- colnames(merdith2021)[3:ncol(merdith2021)]
       rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
       #calculate rotation ages for data
       x$rot_age <-
-        rot_age[sapply(1:nrow(x), function(i) {
+        rot_age[sapply(seq_len(nrow(x)), function(i) {
           which.min(abs(x[i, c("age")] - rot_age))
         })]
       #search for matching longitude, latitude and ages
-      x$rot_lng <- sapply(1:nrow(x), function(i) {
+      x$rot_lng <- sapply(seq_len(nrow(x)), function(i) {
         #extract closest longitude
-        Merdith2021[which.min(abs(Merdith2021[, c("lng")]  - x$lng[i])), 1]
+        merdith2021[which.min(abs(merdith2021[, c("lng")]  - x$lng[i])), 1]
       }, simplify = TRUE)
 
-      x$rot_lat <- sapply(1:nrow(x), function(i) {
+      x$rot_lat <- sapply(seq_len(nrow(x)), function(i) {
         #extract closest latitude
-        Merdith2021[which.min(abs(Merdith2021[, c("lat")]  - x$lat[i])), 2]
+        merdith2021[which.min(abs(merdith2021[, c("lat")]  - x$lat[i])), 2]
       }, simplify = TRUE)
 
       #get coordinates for each model
-      Merdith <- data.frame(t(sapply(1:nrow(x), function(i) {
-        as.numeric(Merdith2021[which(
-          Merdith2021[, c("lng")] == x[i, "rot_lng"] &
-            Merdith2021[, c("lat")] == x[i, "rot_lat"]),
+      merdith <- data.frame(t(sapply(seq_len(nrow(x)), function(i) {
+        as.numeric(merdith2021[which(
+          merdith2021[, c("lng")] == x[i, "rot_lng"] &
+            merdith2021[, c("lat")] == x[i, "rot_lat"]),
                                c(paste0("lng_", x$rot_age[i]),
                                  paste0("lat_", x$rot_age[i]))])
       })))
 
-      Scotese <- data.frame(t(sapply(1:nrow(x), function(i) {
-        as.numeric(Scotese2018[which(Scotese2018[, c("lng")] ==
+      scotese <- data.frame(t(sapply(seq_len(nrow(x)), function(i) {
+        as.numeric(scotese2018[which(scotese2018[, c("lng")] ==
                                        x[i, "rot_lng"] &
-                                       Scotese2018[, c("lat")] ==
+                                       scotese2018[, c("lat")] ==
                                        x[i, "rot_lat"]),
                                c(paste0("lng_", x$rot_age[i]),
                                  paste0("lat_", x$rot_age[i]))])
       })))
 
-      Wright <- data.frame(t(sapply(1:nrow(x), function(i) {
-        as.numeric(Wright2013[which(
-          Wright2013[, c("lng")] == x[i, "rot_lng"] &
-            Wright2013[, c("lat")] == x[i, "rot_lat"]),
+      wright <- data.frame(t(sapply(seq_len(nrow(x)), function(i) {
+        as.numeric(wright2013[which(
+          wright2013[, c("lng")] == x[i, "rot_lng"] &
+            wright2013[, c("lat")] == x[i, "rot_lat"]),
                               c(paste0("lng_", x$rot_age[i]),
                                 paste0("lat_", x$rot_age[i]))])
       })))
 
       #bind data
-      colnames(Merdith) <-
+      colnames(merdith) <-
         c("p_lng_Merdith2021", "p_lat_Merdith2021")
-      colnames(Scotese) <-
+      colnames(scotese) <-
         c("p_lng_Scotese2018", "p_lat_Scotese2018")
-      colnames(Wright) <- c("p_lng_Wright2013", "p_lat_Wright2013")
-      x <- cbind.data.frame(x, Merdith, Scotese, Wright)
+      colnames(wright) <- c("p_lng_Wright2013", "p_lat_Wright2013")
+      x <- cbind.data.frame(x, merdith, scotese, wright)
       #calculate uncertainty
       uncertain_lng <- cbind(
-        Merdith$p_lng_Merdith2021,
-        Scotese$p_lng_Scotese2018,
-        Wright$p_lng_Wright2013
+        merdith$p_lng_Merdith2021,
+        scotese$p_lng_Scotese2018,
+        wright$p_lng_Wright2013
       )
       uncertain_lat <- cbind(
-        Merdith$p_lat_Merdith2021,
-        Scotese$p_lat_Scotese2018,
-        Wright$p_lat_Wright2013
+        merdith$p_lat_Merdith2021,
+        scotese$p_lat_Scotese2018,
+        wright$p_lat_Wright2013
       )
 
       uncertainty_p_lng <- vector("numeric")
-      for (i in 1:nrow(uncertain_lng)) {
+      for (i in seq_len(nrow(uncertain_lng))) {
         mx <- max(as.numeric(uncertain_lng[i, ]))
         mn <- min(as.numeric(uncertain_lng[i, ]))
 
@@ -220,15 +220,14 @@ palaeorotate <-
 
         if (range >= 180) {
           range <- abs(range - 360)
-        }
-        else{
+        }else {
           range <- abs(range)
         }
         uncertainty_p_lng[i] <- range
       }
 
       uncertainty_p_lat <- vector("numeric")
-      for (i in 1:nrow(uncertain_lat)) {
+      for (i in seq_len(nrow(uncertain_lat))) {
         uncertainty_p_lat[i] <- max(as.numeric(uncertain_lat[i, ])) -
           min(as.numeric(uncertain_lat[i, ]))
       }
@@ -261,30 +260,30 @@ palaeorotate <-
       rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
       #calculate rotation ages for data
       x$rot_age <-
-        rot_age[sapply(1:nrow(x), function(i) {
+        rot_age[sapply(seq_len(nrow(x)), function(i) {
           which.min(abs(x[i, c("age")] - rot_age))
         })]
 
       #search for matching longitude, latitude and ages
-      x$rot_lng <- sapply(1:nrow(x), function(i) {
+      x$rot_lng <- sapply(seq_len(nrow(x)), function(i) {
         #extract closest longitude
         palaeo_rots[which.min(abs(palaeo_rots[, c("lng")]  - x$lng[i])), 1]
       }, simplify = TRUE)
 
-      x$rot_lat <- sapply(1:nrow(x), function(i) {
+      x$rot_lat <- sapply(seq_len(nrow(x)), function(i) {
         #extract closest latitude
         palaeo_rots[which.min(abs(palaeo_rots[, c("lat")]  - x$lat[i])), 2]
       }, simplify = TRUE)
 
-      pcoords <- sapply(1:nrow(x), function(i) {
+      pcoords <- sapply(seq_len(nrow(x)), function(i) {
         palaeo_rots[which(palaeo_rots[, c("lng")] == x[i, "rot_lng"] &
                             palaeo_rots[, c("lat")] == x[i, "rot_lat"]),
                     c(paste0("lng_", x$rot_age[i]),
                       paste0("lat_", x$rot_age[i]))]
       })
 
-      x$p_lng <- pcoords[1,]
-      x$p_lat <- pcoords[2,]
+      x$p_lng <- pcoords[1, ]
+      x$p_lat <- pcoords[2, ]
       x$model <- model
       if (any(is.na(x$p_lng) | is.na(x$p_lat))) {
         message(

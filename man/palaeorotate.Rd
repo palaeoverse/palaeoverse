@@ -96,9 +96,9 @@ Missing
 
 \examples{
 #Generic example with a few occurrences
-x <- data.frame(lng = c(2, -103, -12),
-lat = c(46, 35, -47),
-age = c(88, 125, 205))
+x <- data.frame(lng = c(2, -103, -66),
+                lat = c(46, 35, -7),
+                age = c(88, 125, 200))
 palaeorotate(x = x)
 
 #Now with some real fossil occurrence data!
