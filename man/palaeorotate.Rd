@@ -29,7 +29,7 @@ respective longitudinal and latitudinal range.}
 A \code{dataframe} containing the original input occurrence
 dataframe, age of rotation (Ma), the reference coordinates rotated, and the
 reconstructed coordinates (i.e., palaeocoordinates). The "rot_age" column
-refers to the age of rotation and is deduced from the reference
+refers to the age of rotation, and is deduced from the reference
 age provided and the closest midpoint age of a stratigraphic stage. The
 "rot_lng" and "rot_lat" columns refer to the reference coordinates rotated.
 The "p_lng" and "p_lat" are the reconstructed coordinates for respective
@@ -62,7 +62,7 @@ The current palaeorotations (0--540 Ma) provided were generated using a
 "Merdith2021" (Merdith et al., 2021), "Scotese2018"
 (Scotese & Wright, 2018), and "Wright2013" (Wright et al. 2013).
 }
-\section{Reference}{
+\section{References}{
 
 
 Merdith, A., Williams, S.E., Collins, A.S., Tetley, M.G., Mulder, J.A.,
@@ -96,11 +96,12 @@ Missing
 
 \examples{
 #Generic example with a few occurrences
-x <- data.frame(lng = c(2), lat = c(46), age = c(88))
+x <- data.frame(lng = c(2, -103, -12),
+lat = c(46, 35, -47),
+age = c(88, 125, 205))
 palaeorotate(x = x)
 
-#Now with some real fossil occurrence data! (to be updated with internal
-#data from Bethany/Emma)
+#Now with some real fossil occurrence data!
 
 #Grab some data from the Paleobiology Database
 x <- read.csv(

@@ -25,7 +25,7 @@
 #' @return A \code{dataframe} containing the original input occurrence
 #' dataframe, age of rotation (Ma), the reference coordinates rotated, and the
 #' reconstructed coordinates (i.e., palaeocoordinates). The "rot_age" column
-#' refers to the age of rotation and is deduced from the reference
+#' refers to the age of rotation, and is deduced from the reference
 #' age provided and the closest midpoint age of a stratigraphic stage. The
 #' "rot_lng" and "rot_lat" columns refer to the reference coordinates rotated.
 #' The "p_lng" and "p_lat" are the reconstructed coordinates for respective
@@ -50,7 +50,7 @@
 #' "Merdith2021" (Merdith et al., 2021), "Scotese2018"
 #' (Scotese & Wright, 2018), and "Wright2013" (Wright et al. 2013).
 #'
-#' @section Reference:
+#' @section References:
 #'
 #' Merdith, A., Williams, S.E., Collins, A.S., Tetley, M.G., Mulder, J.A.,
 #' Blades, M.L., Young, A., Armistead, S.E., Cannon, J., Zahirovic, S.,
@@ -73,13 +73,15 @@
 #' Lewis A. Jones
 #' @section Reviewer(s):
 #' Missing
+#' @importFrom utils download.file
 #' @examples
 #' #Generic example with a few occurrences
-#' x <- data.frame(lng = c(2), lat = c(46), age = c(88))
+#' x <- data.frame(lng = c(2, -103, -12),
+#' lat = c(46, 35, -47),
+#' age = c(88, 125, 205))
 #' palaeorotate(x = x)
 #'
-#' #Now with some real fossil occurrence data! (to be updated with internal
-#' #data from Bethany/Emma)
+#' #Now with some real fossil occurrence data!
 #'
 #' #Grab some data from the Paleobiology Database
 #' x <- read.csv(
@@ -94,13 +96,16 @@
 #' #Calculate uncertainity in palaeocoordinates from models
 #' palaeorotate(x = x, uncertainty = TRUE)
 #' @export
-palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
+palaeorotate <-
+  function(x,
+           model = "Merdith2021",
+           uncertainty = FALSE) {
     #error handling
     if (!exists("x") | !is.data.frame(x)) {
       stop("Please supply x as a dataframe")
     }
     if (sum((c("lng", "lat", "age") %in% colnames(x))) != 3) {
-      stop("Column names should be: lng, lat, and age")
+      stop("`x` must contain the following columns: lng, lat, and age")
     }
 
     if (sum(x$lat > 90) != 0 || sum(x$lat < -90) != 0) {
@@ -108,12 +113,12 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
     }
 
     if (model %in% c("Merdith2021", "Scotese2018", "Wright2013") == FALSE) {
-      stop("model should be one of the following:
+      stop("`model` should be one of the following:
       Merdith2021, Scotese2018, Wright2013")
     }
 
-    if (!is.logical(uncertainty)){
-      stop("uncertainty should be logical: TRUE/FALSE")
+    if (!is.logical(uncertainty)) {
+      stop("`uncertainty` should be a logical value: TRUE/FALSE")
     }
 
     #reconstruct coordinates
@@ -123,18 +128,15 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
 
     if (uncertainty == TRUE) {
       #download all rotations
-      download.file(
-        url = "https://dl.dropboxusercontent.com/s/fmt7mb0799952qy/Merdith2021.RDS?dl=0",
-        destfile = paste0(files, "/Merdith2021.RDS")
-      )
-      download.file(
-        url = "https://dl.dropboxusercontent.com/s/zqi2jmjhjecka0s/Scotese2018.RDS?dl=0",
-        destfile = paste0(files, "/Scotese2018.RDS")
-      )
-      download.file(
-        url = "https://dl.dropboxusercontent.com/s/gf7t2wo6iwo8ut2/Wright2013.RDS?dl=0",
-        destfile = paste0(files, "/Wright2013.RDS")
-      )
+      download.file(url =
+    "https://dl.dropboxusercontent.com/s/fmt7mb0799952qy/Merdith2021.RDS?dl=0",
+                    destfile = paste0(files, "/Merdith2021.RDS"))
+      download.file(url =
+    "https://dl.dropboxusercontent.com/s/zqi2jmjhjecka0s/Scotese2018.RDS?dl=0",
+                    destfile = paste0(files, "/Scotese2018.RDS"))
+      download.file(url =
+    "https://dl.dropboxusercontent.com/s/gf7t2wo6iwo8ut2/Wright2013.RDS?dl=0",
+                    destfile = paste0(files, "/Wright2013.RDS"))
 
       #load rotation files
       Merdith2021 <- readRDS(paste0(files, "/Merdith2021.RDS"))
@@ -161,65 +163,74 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
 
       #get coordinates for each model
       Merdith <- data.frame(t(sapply(1:nrow(x), function(i) {
-        as.numeric(
-          Merdith2021[which(Merdith2021[, c("lng")] == x[i, "rot_lng"] &
-                              Merdith2021[, c("lat")] == x[i, "rot_lat"]),
-                      c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))])
+        as.numeric(Merdith2021[which(
+          Merdith2021[, c("lng")] == x[i, "rot_lng"] &
+            Merdith2021[, c("lat")] == x[i, "rot_lat"]),
+                               c(paste0("lng_", x$rot_age[i]),
+                                 paste0("lat_", x$rot_age[i]))])
       })))
 
       Scotese <- data.frame(t(sapply(1:nrow(x), function(i) {
-        as.numeric(
-          Scotese2018[which(Scotese2018[, c("lng")] == x[i, "rot_lng"] &
-                              Scotese2018[, c("lat")] == x[i, "rot_lat"]),
-                      c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))])
+        as.numeric(Scotese2018[which(Scotese2018[, c("lng")] ==
+                                       x[i, "rot_lng"] &
+                                       Scotese2018[, c("lat")] ==
+                                       x[i, "rot_lat"]),
+                               c(paste0("lng_", x$rot_age[i]),
+                                 paste0("lat_", x$rot_age[i]))])
       })))
 
       Wright <- data.frame(t(sapply(1:nrow(x), function(i) {
-        as.numeric(
-          Wright2013[which(Wright2013[, c("lng")] == x[i, "rot_lng"] &
-                             Wright2013[, c("lat")] == x[i, "rot_lat"]),
-                     c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))])
+        as.numeric(Wright2013[which(
+          Wright2013[, c("lng")] == x[i, "rot_lng"] &
+            Wright2013[, c("lat")] == x[i, "rot_lat"]),
+                              c(paste0("lng_", x$rot_age[i]),
+                                paste0("lat_", x$rot_age[i]))])
       })))
 
       #bind data
-      colnames(Merdith) <- c("p_lng_Merdith2021", "p_lat_Merdith2021")
-      colnames(Scotese) <- c("p_lng_Scotese2018", "p_lat_Scotese2018")
+      colnames(Merdith) <-
+        c("p_lng_Merdith2021", "p_lat_Merdith2021")
+      colnames(Scotese) <-
+        c("p_lng_Scotese2018", "p_lat_Scotese2018")
       colnames(Wright) <- c("p_lng_Wright2013", "p_lat_Wright2013")
       x <- cbind.data.frame(x, Merdith, Scotese, Wright)
       #calculate uncertainty
-      uncertain_lng <- cbind(Merdith$p_lng_Merdith2021,
-                                  Scotese$p_lng_Scotese2018,
-                                  Wright$p_lng_Wright2013)
-      uncertain_lat <- cbind(Merdith$p_lat_Merdith2021,
-                                  Scotese$p_lat_Scotese2018,
-                                  Wright$p_lat_Wright2013)
+      uncertain_lng <- cbind(
+        Merdith$p_lng_Merdith2021,
+        Scotese$p_lng_Scotese2018,
+        Wright$p_lng_Wright2013
+      )
+      uncertain_lat <- cbind(
+        Merdith$p_lat_Merdith2021,
+        Scotese$p_lat_Scotese2018,
+        Wright$p_lat_Wright2013
+      )
 
       uncertainty_p_lng <- vector("numeric")
-      for(i in 1:nrow(uncertain_lng)){
-
-        mx <- max(as.numeric(uncertain_lng[i,]))
-        mn <- min(as.numeric(uncertain_lng[i,]))
+      for (i in 1:nrow(uncertain_lng)) {
+        mx <- max(as.numeric(uncertain_lng[i, ]))
+        mn <- min(as.numeric(uncertain_lng[i, ]))
 
         range <- abs((mx %% 360) - (mn %% 360))
 
-        if(is.na(range)){
+        if (is.na(range)) {
           uncertainty_p_lng[i] <- range
           next
-          }
+        }
 
-        if(range >= 180){
+        if (range >= 180) {
           range <- abs(range - 360)
-          }
+        }
         else{
           range <- abs(range)
-          }
+        }
         uncertainty_p_lng[i] <- range
       }
 
       uncertainty_p_lat <- vector("numeric")
-      for(i in 1:nrow(uncertain_lat)){
-        uncertainty_p_lat[i] <- max(as.numeric(uncertain_lat[i,])) -
-          min(as.numeric(uncertain_lat[i,]))
+      for (i in 1:nrow(uncertain_lat)) {
+        uncertainty_p_lat[i] <- max(as.numeric(uncertain_lat[i, ])) -
+          min(as.numeric(uncertain_lat[i, ]))
       }
 
       x <- cbind.data.frame(x, uncertainty_p_lng, uncertainty_p_lat)
@@ -229,23 +240,20 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
     if (uncertainty == FALSE) {
       #which model should be used?
       if (model == "Merdith2021") {
-        download.file(
-          url = "https://dl.dropboxusercontent.com/s/fmt7mb0799952qy/Merdith2021.RDS?dl=0",
-          destfile = paste0(files, "/Merdith2021.RDS")
-        )
+        download.file(url =
+    "https://dl.dropboxusercontent.com/s/fmt7mb0799952qy/Merdith2021.RDS?dl=0",
+                      destfile = paste0(files, "/Merdith2021.RDS"))
         palaeo_rots <- readRDS(paste0(files, "/Merdith2021.RDS"))
 
       } else if (model == "Scotese2018") {
-        download.file(
-          url = "https://dl.dropboxusercontent.com/s/zqi2jmjhjecka0s/Scotese2018.RDS?dl=0",
-          destfile = paste0(files, "/Scotese2018.RDS")
-        )
+        download.file(url =
+    "https://dl.dropboxusercontent.com/s/zqi2jmjhjecka0s/Scotese2018.RDS?dl=0",
+                      destfile = paste0(files, "/Scotese2018.RDS"))
         palaeo_rots <- readRDS(paste0(files, "/Scotese2018.RDS"))
       } else if (model == "Wright2013") {
-        download.file(
-          url = "https://dl.dropboxusercontent.com/s/gf7t2wo6iwo8ut2/Wright2013.RDS?dl=0",
-          destfile = paste0(files, "/Wright2013.RDS")
-        )
+        download.file(url =
+    "https://dl.dropboxusercontent.com/s/gf7t2wo6iwo8ut2/Wright2013.RDS?dl=0",
+                      destfile = paste0(files, "/Wright2013.RDS"))
         palaeo_rots <- readRDS(paste0(files, "/Wright2013.RDS"))
       }
 
@@ -271,16 +279,17 @@ palaeorotate <- function(x, model = "Merdith2021", uncertainty = FALSE) {
       pcoords <- sapply(1:nrow(x), function(i) {
         palaeo_rots[which(palaeo_rots[, c("lng")] == x[i, "rot_lng"] &
                             palaeo_rots[, c("lat")] == x[i, "rot_lat"]),
-                    c(paste0("lng_", x$rot_age[i]), paste0("lat_", x$rot_age[i]))]
+                    c(paste0("lng_", x$rot_age[i]),
+                      paste0("lat_", x$rot_age[i]))]
       })
 
-      x$p_lng <- pcoords[1, ]
-      x$p_lat <- pcoords[2, ]
+      x$p_lng <- pcoords[1,]
+      x$p_lat <- pcoords[2,]
       x$model <- model
       if (any(is.na(x$p_lng) | is.na(x$p_lat))) {
         message(
           "Palaeocoordinates could not be reconstructed for all points.
-      Georeferenced plate does not exist at time of reconstruction."
+Georeferenced plate does not exist at time of reconstruction."
         )
       }
     }
