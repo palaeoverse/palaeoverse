@@ -126,6 +126,10 @@ palaeorotate <-
     #generate temp directory and download files
     files <- tempdir()
 
+    if (.Platform$OS.type == "windows") {
+      files <- gsub("\\\\", "/", files)
+    }
+
     if (uncertainty == TRUE) {
       #download all rotations
       download.file(url =
