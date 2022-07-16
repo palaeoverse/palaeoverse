@@ -123,12 +123,8 @@ palaeorotate <-
 
     #reconstruct coordinates
 
-    #generate temp directory and download files
-    files <- tempdir()
-
-    if (.Platform$OS.type == "windows") {
-      files <- gsub("\\\\", "/", files)
-    }
+    #get temp directory and download files
+    files <- Sys.getenv("TMPDIR")
 
     if (uncertainty == TRUE) {
       #download all rotations
