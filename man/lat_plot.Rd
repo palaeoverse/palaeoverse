@@ -33,6 +33,8 @@ lat_plot(
 
 \item{xlim}{\code{numeric}. A numeric vector of length two indicating the x limits of the plot.}
 
+\item{ylim}{\code{numeric}. A numeric vector of length two indicating the y limits of the plot.}
+
 \item{main}{\code{character}. The main title for the plot.}
 
 \item{ylab}{\code{character}. A title for the y-axis.}

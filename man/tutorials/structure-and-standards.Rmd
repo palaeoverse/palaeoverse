@@ -66,12 +66,14 @@ We recommend using the following conventions to make your code easier for us (an
 
 **Wrapping:** break long commands into multiple lines, conventionally no line should be longer than ~75 characters.
 
+**Language:** use plain English (British spelling) for your code and documentation.
+
 ```{r style guide, include=TRUE, eval = FALSE}
-# No me gusta!
+# Nope!
 x = 1
 y<-x+1
 
-# Me gusta!
+# Awesome!
 x <- 1
 y <- x + 1
 ```
@@ -155,7 +157,7 @@ Documenting your data is to provide a thorough description of the data and any i
 
 # Functions
 ## Documentation
-Functions are saved as `'.R'` files in the `'R'` folder. The name of the file needs to correspond to the function, e.g. the file `time_bins.R` contains the function `time_bins()`. For documentation, we use `roxygen2`. The title, a brief description, and every argument and the output of the function need to be documented in `roxygen2` style, for example:
+Functions are saved as `'.R'` files in the `'R'` folder. The name of the file needs to correspond to the function, e.g. the file `time_bins.R` contains the function `time_bins()`. For documentation, we use `roxygen2`. The title, a brief description, and every argument (including the input class and default input) and the output of the function need to be documented in `roxygen2` style, for example:
 ```{r function, include = TRUE, eval = FALSE}
 #' An exemplary function
 #' This function is used to demonstrate the documentation of functions.
