@@ -124,7 +124,7 @@ palaeorotate <-
     #reconstruct coordinates
 
     #get temp directory and download files
-    files <- Sys.getenv("TMPDIR")
+    files <- tempdir()
 
     if (uncertainty == TRUE) {
       #download all rotations
