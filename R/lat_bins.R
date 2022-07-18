@@ -62,28 +62,30 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE){
   }
 
   #divide latitudinal range by size of bins
-  bins <- 180/size
+  bins <- 180 / size
   #if fit is set true, generate equal size bins to fit range
   if(fit == TRUE){
     if(is.integer(bins) == FALSE){
       int <- 180/seq(from = 1, to = 90, by = 1)
-      int <- which(int%%1==0)
+      int <- which(int %% 1 == 0)
       size <- int[which.min(abs(int - size))]
-      bins <- 180/size
+      bins <- 180 / size
     }
   }
   #generate latitudinal bins
   df <- seq(from = -90, to = 90, by = size)
   min <- df[1:bins]
-  max <- df[1:bins]+size
-  mid <- (max+min)/2
+  max <- df[1:bins] + size
+  mid <- (max + min) / 2
   bin <- 1:bins
   df <- cbind(max, mid, min)
-  df <- df[order(-max),]
+  df <- df[order(-max), ]
   df <- cbind.data.frame(bin, df)
   #plot latitudinal bins
-  if(plot == TRUE){
-    plot(1, type = "n", xlim = c(-180, 180), ylim = c(min(df$min), max(df$max)), xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
+  if (plot == TRUE) {
+    plot(1, type = "n", xlim = c(-180, 180),
+         ylim = c(min(df$min), max(df$max)),
+         xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
     cols <- rep(c("#2ca25f", "#ccece6"), nrow(df))
     for(i in seq_len(nrow(df))){
       polygon(x = c(-180, -180, 180, 180),
@@ -91,20 +93,20 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE){
               col = cols[i],
               border = "black")
     }
-    if(fit == TRUE){
+    if (fit == TRUE) {
       title(paste0("Bin size set to ", size))
     }
   }
 
-  if(fit == TRUE){
+  if (fit == TRUE) {
     message(paste0(
       "Bin size set to ", size, " degrees to fit latitudinal range."))
   }
 
-  if(!is.null(assign)){
-    if(is.numeric(assign)){
+  if (!is.null(assign)) {
+    if (is.numeric(assign)) {
     tmp <- assign
-      for(i in 1:nrow(df)){
+      for (i in seq_len(nrow(df))){
         assign[which(tmp <= df$max[i] & tmp >= df$min[i])] <- df$mid[i]
         names(assign)[which(tmp <= df$max[i] &
                               tmp >= df$min[i])] <- df$bin[i]
@@ -112,7 +114,9 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE){
     assign <- list(df, assign)
     names(assign) <- c("Bins", "Assignation")
     return(assign)
-    }else{stop("assign should be a numeric")}
+    }else {
+      stop("assign should be a numeric")
+      }
   }
 
   return(df)
