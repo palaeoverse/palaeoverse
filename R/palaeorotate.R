@@ -126,17 +126,19 @@ palaeorotate <-
     #get temp directory and download files
     files <- tempdir()
 
+    if (.Platform$OS.type == "windows") {mode <- "wb"}else {mode <- "w"}
+
     if (uncertainty == TRUE) {
       #download all rotations
       download.file(url =
     "https://dl.dropboxusercontent.com/s/fmt7mb0799952qy/Merdith2021.RDS?dl=0",
-                    destfile = paste0(files, "/Merdith2021.RDS"))
+                    destfile = paste0(files, "/Merdith2021.RDS"), mode = mode)
       download.file(url =
     "https://dl.dropboxusercontent.com/s/zqi2jmjhjecka0s/Scotese2018.RDS?dl=0",
-                    destfile = paste0(files, "/Scotese2018.RDS"))
+                    destfile = paste0(files, "/Scotese2018.RDS"), mode = mode)
       download.file(url =
     "https://dl.dropboxusercontent.com/s/gf7t2wo6iwo8ut2/Wright2013.RDS?dl=0",
-                    destfile = paste0(files, "/Wright2013.RDS"))
+                    destfile = paste0(files, "/Wright2013.RDS"), mode = mode)
 
       #load rotation files
       merdith2021 <- readRDS(paste0(files, "/Merdith2021.RDS"))
@@ -241,18 +243,21 @@ palaeorotate <-
       if (model == "Merdith2021") {
         download.file(url =
     "https://dl.dropboxusercontent.com/s/fmt7mb0799952qy/Merdith2021.RDS?dl=0",
-                      destfile = paste0(files, "/Merdith2021.RDS"))
+                      destfile = paste0(files, "/Merdith2021.RDS"),
+    mode = mode)
         palaeo_rots <- readRDS(paste0(files, "/Merdith2021.RDS"))
 
       } else if (model == "Scotese2018") {
         download.file(url =
     "https://dl.dropboxusercontent.com/s/zqi2jmjhjecka0s/Scotese2018.RDS?dl=0",
-                      destfile = paste0(files, "/Scotese2018.RDS"))
+                      destfile = paste0(files, "/Scotese2018.RDS"),
+    mode = mode)
         palaeo_rots <- readRDS(paste0(files, "/Scotese2018.RDS"))
       } else if (model == "Wright2013") {
         download.file(url =
     "https://dl.dropboxusercontent.com/s/gf7t2wo6iwo8ut2/Wright2013.RDS?dl=0",
-                      destfile = paste0(files, "/Wright2013.RDS"))
+                      destfile = paste0(files, "/Wright2013.RDS"),
+    mode = mode)
         palaeo_rots <- readRDS(paste0(files, "/Wright2013.RDS"))
       }
 
