@@ -3,7 +3,9 @@
 #' A function to generate latitudinal bins of a given size. If the desired size
 #' of the bins is not compatible with the entire latitudinal range
 #' (90&deg;S to 90&deg;N ), bin size can be updated to the nearest integer
-#' which is divisible into 180 to fit the entire range.
+#' which is divisible into 180 to fit the entire range. This function also
+#' allows the user to easily assign occurrence data to latitudinal bins via
+#' the assign argument.
 #'
 #' @param size \code{numeric}. A single numeric value of more than 0, and less
 #' than or equal to 90.

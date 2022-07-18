@@ -34,7 +34,9 @@ and a named \code{numeric} vector (bin number) of binned latitudes
 A function to generate latitudinal bins of a given size. If the desired size
 of the bins is not compatible with the entire latitudinal range
 (90°S to 90°N ), bin size can be updated to the nearest integer
-which is divisible into 180 to fit the entire range.
+which is divisible into 180 to fit the entire range. This function also
+allows the user to easily assign occurrence data to latitudinal bins via
+the assign argument.
 }
 \section{Developer}{
 
