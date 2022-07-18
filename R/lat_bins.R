@@ -39,13 +39,13 @@
 #' #Assign bins based on given latitudes
 #' lat_bins(assign = c(-20, 45, 11, 67))
 #' @export
-lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE){
+lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE) {
   #error handling
   if (is.numeric(size) == FALSE) {
     stop("`size` should be a numeric")
   }
 
-  if (size > 90 | size < 0) {
+  if (size > 90 || size < 0) {
     stop("`size` should be more than 0 and less than or equal to 90")
   }
 
@@ -64,9 +64,9 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE){
   #divide latitudinal range by size of bins
   bins <- 180 / size
   #if fit is set true, generate equal size bins to fit range
-  if(fit == TRUE){
-    if(is.integer(bins) == FALSE){
-      int <- 180/seq(from = 1, to = 90, by = 1)
+  if (fit == TRUE) {
+    if (is.integer(bins) == FALSE) {
+      int <- 180 / seq(from = 1, to = 90, by = 1)
       int <- which(int %% 1 == 0)
       size <- int[which.min(abs(int - size))]
       bins <- 180 / size
@@ -87,7 +87,7 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE){
          ylim = c(min(df$min), max(df$max)),
          xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
     cols <- rep(c("#2ca25f", "#ccece6"), nrow(df))
-    for(i in seq_len(nrow(df))){
+    for (i in seq_len(nrow(df))){
       polygon(x = c(-180, -180, 180, 180),
               y = c(df$min[i], df$max[i], df$max[i], df$min[i]),
               col = cols[i],
