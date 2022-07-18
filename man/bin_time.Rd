@@ -58,7 +58,7 @@ range covers (\code{n_bins}), bin assignment (\code{bin_assignment}), and bin mi
 (\code{bin_midpoint}). In the case of the "random" and "point" method, a
 \code{list} is returned (of length reps) with each element a copy of
 the \code{occdf} and appended columns (random: \code{bin_assignment} and
-\code{bin_midpoint}; point: \code{point_estimates}).
+\code{bin_midpoint}; point: \code{bin_assignment} and \code{point_estimates}).
 }
 \description{
 A function to assign fossil occurrences to specified time bins based on
@@ -87,14 +87,15 @@ equal probability regardless of bin length.
 The \code{reps} argument determines the number of times the sample process is
 repeated. All replications are stored as individual elements
 within the returned list with an appended \code{bin_assignment} and
-\code{bin_midpoint} columns to the original input \code{occdf}.
+\code{bin_midpoint} column to the original input \code{occdf}.
 \item Point: The "point" method randomly samples X amount of point age estimates
 from the age range of the fossil occurrence. Sampling follows a
 uniform probability distribution defined by the age range of the fossil
-occurrence. The \code{reps} argument determines the number of times the sample
-process is repeated. All replications are stored as individual elements
-within the returned list with an appended \code{point_estimates} column to
-the original input \code{occdf}.
+occurrence. As such, bins which cover more of the age range of the fossil
+occurrence are more likely to be assigned. The \code{reps} argument determines
+the number of times the sample process is repeated. All replications are
+stored as individual elements within the returned list with an appended
+\code{bin_assignment} and \code{point_estimates} column to the original input \code{occdf}.
 }
 }
 \section{Developer(s)}{
@@ -104,15 +105,14 @@ Christopher D. Dean & Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-To be reviewed
+William Gearty
 }
 
 \examples{
 #Grab some data from the Paleobiology Database
 occdf <- read.csv(
 "https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia")
-bins <- data.frame(bin = 1:30,
-max_ma = seq(10, 300, 10), min_ma = seq(0, 290, 10))
+bins <- time_bins()
 
 #Assign via midpoint age of fossil occurrence data
 bin_time(occdf = occdf, bins = bins, method = "mid")
