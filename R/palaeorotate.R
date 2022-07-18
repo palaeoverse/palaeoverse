@@ -126,8 +126,10 @@ palaeorotate <-
     #get temp directory and download files
     files <- tempdir()
 
-    if (.Platform$OS.type == "windows") {mode <- "wb"
-    }else{mode <- "w"
+    if (.Platform$OS.type == "windows") {
+      mode <- "wb"
+    }else {
+      mode <- "w"
     }
 
     if (uncertainty == TRUE) {
