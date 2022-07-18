@@ -55,11 +55,12 @@
 #' Example dataset: Early tetrapod data from the Paleobiology Database
 #'
 #' A dataset of tetrapod occurrences ranging from the Carboniferous through to
-#' the Early Triassic. Data from: \url{https://paleobiodb.org/}.
-#' Dataset includes a range of variables relating to identification, geography,
-#' environmental context, traits and more. Those relevant to common paleobiological
-#' analyses are described below, but more information (and information on other
-#' variables) can be found at \url{https://paleobiodb.org/data1.2/}.
+#' the Early Triassic. Data from: \url{https://paleobiodb.org/}. Dataset
+#' includes a range of variables relating to identification, geography,
+#' environmental context, traits and more. Those relevant to common
+#' paleobiological analyses are described below, but more information (and
+#' information on other variables) can be found at
+#' \url{https://paleobiodb.org/data1.2/}.
 #' The downloaded data is unaltered, with the exception of removing some
 #' superfluous variables, and can be used to demonstrate how the functions
 #' in the palaeoverse package might be applied.
