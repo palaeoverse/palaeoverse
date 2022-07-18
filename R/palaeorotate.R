@@ -289,8 +289,8 @@ palaeorotate <-
                       paste0("lat_", x$rot_age[i]))]
       })
 
-      x$p_lng <- pcoords[1, ]
-      x$p_lat <- pcoords[2, ]
+      x$p_lng <- as.numeric(pcoords[1, ])
+      x$p_lat <- as.numeric(pcoords[2, ])
       x$model <- model
       if (any(is.na(x$p_lng) | is.na(x$p_lat))) {
         message(
