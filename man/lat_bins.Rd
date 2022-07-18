@@ -8,7 +8,7 @@ lat_bins(size = 10, fit = FALSE, assign = NULL, plot = FALSE)
 }
 \arguments{
 \item{size}{\code{numeric}. A single numeric value of more than 0, and less
-than, or equal to 90.}
+than or equal to 90.}
 
 \item{fit}{\code{logical}. Should bin size be checked to ensure that the
 entire latitudinal
