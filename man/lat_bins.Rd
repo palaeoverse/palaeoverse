@@ -4,28 +4,37 @@
 \alias{lat_bins}
 \title{Generate latitudinal bins}
 \usage{
-lat_bins(size = 10, fit = FALSE, assign = NULL, plot = TRUE)
+lat_bins(size = 10, fit = FALSE, assign = NULL, plot = FALSE)
 }
 \arguments{
-\item{size}{\code{numeric}. A single numeric value of more than 0, and less than or equal to 90.}
+\item{size}{\code{numeric}. A single numeric value of more than 0, and less
+than, or equal to 90.}
 
-\item{fit}{\code{logical}. Should bin size be checked to ensure that the entire latitudinal
-range is covered (90ºS to 90ºN)? If \code{fit = TRUE}, bin size is set to the nearest integer
-which is divisible into 180 (the entire latitudinal range).}
+\item{fit}{\code{logical}. Should bin size be checked to ensure that the
+entire latitudinal
+range is covered (90°S to 90°N)? If \code{fit = TRUE}, bin size is
+set to the nearest integer which is divisible into 180 (the entire
+latitudinal range).}
 
-\item{assign}{\code{numeric}. A numeric vector of latitudes (or palaeolatitudes) to use to assign to bins of
-a given size. If assign is specified, a numeric vector is returned of the midpoint latitudes of the specified bins.}
+\item{assign}{\code{numeric}. A numeric vector of latitudes (or
+palaeolatitudes) to use to assign to bins of a given size. If assign is
+specified, a numeric vector is returned of the midpoint latitudes of the
+specified bins.}
 
-\item{plot}{\code{logical}. Should a plot of the latitudinal bins be generated?}
+\item{plot}{\code{logical}. Should a plot of the latitudinal bins be
+generated?}
 }
 \value{
-A \code{dataframe} of latitudinal bins of a given size or a list with a \code{dataframe} of latitudinal bins
-and \code{numeric} vector of binned latitudes (midpoint latitude of bin) if assign specified.
+A \code{dataframe} of latitudinal bins of a given size, or a list
+with a \code{dataframe} of the latitudinal bins,
+and a named \code{numeric} vector (bin number) of binned latitudes
+(midpoint latitude of bin) if assign specified.
 }
 \description{
-A function to generate latitudinal bins of a given size. If the desired size of the bins is not compatible
-with the entire latitudinal range (90ºS to 90ºN), bin size can be updated to the nearest integer which is
-divisible into 180 to fit the entire range.
+A function to generate latitudinal bins of a given size. If the desired size
+of the bins is not compatible with the entire latitudinal range
+(90°S to 90°N ), bin size can be updated to the nearest integer
+which is divisible into 180 to fit the entire range.
 }
 \section{Developer}{
 
