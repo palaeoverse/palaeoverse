@@ -7,28 +7,32 @@
 lat_bins(size = 10, fit = FALSE, assign = NULL, plot = FALSE)
 }
 \arguments{
-\item{size}{\code{numeric}. A single numeric value of more than 0, and less
-than or equal to 90.}
+\item{size}{\code{numeric}. A single numeric value defining the width of the
+latitudinal bins. This value must be more than 0, and less than or equal to
+90.}
 
 \item{fit}{\code{logical}. Should bin size be checked to ensure that the
 entire latitudinal
 range is covered (90°S to 90°N)? If \code{fit = TRUE}, bin size is
 set to the nearest integer which is divisible into 180 (the entire
-latitudinal range).}
+latitudinal range). If \code{fit = FALSE}, and bin size is not divisible
+into 180, part of the Northern Hemisphere latitudinal range will be missing.}
 
 \item{assign}{\code{numeric}. A numeric vector of latitudes (or
-palaeolatitudes) to use to assign to bins of a given size. If assign is
+palaeolatitudes) to assign to bins of a given size. If assign is
 specified, a numeric vector is returned of the midpoint latitudes of the
-specified bins.}
+bins to which the occurrences are allocated. If an occurrence sits on a bin
+boundary, it is automatically assigned to the bin with the highest bin
+number.}
 
 \item{plot}{\code{logical}. Should a plot of the latitudinal bins be
 generated?}
 }
 \value{
 A \code{dataframe} of latitudinal bins of a given size, or a list
-with a \code{dataframe} of the latitudinal bins,
+with a \code{dataframe} of the latitudinal bins (\code{list$Bins}),
 and a named \code{numeric} vector (bin number) of binned latitudes
-(midpoint latitude of bin) if assign specified.
+(midpoint latitude of bin) if assign specified (\code{list$Assignation}).
 }
 \description{
 A function to generate latitudinal bins of a given size. If the desired size
