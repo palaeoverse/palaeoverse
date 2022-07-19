@@ -50,6 +50,7 @@ information on whether they are body or trace fossils}
 to have lived, collated within the Paleobiology Database}
 \item{motility, life_habit, diet}{Various types of trait data for the taxon,
 collated within the Paleobiology Database}
+...
 }
 }
 \source{
