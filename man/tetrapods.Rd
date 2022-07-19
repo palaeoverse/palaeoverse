@@ -5,7 +5,7 @@
 \alias{tetrapods}
 \title{Example dataset: Early tetrapod data from the Paleobiology Database}
 \format{
-A data frame with 5270 rows and 57 variables:
+A data frame with 5270 rows and 32 variables:
 \describe{
 \item{occurrence_no}{Reference number given to the particular occurrence in
 the Paleobiology Database}
@@ -50,7 +50,6 @@ information on whether they are body or trace fossils}
 to have lived, collated within the Paleobiology Database}
 \item{motility, life_habit, diet}{Various types of trait data for the taxon,
 collated within the Paleobiology Database}
-...
 }
 }
 \source{
@@ -62,12 +61,10 @@ tetrapods
 }
 \description{
 A dataset of tetrapod occurrences ranging from the Carboniferous through to
-the Early Triassic. Data from: \url{https://paleobiodb.org/}. Dataset
-includes a range of variables relating to identification, geography,
-environmental context, traits and more. Those relevant to common
-paleobiological analyses are described below, but more information (and
-information on other variables) can be found at
-\url{https://paleobiodb.org/data1.2/}.
+the Early Triassic, from \url{https://paleobiodb.org/}. Dataset includes a
+range of variables relevant to common palaeobiological analyses, relating to
+identification, geography, environmental context, traits and more. Additional
+information can be found at \url{https://paleobiodb.org/data1.2/}.
 The downloaded data is unaltered, with the exception of removing some
 superfluous variables, and can be used to demonstrate how the functions
 in the palaeoverse package might be applied.
