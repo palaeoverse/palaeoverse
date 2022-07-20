@@ -109,6 +109,7 @@ William Gearty
 }
 
 \examples{
+\dontrun{
 #Grab internal tetrapod data
 occdf <- tetrapods
 bins <- time_bins()
@@ -127,4 +128,5 @@ bin_time(occdf = occdf, bins = bins, method = "random", reps = 100)
 
 #Assign point estimates based on fossil occurrence age range
 bin_time(occdf = occdf, bins = bins, method = "point", reps = 100)
+}
 }

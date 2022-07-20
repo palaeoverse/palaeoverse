@@ -81,6 +81,7 @@
 #' @importFrom stats dunif
 #' @importFrom utils capture.output
 #' @examples
+#' \dontrun{
 #' #Grab internal tetrapod data
 #' occdf <- tetrapods
 #' bins <- time_bins()
@@ -99,6 +100,7 @@
 #'
 #' #Assign point estimates based on fossil occurrence age range
 #' bin_time(occdf = occdf, bins = bins, method = "point", reps = 100)
+#' }
 #' @export
 bin_time <- function(occdf, bins, method = "mid", reps = 100,
            scale = "GTS2020", return_error = FALSE) {
