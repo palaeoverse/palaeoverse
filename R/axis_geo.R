@@ -218,8 +218,8 @@ axis_geo <- function(
          call. = FALSE)
   }
   center_end_labels <- rep(make_list(center_end_labels), length.out = n_scales)
-  if (!all(sapply(center_end_labels, function(x) is.logical(x) &&
-                                                 length(x) == 1))) {
+  if (!all(sapply(center_end_labels,
+                  function(x) is.logical(x) && length(x) == 1))) {
     stop("Invalid value supplied for center_end_labels, must be a single logical
          value per scale", call. = FALSE)
   }
