@@ -20,7 +20,7 @@
 #' palaeolatitudes) to assign to bins of a given size. If assign is
 #' specified, a numeric vector is returned of the midpoint latitudes of the
 #' bins to which the occurrences are allocated. If an occurrence sits on a bin
-#' boundary, it is automatically assigned to the bin with the highest bin
+#' boundary, it is automatically assigned to the bin with the higher bin
 #' number.
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be
 #' generated?
