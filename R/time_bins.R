@@ -36,7 +36,7 @@
 #' @importFrom stats sd
 #'
 #' @return A \code{dataframe} of time bins for the specified intervals or a
-#' list with a \code{dataframe} of time bins and \code{numeric} a named
+#' list with a \code{dataframe} of time bins and a named \code{numeric}
 #' vector (bin number) of binned age estimates (midpoint of specified bins) if
 #' assign is specified.
 #'
