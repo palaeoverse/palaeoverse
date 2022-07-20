@@ -29,8 +29,8 @@ test_that("bin_time() works", {
                             return_error = "TRUE"))
 
   #expect equal
-  occdf <- read.csv(
-    "https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia")
+  occdf <- tetrapods
+
   bins <- data.frame(bin = 1:54,
                      max_ma = seq(10, 540, 10),
                      min_ma = seq(0, 530, 10))
