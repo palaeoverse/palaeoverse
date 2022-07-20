@@ -1,5 +1,10 @@
 # palaeoverse
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/gh/palaeoverse-community/palaeoverse/branch/main/graph/badge.svg?token=HQQO2CRIKT)](https://codecov.io/gh/palaeoverse-community/palaeoverse)
+<!-- badges: end -->
+
 <img align="right" src="man/figures/hexbanner.png">
 
 <p align="right"; style="font-size:11px">Hexlogo by Miranta Kouvari</p>
