@@ -84,17 +84,16 @@
 #' #Now with some real fossil occurrence data!
 #'
 #' #Grab some data from the Paleobiology Database
-#' x <- read.csv(
-#' "https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia")
+#' data(tetrapods)
 #'
 #' #Assign midpoint age of fossil occurrence data for rotation
-#' x$age <- (x$max_ma + x$min_ma)/2
+#' tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 #'
 #' #Rotate the data
-#' palaeorotate(x = x)
+#' palaeorotate(x = tetrapods)
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
-#' palaeorotate(x = x, uncertainty = TRUE)
+#' palaeorotate(x = tetrapods, uncertainty = TRUE)
 #' @export
 palaeorotate <-
   function(x,
