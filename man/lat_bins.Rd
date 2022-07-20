@@ -42,14 +42,14 @@ which is divisible into 180 to fit the entire range. This function also
 allows the user to easily assign occurrence data to latitudinal bins via
 the assign argument.
 }
-\section{Developer}{
+\section{Developer(s)}{
 
 Lewis A. Jones
 }
 
-\section{Auditor}{
+\section{Reviewer(s)}{
 
-To be validated
+Bethany Allen
 }
 
 \examples{

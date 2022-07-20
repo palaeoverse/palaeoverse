@@ -29,10 +29,10 @@
 #' and a named \code{numeric} vector (bin number) of binned latitudes
 #' (midpoint latitude of bin) if assign specified (\code{list$Assignation}).
 #' @importFrom graphics polygon abline title
-#' @section Developer:
+#' @section Developer(s):
 #' Lewis A. Jones
-#' @section Auditor:
-#' To be validated
+#' @section Reviewer(s):
+#' Bethany Allen
 #' @examples
 #' #Generate 20 degrees latitudinal bins
 #' lat_bins(size = 20)
