@@ -109,9 +109,8 @@ William Gearty
 }
 
 \examples{
-#Grab some data from the Paleobiology Database
-occdf <- read.csv(
-"https://paleobiodb.org/data1.2/colls/list.csv?base_name=Scleractinia")
+#Grab internal tetrapod data
+occdf <- tetrapods
 bins <- time_bins()
 
 #Assign via midpoint age of fossil occurrence data
