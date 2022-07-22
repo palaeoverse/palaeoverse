@@ -7,17 +7,17 @@
 tax_range(occdf, method = "temporal", plot = FALSE)
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you
-wish to calculate range metrics for. For the "temporal" method, the
-dataframe should contain at least the following columns: "name"
-(e.g., species name), "max_ma", and "min_ma". For the "latitudinal" method,
-the dataframe should contain at least the following columns: "name" and
-"p_lat" (i.e., palaeolatitude). For the "spatial" method, the dataframe
-should contain at least the following columns: "name", "p_lng" and "p_lat".}
+\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences.
+For the "temporal" method, the dataframe should contain at least the
+following columns: "name" (e.g., species name), "max_ma", and "min_ma". For
+the "lat" method, the dataframe should contain at least the following
+columns: "name" and "p_lat" (i.e., palaeolatitude). For the "geo" method,
+the dataframe should contain at least the following columns: "name", "p_lng"
+and "p_lat" (i.e., palaeolatitude and palaeolongitude).}
 
-\item{method}{\code{character}. The type of ranges you wish to calculate
-for each unique taxa in the occurrence dataframe. Three options exist in
-this function: "temporal", "latitudinal", and "spatial". See Details for a
+\item{method}{\code{character}. The type of range you wish to calculate
+for each unique taxa in \code{occdf}. Three options exist in
+this function: "temporal", "lat", and "geo". See Details for a
 description of each.}
 
 \item{plot}{\code{logical}. Should a plot of the ranges be generated?}
@@ -26,35 +26,39 @@ description of each.}
 A \code{dataframe} with method specific columns. For the "temporal"
 method, a \code{dataframe} with unique taxa (\code{name}), taxa ID (\code{taxa_id}),
 maximum age of occurrence (\code{max_ma}), minimum age of occurrence
-(\code{min_ma}) and range duration (\code{range_myr}) is returned. For the
-"latitudinal" method, a \code{dataframe} with unique taxa (\code{name}),
+(\code{min_ma}), and range duration (\code{range_myr}) is returned. For the
+"lat" method, a \code{dataframe} with unique taxa (\code{name}),
 taxa ID (\code{taxa_id}), maximum palaeolatitude of occurrence (\code{max_p_lat}),
-minimum palaeolatitude of occurrence (\code{min_p_lat}) and palaeolatitudinal
-range (\code{range_p_lat}) is returned.
+minimum palaeolatitude of occurrence (\code{min_p_lat}), and palaeolatitudinal
+range (\code{range_p_lat}) is returned. For the "geo" method, a \code{dataframe}
+with unique taxa (\code{name}), taxa ID (\code{taxa_id}), convex hull coordinates
+(\code{p_lng} & \code{p_lat}), and area (\code{area}) in km^2 is returned.
 }
 \description{
-A function to calculate various types of ranges for fossil taxa. The
-function can calculate either temporal, (palaeo-)latitudinal, or the spatial
-range of taxa.
+A function to calculate the range of fossil taxa. The function can calculate
+either the temporal, (palaeo-)latitudinal, or the geographic range of taxa.
 }
 \details{
 Three approaches (methods) exist in the \code{tax_range} function for
 calculating ranges:
 \itemize{
 \item Temporal: the "temporal" method calculates the temporal range of a taxa.
-It does so by extracting all unique taxa from the input \code{occdf} and
-checking their first and last appearance. Subsequently, the temporal range
+It does so by extracting all unique taxa from the input \code{occdf}, and
+checks their first and last appearance. Subsequently, the temporal range
 of each taxa is calculated.
-\item Latitudinal: the "latitudinal" method calculates the (palaeo-)latitudinal
+\item Latitudinal: the "lat" method calculates the (palaeo-)latitudinal
 range of a taxa. It does so by extracting all unique taxa from the input
-\code{occdf} and checking their most notherly and southerly occurrence.
+\code{occdf} and checking their most northerly and southerly occurrence.
 Subsequently, the latitudinal range of each taxa is calculated.
-\item Spatial:
+\item Geographic: the "geo" method calculates the geographic range of a taxa. It
+does so by generating a convex hull for each taxa in the \code{occdf}, and
+calculates the area of the convex hull (km^2) using
+\code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}.
 }
 }
 \section{Developer(s)}{
 
-Lewis A. Jones, Bethany Allen & Christopher D. Dean
+Lewis A. Jones, Bethany Allen, & Christopher D. Dean
 }
 
 \section{Reviewer(s)}{
