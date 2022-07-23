@@ -18,7 +18,8 @@ Imports:
     utils,
     graphics,
     methods,
-    deeptime (>= 0.2.1)
+    deeptime (>= 0.2.1),
+    geosphere
 Suggests: 
     divDyn,
     rmarkdown,

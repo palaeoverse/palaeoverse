@@ -8,11 +8,11 @@ tax_range(occdf, method = "temporal", plot = FALSE)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences.
-For the "temporal" method, the dataframe should contain at least the
-following columns: "name" (e.g., species name), "max_ma", and "min_ma". For
-the "lat" method, the dataframe should contain at least the following
+For the "temporal" method, the dataframe should contain the following
+named columns: "name" (e.g., species name), "max_ma", and "min_ma". For
+the "lat" method, the dataframe should contain the following named
 columns: "name" and "p_lat" (i.e., palaeolatitude). For the "geo" method,
-the dataframe should contain at least the following columns: "name", "p_lng"
+the dataframe should contain the following named columns: "name", "p_lng"
 and "p_lat" (i.e., palaeolatitude and palaeolongitude).}
 
 \item{method}{\code{character}. The type of range you wish to calculate
@@ -36,23 +36,23 @@ with unique taxa (\code{name}), taxa ID (\code{taxa_id}), convex hull coordinate
 }
 \description{
 A function to calculate the range of fossil taxa. The function can calculate
-either the temporal, (palaeo-)latitudinal, or the geographic range of taxa.
+either the temporal, latitudinal, or the geographic range of taxa.
 }
 \details{
 Three approaches (methods) exist in the \code{tax_range} function for
 calculating ranges:
 \itemize{
 \item Temporal: the "temporal" method calculates the temporal range of a taxa.
-It does so by extracting all unique taxa from the input \code{occdf}, and
-checks their first and last appearance. Subsequently, the temporal range
-of each taxa is calculated.
-\item Latitudinal: the "lat" method calculates the (palaeo-)latitudinal
-range of a taxa. It does so by extracting all unique taxa from the input
-\code{occdf} and checking their most northerly and southerly occurrence.
-Subsequently, the latitudinal range of each taxa is calculated.
+It does so by extracting all unique taxa (\code{name} column) from the input
+\code{occdf}, and checks their first and last appearance. The temporal range
+of each taxa is also calculated.
+\item Latitudinal: the "lat" method calculates the (palaeo-) latitudinal
+range of a taxa. It does so by extracting all unique taxa (\code{name} column)
+from the input \code{occdf} and finding their most northerly and southerly
+occurrence. The latitudinal range of each taxa is also calculated.
 \item Geographic: the "geo" method calculates the geographic range of a taxa. It
 does so by generating a convex hull for each taxa in the \code{occdf}, and
-calculates the area of the convex hull (km^2) using
+calculates the area of the convex hull (in km^2) using
 \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}.
 }
 }
@@ -75,6 +75,9 @@ occdf$name <- occdf$accepted_name
 tax_range(occdf = occdf, method = "temporal", plot = TRUE)
 # Latitudinal range
 occdf$p_lat <- occdf$lat
-tax_range(occdf = occdf, method = "latitudinal", plot = TRUE)
+tax_range(occdf = occdf, method = "lat", plot = TRUE)
+# Geographic range
+occdf$p_lng <- occdf$lng
+tax_range(occdf = occdf, method = "geo", plot = FALSE)
 
 }

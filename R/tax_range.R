@@ -1,14 +1,14 @@
 #' Calculate the range of fossil taxa
 #'
 #' A function to calculate the range of fossil taxa. The function can calculate
-#' either the temporal, (palaeo-)latitudinal, or the geographic range of taxa.
+#' either the temporal, latitudinal, or the geographic range of taxa.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences.
-#' For the "temporal" method, the dataframe should contain at least the
-#' following columns: "name" (e.g., species name), "max_ma", and "min_ma". For
-#' the "lat" method, the dataframe should contain at least the following
+#' For the "temporal" method, the dataframe should contain the following
+#' named columns: "name" (e.g., species name), "max_ma", and "min_ma". For
+#' the "lat" method, the dataframe should contain the following named
 #' columns: "name" and "p_lat" (i.e., palaeolatitude). For the "geo" method,
-#' the dataframe should contain at least the following columns: "name", "p_lng"
+#' the dataframe should contain the following named columns: "name", "p_lng"
 #' and "p_lat" (i.e., palaeolatitude and palaeolongitude).
 #' @param method \code{character}. The type of range you wish to calculate
 #' for each unique taxa in `occdf`. Three options exist in
@@ -30,16 +30,16 @@
 #' @details Three approaches (methods) exist in the `tax_range` function for
 #' calculating ranges:
 #' - Temporal: the "temporal" method calculates the temporal range of a taxa.
-#' It does so by extracting all unique taxa from the input `occdf`, and
-#' checks their first and last appearance. Subsequently, the temporal range
-#' of each taxa is calculated.
-#' - Latitudinal: the "lat" method calculates the (palaeo-)latitudinal
-#' range of a taxa. It does so by extracting all unique taxa from the input
-#' `occdf` and checking their most northerly and southerly occurrence.
-#' Subsequently, the latitudinal range of each taxa is calculated.
+#' It does so by extracting all unique taxa (`name` column) from the input
+#' `occdf`, and checks their first and last appearance. The temporal range
+#' of each taxa is also calculated.
+#' - Latitudinal: the "lat" method calculates the (palaeo-) latitudinal
+#' range of a taxa. It does so by extracting all unique taxa (`name` column)
+#' from the input `occdf` and finding their most northerly and southerly
+#' occurrence. The latitudinal range of each taxa is also calculated.
 #' - Geographic: the "geo" method calculates the geographic range of a taxa. It
 #' does so by generating a convex hull for each taxa in the `occdf`, and
-#' calculates the area of the convex hull (km^2) using
+#' calculates the area of the convex hull (in km^2) using
 #' \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}.
 #'
 #' @section Developer(s):
@@ -47,6 +47,8 @@
 #' @section Reviewer(s):
 #' To be reviewed
 #' @importFrom geosphere areaPolygon
+#' @importFrom grDevices chull rgb
+#' @importFrom graphics points
 #' @examples
 #' # Grab internal data
 #' occdf <- tetrapods
@@ -56,7 +58,10 @@
 #' tax_range(occdf = occdf, method = "temporal", plot = TRUE)
 #' # Latitudinal range
 #' occdf$p_lat <- occdf$lat
-#' tax_range(occdf = occdf, method = "latitudinal", plot = TRUE)
+#' tax_range(occdf = occdf, method = "lat", plot = TRUE)
+#' # Geographic range
+#' occdf$p_lng <- occdf$lng
+#' tax_range(occdf = occdf, method = "geo", plot = FALSE)
 #'
 #' @export
 tax_range <- function(occdf, method = "temporal", plot = FALSE) {
@@ -70,6 +75,11 @@ tax_range <- function(occdf, method = "temporal", plot = FALSE) {
     stop("`method` should be of character class")
   }
 
+  if (is.logical(plot) == FALSE) {
+    stop("`plot` should be logical (TRUE/FALSE)")
+  }
+
+  # Possible methods specified?
   possible_methods <- c("temporal", "lat", "geo")
   method_match <- charmatch(method, possible_methods)
 
@@ -82,6 +92,7 @@ tax_range <- function(occdf, method = "temporal", plot = FALSE) {
     method <- possible_methods[method_match]
   }
 
+  # Method specific error handling
   if (method == "temporal") {
     if (sum(c("name", "min_ma", "max_ma") %in% colnames(occdf)) != 3) {
       stop("The 'temporal' approach in `method` requires the columns:
@@ -101,6 +112,27 @@ tax_range <- function(occdf, method = "temporal", plot = FALSE) {
     if (!is.numeric(occdf$p_lat)) {
       stop(
         "'p_lat' in `occdf` must be of class numeric.")
+    }
+    if (any(is.na(occdf$p_lat))) {
+      stop(
+        "NA values present in 'p_lat'."
+      )
+    }
+  }
+
+  if (method == "geo") {
+    if (sum(c("name", "p_lng", "p_lat") %in% colnames(occdf)) != 3) {
+      stop("The 'geo' approach in `method` requires the columns:
+         'name', 'p_lng', 'p_lat'")
+    }
+    if (!is.numeric(occdf$p_lat)) {
+      stop(
+        "'p_lng' and 'p_lat' in `occdf` must be of class numeric.")
+    }
+    if (any(is.na(occdf$p_lng)) || any(is.na(occdf$p_lat))) {
+      stop(
+        "NA values present in 'p_lng' and 'p_lat'."
+      )
     }
   }
 
@@ -127,10 +159,10 @@ tax_range <- function(occdf, method = "temporal", plot = FALSE) {
     }
     # Remove row names
     row.names(temp_df) <- NULL
-    #round off values
+    # Round off values
     temp_df[, c("max_ma", "min_ma", "range_myr")] <- round(
       x = temp_df[, c("max_ma", "min_ma", "range_myr")], digits = 3)
-    # plot data?
+    # Plot data?
     if (plot == TRUE){
       x_range <- c(max(temp_df$max_ma), min(temp_df$min_ma))
       y_range <- c(0, nrow(temp_df))
