@@ -109,9 +109,9 @@ palaeorotate <-
       stop("`x` must contain the following columns: lng, lat, and age")
     }
 
-    if (any(!is.numeric(x$lat) || is.na(x$lat)) ||
-        any(!is.numeric(x$lng) || is.na(x$lng)) ||
-        any(!is.numeric(x$age) || is.na(x$age))) {
+    if (any(!is.numeric(x$lat) | is.na(x$lat)) |
+        any(!is.numeric(x$lng) | is.na(x$lng)) |
+        any(!is.numeric(x$age) | is.na(x$age))) {
       stop("lng, lat and age should be of numeric class")
     }
 
