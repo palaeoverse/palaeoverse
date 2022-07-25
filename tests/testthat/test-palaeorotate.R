@@ -13,6 +13,10 @@ test_that("palaeorotate() works", {
 
   expect_equal(nrow(palaeorotate(x = x, model = "Scotese2018")), 3)
 
+  expect_equal(nrow(palaeorotate(x = x, model = "Merdith2021")), 3)
+
+  expect_equal(nrow(palaeorotate(x = x, model = "Wright2013")), 3)
+
   expect_error(palaeorotate(x = x, uncertainty = "TRUE"))
 
   expect_error(palaeorotate(x = x, uncertainty = 2))
@@ -22,6 +26,16 @@ test_that("palaeorotate() works", {
   expect_error(palaeorotate(x = c(55, 46, 88)))
 
   x <- data.frame(x = c(2, 95, 12), y = c(46, 12, -65), age = c(88, 203, 467))
+  expect_error(palaeorotate(x = x))
+
+  x <- data.frame(lng = c(2, 95, "12"),
+                  lat = c(46, 12, -65),
+                  age = c(88, 203, 467))
+  expect_error(palaeorotate(x = x))
+
+  x <- data.frame(lng = c(2, 95, -183),
+                  lat = c(46, 12, -65),
+                  age = c(88, 203, 467))
   expect_error(palaeorotate(x = x))
 
 })

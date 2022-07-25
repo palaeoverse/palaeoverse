@@ -3,7 +3,7 @@
 #' A function to generate stage-level palaeocoordinates (0--540 Ma) for fossil
 #' occurrence data (i.e., reconstruct the geographic distribution of organisms'
 #' remains at time of deposition). Each occurrence is assigned
-#' palaeocoordinates based on its current geographic distribution and age
+#' palaeocoordinates based on its current geographic position and age
 #' estimate.
 #'
 #' @param x \code{dataframe}. Fossil occurrences to be palaeogeographically
@@ -14,8 +14,8 @@
 #' confused.
 #' @param model \code{character}. The name of the plate rotation model to be
 #' used to reconstruct palaeocoordinates. Choose from: "Merdith2021",
-#' "Scotese2018", and "Wright2013". The default is "Merdith2021". See details
-#' below for further information on each model.
+#' "Scotese2018", and "Wright2013". The default is "Merdith2021". See
+#' references below for further information on each model.
 #' @param uncertainty \code{logical}. Should the uncertainty in
 #' palaeogeographic reconstructions be returned? If set to TRUE, the
 #' palaeocoordinates from the three plate rotation models are returned
@@ -42,7 +42,8 @@
 #' noted that if specific ages of rotation are required, or fine-scale spatial
 #' analyses are being conducted, use of \url{https://www.gplates.org} might be
 #' preferable for the user (particularly if your occurrences are close to plate
-#' boundaries).
+#' boundaries). As implemented, points within the same grid cell will be
+#' assigned equivalent palaeocoordinates due to spatial aggregation.
 #'
 #' The current palaeorotations (0--540 Ma) provided were generated using a
 #' 1&deg; x 1&deg; spatial grid with the GPlates software
@@ -72,7 +73,7 @@
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Missing
+#' Kilian Eichenseer
 #' @importFrom utils download.file
 #' @examples
 #' #Generic example with a few occurrences
@@ -103,13 +104,25 @@ palaeorotate <-
     if (!exists("x") || !is.data.frame(x)) {
       stop("Please supply x as a dataframe")
     }
+
     if (sum((c("lng", "lat", "age") %in% colnames(x))) != 3) {
       stop("`x` must contain the following columns: lng, lat, and age")
     }
 
-    if (sum(x$lat > 90) != 0 || sum(x$lat < -90) != 0) {
-      stop("Latitude should be more than -90 and less than 90")
+    if (any(!is.numeric(x$lat) || is.na(x$lat)) ||
+        any(!is.numeric(x$lng) || is.na(x$lng)) ||
+        any(!is.numeric(x$age) || is.na(x$age))) {
+      stop("lng, lat and age should be of numeric class")
     }
+
+    if (sum(x$lat > 90) != 0 || sum(x$lat < -90) != 0) {
+      stop("Latitudes should be more than -90 and less than 90")
+    }
+
+    if (sum(x$lng > 180) != 0 || sum(x$lng < -180) != 0) {
+      stop("Longitudes should be more than -180 and less than 180")
+    }
+
 
     if (model %in% c("Merdith2021", "Scotese2018", "Wright2013") == FALSE) {
       stop("`model` should be one of the following:
@@ -133,15 +146,21 @@ palaeorotate <-
 
     if (uncertainty == TRUE) {
       #download all rotations
-      download.file(url =
+      if (!file.exists(paste0(files, "/Merdith2021.RDS"))) {
+        download.file(url =
     "https://dl.dropboxusercontent.com/s/fmt7mb0799952qy/Merdith2021.RDS?dl=0",
                     destfile = paste0(files, "/Merdith2021.RDS"), mode = mode)
-      download.file(url =
+      }
+      if (!file.exists(paste0(files, "/Scotese2018.RDS"))) {
+        download.file(url =
     "https://dl.dropboxusercontent.com/s/zqi2jmjhjecka0s/Scotese2018.RDS?dl=0",
                     destfile = paste0(files, "/Scotese2018.RDS"), mode = mode)
-      download.file(url =
+      }
+      if (!file.exists(paste0(files, "/Wright2013.RDS"))) {
+        download.file(url =
     "https://dl.dropboxusercontent.com/s/gf7t2wo6iwo8ut2/Wright2013.RDS?dl=0",
                     destfile = paste0(files, "/Wright2013.RDS"), mode = mode)
+      }
 
       #load rotation files
       merdith2021 <- readRDS(paste0(files, "/Merdith2021.RDS"))
@@ -244,23 +263,29 @@ palaeorotate <-
     if (uncertainty == FALSE) {
       #which model should be used?
       if (model == "Merdith2021") {
+        if (!file.exists(paste0(files, "/Merdith2021.RDS"))) {
         download.file(url =
     "https://dl.dropboxusercontent.com/s/fmt7mb0799952qy/Merdith2021.RDS?dl=0",
                       destfile = paste0(files, "/Merdith2021.RDS"),
     mode = mode)
+        }
         palaeo_rots <- readRDS(paste0(files, "/Merdith2021.RDS"))
 
       } else if (model == "Scotese2018") {
+        if (!file.exists(paste0(files, "/Scotese2018.RDS"))) {
         download.file(url =
     "https://dl.dropboxusercontent.com/s/zqi2jmjhjecka0s/Scotese2018.RDS?dl=0",
                       destfile = paste0(files, "/Scotese2018.RDS"),
     mode = mode)
+        }
         palaeo_rots <- readRDS(paste0(files, "/Scotese2018.RDS"))
       } else if (model == "Wright2013") {
+        if (!file.exists(paste0(files, "/Wright2013.RDS"))) {
         download.file(url =
     "https://dl.dropboxusercontent.com/s/gf7t2wo6iwo8ut2/Wright2013.RDS?dl=0",
                       destfile = paste0(files, "/Wright2013.RDS"),
     mode = mode)
+        }
         palaeo_rots <- readRDS(paste0(files, "/Wright2013.RDS"))
       }
 
@@ -300,9 +325,6 @@ Georeferenced plate does not exist at time of reconstruction."
         )
       }
     }
-
-    #remove downloaded files
-    unlink(x = paste0(files, "/", list.files(files)))
 
     return(x)
   }

@@ -16,8 +16,8 @@ confused.}
 
 \item{model}{\code{character}. The name of the plate rotation model to be
 used to reconstruct palaeocoordinates. Choose from: "Merdith2021",
-"Scotese2018", and "Wright2013". The default is "Merdith2021". See details
-below for further information on each model.}
+"Scotese2018", and "Wright2013". The default is "Merdith2021". See
+references below for further information on each model.}
 
 \item{uncertainty}{\code{logical}. Should the uncertainty in
 palaeogeographic reconstructions be returned? If set to TRUE, the
@@ -39,7 +39,7 @@ plate rotation models.
 A function to generate stage-level palaeocoordinates (0--540 Ma) for fossil
 occurrence data (i.e., reconstruct the geographic distribution of organisms'
 remains at time of deposition). Each occurrence is assigned
-palaeocoordinates based on its current geographic distribution and age
+palaeocoordinates based on its current geographic position and age
 estimate.
 }
 \details{
@@ -54,7 +54,8 @@ or knowledge is required from the user (i.e. GPlates). However, it should be
 noted that if specific ages of rotation are required, or fine-scale spatial
 analyses are being conducted, use of \url{https://www.gplates.org} might be
 preferable for the user (particularly if your occurrences are close to plate
-boundaries).
+boundaries). As implemented, points within the same grid cell will be
+assigned equivalent palaeocoordinates due to spatial aggregation.
 
 The current palaeorotations (0--540 Ma) provided were generated using a
 1° x 1° spatial grid with the GPlates software
@@ -91,7 +92,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Missing
+Kilian Eichenseer
 }
 
 \examples{
