@@ -136,7 +136,7 @@
 #' A dataset of Phanerozoic reef occurrences from the PaleoReefs Database
 #' (PARED) \url{https://www.paleo-reefs.pal.uni-erlangen.de}. This example
 #' dataset includes a subset of the available data from PARED, but can be used
-#' to demonstrate how the functions in the palaeoverse package might be
+#' to demonstrate how the functions in the `palaeoverse` package might be
 #' applied.
 #'
 #' @format A data frame with 4363 rows and 14 variables:
@@ -165,7 +165,7 @@
 #'   \item{year}{The year of the publication documenting the fossil reef}
 #' }
 #' @section References:
-#' Kiessling, Wolfgang, & Krause, Cristina. (2022). PaleoReefs Database (PARED)
+#' Kiessling, W. & Krause, C. (2022). PaleoReefs Database (PARED)
 #' (1.0) [Data set]. \doi{10.5281/zenodo.6037852}
 #' \cr
 #' @source Compiled by Lewis A. Jones, current version downloaded on 25th July
