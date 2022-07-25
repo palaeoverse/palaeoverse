@@ -120,7 +120,8 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       # generate an error and warn the user.
       stop("Invalid `method`. Choose either:
   'all', 'majority', 'random', 'point', or 'mid'.")
-    }else{method <- possible_methods[method_match]
+    } else {
+      method <- possible_methods[method_match]
     }
 
     if (scale %in% c("GTS2020", "GTS2012") == FALSE) {
@@ -312,7 +313,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       #add point estimates to each dataframe
       for (i in 1:reps) {
         occdf$point_estimates <- do.call(rbind, occ_list)[, i]
-          for(j in seq_len(nrow(bins))){
+          for (j in seq_len(nrow(bins))){
             vec <- which(occdf$point_estimates <= bins$max_ma[j] &
                     occdf$point_estimates >= bins$min_ma[j])
             occdf$bin_assignment[vec] <- bins$bin[j]

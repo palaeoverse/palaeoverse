@@ -66,7 +66,7 @@ We recommend using the following conventions to make your code easier for us (an
 
 **Wrapping:** break long commands into multiple lines, conventionally no line should be longer than ~75 characters.
 
-**Language:** use plain English (British spelling) for your code and documentation.
+**Language:** use plain English (British spelling preferred, but not required) for your code and documentation.
 
 ```{r style guide, include=TRUE, eval = FALSE}
 # Nope!

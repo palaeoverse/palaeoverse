@@ -11,9 +11,9 @@ A data frame with 5270 rows and 32 variables:
 the Paleobiology Database}
 \item{collection_no}{Reference number given to the Paleobiology Database
 collection (locality) that the occurrence belongs to}
-\item{identified_name}{Taxon name as it appears in the original publication,
-which may include expressions of uncertainty (e.g. "cf.", "aff.", "?") or
-novelty (e.g. "n. gen.", "n. sp.")}
+\item{identified_name}{Taxon name as it appears in the original
+publication, which may include expressions of uncertainty (e.g. "cf.",
+"aff.", "?") or novelty (e.g. "n. gen.", "n. sp.")}
 \item{identified_rank}{The taxonomic rank, or resolution, of the identified
 name}
 \item{accepted_name}{Taxon name once the identified name has passed through
@@ -27,11 +27,12 @@ occurrence is thought to have been deposited}
 \item{late_interval}{The youngest time interval within which the occurrence
 is thought to have been deposited}
 \item{max_ma, min_ma}{The age range given to the occurrence}
-\item{phylum, class, order, family, genus}{The taxa (of decreasing taxonomic
-level) which the occurrence is identified as belonging to}
+\item{phylum, class, order, family, genus}{The taxa (of decreasing
+taxonomic level) which the occurrence is identified as belonging to}
 \item{abund_value, abund_unit}{The number (and units) of fossils attributed
 to the occurrence}
-\item{lng, lat}{The modern-day longitude and latitude of the fossil locality}
+\item{lng, lat}{The modern-day longitude and latitude of the fossil
+locality}
 \item{collection_name}{The name of the Paleobiology Database collection
 which the occurrence belongs to, typically a spatio-temporally restricted
 locality}
@@ -44,12 +45,12 @@ fossils were collected}
 \item{environment}{The inferred environmental conditions in the place of
 deposition}
 \item{pres_mode}{The mode of preservation of the fossils found in the
-collection (not necessarily of that specific occurrence), which will include
-information on whether they are body or trace fossils}
+collection (not necessarily of that specific occurrence), which will
+include information on whether they are body or trace fossils}
 \item{taxon_environment}{The environment within which the taxon is thought
 to have lived, collated within the Paleobiology Database}
-\item{motility, life_habit, diet}{Various types of trait data for the taxon,
-collated within the Paleobiology Database}
+\item{motility, life_habit, diet}{Various types of trait data for the
+taxon, collated within the Paleobiology Database}
 }
 }
 \source{
