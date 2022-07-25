@@ -160,9 +160,6 @@
 #'   \item{lng}{The modern-day longitude of the fossil reef}
 #'   \item{lat}{The modern-day latitude of the fossil reef}
 #'   \item{country}{The country the fossil reef is located in}
-#'   \item{authors}{The authors of the publication documenting the fossil reef}
-#'   \item{title}{The title of the publication documenting the fossil reef}
-#'   \item{year}{The year of the publication documenting the fossil reef}
 #' }
 #' @section References:
 #' Kiessling, W. & Krause, C. (2022). PaleoReefs Database (PARED)
