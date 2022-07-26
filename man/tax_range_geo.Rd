@@ -4,52 +4,71 @@
 \alias{tax_range_geo}
 \title{Calculate the geographic range of fossil taxa}
 \usage{
-tax_range_geo(occdf, method = "lat", plot = FALSE)
+tax_range_geo(occdf, method = "lat", spacing = 1000, plot = FALSE)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences.
-For the dataframe should contain the following named columns: "name"
-(e.g., species name), "p_lng" and "p_lat" (i.e., palaeolatitude and
-palaeolongitude). However, only "p_lat" is required for the "lat" method.}
+The dataframe should contain the following named columns: "name"
+(e.g., species name), "p_lng", and "p_lat" (i.e., palaeolatitude and
+palaeolongitude). Only "name" and "p_lat" are required for the "lat" method.}
 
-\item{method}{\code{character}. How do you want to calculate the
-geographic range for each unique taxa in \code{occdf}? Four options exist in
-this function: "con", "lat", "gcd", and "occ". See Details for a
-description of each.}
+\item{method}{\code{character}. How should geographic range be calculated
+for each taxa in \code{occdf}? Four options exist in this function:
+"con", "lat", "gcd", and "occ". See Details for a description of each.}
+
+\item{spacing}{\code{numeric}. The desired spacing (in km) between the
+center of adjacent grid cells. Only useful if the method argument is set to
+"occ".}
 
 \item{plot}{\code{logical}. Should a plot of the ranges be generated?}
 }
 \value{
-A \code{dataframe} with method specific columns. For the "con"
-method, a \code{dataframe} with unique taxa (\code{name}), taxa ID (\code{taxa_id}),
-convex hull coordinates (\code{p_lng} & \code{p_lat}), and area (\code{area}) in km^2 is
-returned. For the "lat" method, a \code{dataframe} with unique taxa (\code{name}),
+A \code{dataframe} with method specific columns:
+\itemize{
+\item For the "con" method, a \code{dataframe} with unique taxa (\code{name}),
+taxa ID (\code{taxa_id}), convex hull coordinates (\code{p_lng} & \code{p_lat}), and area
+(\code{area}) in km^2 is returned.
+\item For the "lat" method, a \code{dataframe} with unique taxa (\code{name}),
 taxa ID (\code{taxa_id}), maximum palaeolatitude of occurrence (\code{max_p_lat}),
 minimum palaeolatitude of occurrence (\code{min_p_lat}), and palaeolatitudinal
-range (\code{range_p_lat}) is returned. For the "gcr" method...
-For the "occ" method...
+range (\code{range_p_lat}) is returned.
+\item For the "gcd" method, a \code{dataframe} with unique taxa (\code{name}), taxa
+ID (\code{taxa_id}), coordinates of the two most distant points
+(\code{p_lng} & \code{p_lat}), and the 'Great Circle Distance' between these points in
+km is returned.
+\item For the "occ" method, a \code{dataframe} with unique taxa (\code{name}), taxa
+ID (\code{taxa_id}), the number of occupied cells (\code{cells}), and the spacing
+between cells (\code{spacing}) is returned.
+}
 }
 \description{
 A function to calculate the geographic range of fossil taxa. The function
-calculates geographic range in four ways: convex hull, latitudinal range,
-maximum great circle distance and the number of occupied grid cells.
+can calculate geographic range in four ways: convex hull, latitudinal range,
+maximum great circle distance, and the number of occupied equal-area
+hexagonal grid cells.
 }
 \details{
-Three approaches (methods) exist in the \code{tax_range} function for
+Four approaches (methods) exist in the \code{tax_range_geo} function for
 calculating ranges:
 \itemize{
-\item Temporal: the "temporal" method calculates the temporal range of a taxa.
-It does so by extracting all unique taxa (\code{name} column) from the input
-\code{occdf}, and checks their first and last appearance. The temporal range
-of each taxa is also calculated.
-\item Latitudinal: the "lat" method calculates the (palaeo-) latitudinal
-range of a taxa. It does so by extracting all unique taxa (\code{name} column)
-from the input \code{occdf} and finding their most northerly and southerly
-occurrence. The latitudinal range of each taxa is also calculated.
-\item Geographic: the "geo" method calculates the geographic range of a taxa. It
-does so by generating a convex hull for each taxa in the \code{occdf}, and
-calculates the area of the convex hull (in km^2) using
+\item Convex hull: the "con" method calculates the geographic range of a taxa
+using a convex hull for each taxa in \code{occdf}, and calculates the area of
+the convex hull (in km^2) using
 \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}.
+\item Latitudinal: the "lat" method calculates the palaeolatitudinal
+range of a taxa. It does so for each taxa in \code{occdf} by finding their most
+northerly and southerly occurrence. The palaeolatitudinal range of each taxa
+is also calculated.
+\item Maximum Great Circle Distance: the "gcd" method calculates the maximum
+Great Circle Distance between occurrences for each taxa in \code{occdf}. It does
+so using \code{\link[fields:rdist.earth]{fields::rdist.earth()}}. This
+function calculates Great Circle Distance using the Haversine method with
+the radius of the Earth set to the 6378.388 km (equatorial radius).
+\item Occupied cells: the "occ" method calculates the number of occupied
+grid cells. It does so by creating an equal-area hexagonal grid using the
+\code{\link[dggridR:dgconstruct]{dggridR::dgconstruct()}} function. The size
+of the cells is defined by the spacing between cells (the distance between
+the center of adjacent cells).
 }
 }
 \section{Developer(s)}{
@@ -63,17 +82,18 @@ To be reviewed
 }
 
 \examples{
-# Grab internal data
+# Grab internal data and set-up
 occdf <- tetrapods
-# Add name column
+occdf$p_lng <- tetrapods$lng
+occdf$p_lat <- tetrapods$lat
 occdf$name <- occdf$accepted_name
-# Temporal range
-tax_range(occdf = occdf, method = "temporal", plot = TRUE)
+# Convex hull
+tax_range(occdf = occdf, method = "con", plot = TRUE)
 # Latitudinal range
 occdf$p_lat <- occdf$lat
 tax_range(occdf = occdf, method = "lat", plot = TRUE)
-# Geographic range
-occdf$p_lng <- occdf$lng
-tax_range(occdf = occdf, method = "geo", plot = FALSE)
-
+# Great Circle Distance
+tax_range(occdf = occdf, method = "gcd", plot = FALSE)
+# Occupied grid cells
+tax_range(occdf = occdf, method = "occ", plot = FALSE)
 }

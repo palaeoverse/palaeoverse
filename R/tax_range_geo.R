@@ -1,42 +1,58 @@
 #' Calculate the geographic range of fossil taxa
 #'
 #' A function to calculate the geographic range of fossil taxa. The function
-#' calculates geographic range in four ways: convex hull, latitudinal range,
-#' maximum great circle distance and the number of occupied grid cells.
+#' can calculate geographic range in four ways: convex hull, latitudinal range,
+#' maximum great circle distance, and the number of occupied equal-area
+#' hexagonal grid cells.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences.
-#' For the dataframe should contain the following named columns: "name"
-#' (e.g., species name), "p_lng" and "p_lat" (i.e., palaeolatitude and
-#' palaeolongitude). However, only "p_lat" is required for the "lat" method.
-#' @param method \code{character}. How do you want to calculate the
-#' geographic range for each unique taxa in `occdf`? Four options exist in
-#' this function: "con", "lat", "gcd", and "occ". See Details for a
-#' description of each.
+#' The dataframe should contain the following named columns: "name"
+#' (e.g., species name), "p_lng", and "p_lat" (i.e., palaeolatitude and
+#' palaeolongitude). Only "name" and "p_lat" are required for the "lat" method.
+#' @param method \code{character}. How should geographic range be calculated
+#' for each taxa in `occdf`? Four options exist in this function:
+#' "con", "lat", "gcd", and "occ". See Details for a description of each.
+#' @param spacing \code{numeric}. The desired spacing (in km) between the
+#' center of adjacent grid cells. Only useful if the method argument is set to
+#' "occ".
 #' @param plot \code{logical}. Should a plot of the ranges be generated?
 #'
-#' @return A \code{dataframe} with method specific columns. For the "con"
-#' method, a \code{dataframe} with unique taxa (`name`), taxa ID (`taxa_id`),
-#' convex hull coordinates (`p_lng` & `p_lat`), and area (`area`) in km^2 is
-#' returned. For the "lat" method, a \code{dataframe} with unique taxa (`name`),
+#' @return A \code{dataframe} with method specific columns:
+#' - For the "con" method, a \code{dataframe} with unique taxa (`name`),
+#' taxa ID (`taxa_id`), convex hull coordinates (`p_lng` & `p_lat`), and area
+#' (`area`) in km^2 is returned.
+#' - For the "lat" method, a \code{dataframe} with unique taxa (`name`),
 #' taxa ID (`taxa_id`), maximum palaeolatitude of occurrence (`max_p_lat`),
 #' minimum palaeolatitude of occurrence (`min_p_lat`), and palaeolatitudinal
-#' range (`range_p_lat`) is returned. For the "gcr" method...
-#' For the "occ" method...
+#' range (`range_p_lat`) is returned.
+#' - For the "gcd" method, a \code{dataframe} with unique taxa (`name`), taxa
+#' ID (`taxa_id`), coordinates of the two most distant points
+#' (`p_lng` & `p_lat`), and the 'Great Circle Distance' between these points in
+#' km is returned.
+#' - For the "occ" method, a \code{dataframe} with unique taxa (`name`), taxa
+#' ID (`taxa_id`), the number of occupied cells (`cells`), and the spacing
+#' between cells (`spacing`) is returned.
 #'
-#' @details Three approaches (methods) exist in the `tax_range` function for
+#' @details Four approaches (methods) exist in the `tax_range_geo` function for
 #' calculating ranges:
-#' - Temporal: the "temporal" method calculates the temporal range of a taxa.
-#' It does so by extracting all unique taxa (`name` column) from the input
-#' `occdf`, and checks their first and last appearance. The temporal range
-#' of each taxa is also calculated.
-#' - Latitudinal: the "lat" method calculates the (palaeo-) latitudinal
-#' range of a taxa. It does so by extracting all unique taxa (`name` column)
-#' from the input `occdf` and finding their most northerly and southerly
-#' occurrence. The latitudinal range of each taxa is also calculated.
-#' - Geographic: the "geo" method calculates the geographic range of a taxa. It
-#' does so by generating a convex hull for each taxa in the `occdf`, and
-#' calculates the area of the convex hull (in km^2) using
+#' - Convex hull: the "con" method calculates the geographic range of a taxa
+#' using a convex hull for each taxa in `occdf`, and calculates the area of
+#' the convex hull (in km^2) using
 #' \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}.
+#' - Latitudinal: the "lat" method calculates the palaeolatitudinal
+#' range of a taxa. It does so for each taxa in `occdf` by finding their most
+#' northerly and southerly occurrence. The palaeolatitudinal range of each taxa
+#' is also calculated.
+#' - Maximum Great Circle Distance: the "gcd" method calculates the maximum
+#' Great Circle Distance between occurrences for each taxa in `occdf`. It does
+#' so using \code{\link[fields:rdist.earth]{fields::rdist.earth()}}. This
+#' function calculates Great Circle Distance using the Haversine method with
+#' the radius of the Earth set to the 6378.388 km (equatorial radius).
+#' - Occupied cells: the "occ" method calculates the number of occupied
+#' grid cells. It does so by creating an equal-area hexagonal grid using the
+#' \code{\link[dggridR:dgconstruct]{dggridR::dgconstruct()}} function. The size
+#' of the cells is defined by the spacing between cells (the distance between
+#' the center of adjacent cells).
 #'
 #' @section Developer(s):
 #' Lewis A. Jones, Bethany Allen, & Christopher D. Dean
@@ -45,22 +61,26 @@
 #' @importFrom geosphere areaPolygon
 #' @importFrom grDevices chull rgb
 #' @importFrom graphics points
+#' @importFrom fields rdist.earth
+#' @importFrom dggridR dgconstruct dgGEO_to_SEQNUM dgcellstogrid
+#' @importFrom terra plot
 #' @examples
-#' # Grab internal data
+#' # Grab internal data and set-up
 #' occdf <- tetrapods
-#' # Add name column
+#' occdf$p_lng <- tetrapods$lng
+#' occdf$p_lat <- tetrapods$lat
 #' occdf$name <- occdf$accepted_name
-#' # Temporal range
-#' tax_range(occdf = occdf, method = "temporal", plot = TRUE)
+#' # Convex hull
+#' tax_range(occdf = occdf, method = "con", plot = TRUE)
 #' # Latitudinal range
 #' occdf$p_lat <- occdf$lat
 #' tax_range(occdf = occdf, method = "lat", plot = TRUE)
-#' # Geographic range
-#' occdf$p_lng <- occdf$lng
-#' tax_range(occdf = occdf, method = "geo", plot = FALSE)
-#'
+#' # Great Circle Distance
+#' tax_range(occdf = occdf, method = "gcd", plot = FALSE)
+#' # Occupied grid cells
+#' tax_range(occdf = occdf, method = "occ", plot = FALSE)
 #' @export
-tax_range_geo <- function(occdf, method = "lat", plot = FALSE) {
+tax_range_geo <- function(occdf, method = "lat", spacing = 1000, plot = FALSE) {
 
   #=== Handling errors ===
   if (is.data.frame(occdf) == FALSE) {
@@ -76,22 +96,22 @@ tax_range_geo <- function(occdf, method = "lat", plot = FALSE) {
   }
 
   # Possible methods specified?
-  possible_methods <- c("con", "lat", "gcr", "occ")
+  possible_methods <- c("con", "lat", "gcd", "occ")
   method_match <- charmatch(method, possible_methods)
 
   if (is.na(method_match) == TRUE) {
     # If the user has entered a non-valid term for the "method" argument,
     # generate an error and warn the user.
     stop("Invalid `method`. Choose either:
-  'con', 'lat', 'gcr', and 'occ'.")
+  'con', 'lat', 'gcd', and 'occ'.")
   } else {
     method <- possible_methods[method_match]
   }
 
   # Method specific error handling
-  if (method == "con" | method == "gcr" | method == "occ") {
+  if (method == "con" | method == "gcd" | method == "occ") {
     if (sum(c("name", "p_lng", "p_lat") %in% colnames(occdf)) != 3) {
-      stop("The 'con', 'gcr', and 'occ' method requires the columns:
+      stop("The 'con', 'gcd', and 'occ' method requires the columns:
          'name', 'p_lng', 'p_lat'")
     }
     if (!is.numeric(occdf$p_lat)) {
@@ -153,9 +173,9 @@ tax_range_geo <- function(occdf, method = "lat", plot = FALSE) {
            xlim = x_range,
            ylim = y_range,
            axes = TRUE,
-           ylab = "(Palaeo-)latitude (\u00B0)",
-           xlab = "(Palaeo-)longitude (\u00B0)",
-           main = "(Palaeo-)geographic range of taxa")
+           ylab = "Palaeolatitude (\u00B0)",
+           xlab = "Palaeolongitude (\u00B0)",
+           main = "Palaeogeographic range of taxa")
       for (i in seq_along(unique_taxa)) {
         tmp <- spat_df[which(spat_df$name == unique_taxa[i]), ]
         polygon(x = tmp$p_lng, y = tmp$p_lat,
@@ -199,9 +219,9 @@ tax_range_geo <- function(occdf, method = "lat", plot = FALSE) {
            xlim = x_range,
            ylim = y_range,
            axes = TRUE,
-           ylab = "(Palaeo-)latitude (\u00B0)",
+           ylab = "Palaeolatitude (\u00B0)",
            xlab = "Taxa ID",
-           main = "(Palaeo-)latitudinal range of taxa")
+           main = "Palaeolatitudinal range of taxa")
       segments(y0 = lat_df$max_p_lat,
                y1 = lat_df$min_p_lat,
                x0 = lat_df$taxa_id,
@@ -223,8 +243,6 @@ tax_range_geo <- function(occdf, method = "lat", plot = FALSE) {
   if (method == "gcd") {
     # Generate dataframe for population
     gcd_df <- data.frame()
-    #convert to sf object
-    occdf <- sf::st_as_sf(occdf, coords = c("p_lng", "p_lat"), crs = 4326)
     # Run for loop across unique taxa
     for(i in seq_along(unique_taxa)){
       # Unique taxa name
@@ -233,15 +251,16 @@ tax_range_geo <- function(occdf, method = "lat", plot = FALSE) {
       taxa_id <- i
       # Subset df
       tmp <- subset(occdf, name == unique_taxa[i])
-      # Get GCD in km between points
-      vals <- sf::st_distance(tmp) / 1000
+      # Calculate GCD matrix using the Haversine method with a radius of
+      # 6378.388 km by default
+      vals <- fields::rdist.earth(x1 = tmp[,c("p_lng", "p_lat")],
+                          miles = FALSE)
       # Extract location of points with max GCD
       loc <- which(vals == max(vals), arr.ind = TRUE)
       # Get maximum GCD in km
       GCD <- as.numeric(max(vals))
       # Extract coordinates of points
-      coords <- data.frame(sf::st_coordinates(tmp$geometry[loc[1:2]]))
-      colnames(coords) <- c("p_lng", "p_lat")
+      coords <- data.frame(tmp[loc[1:2], c("p_lng", "p_lat")])
       # Build dataframe
       tmp <- cbind.data.frame(name, taxa_id, coords, GCD)
       gcd_df <- rbind.data.frame(gcd_df, tmp)
@@ -281,5 +300,50 @@ tax_range_geo <- function(occdf, method = "lat", plot = FALSE) {
     }
     # Return dataframe
     return(gcd_df)
+  }
+  #=== Occupied grid cells  ===
+  if (method == "occ") {
+    # Generate dataframe for population
+    oc_df <- data.frame(name = unique_taxa,
+                         taxa_id = seq(1, length(unique_taxa), 1),
+                         cells = rep(NA, length(unique_taxa)),
+                         spacing = rep(spacing, length(unique_taxa)))
+    # Generate equal area hexagonal grid
+    dggs <- dggridR::dgconstruct(spacing = spacing,
+                                 metric = TRUE,
+                                 resround = "nearest")
+    # Run for loop over all unique taxa
+    for (i in seq_along(unique_taxa)) {
+      # Subset df
+      tmp <- subset(occdf, name == unique_taxa[i])
+      # Extract cells
+      cells <- dggridR::dgGEO_to_SEQNUM(dggs = dggs,
+                                   in_lon_deg = tmp$p_lng,
+                                   in_lat_deg = tmp$p_lat)$seqnum
+      # Calculate number of unique cells occupied
+      oc_df$cells[i] <- length(unique(cells))
+    }
+
+    if (plot == TRUE) {
+      # Get occupied cells for all occurrences
+      cells <- dggridR::dgGEO_to_SEQNUM(dggs = dggs,
+                                        in_lon_deg = occdf$p_lng,
+                                        in_lat_deg = occdf$p_lat)$seqnum
+
+      # Get grid
+      grid <- dggridR::dgcellstogrid(dggs = dggs,
+                                     cells =cells,
+                                     frame = FALSE)
+
+      # Plot data
+      terra::plot(grid,
+           ylab = "Palaeolatitude (\u00B0)",
+           xlab = "Palaeolongitude (\u00B0)",
+           main = "Occuppied cells (equal-area hexagonal grid)",
+           axes = TRUE,
+           col = "blue")
+    }
+    # Return data
+    return(oc_df)
   }
 }
