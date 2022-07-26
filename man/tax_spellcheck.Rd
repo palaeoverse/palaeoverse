@@ -8,7 +8,7 @@ tax_spellcheck(
   x,
   names,
   groups = NULL,
-  sim = 0.2,
+  dissim = 0.2,
   srt = 1,
   end = 0,
   pref = NULL,
@@ -28,7 +28,7 @@ in \code{x}.}
 assignments field in \code{x}. If \code{NULL} (default), name comparison will be conducted
 within alphabetical groups.}
 
-\item{sim}{\code{numeric}. The percentage dissimilarity, above which potential
+\item{dissim}{\code{numeric}. The percentage disdissimilarity, above which potential
 synonyms be filtered out. Percentage is expressed between 0 and 1.}
 
 \item{srt}{\code{numeric}. The number of matching characters at the
@@ -40,11 +40,11 @@ of two potential synonyms, below which the match will be discarded. By
 default 0, i.e. no penalisation.}
 
 \item{pref}{\code{character}. If not \code{NULL}, a vector of prefixes
-which may result in spuriously high similarities. Synonyms will be filtered
+which may result in spuriously high dissimilarities. Synonyms will be filtered
 out if only one or the other bears a given prefix.}
 
 \item{suff}{\code{character}. If not \code{NULL}, a vector of suffixes
-which may result in spuriously high similarities. Synonyms will be filtered
+which may result in spuriously high dissimilarities. Synonyms will be filtered
 out if only one or the other bears a given suffix.}
 
 \item{verbose}{\code{logical}. Should the results of the non-alpha character
@@ -71,23 +71,23 @@ function also silently performs a check for non-letter characters
 which are not expected to be present in correctly-formatted
 taxon names. This detection may be made verbose by the user.
 
-Comparison is first performed using the Jaro string similarity
-metric which can be easily interpreted as percentage dissimilarity,
-allowing low similarity pairs to be filtered before the result is
+Comparison is first performed using the Jaro string dissimilarity
+metric which can be easily interpreted as percentage disdissimilarity,
+allowing low dissimilarity pairs to be filtered before the result is
 returned. Matches can then been filtered out if they do not share a
 given number of starting and/or ending letters. Penalisation by
 starting letters is analogous to Jaro-Winkler distance, but purely
 Jaro distance is used instead as common Latin or Greek prefixes and
-suffixes which can result in spuriously high string similarities
+suffixes which can result in spuriously high string dissimilarities
 can also be supplied. User-supplied prefixes and suffixes will cause
-higher similarity matches which do not share the same prefix or
+higher dissimilarity matches which do not share the same prefix or
 suffix to be filtered from the results (see example). Note that this
 creates the assumption that spelling variations are not present among
 the prefixe and suffixes, which is not always the case.
 
 As all string distance metrics rely on approximate string matching,
 different metrics can produce different results. This function uses
-Jaro similarity as it was designed with short, typed strings in mind,
+Jaro dissimilarity as it was designed with short, typed strings in mind,
 but good practice should include comparisons using multiple metrics.
 A more sophisticated version of this spell check function is available
 in the \code{fossilbrush} R package on CRAN, as part of a multistage cleaning
