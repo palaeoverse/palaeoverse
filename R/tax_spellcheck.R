@@ -331,6 +331,7 @@ tax_spellcheck <- function(x, names, groups = NULL,
   if(nrow(err) == 0) {
     return(NULL)
   } else {
+    err <- err(order(err[,"greater"], err[,"group"], method = "radix"))
     return(err)
   }
 }
