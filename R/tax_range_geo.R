@@ -7,8 +7,8 @@
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences.
 #' The dataframe should contain the following named columns: "name"
-#' (e.g., species name), "p_lng", and "p_lat" (i.e., palaeolatitude and
-#' palaeolongitude). Only "name" and "p_lat" are required for the "lat" method.
+#' (e.g., species name), "p_lng", and "p_lat" (i.e., palaeolongitude and
+#' palaeolatitude). Only "name" and "p_lat" are required for the "lat" method.
 #' @param method \code{character}. How should geographic range be calculated
 #' for each taxa in `occdf`? Four options exist in this function:
 #' "con", "lat", "gcd", and "occ". See Details for a description of each.
@@ -41,7 +41,7 @@
 #' \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}.
 #' - Latitudinal: the "lat" method calculates the palaeolatitudinal
 #' range of a taxa. It does so for each taxa in `occdf` by finding their most
-#' northerly and southerly occurrence. The palaeolatitudinal range of each taxa
+#' northern and southern occurrence. The palaeolatitudinal range of each taxa
 #' is also calculated.
 #' - Maximum Great Circle Distance: the "gcd" method calculates the maximum
 #' Great Circle Distance between occurrences for each taxa in `occdf`. It does
@@ -51,7 +51,7 @@
 #' - Occupied cells: the "occ" method calculates the number of occupied
 #' grid cells. It does so by creating an equal-area hexagonal grid using the
 #' \code{\link[dggridR:dgconstruct]{dggridR::dgconstruct()}} function. The size
-#' of the cells is defined by the spacing between cells (the distance between
+#' of the cells are defined by the spacing between cells (the distance between
 #' the center of adjacent cells).
 #'
 #' @section Developer(s):
@@ -71,14 +71,13 @@
 #' occdf$p_lat <- tetrapods$lat
 #' occdf$name <- occdf$accepted_name
 #' # Convex hull
-#' tax_range(occdf = occdf, method = "con", plot = TRUE)
+#' tax_range_geo(occdf = occdf, method = "con", plot = TRUE)
 #' # Latitudinal range
-#' occdf$p_lat <- occdf$lat
-#' tax_range(occdf = occdf, method = "lat", plot = TRUE)
+#' tax_range_geo(occdf = occdf, method = "lat", plot = TRUE)
 #' # Great Circle Distance
-#' tax_range(occdf = occdf, method = "gcd", plot = FALSE)
+#' tax_range_geo(occdf = occdf, method = "gcd", plot = FALSE)
 #' # Occupied grid cells
-#' tax_range(occdf = occdf, method = "occ", plot = FALSE)
+#' tax_range_geo(occdf = occdf, method = "occ", plot = FALSE)
 #' @export
 tax_range_geo <- function(occdf, method = "lat", spacing = 1000, plot = FALSE) {
 
