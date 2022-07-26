@@ -259,7 +259,7 @@ tax_range_geo <- function(occdf, method = "lat", spacing = 1000, plot = FALSE) {
       # Get maximum GCD in km
       GCD <- as.numeric(max(vals))
       # Extract coordinates of points
-      coords <- data.frame(tmp[loc[1:2], c("p_lng", "p_lat")])
+      coords <- data.frame(tmp[loc[1, 1:2], c("p_lng", "p_lat")])
       # Build dataframe
       tmp <- cbind.data.frame(name, taxa_id, coords, GCD)
       gcd_df <- rbind.data.frame(gcd_df, tmp)
