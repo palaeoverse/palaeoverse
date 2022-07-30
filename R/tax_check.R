@@ -1,108 +1,101 @@
-#' tax_spellcheck
+#' tax_check
 #'
-#' A function for checking for spelling variations of the same
-#' taxon name. These are checked for within higher taxonomic
-#' groups or if higher taxonomy is not provided (the default
-#' assumption), within alphabetical groups.
+#' A function for checking for potential spelling variations of the same
+#' taxon name. These variations are checked for within higher taxonomic
+#' groups or  within alphabetical groups if higher taxonomy is not provided
+#' (the default assumption).
 #'
-#' @param x \code{dataframe}. This must have column names and contain
-#' column with taxon names, and optionally a further column denoting the
-#' groups within which taxon names will be checked against one another.
-#' @param names \code{character}. The column header of the taxon names field
-#' in `x`.
-#' @param groups \code{character}. The column header of the higher taxonomic
-#' assignments field in `x`. If `NULL` (default), name comparison will be conducted
-#' within alphabetical groups.
-#' @param dissim \code{numeric}. The percentage disdissimilarity, above which potential
-#' synonyms be filtered out. Percentage is expressed between 0 and 1.
-#' @param srt \code{numeric}. The number of matching characters at the
+#' @param x \code{dataframe}. A data.frame with named columns (e.g., 'species',
+#' 'genus', ect.). This must contain taxon names and optionally a further
+#' column denoting the groups within which taxon names will be checked against
+#' one another (e.g., 'family', 'order', ect.).
+#' @param names \code{character}. The column name of the taxonomic names you
+#' wish to check (e.g., 'genus')
+#' @param groups \code{character}. The column name of the higher taxonomic
+#' assignments in `x` you wish to group by. If `NULL` (default), name
+#' comparison will be conducted within alphabetical groups.
+#' @param sim \code{numeric}. The percentage similarity, above which potential
+#' synonyms be reported.
+#' @param start \code{numeric}. The number of matching characters at the
 #' beginnings of two potential synonyms, below which the match will be
-#' discarded. By default 1, i.e. the first letters must match.
-#' @param end \code{numeric}. The number of matching characters at the endings
+#' discarded. By default this value is set to 1 (i.e., the first letters must
+#' match).
+#' @param end \code{numeric}. The number of matching characters at the ending
 #' of two potential synonyms, below which the match will be discarded. By
-#' default 0, i.e. no penalisation.
-#' @param pref \code{character}. If not `NULL`, a vector of prefixes
-#' which may result in spuriously high dissimilarities. Synonyms will be filtered
-#' out if only one or the other bears a given prefix.
-#' @param suff \code{character}. If not `NULL`, a vector of suffixes
-#' which may result in spuriously high dissimilarities. Synonyms will be filtered
-#' out if only one or the other bears a given suffix.
-#' @param verbose \code{logical}. Should the results of the non-alpha character
-#' check should be reported to the user. If `TRUE`, the result will only be
+#' default this value is set to 0 (i.e., no matching required).
+#' @param pref \code{character}. A vector of prefixes which may result in
+#' spuriously high similarities. Synonyms will be filtered out out if only one
+#' or the other bears a given prefix. The default is `NULL`.
+#' @param suff \code{character}. A vector of suffixes which may result in
+#' spuriously high similarities. Synonyms will be filtered out out if only one
+#' or the other bears a given suffixes, The default is `NULL`.
+#' @param verbose \code{logical}. Should the results of the non-letter
+#' character check be reported to the user. If `TRUE`, the result will only be
 #' reported if such characters are detected in the taxon names.
 #'
-#' @return \code{dataframe}. The output contains the more common flagged synonym
-#' in the first column, the less common synonym in the middle column and the
-#' group in which they occur in in the final column (this may be the
-#' alphabetical) default. If no matches were found which exceeded the filtering
-#' parameters, `NULL` is returned instead.
+#' @return \code{dataframe}. A data.frame with each row reporting a pair of
+#' synonyms. The first column 'greater' contains the most common synonym in
+#' each pair, the second column 'lesser' the least common synonym in each pair,
+#' and the third column 'group' the higher group in which they occur (this may
+#' be the alphabetical groupings default). If no matches were found for the
+#' filtering parameters, `NULL` is returned instead.
 #'
-#' @details Where higher taxonomy is provided, but some entries are
-#' missing, comparisons will be made within alphabetical groups. The
-#' function also silently performs a check for non-letter characters
-#' which are not expected to be present in correctly-formatted
-#' taxon names. This detection may be made verbose by the user.
+#' @details Where higher taxonomy is provided, but some entries are missing,
+#' comparisons will be made within alphabetical groups. The function also
+#' silently performs a check for non-letter characters which are not expected
+#' to be present in correctly-formatted taxon names. This detection may be made
+#' available to the user via the verbose argument.
 #'
-#' Comparison is first performed using the Jaro string dissimilarity
-#' metric which can be easily interpreted as percentage disdissimilarity,
-#' allowing low dissimilarity pairs to be filtered before the result is
-#' returned. Matches can then been filtered out if they do not share a
-#' given number of starting and/or ending letters. Penalisation by
-#' starting letters is analogous to Jaro-Winkler distance, but purely
-#' Jaro distance is used instead as common Latin or Greek prefixes and
-#' suffixes which can result in spuriously high string dissimilarities
-#' can also be supplied. User-supplied prefixes and suffixes will cause
-#' higher dissimilarity matches which do not share the same prefix or
-#' suffix to be filtered from the results (see example). Note that this
-#' creates the assumption that spelling variations are not present among
-#' the prefixe and suffixes, which is not always the case.
+#' Comparison is first performed using the Jaro string similarity metric, using
+#' the `stringdist` function from the `stringdist` package. The Jaro metric can
+#' be easily interpreted as percentage similarity, allowing low similarity
+#' pairs to be filtered before the result is returned. Matches can then been
+#' filtered out if they do not share a given number of starting and/or ending
+#' letters. Penalisation by starting letters is analogous to Jaro-Winkler
+#' distance, but purely Jaro distance is used instead as common Latin or Greek
+#' prefixes and suffixes which result in high string similarities can also be
+#' supplied, e.g. 'Pro', 'Proto'. High similarity matches resulting from high
+#' similarity between such prefixes or suffixes will only be retained if two
+#' potential synonyms share the same prefix or suffix (see example). Note that
+#' this creates the assumption that spelling variations are not present among
+#' the prefixes and suffixes, which is not always the case.
 #'
 #' As all string distance metrics rely on approximate string matching,
-#' different metrics can produce different results. This function uses
-#' Jaro dissimilarity as it was designed with short, typed strings in mind,
-#' but good practice should include comparisons using multiple metrics.
-#' A more sophisticated version of this spell check function is available
-#' in the `fossilbrush` R package on CRAN, as part of a multistage cleaning
-#' routine designed for taxonomic occurrence data.
+#' different metrics can produce different results. This function uses Jaro
+#' similarity as it was designed with short, typed strings in mind, but good
+#' practice should include comparisons using multiple metrics, and ultimately
+#' specific taxonomic vetting where possible. A more complete implementation
+#' and workflow for cleaning taxonomic occurrence data is available in the
+#' `fossilbrush` R package on CRAN.
+#'
+#' #' @section Reference:
+#' M. P. J. van der Loo (2014). The stringdist package for approximate string
+#' matching. The R Journal 6, 111-122.
 #'
 #' @section Developer(s):
 #' Joseph T. Flannery-Sutherland
 #' @section Reviewer(s):
-#' Name(s)
+#' Lewis A. Jones & XXX
 #' @importFrom stats na.omit
 #' @importFrom stringdist stringdistmatrix
 #' @examples
 #' \dontrun{
 #' # load occurrence data
-#' brachios <- read.csv(paste0("https://paleobiodb.org/data1.2/occs/list.csv",
-#'                      "?base_name=Brachiopoda",
-#'                      "&interval=Cambrian,Silurian",
-#'                      "&show=class"))
+#' data("tetrapods")
 #'
 #' # define prefixes and suffixes
-#' b_pref <- c("Neo", "Micro", "Schizo", "Stropho", "Ortho")
-#' b_suff <- c("spirifer", "rhynchus", "strophia", "treta", "thyris", "orthis",
-#'             "ina", "ella", "trypa")
+#' b_pref <- c("Neo", "Proto")
+#' b_suff <- c("saurus", "suchus")
 #'
 #' # run function
-#' synon <- tax_spellcheck(brachios, names = "genus", groups = "family",
-#'                         pref = b_pref, suff = b_suff)
+#' synon <- tax_check(tetrapods, names = "genus", groups = "family",
+#' sim = 90, pref = b_pref, suff = b_suff)
 #'
 #' }
 #' @export
 
-tax_spellcheck <- function(x, names, groups = NULL,
-                           dissim = 0.2, srt = 1, end = 0,
-                           pref = NULL, suff = NULL, verbose = FALSE) {
-
-  # x = testdf
-  # names = "genus"
-  # groups = NULL
-  # dissim = 0.01
-  # pref = suff = NULL
-  # verbose = FALSE
-  # srt = 1
-  # end = 0
+tax_check <- function(x, names, groups = NULL, sim = 80, start = 1, end = 0,
+                      pref = NULL, suff = NULL, verbose = FALSE) {
 
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
@@ -155,21 +148,21 @@ tax_spellcheck <- function(x, names, groups = NULL,
     groups <- substring(x[,names], 1, 1)
   }
 
-  # dissim: a 1L numeric > 0 and < 1
-  if(!is.numeric(dissim) | length(dissim) != 1) {
-    stop("'dissim' must be a single numeric, greater than 0, less than 1")
+  # sim: a 1L numeric > 0 and < 1
+  if(!is.numeric(sim) | length(sim) != 1) {
+    stop("'sim' must be a single numeric, greater than 0, less than 1")
   }
-  if(dissim >= 1 | dissim <= 0) {
-    stop("'dissim' must be a single numeric, greater than 0, less than 1")
+  if(sim >= 100 | sim <= 0) {
+    stop("'sim' must be a single numeric, greater than 0, less than 1")
   }
 
-  # srt: a 1L integer >= 0
-  if(!is.null(srt)) {
-    if(!is.numeric(srt) | length(srt) != 1) {
-      stop("'srt' must be a single positive integer, or zero")
+  # start: a 1L integer >= 0
+  if(!is.null(start)) {
+    if(!is.numeric(start) | length(start) != 1) {
+      stop("'start' must be a single positive integer, or zero")
     }
-    if(srt < 0 | srt %% 1 != 0) {
-      stop("'srt' must be a single positive integer, or zero")
+    if(start < 0 | start %% 1 != 0) {
+      stop("'start' must be a single positive integer, or zero")
     }
   }
 
@@ -223,6 +216,8 @@ tax_spellcheck <- function(x, names, groups = NULL,
   no_group <- which(is.na(x[,"groups"]))
   x[no_group, "groups"] <- substring(x[no_group, "names"], 1, 1)
   x <- x[order(x[,"groups"]),]
+  # convert from similarity to dissimilarity
+  sim <- 1 - (sim / 100)
 
 
   # RUN GROUPWISE COMPARISONS ----------------------------------------------- #
@@ -244,11 +239,11 @@ tax_spellcheck <- function(x, names, groups = NULL,
       test <- stringdistmatrix(a = ob, b = ob, method = "jw")
       colnames(test) <- rownames(test) <- ob
 
-      # set self matches to max disdissimilarity for removal in the next step
+      # set self matches to max dissimilarity for removal in the next step
       diag(test) <- 1
 
-      # subset to those which fall below the disdissimilarity threshold
-      flag <- which(test < dissim, arr.ind = TRUE)
+      # subset to those which fall below the dissimilarity threshold
+      flag <- which(test < sim, arr.ind = TRUE)
 
       # if there are no remaining flagged names, return NULL
       if(length(flag) == 0) {
@@ -268,9 +263,9 @@ tax_spellcheck <- function(x, names, groups = NULL,
         flag <- flag[!duplicated(txs), , drop = FALSE]
 
         # cull by first y letter non-matches
-        if(!is.null(srt)) {
-          c1 <- substr(flag[,1], start = 1, stop = srt)
-          c2 <- substr(flag[,2], start = 1, stop = srt)
+        if(!is.null(start)) {
+          c1 <- substr(flag[,1], start = 1, stop = start)
+          c2 <- substr(flag[,2], start = 1, stop = start)
           flag <- flag[which(c1 == c2), , drop = FALSE]
         }
 
@@ -332,7 +327,7 @@ tax_spellcheck <- function(x, names, groups = NULL,
   if(nrow(err) == 0) {
     return(NULL)
 
-  # else reorder rows so the more frequent potential synonym is in the first column
+  # else reorder rows so the more frequent synonym is in the first column
   } else {
 
         mins <- apply(err[,4:5], 1, which.min) - 1
