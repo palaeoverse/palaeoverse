@@ -283,7 +283,7 @@ tax_range_geo <- function(occdf, method = "lat", spacing = 1000, plot = FALSE) {
            axes = TRUE,
            ylab = "Palaeolatitude (\u00B0)",
            xlab = "Palaeolongitude (\u00B0)",
-           main = "Maximum Great Circle Distance")
+           main = "Maximum Great Circle Distance range of taxa")
       for (i in seq_along(unique_taxa)) {
         tmp <- gcd_df[which(gcd_df$name == unique_taxa[i]), ]
         segments(y0 = tmp$p_lat[1],
@@ -331,16 +331,22 @@ tax_range_geo <- function(occdf, method = "lat", spacing = 1000, plot = FALSE) {
 
       # Get grid
       grid <- dggridR::dgcellstogrid(dggs = dggs,
-                                     cells =cells,
+                                     cells = cells,
                                      frame = FALSE)
 
       # Plot data
       terra::plot(grid,
            ylab = "Palaeolatitude (\u00B0)",
            xlab = "Palaeolongitude (\u00B0)",
-           main = "Occuppied cells (equal-area hexagonal grid)",
+           main = "Occuppied equal-area grid cells of taxa",
+           ylim = c(-90, 90),
+           xlim = c(-180, 180),
            axes = TRUE,
+           yaxt = "n",
+           xaxt = "n",
            col = "blue")
+      axis(side = 1, at = seq(-180, 180,30), labels = seq(-180, 180,30))
+      axis(side = 2, at = seq(-90, 90,30), labels = seq(-90, 90,30))
     }
     # Return data
     return(oc_df)
