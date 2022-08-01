@@ -11,12 +11,15 @@ testdf <- data.frame(family = c("Examplidae", "Examplidae", "Taxonidae",
                      age = c(1:10))
 
 # result
-res1 <- data.frame(greater = c("Joebloggsia", "Kunlungoides", "Shangrilaria"),
-                   lesser = c("Joebloggia", "Kunlungoides.sp", "Shangirlaria"),
-                   group = c("J", "K", "S"))
-res2 <- data.frame(greater = c("Joebloggsia", "Shangrilaria", "Kunlungoides"),
-                   lesser = c("Joebloggia", "Shangirlaria", "Kunlungoides.sp"),
-                   group = c("Examplidae", "Examplidae", "Taxonidae"))
+res1 <- list(non_letter = 10L, synonyms = data.frame(
+  greater = c("Joebloggsia", "Kunlungoides", "Shangrilaria"),
+  lesser = c("Joebloggia", "Kunlungoides.sp", "Shangirlaria"),
+  group = c("J", "K", "S")))
+res2 <- list(non_letter = 10L, synonyms = data.frame(
+  greater = c("Joebloggsia", "Shangrilaria", "Kunlungoides"),
+  lesser = c("Joebloggia", "Shangirlaria", "Kunlungoides.sp"),
+  group = c("Examplidae", "Examplidae", "Taxonidae")))
+res3 <- list(non_letter = 10L, synonyms = NULL)
 
 # test errors from incorrectly supplied arguments, and warnings
 test_that("tax_check() accepts taxon names, no groups", {
@@ -35,12 +38,11 @@ test_that("tax_check() accepts taxon names, no groups", {
   expect_error(tax_check(testdf, "genus", group = "agroup"))
   expect_error(tax_check(testdf, "genus", group = "age"))
   # Jaro distance out of range 0-1
-  expect_error(tax_check(testdf, "genus", dissim = "max"))
-  expect_error(tax_check(testdf, "genus", dissim = 0))
-  expect_error(tax_check(testdf, "genus", dissim = 1))
-  # start/end letter matches incorrectly supplied
-  expect_error(tax_check(testdf, "genus", srt = "1"))
-  expect_error(tax_check(testdf, "genus", srt = c(1, 3)))
+  expect_error(tax_check(testdf, "genus", sim = "max"))
+  expect_error(tax_check(testdf, "genus", sim = 0))
+   # start/end letter matches incorrectly supplied
+  expect_error(tax_check(testdf, "genus", start = "1"))
+  expect_error(tax_check(testdf, "genus", start = c(1, 3)))
   expect_error(tax_check(testdf, "genus", end = TRUE))
   expect_error(tax_check(testdf, "genus", end = c(1, 3)))
   # prefixes/suffixes not supplied as a character vector
@@ -64,19 +66,5 @@ test_that("tax_check() works with argument variations", {
   # with starting character matches
   expect_identical(tax_check(testdf, "genus", start = 3), res1)
   # return NULL due to all matches thresholded away
-  expect_identical(tax_check(testdf, "genus", sim = 99), NULL)
-
+  expect_identical(tax_check(testdf, "genus", sim = 99), res3)
 })
-
-
-
-
-
-
-
-
-
-
-
-
-

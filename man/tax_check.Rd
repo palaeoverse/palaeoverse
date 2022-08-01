@@ -20,10 +20,11 @@ tax_check(
 \item{x}{\code{dataframe}. A data.frame with named columns (e.g., 'species',
 'genus', ect.). This must contain taxon names and optionally a further
 column denoting the groups within which taxon names will be checked against
-one another (e.g., 'family', 'order', ect.).}
+one another (e.g., 'family', 'order', ect.). NA values or blank strings in
+the name and group columns (i.e. '', ' ') will be ignored.}
 
 \item{names}{\code{character}. The column name of the taxonomic names you
-wish to check (e.g., 'genus')}
+wish to check (e.g., 'genus').}
 
 \item{groups}{\code{character}. The column name of the higher taxonomic
 assignments in \code{x} you wish to group by. If \code{NULL} (default), name
@@ -54,12 +55,16 @@ character check be reported to the user. If \code{TRUE}, the result will only be
 reported if such characters are detected in the taxon names.}
 }
 \value{
-\code{dataframe}. A data.frame with each row reporting a pair of
-synonyms. The first column 'greater' contains the most common synonym in
-each pair, the second column 'lesser' the least common synonym in each pair,
-and the third column 'group' the higher group in which they occur (this may
-be the alphabetical groupings default). If no matches were found for the
-filtering parameters, \code{NULL} is returned instead.
+\code{list}. A list with two elements. The first element
+(non_letter) is a vector of indices, indicating any names in the taxon names
+column which contain non- letter characters. This element is \code{NULL} if none
+were detected. The second element (synonyms) in the list is a data.frame
+with each row reporting a pair of synonyms. The first column 'greater'
+contains the most common synonym in each pair, the second column 'lesser'
+the least common synonym in each pair, and the third column 'group' the
+higher group in which they occur (this may be the alphabetical groupings
+default). If no matches were found for the filtering parameters, \code{NULL} is
+returned instead.
 }
 \description{
 A function for checking for potential spelling variations of the same
@@ -119,7 +124,7 @@ data("tetrapods")
 b_pref <- c("Neo", "Proto")
 b_suff <- c("saurus", "suchus")
 
-# run function
+# run function with a slightly more stringent matching threshold
 synon <- tax_check(tetrapods, names = "genus", groups = "family",
 sim = 90, pref = b_pref, suff = b_suff)
 
