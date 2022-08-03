@@ -59,7 +59,7 @@
 #' letters. Penalisation by starting letters is analogous to Jaro-Winkler
 #' distance, but purely Jaro distance is used instead as common Latin or Greek
 #' prefixes and suffixes which result in high string similarities can also be
-#' supplied, e.g. 'Pro', 'Proto'. High similarity matches resulting from high
+#' supplied, e.g. 'Pro', 'Proto'. High similarity matches resulting from
 #' similarity between such prefixes or suffixes will only be retained if two
 #' potential synonyms share the same prefix or suffix (see example). Note that
 #' this creates the assumption that spelling variations are not present among
