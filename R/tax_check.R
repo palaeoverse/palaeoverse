@@ -28,7 +28,7 @@
 #' spuriously high similarities. Synonyms will be filtered out if only one
 #' or the other bears a given prefix. The default is `NULL`.
 #' @param suff \code{character}. A vector of suffixes which may result in
-#' spuriously high similarities. Synonyms will be filtered out out if only one
+#' spuriously high similarities. Synonyms will be filtered out if only one
 #' or the other bears a given suffixes, The default is `NULL`.
 #' @param verbose \code{logical}. Should the results of the non-letter
 #' character check be reported to the user. If `TRUE`, the result will only be
