@@ -1,7 +1,7 @@
 #' tax_check
 #'
 #' A function for checking for potential spelling variations of the same
-#' taxon name. These variations are checked for within higher taxonomic
+#' taxon. These variations are checked for within higher taxonomic
 #' groups, or within alphabetical groups if higher taxonomy is not provided
 #' (the default assumption).
 #'
