@@ -31,7 +31,7 @@
 #' spuriously high similarities. Synonyms will be filtered out if only one
 #' or the other bears a given suffixes, The default is `NULL`.
 #' @param verbose \code{logical}. Should the results of the non-letter
-#' character check be reported to the user. If `TRUE`, the result will only be
+#' character check be reported to the user? If `TRUE`, the result will only be
 #' reported if such characters are detected in the taxon names.
 #'
 #' @return \code{list}. A list with two elements. The first element
