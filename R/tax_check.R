@@ -46,7 +46,7 @@
 #' returned instead.
 #'
 #' @details When higher taxonomy is provided, 
-#' comparisons will be made within alphabetical groups. The function also
+#' comparisons will still be made within alphabetical groups of taxa which lack the higher taxonomic affiliation. The function also
 #' silently performs a check for non-letter characters which are not expected
 #' to be present in correctly-formatted taxon names. This detection may be made
 #' available to the user via the verbose argument.
