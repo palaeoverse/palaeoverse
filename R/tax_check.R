@@ -36,7 +36,7 @@
 #'
 #' @return \code{list}. A list with two elements. The first element
 #' (non_letter) is a vector of indices, indicating any names in the taxon names
-#' column which contain non- letter characters. This element is `NULL` if none
+#' column which contain non-letter characters. This element is `NULL` if none
 #' were detected. The second element (synonyms) in the list is a data.frame
 #' with each row reporting a pair of synonyms. The first column 'greater'
 #' contains the most common synonym in each pair, the second column 'lesser'
