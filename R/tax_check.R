@@ -15,7 +15,7 @@
 #' @param groups \code{character}. The column name of the higher taxonomic
 #' assignments in `x` you wish to group by. If `NULL` (default), name
 #' comparison will be conducted within alphabetical groups.
-#' @param sim \code{numeric}. The percentage similarity, above which potential
+#' @param sim \code{numeric}. The percentage similarity threshold. Potential synonyms above this threshold are reported.
 #' synonyms be reported.
 #' @param start \code{numeric}. The number of matching characters at the
 #' beginnings of two potential synonyms, below which the match will be
