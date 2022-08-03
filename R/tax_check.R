@@ -40,7 +40,7 @@
 #' were detected. The second element (synonyms) in the list is a data.frame
 #' with each row reporting a pair of synonyms. The first column 'greater'
 #' contains the most common synonym in each pair. The second column 'lesser'
-#' the least common synonym in each pair, and the third column 'group' the
+#' the least common synonym in each pair. The third column 'group' the
 #' higher group in which they occur (this may be the alphabetical groupings
 #' default). If no matches were found for the filtering parameters, `NULL` is
 #' returned instead.
