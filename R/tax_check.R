@@ -73,7 +73,7 @@
 #' and workflow for cleaning taxonomic occurrence data is available in the
 #' `fossilbrush` R package on CRAN.
 #'
-#' #' @section Reference:
+#' @section Reference:
 #' M. P. J. van der Loo (2014). The stringdist package for approximate string
 #' matching. The R Journal 6, 111-122.
 #'
