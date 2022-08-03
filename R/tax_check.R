@@ -25,7 +25,7 @@
 #' of two potential synonyms, below which the match will be discarded. By
 #' default this value is set to 0 (i.e., no matching required).
 #' @param pref \code{character}. A vector of prefixes which may result in
-#' spuriously high similarities. Synonyms will be filtered out out if only one
+#' spuriously high similarities. Synonyms will be filtered out if only one
 #' or the other bears a given prefix. The default is `NULL`.
 #' @param suff \code{character}. A vector of suffixes which may result in
 #' spuriously high similarities. Synonyms will be filtered out out if only one
