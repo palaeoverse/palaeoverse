@@ -99,7 +99,7 @@
 #' }
 #' @export
 
-tax_check <- function(x, names, groups = NULL, sim = 80, start = 1, end = 0,
+tax_check <- function(x, names, groups = NULL, sim = 90, start = 1, end = 0,
                       pref = NULL, suff = NULL, verbose = FALSE) {
 
   # ARGUMENT CHECKS --------------------------------------------------------- #
