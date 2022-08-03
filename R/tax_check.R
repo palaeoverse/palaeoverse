@@ -9,7 +9,7 @@
 #' 'genus', etc.). This must contain taxon names and optionally a further
 #' column denoting the groups within which taxon names will be checked against
 #' one another (e.g., 'family', 'order', etc.). NA values, or empty strings in
-#' the name and group columns (i.e. '', ' ') will be ignored.
+#' the name and group columns (i.e., '' and ' ') will be ignored.
 #' @param names \code{character}. The column name of the taxonomic names you
 #' wish to check (e.g., 'genus').
 #' @param groups \code{character}. The column name of the higher taxonomic
