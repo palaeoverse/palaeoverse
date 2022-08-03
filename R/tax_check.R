@@ -45,7 +45,7 @@
 #' default). If no matches were found for the filtering parameters, `NULL` is
 #' returned instead.
 #'
-#' @details Where higher taxonomy is provided, but some entries are missing,
+#' @details When higher taxonomy is provided, 
 #' comparisons will be made within alphabetical groups. The function also
 #' silently performs a check for non-letter characters which are not expected
 #' to be present in correctly-formatted taxon names. This detection may be made
