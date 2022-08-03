@@ -2,7 +2,7 @@
 #'
 #' A function for checking for potential spelling variations of the same
 #' taxon name. These variations are checked for within higher taxonomic
-#' groups or within alphabetical groups if higher taxonomy is not provided
+#' groups, or within alphabetical groups if higher taxonomy is not provided
 #' (the default assumption).
 #'
 #' @param x \code{dataframe}. A data.frame with named columns (e.g., 'species',
