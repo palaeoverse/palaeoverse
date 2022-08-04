@@ -138,8 +138,9 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     }
   }
 
-  if (!is.null(by) & !is.null(species) & !is.vector(by)) {
-    stop("When using taxonomic vectors, by must also be a vector")
+  if (!is.null(by) & !is.null(species) & length(by) != length(species)) {
+    stop("When using taxonomic vectors, by should also be a vector of the same
+         length as the other vectors")
   }
 
 #Run function
