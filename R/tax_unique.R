@@ -55,6 +55,9 @@
 #' @examples
 #' #Retain unique species
 #' tax_unique(paleobioDB = tetrapods)
+#' tax_unique(species = c("rex", "aegyptiacus", NA),
+#'            genus = c("Tyrannosaurus", "Spinosaurus", NA),
+#'            family = c("Tyrannosauridae", "Spinosauridae", "Diplodocidae"))
 #'
 #' #Retain unique genera
 #' tax_unique(paleobioDB = tetrapods, resolution = "genera")
@@ -83,14 +86,15 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     stop("paleobioDB must be a data frame")
   }
 
-  if (!is.null(paleobioDB) &
-      (!"class" %in% colnames(paleobioDB)) |
-      (!"order" %in% colnames(paleobioDB)) |
-      (!"family" %in% colnames(paleobioDB)) |
-      (!"genus" %in% colnames(paleobioDB)) |
-      (!"accepted_name" %in% colnames(paleobioDB))) {
+  if (!is.null(paleobioDB)) {
+    if (!"class" %in% colnames(paleobioDB) |
+       !"order" %in% colnames(paleobioDB) |
+       !"family" %in% colnames(paleobioDB) |
+       !"genus" %in% colnames(paleobioDB) |
+       !"accepted_name" %in% colnames(paleobioDB)) {
     stop("paleobioDB must contain the following columns: class, order, family,
          genus, accepted_name")
+    }
   }
 
   if (!is.null(paleobioDB)) {
@@ -163,7 +167,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
 
   if (is.null(paleobioDB)) {
     #Compile supplied columns into a data frame
-    occurrences <- cbind(class, order, family, genus, species)
+    occurrences <- as.data.frame(cbind(class, order, family, genus, species))
 
     #Create genus_species column
     occurrences$genus_species <- paste(occurrences$genus, occurrences$species)
