@@ -16,8 +16,8 @@ bin_spatial(
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences you
-wish to bin. This dataframe should contain decimal degree coordinates of
-your occurrences and they should be of class \code{numeric}.}
+wish to bin. This dataframe should contain the decimal degree coordinates of
+your occurrences, and they should be of class \code{numeric}.}
 
 \item{lng}{\code{character}. The name of the column you wish to be treated
 as the input longitude (e.g., "lng" or "p_lng").}
@@ -28,9 +28,9 @@ as the input latitude (e.g., "lat" or "p_lat").}
 \item{method}{\code{character}. The desired method for spatially binning
 occurrence data. Either: "grid" or "dist". The "grid" method (default)
 spatially bins data into equal-area hexagonal grid cells based on a
-user-defined spacing between the center of cells. The "dist" method
-generates spatial samples for each locality (i.e., unique coordinates) based
-on a user-defined distance. See details for further description.}
+user-defined spacing between the center of adjacent cells. The "dist" method
+generates spatial samples for each locality (i.e., unique coordinate pairs)
+based on a user-defined distance. See details for further description.}
 
 \item{dist}{\code{numeric}. Under the "grid" method, this value indicates
 the desired spacing between the center of adjacent cells. Under the "dist"
@@ -41,22 +41,25 @@ occurrences. Note: \code{dist} should be provided in kilometres.}
 localities. This argument allows the user to modify the definition of unique
 localities to draw from a larger area than point coordinates. This might be
 desirable if a high density of occurrences are in close proximity, but differ
-slightly in their coordinates (e.g., < 1 kilometres.).
-Note: \code{buffer} should be provided in kilometres. The default is NULL.}
+slightly in their coordinates (e.g., < 1 kilometre).
+Note: \code{buffer} should be provided in kilometres. The default value is \code{NULL},
+which skips the buffer implementation.}
 
 \item{return}{\code{logical}. Should the equal-area grid be returned?
-Only useful if the method argument is set to "grid". Defaults to FALSE.}
+Only useful if the method argument is set to "grid". The default is \code{FALSE.}}
 }
 \value{
 If the \code{method} argument is specified as "grid" and \code{return} as
-\code{FALSE}, a dataframe is returned of the original input \code{occdf} and the
-cell ID number (\code{cell_ID}). If \code{return} is
+\code{FALSE}, a dataframe is returned of the original input \code{occdf} with
+cell information: ID number (\code{cell_ID}) and cell centroid coordinates
+(\code{cell_centroid_lng} and \code{cell_centroid_lat}). If \code{return} is
 set to \code{TRUE}, a list is returned with both the input \code{occdf} and a dggs
 object (equal-area hexagonal grid) from the
 \code{\link[dggridR:dgconstruct]{dggridR::dgconstruct()}} function.
 If the \code{method} argument is specified as "dist", a list is returned of
 spatial samples drawn around unique localities based on the
-user-defined \code{dist}.
+user-defined \code{dist}. Each element of the list contains occurrences within
+the geographic distance of the reference locality defined by the user.
 }
 \description{
 A function to assign fossil occurrences to spatial bins/samples using a
@@ -69,15 +72,15 @@ assigning occurrences to bins/samples:
 \item Equal-area grid: The "grid" method bins fossil occurrence data into
 equal-area grid cells using a hexagonal grid generated via the
 \code{\link[dggridR:dgconstruct]{dggridR::dgconstruct()}} function.
-\item Distance: The "dist" method takes a slightly different approach to
-previous spatially binning approaches in palaeobiology studies. This
-approach looks for unique localities in the input \code{occdf} (i.e., unique
-coordinates), and generates a spatial sample based on a user-defined \code{dist}.
-All occurrences within this distance, are drawn as a single spatial sample.
-This process is repeated for each unique locality. As high density of
-occurrences might result in numerous samples for the same area, the \code{buffer}
-argument has been implemented to allow users to generalise the definition of
-a unique locality. The functionality of this approach is heavily
+\item Distance: The "dist" method identifies unique localities in the input
+\code{occdf} (i.e., unique pairs of coordinates) and generates a spatial sample
+for each locality based on a user-defined distance. All occurrences within
+the specified distance from the reference locality are drawn as a single
+spatial sample. As high density of occurrences might result in numerous
+samples for the same area, the \code{buffer} argument has been implemented to
+allow users to generalise the definition of
+a unique locality to incorporate a broader geographic area. The
+functionality of this approach is heavily
 dependent on the
 \code{\link[sf:st_is_within_distance]{sf::st_is_within_distance()}} function.
 }
@@ -85,7 +88,7 @@ dependent on the
 Note: prior to implementation of either method, the coordinate reference
 system (CRS) for input data is defined as EPSG:4326 (World Geodetic System
 1984). The user might wish to update their data accordingly if this is
-problematic.
+not appropriate.
 }
 \section{Developer(s)}{
 
@@ -100,10 +103,12 @@ To be reviewed
 \examples{
 # Get internal data
 data("tetrapods")
+# Smaller dataframe for examples
+occdf <- tetrapods[1:500, ]
 # Bin data using a hexagonal equal-area grid
-bin_spatial(occdf = tetrapods, method = "grid", dist = 250)
+bin_spatial(occdf = occdf, method = "grid", dist = 250)
 # Bin data based on distance for each unique location
-bin_spatial(occdf = tetrapods, method = "dist", dist = 250)
+bin_spatial(occdf = occdf, method = "dist", dist = 250)
 # Bin data based on distance with a buffer to define each unique location
-bin_spatial(occdf = tetrapods, method = "dist", dist = 250, buffer = 10)
+bin_spatial(occdf = occdf, method = "dist", dist = 250, buffer = 100)
 }

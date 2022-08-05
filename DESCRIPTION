@@ -18,7 +18,9 @@ Imports:
     utils,
     graphics,
     methods,
-    deeptime (>= 0.2.1)
+    deeptime (>= 0.2.1),
+    dggridR,
+    sf
 Suggests: 
     divDyn,
     rmarkdown,
