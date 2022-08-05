@@ -11,18 +11,17 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
-Depends: R (>= 2.10)
+RoxygenNote: 7.2.1
+Depends: 
+    R (>= 2.10),
+    sf
 Imports:
     stats,
     utils,
     graphics,
     methods,
     deeptime (>= 0.2.1),
-    geosphere,
-    fields,
-    dggridR,
-    terra
+    h3jsr
 Suggests: 
     divDyn,
     rmarkdown,
