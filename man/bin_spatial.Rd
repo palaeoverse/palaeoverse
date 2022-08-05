@@ -38,15 +38,17 @@ method, this is the distance threshold for defining spatial samples of
 occurrences. Note: \code{dist} should be provided in kilometres.}
 
 \item{buffer}{\code{numeric}. The buffer distance for defining unique
-localities. This argument allows the user to modify the definition of unique
+localities (only useful if \code{method} = "dist").
+This argument allows the user to modify the definition of unique
 localities to draw from a larger area than point coordinates. This might be
 desirable if a high density of occurrences are in close proximity, but differ
 slightly in their coordinates (e.g., < 1 kilometre).
 Note: \code{buffer} should be provided in kilometres. The default value is \code{NULL},
 which skips the buffer implementation.}
 
-\item{return}{\code{logical}. Should the equal-area grid be returned?
-Only useful if the method argument is set to "grid". The default is \code{FALSE.}}
+\item{return}{\code{logical}. Should the equal-area grid information be
+returned? Only useful if the method argument is set to "grid".
+The default is \code{FALSE.}}
 }
 \value{
 If the \code{method} argument is specified as "grid" and \code{return} as
@@ -69,8 +71,15 @@ Two approaches (methods) exist in the \code{bin_spatial()} function for
 assigning occurrences to bins/samples:
 \itemize{
 \item Equal-area grid: The "grid" method bins fossil occurrence data into
-equal-area grid cells using a hexagonal grid generated via the
-\code{\link[h3jsr:h3jsr-package]{h3jsr::h3jsr-package()}} function.
+equal-area grid cells using discrete hexagonal grids via the
+\code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3 library,
+a geospatial indexing system that partitions the world into hexagonal cells:
+\url{https://h3geo.org/docs}. In H3, 16 different resolutions are available:
+\url{https://h3geo.org/docs/core-library/restable}. In the implementation of
+the \code{bin_spatial()} function, the resolution is defined by the user-input
+\code{dist} which represents the distance between the centroid of adjacent cells.
+Using this distance, the function identifies which resolution is most
+similar to the input \code{dist}, and uses this resolution.
 \item Distance: The "dist" method identifies unique localities in the input
 \code{occdf} (i.e., unique pairs of coordinates) and generates a spatial sample
 for each locality based on a user-defined distance. All occurrences within
