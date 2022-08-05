@@ -111,11 +111,11 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     stop("paleobioDB taxonomy columns should not contain punctuation")
   }
 
-  if ((!is.null(class) && (!is.vector(class))) ||
-      (!is.null(order) && (!is.vector(order))) ||
-      (!is.null(family) && (!is.vector(family))) ||
-      (!is.null(genus) && (!is.vector(genus))) ||
-      (!is.null(species) && (!is.vector(species)))) {
+  if ((!is.null(class) && !is.vector(class)) ||
+      (!is.null(order) && !is.vector(order)) ||
+      (!is.null(family) && !is.vector(family)) ||
+      (!is.null(genus) && !is.vector(genus)) ||
+      (!is.null(species) && !is.vector(species))) {
     stop("Taxononic information must be in a vector")
   }
 
@@ -146,9 +146,11 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     }
   }
 
-  if (!is.null(by) && !is.null(species) && length(by) != length(species)) {
+  if (!is.null(by) && !is.null(species)) {
+    if (!is.vector(by) || length(by) != length(species)) {
     stop("When using taxonomic vectors, by should also be a vector of the same
          length as the other vectors")
+    }
   }
 
 #Run function
