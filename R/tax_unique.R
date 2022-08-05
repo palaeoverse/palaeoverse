@@ -222,7 +222,13 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
 
     if (resolution == "genera") {
       #Remove genus_species column and remove genus repeats
+      if (!is.null(paleobioDB)) {
+      one_cat <- subset(one_cat, select = -c(genus_species))
+      } else
+        if (!is.null(species)) {
       one_cat <- subset(one_cat, select = -c(genus_species, species))
+        }
+
       one_cat <- unique(one_cat)
 
       #Retain genus identifications and remove from dataframe
