@@ -28,6 +28,12 @@ test_that("tax_unique() works", {
                                order = c("Coelurosauria", "Orionides", NA),
                                class = c("Tetanurae", "Tetanurae",
                                          "Neosauropoda"))), 3)
+  expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", "imperator"),
+                               genus = c("Tyrannosaurus", "Spinosaurus",
+                                         "Tyrannosaurus"),
+                               family = c("Tyrannosauridae", "Spinosauridae",
+                                          "Tyrannosauridae")),
+                              resolution = "genera"), 2)
   expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", NA),
                                genus = c("Tyrannosaurus", "Spinosaurus", NA),
                                family = c("Tyrannosauridae", "Spinosauridae",

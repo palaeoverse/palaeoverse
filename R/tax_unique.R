@@ -72,24 +72,24 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
                        resolution = "species", by = NULL) {
 
 #Give errors for incorrect input
-  if (is.null(paleobioDB) & is.null(species)) {
+  if (is.null(paleobioDB) && is.null(species)) {
     stop("Must enter either paleobioDB or individual taxonomic vectors")
   }
 
-  if (!is.null(paleobioDB) & !is.null(species)) {
+  if (!is.null(paleobioDB) && !is.null(species)) {
     stop("Must enter either paleobioDB or individual taxonomic vectors, not
          both")
   }
 
-  if (!is.null(paleobioDB) & !is.data.frame(paleobioDB)) {
+  if (!is.null(paleobioDB) && !is.data.frame(paleobioDB)) {
     stop("paleobioDB must be a data frame")
   }
 
   if (!is.null(paleobioDB)) {
-    if (!"class" %in% colnames(paleobioDB) |
-       !"order" %in% colnames(paleobioDB) |
-       !"family" %in% colnames(paleobioDB) |
-       !"genus" %in% colnames(paleobioDB) |
+    if (!"class" %in% colnames(paleobioDB) ||
+       !"order" %in% colnames(paleobioDB) ||
+       !"family" %in% colnames(paleobioDB) ||
+       !"genus" %in% colnames(paleobioDB) ||
        !"accepted_name" %in% colnames(paleobioDB)) {
     stop("paleobioDB must contain the following columns: class, order, family,
          genus, accepted_name")
@@ -102,51 +102,51 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     paleobioDB$family <- gsub("NO_FAMILY_SPECIFIED", NA, paleobioDB$family)
   }
 
-  if (!is.null(paleobioDB) &
-      (any(grepl("[[:punct:]]", paleobioDB$class))) |
-      (any(grepl("[[:punct:]]", paleobioDB$order))) |
-      (any(grepl("[[:punct:]]", paleobioDB$family))) |
-      (any(grepl("[[:punct:]]", paleobioDB$genus))) |
+  if (!is.null(paleobioDB) &&
+      (any(grepl("[[:punct:]]", paleobioDB$class))) ||
+      (any(grepl("[[:punct:]]", paleobioDB$order))) ||
+      (any(grepl("[[:punct:]]", paleobioDB$family))) ||
+      (any(grepl("[[:punct:]]", paleobioDB$genus))) ||
       (any(grepl("[[:punct:]]", paleobioDB$accepted_name)))) {
     stop("paleobioDB taxonomy columns should not contain punctuation")
   }
 
-  if ((!is.null(class) & (!is.vector(class))) |
-      (!is.null(order) & (!is.vector(order))) |
-      (!is.null(family) & (!is.vector(family))) |
-      (!is.null(genus) & (!is.vector(genus))) |
+  if ((!is.null(class) & (!is.vector(class))) ||
+      (!is.null(order) & (!is.vector(order))) ||
+      (!is.null(family) & (!is.vector(family))) ||
+      (!is.null(genus) & (!is.vector(genus))) ||
       (!is.null(species) & (!is.vector(species)))) {
     stop("Taxononic information must be in a vector")
   }
 
   if (!is.null(species)) {
-    if (length(species) != length(genus) |
-        length(species) != length(family) |
-        (!is.null(order) & (length(species) != length(order))) |
+    if (length(species) != length(genus) ||
+        length(species) != length(family) ||
+        (!is.null(order) & (length(species) != length(order))) ||
         (!is.null(class) & (length(species) != length(class)))) {
       stop("Taxononic vectors must all be the same length")
         }
   }
 
-  if ((!is.null(class) & any(grepl("[[:punct:]]", class))) |
-      (!is.null(order) & any(grepl("[[:punct:]]", order))) |
-      (!is.null(family) & any(grepl("[[:punct:]]", family))) |
-      (!is.null(genus) & any(grepl("[[:punct:]]", genus))) |
+  if ((!is.null(class) & any(grepl("[[:punct:]]", class))) ||
+      (!is.null(order) & any(grepl("[[:punct:]]", order))) ||
+      (!is.null(family) & any(grepl("[[:punct:]]", family))) ||
+      (!is.null(genus) & any(grepl("[[:punct:]]", genus))) ||
       (!is.null(species) & any(grepl("[[:punct:]]", species)))) {
     stop("Taxonomy vectors should not contain punctuation")
   }
 
-  if ((resolution != "species") & (resolution != "genera")){
+  if ((resolution != "species") && (resolution != "genera")) {
     stop("Resolution must be species or genera")
   }
 
-  if (!is.null(by) & !is.null(paleobioDB)) {
+  if (!is.null(by) && !is.null(paleobioDB)) {
     if (!by %in% colnames(paleobioDB)) {
     stop("by must be a column name within the paleobioDB data frame")
     }
   }
 
-  if (!is.null(by) & !is.null(species) & length(by) != length(species)) {
+  if (!is.null(by) && !is.null(species) && length(by) != length(species)) {
     stop("When using taxonomic vectors, by should also be a vector of the same
          length as the other vectors")
   }
@@ -159,7 +159,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
                                 "genus", "accepted_name")]
 
     #If a category is provided, add it as a column
-    if(!is.null(by)){
+    if (!is.null(by)) {
       occurrences$category <- paleobioDB[[by]]
     } else {
       occurrences$category <- 1
@@ -185,7 +185,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     occurrences$genus_species[grep("NA", occurrences$genus_species)] <- NA
 
     #If a category is provided, add it as a column
-    if(!is.null(by)){
+    if (!is.null(by)) {
       occurrences$category <- by
     } else {
       occurrences$category <- 1
@@ -205,55 +205,62 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
   for (i in 1:(length(uniq_cats))) {
 
     #Filter to a single category
-    one_cat <- occurrences[which(occurrences[,"category"] == uniq_cats[i]),]
+    one_cat <- occurrences[which(occurrences[,"category"] == uniq_cats[i]), ]
     to_retain <- data.frame()
 
     if (resolution == "species") {
       #Retain occurrences identified to species level and remove from dataframe
-      to_retain <- rbind(to_retain, one_cat[!is.na(one_cat$genus_species),])
-      one_cat <- one_cat[is.na(one_cat$genus_species),]
+      to_retain <- rbind(to_retain, one_cat[!is.na(one_cat$genus_species), ])
+      one_cat <- one_cat[is.na(one_cat$genus_species), ]
 
       #Retain occurrences identified to genus level and not already in dataset
       to_retain <- rbind(to_retain,
-                         one_cat[(!one_cat$genus %in% c(to_retain$genus, NA)),])
-      one_cat <- one_cat[is.na(one_cat$genus),]} else
+                         one_cat[(!one_cat$genus %in% c(to_retain$genus, NA)),
+                                 ])
+      one_cat <- one_cat[is.na(one_cat$genus), ]} else
 
     if (resolution == "genera") {
       #Remove genus_species column and remove genus repeats
-      one_cat <- subset(one_cat, select = -genus_species)
+      one_cat <- subset(one_cat, select = -c(genus_species, species))
       one_cat <- unique(one_cat)
 
       #Retain genus identifications and remove from dataframe
-      to_retain <- rbind(to_retain, one_cat[!is.na(one_cat$genus),])
-      one_cat <- one_cat[is.na(one_cat$genus),]
+      to_retain <- rbind(to_retain, one_cat[!is.na(one_cat$genus), ])
+      one_cat <- one_cat[is.na(one_cat$genus), ]
     }
 
     #Retain occurrences identified to family level and not already in dataset
     to_retain <- rbind(to_retain,
-                       one_cat[!(one_cat$family %in% c(to_retain$family, NA)),])
-    one_cat <- one_cat[is.na(one_cat$family),]
+                       one_cat[!(one_cat$family %in% c(to_retain$family, NA)),
+                               ])
+    one_cat <- one_cat[is.na(one_cat$family), ]
 
-    if (!is.null(paleobioDB) | !is.null(order)){
+    if (!is.null(paleobioDB) || !is.null(order)) {
     #Retain occurrences identified to order level and not already in dataset
     to_retain <- rbind(to_retain,
-                       one_cat[!(one_cat$order %in% c(to_retain$order, NA)),])
-    one_cat <- one_cat[is.na(one_cat$order),]}
+                       one_cat[!(one_cat$order %in% c(to_retain$order, NA)), ])
+    one_cat <- one_cat[is.na(one_cat$order), ]
+    }
 
-    if (!is.null(paleobioDB) | !is.null(class)){
+    if (!is.null(paleobioDB) || !is.null(class)) {
     #Retain occurrences identified to class level and not already in dataset
     to_retain <- rbind(to_retain,
-                       one_cat[!(one_cat$class %in% c(to_retain$class, NA)),])
-    one_cat <- one_cat[is.na(one_cat$class),]}
+                       one_cat[!(one_cat$class %in% c(to_retain$class, NA)), ])
+    one_cat <- one_cat[is.na(one_cat$class), ]
+    }
 
     #Reorder
-    if (!is.null(paleobioDB) | !is.null(class)){
-      to_retain <- to_retain[order(to_retain$class),]}
-    if (!is.null(paleobioDB) | !is.null(order)){
-      to_retain <- to_retain[order(to_retain$order),]}
-    to_retain <- to_retain[order(to_retain$family),]
-    to_retain <- to_retain[order(to_retain$genus),]
+    if (!is.null(paleobioDB) || !is.null(class)) {
+      to_retain <- to_retain[order(to_retain$class), ]
+      }
+    if (!is.null(paleobioDB) || !is.null(order)) {
+      to_retain <- to_retain[order(to_retain$order), ]
+      }
+    to_retain <- to_retain[order(to_retain$family), ]
+    to_retain <- to_retain[order(to_retain$genus), ]
     if (resolution == "species") {
-      to_retain <- to_retain[order(to_retain$genus_species),]}
+      to_retain <- to_retain[order(to_retain$genus_species), ]
+      }
 
     #Add occurrences to retain to the new dataset
     new_dataset <- rbind(new_dataset, to_retain)
