@@ -72,6 +72,6 @@ To be reviewed
 # Grab internal data
 occdf <- tetrapods
 # Temporal range
-tax_range_time(occdf = occdf, name = "genus", plot = TRUE)
+tax_range_time(occdf = occdf, name = "accepted_name", plot = TRUE)
 
 }

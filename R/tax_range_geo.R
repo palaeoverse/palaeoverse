@@ -230,8 +230,8 @@ tax_range_geo <- function(occdf,
     # Which resolution should be used based on input distance/spacing?
     # Use the h3jsr::h3_info_table to calculate resolution (however, this
     # table is not exported in their package, added into palaeoverse)
-    grid <- palaeoverse:::h3_info_table[
-      which.min(abs(palaeoverse:::h3_info_table$avg_cendist_km - spacing)), ]
+    grid <- h3_info_table[
+      which.min(abs(h3_info_table$avg_cendist_km - spacing)), ]
     # Add resolution spacing
     oc_df$spacing <- grid$avg_cendist_km
     # Run for loop over all unique taxa
