@@ -19,10 +19,10 @@ Imports:
     graphics,
     methods,
     deeptime (>= 0.2.1),
-    dggridR,
     sf
 Suggests: 
     divDyn,
+    dggridR,
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),

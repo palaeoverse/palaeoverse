@@ -69,7 +69,6 @@
 #' @section Reviewer(s):
 #' To be reviewed
 #' @importFrom sf st_as_sf st_is_within_distance
-#' @importFrom dggridR dgconstruct dgGEO_to_SEQNUM dgSEQNUM_to_GEO
 #' @examples
 #' # Get internal data
 #' data("tetrapods")
@@ -89,6 +88,11 @@ bin_spatial <- function(occdf,
                         dist = 250,
                         buffer = NULL,
                         return = FALSE) {
+
+  #=== dggridR installed? ===
+  if (!requireNamespace("dggridR", quietly = TRUE)) {
+    install.packages("dggridR")
+  }
 
   #=== Error handling ===
   if (!is.data.frame(occdf)) {
