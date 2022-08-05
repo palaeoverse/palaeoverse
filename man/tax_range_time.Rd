@@ -4,17 +4,33 @@
 \alias{tax_range_time}
 \title{Calculate the temporal range of fossil taxa}
 \usage{
-tax_range_time(occdf, scale = "GTS2020", plot = FALSE)
+tax_range_time(
+  occdf,
+  name = "name",
+  min_ma = "min_ma",
+  max_ma = "max_ma",
+  scale = "GTS2020",
+  plot = FALSE,
+  return_error = FALSE
+)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences. The
-dataframe should contain the following named columns: "name"
-(e.g., species name), "max_ma", and "min_ma". The columns "max_ma" and
-"min_ma" should be of class \code{numeric} and provide the age range of the
-fossil occurrence in millions of years before present. However, if they are
-provided as \code{character} (i.e. stage names), the function will try to
-extract numeric age data from the Geological Timescale by linking stage
-names.}
+dataframe should contain at least three columns: names of taxa (\code{character}),
+maximum (\code{numeric}) and minimum (\code{numeric}) age which constrain the age range
+(in millions of years) of the fossil occurrence. If the age range
+columns are provided as (\code{character}) values (i.e., stage names), the
+function will attempt to extract numeric age data from the
+Geological Timescale by linking stage names.}
+
+\item{name}{\code{character}. The name of the column you wish to be treated
+as the input names (e.g., "species" or "genus").}
+
+\item{min_ma}{\code{character}. The name of the column you wish to be treated
+as the input minimum age range (e.g., "min_ma").}
+
+\item{max_ma}{\code{character}. The name of the column you wish to be treated
+as the input maximum age range (e.g., "max_ma").}
 
 \item{scale}{\code{character}. Specify the desired geological timescale to
 be used "GTS2020" or "GTS2012". This argument is only useful if the supplied
@@ -22,11 +38,16 @@ be used "GTS2020" or "GTS2012". This argument is only useful if the supplied
 "GTS2020" is the default.}
 
 \item{plot}{\code{logical}. Should a plot of the ranges be generated?}
+
+\item{return_error}{\code{logical}. Should a vector of numbers be returned
+to flag the rows of the \code{occdf} that cannot be matched to \code{character}
+interval names? This is only relevant if \code{max_ma} and \code{min_ma}
+are \code{character} values.}
 }
 \value{
 A \code{dataframe} containing the following columns:
-unique taxa (\code{name}), taxa ID (\code{taxa_id}), first appearnce of taxa
-(\code{FAD_ma}), last appearance of taxa (\code{LAD_ma}), and range duration
+unique taxa (\code{taxa}), taxa ID (\code{taxa_id}), first appearnce of taxa
+(\code{FAD_ma}), last appearance of taxa (\code{LAD_ma}), and temporal range duration
 (\code{range_myr}) is returned.
 }
 \description{
@@ -50,9 +71,7 @@ To be reviewed
 \examples{
 # Grab internal data
 occdf <- tetrapods
-# Add name column
-occdf$name <- occdf$accepted_name
 # Temporal range
-tax_range_time(occdf = occdf, plot = TRUE)
+tax_range_time(occdf = occdf, name = "genus", plot = TRUE)
 
 }

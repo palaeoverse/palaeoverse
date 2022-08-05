@@ -1,42 +1,54 @@
 test_that("tax_range_geo() works", {
   # Grab internal data and set-up
   occdf <- tetrapods
-  occdf$p_lng <- tetrapods$lng
-  occdf$p_lat <- tetrapods$lat
-  occdf$name <- occdf$accepted_name
   # n unique taxa
-  unique_taxa <- length(unique(occdf$name))
+  unique_taxa <- length(unique(occdf$accepted_name))
 
   # Expect equal
   expect_equal(
-    nrow(tax_range_geo(occdf = occdf, method = "lat", plot = TRUE)),
+    nrow(tax_range_geo(occdf = occdf, name = "accepted_name", method = "lat")),
     unique_taxa)
   expect_equal(
-    nrow(tax_range_geo(occdf = occdf, method = "lat", plot = FALSE)),
+    nrow(tax_range_geo(occdf = occdf, name = "accepted_name",  method = "lat")),
     unique_taxa)
   expect_equal(
-    nrow(tax_range_geo(occdf = occdf, method = "occ", plot = TRUE)),
-    unique_taxa)
-  expect_equal(
-    nrow(tax_range_geo(occdf = occdf, method = "occ", plot = FALSE)),
+    nrow(tax_range_geo(occdf = occdf, name = "accepted_name", method = "occ")),
     unique_taxa)
 
   # Expect greater than
-  expect_gt(nrow(tax_range_geo(occdf = occdf, method = "gcd", plot = TRUE)),
+  expect_gt(nrow(tax_range_geo(occdf = occdf,
+                               name = "accepted_name",
+                               method = "gcd")),
                 unique_taxa)
-  expect_gt(nrow(tax_range_geo(occdf = occdf, method = "gcd", plot = FALSE)),
+  expect_gt(nrow(tax_range_geo(occdf = occdf,
+                               name = "accepted_name",
+                               method = "gcd")),
             unique_taxa)
-  expect_gt(nrow(tax_range_geo(occdf = occdf, method = "con", plot = TRUE)),
+  expect_gt(nrow(tax_range_geo(occdf = occdf,
+                               name = "accepted_name",
+                               method = "con")),
             unique_taxa)
-  expect_gt(nrow(tax_range_geo(occdf = occdf, method = "con", plot = FALSE)),
+  expect_gt(nrow(tax_range_geo(occdf = occdf, name = "accepted_name",
+                               method = "con")),
             unique_taxa)
 
   # Expect error
   expect_error(tax_range_geo(occdf = NA))
-  expect_error(tax_range_geo(occdf = occdf, plot = "test"))
-  expect_error(tax_range_geo(occdf = occdf, method = "test"))
-  occdf$p_lat <- NA
   expect_error(tax_range_geo(occdf = occdf))
+  expect_error(tax_range_geo(occdf = occdf, name = "accepted_name",
+                             lat = "test", method = "con"))
+  expect_error(tax_range_geo(occdf = occdf,  name = "accepted_name",
+                             method = "test"))
+  expect_error(tax_range_geo(occdf = occdf, name = "accepted_name",
+                             method = 1))
+  occdf$accepted_name[1] <- NA
+  expect_error(tax_range_geo(occdf = occdf, name = "accepted_name",
+                             method = "con"))
+  expect_error(tax_range_geo(occdf = occdf))
+  occdf$lat[1] <- "22"
+  expect_error(tax_range_geo(occdf = occdf, name = "accepted_name"))
+  occdf$lat[1] <- NA
+  expect_error(tax_range_geo(occdf = occdf, name = "accepted_name"))
   occdf <- occdf[,-which(colnames(occdf) == "name")]
   expect_error(tax_range_geo(occdf = occdf))
 

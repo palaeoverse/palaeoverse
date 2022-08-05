@@ -13,14 +13,15 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Depends: 
-    R (>= 2.10),
-    sf
+    R (>= 2.10)
 Imports:
     stats,
     utils,
     graphics,
     methods,
     deeptime (>= 0.2.1),
+    geosphere,
+    fields,
     h3jsr
 Suggests: 
     divDyn,
