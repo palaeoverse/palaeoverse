@@ -67,7 +67,6 @@
 #'
 #' @export
 #'
-#For testing
 tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
                        family = NULL, order = NULL, class = NULL,
                        resolution = "species", by = NULL) {
@@ -118,6 +117,15 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
       (!is.null(genus) & (!is.vector(genus))) |
       (!is.null(species) & (!is.vector(species)))) {
     stop("Taxononic information must be in a vector")
+  }
+
+  if (!is.null(species)) {
+    if (length(species) != length(genus) |
+        length(species) != length(family) |
+        (!is.null(order) & (length(species) != length(order))) |
+        (!is.null(class) & (length(species) != length(class)))) {
+      stop("Taxononic vectors must all be the same length")
+        }
   }
 
   if ((!is.null(class) & any(grepl("[[:punct:]]", class))) |
