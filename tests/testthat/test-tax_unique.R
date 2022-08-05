@@ -1,7 +1,5 @@
-load("data/tetrapods.rda")
-tetrapods <- tetrapods[1:30,]
-
 test_that("tax_unique() works", {
+  data(tetrapods)
 
   #expect equal
   expect_equal(ncol(tax_unique(paleobioDB = tetrapods)), 6)
