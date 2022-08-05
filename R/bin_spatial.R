@@ -34,9 +34,8 @@
 #' `FALSE`, a dataframe is returned of the original input `occdf` with
 #' cell information: ID number (`cell_ID`) and cell centroid coordinates
 #' (`cell_centroid_lng` and `cell_centroid_lat`). If `return` is
-#' set to `TRUE`, a list is returned with both the input `occdf` and a dggs
-#' object (equal-area hexagonal grid) from the
-#' \code{\link[dggridR:dgconstruct]{dggridR::dgconstruct()}} function.
+#' set to `TRUE`, a list is returned with both the input `occdf` and grid
+#' information.
 #' If the `method` argument is specified as "dist", a list is returned of
 #' spatial samples drawn around unique localities based on the
 #' user-defined `dist`. Each element of the list contains occurrences within
@@ -46,7 +45,7 @@
 #' assigning occurrences to bins/samples:
 #' - Equal-area grid: The "grid" method bins fossil occurrence data into
 #' equal-area grid cells using a hexagonal grid generated via the
-#' \code{\link[dggridR:dgconstruct]{dggridR::dgconstruct()}} function.
+#' \code{\link[h3jsr:h3jsr-package]{h3jsr::h3jsr-package()}} function.
 #' - Distance: The "dist" method identifies unique localities in the input
 #' `occdf` (i.e., unique pairs of coordinates) and generates a spatial sample
 #' for each locality based on a user-defined distance. All occurrences within
@@ -68,8 +67,8 @@
 #' Lewis A. Jones
 #' @section Reviewer(s):
 #' To be reviewed
-#' @importFrom sf st_as_sf st_is_within_distance
-#' @importFrom dggridR dgconstruct dgGEO_to_SEQNUM dgSEQNUM_to_GEO
+#' @importFrom sf st_as_sf st_is_within_distance st_drop_geometry
+#' @importFrom h3jsr point_to_h3 h3_to_point
 #' @examples
 #' # Get internal data
 #' data("tetrapods")
@@ -141,30 +140,31 @@ bin_spatial <- function(occdf,
   #=== Grid binning  ===
   if (method == "grid") {
     # Generate equal area hexagonal grid
-    dggs <- dggridR::dgconstruct(spacing = dist,
-                                 metric = TRUE,
-                                 resround = "nearest")
+
+    # Which resolution should be used based on input distance/spacing?
+    # Use the h3jsr::h3_info_table to calculate resolution (however, this
+    # table is not exported in their package, added into palaeoverse)
+    grid <- palaeoverse:::h3_info_table[
+      which.min(abs(palaeoverse:::h3_info_table$avg_cendist_km - dist)), ]
 
     # Extract cell ID
-    occdf$cell_ID <- dggridR::dgGEO_to_SEQNUM(
-      dggs = dggs,
-      in_lon_deg = occdf[, lng][[1]],
-      in_lat_deg = occdf[, lat][[1]])$seqnum
+    occdf$cell_ID <- h3jsr::point_to_h3(occdf, res = grid$h3_resolution)
 
     # Extract cell centroids
-    occdf$cell_centroid_lng <- dgSEQNUM_to_GEO(
-      dggs = dggs, occdf$cell_ID)$lon_deg
-    occdf$cell_centroid_lat <- dgSEQNUM_to_GEO(
-      dggs = dggs, occdf$cell_ID)$lat_deg
+    occdf$cell_centroid_lng <- sf::st_coordinates(
+      h3jsr::h3_to_point(h3_address = occdf$cell_ID))[,c("X")]
+    occdf$cell_centroid_lat <- sf::st_coordinates(
+      h3jsr::h3_to_point(h3_address = occdf$cell_ID))[,c("Y")]
+
+    # Drop geometries column
+    occdf <- sf::st_drop_geometry(occdf)
 
     # Format to dataframe
     occdf <- data.frame(occdf)
-    # Drop geometries column
-    occdf <- occdf[, -which(colnames(occdf) == "geometry")]
 
     # Should the grid be returned?
     if (return == TRUE) {
-      occdf <- list(occdf, dggs)
+      occdf <- list(occdf, grid)
       names(occdf) <- c("occdf", "grid")
     }
 

@@ -53,9 +53,8 @@ If the \code{method} argument is specified as "grid" and \code{return} as
 \code{FALSE}, a dataframe is returned of the original input \code{occdf} with
 cell information: ID number (\code{cell_ID}) and cell centroid coordinates
 (\code{cell_centroid_lng} and \code{cell_centroid_lat}). If \code{return} is
-set to \code{TRUE}, a list is returned with both the input \code{occdf} and a dggs
-object (equal-area hexagonal grid) from the
-\code{\link[dggridR:dgconstruct]{dggridR::dgconstruct()}} function.
+set to \code{TRUE}, a list is returned with both the input \code{occdf} and grid
+information.
 If the \code{method} argument is specified as "dist", a list is returned of
 spatial samples drawn around unique localities based on the
 user-defined \code{dist}. Each element of the list contains occurrences within
@@ -71,7 +70,7 @@ assigning occurrences to bins/samples:
 \itemize{
 \item Equal-area grid: The "grid" method bins fossil occurrence data into
 equal-area grid cells using a hexagonal grid generated via the
-\code{\link[dggridR:dgconstruct]{dggridR::dgconstruct()}} function.
+\code{\link[h3jsr:h3jsr-package]{h3jsr::h3jsr-package()}} function.
 \item Distance: The "dist" method identifies unique localities in the input
 \code{occdf} (i.e., unique pairs of coordinates) and generates a spatial sample
 for each locality based on a user-defined distance. All occurrences within
