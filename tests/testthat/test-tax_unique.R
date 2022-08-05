@@ -32,8 +32,8 @@ test_that("tax_unique() works", {
                                genus = c("Tyrannosaurus", "Spinosaurus",
                                          "Tyrannosaurus"),
                                family = c("Tyrannosauridae", "Spinosauridae",
-                                          "Tyrannosauridae")),
-                              resolution = "genera"), 2)
+                                          "Tyrannosauridae"),
+                              resolution = "genera")), 2)
   expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", NA),
                                genus = c("Tyrannosaurus", "Spinosaurus", NA),
                                family = c("Tyrannosauridae", "Spinosauridae",

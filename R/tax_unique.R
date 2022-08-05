@@ -111,28 +111,28 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     stop("paleobioDB taxonomy columns should not contain punctuation")
   }
 
-  if ((!is.null(class) & (!is.vector(class))) ||
-      (!is.null(order) & (!is.vector(order))) ||
-      (!is.null(family) & (!is.vector(family))) ||
-      (!is.null(genus) & (!is.vector(genus))) ||
-      (!is.null(species) & (!is.vector(species)))) {
+  if ((!is.null(class) && (!is.vector(class))) ||
+      (!is.null(order) && (!is.vector(order))) ||
+      (!is.null(family) && (!is.vector(family))) ||
+      (!is.null(genus) && (!is.vector(genus))) ||
+      (!is.null(species) && (!is.vector(species)))) {
     stop("Taxononic information must be in a vector")
   }
 
   if (!is.null(species)) {
     if (length(species) != length(genus) ||
         length(species) != length(family) ||
-        (!is.null(order) & (length(species) != length(order))) ||
-        (!is.null(class) & (length(species) != length(class)))) {
+        (!is.null(order) && (length(species) != length(order))) ||
+        (!is.null(class) && (length(species) != length(class)))) {
       stop("Taxononic vectors must all be the same length")
         }
   }
 
-  if ((!is.null(class) & any(grepl("[[:punct:]]", class))) ||
-      (!is.null(order) & any(grepl("[[:punct:]]", order))) ||
-      (!is.null(family) & any(grepl("[[:punct:]]", family))) ||
-      (!is.null(genus) & any(grepl("[[:punct:]]", genus))) ||
-      (!is.null(species) & any(grepl("[[:punct:]]", species)))) {
+  if ((!is.null(class) && any(grepl("[[:punct:]]", class))) ||
+      (!is.null(order) && any(grepl("[[:punct:]]", order))) ||
+      (!is.null(family) && any(grepl("[[:punct:]]", family))) ||
+      (!is.null(genus) && any(grepl("[[:punct:]]", genus))) ||
+      (!is.null(species) && any(grepl("[[:punct:]]", species)))) {
     stop("Taxonomy vectors should not contain punctuation")
   }
 
@@ -205,7 +205,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
   for (i in 1:(length(uniq_cats))) {
 
     #Filter to a single category
-    one_cat <- occurrences[which(occurrences[,"category"] == uniq_cats[i]), ]
+    one_cat <- occurrences[which(occurrences[, "category"] == uniq_cats[i]), ]
     to_retain <- data.frame()
 
     if (resolution == "species") {
@@ -217,7 +217,8 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
       to_retain <- rbind(to_retain,
                          one_cat[(!one_cat$genus %in% c(to_retain$genus, NA)),
                                  ])
-      one_cat <- one_cat[is.na(one_cat$genus), ]} else
+      one_cat <- one_cat[is.na(one_cat$genus), ]
+    } else
 
     if (resolution == "genera") {
       #Remove genus_species column and remove genus repeats
