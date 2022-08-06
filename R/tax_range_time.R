@@ -3,9 +3,9 @@
 #' A function to calculate the temporal range of fossil taxa.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences. The
-#' dataframe should contain at least three columns: names of taxa (`character`),
-#' maximum (`numeric`) and minimum (`numeric`) age which constrain the age range
-#' (in millions of years) of the fossil occurrence. If the age range
+#' dataframe should contain at least three columns: names of taxa (`character`)
+#' and the maximum (`numeric`) and minimum (`numeric`) age which constrain the
+#' age range (in millions of years) of the fossil occurrence. If the age range
 #' columns are provided as (`character`) values (i.e., stage names), the
 #' function will attempt to extract numeric age data from the
 #' Geological Timescale by linking stage names.
