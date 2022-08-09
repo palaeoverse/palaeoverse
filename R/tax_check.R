@@ -90,7 +90,8 @@
 #' # load occurrence data
 #' data("tetrapods")
 #'
-#' # synonym check with default params
+#' # synonym check with default params. Data is well curated so
+#' # few matches are returned and no non-letter checks triggered
 #'
 #' synon <- tax_check(tetrapods, names = "genus", groups = "family")
 #'
@@ -100,7 +101,7 @@
 #'
 #' # synonym check using a couple of example prefixes and suffixes
 #' synon <- tax_check(tetrapods, names = "genus", groups = "family",
-#'                    sim = 90, pref = b_pref, suff = b_suff)
+#'                    pref = b_pref, suff = b_suff)
 #'
 #' @export
 
