@@ -87,7 +87,6 @@
 #' @importFrom stats na.omit
 #' @importFrom stringdist stringdistmatrix
 #' @examples
-#' \dontrun{
 #' # load occurrence data
 #' data("tetrapods")
 #'
@@ -103,7 +102,6 @@
 #' synon <- tax_check(tetrapods, names = "genus", groups = "family",
 #'                    sim = 90, pref = b_pref, suff = b_suff)
 #'
-#' }
 #' @export
 
 tax_check <- function(x, names, groups = NULL, sim = 90, start = 1,
