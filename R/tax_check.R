@@ -91,13 +91,17 @@
 #' # load occurrence data
 #' data("tetrapods")
 #'
+#' # synonym check with default params
+#'
+#' synon <- tax_check(tetrapods, names = "genus", groups = "family")
+#'
 #' # define prefixes and suffixes
 #' b_pref <- c("Neo", "Proto")
 #' b_suff <- c("saurus", "suchus")
 #'
-#' # run function with a slightly more stringent matching threshold
+#' # synonym check using a couple of example prefixes and suffixes
 #' synon <- tax_check(tetrapods, names = "genus", groups = "family",
-#' sim = 90, pref = b_pref, suff = b_suff)
+#'                    sim = 90, pref = b_pref, suff = b_suff)
 #'
 #' }
 #' @export
