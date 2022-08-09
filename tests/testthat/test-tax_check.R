@@ -1,25 +1,30 @@
 
 # test dataset
 testdf <- data.frame(family = c("Examplidae", "Examplidae", "Taxonidae",
-                                NA, "Taxonidae", "Examplidae",
+                                NA, "Taxonidae", "Examplidae", "Examplidae",
                                 "Examplidae", "Examplidae", "Taxonidae",
                                 "Taxonidae"),
                      genus = c("Joebloggsia", "Joebloggia", "Facsimilus",
-                               "Imperfectella", "Automaton", NA,
+                               "Imperfectella", "Automaton", NA, "Joebloggsia",
                                "Shangrilaria", "Shangirlaria", "Kunlungoides",
                                "Kunlungoides.sp"),
-                     age = c(1:10))
+                     age = c(1:11))
 
 # result
-res1 <- list(non_letter = 10L, synonyms = data.frame(
+res1 <- list(synonyms = data.frame(
+  group = c("J", "K", "S"),
   greater = c("Joebloggsia", "Kunlungoides", "Shangrilaria"),
   lesser = c("Joebloggia", "Kunlungoides.sp", "Shangirlaria"),
-  group = c("J", "K", "S")))
-res2 <- list(non_letter = 10L, synonyms = data.frame(
+  freq_1 = c(2L, 1L, 1L), freq_2 = c(1L, 1L, 1L)),
+             non_letter = "Kunlungoides.sp")
+res2 <- list(synonyms =data.frame(
+  group = c("Examplidae", "Examplidae", "Taxonidae"),
   greater = c("Joebloggsia", "Shangrilaria", "Kunlungoides"),
   lesser = c("Joebloggia", "Shangirlaria", "Kunlungoides.sp"),
-  group = c("Examplidae", "Examplidae", "Taxonidae")))
-res3 <- list(non_letter = 10L, synonyms = NULL)
+  freq_1 = c(2L, 1L, 1L), freq_2 = c(1L, 1L, 1L)),
+             non_letter = "Kunlungoides.sp")
+res3 <- list(synonyms = NULL,
+             non_letter = "Kunlungoides.sp")
 
 # test errors from incorrectly supplied arguments, and warnings
 test_that("tax_check() accepts taxon names, no groups", {
@@ -43,8 +48,7 @@ test_that("tax_check() accepts taxon names, no groups", {
    # start/end letter matches incorrectly supplied
   expect_error(tax_check(testdf, "genus", start = "1"))
   expect_error(tax_check(testdf, "genus", start = c(1, 3)))
-  expect_error(tax_check(testdf, "genus", end = TRUE))
-  expect_error(tax_check(testdf, "genus", end = c(1, 3)))
+  expect_error(tax_check(testdf, "genus", start = TRUE))
   # prefixes/suffixes not supplied as a character vector
   expect_error(tax_check(testdf, "genus", pref = c(TRUE, FALSE)))
   expect_error(tax_check(testdf, "genus", suff = c(1, 2)))

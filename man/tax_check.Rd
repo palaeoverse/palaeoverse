@@ -8,103 +8,94 @@ tax_check(
   x,
   names,
   groups = NULL,
-  sim = 80,
+  sim = 90,
   start = 1,
-  end = 0,
   pref = NULL,
   suff = NULL,
-  verbose = FALSE
+  verbose = TRUE
 )
 }
 \arguments{
 \item{x}{\code{dataframe}. A data.frame with named columns (e.g., 'species',
-'genus', ect.). This must contain taxon names and optionally a further
+'genus', etc.). This must contain taxon names and optionally a further
 column denoting the groups within which taxon names will be checked against
-one another (e.g., 'family', 'order', ect.). NA values or blank strings in
-the name and group columns (i.e. '', ' ') will be ignored.}
+one another (e.g., 'family', 'order', etc.). NA values or empty strings in
+the name and group columns (i.e., '' and ' ') will be ignored.}
 
-\item{names}{\code{character}. The column name of the taxonomic names you
-wish to check (e.g., 'genus').}
+\item{names}{\code{character}. The column name of the taxon names you wish
+to check (e.g., 'genus').}
 
 \item{groups}{\code{character}. The column name of the higher taxonomic
 assignments in \code{x} you wish to group by. If \code{NULL} (default), name
 comparison will be conducted within alphabetical groups.}
 
-\item{sim}{\code{numeric}. The percentage similarity, above which potential
-synonyms be reported.}
+\item{sim}{\code{numeric}. The percentage similarity threshold. Potential
+synonyms above this threshold are reported.}
 
 \item{start}{\code{numeric}. The number of matching characters at the
 beginnings of two potential synonyms, below which the match will be
 discarded. By default this value is set to 1 (i.e., the first letters must
 match).}
 
-\item{end}{\code{numeric}. The number of matching characters at the ending
-of two potential synonyms, below which the match will be discarded. By
-default this value is set to 0 (i.e., no matching required).}
-
 \item{pref}{\code{character}. A vector of prefixes which may result in
-spuriously high similarities. Synonyms will be filtered out out if only one
-or the other bears a given prefix. The default is \code{NULL}.}
+spuriously high similarities. Synonyms will be filtered out if only one or
+the other bears a given prefix. The default is \code{NULL}.}
 
-\item{suff}{\code{character}. A vector of suffixes which may result in
-spuriously high similarities. Synonyms will be filtered out out if only one
-or the other bears a given suffixes, The default is \code{NULL}.}
+\item{suff}{\code{character}. A vector of suffixes which help distinguish
+otherwise similar taxon names. Synonyms will be filtered out if only one or
+the other bears a given suffix, The default is \code{NULL}.}
 
 \item{verbose}{\code{logical}. Should the results of the non-letter
-character check be reported to the user. If \code{TRUE}, the result will only be
+character check be reported to the user? If \code{TRUE}, the result will only be
 reported if such characters are detected in the taxon names.}
 }
 \value{
-\code{list}. A list with two elements. The first element
-(non_letter) is a vector of indices, indicating any names in the taxon names
-column which contain non- letter characters. This element is \code{NULL} if none
-were detected. The second element (synonyms) in the list is a data.frame
-with each row reporting a pair of synonyms. The first column 'greater'
-contains the most common synonym in each pair, the second column 'lesser'
-the least common synonym in each pair, and the third column 'group' the
-higher group in which they occur (this may be the alphabetical groupings
-default). If no matches were found for the filtering parameters, \code{NULL} is
-returned instead.
+If verbose = \verb{TRUE' (default), a \code{list} with two elements. The first element in the list (synonyms) is a data.frame with each row reporting a pair of synonyms. The first column 'group' contains the higher group in which they occur (this may be the alphabetical groupings default). The second column 'greater' contains the most common synonym in each pair. The third column 'lesser' contains the least common synonym in each pair. The third and fourth columns (freq_1, freq_2) contain the respective frequencies of each synonym in a pair. If no matches were found for the filtering parameters, this element is }NULL\verb{instead. The second element (non_letter) is a vector of taxon names which contain non-letter characters, or}NULL\verb{if none were detected. If verbose =}FALSE\verb{, a \code{data.frame} as described above, or }NULL` if no matches were found.
 }
 \description{
 A function for checking for potential spelling variations of the same
-taxon name. These variations are checked for within higher taxonomic
-groups or  within alphabetical groups if higher taxonomy is not provided
-(the default assumption).
+taxon. Spelling variations are checked within alphabetical groups (default),
+or within higher taxonomic groups, if provided.
 }
 \details{
-Where higher taxonomy is provided, but some entries are missing,
-comparisons will be made within alphabetical groups. The function also
-silently performs a check for non-letter characters which are not expected
-to be present in correctly-formatted taxon names. This detection may be made
-available to the user via the verbose argument.
+When higher taxonomy is provided, but some entries are missing,
+comparisons will still be made within alphabetical groups of taxa which lack
+higher taxonomic affiliations. The function also performs a check for non-
+letter characters which are not expected to be present in correctly-
+formatted taxon names. This detection may be made available to the user via
+the \code{verbose} argument. Comparison is first performed using the Jaro string
+dissimilarity with the \code{stringdistmatrix} function from the \code{stringdist}
+package. The Jaro metric can be easily interpreted as a percentage
+similarity, converted as (1 - Jaro dissimilarity). Low similarity pairs are
+discarded, and matches can also be filtered out if they do not share a given
+number of starting letters. The Jaro threshold is set to 90\% similarity by
+default, but synonyms may still slip through at lower similarity thresholds.
 
-Comparison is first performed using the Jaro string similarity metric, using
-the \code{stringdist} function from the \code{stringdist} package. The Jaro metric can
-be easily interpreted as percentage similarity, allowing low similarity
-pairs to be filtered before the result is returned. Matches can then been
-filtered out if they do not share a given number of starting and/or ending
-letters. Penalisation by starting letters is analogous to Jaro-Winkler
-distance, but purely Jaro distance is used instead as common Latin or Greek
-prefixes and suffixes which result in high string similarities can also be
-supplied, e.g. 'Pro', 'Proto'. High similarity matches resulting from high
-similarity between such prefixes or suffixes will only be retained if two
-potential synonyms share the same prefix or suffix (see example). Note that
-this creates the assumption that spelling variations are not present among
-the prefixes and suffixes, which is not always the case.
+Frequent re-use of Latin or Greek prefixes can induce high similarity
+between taxon names, e.g., 'Proto' and Protoro' between 'Protosuchus' and
+'Protorosaurus'. Conversely, suffixes are often used to differentiate taxon
+names which share a common stem, e.g., 'is' and 'ina' separate
+'Gelidorthis' and 'Gelidorthina'. As such, vectors of prefixes and suffixes
+can also be supplied and matches will only be discarded if two potential
+synonyms do not share the same prefix or suffix, even if their similarity
+exceeds the Jaro filtering threshold. Prefixes and suffixes may have no
+effect if this threshold is very high, but can be useful for large data sets
+where prefixes and name stems are prevalent, for example brachiopods.
 
 As all string distance metrics rely on approximate string matching,
 different metrics can produce different results. This function uses Jaro
-similarity as it was designed with short, typed strings in mind, but good
+distance as it was designed with short, typed strings in mind, but good
 practice should include comparisons using multiple metrics, and ultimately
 specific taxonomic vetting where possible. A more complete implementation
 and workflow for cleaning taxonomic occurrence data is available in the
 \code{fossilbrush} R package on CRAN.
+}
+\section{Reference}{
 
-#' @section Reference:
 M. P. J. van der Loo (2014). The stringdist package for approximate string
 matching. The R Journal 6, 111-122.
 }
+
 \section{Developer(s)}{
 
 Joseph T. Flannery-Sutherland
@@ -112,7 +103,7 @@ Joseph T. Flannery-Sutherland
 
 \section{Reviewer(s)}{
 
-Lewis A. Jones & XXX
+Lewis A. Jones & Killian Eichenseer
 }
 
 \examples{
