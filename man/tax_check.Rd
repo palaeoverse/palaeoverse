@@ -30,20 +30,22 @@ assignments in \code{x} you wish to group by. If \code{NULL} (default), name
 comparison will be conducted within alphabetical groups.}
 
 \item{sim}{\code{numeric}. The percentage similarity threshold. Potential
-synonyms above this threshold are reported.}
+synonyms below this threshold are not shown}
 
-\item{start}{\code{numeric}. The number of matching characters at the
-beginnings of two potential synonyms, below which the match will be
-discarded. By default this value is set to 1 (i.e., the first letters must
+\item{start}{\code{numeric}. The number of shared characters at the
+beginnings of two potential synonyms, below which the match will not be
+shown. By default this value is set to 1 (i.e., the first letters must
 match).}
 
-\item{pref}{\code{character}. A vector of prefixes which may result in
-spuriously high similarities. Synonyms will be filtered out if only one or
-the other bears a given prefix. The default is \code{NULL}.}
+\item{pref}{\code{character}. A vector of prefixes which help distinguish
+otherwise similar taxon names. Synonyms will only be shown if none or both
+names of a potential synonym pair bear the same prefix. The default is
+\code{NULL}.}
 
 \item{suff}{\code{character}. A vector of suffixes which help distinguish
-otherwise similar taxon names. Synonyms will be filtered out if only one or
-the other bears a given suffix, The default is \code{NULL}.}
+otherwise similar taxon names. Synonyms will only be shown if none or both
+names of a potential synonym pair bear the same suffix. The default is
+\code{NULL}.}
 
 \item{verbose}{\code{logical}. Should the results of the non-letter
 character check be reported to the user? If \code{TRUE}, the result will only be
@@ -65,22 +67,22 @@ letter characters which are not expected to be present in correctly-
 formatted taxon names. This detection may be made available to the user via
 the \code{verbose} argument. Comparison is first performed using the Jaro string
 dissimilarity with the \code{stringdistmatrix} function from the \code{stringdist}
-package. The Jaro metric can be easily interpreted as a percentage
-similarity, converted as (1 - Jaro dissimilarity). Low similarity pairs are
-discarded, and matches can also be filtered out if they do not share a given
-number of starting letters. The Jaro threshold is set to 90\% similarity by
-default, but synonyms may still slip through at lower similarity thresholds.
+package. This can be easily interpreted as a percentage similarity,
+converted as (1 - Jaro string dissimilarity). Low similarity pairs are not
+shown, nor those which do not share a given number of starting letters. The
+Jaro threshold is set to 90\% similarity by default, but synonyms may still
+slip through at lower similarity thresholds.
 
-Frequent re-use of Latin or Greek prefixes can induce high similarity
-between taxon names, e.g., 'Proto' and Protoro' between 'Protosuchus' and
-'Protorosaurus'. Conversely, suffixes are often used to differentiate taxon
-names which share a common stem, e.g., 'is' and 'ina' separate
-'Gelidorthis' and 'Gelidorthina'. As such, vectors of prefixes and suffixes
-can also be supplied and matches will only be discarded if two potential
-synonyms do not share the same prefix or suffix, even if their similarity
-exceeds the Jaro filtering threshold. Prefixes and suffixes may have no
-effect if this threshold is very high, but can be useful for large data sets
-where prefixes and name stems are prevalent, for example brachiopods.
+Latin or Greek prefixes and suffixes are frequently used to differentiate
+taxon names which share a common stem, e.g., 'Gelidorthis' and Gelidorthina'
+(suffixes 'is' and 'ina'), and can even induce spuriously high similarity
+with each other, e.g., Protosuchus and Parasuchus (prefixes Proto' and
+'Para') or. Vectors of prefixes and suffixes can be supplied and matches
+will only be shown if neither bears a given prefix or suffix, or if the
+prefix or suffix is the same in both synonyms. Prefixes and suffixes may
+have no effect if the Jaro threshold is very high and their use is entirely
+optional, but can be useful to prevent large numbers of false matches for
+large data sets from being shown to the user.
 
 As all string distance metrics rely on approximate string matching,
 different metrics can produce different results. This function uses Jaro
@@ -107,17 +109,30 @@ Lewis A. Jones & Killian Eichenseer
 }
 
 \examples{
-\dontrun{
 # load occurrence data
 data("tetrapods")
 
-# define prefixes and suffixes
-b_pref <- c("Neo", "Proto")
-b_suff <- c("saurus", "suchus")
+# synonym check with default params. Data is well curated so
+# few matches are returned and no non-letter checks triggered
 
-# run function with a slightly more stringent matching threshold
-synon <- tax_check(tetrapods, names = "genus", groups = "family",
-sim = 90, pref = b_pref, suff = b_suff)
+synon <- tax_check(tetrapods, names = "genus", groups = "family")
+
+\dontrun{
+# grab a brachiopod dataset and define prefixes and suffixes
+brachios <- read.csv(paste0("https://paleobiodb.org/data1.2/occs/list.csv",
+                     "?base_name=Brachiopoda",
+                     "&interval=Cambrian,Silurian",
+                     "&show=class"))
+
+b_pref <- c("Neo", "Micro", "Schizo", "Stropho", "Ortho")
+b_suff <- c("spirifer", "rhynchus", "strophia", "treta", "thyris",
+            "orthis", "ina", "ella", "trypa")
+
+# synonym check with and without prefixes and suffixes
+synon1 <- tax_check(brachios, names = "genus", groups = "family")
+
+synon2 <- tax_check(brachios, names = "genus", groups = "family",
+                    pref = b_pref, suff = b_suff)
 
 }
 }
