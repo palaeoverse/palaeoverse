@@ -4,7 +4,7 @@
 \alias{palaeorotate}
 \title{Palaeorotate fossil occurrences}
 \usage{
-palaeorotate(x, model = "Merdith2021", uncertainty = FALSE)
+palaeorotate(x, model = "Merdith2021", method = "grid", uncertainty = FALSE)
 }
 \arguments{
 \item{x}{\code{dataframe}. Fossil occurrences to be palaeogeographically
@@ -18,6 +18,10 @@ confused.}
 used to reconstruct palaeocoordinates. Choose from: "Merdith2021",
 "Scotese2018", and "Wright2013". The default is "Merdith2021". See
 references below for further information on each model.}
+
+\item{method}{\code{character}. Method used to calculate palaeocoordinates
+for fossil occurrences. Either "grid" to use the rotation files or "point"
+to use the GPlates API service.}
 
 \item{uncertainty}{\code{logical}. Should the uncertainty in
 palaeogeographic reconstructions be returned? If set to TRUE, the

@@ -16,6 +16,9 @@
 #' used to reconstruct palaeocoordinates. Choose from: "Merdith2021",
 #' "Scotese2018", and "Wright2013". The default is "Merdith2021". See
 #' references below for further information on each model.
+#' @param method \code{character}. Method used to calculate palaeocoordinates
+#' for fossil occurrences. Either "grid" to use the rotation files or "point"
+#' to use the GPlates API service.
 #' @param uncertainty \code{logical}. Should the uncertainty in
 #' palaeogeographic reconstructions be returned? If set to TRUE, the
 #' palaeocoordinates from the three plate rotation models are returned
@@ -75,6 +78,7 @@
 #' @section Reviewer(s):
 #' Kilian Eichenseer
 #' @importFrom utils download.file
+#' @importFrom pbapply pblappy
 #' @examples
 #' #Generic example with a few occurrences
 #' x <- data.frame(lng = c(2, -103, -66),
@@ -96,11 +100,9 @@
 #' #Calculate uncertainity in palaeocoordinates from models
 #' palaeorotate(x = tetrapods, uncertainty = TRUE)
 #' @export
-palaeorotate <-
-  function(x,
-           model = "Merdith2021",
-           uncertainty = FALSE) {
-    #error handling
+palaeorotate <- function(x, model = "Merdith2021", method = "grid",
+                         uncertainty = FALSE) {
+    # Error handling
     if (!exists("x") || !is.data.frame(x)) {
       stop("Please supply x as a dataframe")
     }
@@ -123,17 +125,22 @@ palaeorotate <-
       stop("Longitudes should be more than -180 and less than 180")
     }
 
-
     if (model %in% c("Merdith2021", "Scotese2018", "Wright2013") == FALSE) {
       stop("`model` should be one of the following:
       Merdith2021, Scotese2018, Wright2013")
+    }
+
+    if (method %in% c("grid", "point") == FALSE) {
+      stop("`method` should be grid or point")
     }
 
     if (!is.logical(uncertainty)) {
       stop("`uncertainty` should be a logical value: TRUE/FALSE")
     }
 
-    #reconstruct coordinates
+    # Reconstruct coordinates
+    # Should the grid approach be used?
+    if(method == "grid"){
 
     #get temp directory and download files
     files <- tempdir()
@@ -323,8 +330,100 @@ palaeorotate <-
           "Palaeocoordinates could not be reconstructed for all points.
 Georeferenced plate does not exist at time of reconstruction."
         )
+        }
       }
     }
+    # Should the point approach be used?
+    if(method == "point"){
+      # Update default if not changed by user
+      if(model == "Merdith2021") {
+        model <- c("MERDITH2021")
+      }
+      # Model matching for API call
+      available <- c("MERDITH2021", "PALEOMAP",
+                     "MULLER2019", "MULLER2016",
+                     "MATTHEWS2016_pmag_ref",
+                     "RODINIA2013", "SETON2012",
+                     "GOLONKA")
+      model <- available[charmatch(x = model, table = available)]
 
+      if(is.na(model)) {
+        stop("Unavailable model name. Choose from:
+             MERDITH2021, PALEOMAP, MULLER2019, MULLER2016, RODINIA2013,
+             MATTHEWS2016_pmag_ref, SETON2012, GOLONKA")
+      }
+
+      # Set up dataframe for populating
+      x$p_lng <- NA
+      x$p_lat <- NA
+      x$model <- model
+
+      # Unique localities for rotating
+      coords <- unique(x[, c("lng", "lat", "age")])
+      uni_ages <- unique(coords[, c("age")])
+
+      # For subsequent coordinate matching
+      x$match <- NA
+      x$match <- paste(x[1:nrow(x), c("lng")],
+                       x[1:nrow(x), c("lat")],
+                       x[1:nrow(x), c("age")])
+      coords$match <- paste(x[1:nrow(coords), c("lng")],
+                            x[1:nrow(coords), c("lat")],
+                            x[1:nrow(coords), c("age")])
+
+      API_request <- lapply(uni_ages, function(i) {
+        tmp <- coords[which(coords[, c("age")] == i), c("lng", "lat")]
+        tmp <- toString(as.vector(t(tmp)))
+        API <- sprintf('?points=%s&time=%f&model=%s',gsub(" ", "", tmp), i, model)
+        API <- paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
+                      API,
+                      "&return_null_points")
+        API
+      })
+
+      # Add unique ages to API request
+      names(API_request) <- uni_ages
+
+      # Run API call with progress bar
+      API_return <- pbapply::pblapply(X = 1:length(API_request), function(i) {
+        # Age of rotation
+        age <- names(API_request)[i]
+        # Grab data from API
+        API_return <- readLines(API_request[[i]], warn = FALSE)
+        # Replace NULL values if they exist
+        API_return <- gsub("null", "[[-9999, -9999]]", API_return)
+        # Extract and format data from call
+        API_return <- matrix(
+          unlist(
+            regmatches(x = API_return,
+                       m = gregexpr("-?[[:digit:]]+\\.*[[:digit:]]+",
+                                    API_return)
+            )
+          ), ncol = 2, byrow = TRUE)
+        # Update any -9999 values to NA
+        API_return[API_return == -9999] <- NA
+        # Add age data
+        API_return <- cbind(API_return, age)
+        # Return data
+        API_return
+      })
+      # Bind data
+      API_return <- do.call(rbind, API_return)
+      # Convert to dataframe
+      API_return <- data.frame(API_return)
+      # Update column names
+      colnames(API_return) <- c("p_lng", "p_lat", "rot_age")
+      # Bind data
+      coords <- cbind.data.frame(coords, API_return)
+      # Add rotated coordinates to input dataframe based on matching
+      for(i in 1:nrow(coords)) {
+        matched <- which(x$match == coords[i, c("match")])
+        x$p_lng[matched] <- coords$p_lng[i]
+        x$p_lat[matched] <- coords$p_lat[i]
+      }
+
+      # Drop match column
+      x <- x[, -ncol(x)]
+    }
     return(x)
   }
