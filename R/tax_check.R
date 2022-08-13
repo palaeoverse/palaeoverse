@@ -83,7 +83,7 @@
 #' @section Developer(s):
 #' Joseph T. Flannery-Sutherland
 #' @section Reviewer(s):
-#' Lewis A. Jones & Killian Eichenseer
+#' Lewis A. Jones & Kilian Eichenseer
 #' @importFrom stats na.omit
 #' @importFrom stringdist stringdistmatrix
 #' @examples
