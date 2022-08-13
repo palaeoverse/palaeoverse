@@ -21,7 +21,8 @@ Imports:
     methods,
     deeptime (>= 0.2.1),
     h3jsr,
-    sf
+    sf,
+    units
 Suggests: 
     divDyn,
     rmarkdown,
