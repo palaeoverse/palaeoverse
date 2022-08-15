@@ -11,17 +11,21 @@ test_that("palaeorotate() works", {
                    uncertainty = TRUE)[, c("uncertainty_p_lng",
                                           "uncertainty_p_lat")]), 2)
 
-  expect_equal(nrow(palaeorotate(x = x, model = "Scotese2018")), 3)
+  expect_equal(nrow(palaeorotate(x = x, model = "PALEOMAP")), 3)
 
-  expect_equal(nrow(palaeorotate(x = x, model = "Merdith2021")), 3)
+  expect_equal(nrow(palaeorotate(x = x, model = "MERDITH2021")), 3)
 
-  expect_equal(nrow(palaeorotate(x = x, model = "Wright2013")), 3)
+  expect_equal(nrow(palaeorotate(x = x, method = "point")), 3)
+
+  expect_equal(nrow(palaeorotate(x = x, model = "WRIGHT2013")), 3)
 
   expect_error(palaeorotate(x = x, uncertainty = "TRUE"))
 
   expect_error(palaeorotate(x = x, uncertainty = 2))
 
   expect_error(palaeorotate(x = x, model = "Mirdith2021"))
+
+  expect_error(palaeorotate(x = x, method = "point", model = "Mirdith2021"))
 
   expect_error(palaeorotate(x = c(55, 46, 88)))
 
