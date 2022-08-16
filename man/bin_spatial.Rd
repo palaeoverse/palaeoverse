@@ -9,8 +9,9 @@ bin_spatial(
   lng = "lng",
   lat = "lat",
   method = "grid",
-  dist = 250,
-  buffer = NULL,
+  dist = 100,
+  reps = 100,
+  size = NULL,
   return = FALSE
 )
 }
@@ -35,14 +36,15 @@ based on a user-defined distance. See details for further description.}
 \item{dist}{\code{numeric}. Under the "grid" method, this value indicates
 the desired spacing between the center of adjacent cells. Under the "dist"
 method, this is the distance threshold for defining spatial samples of
-occurrences. Note: \code{dist} should be provided in kilometres.}
-
-\item{buffer}{\code{numeric}. The buffer distance for defining unique
-localities (only useful if \code{method} = "dist").
+occurrences. Note: \code{dist} should be provided in kilometres.
 This argument allows the user to modify the definition of unique
 localities to draw from a larger area than point coordinates. This might be
 desirable if a high density of occurrences are in close proximity, but differ
-slightly in their coordinates (e.g., < 1 kilometre).
+slightly in their coordinates (e.g., < 1 kilometre).}
+
+\item{reps}{\code{numeric}.}
+
+\item{size}{\code{numeric}.
 Note: \code{buffer} should be provided in kilometres. The default value is \code{NULL},
 which skips the buffer implementation.}
 
@@ -96,7 +98,9 @@ dependent on the
 Note: prior to implementation of either method, the coordinate reference
 system (CRS) for input data is defined as EPSG:4326 (World Geodetic System
 1984). The user might wish to update their data accordingly if this is
-not appropriate.
+not appropriate. If you are unfamiliar with working with geographic data,
+we highly recommend checking out Geocomputation with R
+\url{https://geocompr.robinlovelace.net/index.html}.
 }
 \section{Developer(s)}{
 

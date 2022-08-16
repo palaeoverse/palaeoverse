@@ -1,7 +1,7 @@
 #' Assign fossil occurrences to spatial bins
 #'
-#' A function to assign fossil occurrences to spatial bins/samples using a
-#' hexagonal equal-area grid, or a distance-based approach.
+#' A function to assign fossil occurrences (or localities) to spatial
+#' bins/samples using a hexagonal equal-area grid, or a distance-based approach.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences you
 #' wish to bin. This dataframe should contain the decimal degree coordinates of
@@ -20,12 +20,12 @@
 #' the desired spacing between the center of adjacent cells. Under the "dist"
 #' method, this is the distance threshold for defining spatial samples of
 #' occurrences. Note: `dist` should be provided in kilometres.
-#' @param buffer \code{numeric}. The buffer distance for defining unique
-#' localities (only useful if `method` = "dist").
 #' This argument allows the user to modify the definition of unique
 #' localities to draw from a larger area than point coordinates. This might be
 #' desirable if a high density of occurrences are in close proximity, but differ
 #' slightly in their coordinates (e.g., < 1 kilometre).
+#' @param reps \code{numeric}.
+#' @param size \code{numeric}.
 #' Note: `buffer` should be provided in kilometres. The default value is `NULL`,
 #' which skips the buffer implementation.
 #' @param return \code{logical}. Should the equal-area grid information be
@@ -70,7 +70,9 @@
 #' Note: prior to implementation of either method, the coordinate reference
 #' system (CRS) for input data is defined as EPSG:4326 (World Geodetic System
 #' 1984). The user might wish to update their data accordingly if this is
-#' not appropriate.
+#' not appropriate. If you are unfamiliar with working with geographic data,
+#' we highly recommend checking out Geocomputation with R
+#' \url{https://geocompr.robinlovelace.net/index.html}.
 #'
 #' @section Developer(s):
 #' Lewis A. Jones
@@ -94,9 +96,11 @@ bin_spatial <- function(occdf,
                         lng = "lng",
                         lat = "lat",
                         method = "grid",
-                        dist = 250,
-                        buffer = NULL,
-                        return = FALSE) {
+                        dist = 100,
+                        reps = 100,
+                        size = NULL,
+                        return = FALSE,
+                        plot = FALSE) {
 
   #=== Error handling ===
   if (!is.data.frame(occdf)) {
@@ -132,8 +136,8 @@ bin_spatial <- function(occdf,
     stop("`dist` should be of class numeric")
   }
 
-  if (!is.null(buffer) && !is.numeric(buffer)) {
-    stop("`buffer` should be NULL or of class numeric")
+  if (!is.null(size) && !is.numeric(size)) {
+    stop("`size` should be NULL or of class numeric")
   }
 
   if (is.logical(return) == FALSE) {
@@ -177,44 +181,89 @@ bin_spatial <- function(occdf,
       names(occdf) <- c("occdf", "grid")
     }
 
+    if(plot == TRUE) {
+      poly <- h3jsr::h3_to_polygon(input = occdf$cell_ID, simple = TRUE)
+      plot(poly, col = "blue",
+           axes = TRUE,
+           ylab = "Latitude",
+           xlab = "Longitude")
+    }
+
+    cat("The average spacing between adjacent cells was set to",
+        round(grid$avg_cendist_km, digits = 2), "km.")
+
     return(occdf)
   }
 
   #=== Distance-based groupings  ===
   if (method == "dist") {
+    # Add distance to dataframe
+    occdf$dist <- dist
+    # Add size to dataframe
+    occdf$size <- size
+    # Add reps to dataframe
+    occdf$reps <- reps
+
+    # Add ID column for processing
+    occdf$occ_ID <- 1:nrow(occdf)
+
     # Convert dist to metres for st_is_within_distance function
     dist <- dist * 1000
 
-    # Get unique locations
-    occdf2 <- unique(occdf[,c(lng, lat)])
+    # Calculate all potential samples
+    dist_list <- sf::st_is_within_distance(x = occdf, y = occdf, dist = dist)
 
-    # Is a distance buffer desired for unique locations?
-    if (!is.null(buffer)) {
-      # Convert km to m
-      buffer <- buffer * 1000
-      # Get points within buffer zone
-      buffer <- sf::st_is_within_distance(occdf2, dist = buffer)
-      # Unlist
-      non_uniq <- unlist(
-        mapply(function(lng, lat) lng[lng < lat], buffer, seq_along(buffer)))
-      # Filter unique locations according to buffer
-      occdf2 <- occdf2[-non_uniq, ]
-    }
-
-    # Generate all potential subsamples for unique locations
-    samples <- sf::st_is_within_distance(x = occdf2, y = occdf, dist = dist)
-    # Format data
-    samples <- lapply(seq_along(samples), function(i) {
-      # Extract relevant occurrences from main dataframe
-      # Convert to dataframe and drop geometries
-      tmp <- data.frame(
-        occdf[samples[[i]], ])[, -which(colnames(occdf) == "geometry")]
-      # Add reference locality information
-      tmp$ref_lng <- occdf[i, c("lng")][[1]]
-      tmp$ref_lat <- occdf[i, c("lat")][[1]]
+    # Randomly sample localities
+    samples <- lapply(seq_len(reps), function(x) {
+      # Create temp list for sampling
+      tmp <- dist_list
+      # Add names to list
+      names(tmp) <- seq_along(tmp)
+      # Create empty list
+      list_samples <- list()
+      # Generate spatial samples
+      # Set counter
+      s <- 0
+      while (length(tmp) > 0) {
+        s <- s + 1
+        # Sample seed
+        samp <- tmp[[sample(names(tmp), size = 1)]]
+        # Which occurrences are not present in the sample?
+        vec <- !names(tmp) %in% samp
+        # Drop already sampled occurrences as seed points
+        tmp <- tmp[vec]
+        # Filter by sampled rows
+        tmp_occdf <- occdf[samp, ]
+        # Add sample ID
+        tmp_occdf$bin_ID <- s
+        # Drop geometries
+        tmp_occdf <- sf::st_drop_geometry(tmp_occdf)
+        # Add reference coordinates (first element is the locality)
+        tmp_occdf$ref_lng <- tmp_occdf[, lng]
+        tmp_occdf$ref_lat <- tmp_occdf[, lat]
+        # Add samples to list
+        list_samples[[s]] <- tmp_occdf
+        # Fixed sample size desired?
+        if (!is.null(size) && s == size) {
+          if(any(is.na(tmp_occdf$occ_ID))) {
+            stop("Number of desired spatial bins is too high for the desired
+distance threshold. Reduce `dist` or `size`.")
+          }
+          break
+        }
+      }
+      # If fixed sample size was desired, was the threshold met?
+      if (!is.null(size) && s < size) {
+        stop("Number of desired spatial bins is too high for the desired
+distance threshold. Reduce `dist` or `size`.")
+      }
+      # Bind data
+      tmp_occdf <- do.call(rbind,
+                           list_samples)
       # Return data
-      tmp
+      tmp_occdf
     })
+    # Return samples
     return(samples)
     }
   }
