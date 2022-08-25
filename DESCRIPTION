@@ -19,7 +19,8 @@ Imports:
     graphics,
     methods,
     deeptime (>= 0.2.1),
-    ape
+    ape,
+    paleotree
 Suggests: 
     divDyn,
     rmarkdown,
