@@ -126,7 +126,7 @@ phylo_check <- function(tree, list, out = "counts") {
   if (out == "tree") {
     list_in_tree <- match(tree$tip.label, list)
     no_match <- tree$tip.label[which(is.na(list_in_tree))]
-    smaller_tree <- ape::drop.tip(tree, no_match)
+    smaller_tree <- drop.tip(tree, no_match)
 
     return(smaller_tree)
   }
