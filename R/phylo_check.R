@@ -21,7 +21,7 @@
 #' the list and/or the tree. If out = "tree", the input phylogeny trimmed to
 #' only include the tips present in the list; you can save your new tree using
 #' \code{ape::write.tree}.
-#' @importFrom ape paleotree
+#' @importFrom ape drop.tip
 #' @section Developer(s):
 #' Bethany Allen
 #' @section Reviewer(s):
