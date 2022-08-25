@@ -10,7 +10,7 @@ test_that("phylo_check() works", {
 
   #expect equal
   expect_equal(nrow(phylo_check(tree, list)), 3)
-  expect_equal(nrow(phylo_check(tree, list = out = "table")), 40)
+  expect_equal(nrow(phylo_check(tree, list, out = "table")), 40)
   expect_equal(nrow(phylo_check(tree, list = "PsiTTacOsaurUs sinEnsIs",
                                 out = "table")), 37)
 
