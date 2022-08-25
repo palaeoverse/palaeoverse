@@ -1,40 +1,41 @@
 test_that("bin_spatial() works", {
-  data("tetrapods")
+  occdf = tetrapods
   lng = "lng"
   lat = "lat"
-  dist = 250
-  method = "grid"
-  buffer = NULL
+  spacing = 1000
+  sub_grid = 250
   return = FALSE
+  plot = FALSE
 
   # Expect equal
   expect_equal(
-    nrow(bin_spatial(occdf = tetrapods, method = "grid", dist = 250)),
+    nrow(bin_spatial(occdf = tetrapods, spacing = 250,
+                     plot = TRUE)),
       nrow(tetrapods))
+  expect_equal(
+    nrow(bin_spatial(occdf = tetrapods, spacing = 1000, sub_grid = 250,
+                     plot = TRUE)),
+    nrow(tetrapods))
 
   # Expect true
   expect_true(
     is.list(
       bin_spatial(
-        occdf = tetrapods, method = "grid", dist = 250, return = TRUE)))
+        occdf = tetrapods, spacing = 250, return = TRUE,
+        plot = TRUE)))
 
   expect_true(
     is.list(
       bin_spatial(
-        occdf = tetrapods[1:100,], method = "dist", dist = 250)))
-
-  expect_true(
-    is.list(
-      bin_spatial(
-        occdf = tetrapods[1:100,], method = "dist", dist = 250, buffer = 100)))
+        occdf = tetrapods, spacing = 500, sub_grid = 200, return = TRUE,
+        plot = TRUE)))
 
   # Error handling
   expect_error(bin_spatial(occdf = matrix(tetrapods)))
-  expect_error(bin_spatial(occdf = tetrapods, method = "test"))
   expect_error(bin_spatial(occdf = tetrapods, lng = "long", lat = "latit"))
-  expect_error(bin_spatial(occdf = tetrapods, method = 1))
-  expect_error(bin_spatial(occdf = tetrapods, method = "grid", dist = "10"))
-  expect_error(bin_spatial(occdf = tetrapods, method = "grid", buffer = "10"))
+  expect_error(bin_spatial(occdf = tetrapods, spacing = 1000, sub_grid = 1000))
+  expect_error(bin_spatial(occdf = tetrapods, spacing = NA))
+  expect_error(bin_spatial(occdf = tetrapods, spacing = 1000, sub_grid = NA))
   expect_error(bin_spatial(occdf = tetrapods, return = "TRUE"))
   tetrapods$lat[1] <- 94
   expect_error(bin_spatial(occdf = tetrapods))

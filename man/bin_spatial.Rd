@@ -8,15 +8,14 @@ bin_spatial(
   occdf,
   lng = "lng",
   lat = "lat",
-  method = "grid",
-  dist = 100,
-  reps = 100,
-  size = NULL,
-  return = FALSE
+  spacing = 100,
+  sub_grid = NULL,
+  return = FALSE,
+  plot = FALSE
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences you
+\item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you
 wish to bin. This dataframe should contain the decimal degree coordinates of
 your occurrences, and they should be of class \code{numeric}.}
 
@@ -26,78 +25,52 @@ as the input longitude (e.g., "lng" or "p_lng").}
 \item{lat}{\code{character}. The name of the column you wish to be treated
 as the input latitude (e.g., "lat" or "p_lat").}
 
-\item{method}{\code{character}. The desired method for spatially binning
-occurrence data. Either: "grid" or "dist". The "grid" method (default)
-spatially bins data into equal-area hexagonal grid cells based on a
-user-defined spacing between the center of adjacent cells. The "dist" method
-generates spatial samples for each locality (i.e., unique coordinate pairs)
-based on a user-defined distance. See details for further description.}
+\item{spacing}{\code{numeric}. The desired spacing between the center of
+adjacent cells. This value should be provided in kilometres.}
 
-\item{dist}{\code{numeric}. Under the "grid" method, this value indicates
-the desired spacing between the center of adjacent cells. Under the "dist"
-method, this is the distance threshold for defining spatial samples of
-occurrences. Note: \code{dist} should be provided in kilometres.
-This argument allows the user to modify the definition of unique
-localities to draw from a larger area than point coordinates. This might be
-desirable if a high density of occurrences are in close proximity, but differ
-slightly in their coordinates (e.g., < 1 kilometre).}
+\item{sub_grid}{\code{numeric}. The desired spacing between the center of
+adjacent cells in the sub-grid. This value should be provided in kilometres.
+See details for information on sub-grid usage.}
 
-\item{reps}{\code{numeric}.}
+\item{return}{\code{logical}. Should the equal-area grid information and
+polygons be returned?}
 
-\item{size}{\code{numeric}.
-Note: \code{buffer} should be provided in kilometres. The default value is \code{NULL},
-which skips the buffer implementation.}
-
-\item{return}{\code{logical}. Should the equal-area grid information be
-returned? Only useful if the method argument is set to "grid".
-The default is \code{FALSE.}}
+\item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
+be plotted?}
 }
 \value{
-If the \code{method} argument is specified as "grid" and \code{return} as
-\code{FALSE}, a dataframe is returned of the original input \code{occdf} with
-cell information: ID number (\code{cell_ID}) and cell centroid coordinates
-(\code{cell_centroid_lng} and \code{cell_centroid_lat}). If \code{return} is
+If the \code{return} argument is set to \code{FALSE}, a dataframe is
+returned of the original input \code{occdf} with cell information. If \code{return} is
 set to \code{TRUE}, a list is returned with both the input \code{occdf} and grid
-information.
-If the \code{method} argument is specified as "dist", a list is returned of
-spatial samples drawn around unique localities based on the
-user-defined \code{dist}. Each element of the list contains occurrences within
-the geographic distance of the reference locality defined by the user.
+information and polygons.
 }
 \description{
-A function to assign fossil occurrences to spatial bins/samples using a
-hexagonal equal-area grid, or a distance-based approach.
+A function to assign fossil occurrences (or localities) to spatial
+bins/samples using a hexagonal equal-area grid.
 }
 \details{
-Two approaches (methods) exist in the \code{bin_spatial()} function for
-assigning occurrences to bins/samples:
-\itemize{
-\item Equal-area grid: The "grid" method bins fossil occurrence data into
+This function assigns fossil occurrence data into
 equal-area grid cells using discrete hexagonal grids via the
 \code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3 library,
 a geospatial indexing system that partitions the world into hexagonal cells:
 \url{https://h3geo.org/docs}. In H3, 16 different resolutions are available:
 \url{https://h3geo.org/docs/core-library/restable}. In the implementation of
 the \code{bin_spatial()} function, the resolution is defined by the user-input
-\code{dist} which represents the distance between the centroid of adjacent cells.
-Using this distance, the function identifies which resolution is most
-similar to the input \code{dist}, and uses this resolution.
-\item Distance: The "dist" method identifies unique localities in the input
-\code{occdf} (i.e., unique pairs of coordinates) and generates a spatial sample
-for each locality based on a user-defined distance. All occurrences within
-the specified distance from the reference locality are drawn as a single
-spatial sample. As high density of occurrences might result in numerous
-samples for the same area, the \code{buffer} argument has been implemented to
-allow users to generalise the definition of
-a unique locality to incorporate a broader geographic area. The
-functionality of this approach is heavily
-dependent on the
-\code{\link[sf:st_is_within_distance]{sf::st_is_within_distance()}} function.
-}
+\code{spacing} which represents the distance between the centroid of adjacent
+cells. Using this distance, the function identifies which resolution is most
+similar to the input \code{spacing}, and uses this resolution.
 
-Note: prior to implementation of either method, the coordinate reference
-system (CRS) for input data is defined as EPSG:4326 (World Geodetic System
-1984). The user might wish to update their data accordingly if this is
+Additional functionality allows the user to simultaneously assign occurrence
+data to equal-area grid cells of a finer-scale grid (i.e., a ‘sub-grid’)
+within the primary grid via the \code{sub_grid} argument. This might be desirable
+for users to evaluate the differences in the amount of area occupied by
+occurrences within their primary grid cells. This functionality also allows
+the user to easily rarefy across sub-grid cells within primary cells to
+further standardise spatial sampling (see example for basic implementation).
+
+Note: prior to implementation, coordinate reference system (CRS) for input
+data is defined as EPSG:4326 (World Geodetic System
+1984). The user should transform their data accordingly if this is
 not appropriate. If you are unfamiliar with working with geographic data,
 we highly recommend checking out Geocomputation with R
 \url{https://geocompr.robinlovelace.net/index.html}.
@@ -109,18 +82,54 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-To be reviewed
+Bethany Allen and XXX
 }
 
 \examples{
 # Get internal data
-data("tetrapods")
-# Smaller dataframe for examples
-occdf <- tetrapods[1:500, ]
+data("reefs")
+
+# Reduce data for plotting
+occdf <- reefs[1:500, ]
+
 # Bin data using a hexagonal equal-area grid
-bin_spatial(occdf = occdf, method = "grid", dist = 250)
-# Bin data based on distance for each unique location
-bin_spatial(occdf = occdf, method = "dist", dist = 250)
-# Bin data based on distance with a buffer to define each unique location
-bin_spatial(occdf = occdf, method = "dist", dist = 250, buffer = 100)
+bin_spatial(occdf = occdf, spacing = 1000, plot = TRUE)
+
+# Bin data using a hexagonal equal-area grid and sub-grid
+bin_spatial(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+
+# EXAMPLE: rarefy
+# Load data
+data("tetrapods")
+
+# Assign to spatial bin
+occdf <- bin_spatial(occdf = tetrapods, spacing = 1000, sub_grid = 250)
+
+# Get unique bins
+bins <- unique(occdf$cell_ID)
+
+# Sample reps for 1 per cell
+n <- 10
+
+# Rarefy that data across sub-grid grid cells!
+# Returns a list with each element a bin with respective mean genus richness
+df <- lapply(bins, function(x) {
+  # subset occdf for respective grid cell
+  tmp <- occdf[which(occdf$cell_ID == x), ]
+
+  # Which sub-grid cells are there within this bin?
+  sub_bin <- unique(tmp$cell_ID_sub)
+
+  # Sample 1 sub-grid cell n times
+  s <- sample(sub_bin, size = n, replace = TRUE)
+
+  # Count the number of unique genera within each sub_grid cell for each rep
+  counts <- sapply(s, function(i) {
+    # Number of unique genera within each sample
+    length(unique(tmp[which(tmp$cell_ID_sub == i), ]$genus))
+  })
+
+  # Mean richness across subsamples
+  mean(counts)
+})
 }

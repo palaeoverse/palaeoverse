@@ -1,75 +1,53 @@
 #' Assign fossil occurrences to spatial bins
 #'
 #' A function to assign fossil occurrences (or localities) to spatial
-#' bins/samples using a hexagonal equal-area grid, or a distance-based approach.
+#' bins/samples using a hexagonal equal-area grid.
 #'
-#' @param occdf \code{dataframe}. A dataframe of fossil occurrences you
-#' wish to bin. This dataframe should contain the decimal degree coordinates of
-#' your occurrences, and they should be of class `numeric`.
+#' @param occdf \code{dataframe}. A dataframe of the fossil occurrences (or
+#' localities) you wish to bin. This dataframe should contain the decimal
+#' degree coordinates of your occurrences, and they should be of
+#' class `numeric`.
 #' @param lng \code{character}. The name of the column you wish to be treated
 #' as the input longitude (e.g., "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
 #' as the input latitude (e.g., "lat" or "p_lat").
-#' @param method \code{character}. The desired method for spatially binning
-#' occurrence data. Either: "grid" or "dist". The "grid" method (default)
-#' spatially bins data into equal-area hexagonal grid cells based on a
-#' user-defined spacing between the center of adjacent cells. The "dist" method
-#' generates spatial samples for each locality (i.e., unique coordinate pairs)
-#' based on a user-defined distance. See details for further description.
-#' @param dist \code{numeric}. Under the "grid" method, this value indicates
-#' the desired spacing between the center of adjacent cells. Under the "dist"
-#' method, this is the distance threshold for defining spatial samples of
-#' occurrences. Note: `dist` should be provided in kilometres.
-#' This argument allows the user to modify the definition of unique
-#' localities to draw from a larger area than point coordinates. This might be
-#' desirable if a high density of occurrences are in close proximity, but differ
-#' slightly in their coordinates (e.g., < 1 kilometre).
-#' @param reps \code{numeric}.
-#' @param size \code{numeric}.
-#' Note: `buffer` should be provided in kilometres. The default value is `NULL`,
-#' which skips the buffer implementation.
-#' @param return \code{logical}. Should the equal-area grid information be
-#'  returned? Only useful if the method argument is set to "grid".
-#'  The default is `FALSE.`
+#' @param spacing \code{numeric}. The desired spacing between the center of
+#' adjacent cells. This value should be provided in kilometres.
+#' @param sub_grid \code{numeric}. The desired spacing between the center of
+#' adjacent cells in the sub-grid. This value should be provided in kilometres.
+#' See details for information on sub-grid usage.
+#' @param return \code{logical}. Should the equal-area grid information and
+#' polygons be returned?
+#' @param plot \code{logical}. Should the occupied cells of the equal-area grid
+#' be plotted?
 #'
-#' @return If the `method` argument is specified as "grid" and `return` as
-#' `FALSE`, a dataframe is returned of the original input `occdf` with
-#' cell information: ID number (`cell_ID`) and cell centroid coordinates
-#' (`cell_centroid_lng` and `cell_centroid_lat`). If `return` is
+#' @return If the `return` argument is set to `FALSE`, a dataframe is
+#' returned of the original input `occdf` with cell information. If `return` is
 #' set to `TRUE`, a list is returned with both the input `occdf` and grid
-#' information.
-#' If the `method` argument is specified as "dist", a list is returned of
-#' spatial samples drawn around unique localities based on the
-#' user-defined `dist`. Each element of the list contains occurrences within
-#' the geographic distance of the reference locality defined by the user.
+#' information and polygons.
 #'
-#' @details Two approaches (methods) exist in the `bin_spatial()` function for
-#' assigning occurrences to bins/samples:
-#' - Equal-area grid: The "grid" method bins fossil occurrence data into
+#' @details This function assigns fossil occurrence data into
 #' equal-area grid cells using discrete hexagonal grids via the
 #' \code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3 library,
 #' a geospatial indexing system that partitions the world into hexagonal cells:
 #' \url{https://h3geo.org/docs}. In H3, 16 different resolutions are available:
 #' \url{https://h3geo.org/docs/core-library/restable}. In the implementation of
 #' the `bin_spatial()` function, the resolution is defined by the user-input
-#' `dist` which represents the distance between the centroid of adjacent cells.
-#' Using this distance, the function identifies which resolution is most
-#' similar to the input `dist`, and uses this resolution.
-#' - Distance: The "dist" method identifies unique localities in the input
-#' `occdf` (i.e., unique pairs of coordinates) and generates a spatial sample
-#' for each locality based on a user-defined distance. All occurrences within
-#' the specified distance from the reference locality are drawn as a single
-#' spatial sample. As high density of occurrences might result in numerous
-#' samples for the same area, the `buffer` argument has been implemented to
-#' allow users to generalise the definition of
-#' a unique locality to incorporate a broader geographic area. The
-#' functionality of this approach is heavily
-#' dependent on the
-#' \code{\link[sf:st_is_within_distance]{sf::st_is_within_distance()}} function.
+#' `spacing` which represents the distance between the centroid of adjacent
+#' cells. Using this distance, the function identifies which resolution is most
+#' similar to the input `spacing`, and uses this resolution.
 #'
-#' Note: prior to implementation of either method, the coordinate reference
-#' system (CRS) for input data is defined as EPSG:4326 (World Geodetic System
-#' 1984). The user might wish to update their data accordingly if this is
+#' Additional functionality allows the user to simultaneously assign occurrence
+#' data to equal-area grid cells of a finer-scale grid (i.e., a ‘sub-grid’)
+#' within the primary grid via the `sub_grid` argument. This might be desirable
+#' for users to evaluate the differences in the amount of area occupied by
+#' occurrences within their primary grid cells. This functionality also allows
+#' the user to easily rarefy across sub-grid cells within primary cells to
+#' further standardise spatial sampling (see example for basic implementation).
+#'
+#' Note: prior to implementation, coordinate reference system (CRS) for input
+#' data is defined as EPSG:4326 (World Geodetic System
+#' 1984). The user should transform their data accordingly if this is
 #' not appropriate. If you are unfamiliar with working with geographic data,
 #' we highly recommend checking out Geocomputation with R
 #' \url{https://geocompr.robinlovelace.net/index.html}.
@@ -77,28 +55,62 @@
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' To be reviewed
-#' @importFrom sf st_as_sf st_is_within_distance st_drop_geometry
+#' Bethany Allen and XXX
+#' @importFrom sf st_as_sf st_drop_geometry
 #' @importFrom h3jsr point_to_h3 h3_to_point
 #' @examples
 #' # Get internal data
-#' data("tetrapods")
-#' # Smaller dataframe for examples
-#' occdf <- tetrapods[1:500, ]
+#' data("reefs")
+#'
+#' # Reduce data for plotting
+#' occdf <- reefs[1:500, ]
+#'
 #' # Bin data using a hexagonal equal-area grid
-#' bin_spatial(occdf = occdf, method = "grid", dist = 250)
-#' # Bin data based on distance for each unique location
-#' bin_spatial(occdf = occdf, method = "dist", dist = 250)
-#' # Bin data based on distance with a buffer to define each unique location
-#' bin_spatial(occdf = occdf, method = "dist", dist = 250, buffer = 100)
+#' bin_spatial(occdf = occdf, spacing = 1000, plot = TRUE)
+#'
+#' # Bin data using a hexagonal equal-area grid and sub-grid
+#' bin_spatial(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+#'
+#' # EXAMPLE: rarefy
+#' # Load data
+#' data("tetrapods")
+#'
+#' # Assign to spatial bin
+#' occdf <- bin_spatial(occdf = tetrapods, spacing = 1000, sub_grid = 250)
+#'
+#' # Get unique bins
+#' bins <- unique(occdf$cell_ID)
+#'
+#' # Sample reps for 1 per cell
+#' n <- 10
+#'
+#' # Rarefy that data across sub-grid grid cells!
+#' # Returns a list with each element a bin with respective mean genus richness
+#' df <- lapply(bins, function(x) {
+#'   # subset occdf for respective grid cell
+#'   tmp <- occdf[which(occdf$cell_ID == x), ]
+#'
+#'   # Which sub-grid cells are there within this bin?
+#'   sub_bin <- unique(tmp$cell_ID_sub)
+#'
+#'   # Sample 1 sub-grid cell n times
+#'   s <- sample(sub_bin, size = n, replace = TRUE)
+#'
+#'   # Count the number of unique genera within each sub_grid cell for each rep
+#'   counts <- sapply(s, function(i) {
+#'     # Number of unique genera within each sample
+#'     length(unique(tmp[which(tmp$cell_ID_sub == i), ]$genus))
+#'   })
+#'
+#'   # Mean richness across subsamples
+#'   mean(counts)
+#' })
 #' @export
 bin_spatial <- function(occdf,
                         lng = "lng",
                         lat = "lat",
-                        method = "grid",
-                        dist = 100,
-                        reps = 100,
-                        size = NULL,
+                        spacing = 100,
+                        sub_grid = NULL,
                         return = FALSE,
                         plot = FALSE) {
 
@@ -124,20 +136,12 @@ bin_spatial <- function(occdf,
     stop("Longitudinal coordinates should be more than -180 and less than 180")
   }
 
-  if (!is.character(method)) {
-    stop("`method` should be of class character")
+  if (!is.numeric(spacing)) {
+    stop("`spacing` should be of class numeric")
   }
 
-  if (method != "grid" && method != "dist") {
-    stop("`method` should be either 'grid' or 'dist'")
-  }
-
-  if (!is.numeric(dist)) {
-    stop("`dist` should be of class numeric")
-  }
-
-  if (!is.null(size) && !is.numeric(size)) {
-    stop("`size` should be NULL or of class numeric")
+  if (!is.null(sub_grid) && !is.numeric(sub_grid)) {
+    stop("`sub_grid` should be of class numeric or NULL")
   }
 
   if (is.logical(return) == FALSE) {
@@ -151,119 +155,76 @@ bin_spatial <- function(occdf,
                         crs = "EPSG:4326")
 
   #=== Grid binning  ===
-  if (method == "grid") {
-    # Generate equal area hexagonal grid
+  # Generate equal area hexagonal grid
+  # Which resolution should be used based on input distance/spacing?
+  # Use the h3jsr::h3_info_table to calculate resolution (however, this
+  # table is not exported in their package, added into palaeoverse)
+  grid <- h3_info_table[
+    which.min(abs(h3_info_table$avg_cendist_km - spacing)), ]
+  # Add column grid specification
+  grid$grid <- c("primary")
 
-    # Which resolution should be used based on input distance/spacing?
-    # Use the h3jsr::h3_info_table to calculate resolution (however, this
-    # table is not exported in their package, added into palaeoverse)
-    grid <- h3_info_table[
-      which.min(abs(h3_info_table$avg_cendist_km - dist)), ]
+  # Extract cell ID
+  occdf$cell_ID <- h3jsr::point_to_h3(occdf, res = grid$h3_resolution)
 
+  # Extract cell centroids
+  occdf$cell_centroid_lng <- sf::st_coordinates(
+    h3jsr::h3_to_point(h3_address = occdf$cell_ID))[,c("X")]
+  occdf$cell_centroid_lat <- sf::st_coordinates(
+    h3jsr::h3_to_point(h3_address = occdf$cell_ID))[,c("Y")]
+
+  # Sub-grid desired?
+  if (!is.null(sub_grid)) {
+    s_grid <- h3_info_table[
+      which.min(abs(h3_info_table$avg_cendist_km - sub_grid)), ]
+    # Throw error if grids are the same
+    if (grid$h3_resolution == s_grid$h3_resolution) {
+      stop("`spacing` and `sub_grid` values result in the same resolution.
+    Update `spacing` and/or `sub_grid` accordingly.")
+    }
+
+    # Add column grid specification
+    s_grid$grid <- c("sub-grid")
     # Extract cell ID
-    occdf$cell_ID <- h3jsr::point_to_h3(occdf, res = grid$h3_resolution)
+    occdf$cell_ID_sub <- h3jsr::point_to_h3(occdf, res = s_grid$h3_resolution)
 
     # Extract cell centroids
-    occdf$cell_centroid_lng <- sf::st_coordinates(
-      h3jsr::h3_to_point(h3_address = occdf$cell_ID))[,c("X")]
-    occdf$cell_centroid_lat <- sf::st_coordinates(
-      h3jsr::h3_to_point(h3_address = occdf$cell_ID))[,c("Y")]
+    occdf$cell_centroid_lng_sub <- sf::st_coordinates(
+      h3jsr::h3_to_point(h3_address = occdf$cell_ID_sub))[,c("X")]
+    occdf$cell_centroid_lat_sub <- sf::st_coordinates(
+      h3jsr::h3_to_point(h3_address = occdf$cell_ID_sub))[,c("Y")]
+  }
 
-    # Drop geometries column
-    occdf <- sf::st_drop_geometry(occdf)
-
-    # Format to dataframe
-    occdf <- data.frame(occdf)
-
+  # Drop geometries column
+  occdf <- sf::st_drop_geometry(occdf)
+  # Format to dataframe
+  occdf <- data.frame(occdf)
+  # Plot data?
+  if (plot == TRUE) {
+    poly <- h3jsr::h3_to_polygon(input = occdf$cell_ID, simple = TRUE)
+    plot(poly, col = "#feb24c",
+         axes = TRUE,
+         ylab = "Latitude",
+         xlab = "Longitude")
+    if (!is.null(sub_grid)) {
+      poly_sub <- h3jsr::h3_to_polygon(input = occdf$cell_ID_sub, simple = TRUE)
+      plot(poly_sub, col = "#1d91c0",
+           add = TRUE)
+    }
     # Should the grid be returned?
     if (return == TRUE) {
-      occdf <- list(occdf, grid)
-      names(occdf) <- c("occdf", "grid")
-    }
-
-    if(plot == TRUE) {
-      poly <- h3jsr::h3_to_polygon(input = occdf$cell_ID, simple = TRUE)
-      plot(poly, col = "blue",
-           axes = TRUE,
-           ylab = "Latitude",
-           xlab = "Longitude")
-    }
-
-    cat("The average spacing between adjacent cells was set to",
-        round(grid$avg_cendist_km, digits = 2), "km.")
-
-    return(occdf)
-  }
-
-  #=== Distance-based groupings  ===
-  if (method == "dist") {
-    # Add distance to dataframe
-    occdf$dist <- dist
-    # Add size to dataframe
-    occdf$size <- size
-    # Add reps to dataframe
-    occdf$reps <- reps
-
-    # Add ID column for processing
-    occdf$occ_ID <- 1:nrow(occdf)
-
-    # Convert dist to metres for st_is_within_distance function
-    dist <- dist * 1000
-
-    # Calculate all potential samples
-    dist_list <- sf::st_is_within_distance(x = occdf, y = occdf, dist = dist)
-
-    # Randomly sample localities
-    samples <- lapply(seq_len(reps), function(x) {
-      # Create temp list for sampling
-      tmp <- dist_list
-      # Add names to list
-      names(tmp) <- seq_along(tmp)
-      # Create empty list
-      list_samples <- list()
-      # Generate spatial samples
-      # Set counter
-      s <- 0
-      while (length(tmp) > 0) {
-        s <- s + 1
-        # Sample seed
-        samp <- tmp[[sample(names(tmp), size = 1)]]
-        # Which occurrences are not present in the sample?
-        vec <- !names(tmp) %in% samp
-        # Drop already sampled occurrences as seed points
-        tmp <- tmp[vec]
-        # Filter by sampled rows
-        tmp_occdf <- occdf[samp, ]
-        # Add sample ID
-        tmp_occdf$bin_ID <- s
-        # Drop geometries
-        tmp_occdf <- sf::st_drop_geometry(tmp_occdf)
-        # Add reference coordinates (first element is the locality)
-        tmp_occdf$ref_lng <- tmp_occdf[, lng]
-        tmp_occdf$ref_lat <- tmp_occdf[, lat]
-        # Add samples to list
-        list_samples[[s]] <- tmp_occdf
-        # Fixed sample size desired?
-        if (!is.null(size) && s == size) {
-          if(any(is.na(tmp_occdf$occ_ID))) {
-            stop("Number of desired spatial bins is too high for the desired
-distance threshold. Reduce `dist` or `size`.")
-          }
-          break
-        }
+      if (!is.null(sub_grid)) {
+        grid <- rbind.data.frame(grid, s_grid)
+        poly <- list(poly, poly_sub)
       }
-      # If fixed sample size was desired, was the threshold met?
-      if (!is.null(size) && s < size) {
-        stop("Number of desired spatial bins is too high for the desired
-distance threshold. Reduce `dist` or `size`.")
-      }
-      # Bind data
-      tmp_occdf <- do.call(rbind,
-                           list_samples)
-      # Return data
-      tmp_occdf
-    })
-    # Return samples
-    return(samples)
+      occdf <- list(occdf, grid, poly)
+      names(occdf) <- c("occdf", "grid", "polygon")
     }
+
   }
+  message(
+    "Average spacing between adjacent cells in the primary grid was set to ",
+      round(grid$avg_cendist_km[1], digits = 2), " km. ", "\nH3 resolution: ",
+    grid$h3_resolution[1])
+  return(occdf)
+}
