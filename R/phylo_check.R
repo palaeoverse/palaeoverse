@@ -51,7 +51,7 @@
 #' plot(my_ceratopsians)
 #' @export
 
-phylo_check <- function(tree, list, out = "counts") {
+phylo_check <- function(tree = NULL, list = NULL, out = "counts") {
   #Errors for incorrect input
   if (is.null(tree)) {
     stop("Phylogeny must be provided")
