@@ -1,7 +1,8 @@
 #' Check phylogeny tip names
 #'
 #' A function to check the list of tip names in a phylogeny against a vector of
-#' taxon names.
+#' taxon names, and if desired, to trim the phylogeny to only include taxon
+#' names within the vector.
 #'
 #' @param tree \code{phylo}. A phylo object. Phylogenies can be read into R from
 #' .txt or .tree files containing the Newick formatted tree using
@@ -26,26 +27,29 @@
 #' @section Reviewer(s):
 #'
 #' @examples
-#' #Counts of taxon names in list, tree or both
-#' list <- c("Allosaurus fragilis", "Giganotosaurus carolinii",
-#' "Stegosaurus duplex", "Archaeopteryx lithographica",
-#' "Iguanodon galvensis")
-#' phylo_check(tree, list)
+#' #Read in example tree of ceratopsians from paleotree
+#' library(paleotree)
+#' data(RaiaCopesRule)
+#' plot(ceratopsianTreeRaia)
+#'
+#' #Specify list of names
+#' dinosaurs <- c("Nasutoceratops_titusi", "Diabloceratops_eatoni",
+#' "Zuniceratops_christopheri", "Psittacosaurus_major",
+#' "Psittacosaurus_sinensis", "Avaceratops_lammersi",
+#' "Xenoceratops_foremostensis", "Leptoceratops_gracilis",
+#' "Triceratops_horridus", "Triceratops_prorsus")
+#'
+#' #Counts of taxa in list, tree or both
+#' phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs)
 #'
 #' #Table of taxon names in list, tree or both
-#' phylo_check(tree, list, out = "table")
+#' phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs, out = "table")
 #'
 #' #Trim tree to tips in the list
-#' new_tree <- phylo_check(tree, list, out = "tree")
-#' plot(new_tree)
+#' my_ceratopsians <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
+#' out = "tree")
+#' plot(my_ceratopsians)
 #' @export
-
-library(ape)
-tree <- read.tree("data/Lloyd1_Theropoda.tree")
-list <- c("allosaurus_fragilis", "Giganotosaurus carolinii", "CaudipteRyx_zoui",
-          "Stegosaurus duplex", "Archaeopteryx_lithOgraphica",
-          "Iguanodon_galvensis", "DiploDocus_hallorum",
-          "Deinonychus_antirrhopus")
 
 phylo_check <- function(tree, list, out = "counts") {
   #Errors for incorrect input
@@ -104,7 +108,7 @@ phylo_check <- function(tree, list, out = "counts") {
 
     counts <- data.frame(c("Tree and list", "Only in tree", "Only in list"),
                         c(in_both, only_tree, only_list))
-    colnames(counts) <- c("Category", "Taxa")
+    colnames(counts) <- c("Category", "Number of taxa")
 
     return(counts)
   }
