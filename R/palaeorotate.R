@@ -7,66 +7,58 @@
 #' estimate.
 #'
 #' @param x \code{dataframe}. Fossil occurrences to be palaeogeographically
-#' reconstructed. \code{x} should be a dataframe containing the following named
-#' columns: "lng", "lat", and "age". Age should be supplied in millions of years
-#' before present (Ma). This format is intentionally strict to ensure that data
-#' is entered correctly to prevent errors such as longitude and latitude being
-#' confused.
+#' reconstructed. \code{x} should contain the following named columns:
+#' "lng", "lat", and "age". Age should be supplied in millions of years
+#' before present (Ma).
 #' @param model \code{character}. The name of the plate rotation model to be
-#' used to reconstruct palaeocoordinates. For the "grid" `method`, choose from:
-#' "MERDITH2021", "PALEOMAP", and "WRIGHT2013". For the "point" `method` choose
-#' from: "MERDITH2021", "PALEOMAP", "MULLER2019", "MATTHEWS2016", "RODINIA2013",
-#' "SETON2012", and "GOLONKA". The default is "MERDITH2021".
-#' See references and details below for further information.
+#' used to reconstruct palaeocoordinates. See details for available models.
 #' @param method \code{character}. Method used to calculate palaeocoordinates
 #' for fossil occurrences. Either "grid" to use the rotation files, or "point"
 #' to use the GPlates API service.
 #' @param uncertainty \code{logical}. Should the uncertainty in
 #' palaeogeographic reconstructions be returned? If set to TRUE, the
-#' palaeocoordinates from the three plate rotation files are returned
+#' palaeocoordinates from the three rotation files are returned
 #' ("MERDITH2021", "PALEOMAP", and "WRIGHT2013"), along with their
 #' respective longitudinal and latitudinal range. This argument is only
 #' relevant if `method` is set to "grid".
 #'
 #' @return A \code{dataframe} containing the original input occurrence
-#' dataframe, age of rotation (Ma), the reference coordinates rotated, and the
-#' reconstructed coordinates (i.e., palaeocoordinates). The "rot_age" column
-#' refers to the age of rotation, and is deduced from the reference
-#' age provided and the closest midpoint age of a stratigraphic stage. The
-#' "rot_lng" and "rot_lat" columns refer to the reference coordinates rotated.
-#' The "p_lng" and "p_lat" are the reconstructed coordinates for respective
-#' plate rotation models. The "point" `method` uses the input coordinates and
+#' dataframe, age of rotation ("rot_age"), the reference coordinates rotated
+#' ("rot_lng" and "rot_lat"), and the reconstructed coordinates
+#' (i.e., "p_lng" and "p_lat"). The "point" `method` uses the input coordinates and
 #' age as the reference and are therefore not returned.
 #'
 #' @details This function can generate palaeocoordinates using two different
 #' approaches (`method`):
+#'
 #' - Rotation files: The "grid" `method` uses rotation files to spatiotemporally
 #' link present-day geographic coordinates and age estimates with a spatial
 #' grid (1&deg; x 1&deg;) rotated to the midpoint of stratigraphic stages
-#' (Geological Timescale, 2020;
-#' \url{https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf}). With
-#' this approach, palaeocoordinates can be generated efficiently for large
-#' datasets with relatively little computational power. However, if specific
-#' ages of rotation are required, or fine-scale spatial analyses are being
-#' conducted, use of the "point" `method` might be preferable
-#' for the user (particularly if occurrences are close to plate
-#' boundaries). As implemented, points within the same grid cell will be
-#' assigned equivalent palaeocoordinates due to spatial aggregation. The
+#' (Geological Timescale, 2020). If specific ages of rotation are required,
+#' or fine-scale spatial analyses are being conducted, use of the "point"
+#' `method` might be preferable for the user (particularly if occurrences are
+#' close to plate boundaries). As implemented, points within the same grid cell
+#' will be assigned equivalent palaeocoordinates due to spatial aggregation. The
 #' current palaeorotations (0--540 Ma) provided were generated using a
 #' 1&deg; x 1&deg; spatial grid with the GPlates software
-#' \url{https://www.gplates.org} and three different plate rotation models
-#' "MERDITH2021" (Merdith et al., 2021), "PALEOMAP"
-#' (Scotese & Wright, 2018), and "WRIGHT2013" (Wright et al. 2013).
+#' \url{https://www.gplates.org} and three plate rotation models
+#' (Wright et al. 2013; Scotese & Wright, 2018; Merdith et al., 2021).
 #'
 #' - GPlates API: The "point" `method` uses the GPlates API service
 #' \url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point
 #' data. The use of this `method` is slower than the "grid" `method` if many
 #' unique time intervals exist in your dataset. However, it provides
-#' palaeocoordinates with higher precision. Currently, more plate
-#' rotation models are available using the "point" `method`: "MERDITH2021",
-#' "PALEOMAP", "MULLER2019", "MATTHEWS2016", "RODINIA2013", "SETON2012", and
-#' "GOLONKA". However, these models cover different spatial and temporal ranges.
-#' Therefore, all may not be of interest to the user.
+#' palaeocoordinates with higher precision.
+#'
+#' Available models for each method:
+#' - "MERDITH2021" (grid & point)
+#' - "PALEOMAP" (grid & point)
+#' - "MULLER2019" (point)
+#' - "MATTHEWS2016" (point)
+#' - "WRIGHT2013" (grid)
+#' - "RODINIA2013" (point)
+#' - "SETON2012" (point)
+#' - "GOLONKA" (point)
 #'
 #' @section References:
 #'
