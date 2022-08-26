@@ -6,18 +6,25 @@
 #' palaeocoordinates based on its current geographic position and age
 #' estimate.
 #'
-#' @param x \code{dataframe}. Fossil occurrences to be palaeogeographically
-#' reconstructed. \code{x} should contain the following named columns:
-#' "lng", "lat", and "age". Age should be supplied in millions of years
-#' before present (Ma).
+#' @param occdf \code{dataframe}. Fossil occurrences to be palaeogeographically
+#' reconstructed. \code{occdf} should contain columns with longitudinal and
+#' latitudinal values, as well as age estimates. The age of rotation should be
+#' supplied in millions of years before present.
+#' @param lng \code{character}. The name of the column you wish to be treated as
+#' longitude (e.g. "lng").
+#' @param lat \code{character}. The name of the column you wish to be treated as
+#' latitude (e.g. "lat").
+#' @param age \code{numeric}. The name of the column you wish to be treated as
+#' the age for rotation (e.g. "age").
 #' @param model \code{character}. The name of the plate rotation model to be
-#' used to reconstruct palaeocoordinates. See details for available models.
+#' used to reconstruct palaeocoordinates. See details for available models
+#' (`method` specific).
 #' @param method \code{character}. Method used to calculate palaeocoordinates
-#' for fossil occurrences. Either "grid" to use the rotation files, or "point"
+#' for fossil occurrences. Either "grid" to use rotation files, or "point"
 #' to use the GPlates API service.
 #' @param uncertainty \code{logical}. Should the uncertainty in
 #' palaeogeographic reconstructions be returned? If set to TRUE, the
-#' palaeocoordinates from the three rotation files are returned
+#' palaeocoordinates from the three available rotation files are returned
 #' ("MERDITH2021", "PALEOMAP", and "WRIGHT2013"), along with their
 #' respective longitudinal and latitudinal range. This argument is only
 #' relevant if `method` is set to "grid".
@@ -109,15 +116,15 @@
 #' @importFrom pbapply pblapply
 #' @examples
 #' #Generic example with a few occurrences
-#' x <- data.frame(lng = c(2, -103, -66),
+#' occdf <- data.frame(lng = c(2, -103, -66),
 #'                 lat = c(46, 35, -7),
 #'                 age = c(88, 125, 200))
 #'
 #' #Calculate palaeocoordinates using rotation files
-#' palaeorotate(x = x, method = "grid")
+#' palaeorotate(occdf = occdf, method = "grid")
 #'
 #' #Calculate palaeocoordinates using the GPlates API
-#' palaeorotate(x = x, method = "point")
+#' palaeorotate(occdf = occdf, method = "point")
 #'
 #' #Now with some real fossil occurrence data!
 #'
@@ -128,34 +135,35 @@
 #' tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 #'
 #' #Rotate the data
-#' palaeorotate(x = tetrapods)
+#' palaeorotate(occdf = tetrapods)
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
-#' palaeorotate(x = tetrapods, uncertainty = TRUE)
+#' palaeorotate(occdf = tetrapods, uncertainty = TRUE)
 #' @export
-palaeorotate <- function(x, model = "MERDITH2021", method = "grid",
+palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
+                         model = "MERDITH2021", method = "grid",
                          uncertainty = FALSE) {
     # Error handling
-    if (!exists("x") || !is.data.frame(x)) {
-      stop("Please supply x as a dataframe")
+    if (!exists("occdf") || !is.data.frame(occdf)) {
+      stop("Please supply occdf as a dataframe")
     }
 
-    if (sum((c("lng", "lat", "age") %in% colnames(x))) != 3) {
-      stop("`x` must contain the following columns: lng, lat, and age")
+    if (sum((c(lng, lat, age) %in% colnames(occdf))) != 3) {
+      stop("defined `lng`, `lat`, and `age` not found in `occdf`")
     }
 
-    if (any(!is.numeric(x$lat) | is.na(x$lat)) ||
-        any(!is.numeric(x$lng) | is.na(x$lng)) ||
-        any(!is.numeric(x$age) | is.na(x$age))) {
-      stop("lng, lat and age should be of numeric class")
+    if (any(!is.numeric(occdf[, lat]) | is.na(occdf[, lat])) ||
+        any(!is.numeric(occdf[, lng]) | is.na(occdf[, lng])) ||
+        any(!is.numeric(occdf[, age]) | is.na(occdf[, age]))) {
+      stop("`lng`, `lat` and `age` should be of class numeric")
     }
 
-    if (sum(x$lat > 90) != 0 || sum(x$lat < -90) != 0) {
-      stop("Latitudes should be more than -90 and less than 90")
+    if (sum(occdf[, lat] > 90) != 0 || sum(occdf[, lat] < -90) != 0) {
+      stop("`lat` values should be >= -90\u00B0 and <= 90\u00B0")
     }
 
-    if (sum(x$lng > 180) != 0 || sum(x$lng < -180) != 0) {
-      stop("Longitudes should be more than -180 and less than 180")
+    if (sum(occdf[, lng] > 180) != 0 || sum(occdf[, lng] < -180) != 0) {
+      stop("`lng` values should be >= -180\u00B0 and l<= 180\u00B0")
     }
 
     if (method %in% c("grid", "point") == FALSE) {
@@ -176,8 +184,8 @@ palaeorotate <- function(x, model = "MERDITH2021", method = "grid",
       model <- available[charmatch(x = model, table = available)]
 
       if (model %in% c("MERDITH2021", "PALEOMAP", "WRIGHT2013") == FALSE) {
-        stop("`model` should be one of the following:
-      MERDITH2021, PALEOMAP, WRIGHT2013")
+        stop(paste("`model` should be one of the following:",
+      "\nMERDITH2021, PALEOMAP, WRIGHT2013"))
       }
 
     #get temp directory and download files
@@ -215,45 +223,45 @@ palaeorotate <- function(x, model = "MERDITH2021", method = "grid",
       rot_age <- colnames(MERDITH2021)[3:ncol(MERDITH2021)]
       rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
       #calculate rotation ages for data
-      x$rot_age <-
-        rot_age[sapply(seq_len(nrow(x)), function(i) {
-          which.min(abs(x[i, c("age")] - rot_age))
+      occdf$rot_age <-
+        rot_age[sapply(seq_len(nrow(occdf)), function(i) {
+          which.min(abs(occdf[i, age] - rot_age))
         })]
       #search for matching longitude, latitude and ages
-      x$rot_lng <- sapply(seq_len(nrow(x)), function(i) {
+      occdf$rot_lng <- sapply(seq_len(nrow(occdf)), function(i) {
         #extract closest longitude
-        MERDITH2021[which.min(abs(MERDITH2021[, c("lng")]  - x$lng[i])), 1]
+        MERDITH2021[which.min(abs(MERDITH2021[, c("lng")]  - occdf[i, lng])), 1]
       }, simplify = TRUE)
 
-      x$rot_lat <- sapply(seq_len(nrow(x)), function(i) {
+      occdf$rot_lat <- sapply(seq_len(nrow(occdf)), function(i) {
         #extract closest latitude
-        MERDITH2021[which.min(abs(MERDITH2021[, c("lat")]  - x$lat[i])), 2]
+        MERDITH2021[which.min(abs(MERDITH2021[, c("lat")]  - occdf[i, lat])), 2]
       }, simplify = TRUE)
 
       #get coordinates for each model
-      merdith <- data.frame(t(sapply(seq_len(nrow(x)), function(i) {
+      merdith <- data.frame(t(sapply(seq_len(nrow(occdf)), function(i) {
         as.numeric(MERDITH2021[which(
-          MERDITH2021[, c("lng")] == x[i, "rot_lng"] &
-            MERDITH2021[, c("lat")] == x[i, "rot_lat"]),
-                               c(paste0("lng_", x$rot_age[i]),
-                                 paste0("lat_", x$rot_age[i]))])
+          MERDITH2021[, c("lng")] == occdf[i, "rot_lng"] &
+            MERDITH2021[, c("lat")] == occdf[i, "rot_lat"]),
+                               c(paste0("lng_", occdf$rot_age[i]),
+                                 paste0("lat_", occdf$rot_age[i]))])
       })))
 
-      scotese <- data.frame(t(sapply(seq_len(nrow(x)), function(i) {
+      scotese <- data.frame(t(sapply(seq_len(nrow(occdf)), function(i) {
         as.numeric(PALEOMAP[which(PALEOMAP[, c("lng")] ==
-                                       x[i, "rot_lng"] &
+                                       occdf[i, "rot_lng"] &
                                        PALEOMAP[, c("lat")] ==
-                                       x[i, "rot_lat"]),
-                               c(paste0("lng_", x$rot_age[i]),
-                                 paste0("lat_", x$rot_age[i]))])
+                                       occdf[i, "rot_lat"]),
+                               c(paste0("lng_", occdf$rot_age[i]),
+                                 paste0("lat_", occdf$rot_age[i]))])
       })))
 
-      wright <- data.frame(t(sapply(seq_len(nrow(x)), function(i) {
+      wright <- data.frame(t(sapply(seq_len(nrow(occdf)), function(i) {
         as.numeric(WRIGHT2013[which(
-          WRIGHT2013[, c("lng")] == x[i, "rot_lng"] &
-            WRIGHT2013[, c("lat")] == x[i, "rot_lat"]),
-                              c(paste0("lng_", x$rot_age[i]),
-                                paste0("lat_", x$rot_age[i]))])
+          WRIGHT2013[, c("lng")] == occdf[i, "rot_lng"] &
+            WRIGHT2013[, c("lat")] == occdf[i, "rot_lat"]),
+                              c(paste0("lng_", occdf$rot_age[i]),
+                                paste0("lat_", occdf$rot_age[i]))])
       })))
 
       #bind data
@@ -262,7 +270,7 @@ palaeorotate <- function(x, model = "MERDITH2021", method = "grid",
       colnames(scotese) <-
         c("p_lng_PALEOMAP", "p_lat_PALEOMAP")
       colnames(wright) <- c("p_lng_WRIGHT2013", "p_lat_WRIGHT2013")
-      x <- cbind.data.frame(x, merdith, scotese, wright)
+      occdf <- cbind.data.frame(occdf, merdith, scotese, wright)
       #calculate uncertainty
       uncertain_lng <- cbind(
         merdith$p_lng_MERDITH2021,
@@ -301,7 +309,7 @@ palaeorotate <- function(x, model = "MERDITH2021", method = "grid",
           min(as.numeric(uncertain_lat[i, ]))
       }
 
-      x <- cbind.data.frame(x, uncertainty_p_lng, uncertainty_p_lat)
+      occdf <- cbind.data.frame(occdf, uncertainty_p_lng, uncertainty_p_lat)
 
     }
 
@@ -337,38 +345,32 @@ palaeorotate <- function(x, model = "MERDITH2021", method = "grid",
       rot_age <- colnames(palaeo_rots)[3:ncol(palaeo_rots)]
       rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
       #calculate rotation ages for data
-      x$rot_age <-
-        rot_age[sapply(seq_len(nrow(x)), function(i) {
-          which.min(abs(x[i, c("age")] - rot_age))
+      occdf$rot_age <-
+        rot_age[sapply(seq_len(nrow(occdf)), function(i) {
+          which.min(abs(occdf[i, age] - rot_age))
         })]
 
       #search for matching longitude, latitude and ages
-      x$rot_lng <- sapply(seq_len(nrow(x)), function(i) {
+      occdf$rot_lng <- sapply(seq_len(nrow(occdf)), function(i) {
         #extract closest longitude
-        palaeo_rots[which.min(abs(palaeo_rots[, c("lng")]  - x$lng[i])), 1]
+        palaeo_rots[which.min(abs(palaeo_rots[, c("lng")]  - occdf[i, lng])), 1]
       }, simplify = TRUE)
 
-      x$rot_lat <- sapply(seq_len(nrow(x)), function(i) {
+      occdf$rot_lat <- sapply(seq_len(nrow(occdf)), function(i) {
         #extract closest latitude
-        palaeo_rots[which.min(abs(palaeo_rots[, c("lat")]  - x$lat[i])), 2]
+        palaeo_rots[which.min(abs(palaeo_rots[, c("lat")]  - occdf[i, lat])), 2]
       }, simplify = TRUE)
 
-      pcoords <- sapply(seq_len(nrow(x)), function(i) {
-        palaeo_rots[which(palaeo_rots[, c("lng")] == x[i, "rot_lng"] &
-                            palaeo_rots[, c("lat")] == x[i, "rot_lat"]),
-                    c(paste0("lng_", x$rot_age[i]),
-                      paste0("lat_", x$rot_age[i]))]
+      pcoords <- sapply(seq_len(nrow(occdf)), function(i) {
+        palaeo_rots[which(palaeo_rots[, c("lng")] == occdf[i, "rot_lng"] &
+                            palaeo_rots[, c("lat")] == occdf[i, "rot_lat"]),
+                    c(paste0("lng_", occdf$rot_age[i]),
+                      paste0("lat_", occdf$rot_age[i]))]
       })
 
-      x$p_lng <- as.numeric(pcoords[1, ])
-      x$p_lat <- as.numeric(pcoords[2, ])
-      x$model <- model
-      if (any(is.na(x$p_lng) | is.na(x$p_lat))) {
-        message(
-          "Palaeocoordinates could not be reconstructed for all points.
-Georeferenced plate does not exist at time of reconstruction."
-        )
-        }
+      occdf$p_lng <- as.numeric(pcoords[1, ])
+      occdf$p_lat <- as.numeric(pcoords[2, ])
+      occdf$model <- model
       }
     }
     # Should the point approach be used?
@@ -377,40 +379,43 @@ Georeferenced plate does not exist at time of reconstruction."
       # Model matching for API call
       available <- c("MERDITH2021", "PALEOMAP",
                      "MULLER2019",
-                     "MATTHEWS2016_pmag_ref",
+                     "MATTHEWS2016",
                      "RODINIA2013", "SETON2012",
                      "GOLONKA")
       model <- available[charmatch(x = model, table = available)]
 
       if(is.na(model)) {
-        stop("Unavailable model name. Choose from:
-             MERDITH2021, PALEOMAP, MULLER2019, RODINIA2013,
-             MATTHEWS2016_pmag_ref, SETON2012, GOLONKA")
+        stop(paste("Unavailable model name. Choose from:",
+             "\nMERDITH2021, PALEOMAP, MULLER2019, MATTHEWS2016,",
+             "RODINIA2013, SETON2012, GOLONKA"))
       }
 
+      if(model == "MATTHEWS2016") {model <- c("MATTHEWS2016_pmag_ref")}
+
       # Set up dataframe for populating
-      x$p_lng <- NA
-      x$p_lat <- NA
-      x$model <- model
+      occdf$p_lng <- NA
+      occdf$p_lat <- NA
+      occdf$model <- model
 
       # Unique localities for rotating
-      coords <- unique(x[, c("lng", "lat", "age")])
-      uni_ages <- unique(coords[, c("age")])
+      coords <- unique(occdf[, c(lng, lat, age)])
+      uni_ages <- unique(coords[, c(age)])
 
       # For subsequent coordinate matching
-      x$match <- NA
-      x$match <- paste(x[1:nrow(x), c("lng")],
-                       x[1:nrow(x), c("lat")],
-                       x[1:nrow(x), c("age")])
-      coords$match <- paste(x[1:nrow(coords), c("lng")],
-                            x[1:nrow(coords), c("lat")],
-                            x[1:nrow(coords), c("age")])
+      occdf$match <- NA
+      occdf$match <- paste(occdf[1:nrow(occdf), lng],
+                       occdf[1:nrow(occdf), lat],
+                       occdf[1:nrow(occdf), age])
+      coords$match <- paste(occdf[1:nrow(coords), lng],
+                            occdf[1:nrow(coords), lat],
+                            occdf[1:nrow(coords), age])
 
       # Generate list of API requests
       API_request <- lapply(uni_ages, function(i) {
-        tmp <- coords[which(coords[, c("age")] == i), c("lng", "lat")]
+        tmp <- coords[which(coords[, age] == i), c(lng, lat)]
         tmp <- toString(as.vector(t(tmp)))
-        API <- sprintf('?points=%s&time=%f&model=%s',gsub(" ", "", tmp), i, model)
+        API <- sprintf('?points=%s&time=%f&model=%s',
+                       gsub(" ", "", tmp), i, model)
         API <- paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
                       API,
                       "&return_null_points")
@@ -453,13 +458,21 @@ Georeferenced plate does not exist at time of reconstruction."
       coords <- cbind.data.frame(coords, API_return)
       # Add rotated coordinates to input dataframe based on matching
       for(i in 1:nrow(coords)) {
-        matched <- which(x$match == coords[i, c("match")])
-        x$p_lng[matched] <- coords$p_lng[i]
-        x$p_lat[matched] <- coords$p_lat[i]
+        matched <- which(occdf$match == coords[i, c("match")])
+        occdf$p_lng[matched] <- as.numeric(coords$p_lng[i])
+        occdf$p_lat[matched] <- as.numeric(coords$p_lat[i])
       }
 
       # Drop match column
-      x <- x[, -ncol(x)]
+      occdf <- occdf[, -ncol(occdf)]
     }
-    return(x)
+  if (any(is.na(occdf$p_lng) | is.na(occdf$p_lat))) {
+    message(
+      paste0("Palaeocoordinates could not be reconstructed for all points.",
+             "\n",
+             "Georeferenced plate does not exist at time of reconstruction."
+      )
+    )
+  }
+    return(occdf)
   }

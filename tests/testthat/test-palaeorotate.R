@@ -1,45 +1,77 @@
 test_that("palaeorotate() works", {
-  x <- data.frame(lng = c(2, 95, 12),
+  occdf <- data.frame(lng = c(2, 95, 12),
                   lat = c(46, 12, -65),
                   age = c(88, 203, 467))
 
-  expect_equal(nrow(palaeorotate(x = x)), 3)
+  expect_equal(nrow(palaeorotate(occdf = occdf)), 3)
 
   expect_equal(
     ncol(
-      palaeorotate(x = x,
+      palaeorotate(occdf = occdf,
                    uncertainty = TRUE)[, c("uncertainty_p_lng",
                                           "uncertainty_p_lat")]), 2)
 
-  expect_equal(nrow(palaeorotate(x = x, model = "PALEOMAP")), 3)
+  expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")), 3)
 
-  expect_equal(nrow(palaeorotate(x = x, model = "MERDITH2021")), 3)
+  expect_equal(nrow(palaeorotate(occdf = occdf, model = "MERDITH2021")), 3)
 
-  expect_equal(nrow(palaeorotate(x = x, method = "point")), 3)
+  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point")), 3)
 
-  expect_equal(nrow(palaeorotate(x = x, model = "WRIGHT2013")), 3)
+  expect_equal(nrow(palaeorotate(occdf = occdf, model = "WRIGHT2013")), 3)
 
-  expect_error(palaeorotate(x = x, uncertainty = "TRUE"))
+  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
+                                 model = "MERDITH2021")), 3)
 
-  expect_error(palaeorotate(x = x, uncertainty = 2))
+  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
+                                 model = "MATTHEWS2016")), 3)
 
-  expect_error(palaeorotate(x = x, model = "Mirdith2021"))
+  # Wrong uncertainty input
+  expect_error(palaeorotate(occdf = occdf, uncertainty = "TRUE"))
 
-  expect_error(palaeorotate(x = x, method = "point", model = "Mirdith2021"))
+  # Wrong uncertainty input
+  expect_error(palaeorotate(occdf = occdf, uncertainty = 2))
 
-  expect_error(palaeorotate(x = c(55, 46, 88)))
+  # Model doesn't exist
+  expect_error(palaeorotate(occdf = occdf, model = "Mirdith2021"))
 
-  x <- data.frame(x = c(2, 95, 12), y = c(46, 12, -65), age = c(88, 203, 467))
-  expect_error(palaeorotate(x = x))
+  # Model doesn't exist
+  expect_error(palaeorotate(occdf = occdf, method = "point",
+                            model = "Mirdith2021"))
 
-  x <- data.frame(lng = c(2, 95, "12"),
+  expect_error(palaeorotate(occdf = occdf, method = "point",
+                            model = "WRIGHT2013"))
+
+  expect_error(palaeorotate(occdf = occdf, method = "grid",
+                            model = "MATTHEWS2016"))
+
+  # Method doesn't exist
+  expect_error(palaeorotate(occdf = occdf, method = "both"))
+
+  expect_error(palaeorotate(occdf = occdf, lng = 1))
+
+  expect_error(palaeorotate(occdf = c(55, 46, 88)))
+
+  # Column names not correct
+  occdf <- data.frame(x = c(2, 95, 12), y = c(46, 12, -65),
+                      age = c(88, 203, 467))
+  expect_error(palaeorotate(x = occdf))
+
+  # Values not numeric
+  occdf <- data.frame(lng = c(2, 95, "12"),
                   lat = c(46, 12, -65),
                   age = c(88, 203, 467))
-  expect_error(palaeorotate(x = x))
+  expect_error(palaeorotate(occdf = occdf))
 
-  x <- data.frame(lng = c(2, 95, -183),
+  # Longitude too small
+  occdf <- data.frame(lng = c(2, 95, -183),
                   lat = c(46, 12, -65),
                   age = c(88, 203, 467))
-  expect_error(palaeorotate(x = x))
+  expect_error(palaeorotate(occdf = occdf))
+
+  # Latitude too great
+  occdf <- data.frame(lng = c(2, 95, -178),
+                      lat = c(46, 95, -65),
+                      age = c(88, 203, 467))
+  expect_error(palaeorotate(occdf = occdf))
 
 })

@@ -4,24 +4,42 @@
 \alias{palaeorotate}
 \title{Palaeorotate fossil occurrences}
 \usage{
-palaeorotate(x, model = "MERDITH2021", method = "grid", uncertainty = FALSE)
+palaeorotate(
+  occdf,
+  lng = "lng",
+  lat = "lat",
+  age = "age",
+  model = "MERDITH2021",
+  method = "grid",
+  uncertainty = FALSE
+)
 }
 \arguments{
-\item{x}{\code{dataframe}. Fossil occurrences to be palaeogeographically
-reconstructed. \code{x} should contain the following named columns:
-"lng", "lat", and "age". Age should be supplied in millions of years
-before present (Ma).}
+\item{occdf}{\code{dataframe}. Fossil occurrences to be palaeogeographically
+reconstructed. \code{occdf} should contain columns with longitudinal and
+latitudinal values, as well as age estimates. The age of rotation should be
+supplied in millions of years before present.}
+
+\item{lng}{\code{character}. The name of the column you wish to be treated as
+longitude (e.g. "lng").}
+
+\item{lat}{\code{character}. The name of the column you wish to be treated as
+latitude (e.g. "lat").}
+
+\item{age}{\code{numeric}. The name of the column you wish to be treated as
+the age for rotation (e.g. "age").}
 
 \item{model}{\code{character}. The name of the plate rotation model to be
-used to reconstruct palaeocoordinates. See details for available models.}
+used to reconstruct palaeocoordinates. See details for available models
+(\code{method} specific).}
 
 \item{method}{\code{character}. Method used to calculate palaeocoordinates
-for fossil occurrences. Either "grid" to use the rotation files, or "point"
+for fossil occurrences. Either "grid" to use rotation files, or "point"
 to use the GPlates API service.}
 
 \item{uncertainty}{\code{logical}. Should the uncertainty in
 palaeogeographic reconstructions be returned? If set to TRUE, the
-palaeocoordinates from the three rotation files are returned
+palaeocoordinates from the three available rotation files are returned
 ("MERDITH2021", "PALEOMAP", and "WRIGHT2013"), along with their
 respective longitudinal and latitudinal range. This argument is only
 relevant if \code{method} is set to "grid".}
@@ -126,15 +144,15 @@ Kilian Eichenseer
 
 \examples{
 #Generic example with a few occurrences
-x <- data.frame(lng = c(2, -103, -66),
+occdf <- data.frame(lng = c(2, -103, -66),
                 lat = c(46, 35, -7),
                 age = c(88, 125, 200))
 
 #Calculate palaeocoordinates using rotation files
-palaeorotate(x = x, method = "grid")
+palaeorotate(occdf = occdf, method = "grid")
 
 #Calculate palaeocoordinates using the GPlates API
-palaeorotate(x = x, method = "point")
+palaeorotate(occdf = occdf, method = "point")
 
 #Now with some real fossil occurrence data!
 
@@ -145,8 +163,8 @@ data(tetrapods)
 tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 
 #Rotate the data
-palaeorotate(x = tetrapods)
+palaeorotate(occdf = tetrapods)
 
 #Calculate uncertainity in palaeocoordinates from models
-palaeorotate(x = tetrapods, uncertainty = TRUE)
+palaeorotate(occdf = tetrapods, uncertainty = TRUE)
 }
