@@ -26,7 +26,7 @@
 #' are `character` values.
 #'
 #' @return A \code{dataframe} containing the following columns:
-#' unique taxa (`taxa`), taxa ID (`taxa_id`), first appearnce of taxa
+#' unique taxa (`taxa`), taxa ID (`taxa_id`), first appearance of taxa
 #' (`FAD_ma`), last appearance of taxa (`LAD_ma`), and temporal range duration
 #' (`range_myr`) is returned.
 #'

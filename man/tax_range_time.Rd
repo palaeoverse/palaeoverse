@@ -46,7 +46,7 @@ are \code{character} values.}
 }
 \value{
 A \code{dataframe} containing the following columns:
-unique taxa (\code{taxa}), taxa ID (\code{taxa_id}), first appearnce of taxa
+unique taxa (\code{taxa}), taxa ID (\code{taxa_id}), first appearance of taxa
 (\code{FAD_ma}), last appearance of taxa (\code{LAD_ma}), and temporal range duration
 (\code{range_myr}) is returned.
 }
