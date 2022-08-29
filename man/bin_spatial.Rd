@@ -15,9 +15,10 @@ bin_spatial(
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you
-wish to bin. This dataframe should contain the decimal degree coordinates of
-your occurrences, and they should be of class \code{numeric}.}
+\item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences (or
+localities) you wish to bin. This dataframe should contain the decimal
+degree coordinates of your occurrences, and they should be of
+class \code{numeric}.}
 
 \item{lng}{\code{character}. The name of the column you wish to be treated
 as the input longitude (e.g., "lng" or "p_lng").}
@@ -28,8 +29,9 @@ as the input latitude (e.g., "lat" or "p_lat").}
 \item{spacing}{\code{numeric}. The desired spacing between the center of
 adjacent cells. This value should be provided in kilometres.}
 
-\item{sub_grid}{\code{numeric}. The desired spacing between the center of
-adjacent cells in the sub-grid. This value should be provided in kilometres.
+\item{sub_grid}{\code{numeric}. For an optional sub-grid, the desired
+spacing between the center of adjacent cells in the sub-grid.
+This value should be provided in kilometres.
 See details for information on sub-grid usage.}
 
 \item{return}{\code{logical}. Should the equal-area grid information and
@@ -82,7 +84,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Bethany Allen and XXX
+Bethany Allen and Kilian Eichenseer
 }
 
 \examples{

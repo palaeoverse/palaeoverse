@@ -13,8 +13,9 @@
 #' as the input latitude (e.g., "lat" or "p_lat").
 #' @param spacing \code{numeric}. The desired spacing between the center of
 #' adjacent cells. This value should be provided in kilometres.
-#' @param sub_grid \code{numeric}. The desired spacing between the center of
-#' adjacent cells in the sub-grid. This value should be provided in kilometres.
+#' @param sub_grid \code{numeric}. For an optional sub-grid, the desired
+#' spacing between the center of adjacent cells in the sub-grid.
+#' This value should be provided in kilometres.
 #' See details for information on sub-grid usage.
 #' @param return \code{logical}. Should the equal-area grid information and
 #' polygons be returned?
@@ -55,8 +56,8 @@
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Bethany Allen and XXX
-#' @importFrom sf st_as_sf st_drop_geometry
+#' Bethany Allen and Kilian Eichenseer
+#' @importFrom sf st_as_sf st_drop_geometry st_wrap_dateline
 #' @importFrom h3jsr point_to_h3 h3_to_point
 #' @examples
 #' # Get internal data
@@ -199,28 +200,54 @@ bin_spatial <- function(occdf,
   occdf <- sf::st_drop_geometry(occdf)
   # Format to dataframe
   occdf <- data.frame(occdf)
+  # Get base grid
+  all_cells <- h3jsr::get_res0()
+  # Get children at desired resolution
+  children <- h3jsr::get_children(
+    h3_address = all_cells, res = grid$h3_resolution, simple = TRUE)
+  # Get base cells and wrap around dateline
+  base_grid <- h3jsr::h3_to_polygon(input = children, simple = TRUE)
+  base_grid <- sf::st_wrap_dateline(x = base_grid,
+                                    options = "WRAPDATELINE=YES",
+                                    quiet = TRUE)
+  # Get occupied cells and wrap around dateline
+  primary <- h3jsr::h3_to_polygon(input = occdf$cell_ID, simple = TRUE)
+  primary <- sf::st_wrap_dateline(x = primary,
+                                  options = "WRAPDATELINE=YES",
+                                  quiet = TRUE)
   # Plot data?
   if (plot == TRUE) {
-    poly <- h3jsr::h3_to_polygon(input = occdf$cell_ID, simple = TRUE)
-    plot(poly, col = "#feb24c",
+
+    plot(base_grid,
+         setParUsrBB = TRUE,
+         xlab = "Longitude",
+         ylab = "Latitude",
+         axes = TRUE)
+    plot(primary, col = "#feb24c",
          axes = TRUE,
          ylab = "Latitude",
-         xlab = "Longitude")
+         xlab = "Longitude",
+         add = TRUE)
     if (!is.null(sub_grid)) {
-      poly_sub <- h3jsr::h3_to_polygon(input = occdf$cell_ID_sub, simple = TRUE)
-      plot(poly_sub, col = "#1d91c0",
+      secondary <- h3jsr::h3_to_polygon(input = occdf$cell_ID_sub,
+                                        simple = TRUE)
+      secondary <- sf::st_wrap_dateline(x = secondary,
+                                      options = "WRAPDATELINE=YES",
+                                      quiet = TRUE)
+      plot(secondary, col = "#1d91c0",
            add = TRUE)
     }
-    # Should the grid be returned?
-    if (return == TRUE) {
-      if (!is.null(sub_grid)) {
-        grid <- rbind.data.frame(grid, s_grid)
-        poly <- list(poly, poly_sub)
-      }
-      occdf <- list(occdf, grid, poly)
-      names(occdf) <- c("occdf", "grid", "polygon")
+  }
+  # Should the grid be returned?
+  if (return == TRUE) {
+    if (!is.null(sub_grid)) {
+      grid <- rbind.data.frame(grid, s_grid)
+      occdf <- list(occdf, grid, base_grid, primary, secondary)
+      names(occdf) <- c("occdf", "grid", "base_grid", "primary", "secondary")
+    } else {
+      occdf <- list(occdf, grid, base_grid, primary)
+      names(occdf) <- c("occdf", "grid", "base_grid", "primary")
     }
-
   }
   message(
     "Average spacing between adjacent cells in the primary grid was set to ",
