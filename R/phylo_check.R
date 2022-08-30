@@ -4,27 +4,28 @@
 #' taxon names, and if desired, to trim the phylogeny to only include taxon
 #' names within the vector.
 #'
-#' @param tree \code{phylo}. A phylo object. Phylogenies can be read into R from
-#' .txt or .tree files containing the Newick formatted tree using
-#' \code{ape::read.tree}.
+#' @param tree \code{phylo}. A phylo object.
 #' @param list \code{character}. A vector of taxon names. Binomials can be
-#' separated with either a space or an underscore. The list should not contain
-#' any punctuation.
-#' @param out \code{character}. Determine whether to return either the counts
-#' of taxa included and not included in the tree ("counts", the default), a
+#' separated with either a space or an underscore. The names should not contain
+#' any other punctuation.
+#' @param out \code{character}. Determine whether to return either a
 #' \code{dataframe} describing which taxa are included or not included in the
-#' tree ("table"), or the phylogeny trimmed to only include taxa in the provided
-#' list ("tree").
-#' @return If out = "counts", a summary table containing the number of taxa in
-#' the list but not the tree, in the tree but not the list, and in both. If out
-#'  = "table", a \code{dataframe} describing whether taxon names are present in
-#' the list and/or the tree. If out = "tree", the input phylogeny trimmed to
-#' only include the tips present in the list; you can save your new tree using
-#' \code{ape::write.tree}.
+#' tree ("table", the default), the counts of taxa included and not included in
+#' the tree ("counts"), or the phylogeny trimmed to only include taxa in the
+#' provided list ("tree").
+#' @return If out = "table", a \code{dataframe} describing whether taxon names
+#' are present in the list and/or the tree. If out = "counts", a summary table
+#' containing the number of taxa in the list but not the tree, in the tree but
+#' not the list, and in both. If out = "tree", a phylo object consisting of the
+#' input phylogeny trimmed to only include the tips present in the list.
+#' @details Phylogenies can be read into R from .txt or .tree files containing
+#' the Newick formatted tree using [ape::read.tree()], and can be saved as
+#' files using [ape::write.tree()].
 #' @importFrom ape drop.tip
 #' @section Developer(s):
 #' Bethany Allen
 #' @section Reviewer(s):
+#' William Gearty
 #'
 #' @examples
 #' #Read in example tree of ceratopsians from paleotree
@@ -39,11 +40,11 @@
 #' "Xenoceratops_foremostensis", "Leptoceratops_gracilis",
 #' "Triceratops_horridus", "Triceratops_prorsus")
 #'
-#' #Counts of taxa in list, tree or both
+#' #Table of taxon names in list, tree or both
 #' phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs)
 #'
-#' #Table of taxon names in list, tree or both
-#' phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs, out = "table")
+#' #Counts of taxa in list, tree or both
+#' phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs, out = "counts")
 #'
 #' #Trim tree to tips in the list
 #' my_ceratopsians <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
@@ -51,7 +52,7 @@
 #' plot(my_ceratopsians)
 #' @export
 
-phylo_check <- function(tree = NULL, list = NULL, out = "counts") {
+phylo_check <- function(tree = NULL, list = NULL, out = "table") {
   #Errors for incorrect input
   if (is.null(tree)) {
     stop("Phylogeny must be provided")
@@ -70,12 +71,12 @@ phylo_check <- function(tree = NULL, list = NULL, out = "counts") {
   }
 
   if (any(grepl("[^[:alnum:][:space:]_]", list))) {
-    stop("List of taxa should not contain punctuation except spaces or
+    stop("Taxon names should not contain punctuation except spaces or
          underscores")
   }
 
   if (out != "counts" && out != "table" && out != "tree") {
-    stop("out must either be counts, table or tree")
+    stop("out must either be 'table', 'counts' or 'tree'")
   }
 
   #Function
@@ -96,6 +97,15 @@ phylo_check <- function(tree = NULL, list = NULL, out = "counts") {
     names_in_list <- (all_names %in% list)
   }
 
+  #Determine which names are in which lists and table them
+  if (out == "table") {
+    table <- data.frame(all_names, names_in_tree, names_in_list)
+    table <- table[order(table$all_names), ]
+    colnames(table) <- c("Taxon name", "Present in tree", "Present in list")
+
+    return(table)
+  }
+
   #Determine which names are in which lists and sum them up
   if (out == "counts") {
     tree_counts <- as.numeric(names_in_tree)
@@ -111,15 +121,6 @@ phylo_check <- function(tree = NULL, list = NULL, out = "counts") {
     colnames(counts) <- c("Category", "Number of taxa")
 
     return(counts)
-  }
-
-  #Determine which names are in which lists and table them
-  if (out == "table") {
-    table <- data.frame(all_names, names_in_tree, names_in_list)
-    table <- table[order(table$all_names), ]
-    colnames(table) <- c("Taxon name", "Present in tree", "Present in list")
-
-    return(table)
   }
 
   #Trim names not in the list from the phylogeny
