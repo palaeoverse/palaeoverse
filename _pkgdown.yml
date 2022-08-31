@@ -1,4 +1,8 @@
-url: https://palaeoverse-community.github.io/palaeoverse/
+url: https://palaeoverse.org
 template:
   bootstrap: 5
+  bootswatch: sandstone
 
+authors:
+  William Gearty:
+    href: https://williamgearty.com

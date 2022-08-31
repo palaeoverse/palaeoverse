@@ -3,7 +3,8 @@ Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Lewis A.", family = "Jones", email = "LewisAlan.Jones@uvigo.es", role = c("aut", "cre")),
-    person(given = "William", family = "Gearty", email = "willgearty@gmail.com", role = c("aut")),
+    person(given = "William", family = "Gearty", email = "willgearty@gmail.com", role = c("aut"),
+           comment = c(ORCID = "0000-0003-0076-3262")),
     person(given = "Kilian", family = "Eichenseer", email = "kilian.eichenseer@gmail.com", role = c("aut")),
     person(given = "Sofia", family = "Galvan", email = "sofia.galvan@uvigo.es", role = c("aut")))
 Description: A community-driven software package of generic functions for the palaeobiology community. The package streamlines analyses, improves code readability and reproducibility for palaeobiological analyses.
@@ -28,4 +29,6 @@ Suggests:
     covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-URL: https://palaeoverse-community.github.io/palaeoverse/
+URL: https://palaeoverse.org,
+     https://github.com/palaeoverse-community/palaeoverse
+BugReports: https://github.com/palaeoverse-community/palaeoverse/issues
