@@ -4,7 +4,7 @@
 #' taxon names, and if desired, to trim the phylogeny to only include taxon
 #' names within the vector.
 #'
-#' @param tree \code{phylo}. A phylo object.
+#' @param tree \code{phylo}. A phylo object containing the phylogeny.
 #' @param list \code{character}. A vector of taxon names. Binomials can be
 #' separated with either a space or an underscore. The names should not contain
 #' any other punctuation.
@@ -148,3 +148,4 @@ phylo_check <- function(tree = NULL, list = NULL, out = "table", sort = "az") {
     return(smaller_tree)
   }
 }
+
