@@ -1,4 +1,4 @@
-# palaeoverse <img src="man/figures/logo.png" align="right" width="120" />
+# palaeoverse <img src="man/figures/hexlogo.png" align="right" width="120" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml)
