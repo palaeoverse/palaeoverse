@@ -81,11 +81,11 @@ phylo_check <- function(tree = NULL, list = NULL, out = "table", sort = "az") {
     stop("out must either be 'table', 'counts' or 'tree'")
   }
 
-  if (sort != "az" && sort != "presence"){
+  if (sort != "az" && sort != "presence") {
     stop("sort must either be 'az' or 'presence'")
   }
 
-  if (out != "table" && sort != "az"){
+  if (out != "table" && sort != "az") {
     warning("sort is redundant when using outputs other than 'table'")
   }
 
@@ -111,7 +111,7 @@ phylo_check <- function(tree = NULL, list = NULL, out = "table", sort = "az") {
   if (out == "table") {
     table <- data.frame(all_names, names_in_tree, names_in_list)
 
-    if (sort == "az"){
+    if (sort == "az") {
       table <- table[order(table$all_names), ]
     } else {
       table <- table[order(table$names_in_list, decreasing = TRUE), ]
@@ -148,4 +148,3 @@ phylo_check <- function(tree = NULL, list = NULL, out = "table", sort = "az") {
     return(smaller_tree)
   }
 }
-
