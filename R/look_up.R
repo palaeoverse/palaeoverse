@@ -121,6 +121,10 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   # for intervals that could not be matched using the table, try to assign
   #   stages based on GTS2020
 
+  ### ###
+### FIX ###
+  ### ###
+
   switch(assign_with_GTS,
          FALSE = {},
          "GTS2020" = {GTS <- palaeoverse::GTS2020},
@@ -128,6 +132,7 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
          {stop("`assign_with_GTS` needs to be `FALSE`, `GTS2012` or `GTS2020`")}
   )
 
+  ### Does not work yet
 
   if(assign_with_GTS %in% c("GTS2012", "GTS2020")) {
     # fetch GTS2020:
