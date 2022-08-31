@@ -19,14 +19,14 @@ Imports:
     graphics,
     methods,
     deeptime (>= 0.2.1),
-    ape
+    ape,
+    paleotree
 Suggests: 
     divDyn,
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
     vdiffr (>= 1.0.0),
-    covr,
-    paleotree
+    covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3

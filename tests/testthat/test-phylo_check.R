@@ -24,5 +24,6 @@ test_that("phylo_check() works", {
   expect_error(phylo_check(list))
   expect_error(phylo_check(tree = tree, list = tree))
   expect_error(phylo_check(tree, list, out = "test"))
+  expect_error(phylo_check(tree, list, sort = "test"))
   expect_error(phylo_check(tree, list = "."))
 })
