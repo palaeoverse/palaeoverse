@@ -85,7 +85,7 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 
   # if there are missing values in `late`, fill them in from `early`
   replace_pattern <- c("", " ")
-  replace_ind <- which(vapply(test,function(x)
+  replace_ind <- which(vapply(late,function(x)
     x %in% replace_pattern | is.na(x), logical(1)))
   late[replace_ind] <- early[replace_ind]
 
@@ -121,20 +121,22 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   # for intervals that could not be matched using the table, try to assign
   #   stages based on GTS2020
 
-  ### ###
-### FIX ###
-  ### ###
-
-  switch(assign_with_GTS,
-         FALSE = {},
-         "GTS2020" = {GTS <- palaeoverse::GTS2020},
-         "GTS2012" = {GTS <- palaeoverse::GTS2012},
-         {stop("`assign_with_GTS` needs to be `FALSE`, `GTS2012` or `GTS2020`")}
+  # Load GTS2020 or GTS2012, or set GTS to NULL
+  GTS <- switch(assign_with_GTS,
+                "GTS2020" = {palaeoverse::GTS2020},
+                "GTS2012" = {palaeoverse::GTS2012},
+                { if(assign_with_GTS==FALSE) {NULL
+                } else {stop(
+              "`assign_with_GTS` needs to be `FALSE`, `GTS2012` or `GTS2020`")}
+                }
   )
 
-  ### Does not work yet
+  # correct error in GTS2012 ### REMOVE ONCE FIXED IN palaeoverse::GTS2012
+  if(assign_with_GTS == "GTS2012") GTS$min_ma[which(GTS$interval_name=="Upper Ordovician")] <- 443.4
+  if(assign_with_GTS == "GTS2012") GTS$min_ma[which(GTS$interval_name=="Llandovery")] <- 443.4
 
-  if(assign_with_GTS %in% c("GTS2012", "GTS2020")) {
+  # implement GTS assignment
+  if(!is.null(GTS)) {
     # fetch GTS2020:
     # remove Pridoli once (double entry)
     GTS <- GTS[-which(GTS$interval_name=="Pridoli" & GTS$rank=="epoch"),]
