@@ -4,7 +4,7 @@
 \alias{phylo_check}
 \title{Check phylogeny tip names}
 \usage{
-phylo_check(tree = NULL, list = NULL, out = "table", sort = "az")
+phylo_check(tree = NULL, list = NULL, out = "table", sort = "presence")
 }
 \arguments{
 \item{tree}{\code{phylo}. A phylo object containing the phylogeny.}
@@ -19,8 +19,8 @@ tree ("table", the default), the counts of taxa included and not included in
 the tree ("counts"), or the phylogeny trimmed to only include taxa in the
 provided list ("tree").}
 
-\item{sort}{\code{character}. If out = "table", sort the names alphabetically
-("az", the default) or by presence in the tree ("presence").}
+\item{sort}{\code{character}. If out = "table", sort the names by presence in
+the tree ("presence", the default), or alphabetically ("az").}
 }
 \value{
 If out = "table", a \code{dataframe} describing whether taxon names

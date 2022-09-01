@@ -13,8 +13,8 @@
 #' tree ("table", the default), the counts of taxa included and not included in
 #' the tree ("counts"), or the phylogeny trimmed to only include taxa in the
 #' provided list ("tree").
-#' @param sort \code{character}. If out = "table", sort the names alphabetically
-#' ("az", the default) or by presence in the tree ("presence").
+#' @param sort \code{character}. If out = "table", sort the names by presence in
+#' the tree ("presence", the default), or alphabetically ("az").
 #' @return If out = "table", a \code{dataframe} describing whether taxon names
 #' are present in the list and/or the tree. If out = "counts", a summary table
 #' containing the number of taxa in the list but not the tree, in the tree but
@@ -54,7 +54,8 @@
 #' plot(my_ceratopsians)
 #' @export
 
-phylo_check <- function(tree = NULL, list = NULL, out = "table", sort = "az") {
+phylo_check <- function(tree = NULL, list = NULL, out = "table",
+                        sort = "presence") {
   #Errors for incorrect input
   if (is.null(tree)) {
     stop("Phylogeny must be provided")
@@ -85,7 +86,7 @@ phylo_check <- function(tree = NULL, list = NULL, out = "table", sort = "az") {
     stop("sort must either be 'az' or 'presence'")
   }
 
-  if (out != "table" && sort != "az") {
+  if (out != "table" && sort != "presence") {
     warning("sort is redundant when using outputs other than 'table'")
   }
 
