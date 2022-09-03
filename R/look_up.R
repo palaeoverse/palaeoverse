@@ -35,6 +35,18 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
                     early_interval = NULL, late_interval = NULL,
                     print_assigned = FALSE) {
 
+#=== Fetch example interval_key if specified ===
+  if(interval_key == "example") {
+    #load look-up table from Palaeoverse Onedrive
+    id <- "16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ"
+    interval_key <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id))
+    # rename table to follow function conventions
+    colnames(interval_key)[2] <- "interval_name"
+    colnames(interval_key)[5] <- "early_stage"
+    colnames(interval_key)[6] <- "late_stage"
+  }
+
+
 #=== Handling errors ===
 
   if (is.data.frame(occdf) == FALSE) {
@@ -46,8 +58,8 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   }
 
   if (is.null(early_interval) & !("early_interval" %in% colnames(occdf))) {
-    stop("`early_interval` needs to match a column name of `occdf`, or an
-         alternative name for the early interval columns needs to be provided.")
+    stop("`occdf` needs to have a column named `early_interval`, or an
+         alternative name for the early interval column needs to be provided.")
   }
 
   if(!is.null(early_interval)) {
@@ -195,15 +207,21 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 }
 
 
-occdf <- palaeoverse::reefs
+  interval_key = "example"
+  assign_with_GTS = "GTS2020"
+  early_interval = "interval"
+  late_interval = NULL
+  print_assigned = FALSE
+
+test <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
+                            early_interval = NULL, late_interval = NULL,
+                            print_assigned = FALSE)
+
+  occdf <- palaeoverse::tetrapods[1:50,]
 early_interval = "interval"
 late_interval = NULL
 
-#load look-up table from Palaeoverse Onedrive
-id <- "16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ"
-interval_key <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id))
-colnames(interval_key)[2] <- "interval_name"
-colnames(interval_key)[5] <- "early_stage"
-colnames(interval_key)[6] <- "late_stage"
 
-}
+### investigate: late_interval of first tetrapod occurrence not assigned. What's going on?
+
+
