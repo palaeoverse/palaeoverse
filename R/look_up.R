@@ -1,25 +1,55 @@
 #' Look up geological intervals and assign ICS ages and stages
 #'
 #' A function to assign fossil occurrences to international geological stages
-#' (GTS2020) based on interval names.
+#' or user-defined intervals based on interval names.
 #'
 #' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
-#' wish to bin. This dataframe should contain  the following named columns:
-#' "early_interval" and, optionally, "late_interval". These columns need
-#' to be `character` values. If no "late_interval is supplied, only
-#' "early_interval" is used, and it is assumed that the occurrences are from
-#' that inerval only.
+#' wish to bin. The following named columns need to be contained:
+#' `early_interval` and, optionally, `late_interval`. These columns need
+#' to be `character` values. If no `late_interval` is supplied, only
+#' `early_interval` is used, and it is assumed that the occurrences are from
+#' that interval only.
+#' @param interval_key \code{dataframe}. A dataframe linking interval names to
+#' international, geological stage names, or other, user-defined intervals.
+#' This dataframe should contain the following named columns containing
+#' `character` values:
+#' `interval_name` contains the names to be matched from `occdf`,
+#' `early_stage` contains the names of the earliest or only stages corresponding
+#' to the interval, and, optionally,
+#' `late_stage` contains the latest stage corresponding to the
+#' interval.
+#' Optionally, `numeric` columns `max_ma` and `min_ma` can provide maximal
+#' and minimal ages for the intervals.
+#' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
+#' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to
+#' \code{FALSE} to disable.
 #' @param early_interval \code{character}. Alternative column name that contains
 #' the earliest or only interval from which the occurrences are from.
 #' @param late_interval \code{character}. Alternative column name that contains
 #' the latest interval from which the occurrences are from.
+#' @param print_assigned \code{logical}. Should the assigned interval names be printed?
+#' Defaults to \code{FALSE}.
 #'
-#' @return a \code{dataframe} of the original input `data` with the following
+#' @return A \code{dataframe} of the original input `data` with the following
 #' appended columns is returned: `early_stage` and `late_stage`, corresponding
-#' to the earliest and latest international geological stage (GTS2020) which
-#' could be assigned to the occurrence based on the given interval names.
+#' to the earliest and latest international geological stage which
+#' could be assigned to the occurrence based on the given interval names. If
+#' provided in the `interval_key`, `max_ma` and `min_ma` return maximal and minimal ages
+#' for the intervals, and a column `mid_ma` is appended to provide the midpoint
+#' age of the interval.
 #'
 #' @details
+#' Instead of  geological stages, the user can supply any names in the
+#' `early_stage` and `late_stage` column, in which case `assign_with_GTS` should
+#' be set to \code{FALSE}.
+#'
+#' An exemplary `interval_key` can be used by setting
+#' `interval_key = "example"`. This key works well for assigning
+#' geological stages to many of the
+#' intervals from the Paleobiology Database and the Paleoreefs Database.
+#' Palaeoverse can provide no guaranty that all of the assignments with the
+#' exemplary key are accurate.
+#'
 #'
 #' @section Developer(s):
 #' Kilian Eichenseer & ...
@@ -35,26 +65,12 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
                     early_interval = NULL, late_interval = NULL,
                     print_assigned = FALSE) {
 
-#=== Fetch example interval_key if specified ===
-  if(interval_key == "example") {
-    #load look-up table from Palaeoverse Onedrive
-    id <- "16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ"
-    interval_key <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id))
-    # rename table to follow function conventions
-    colnames(interval_key)[2] <- "interval_name"
-    colnames(interval_key)[5] <- "early_stage"
-    colnames(interval_key)[6] <- "late_stage"
-  }
 
 
 #=== Handling errors ===
 
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe.")
-  }
-
-  if (is.data.frame(interval_key) == FALSE) {
-    stop("`interval_key` should be a dataframe.")
   }
 
   if (is.null(early_interval) & !("early_interval" %in% colnames(occdf))) {
@@ -76,12 +92,50 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
       stop("`late_interval` needs to match a column name of `occdf`")
   }
 
+
+  #=== Fetch example interval_key if specified ===
+  if(interval_key == "example") {
+    #load look-up table from Palaeoverse Onedrive
+    id <- "16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ"
+    interval_key <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id))
+    # rename table to follow function conventions
+    colnames(interval_key)[2] <- "interval_name"
+    colnames(interval_key)[5] <- "early_stage"
+    colnames(interval_key)[6] <- "late_stage"
+  }
+
+  if (is.data.frame(interval_key) == FALSE) {
+    stop("`interval_key` should be a dataframe.")
+  }
+
   if(!("interval_name" %in% colnames(interval_key))) {
     stop("`interval_key` needs to contain a column `interval_name`")
+  } else if(!is.character(interval_key$interval_name)) {
+    stop("`interval_key$interval_name` needs to be of type `character`")
   }
 
   if(!("early_stage" %in% colnames(interval_key))) {
     stop("`interval_key` needs to contain a column `early_stage`")
+  } else if(!is.character(interval_key$early_stage)) {
+    stop("`interval_key$early_stage` needs to be of type `character`")
+  }
+
+  if("late_stage" %in% colnames(interval_key)) {
+    if(!is.character(interval_key$late_stage)) {
+      stop("`interval_key$late_stage` needs to be of type `character`")
+    }
+  }
+
+  if("max_ma" %in% colnames(interval_key)) {
+    if(!is.character(interval_key$max_ma)) {
+      stop("`interval_key$max_ma` needs to be of type `numeric`")
+    }
+  }
+
+  if("min_ma" %in% colnames(interval_key)) {
+    if(!is.character(interval_key$min_ma)) {
+      stop("`interval_key$min_ma` needs to be of type `numeric`")
+    }
   }
 
   #=== Preparation ===
@@ -122,10 +176,10 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   assign_ind2 <- vapply(late_unique, function(x) x %in%
                           interval_key$interval_name,
                         FUN.VALUE = logical(1L))
-  assign2 <- early_unique[assign_ind2]
+  assign2 <- late_unique[assign_ind2]
 
   for(i in seq_len(length(assign2))){
-    occdf$late_stage[early==assign2[i]] <-
+    occdf$late_stage[late==assign2[i]] <-
       interval_key$late_stage[interval_key$interval_name==assign2[i]]
   }
 
@@ -171,7 +225,7 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
     }
 
     # late stages
-    late_unique_GTS <- late_unique[assign_ind1==FALSE]
+    late_unique_GTS <- late_unique[assign_ind2==FALSE]
     assign_ind_GTS <- vapply(late_unique_GTS, function(x) x %in%
                                GTS$interval_name,
                              FUN.VALUE = logical(1L))
@@ -206,22 +260,21 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 
 }
 
-
-  interval_key = "example"
-  assign_with_GTS = "GTS2020"
-  early_interval = "interval"
-  late_interval = NULL
-  print_assigned = FALSE
-
-test <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
-                            early_interval = NULL, late_interval = NULL,
-                            print_assigned = FALSE)
-
-  occdf <- palaeoverse::tetrapods[1:50,]
-early_interval = "interval"
-late_interval = NULL
-
-
-### investigate: late_interval of first tetrapod occurrence not assigned. What's going on?
-
-
+#
+#
+#   occdf <- palaeoverse::tetrapods[,]
+# #early_interval = "interval"
+# #late_interval = NULL
+# interval_key = "example"
+# assign_with_GTS = "GTS2020"
+# early_interval = NULL
+# late_interval = NULL
+# print_assigned = FALSE
+#
+# test <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
+#                             early_interval = NULL, late_interval = NULL,
+#                             print_assigned = FALSE)
+#
+#
+#
+#
