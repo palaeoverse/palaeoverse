@@ -18,7 +18,7 @@
 #' to the interval, and, optionally,
 #' `late_stage` contains the latest stage corresponding to the
 #' interval.
-#' Optionally, `numeric` columns `max_ma` and `min_ma` can provide maximal
+#' Optionally, `numeric` columns `stage_max_ma` and `min_ma` can provide maximal
 #' and minimal ages for the intervals.
 #' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
 #' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to
@@ -27,14 +27,16 @@
 #' the earliest or only interval from which the occurrences are from.
 #' @param late_interval \code{character}. Alternative column name that contains
 #' the latest interval from which the occurrences are from.
-#' @param print_assigned \code{logical}. Should the assigned interval names be printed?
+#' @param print_assigned \code{logical}. Should the assigned interval names be
+#' printed?
 #' Defaults to \code{FALSE}.
 #'
 #' @return A \code{dataframe} of the original input `data` with the following
 #' appended columns is returned: `early_stage` and `late_stage`, corresponding
 #' to the earliest and latest international geological stage which
 #' could be assigned to the occurrence based on the given interval names. If
-#' provided in the `interval_key`, `max_ma` and `min_ma` return maximal and minimal ages
+#' provided in the `interval_key`, `stage_max_ma` and `min_ma` return maximal
+#' and minimal ages
 #' for the intervals, and a column `mid_ma` is appended to provide the midpoint
 #' age of the interval.
 #'
@@ -97,7 +99,8 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   if(interval_key == "example") {
     #load look-up table from Palaeoverse Onedrive
     id <- "16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ"
-    interval_key <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id))
+    interval_key <- read.csv(
+      sprintf("https://docs.google.com/uc?id=%s&export=download", id))
     # rename table to follow function conventions
     colnames(interval_key)[2] <- "interval_name"
     colnames(interval_key)[5] <- "early_stage"
@@ -126,9 +129,9 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
     }
   }
 
-  if("max_ma" %in% colnames(interval_key)) {
-    if(!is.character(interval_key$max_ma)) {
-      stop("`interval_key$max_ma` needs to be of type `numeric`")
+  if("stage_max_ma" %in% colnames(interval_key)) {
+    if(!is.character(interval_key$stage_max_ma)) {
+      stop("`interval_key$stage_max_ma` needs to be of type `numeric`")
     }
   }
 
@@ -158,29 +161,51 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   # add columns to output data frame
   occdf$early_stage <- rep(NA_character_,nrow(occdf))
   occdf$late_stage <- rep(NA_character_, nrow(occdf))
+  if("stage_max_ma" %in% colnames(interval_key)){
+    occdf$stage_max_ma <- rep(NA_real_,nrow(occdf))
+  }
+  if("stage_min_ma" %in% colnames(interval_key)){
+    occdf$stage_min_ma <- rep(NA_real_,nrow(occdf))
+  }
 
   #=== Assignment of stages based on look-up table ===
 
+  ## early stage
   early_unique <- unique(early)
+  # find assignable intervals
   assign_ind1 <- vapply(early_unique, function(x) x %in%
                           interval_key$interval_name,
                         FUN.VALUE = logical(1L))
   assign1 <- early_unique[assign_ind1]
-
+  # loop through assignable intervals and assign early stages
   for(i in seq_len(length(assign1))){
+    # early stage
     occdf$early_stage[early==assign1[i]] <-
       interval_key$early_stage[interval_key$interval_name==assign1[i]]
+    # max_ma
+    if("stage_max_ma" %in% colnames(interval_key)){
+      occdf$stage_max_ma[early==assign1[i]] <-
+        interval_key$stage_max_ma[interval_key$interval_name==assign1[i]]
+    }
   }
 
+  ## late stage
   late_unique <- unique(late)
+  # find assignable intervals
   assign_ind2 <- vapply(late_unique, function(x) x %in%
                           interval_key$interval_name,
                         FUN.VALUE = logical(1L))
   assign2 <- late_unique[assign_ind2]
-
+  # loop through assignable intervals and assign late stages
   for(i in seq_len(length(assign2))){
+    #late stage
     occdf$late_stage[late==assign2[i]] <-
       interval_key$late_stage[interval_key$interval_name==assign2[i]]
+    # min_ma
+    if("stage_min_ma" %in% colnames(interval_key)){
+      occdf$stage_min_ma[late==assign2[i]] <-
+        interval_key$stage_min_ma[interval_key$interval_name==assign2[i]]
+    }
   }
 
   #=== Assignment of stages based on GTS2020 ===
@@ -198,8 +223,8 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   )
 
   # correct error in GTS2012 ### REMOVE ONCE FIXED IN palaeoverse::GTS2012
-  if(assign_with_GTS == "GTS2012") GTS$min_ma[which(GTS$interval_name=="Upper Ordovician")] <- 443.4
-  if(assign_with_GTS == "GTS2012") GTS$min_ma[which(GTS$interval_name=="Llandovery")] <- 443.4
+  if(assign_with_GTS == "GTS2012") GTS$min_ma[GTS$interval_name=="Upper Ordovician"] <- 443.4
+  if(assign_with_GTS == "GTS2012") GTS$min_ma[GTS$interval_name=="Llandovery"] <- 443.4
 
   # implement GTS assignment
   if(!is.null(GTS)) {
@@ -217,11 +242,13 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
     # take max_ma and assign corresponding stage
     assigned_max_ma_GTS <- vapply(assign_GTS, function(x)
       GTS$max_ma[x==GTS$interval_name], FUN.VALUE = numeric(1))
+    # stage
     for(i in seq_len(length(assign_GTS))){
       occdf$early_stage[early==assign_GTS[i] &
                           is.na(occdf$early_stage)] <-
         GTS$interval_name[GTS$max_ma==assigned_max_ma_GTS[i] &
                             GTS$rank=="stage"]
+
     }
 
     # late stages
@@ -231,21 +258,50 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
                              FUN.VALUE = logical(1L))
     assign_GTS <- late_unique_GTS[assign_ind_GTS]
 
-    # take max_ma and assign corresponding stage
+    # take min_ma and assign corresponding stage
     assigned_min_ma_GTS <- vapply(assign_GTS, function(x)
       GTS$min_ma[x==GTS$interval_name], FUN.VALUE = numeric(1))
     for(i in seq_len(length(assign_GTS))){
+      # stage
       occdf$late_stage[late==assign_GTS[i] &
                           is.na(occdf$late_stage)] <-
         GTS$interval_name[GTS$min_ma==assigned_min_ma_GTS[i] &
                             GTS$rank=="stage"]
+
     }
 
+    }
+
+    # add max_ma and min_ma based on GTS
+    # max_ma
+
+    if("stage_max_ma" %in% colnames(occdf)){
+      stage_unique <- unique(occdf$early_stage)
+      # find assignable intervals
+      assign_age <- vapply(stage_unique, function(x) x %in%
+                              GTS$interval_name,
+                            FUN.VALUE = logical(1L))
+      for
+      occdf$stage_max_ma[early==assign_GTS[i] &
+                           is.na(occdf$stage_max_ma)] <-
+        assigned_max_ma_GTS[i]
+    }
+  # min_ma
+  if("stage_min_ma" %in% colnames(occdf)){
+    occdf$stage_min_ma[late==assign_GTS[i] &
+                         is.na(occdf$stage_min_ma)] <-
+      assigned_min_ma_GTS[i]
   }
 
 
 
-  #=== add stage ages to the output ===
+  #=== add stage_mid_ma ages to the output ===
+
+
+    if("stage_max_ma" %in% colnames(occdf) &
+       "stage_min_ma" %in% colnames(occdf)){
+      occdf$stage_mid_ma <- (occdf$stage_max_ma+occdf$stage_min_ma)/2
+    }
 
   #=== Ouput ===
 
@@ -260,9 +316,10 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 
 }
 
+
 #
 #
-#   occdf <- palaeoverse::tetrapods[,]
+  occdf <- palaeoverse::tetrapods[,]
 # #early_interval = "interval"
 # #late_interval = NULL
 # interval_key = "example"
@@ -270,11 +327,11 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 # early_interval = NULL
 # late_interval = NULL
 # print_assigned = FALSE
-#
-# test <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
-#                             early_interval = NULL, late_interval = NULL,
-#                             print_assigned = FALSE)
-#
-#
+
+test <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
+                            early_interval = NULL, late_interval = NULL,
+                            print_assigned = FALSE)
+
+
 #
 #
