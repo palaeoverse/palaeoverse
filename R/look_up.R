@@ -12,14 +12,21 @@
 #' @param interval_key \code{dataframe}. A dataframe linking interval names to
 #' international, geological stage names, or other, user-defined intervals.
 #' This dataframe should contain the following named columns containing
-#' `character` values:
-#' `interval_name` contains the names to be matched from `occdf`,
-#' `early_stage` contains the names of the earliest or only stages corresponding
-#' to the interval, and, optionally,
-#' `late_stage` contains the latest stage corresponding to the
-#' interval.
-#' Optionally, `numeric` columns `stage_max_ma` and `min_ma` can provide maximal
-#' and minimal ages for the intervals.
+#' `character` values: \cr
+#' \itemize{
+#' \item `interval_name` contains the names to be matched from `occdf` \cr
+#' \item `early_stage` contains the names of the earliest or only stages
+#' corresponding to the intervals, and, optionally \cr
+#' \item `late_stage` contains the latest stage corresponding to the
+#' intervals. \cr
+#' }
+#' Optionally, the numeric vectors \cr
+#' \itemize{
+#' \item `stage_max_ma` and
+#' \item `stage_min_ma` provide maximal and minimal ages for the intervals.
+#' }
+#' Alternatively, `interval_key` may take the `character` argument "example"
+#' (see Details).
 #' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
 #' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to
 #' \code{FALSE} to disable.
@@ -42,15 +49,17 @@
 #'
 #' @details
 #' Instead of  geological stages, the user can supply any names in the
-#' `early_stage` and `late_stage` column, in which case `assign_with_GTS` should
+#' `early_stage` and `late_stage` column; `assign_with_GTS` should then
 #' be set to \code{FALSE}.
 #'
 #' An exemplary `interval_key` can be used by setting
 #' `interval_key = "example"`. This key works well for assigning
 #' geological stages to many of the
 #' intervals from the Paleobiology Database and the Paleoreefs Database.
-#' Palaeoverse can provide no guaranty that all of the assignments with the
-#' exemplary key are accurate.
+#' Palaeoverse can provide no guaranty that all of the stage assignments with
+#' the exemplary key are accurate. The table corresponding to this key can be
+#' found at
+#' https://drive.google.com/file/d/16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ/view?usp=sharing
 #'
 #'
 #' @section Developer(s):
@@ -64,7 +73,7 @@
 #' # assign stages using the examplary interval_key
 #' occdf <- look_up(occdf, interval_key="example")
 #' #
-#' # Use own key to assign intervals
+#' ## Use own key to assign intervals
 #' # create example data
 #' occdf <- data.frame(
 #' stage = c("any Permian", "first Permian stage", "any Permian", "Roadian"))
@@ -75,7 +84,7 @@
 #' late_stage = c("Changhsingian", "Asselian"))
 #' # assign stages using the custom interval_key, use "GTS2012":
 #' occdf <- look_up(occdf, interval_key=interval_key, assign_with_GTS="GTS2012",
-# early_interval = "stage", print_assigned=TRUE)
+#' early_interval = "stage", print_assigned=TRUE)
 #' }
 #' @export
 look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
@@ -147,13 +156,13 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   }
 
   if("stage_max_ma" %in% colnames(interval_key)) {
-    if(!is.character(interval_key$stage_max_ma)) {
+    if(!is.numeric(interval_key$stage_max_ma)) {
       stop("`interval_key$stage_max_ma` needs to be of type `numeric`")
     }
   }
 
   if("min_ma" %in% colnames(interval_key)) {
-    if(!is.character(interval_key$min_ma)) {
+    if(!is.numeric(interval_key$min_ma)) {
       stop("`interval_key$min_ma` needs to be of type `numeric`")
     }
   }
@@ -346,25 +355,3 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   occdf
 
 }
-
-#
-# #
-# #
-# test <- palaeoverse::tetrapods
-# #early_interval = "interval"
-# #late_interval = NULL
-# interval_key = "example"
-# assign_with_GTS = "GTS2020"
-# early_interval = NULL
-# late_interval = NULL
-# print_assigned = FALSE
-#
-# test2 <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
-#                             early_interval = NULL, late_interval = NULL,
-#                             print_assigned = FALSE)
-#
-#
-# #
-# #
-#
-#

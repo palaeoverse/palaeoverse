@@ -1,59 +1,63 @@
 test_that("look_up() works", {
 
+  # load tetrapod data
   occdf <- tetrapods
 
-  #correct format
+  #check correct format and output
   expect_true(is.data.frame(look_up(occdf[1:10,],interval_key = "example")))
-  # ... Continue here
-  #correct amount of data returned
-  # expect_equal(nrow(time_bins(interval = c("Maastrichtian"))), 1)
-  # expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"),
-  #                             size = 10, plot = TRUE)), 50)
-  # expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"),
-  #                             size = 6)), 74)
-  # expect_equal(nrow(time_bins(interval = c("Fortunian", "Meghalayan"),
-  #                             scale = "GTS2020")), 102)
-  # expect_equal(nrow(time_bins(interval = c("Fortunian", "Holocene"),
-  #                             scale = "GTS2012")), 100)
-  # expect_equal(nrow(time_bins(interval = c("Fortunian", "Holocene"),
-  #                             scale = "GTS2012", size = 10)), 51)
-  # expect_equal(nrow(time_bins(interval = c(500, 0), scale = "GTS2012")), 94)
-  # expect_equal(nrow(time_bins(interval = "Mesozoic", scale = "GTS2012",
-  #                             plot = TRUE)), 30)
-  # expect_equal(nrow(time_bins(interval = "Mesozoic", rank = "period")), 3)
-  # expect_equal(nrow(time_bins(interval = c(0, 200), rank = "period")), 5)
-  # expect_equal(nrow(time_bins(interval = c(0, 200),
-  #                             rank = "period", size = 20)), 4)
-  # expect_equal(nrow(time_bins(interval = c("Albian", "Danian"),
-  #                             rank = "stage")), 8)
-  # expect_equal(nrow(time_bins(interval = c("Permian", "Danian"),
-  #                             rank = "period",
-  #                             scale = "GTS2012")), 5)
-  # expect_equal(colnames(time_bins()), c("bin", "interval_name",
-  #                                       "rank",
-  #                                       "max_ma", "mid_ma", "min_ma",
-  #                                       "duration_myr", "font", "colour"))
-  # expect_equal(colnames(time_bins(size = 10)), c("bin",
-  #                                                "max_ma", "mid_ma", "min_ma",
-  #                                                "duration_myr", "grouping_rank",
-  #                                                "intervals"))
-  #
-  #
-  #
-  # #error handling
-  # expect_error(time_bins(interval = "Mastrichtian", scale = "GTS2012",
-  #                        plot = TRUE))
-  # expect_error(time_bins(interval = "Mastrichtian", scale = "2012",
-  #                        plot = TRUE))
-  # expect_error(time_bins(interval = 700, scale = "GTS2020", plot = TRUE))
-  # expect_error(time_bins(interval = -1, plot = TRUE))
-  # expect_error(time_bins(interval = data.frame()))
-  # expect_error(time_bins(interval = c(50, 10, 20), plot = TRUE))
-  # expect_error(time_bins(interval = "Mesozoic", plot = "TRUE"))
-  # expect_error(time_bins(interval = "Mesozoic", assign = 40))
-  # expect_error(time_bins(interval = "Mesozoic", assign = -40))
-  # expect_error(time_bins(interval = "Mesozoic", assign = "30"))
-  # expect_error(time_bins(interval = "Mesozoic", size = "ten"))
-  # expect_error(time_bins(interval = "Mesozoic", rank = "stages"))
-  # expect_error(time_bins(interval = "Mesozoic", rank = c("stage", "period")))
+  expect_true(is.character((look_up(occdf[1:10,],
+                                    interval_key = "example"))$early_stage))
+  expect_true(is.numeric((look_up(occdf[1:10,],
+                                  interval_key = "example"))$stage_min_ma))
+
+  #check correct amount of data returned
+   expect_equal(nrow(look_up(occdf[1:10,],interval_key = "example")), 10)
+   expect_equal(ncol(look_up(occdf[1:10,],interval_key = "example")), 37)
+
+  # turn off "GTS": stage ages are not returned as not given in interval_key
+   expect_equal(ncol(look_up(occdf[1:10,],interval_key = "example",
+                             assign_with_GTS = FALSE)), 34)
+
+  # test with own interval key - reset occdf
+   occdf <- tetrapods[1:10,]
+  # define own interval key
+   custom_key <- data.frame(
+       interval_name = c("Missourian", "Gzhelian", "Capitanian"),
+       early_stage = c("Kasimovian","Gzhelian" ,"Capitanian"),
+       late_stage = c("Sakmarian", "Gzhelian","Capitanian"),
+       stage_max_ma = c(400,360,300),
+       stage_min_ma = c(370,350,290))
+
+   expect_equal(ncol(look_up(occdf[1:10,],interval_key = custom_key,
+                             assign_with_GTS = FALSE)), 37)
+
+   expect_equal((look_up(occdf[1:10,],interval_key = custom_key,
+                             assign_with_GTS = FALSE))$stage_max_ma[1], 400)
+   expect_equal((look_up(occdf[1:10,],interval_key = custom_key,
+                         assign_with_GTS = FALSE))$stage_mid_ma[2], 295)
+   expect_equal((look_up(occdf[1:10,],interval_key = custom_key,
+                         assign_with_GTS = FALSE))$late_stage[1], "Gzhelian")
+
+   # check assignment just based on early_interval
+   occdf <- tetrapods[1:10,]
+   occdf <- occdf[,-which(colnames(occdf)=="late_interval")]
+   expect_equal((look_up(occdf[1:10,],interval_key = custom_key,
+                         assign_with_GTS = FALSE))$late_stage[1], "Sakmarian")
+
+   # check whether different early_interval name works
+   colnames(occdf)[which(colnames(occdf)=="early_interval")] <- "some_interval"
+   expect_equal((look_up(
+     occdf[1:10,], interval_key = custom_key, assign_with_GTS = FALSE,
+     early_interval = "some_interval"))$late_stage[1], "Sakmarian")
+
+   # check whether different late_interval name works
+   occdf <- tetrapods[1:10,]
+   colnames(occdf)[which(colnames(occdf)=="late_interval")] <- "other_interval"
+   expect_equal((look_up(
+     occdf[1:10,], interval_key = custom_key, assign_with_GTS = FALSE,
+     late_interval = "other_interval"))$late_stage[1], "Gzhelian")
+
+   # check error handling
+   # ...
+
 })
