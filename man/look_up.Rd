@@ -30,7 +30,7 @@ This dataframe should contain the following named columns containing
 to the interval, and, optionally,
 \code{late_stage} contains the latest stage corresponding to the
 interval.
-Optionally, \code{numeric} columns \code{max_ma} and \code{min_ma} can provide maximal
+Optionally, \code{numeric} columns \code{stage_max_ma} and \code{min_ma} can provide maximal
 and minimal ages for the intervals.}
 
 \item{assign_with_GTS}{\code{character} or \code{FALSE}. Allows intervals to
@@ -43,16 +43,18 @@ the earliest or only interval from which the occurrences are from.}
 \item{late_interval}{\code{character}. Alternative column name that contains
 the latest interval from which the occurrences are from.}
 
-\item{print_assigned}{\code{logical}. Should the assigned interval names be printed?
+\item{print_assigned}{\code{logical}. Should the assigned interval names be
+printed?
 Defaults to \code{FALSE}.}
 }
 \value{
 A \code{dataframe} of the original input \code{data} with the following
 appended columns is returned: \code{early_stage} and \code{late_stage}, corresponding
 to the earliest and latest international geological stage which
-could be assigned to the occurrence based on the given interval names. If
-provided in the \code{interval_key}, \code{max_ma} and \code{min_ma} return maximal and minimal ages
-for the intervals, and a column \code{mid_ma} is appended to provide the midpoint
+could be assigned to the occurrence based on the given interval names.
+\code{stage_max_ma} and \code{stage_min_ma} return maximal and minimal ages if provided
+in the interval key, or if they can be fetched from GTS2012 or GTS2020.
+A column \code{mid_ma} is appended to provide the midpoint
 age of the interval.
 }
 \description{
@@ -83,7 +85,21 @@ Kilian Eichenseer & ...
 
 \examples{
 \dontrun{
-#Grab internal tetrapod data
+# Grab internal tetrapod data
 occdf <- tetrapods
+# assign stages using the examplary interval_key
+occdf <- look_up(occdf, interval_key="example")
+#
+# Use own key to assign intervals
+# create example data
+occdf <- data.frame(
+stage = c("any Permian", "first Permian stage", "any Permian", "Roadian"))
+# create example key
+interval_key <- data.frame(
+interval_name = c("any Permian", "first Permian stage"),
+early_stage = c("Asselian", "Asselian"),
+late_stage = c("Changhsingian", "Asselian"))
+# assign stages using the custom interval_key, use "GTS2012":
+occdf <- look_up(occdf, interval_key=interval_key, assign_with_GTS="GTS2012",
 }
 }

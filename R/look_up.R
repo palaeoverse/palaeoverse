@@ -34,10 +34,10 @@
 #' @return A \code{dataframe} of the original input `data` with the following
 #' appended columns is returned: `early_stage` and `late_stage`, corresponding
 #' to the earliest and latest international geological stage which
-#' could be assigned to the occurrence based on the given interval names. If
-#' provided in the `interval_key`, `stage_max_ma` and `min_ma` return maximal
-#' and minimal ages
-#' for the intervals, and a column `mid_ma` is appended to provide the midpoint
+#' could be assigned to the occurrence based on the given interval names.
+#' `stage_max_ma` and `stage_min_ma` return maximal and minimal ages if provided
+#' in the interval key, or if they can be fetched from GTS2012 or GTS2020.
+#' A column `mid_ma` is appended to provide the midpoint
 #' age of the interval.
 #'
 #' @details
@@ -59,9 +59,23 @@
 #' ...
 #' @examples
 #' \dontrun{
-#' #Grab internal tetrapod data
-#' occdf <- palaeoverse::tetrapods
-#' occdf <- look_up(occdf,interval_key="example")
+#' # Grab internal tetrapod data
+#' occdf <- tetrapods
+#' # assign stages using the examplary interval_key
+#' occdf <- look_up(occdf, interval_key="example")
+#' #
+#' # Use own key to assign intervals
+#' # create example data
+#' occdf <- data.frame(
+#' stage = c("any Permian", "first Permian stage", "any Permian", "Roadian"))
+#' # create example key
+#' interval_key <- data.frame(
+#' interval_name = c("any Permian", "first Permian stage"),
+#' early_stage = c("Asselian", "Asselian"),
+#' late_stage = c("Changhsingian", "Asselian"))
+#' # assign stages using the custom interval_key, use "GTS2012":
+#' occdf <- look_up(occdf, interval_key=interval_key, assign_with_GTS="GTS2012",
+# early_interval = "stage", print_assigned=TRUE)
 #' }
 #' @export
 look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
@@ -97,7 +111,8 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 
 
   #=== Fetch example interval_key if specified ===
-  if(interval_key == "example") {
+  if(!is.data.frame(interval_key) && is.character(interval_key)) {
+   if(interval_key == "example")  {
     #load look-up table from Palaeoverse Onedrive
     id <- "16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ"
     interval_key <- read.csv(
@@ -106,11 +121,12 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
     colnames(interval_key)[2] <- "interval_name"
     colnames(interval_key)[5] <- "early_stage"
     colnames(interval_key)[6] <- "late_stage"
-  }
-
-  if (is.data.frame(interval_key) == FALSE) {
+    }
+  } else   if (is.data.frame(interval_key) == FALSE) {
     stop("`interval_key` should be a dataframe.")
   }
+
+
 
   if(!("interval_name" %in% colnames(interval_key))) {
     stop("`interval_key` needs to contain a column `interval_name`")
@@ -321,7 +337,9 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 
   # optional: print assigned stages
   if(print_assigned) {
-    message("Occurrences from the following intervals have been assigned stages:")
+    message(
+      "Occurrences from the following intervals have been assigned stages from
+      the supplied interval key:")
     print(unique(c(assign1,assign2)))
   }
 
@@ -330,22 +348,24 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 
 }
 
-
+#
+# #
+# #
+# occdf <- palaeoverse::tetrapods
+# #early_interval = "interval"
+# #late_interval = NULL
+# interval_key = "example"
+# assign_with_GTS = "GTS2020"
+# early_interval = NULL
+# late_interval = NULL
+# print_assigned = FALSE
+#
+# test <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
+#                             early_interval = NULL, late_interval = NULL,
+#                             print_assigned = FALSE)
 #
 #
-occdf <- palaeoverse::tetrapods
-#early_interval = "interval"
-#late_interval = NULL
-interval_key = "example"
-assign_with_GTS = "GTS2020"
-early_interval = NULL
-late_interval = NULL
-print_assigned = FALSE
-
-test <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
-                            early_interval = NULL, late_interval = NULL,
-                            print_assigned = FALSE)
-
-
+# #
+# #
 #
 #
