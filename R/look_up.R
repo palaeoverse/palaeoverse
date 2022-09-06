@@ -338,8 +338,7 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   # optional: print assigned stages
   if(print_assigned) {
     message(
-      "Occurrences from the following intervals have been assigned stages from
-      the supplied interval key:")
+     "The following intervals have been matched with stages from interval_key:")
     print(unique(c(assign1,assign2)))
   }
 
@@ -351,7 +350,7 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 #
 # #
 # #
-# occdf <- palaeoverse::tetrapods
+# test <- palaeoverse::tetrapods
 # #early_interval = "interval"
 # #late_interval = NULL
 # interval_key = "example"
@@ -360,7 +359,7 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 # late_interval = NULL
 # print_assigned = FALSE
 #
-# test <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
+# test2 <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
 #                             early_interval = NULL, late_interval = NULL,
 #                             print_assigned = FALSE)
 #
