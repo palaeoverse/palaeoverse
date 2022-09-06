@@ -60,7 +60,8 @@
 #' @examples
 #' \dontrun{
 #' #Grab internal tetrapod data
-#' occdf <- tetrapods
+#' occdf <- palaeoverse::tetrapods
+#' occdf <- look_up(occdf,interval_key="example")
 #' }
 #' @export
 look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
@@ -161,12 +162,11 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
   # add columns to output data frame
   occdf$early_stage <- rep(NA_character_,nrow(occdf))
   occdf$late_stage <- rep(NA_character_, nrow(occdf))
-  if("stage_max_ma" %in% colnames(interval_key)){
+  if("stage_max_ma" %in% colnames(interval_key) | is.character(assign_with_GTS))
     occdf$stage_max_ma <- rep(NA_real_,nrow(occdf))
-  }
-  if("stage_min_ma" %in% colnames(interval_key)){
+  if("stage_min_ma" %in% colnames(interval_key) | is.character(assign_with_GTS))
     occdf$stage_min_ma <- rep(NA_real_,nrow(occdf))
-  }
+
 
   #=== Assignment of stages based on look-up table ===
 
@@ -270,30 +270,44 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 
     }
 
-    }
-
-    # add max_ma and min_ma based on GTS
-    # max_ma
-
-    if("stage_max_ma" %in% colnames(occdf)){
-      stage_unique <- unique(occdf$early_stage)
-      # find assignable intervals
-      assign_age <- vapply(stage_unique, function(x) x %in%
-                              GTS$interval_name,
-                            FUN.VALUE = logical(1L))
-      for
-      occdf$stage_max_ma[early==assign_GTS[i] &
+  # add max_ma and min_ma based on GTS
+  # max_ma
+  if("stage_max_ma" %in% colnames(occdf)){
+    stage_unique <- unique(occdf$early_stage)
+    # find assignable intervals
+    assign_age_ind <- vapply(stage_unique, function(x) x %in%
+                           GTS$interval_name,
+                         FUN.VALUE = logical(1L))
+    assign_age <- stage_unique[assign_age_ind]
+    # get max ages again here as we excluded assigned intervals earlier
+    assigned_max_ma_GTS <- vapply(assign_age, function(x)
+      GTS$max_ma[x==GTS$interval_name], FUN.VALUE = numeric(1))
+    # assign max age
+    for(i in seq_len(length(assign_age))){
+      occdf$stage_max_ma[occdf$early_stage==assign_age[i] &
                            is.na(occdf$stage_max_ma)] <-
         assigned_max_ma_GTS[i]
     }
+  }
   # min_ma
   if("stage_min_ma" %in% colnames(occdf)){
-    occdf$stage_min_ma[late==assign_GTS[i] &
-                         is.na(occdf$stage_min_ma)] <-
-      assigned_min_ma_GTS[i]
+    stage_unique <- unique(occdf$late_stage)
+    # find assignable intervals
+    assign_age_ind <- vapply(stage_unique, function(x) x %in%
+                           GTS$interval_name,
+                         FUN.VALUE = logical(1L))
+    assign_age <- stage_unique[assign_age_ind]
+    # get min ages again here as we excluded assigned intervals earlier
+    assigned_min_ma_GTS <- vapply(assign_age, function(x)
+      GTS$min_ma[x==GTS$interval_name], FUN.VALUE = numeric(1))
+    # assign min age
+    for(i in seq_len(length(assign_age))){
+      occdf$stage_min_ma[occdf$late_stage==assign_age[i] &
+                           is.na(occdf$stage_min_ma)] <-
+        assigned_min_ma_GTS[i]
+    }
   }
-
-
+}
 
   #=== add stage_mid_ma ages to the output ===
 
@@ -319,14 +333,14 @@ look_up <- function(occdf, interval_key, assign_with_GTS = "GTS2020",
 
 #
 #
-  occdf <- palaeoverse::tetrapods[,]
-# #early_interval = "interval"
-# #late_interval = NULL
-# interval_key = "example"
-# assign_with_GTS = "GTS2020"
-# early_interval = NULL
-# late_interval = NULL
-# print_assigned = FALSE
+occdf <- palaeoverse::tetrapods
+#early_interval = "interval"
+#late_interval = NULL
+interval_key = "example"
+assign_with_GTS = "GTS2020"
+early_interval = NULL
+late_interval = NULL
+print_assigned = FALSE
 
 test <- look_up(occdf, interval_key = "example", assign_with_GTS = "GTS2020",
                             early_interval = NULL, late_interval = NULL,
