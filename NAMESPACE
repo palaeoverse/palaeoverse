@@ -3,6 +3,7 @@
 export(axis_geo)
 export(bin_time)
 export(lat_bins)
+export(look_up)
 export(palaeorotate)
 export(time_bins)
 importFrom(deeptime,getScaleData)
