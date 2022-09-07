@@ -158,12 +158,12 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       stop("`lng`, `lat` and `age` should be of class numeric")
     }
 
-    if (sum(occdf[, lat] > 90) != 0 || sum(occdf[, lat] < -90) != 0) {
+    if (sum(abs(occdf[, lat]) > 90) != 0) {
       stop("`lat` values should be >= -90\u00B0 and <= 90\u00B0")
     }
 
-    if (sum(occdf[, lng] > 180) != 0 || sum(occdf[, lng] < -180) != 0) {
-      stop("`lng` values should be >= -180\u00B0 and l<= 180\u00B0")
+    if (sum(abs(occdf[, lng]) > 180) != 0) {
+      stop("`lng` values should be >= -180\u00B0 and <= 180\u00B0")
     }
 
     if (method %in% c("grid", "point") == FALSE) {
@@ -269,7 +269,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         c("p_lng_MERDITH2021", "p_lat_MERDITH2021")
       colnames(scotese) <-
         c("p_lng_PALEOMAP", "p_lat_PALEOMAP")
-      colnames(wright) <- c("p_lng_WRIGHT2013", "p_lat_WRIGHT2013")
+      colnames(wright) <-
+        c("p_lng_WRIGHT2013", "p_lat_WRIGHT2013")
       occdf <- cbind.data.frame(occdf, merdith, scotese, wright)
       #calculate uncertainty
       uncertain_lng <- cbind(
