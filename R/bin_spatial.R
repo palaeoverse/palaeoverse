@@ -151,7 +151,7 @@ bin_spatial <- function(occdf,
 
   #=== Set-up ===
   # Convert to sf object and add CRS
-  occdf <- sf::st_as_sf(occdf,coords=c(lng, lat),
+  occdf <- sf::st_as_sf(occdf, coords=c(lng, lat),
                         remove = FALSE,
                         crs = "EPSG:4326")
 
@@ -170,9 +170,9 @@ bin_spatial <- function(occdf,
 
   # Extract cell centroids
   occdf$cell_centroid_lng <- sf::st_coordinates(
-    h3jsr::h3_to_point(h3_address = occdf$cell_ID))[,c("X")]
+    h3jsr::h3_to_point(h3_address = occdf$cell_ID))[, c("X")]
   occdf$cell_centroid_lat <- sf::st_coordinates(
-    h3jsr::h3_to_point(h3_address = occdf$cell_ID))[,c("Y")]
+    h3jsr::h3_to_point(h3_address = occdf$cell_ID))[, c("Y")]
 
   # Sub-grid desired?
   if (!is.null(sub_grid)) {
@@ -191,9 +191,9 @@ bin_spatial <- function(occdf,
 
     # Extract cell centroids
     occdf$cell_centroid_lng_sub <- sf::st_coordinates(
-      h3jsr::h3_to_point(h3_address = occdf$cell_ID_sub))[,c("X")]
+      h3jsr::h3_to_point(h3_address = occdf$cell_ID_sub))[, c("X")]
     occdf$cell_centroid_lat_sub <- sf::st_coordinates(
-      h3jsr::h3_to_point(h3_address = occdf$cell_ID_sub))[,c("Y")]
+      h3jsr::h3_to_point(h3_address = occdf$cell_ID_sub))[, c("Y")]
   }
 
   # Drop geometries column
