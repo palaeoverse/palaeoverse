@@ -1,12 +1,22 @@
 Package: palaeoverse
-Title: What the Package Does (One Line, Title Case)
+Title: A community-driven toolkit to support palaeobiological analyses
 Version: 0.0.0.9000
 Authors@R: c(
-    person(given = "Lewis A.", family = "Jones", email = "LewisAlan.Jones@uvigo.es", role = c("aut", "cre")),
-    person(given = "William", family = "Gearty", email = "willgearty@gmail.com", role = c("aut")),
-    person(given = "Kilian", family = "Eichenseer", email = "kilian.eichenseer@gmail.com", role = c("aut")),
-    person(given = "Sofia", family = "Galvan", email = "sofia.galvan@uvigo.es", role = c("aut")))
-Description: A community-driven software package of generic functions for the palaeobiology community. The package streamlines analyses, improves code readability and reproducibility for palaeobiological analyses.
+    person(given = "Lewis", middle = "A.", family = "Jones", email = "LewisAlan.Jones@uvigo.es",
+      role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3902-8986")),
+    person(given = "William", family = "Gearty", email = "willgearty@gmail.com",
+      role = c("aut"), comment = c(ORCID = "0000-0003-0076-3262")),
+    person(given = "Bethany", family = "Allen", email = "Bethany.Allen@bsse.ethz.ch",
+      role = c("aut"), comment = c(ORCID = "0000-0003-0282-6407")),
+    person(given = "Kilian", family = "Eichenseer", email = "kilian.eichenseer@gmail.com",
+      role = c("aut"), comment = c(ORCID = "0000-0002-0477-8878")),
+    person(given = "Christopher", middle = "D.", family = "Dean", email = "christopherdaviddean@gmail.com",
+      role = c("aut"), comment = c(ORCID = "0000-0001-6471-6903")),      
+    person(given = "Sofia", family = "Galvan", email = "sofia.galvan@uvigo.es",
+      role = c("aut"), comment = c(ORCID = "0000-0002-3092-4314")))
+Description: A community-driven software package to support palaeobiological analyses. 
+  The package contains a range of functions to help streamline analyses and provide reusable and readable code.
+  The intention of the package is to improve reproducible research in palaeobiology.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -31,3 +41,6 @@ Suggests:
     covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+URL: https://palaeoverse.org,
+     https://github.com/palaeoverse-community/palaeoverse
+BugReports: https://github.com/palaeoverse-community/palaeoverse/issues
