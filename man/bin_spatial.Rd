@@ -95,10 +95,10 @@ data("reefs")
 occdf <- reefs[1:500, ]
 
 # Bin data using a hexagonal equal-area grid
-bin_spatial(occdf = occdf, spacing = 1000, plot = TRUE)
+bin_spatial(occdf = occdf, spacing = 250, plot = TRUE)
 
 # Bin data using a hexagonal equal-area grid and sub-grid
-bin_spatial(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+bin_spatial(occdf = occdf, spacing = 250, sub_grid = 50, plot = TRUE)
 
 # EXAMPLE: rarefy
 # Load data

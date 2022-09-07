@@ -67,10 +67,10 @@
 #' occdf <- reefs[1:500, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' bin_spatial(occdf = occdf, spacing = 1000, plot = TRUE)
+#' bin_spatial(occdf = occdf, spacing = 250, plot = TRUE)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' bin_spatial(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+#' bin_spatial(occdf = occdf, spacing = 250, sub_grid = 50, plot = TRUE)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
@@ -82,10 +82,10 @@
 #' # Get unique bins
 #' bins <- unique(occdf$cell_ID)
 #'
-#' # Sample reps for 1 per cell
+#' # n reps
 #' n <- 10
 #'
-#' # Rarefy that data across sub-grid grid cells!
+#' # Rarefy data across sub-grid grid cells
 #' # Returns a list with each element a bin with respective mean genus richness
 #' df <- lapply(bins, function(x) {
 #'   # subset occdf for respective grid cell
@@ -243,10 +243,10 @@ bin_spatial <- function(occdf,
     if (!is.null(sub_grid)) {
       grid <- rbind.data.frame(grid, s_grid)
       occdf <- list(occdf, grid, base_grid, primary, secondary)
-      names(occdf) <- c("occdf", "grid", "base_grid", "primary", "secondary")
+      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid", "sub_grid")
     } else {
       occdf <- list(occdf, grid, base_grid, primary)
-      names(occdf) <- c("occdf", "grid", "base_grid", "primary")
+      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
     }
   }
   message(
