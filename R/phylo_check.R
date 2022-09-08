@@ -10,24 +10,30 @@
 #' any other punctuation.
 #' @param out \code{character}. Determine whether to return either a
 #' \code{dataframe} describing which taxa are included or not included in the
-#' tree ("table", the default), the counts of taxa included and not included in
-#' the tree ("counts"), or the phylogeny trimmed to only include taxa in the
-#' provided list ("tree").
+#' tree ("full_table", the default), the same table but with taxa included in
+#' both the tree and the list removed ("diff_table"), the counts of taxa
+#' included and not included in the tree ("counts"), or the phylogeny trimmed to
+#' only include taxa in the provided list ("tree").
 #' @param sort \code{character}. If out = "table", sort the names by presence in
 #' the tree ("presence", the default), or alphabetically ("az").
-#' @return If out = "table", a \code{dataframe} describing whether taxon names
-#' are present in the list and/or the tree. If out = "counts", a summary table
-#' containing the number of taxa in the list but not the tree, in the tree but
-#' not the list, and in both. If out = "tree", a phylo object consisting of the
-#' input phylogeny trimmed to only include the tips present in the list.
+#' @return If out = "full_table", a \code{dataframe} describing whether taxon
+#' names are present in the list and/or the tree. If out = "diff_table", a
+#' \code{dataframe} describing which taxon names are present in the list or the
+#' tree, but not both. If out = "counts", a summary table containing the number
+#' of taxa in the list but not the tree, in the tree but not the list, and in
+#' both. If out = "tree", a phylo object consisting of the input phylogeny
+#' trimmed to only include the tips present in the list.
 #' @details Phylogenies can be read into R from .txt or .tree files containing
 #' the Newick formatted tree using [ape::read.tree()], and can be saved as
-#' files using [ape::write.tree()].
+#' files using [ape::write.tree()]. When out = "tree", tips are trimmed using
+#' [ape::drop.tip()]; if your tree is not ultrametric (i.e. the tip dates are
+#' not all the same), we recommend using [paleotree::fixRootTime()] to readjust
+#' your branch lengths following pruning.
 #' @importFrom ape drop.tip
 #' @section Developer(s):
 #' Bethany Allen
 #' @section Reviewer(s):
-#' William Gearty
+#' William Gearty and Pedro Godoy
 #'
 #' @examples
 #' #Read in example tree of ceratopsians from paleotree
@@ -54,7 +60,7 @@
 #' plot(my_ceratopsians)
 #' @export
 
-phylo_check <- function(tree = NULL, list = NULL, out = "table",
+phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
                         sort = "presence") {
   #Errors for incorrect input
   if (is.null(tree)) {
@@ -78,16 +84,18 @@ phylo_check <- function(tree = NULL, list = NULL, out = "table",
          underscores")
   }
 
-  if (out != "counts" && out != "table" && out != "tree") {
-    stop("out must either be 'table', 'counts' or 'tree'")
+  if (out != "counts" && out != "full_table" && out != "diff_table" &&
+      out != "tree") {
+    stop("out must either be 'full_table', 'diff_table', 'counts' or 'tree'")
   }
 
   if (sort != "az" && sort != "presence") {
     stop("sort must either be 'az' or 'presence'")
   }
 
-  if (out != "table" && sort != "presence") {
-    warning("sort is redundant when using outputs other than 'table'")
+  if (out != "full_table" && out != "diff_table" && sort != "presence") {
+    warning("sort is redundant when using outputs other than 'full_table' or
+            'diff_table'")
   }
 
   #Function
@@ -101,7 +109,7 @@ phylo_check <- function(tree = NULL, list = NULL, out = "table",
                          perl = TRUE)
 
   #Create vectors of names, those in tree and those in list
-  if (out == "counts" || out == "table") {
+  if (out == "counts" || out == "full_table" || out == "diff_table") {
     tip_names <- tree$tip.label
     all_names <- unique(c(tip_names, list))
     names_in_tree <- (all_names %in% tip_names)
@@ -109,7 +117,7 @@ phylo_check <- function(tree = NULL, list = NULL, out = "table",
   }
 
   #Determine which names are in which lists and table them
-  if (out == "table") {
+  if (out == "full_table" || out == "diff_table") {
     table <- data.frame(all_names, names_in_tree, names_in_list)
 
     if (sort == "az") {
@@ -117,9 +125,14 @@ phylo_check <- function(tree = NULL, list = NULL, out = "table",
     } else {
       table <- table[order(table$names_in_list, decreasing = TRUE), ]
     }
+  }
 
+  if (out == "diff_table") {
+    table <- subset(table, names_in_tree == FALSE | names_in_list == FALSE)
+  }
+
+  if (out == "full_table" || out == "diff_table") {
     colnames(table) <- c("Taxon name", "Present in tree", "Present in list")
-
     return(table)
   }
 

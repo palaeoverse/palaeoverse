@@ -4,7 +4,7 @@
 \alias{phylo_check}
 \title{Check phylogeny tip names}
 \usage{
-phylo_check(tree = NULL, list = NULL, out = "table", sort = "presence")
+phylo_check(tree = NULL, list = NULL, out = "full_table", sort = "presence")
 }
 \arguments{
 \item{tree}{\code{phylo}. A phylo object containing the phylogeny.}
@@ -15,19 +15,22 @@ any other punctuation.}
 
 \item{out}{\code{character}. Determine whether to return either a
 \code{dataframe} describing which taxa are included or not included in the
-tree ("table", the default), the counts of taxa included and not included in
-the tree ("counts"), or the phylogeny trimmed to only include taxa in the
-provided list ("tree").}
+tree ("full_table", the default), the same table but with taxa included in
+both the tree and the list removed ("diff_table"), the counts of taxa
+included and not included in the tree ("counts"), or the phylogeny trimmed to
+only include taxa in the provided list ("tree").}
 
 \item{sort}{\code{character}. If out = "table", sort the names by presence in
 the tree ("presence", the default), or alphabetically ("az").}
 }
 \value{
-If out = "table", a \code{dataframe} describing whether taxon names
-are present in the list and/or the tree. If out = "counts", a summary table
-containing the number of taxa in the list but not the tree, in the tree but
-not the list, and in both. If out = "tree", a phylo object consisting of the
-input phylogeny trimmed to only include the tips present in the list.
+If out = "full_table", a \code{dataframe} describing whether taxon
+names are present in the list and/or the tree. If out = "diff_table", a
+\code{dataframe} describing which taxon names are present in the list or the
+tree, but not both. If out = "counts", a summary table containing the number
+of taxa in the list but not the tree, in the tree but not the list, and in
+both. If out = "tree", a phylo object consisting of the input phylogeny
+trimmed to only include the tips present in the list.
 }
 \description{
 A function to check the list of tip names in a phylogeny against a vector of
@@ -37,7 +40,10 @@ names within the vector.
 \details{
 Phylogenies can be read into R from .txt or .tree files containing
 the Newick formatted tree using \code{\link[ape:read.tree]{ape::read.tree()}}, and can be saved as
-files using \code{\link[ape:write.tree]{ape::write.tree()}}.
+files using \code{\link[ape:write.tree]{ape::write.tree()}}. When out = "tree", tips are trimmed using
+\code{\link[ape:drop.tip]{ape::drop.tip()}}; if your tree is not ultrametric (i.e. the tip dates are
+not all the same), we recommend using \code{\link[paleotree:fixRootTime]{paleotree::fixRootTime()}} to readjust
+your branch lengths following pruning.
 }
 \section{Developer(s)}{
 
@@ -46,7 +52,7 @@ Bethany Allen
 
 \section{Reviewer(s)}{
 
-William Gearty
+William Gearty and Pedro Godoy
 }
 
 \examples{

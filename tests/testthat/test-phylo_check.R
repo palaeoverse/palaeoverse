@@ -10,9 +10,10 @@ test_that("phylo_check() works", {
 
   #expect equal
   expect_equal(nrow(phylo_check(tree, list)), 40)
+  expect_equal(nrow(phylo_check(tree, list, out = "diff_table")), 33)
   expect_equal(nrow(phylo_check(tree, list, out = "counts")), 3)
   expect_equal(nrow(phylo_check(tree, list = "PsiTTacOsaurUs sinEnsIs",
-                                out = "table")), 37)
+                                out = "full_table")), 37)
 
   #expect true
   expect_true(is.data.frame(phylo_check(tree, list)))
