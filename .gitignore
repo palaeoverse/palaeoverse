@@ -49,3 +49,4 @@ po/*~
 
 # Test .pdfs
 tests/testthat/*.pdf
+docs
