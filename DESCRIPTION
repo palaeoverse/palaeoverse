@@ -19,7 +19,9 @@ Imports:
     graphics,
     methods,
     deeptime (>= 0.2.1),
-    ape
+    ape,
+    sf,
+    h3jsr
 Suggests: 
     divDyn,
     rmarkdown,
