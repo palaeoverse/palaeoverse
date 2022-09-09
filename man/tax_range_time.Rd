@@ -9,6 +9,7 @@ tax_range_time(
   name = "name",
   min_ma = "min_ma",
   max_ma = "max_ma",
+  by = "FAD",
   scale = "GTS2020",
   plot = FALSE,
   return_error = FALSE
@@ -17,46 +18,63 @@ tax_range_time(
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences. The
 dataframe should contain at least three columns: names of taxa (\code{character})
-and the maximum (\code{numeric}) and minimum (\code{numeric}) age which constrain the
-age range (in millions of years) of the fossil occurrence. If the age range
-columns are provided as (\code{character}) values (i.e., stage names), the
-function will attempt to extract numeric age data from the
-Geological Timescale by linking stage names.}
+and the maximum (\code{numeric} or \code{character}) and minimum
+(\code{numeric}  or \code{character}) age which constrain the
+age range (in millions of years if \code{numeric}) of the fossil occurrence.
+If the age range columns are provided as (\code{character}) values
+(i.e., stage names), the function will attempt to extract numeric age data
+from the Geological Timescale by matching the provided character strings to
+the stage names.}
 
 \item{name}{\code{character}. The name of the column you wish to be treated
-as the input names (e.g., "species" or "genus").}
+as the input names (e.g., "species" or "genus"). NA data should be removed
+prior to function call.}
 
 \item{min_ma}{\code{character}. The name of the column you wish to be treated
-as the input minimum age range (e.g., "min_ma").}
+as the minimum limit of the age range (e.g., "min_ma").}
 
 \item{max_ma}{\code{character}. The name of the column you wish to be treated
-as the input maximum age range (e.g., "max_ma").}
+as the maximum limit of the age range (e.g., "max_ma").}
+
+\item{by}{\code{character}. How should the output (and plot) be sorted?
+Either: "FAD" (first-appearance date), "LAD" (last-appearance data), "name"
+(alphabetically by taxon names).}
 
 \item{scale}{\code{character}. Specify the desired geological timescale to
-be used "GTS2020" or "GTS2012". This argument is only useful if the supplied
-"max_ma" and "min_ma" columns are of class \code{character}.
-"GTS2020" is the default.}
+be used, either "GTS2020" or "GTS2012". This argument is only useful if the
+supplied "max_ma" and "min_ma" columns are of class \code{character}.
+"GTS2020" is the default. For similar advanced functionality, see
+\link[palaeoverse]{look_up}.}
 
 \item{plot}{\code{logical}. Should a plot of the ranges be generated?}
 
-\item{return_error}{\code{logical}. Should a vector of numbers be returned
+\item{return_error}{\code{logical}. Should a numeric vector be returned
 to flag the rows of the \code{occdf} that cannot be matched to \code{character}
 interval names? This is only relevant if \code{max_ma} and \code{min_ma}
 are \code{character} values.}
 }
 \value{
 A \code{dataframe} containing the following columns:
-unique taxa (\code{taxa}), taxa ID (\code{taxa_id}), first appearance of taxa
-(\code{FAD_ma}), last appearance of taxa (\code{LAD_ma}), and temporal range duration
-(\code{range_myr}) is returned.
+unique taxa (\code{taxa}), taxa ID (\code{taxa_id}), first appearance of taxon
+(\code{FAD_ma}), last appearance of taxon (\code{LAD_ma}), duration of temporal
+range (\code{range_myr}), and number of occurrences per taxon (\code{n_occ}) is
+returned.
 }
 \description{
-A function to calculate the temporal range of fossil taxa.
+A function to calculate the temporal range of fossil taxa from occurrence
+data.
 }
 \details{
 The temporal range(s) of taxa are calculated by extracting all
 unique taxa (\code{name} column) from the input \code{occdf}, and checking their first
-and last appearance. The temporal duration of each taxa is also calculated.
+and last appearance. The temporal duration of each taxon is also calculated.
+A plot of the temporal range of each taxa is also returned if \code{plot = TRUE}.
+If \code{return_error == TRUE}, a numeric vector flagging rows that cannot be
+matched to interval names is returned.
+
+Note: this function provides output based solely on the user input data. The
+true duration of a taxon is likely confounded by uncertainty in dating
+occurrences and incomplete sampling and preservation.
 }
 \section{Developer(s)}{
 
@@ -65,13 +83,15 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-To be reviewed
+Bethany Allen
 }
 
 \examples{
 # Grab internal data
 occdf <- tetrapods
+# Remove NAs
+occdf <- subset(occdf, !is.na(genus))
 # Temporal range
-tax_range_time(occdf = occdf, name = "accepted_name", plot = TRUE)
+tax_range_time(occdf = occdf, name = "genus", plot = TRUE)
 
 }
