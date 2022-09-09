@@ -34,7 +34,7 @@
 #' are `character` values.
 #'
 #' @return A \code{dataframe} containing the following columns:
-#' unique taxa (`taxa`), taxa ID (`taxa_id`), first appearance of taxon
+#' unique taxa (`taxa`), taxa ID (`taxon_id`), first appearance of taxon
 #' (`FAD_ma`), last appearance of taxon (`LAD_ma`), duration of temporal
 #' range (`range_myr`), and number of occurrences per taxon (`n_occ`) is
 #' returned.
@@ -153,7 +153,7 @@ Either numeric or character, but not both.")
   #=== Temporal range ===
   # Generate dataframe for population
   temp_df <- data.frame(taxa = unique_taxa,
-                          taxa_id = seq(1, length(unique_taxa), 1),
+                          taxon_id = seq(1, length(unique_taxa), 1),
                           FAD_ma = rep(NA, length(unique_taxa)),
                           LAD_ma = rep(NA, length(unique_taxa)),
                           range_myr = rep(NA, length(unique_taxa)),
@@ -175,12 +175,12 @@ Either numeric or character, but not both.")
     # Should data be ordered by FAD or LAD?
     if (by == "FAD") {
       temp_df <- temp_df[order(temp_df$FAD_ma), ]
-      temp_df$taxa_id <- 1:nrow(temp_df)
+      temp_df$taxon_id <- 1:nrow(temp_df)
     }
 
     if (by == "LAD") {
       temp_df <- temp_df[order(temp_df$LAD_ma), ]
-      temp_df$taxa_id <- 1:nrow(temp_df)
+      temp_df$taxon_id <- 1:nrow(temp_df)
       }
 
     # Plot data?
@@ -198,16 +198,16 @@ Either numeric or character, but not both.")
            main = "Temporal range of taxa")
       segments(x0 = temp_df$FAD_ma,
                x1 = temp_df$LAD_ma,
-               y0 = temp_df$taxa_id,
-               col = temp_df$taxa_id)
+               y0 = temp_df$taxon_id,
+               col = temp_df$taxon_id)
       points(x = temp_df$FAD_ma,
-             y = temp_df$taxa_id,
+             y = temp_df$taxon_id,
              pch = 20,
-             col = temp_df$taxa_id)
+             col = temp_df$taxon_id)
       points(x = temp_df$LAD_ma,
-             y = temp_df$taxa_id,
+             y = temp_df$taxon_id,
              pch = 20,
-             col = temp_df$taxa_id)
+             col = temp_df$taxon_id)
       axis_geo(side = 1, intervals = "periods")
       title(xlab = "Time (Ma)", line = 4)
     }
