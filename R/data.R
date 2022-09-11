@@ -172,3 +172,26 @@
 #' 2022. \doi{10.5281/zenodo.6037852}
 "reefs"
 
+#' Example dataset: Interval key for the look_up function
+#'
+#' A table of geological intervals and the earliest and latest
+#' corresponding international geological stage. The table was compiled using
+#' regional stratigraphies, the [Geowhen database]
+#' (https://timescalefoundation.org/resources/geowhen/), temporal information
+#' from the [Paleobiology Database]
+#' (https://paleobiodb.org/classic/displaySearchStrataForm) and the Geological
+#' Timescale 2016. Some assignments were made with incomplete information on
+#' the stratigraphic provenance of intervals. The assignments in this
+#' table are tentative and should be verified before use.
+#'
+#' @format A data frame with 783 rows and 3 variables:
+#' \describe{
+#'   \item{interval_name}{Stratigraphic interval}
+#'   \item{early_stage}{Earliest (oldest) geological stage which overlaps with
+#'   the interval}
+#'   \item{late_stage}{Latest (youngest) geological stage which overlaps with
+#'   the interval}
+#' }
+#' @source Compiled by K. Eichenseer for assigning geological stages to
+#' occurrences from the Paleobiology Database and the Paleoreefs Database.}
+"interval_key"
