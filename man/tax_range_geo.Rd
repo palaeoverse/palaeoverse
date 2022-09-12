@@ -19,7 +19,8 @@ This dataframe should contain at least three columns: names of taxa
 (\code{character}), longitude (\code{numeric}) and latitude (\code{numeric}).}
 
 \item{name}{\code{character}. The name of the column you wish to be treated
-as the input names (e.g., "species" or "genus").}
+as the input names (e.g., "species" or "genus"). NA data should be removed
+prior to function call.}
 
 \item{lng}{\code{character}. The name of the column you wish to be treated
 as the input longitude (e.g., "lng" or "p_lng").}
@@ -28,7 +29,7 @@ as the input longitude (e.g., "lng" or "p_lng").}
 as the input latitude (e.g., "lat" or "p_lat").}
 
 \item{method}{\code{character}. How should geographic range be calculated
-for each taxa in \code{occdf}? Four options exist in this function:
+for each taxon in \code{occdf}? Four options exist in this function:
 "con", "lat", "gcd", and "occ". See Details for a description of each.}
 
 \item{spacing}{\code{numeric}. The desired spacing (in km) between the
@@ -36,49 +37,51 @@ center of adjacent grid cells. Only useful if the \code{method} argument is set
 to "occ". The default is 100.}
 }
 \value{
-A \code{dataframe} with method specific columns:
+A \code{dataframe} with method-specific columns:
 \itemize{
 \item For the "con" method, a \code{dataframe} with unique taxa (\code{taxa}),
-taxa ID (\code{taxa_id}), convex hull coordinates (\code{lng} & \code{lat}), and area
+taxon ID (\code{taxon_id}), convex hull coordinates (\code{lng} & \code{lat}), and area
 (\code{area}) in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}} is returned.
 \item For the "lat" method, a \code{dataframe} with unique taxa (\code{taxa}),
-taxa ID (\code{taxa_id}), maximum latitude of occurrence (\code{max_lat}),
+taxon ID (\code{taxon_id}), maximum latitude of occurrence (\code{max_lat}),
 minimum latitude of occurrence (\code{min_lat}), and latitudinal
 range (\code{range_lat}) is returned.
-\item For the "gcd" method, a \code{dataframe} with unique taxa (\code{taxa}), taxa
-ID (\code{taxa_id}), coordinates of the two most distant points
+\item For the "gcd" method, a \code{dataframe} with unique taxa (\code{taxa}), taxon
+ID (\code{taxon_id}), coordinates of the two most distant points
 (\code{lng} & \code{lat}), and the 'Great Circle Distance' (\code{GCD}) between these
 points in km is returned.
-\item For the "occ" method, a \code{dataframe} with unique taxa (\code{taxa}), taxa
-ID (\code{taxa_id}), the number of occupied cells (\code{cells}), and the spacing
+\item For the "occ" method, a \code{dataframe} with unique taxa (\code{taxa}), taxon
+ID (\code{taxon_id}), the number of occupied cells (\code{cells}), and the spacing
 between cells (\code{spacing}) in km is returned.
+For the "con", "lat" and "gcd" method, values of zero indicate that the
+respective taxon is a singleton (i.e. represented by only one occurrence).
 }
 }
 \description{
-A function to calculate the geographic range of fossil taxa. The function
-can calculate geographic range in four ways: convex hull, latitudinal range,
-maximum great circle distance, and the number of occupied equal-area
-hexagonal grid cells.
+A function to calculate the geographic range of fossil taxa from occurrence
+data. The function can calculate geographic range in four ways: convex hull,
+latitudinal range, maximum great circle distance, and the number of
+occupied equal-area hexagonal grid cells.
 }
 \details{
-Four approaches (methods) exist in the \code{tax_range_geo} function for
-calculating ranges:
+Four approaches (methods) can be applied using the \code{tax_range_geo}
+function for calculating ranges:
 \itemize{
-\item Convex hull: the "con" method calculates the geographic range of a taxa
-using a convex hull for each taxa in \code{occdf}, and calculates the area of
+\item Convex hull: the "con" method calculates the geographic range of taxa
+using a convex hull for each taxon in \code{occdf}, and calculates the area of
 the convex hull (in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}) using
 \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}.
 \item Latitudinal: the "lat" method calculates the palaeolatitudinal
-range of a taxa. It does so for each taxa in \code{occdf} by finding their most
-northern and southern occurrence. The palaeolatitudinal range of each taxa
-is also calculated.
+range of a taxa. It does so for each taxon in \code{occdf} by finding their most
+northern (maximum latitude) and southern (minimum latitude) occurrence.
+The palaeolatitudinal range of each taxa is also calculated.
 \item Maximum Great Circle Distance: the "gcd" method calculates the maximum
-Great Circle Distance between occurrences for each taxa in \code{occdf}. It does
+Great Circle Distance between occurrences for each taxon in \code{occdf}. It does
 so using \code{\link[fields:rdist.earth]{fields::rdist.earth()}}. This
 function calculates Great Circle Distance using the Haversine method with
 the radius of the Earth set to the 6378.388 km (equatorial radius).
 \item Occupied cells: the "occ" method calculates the number of occupied
-grid cells. It does so using discrete hexagonal grids via the
+equal-area grid cells. It does so using discrete hexagonal grids via the
 \code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3 library,
 a geospatial indexing system that partitions the world into hexagonal cells:
 \url{https://h3geo.org/docs}. In H3, 16 different resolutions are available:
@@ -100,14 +103,16 @@ To be reviewed
 }
 
 \examples{
-# Grab internal data and set-up
+# Grab internal data
 occdf <- tetrapods
+# Remove NAs
+occdf <- subset(occdf, !is.na(genus))
 # Convex hull
-tax_range_geo(occdf = occdf, name = "accepted_name", method = "con")
+tax_range_geo(occdf = occdf, name = "genus", method = "con")
 # Latitudinal range
-tax_range_geo(occdf = occdf, name = "accepted_name", method = "lat")
+tax_range_geo(occdf = occdf, name = "genus", method = "lat")
 # Great Circle Distance
-tax_range_geo(occdf = occdf, name = "accepted_name", method = "gcd")
+tax_range_geo(occdf = occdf, name = "genus", method = "gcd")
 # Occupied grid cells
-tax_range_geo(occdf = occdf, name = "accepted_name", method = "occ")
+tax_range_geo(occdf = occdf, name = "genus", method = "occ")
 }

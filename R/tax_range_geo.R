@@ -37,6 +37,8 @@
 #' - For the "occ" method, a \code{dataframe} with unique taxa (`taxa`), taxon
 #' ID (`taxon_id`), the number of occupied cells (`cells`), and the spacing
 #' between cells (`spacing`) in km is returned.
+#' For the "con", "lat" and "gcd" method, values of zero indicate that the
+#' respective taxon is a singleton (i.e. represented by only one occurrence).
 #'
 #' @details Four approaches (methods) can be applied using the `tax_range_geo`
 #' function for calculating ranges:
@@ -78,13 +80,13 @@
 #' # Remove NAs
 #' occdf <- subset(occdf, !is.na(genus))
 #' # Convex hull
-#' tax_range_geo(occdf = occdf, name = "accepted_name", method = "con")
+#' tax_range_geo(occdf = occdf, name = "genus", method = "con")
 #' # Latitudinal range
-#' tax_range_geo(occdf = occdf, name = "accepted_name", method = "lat")
+#' tax_range_geo(occdf = occdf, name = "genus", method = "lat")
 #' # Great Circle Distance
-#' tax_range_geo(occdf = occdf, name = "accepted_name", method = "gcd")
+#' tax_range_geo(occdf = occdf, name = "genus", method = "gcd")
 #' # Occupied grid cells
-#' tax_range_geo(occdf = occdf, name = "accepted_name", method = "occ")
+#' tax_range_geo(occdf = occdf, name = "genus", method = "occ")
 #' @export
 tax_range_geo <- function(occdf,
                           name = "name",
@@ -234,8 +236,8 @@ in `occdf`")
     # Which resolution should be used based on input distance/spacing?
     # Use the h3jsr::h3_info_table to calculate resolution (however, this
     # table is not exported in their package, added into palaeoverse)
-    grid <- h3_info_table[
-      which.min(abs(h3_info_table$avg_cendist_km - spacing)), ]
+    grid <- h3jsr::h3_info_table[
+      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)), ]
     # Add resolution spacing
     oc_df$spacing <- grid$avg_cendist_km
     # Run for loop over all unique taxa

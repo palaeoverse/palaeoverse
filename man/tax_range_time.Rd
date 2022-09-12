@@ -55,7 +55,7 @@ are \code{character} values.}
 }
 \value{
 A \code{dataframe} containing the following columns:
-unique taxa (\code{taxa}), taxa ID (\code{taxa_id}), first appearance of taxon
+unique taxa (\code{taxa}), taxa ID (\code{taxon_id}), first appearance of taxon
 (\code{FAD_ma}), last appearance of taxon (\code{LAD_ma}), duration of temporal
 range (\code{range_myr}), and number of occurrences per taxon (\code{n_occ}) is
 returned.
