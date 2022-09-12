@@ -26,7 +26,7 @@
 #' be used, either "GTS2020" or "GTS2012". This argument is only useful if the
 #' supplied "max_ma" and "min_ma" columns are of class \code{character}.
 #' "GTS2020" is the default. For similar advanced functionality, see
-#' \link[palaeoverse]{look_up}.
+#' palaeoverse::look_up.
 #' @param plot \code{logical}. Should a plot of the ranges be generated?
 #' @param return_error \code{logical}. Should a numeric vector be returned
 #' to flag the rows of the `occdf` that cannot be matched to `character`
