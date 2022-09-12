@@ -30,8 +30,8 @@ Imports:
     graphics,
     methods,
     deeptime (>= 0.2.1),
-    geosphere,
-    fields,
+    ape,
+    sf,
     h3jsr
 Suggests: 
     divDyn,
@@ -39,6 +39,7 @@ Suggests:
     knitr,
     testthat (>= 3.0.0),
     vdiffr (>= 1.0.0),
+    paleotree,
     covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
