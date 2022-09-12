@@ -16,7 +16,7 @@ the interval}
 }
 \source{
 Compiled by K. Eichenseer for assigning geological stages to
-occurrences from the Paleobiology Database and the Paleoreefs Database.}
+occurrences from the Paleobiology Database and the Paleoreefs Database.
 }
 \usage{
 interval_key
@@ -24,11 +24,13 @@ interval_key
 \description{
 A table of geological intervals and the earliest and latest
 corresponding international geological stage. The table was compiled using
-regional stratigraphies, the \link{Geowhen database}
-(https://timescalefoundation.org/resources/geowhen/), temporal information
-from the \link{Paleobiology Database}
-(https://paleobiodb.org/classic/displaySearchStrataForm) and the Geological
-Timescale 2016. Some assignments were made with incomplete information on
+regional stratigraphies, the Geowhen Database
+(\url{https://timescalefoundation.org/resources/geowhen/}), temporal
+information from the Paleobiology Database
+(\url{https://paleobiodb.org/classic/displaySearchStrataForm}) and the
+Geological Timescale 2016
+(\url{https://stratigraphy.org/ICSchart/ChronostratChart2016-10.pdf}).
+Some assignments were made with incomplete information on
 the stratigraphic provenance of intervals. The assignments in this
 table are tentative and should be verified before use.
 }
