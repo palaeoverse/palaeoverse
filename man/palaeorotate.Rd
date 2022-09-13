@@ -21,13 +21,13 @@ latitudinal values, as well as age estimates. The age of rotation should be
 supplied in millions of years before present.}
 
 \item{lng}{\code{character}. The name of the column you wish to be treated as
-longitude (e.g. "lng").}
+longitude (defaults to "lng").}
 
 \item{lat}{\code{character}. The name of the column you wish to be treated as
-latitude (e.g. "lat").}
+latitude (defaults to "lat").}
 
 \item{age}{\code{numeric}. The name of the column you wish to be treated as
-the age for rotation (e.g. "age").}
+the age for rotation (defaults to "age").}
 
 \item{model}{\code{character}. The name of the plate rotation model to be
 used to reconstruct palaeocoordinates. See details for available models
@@ -48,8 +48,8 @@ relevant if \code{method} is set to "grid".}
 A \code{dataframe} containing the original input occurrence
 dataframe, age of rotation ("rot_age"), the reference coordinates rotated
 ("rot_lng" and "rot_lat"), and the reconstructed coordinates
-(i.e., "p_lng" and "p_lat"). The "point" \code{method} uses the input coordinates and
-age as the reference and are therefore not returned.
+(i.e., "p_lng" and "p_lat"). The "point" \code{method} uses the input coordinates
+and age as the reference; reference coordinates are therefore not returned.
 }
 \description{
 A function to generate palaeocoordinates for fossil occurrence data
@@ -139,7 +139,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Kilian Eichenseer
+Kilian Eichenseer and Lucas Buffan
 }
 
 \examples{

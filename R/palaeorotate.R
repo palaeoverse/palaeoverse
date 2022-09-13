@@ -11,11 +11,11 @@
 #' latitudinal values, as well as age estimates. The age of rotation should be
 #' supplied in millions of years before present.
 #' @param lng \code{character}. The name of the column you wish to be treated as
-#' longitude (e.g. "lng").
+#' longitude (defaults to "lng").
 #' @param lat \code{character}. The name of the column you wish to be treated as
-#' latitude (e.g. "lat").
+#' latitude (defaults to "lat").
 #' @param age \code{numeric}. The name of the column you wish to be treated as
-#' the age for rotation (e.g. "age").
+#' the age for rotation (defaults to "age").
 #' @param model \code{character}. The name of the plate rotation model to be
 #' used to reconstruct palaeocoordinates. See details for available models
 #' (`method` specific).
@@ -32,8 +32,8 @@
 #' @return A \code{dataframe} containing the original input occurrence
 #' dataframe, age of rotation ("rot_age"), the reference coordinates rotated
 #' ("rot_lng" and "rot_lat"), and the reconstructed coordinates
-#' (i.e., "p_lng" and "p_lat"). The "point" `method` uses the input coordinates and
-#' age as the reference and are therefore not returned.
+#' (i.e., "p_lng" and "p_lat"). The "point" `method` uses the input coordinates
+#' and age as the reference; reference coordinates are therefore not returned.
 #'
 #' @details This function can generate palaeocoordinates using two different
 #' approaches (`method`):
@@ -111,7 +111,7 @@
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Kilian Eichenseer
+#' Kilian Eichenseer and Lucas Buffan
 #' @importFrom utils download.file
 #' @importFrom pbapply pblapply
 #' @examples
@@ -156,6 +156,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         any(!is.numeric(occdf[, lng]) | is.na(occdf[, lng])) ||
         any(!is.numeric(occdf[, age]) | is.na(occdf[, age]))) {
       stop("`lng`, `lat` and `age` should be of class numeric")
+    }
+
+    if (any(occdf[, age] < 0)) {
+      stop("`age` contains negative values. Input ages should be positive.")
     }
 
     if (sum(abs(occdf[, lat]) > 90) != 0) {
@@ -411,12 +415,20 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                             occdf[1:nrow(coords), lat],
                             occdf[1:nrow(coords), age])
 
+      # Generate list index for matching
+      index_API <- lapply(uni_ages, function (i) {
+        rows <- which(coords[, age] == i)
+        rows
+      })
+
       # Generate list of API requests
-      API_request <- lapply(uni_ages, function(i) {
-        tmp <- coords[which(coords[, age] == i), c(lng, lat)]
+      API_request <- lapply(index_API, function(i) {
+        indx <- unlist(i)
+        age <- unique(coords[indx, c("age")])
+        tmp <- coords[indx, c(lng, lat)]
         tmp <- toString(as.vector(t(tmp)))
         API <- sprintf('?points=%s&time=%f&model=%s',
-                       gsub(" ", "", tmp), i, model)
+                       gsub(" ", "", tmp), age, model)
         API <- paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
                       API,
                       "&return_null_points")
@@ -456,7 +468,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       # Update column names
       colnames(API_return) <- c("p_lng", "p_lat", "rot_age")
       # Bind data
-      coords <- cbind.data.frame(coords, API_return)
+      coords <- cbind.data.frame(coords, API_return[unlist(index_API),])
       # Add rotated coordinates to input dataframe based on matching
       for(i in 1:nrow(coords)) {
         matched <- which(occdf$match == coords[i, c("match")])
