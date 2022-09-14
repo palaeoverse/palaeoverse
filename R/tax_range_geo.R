@@ -40,21 +40,26 @@
 #' For the "con", "lat" and "gcd" method, values of zero indicate that the
 #' respective taxon is a singleton (i.e. represented by only one occurrence).
 #'
-#' @details Four approaches (methods) can be applied using the `tax_range_geo`
-#' function for calculating ranges:
+#' @details Four commonly applied approaches (Darroch et al., 2020)
+#' are available using the `tax_range_geo` function for calculating ranges:
 #' - Convex hull: the "con" method calculates the geographic range of taxa
 #' using a convex hull for each taxon in `occdf`, and calculates the area of
 #' the convex hull (in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}) using
-#' \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}.
+#' \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}. The
+#' convex hull method works by creating a polygon that encompasses all
+#' occurrence points of the taxon.
 #' - Latitudinal: the "lat" method calculates the palaeolatitudinal
-#' range of a taxa. It does so for each taxon in `occdf` by finding their most
-#' northern (maximum latitude) and southern (minimum latitude) occurrence.
+#' range of a taxa. It does so for each taxon in `occdf` by finding their
+#' maximum and minimum latitudinal occurrence.
 #' The palaeolatitudinal range of each taxa is also calculated.
 #' - Maximum Great Circle Distance: the "gcd" method calculates the maximum
 #' Great Circle Distance between occurrences for each taxon in `occdf`. It does
 #' so using \code{\link[fields:rdist.earth]{fields::rdist.earth()}}. This
 #' function calculates Great Circle Distance using the Haversine method with
 #' the radius of the Earth set to the 6378.388 km (equatorial radius).
+#' Great Circle Distance represents the shortest distance between two
+#' points on the surface of a sphere. This is different from Euclidean Distance,
+#' which represents the distance between two points on a plane.
 #' - Occupied cells: the "occ" method calculates the number of occupied
 #' equal-area grid cells. It does so using discrete hexagonal grids via the
 #' \code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3 library,
@@ -66,10 +71,15 @@
 #' cells. Using this distance, the function identifies which resolution is most
 #' similar to the input `spacing`, and uses this resolution.
 #'
+#' @section Reference(s):
+#' Darroch, S. A., Casey, M. M., Antell, G. S., Sweeney, A., & Saupe, E. E.
+#' (2020). High preservation potential of paleogeographic range size
+#' distributions in deep time. The American Naturalist, 196(4), 454-471.
+#'
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' To be reviewed
+#' Bethany Allen
 #' @importFrom geosphere areaPolygon
 #' @importFrom grDevices chull
 #' @importFrom fields rdist.earth
