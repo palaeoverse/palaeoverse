@@ -11,19 +11,18 @@ The aim of `palaeoverse` is to generate a community-driven software package of g
 
 # Development team
 - [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), Universidade de Vigo
-- [Will Gearty](mailto:willgearty@gmail.com), University of Nebraska-Lincoln
+- [William Gearty](mailto:willgearty@gmail.com), American Museum of Natural History
+- [Bethany J. Allen](mailto:Bethany.Allen@bsse.ethz.ch), ETH Zürich
 - [Kilian Eichenseer](mailto:kilian.eichenseer@gmail.com), Durham University
-- [Bethany Allen](mailto:Bethany.Allen@bsse.ethz.ch), ETH Zürich
 - [Christopher D. Dean](christopherdaviddean@gmail.com), University College London
-- [Emma Dunne](mailto:dunne.emma.m@gmail.com), University of Birmingham
-- [Miranta Kouvari](mailto:kouvari.miranta@gmail.com), University College London
-- [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), École Normale Supérieure de Lyon
 - [Sofía Galván](mailto:sofia.galvan@uvigo.es), Universidade de Vigo
+- [Miranta Kouvari](mailto:kouvari.miranta@gmail.com), University College London/Natural History Museum
+- [Emma M. Dunne](mailto:dunne.emma.m@gmail.com), Friedrich-Alexander-Universität Erlangen-Nürnberg
+- [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), University of São Paulo/Stony Brook University
 - [Cecily Nicholl](cecily.nicholl@ucl.ac.uk), University College London
-- [Alessandro Chiarenza](mailto:a.chiarenza15@gmail.com), Universidade de Vigo
-- [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), Federal University of Paraná/Stony Brook University
-- [Pedro Monarrez](mailto:pmonarrez@stanford.edu), Stanford University
-- [Erin Dillon](mailto:erinmdillon@ucsb.edu), Smithsonian Tropical Research Institute/University of California
+- [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), École Normale Supérieure de Lyon
+- [Erin M. Dillon](mailto:erinmdillon@ucsb.edu), Smithsonian Tropical Research Institute/University of California
+- [Alfio A. Chiarenza](mailto:a.chiarenza15@gmail.com), Universidade de Vigo
 
 # Installation
 `palaeoverse` is not yet available on CRAN, and is still in development. We hope to have the initial release of the package later this year. If you have suggestions for additional functions, or are interested in joining the `palaeoverse` community, please feel free to contact [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), or a member of the development of team.
