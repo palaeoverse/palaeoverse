@@ -29,7 +29,8 @@ Imports:
     graphics,
     methods,
     deeptime (>= 0.2.1),
-    pbapply
+    pbapply,
+    httr
 Suggests: 
     divDyn,
     rmarkdown,

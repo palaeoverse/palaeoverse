@@ -11,7 +11,8 @@ palaeorotate(
   age = "age",
   model = "MERDITH2021",
   method = "grid",
-  uncertainty = FALSE
+  uncertainty = FALSE,
+  round = NULL
 )
 }
 \arguments{
@@ -30,23 +31,28 @@ latitude (defaults to "lat").}
 the age for rotation (defaults to "age").}
 
 \item{model}{\code{character}. The name of the plate rotation model to be
-used to reconstruct palaeocoordinates. See details for available models
-(\code{method} specific).}
+used to reconstruct palaeocoordinates. See details for available models.}
 
 \item{method}{\code{character}. Method used to calculate palaeocoordinates
 for fossil occurrences. Either "grid" to use rotation files, or "point"
-to use the GPlates API service.}
+to use the GPlates API service. See details section for specific details.}
 
 \item{uncertainty}{\code{logical}. Should the uncertainty in
 palaeogeographic reconstructions be returned? If set to TRUE, the
-palaeocoordinates from the three available rotation files are returned
-("MERDITH2021", "PALEOMAP", and "WRIGHT2013"), along with their
-respective longitudinal and latitudinal range. This argument is only
+palaeocoordinates from all rotation files (models) are returned, along with
+their respective longitudinal and latitudinal range. This argument is only
 relevant if \code{method} is set to "grid".}
+
+\item{round}{\code{numeric}. Numeric value indicating the number of decimal
+places \code{lng}, \code{lat} and \code{age} should be rounded to. This functionality is
+only relevant for the "point" \code{method}. Rounding can speed up palaeorotation
+by reducing the number of unique coordinate pairs. Defaults to NULL
+(no rounding of values).}
 }
 \value{
 A \code{dataframe} containing the original input occurrence
-dataframe, age of rotation ("rot_age"), the reference coordinates rotated
+dataframe, the rotation model ("rot_model"),
+age of rotation ("rot_age"), the reference coordinates rotated
 ("rot_lng" and "rot_lat"), and the reconstructed coordinates
 (i.e., "p_lng" and "p_lat"). The "point" \code{method} uses the input coordinates
 and age as the reference; reference coordinates are therefore not returned.
@@ -64,16 +70,15 @@ approaches (\code{method}):
 \itemize{
 \item Rotation files: The "grid" \code{method} uses rotation files to spatiotemporally
 link present-day geographic coordinates and age estimates with a spatial
-grid (1° x 1°) rotated to the midpoint of stratigraphic stages
-(Geological Timescale, 2020). If specific ages of rotation are required,
-or fine-scale spatial analyses are being conducted, use of the "point"
-\code{method} might be preferable for the user (particularly if occurrences are
-close to plate boundaries). As implemented, points within the same grid cell
-will be assigned equivalent palaeocoordinates due to spatial aggregation. The
-current palaeorotations (0--540 Ma) provided were generated using a
-1° x 1° spatial grid with the GPlates software
-\url{https://www.gplates.org} and three plate rotation models
-(Wright et al. 2013; Scotese & Wright, 2018; Merdith et al., 2021).
+grid (1° x 1°) rotated to the midpoint of Phanerozoic (0--540 Ma)
+stratigraphic stages (Geological Timescale, 2020). If specific ages of
+rotation are required, or fine-scale spatial analyses are being conducted,
+use of the "point" \code{method} might be preferable for the user (particularly
+if occurrences are close to plate boundaries). As implemented, points within
+the same grid cell will be assigned equivalent palaeocoordinates due to
+spatial aggregation. The rotation files provide pre-generated
+palaeocoordinates for a grid of 1° x 1°, allowing the past
+distribution of fossil occurrences to be estimated efficiently.
 \item GPlates API: The "point" \code{method} uses the GPlates API service
 \url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point
 data. The use of this \code{method} is slower than the "grid" \code{method} if many
@@ -81,21 +86,52 @@ unique time intervals exist in your dataset. However, it provides
 palaeocoordinates with higher precision.
 }
 
-Available models for each method:
+Available models and timespan for each \code{method}:
 \itemize{
-\item "MERDITH2021" (grid & point)
-\item "PALEOMAP" (grid & point)
-\item "MULLER2019" (point)
-\item "MATTHEWS2016" (point)
-\item "WRIGHT2013" (grid)
-\item "RODINIA2013" (point)
-\item "SETON2012" (point)
-\item "GOLONKA" (point)
+\item "MERDITH2021" (Merdith et al., 2021)
+\itemize{
+\item 0--540 Ma (grid)
+\item 0--1000 Ma (point)
+}
+\item "MULLER2019" (Müller et al., 2019)
+\itemize{
+\item 0--540 Ma (grid)
+\item 0--1100 Ma (point)
+}
+\item "MULLER2016" (Müller et al., 2016)
+\itemize{
+\item 0--230 Ma (grid/point)
+}
+\item "MATTHEWS2016_mantle_ref" (Matthews et al., 2016)
+\itemize{
+\item 0--410 Ma (grid/point)
+}
+\item "MATTHEWS2016_pmag_ref"  (Matthews et al., 2016)
+\itemize{
+\item 0--410 Ma (grid/point)
+}
+\item "SETON2012" (Seton et al., 2012)
+\itemize{
+\item 0--200 Ma (grid/point)
+}
+\item "GOLONKA" (Wright et al., 2013)
+\itemize{
+\item 0--540 Ma (grid/point)
+}
+\item "PALEOMAP" (Scotese & Wright, 2018)
+\itemize{
+\item 0--540 Ma (grid)
+\item 0--750 Ma (point)
+}
 }
 }
 \section{References}{
 
 \itemize{
+\item Matthews, K.J., Maloney, K.T., Zahirovic, S., Williams, S.E., Seton, M.,
+and Müller, R.D. (2016). Global plate boundary evolution and kinematics
+since the late Paleozoic, Global and Planetary Change, 146, 226-250.
+\doi{10.1016/j.gloplacha.2016.10.002}.
 \item Merdith, A., Williams, S.E., Collins, A.S., Tetley, M.G., Mulder, J.A.,
 Blades, M.L., Young, A., Armistead, S.E., Cannon, J., Zahirovic, S.,
 Müller. R.D. (2021).
@@ -108,27 +144,29 @@ Russell, S. H. J., Yang, T., Leonard, J., and Gurnis, M. (2019).
 A global plate model including lithospheric deformation along major rifts
 and orogens since the Triassic.
 Tectonics, vol. 38. \doi{10.1029/2018TC005462}.
+\item Müller R.D., Seton, M., Zahirovic, S., Williams, S.E., Matthews, K.J.,
+Wright, N.M., Shephard, G.E., Maloney, K.T., Barnett-Moore, N.,
+Hosseinpour, M., Bower, D.J., Cannon, J., 2016.
+Ocean basin evolution and global-scale plate reorganization events since
+Pangea breakup, Annual Review of Earth and Planetary Sciences, Vol 44,
+107-138. \doi{10.1146/annurev-earth-060115-012211}.
 \item Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models
 (PaleoDEMs) for the
 Phanerozoic. PALEOMAP Project.
 \url{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}.
-\item Matthews, K.J., Maloney, K.T., Zahirovic, S., Williams, S.E., Seton, M.,
-and Müller, R.D. (2016). Global plate boundary evolution and kinematics
-since the late Paleozoic, Global and Planetary Change, 146, 226-250.
-\doi{10.1016/j.gloplacha.2016.10.002}.
-\item Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013). Towards
-community-driven paleogeographic
-reconstructions: integrating open-access paleogeographic and paleobiology
-data with plate tectonics.
-Biogeosciences, 10(3), 1529–1541. \doi{10.5194/bg-10-1529-2013}.
 \item Seton, M., Müller, R.D., Zahirovic, S., Gaina, C., Torsvik, T.H.,
 Shephard, G., Talsma, A., Gurnis, M., Turner, M., Maus, S., Chandler, M.
 (2012). Global continental and ocean basin reconstructions since 200 Ma.
 Earth-Science Reviews, Volume 113, Issues 3-4, July 2012, Pages 212--270.
 \doi{10.1016/j.earscirev.2012.03.002}.
+\item Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013). Towards
+community-driven paleogeographic
+reconstructions: integrating open-access paleogeographic and paleobiology
+data with plate tectonics.
+Biogeosciences, 10(3), 1529–1541. \doi{10.5194/bg-10-1529-2013}.
 }
 
-See GPlates documentation for additional information:
+See GPlates documentation for additional information and details:
 \url{https://gwsdoc.gplates.org/reconstruction}.
 }
 

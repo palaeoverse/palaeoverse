@@ -1,7 +1,8 @@
 test_that("palaeorotate() works", {
-  occdf <- data.frame(lng = c(2, 95, 12),
-                  lat = c(46, 12, -65),
-                  age = c(88, 203, 467))
+
+  occdf <- data.frame(lng = c(2, -103, -66),
+                      lat = c(46, 35, -7),
+                      age = c(88, 125, 200))
 
   expect_equal(nrow(palaeorotate(occdf = occdf)), 3)
 
@@ -9,7 +10,7 @@ test_that("palaeorotate() works", {
     ncol(
       palaeorotate(occdf = occdf,
                    uncertainty = TRUE)[, c("uncertainty_p_lng",
-                                          "uncertainty_p_lat")]), 2)
+                                           "uncertainty_p_lat")]), 2)
 
   expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")), 3)
 
@@ -17,13 +18,10 @@ test_that("palaeorotate() works", {
 
   expect_equal(nrow(palaeorotate(occdf = occdf, method = "point")), 3)
 
-  expect_equal(nrow(palaeorotate(occdf = occdf, model = "WRIGHT2013")), 3)
-
   expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
                                  model = "MERDITH2021")), 3)
-
   expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
-                                 model = "MATTHEWS2016")), 3)
+                                 round = 2)), 3)
 
   # Wrong uncertainty input
   expect_error(palaeorotate(occdf = occdf, uncertainty = "TRUE"))
@@ -41,9 +39,6 @@ test_that("palaeorotate() works", {
   expect_error(palaeorotate(occdf = occdf, method = "point",
                             model = "WRIGHT2013"))
 
-  expect_error(palaeorotate(occdf = occdf, method = "grid",
-                            model = "MATTHEWS2016"))
-
   # Method doesn't exist
   expect_error(palaeorotate(occdf = occdf, method = "both"))
 
@@ -58,14 +53,14 @@ test_that("palaeorotate() works", {
 
   # Values not numeric
   occdf <- data.frame(lng = c(2, 95, "12"),
-                  lat = c(46, 12, -65),
-                  age = c(88, 203, 467))
+                      lat = c(46, 12, -65),
+                      age = c(88, 203, 467))
   expect_error(palaeorotate(occdf = occdf))
 
   # Longitude too small
   occdf <- data.frame(lng = c(2, 95, -183),
-                  lat = c(46, 12, -65),
-                  age = c(88, 203, 467))
+                      lat = c(46, 12, -65),
+                      age = c(88, 203, 467))
   expect_error(palaeorotate(occdf = occdf))
 
   # Latitude too great
@@ -75,3 +70,4 @@ test_that("palaeorotate() works", {
   expect_error(palaeorotate(occdf = occdf))
 
 })
+
