@@ -32,7 +32,9 @@ Imports:
     deeptime (>= 0.2.1),
     ape,
     sf,
-    h3jsr
+    h3jsr,
+    httr,
+    pbapply
 Suggests: 
     divDyn,
     rmarkdown,
