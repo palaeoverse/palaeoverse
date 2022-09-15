@@ -22,21 +22,24 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
-Depends: R (>= 2.10)
+Depends: 
+    R (>= 4.0)
 Imports:
     stats,
     utils,
     graphics,
     methods,
     deeptime (>= 0.2.1),
-    pbapply,
-    httr
+    ape,
+    sf,
+    h3jsr
 Suggests: 
     divDyn,
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
     vdiffr (>= 1.0.0),
+    paleotree,
     covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
