@@ -110,10 +110,10 @@ occdf <- bin_spatial(occdf = tetrapods, spacing = 1000, sub_grid = 250)
 # Get unique bins
 bins <- unique(occdf$cell_ID)
 
-# Sample reps for 1 per cell
+# n reps
 n <- 10
 
-# Rarefy that data across sub-grid grid cells!
+# Rarefy data across sub-grid grid cells
 # Returns a list with each element a bin with respective mean genus richness
 df <- lapply(bins, function(x) {
   # subset occdf for respective grid cell
