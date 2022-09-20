@@ -6,7 +6,7 @@
 \usage{
 look_up(
   occdf,
-  interval_key,
+  int_key = palaeoverse::interval_key,
   assign_with_GTS = "GTS2020",
   early_interval = NULL,
   late_interval = NULL,
@@ -21,7 +21,7 @@ to be \code{character} values. If no \code{late_interval} is supplied, only
 \code{early_interval} is used, and it is assumed that the occurrences are from
 that interval only.}
 
-\item{interval_key}{\code{dataframe}. A dataframe linking interval names to
+\item{int_key}{\code{dataframe}. A dataframe linking interval names to
 international, geological stage names, or other, user-defined intervals.
 This dataframe should contain the following named columns containing
 \code{character} values: \cr
@@ -36,9 +36,7 @@ Optionally, the numeric vectors \cr
 \itemize{
 \item \code{stage_max_ma} and
 \item \code{stage_min_ma} provide maximal and minimal ages for the intervals.
-}
-Alternatively, \code{interval_key} may take the \code{character} argument "example"
-(see Details).}
+}}
 
 \item{assign_with_GTS}{\code{character} or \code{FALSE}. Allows intervals to
 be searched in the \code{GTS2020} (default) or the \code{GTS2012} table. Set to
@@ -73,18 +71,17 @@ Instead of  geological stages, the user can supply any names in the
 \code{early_stage} and \code{late_stage} column; \code{assign_with_GTS} should then
 be set to \code{FALSE}.
 
-An exemplary \code{interval_key} can be used by setting
-\code{interval_key = "example"}. This key works well for assigning
-geological stages to many of the
-intervals from the Paleobiology Database and the Paleoreefs Database.
-Palaeoverse can provide no guaranty that all of the stage assignments with
-the exemplary key are accurate. The table corresponding to this key can be
-found at
-https://drive.google.com/file/d/16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ/view?usp=sharing
+An exemplary \code{int_key} has been included within this package
+(\code{\link{interval_key}}). This key works well for assigning
+geological stages to many of the intervals from the Paleobiology Database
+and the Paleoreefs Database. Palaeoverse can provide no guaranty that all of
+the stage assignments with the exemplary key are accurate.
+The table corresponding to this key can be found at
+https://drive.google.com/file/d/16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ/view
 }
 \section{Developer(s)}{
 
-Kilian Eichenseer & ...
+Kilian Eichenseer & William Gearty
 }
 
 \section{Reviewer(s)}{
@@ -96,20 +93,21 @@ Kilian Eichenseer & ...
 \dontrun{
 # Grab internal tetrapod data
 occdf <- tetrapods
-# assign stages using the examplary interval_key
-occdf <- look_up(occdf, interval_key="example")
-#
+# assign stages using the exemplary interval_key
+occdf <- look_up(occdf)
+
 ## Use own key to assign intervals
 # create example data
 occdf <- data.frame(
-stage = c("any Permian", "first Permian stage", "any Permian", "Roadian"))
+           stage = c("any Permian", "first Permian stage",
+                     "any Permian", "Roadian"))
 # create example key
 interval_key <- data.frame(
-interval_name = c("any Permian", "first Permian stage"),
-early_stage = c("Asselian", "Asselian"),
-late_stage = c("Changhsingian", "Asselian"))
+                  interval_name = c("any Permian", "first Permian stage"),
+                  early_stage = c("Asselian", "Asselian"),
+                  late_stage = c("Changhsingian", "Asselian"))
 # assign stages using the custom interval_key, use "GTS2012":
-occdf <- look_up(occdf, interval_key=interval_key, assign_with_GTS="GTS2012",
+occdf <- look_up(occdf, int_key=interval_key, assign_with_GTS="GTS2012",
 early_interval = "stage", print_assigned=TRUE)
 }
 }
