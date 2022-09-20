@@ -74,30 +74,29 @@ tax_time_expand <- function(
   # get the desired timescale at the desired rank
   if (scale == "GTS2020") {
     timescale <- palaeoverse::GTS2020
-  }
-  else if (scale == "GTS2012") {
+  } else if (scale == "GTS2012") {
     timescale <- palaeoverse::GTS2012
   } else {
     stop('`scale` should be "GTS2020" or "GTS2012"')
   }
 
   if (any(duplicated(taxdf))) {
-    stop('Not all rows in `taxdf` are unique!')
+    stop("Not all rows in `taxdf` are unique!")
   }
 
-  intervals <- timescale[timescale$rank == rank,]
+  intervals <- timescale[timescale$rank == rank, ]
 
   # replicate taxon rows for each interval they span
-  dat_list <- lapply(1:nrow(intervals), function(i){
+  dat_list <- lapply(seq_len(nrow(intervals)), function(i) {
     int_tax <- taxdf[taxdf[, min_ma] < intervals$max_ma[i] &
-                       taxdf[, max_ma] > intervals$min_ma[i],]
+                       taxdf[, max_ma] > intervals$min_ma[i], ]
     if (ext_orig) {
       int_tax$ext <- int_tax[, min_ma] >= intervals$min_ma[i] &
                        int_tax[, min_ma] > 0
       int_tax$orig <- int_tax[, max_ma] <= intervals$max_ma[i]
     }
     if (nrow(int_tax) == 0) return(NULL)
-    cbind(int_tax, intervals[i,])
+    cbind(int_tax, intervals[i, ])
   })
   do.call(rbind, dat_list)
 }
