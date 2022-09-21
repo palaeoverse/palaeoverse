@@ -237,7 +237,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
 
   # Should coordinates be rounded off?
   if (!is.null(round)) {
-    occdf[, c(lng, lat, age)] <- round(occdf[, c(lng, lat, age)], digits = round)
+    occdf[, c(lng, lat, age)] <- round(occdf[, c(lng, lat, age)],
+                                       digits = round)
   }
 
   # Unique localities for rotating
@@ -456,7 +457,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
     for (x in 2:length(chk)) {
     # Lower index
-    ind_l <- chk[x-1] + 1
+    ind_l <- chk[x - 1] + 1
     # Upper index
     ind_u <- chk[x]
     # Generate API
@@ -514,7 +515,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     occdf <- occdf[, -which(colnames(occdf) == "match")]
 
     # Add warning
-    if (any(!is.na(occdf$p_lng)) | any(!is.na(occdf$p_lat))) {
+    if (any(!is.na(occdf$p_lng)) || any(!is.na(occdf$p_lat))) {
       if ((sum(occdf$p_lng == occdf[, lng], na.rm = TRUE) +
           sum(occdf$p_lng == occdf[, lng], na.rm = TRUE)) > 0) {
         message(
