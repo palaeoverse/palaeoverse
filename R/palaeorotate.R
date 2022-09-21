@@ -55,7 +55,9 @@
 #' the same grid cell will be assigned equivalent palaeocoordinates due to
 #' spatial aggregation. The reconstruction files provide pre-generated
 #' palaeocoordinates for a grid of 1&deg; x 1&deg;, allowing the past
-#' distribution of fossil occurrences to be estimated efficiently.
+#' distribution of fossil occurrences to be estimated efficiently. Access to
+#' the reconstruction files and documentation is available via the palaeorotate
+#' package (\url{https://github.com/LewisAJones/palaeorotate}).
 #'
 #' - GPlates API: The "point" `method` uses the GPlates API service
 #' \url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point

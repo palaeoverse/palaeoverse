@@ -81,7 +81,9 @@ if occurrences are close to plate boundaries). As implemented, points within
 the same grid cell will be assigned equivalent palaeocoordinates due to
 spatial aggregation. The reconstruction files provide pre-generated
 palaeocoordinates for a grid of 1° x 1°, allowing the past
-distribution of fossil occurrences to be estimated efficiently.
+distribution of fossil occurrences to be estimated efficiently. Access to
+the reconstruction files and documentation is available via the palaeorotate
+package (\url{https://github.com/LewisAJones/palaeorotate}).
 \item GPlates API: The "point" \code{method} uses the GPlates API service
 \url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point
 data. The use of this \code{method} is slower than the "grid" \code{method} if many
