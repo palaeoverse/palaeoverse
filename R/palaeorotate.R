@@ -203,7 +203,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     stop("`method` should be grid or point")
   }
 
-  if (!is.null(round) & !is.numeric(round)) {
+  if (!is.null(round) && !is.numeric(round)) {
     stop("`round` should be NULL or of class numeric")
   }
 
@@ -223,7 +223,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Match input
   model <- available[charmatch(x = model, table = available)]
   # Invalid model input?
-  if(is.na(model)) {
+  if (is.na(model)) {
     stop("Unavailable model. Choose one from the following: \n",
          toString(available))
   }
@@ -231,11 +231,13 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Set-up ------------------------------------------------------------------
   # Set up dataframe for populating
   occdf$rot_model <- model
-  if (uncertainty == TRUE) {occdf$rot_model <- "All available"}
+  if (uncertainty == TRUE) {
+    occdf$rot_model <- "All available"
+    }
 
   # Should coordinates be rounded off?
-  if(!is.null(round)) {
-    occdf[,c(lng, lat, age)] <- round(occdf[,c(lng, lat, age)], digits = round)
+  if (!is.null(round)) {
+    occdf[, c(lng, lat, age)] <- round(occdf[, c(lng, lat, age)], digits = round)
   }
 
   # Unique localities for rotating
@@ -251,9 +253,9 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     files <- tempdir()
     # OS-specific mode for downloading
     if (.Platform$OS.type == "windows") {
-      dl.mode <- "wb"
+      dl_mode <- "wb"
     } else {
-      dl.mode <- "w"
+      dl_mode <- "w"
     }
     # Reconstruction files
     rot_files <- list(
@@ -279,7 +281,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
           # Download file
           download.file(url = dl,
                         destfile = paste0(files, "/", f, ".RDS"),
-                        mode = dl.mode)
+                        mode = dl_mode)
         }
       }
       # Load reconstruction files
@@ -292,7 +294,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         dl <- paste0(rot_files$BASE, rot_files[model])
         download.file(url = dl,
                       destfile = paste0(files, "/", model, ".RDS"),
-                      mode = dl.mode)
+                      mode = dl_mode)
       }
     }
 
@@ -335,7 +337,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       }
       names(rot_files) <- nme
       # Assign coordinates
-      for(f in nme) {
+      for (f in nme) {
         # Get reconstruction file
         tmp <- rot_files[[f]]
         # Find matching palaeocoordinates
@@ -411,8 +413,6 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         # 6378.388 km by default
         vals <- fields::rdist.earth(x1 = tmpdf[, c("p_lng", "p_lat")],
                                     miles = FALSE)
-        # Extract location of points with max GCD
-        loc <- which(vals == max(vals), arr.ind = TRUE)
         # Get maximum GCD in km
         uncertainty_dist[i] <- as.numeric(max(vals))
       }
@@ -451,7 +451,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Add starting value
     chk <- append(0, chk)
     # Chunk size exceeds number of rows?
-    if(chk[2] > nr) {
+    if (chk[2] > nr) {
       chk <- append(0, nr)
     }
     for (x in 2:length(chk)) {
@@ -462,13 +462,13 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Generate API
     tmp_chunk <- tmp[ind_l:ind_u, c(lng, lat)]
     tmp_chunk <- toString(as.vector(t(tmp_chunk)))
-    API <- sprintf("?points=%s&time=%f&model=%s",
+    api <- sprintf("?points=%s&time=%f&model=%s",
                    gsub(" ", "", tmp_chunk), i, model)
-    API <- paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
-                  API, "&return_null_points")
+    api <- paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
+                  api, "&return_null_points")
     # Call API
     rots <- httr::RETRY(verb = "GET",
-                        url = API,
+                        url = api,
                         times = 5,
                         pause_min = 1,
                         pause_base = 1,
@@ -478,7 +478,9 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Replace NULL values with NA
     rpl <- which(rots == "NULL")
     if (length(rpl) != 0) {
-      for(r in rpl) {rots[[r]] <- list(NA, NA)}
+      for (r in rpl) {
+        rots[[r]] <- list(NA, NA)
+      }
     }
     # Bind rows
     rots <- do.call(rbind.data.frame, rots)
