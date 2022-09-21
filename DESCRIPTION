@@ -34,7 +34,8 @@ Imports:
     sf,
     h3jsr,
     httr,
-    pbapply
+    pbapply,
+    fields
 Suggests: 
     divDyn,
     rmarkdown,

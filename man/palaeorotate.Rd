@@ -34,13 +34,15 @@ the age for rotation (defaults to "age").}
 used to reconstruct palaeocoordinates. See details for available models.}
 
 \item{method}{\code{character}. Method used to calculate palaeocoordinates
-for fossil occurrences. Either "grid" to use rotation files, or "point"
+for fossil occurrences. Either "grid" to use reconstruction files, or "point"
 to use the GPlates API service. See details section for specific details.}
 
 \item{uncertainty}{\code{logical}. Should the uncertainty in
 palaeogeographic reconstructions be returned? If set to TRUE, the
-palaeocoordinates from all rotation files (models) are returned, along with
-their respective longitudinal and latitudinal range. This argument is only
+palaeocoordinates from all reconstruction files (models) are returned, along
+with
+their respective longitudinal and latitudinal range, and the maximum great
+circle distance between palaeocoordinates (in km). This argument is only
 relevant if \code{method} is set to "grid".}
 
 \item{round}{\code{numeric}. Numeric value indicating the number of decimal
@@ -68,7 +70,8 @@ estimate.
 This function can generate palaeocoordinates using two different
 approaches (\code{method}):
 \itemize{
-\item Rotation files: The "grid" \code{method} uses rotation files to spatiotemporally
+\item Reconstruction files: The "grid" \code{method} uses reconstruction files to
+spatiotemporally
 link present-day geographic coordinates and age estimates with a spatial
 grid (1° x 1°) rotated to the midpoint of Phanerozoic (0--540 Ma)
 stratigraphic stages (Geological Timescale, 2020). If specific ages of
@@ -76,7 +79,7 @@ rotation are required, or fine-scale spatial analyses are being conducted,
 use of the "point" \code{method} might be preferable for the user (particularly
 if occurrences are close to plate boundaries). As implemented, points within
 the same grid cell will be assigned equivalent palaeocoordinates due to
-spatial aggregation. The rotation files provide pre-generated
+spatial aggregation. The reconstruction files provide pre-generated
 palaeocoordinates for a grid of 1° x 1°, allowing the past
 distribution of fossil occurrences to be estimated efficiently.
 \item GPlates API: The "point" \code{method} uses the GPlates API service
@@ -186,7 +189,7 @@ occdf <- data.frame(lng = c(2, -103, -66),
                 lat = c(46, 35, -7),
                 age = c(88, 125, 200))
 
-#Calculate palaeocoordinates using rotation files
+#Calculate palaeocoordinates using reconstruction files
 palaeorotate(occdf = occdf, method = "grid")
 
 #Calculate palaeocoordinates using the GPlates API
@@ -197,7 +200,7 @@ palaeorotate(occdf = occdf, method = "point")
 #Grab some data from the Paleobiology Database
 data(tetrapods)
 
-#Assign midpoint age of fossil occurrence data for rotation
+#Assign midpoint age of fossil occurrence data for reconstruction
 tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 
 #Rotate the data

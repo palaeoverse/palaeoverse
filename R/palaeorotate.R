@@ -19,12 +19,14 @@
 #' @param model \code{character}. The name of the plate rotation model to be
 #' used to reconstruct palaeocoordinates. See details for available models.
 #' @param method \code{character}. Method used to calculate palaeocoordinates
-#' for fossil occurrences. Either "grid" to use rotation files, or "point"
+#' for fossil occurrences. Either "grid" to use reconstruction files, or "point"
 #' to use the GPlates API service. See details section for specific details.
 #' @param uncertainty \code{logical}. Should the uncertainty in
 #' palaeogeographic reconstructions be returned? If set to TRUE, the
-#' palaeocoordinates from all rotation files (models) are returned, along with
-#' their respective longitudinal and latitudinal range. This argument is only
+#' palaeocoordinates from all reconstruction files (models) are returned, along
+#' with
+#' their respective longitudinal and latitudinal range, and the maximum great
+#' circle distance between palaeocoordinates (in km). This argument is only
 #' relevant if `method` is set to "grid".
 #' @param round \code{numeric}. Numeric value indicating the number of decimal
 #' places `lng`, `lat` and `age` should be rounded to. This functionality is
@@ -42,7 +44,8 @@
 #' @details This function can generate palaeocoordinates using two different
 #' approaches (`method`):
 #'
-#' - Rotation files: The "grid" `method` uses rotation files to spatiotemporally
+#' - Reconstruction files: The "grid" `method` uses reconstruction files to
+#' spatiotemporally
 #' link present-day geographic coordinates and age estimates with a spatial
 #' grid (1&deg; x 1&deg;) rotated to the midpoint of Phanerozoic (0--540 Ma)
 #' stratigraphic stages (Geological Timescale, 2020). If specific ages of
@@ -50,7 +53,7 @@
 #' use of the "point" `method` might be preferable for the user (particularly
 #' if occurrences are close to plate boundaries). As implemented, points within
 #' the same grid cell will be assigned equivalent palaeocoordinates due to
-#' spatial aggregation. The rotation files provide pre-generated
+#' spatial aggregation. The reconstruction files provide pre-generated
 #' palaeocoordinates for a grid of 1&deg; x 1&deg;, allowing the past
 #' distribution of fossil occurrences to be estimated efficiently.
 #'
@@ -133,16 +136,18 @@
 #' Lewis A. Jones
 #' @section Reviewer(s):
 #' Kilian Eichenseer and Lucas Buffan
+#' @importFrom fields rdist.earth
 #' @importFrom utils download.file
 #' @importFrom pbapply pblapply
 #' @importFrom httr RETRY GET content
+#' @importFrom stats na.omit
 #' @examples
 #' #Generic example with a few occurrences
 #' occdf <- data.frame(lng = c(2, -103, -66),
 #'                 lat = c(46, 35, -7),
 #'                 age = c(88, 125, 200))
 #'
-#' #Calculate palaeocoordinates using rotation files
+#' #Calculate palaeocoordinates using reconstruction files
 #' palaeorotate(occdf = occdf, method = "grid")
 #'
 #' #Calculate palaeocoordinates using the GPlates API
@@ -153,7 +158,7 @@
 #' #Grab some data from the Paleobiology Database
 #' data(tetrapods)
 #'
-#' #Assign midpoint age of fossil occurrence data for rotation
+#' #Assign midpoint age of fossil occurrence data for reconstruction
 #' tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 #'
 #' #Rotate the data
@@ -248,11 +253,17 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     } else {
       dl.mode <- "w"
     }
-    # Rotation files
+    # Reconstruction files
     rot_files <- list(
-      BASE = "https://dl.dropboxusercontent.com/s/",
-      MERDITH2021 = "fmt7mb0799952qy/Merdith2021.RDS?dl=0",
-      PALEOMAP = "zqi2jmjhjecka0s/Scotese2018.RDS?dl=0"
+      BASE = "https://github.com/LewisAJones/palaeorotate/raw/master/data-raw/",
+      MERDITH2021 = "MERDITH2021.RDS",
+      PALEOMAP = "PALEOMAP.RDS",
+      GOLONKA = "GOLONKA.RDS",
+      MULLER2019 = "MULLER2019.RDS",
+      MULLER2016 = "MULLER2016.RDS",
+      SETON2012 = "SETON2012.RDS",
+      MATTHEWS2016_pmag_ref = "MATTHEWS2016_pmag_ref.RDS",
+      MATTHEWS2016_mantle_ref = "MATTHEWS2016_mantle_ref.RDS"
     )
 
     if (uncertainty == TRUE) {
@@ -269,12 +280,12 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                         mode = dl.mode)
         }
       }
-      # Load rotation files
+      # Load reconstruction files
       for (f in nme) {
         assign(f, readRDS(paste0(files, "/", f, ".RDS")))
       }
     } else {
-      # Download specific rotation file
+      # Download specific reconstruction file
       if (!file.exists(paste0(files, "/", model, ".RDS"))) {
         dl <- paste0(rot_files$BASE, rot_files[model])
         download.file(url = dl,
@@ -323,7 +334,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       names(rot_files) <- nme
       # Assign coordinates
       for(f in nme) {
-        # Get rotation file
+        # Get reconstruction file
         tmp <- rot_files[[f]]
         # Find matching palaeocoordinates
         tmp <- data.frame(
@@ -346,8 +357,13 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       # Calculate palaeolongitudinal range
       uncertainty_p_lng <- vector("numeric")
       for (i in seq_len(nrow(uncertain_lng))) {
-        mx <- max(as.numeric(uncertain_lng[i, ]))
-        mn <- min(as.numeric(uncertain_lng[i, ]))
+        tmp_lng <- na.omit(as.numeric(uncertain_lng[i, ]))
+        if (length(tmp_lng) <= 1) {
+          uncertainty_p_lng[i] <- NA
+          next
+        }
+        mx <- max(as.numeric(tmp_lng))
+        mn <- min(as.numeric(tmp_lng))
 
         range <- abs((mx %% 360) - (mn %% 360))
 
@@ -367,11 +383,40 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       # Calculate palaeolatitudinal range
       uncertainty_p_lat <- vector("numeric")
       for (i in seq_len(nrow(uncertain_lat))) {
-        uncertainty_p_lat[i] <- max(as.numeric(uncertain_lat[i, ])) -
-          min(as.numeric(uncertain_lat[i, ]))
+        tmp_lat <- na.omit(as.numeric(uncertain_lat[i, ]))
+        if (length(tmp_lat) <= 1) {
+          uncertainty_p_lat[i] <- NA
+          next
+        }
+        uncertainty_p_lat[i] <- max(as.numeric(tmp_lat)) -
+          min(as.numeric(tmp_lat))
       }
 
-      occdf <- cbind.data.frame(occdf, uncertainty_p_lng, uncertainty_p_lat)
+      # Calculate GCD distance between points
+      uncertainty_dist <- vector("numeric")
+      for (i in seq_len(nrow(uncertain_lat))) {
+        # Get combination of coordinates for all models
+        tmpdf <- cbind(p_lng = as.numeric(uncertain_lng[i, ]),
+                      p_lat = as.numeric(uncertain_lat[i, ]))
+        # Exclude NAs
+        tmpdf <- na.omit(tmpdf)
+        # Allocate NA if only one or less models are available
+        if (nrow(tmpdf) <= 1) {
+          uncertainty_dist[i] <- NA
+          next
+        }
+        # Calculate GCD matrix using the Haversine method with a radius of
+        # 6378.388 km by default
+        vals <- fields::rdist.earth(x1 = tmpdf[, c("p_lng", "p_lat")],
+                                    miles = FALSE)
+        # Extract location of points with max GCD
+        loc <- which(vals == max(vals), arr.ind = TRUE)
+        # Get maximum GCD in km
+        uncertainty_dist[i] <- as.numeric(max(vals))
+      }
+
+      occdf <- cbind.data.frame(occdf, uncertainty_p_lng, uncertainty_p_lat,
+                                uncertainty_dist)
 
     } else {
       tmp <- data.frame(
@@ -463,6 +508,19 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
 
     # Drop match column
     occdf <- occdf[, -which(colnames(occdf) == "match")]
+
+    # Add warning
+    if (any(!is.na(occdf$p_lng)) | any(!is.na(occdf$p_lat))) {
+      if ((sum(occdf$p_lng == occdf[, lng], na.rm = TRUE) +
+          sum(occdf$p_lng == occdf[, lng], na.rm = TRUE)) > 0) {
+        message(
+          paste0("Palaeocoordinates equal to input coordinates detected.",
+                 "\n",
+                 "Check desired model covers the temporal range of your data."
+          )
+        )
+      }
+    }
   }
   # Add warning
   if (any(is.na(occdf$p_lng) | is.na(occdf$p_lat))) {
