@@ -122,7 +122,7 @@ bin_spatial <- function(occdf,
 
   if (lng %in% colnames(occdf) == FALSE ||
       lat %in% colnames(occdf) == FALSE) {
-    stop("input column names do not exist in `occdf")
+    stop("input column names do not exist in `occdf`")
   }
 
   if (!is.numeric(occdf[, lng]) || !is.numeric(occdf[, lat])) {

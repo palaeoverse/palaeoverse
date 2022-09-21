@@ -16,12 +16,6 @@
 #' set to the nearest integer which is divisible into 180 (the entire
 #' latitudinal range). If \code{fit = FALSE}, and bin size is not divisible
 #' into 180, part of the Northern Hemisphere latitudinal range will be missing.
-#' @param assign \code{numeric}. A numeric vector of latitudes (or
-#' palaeolatitudes) to assign to bins of a given size. If assign is
-#' specified, a numeric vector is returned of the midpoint latitudes of the
-#' bins to which the occurrences are allocated. If an occurrence sits on a bin
-#' boundary, it is automatically assigned to the bin with the higher bin
-#' number.
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be
 #' generated?
 #' @return A \code{dataframe} of latitudinal bins of a given size, or a list
@@ -33,6 +27,7 @@
 #' Lewis A. Jones
 #' @section Reviewer(s):
 #' Bethany Allen
+#' @export
 #' @examples
 #' #Generate 20 degrees latitudinal bins
 #' lat_bins(size = 20)
@@ -40,10 +35,7 @@
 #' #Generate latitudinal bins with closest fit to 13 degrees
 #' lat_bins(size = 13, fit = TRUE)
 #'
-#' #Assign bins based on given latitudes
-#' lat_bins(assign = c(-20, 45, 11, 67))
-#' @export
-lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE) {
+lat_bins <- function(size = 10, fit = FALSE, plot = FALSE) {
   #error handling
   if (is.numeric(size) == FALSE) {
     stop("`size` should be a numeric")
@@ -55,10 +47,6 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE) {
 
   if (is.logical(fit) == FALSE) {
     stop("`fit` should be logical (TRUE/FALSE)")
-  }
-
-  if (any(assign > 90 | assign < -90)) {
-    stop("Latitudes (`assign`) should be more than -90 and less than 90")
   }
 
   if (is.logical(plot) == FALSE) {
@@ -90,7 +78,7 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE) {
     plot(1, type = "n", xlim = c(-180, 180),
          ylim = c(min(df$min), max(df$max)),
          xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
-    cols <- rep(c("#2ca25f", "#ccece6"), nrow(df))
+    cols <- rep(c("#feb24c", "#1d91c0"), nrow(df))
     for (i in seq_len(nrow(df))){
       polygon(x = c(-180, -180, 180, 180),
               y = c(df$min[i], df$max[i], df$max[i], df$min[i]),
@@ -105,22 +93,6 @@ lat_bins <- function(size = 10, fit = FALSE, assign = NULL, plot = FALSE) {
   if (fit == TRUE) {
     message(paste0(
       "Bin size set to ", size, " degrees to fit latitudinal range."))
-  }
-
-  if (!is.null(assign)) {
-    if (is.numeric(assign)) {
-    tmp <- assign
-      for (i in seq_len(nrow(df))){
-        assign[which(tmp <= df$max[i] & tmp >= df$min[i])] <- df$mid[i]
-        names(assign)[which(tmp <= df$max[i] &
-                              tmp >= df$min[i])] <- df$bin[i]
-      }
-    assign <- list(df, assign)
-    names(assign) <- c("Bins", "Assignation")
-    return(assign)
-    }else {
-      stop("assign should be a numeric")
-      }
   }
 
   return(df)
