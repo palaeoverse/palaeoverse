@@ -33,7 +33,7 @@
 #' @section Developer(s):
 #'   William Gearty
 #' @section Reviewer(s):
-#'   TBD
+#'   Lewis A. Jones
 #' @export
 #' @examples
 #' taxdf <- data.frame(name = c("A", "B", "C"),
