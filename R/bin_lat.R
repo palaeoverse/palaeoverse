@@ -19,7 +19,7 @@
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' XXX
+#' Sofia Galvan
 #' @export
 #' @examples
 #' # Load occurrence data
