@@ -6,7 +6,7 @@
 #' occurrence data (e.g., like that from the Paleobiology Database), such
 #' pseudo-occurrences may be useful for performing statistical analyses where
 #' the row representing a taxon must be replicated for each interval through
-#' which the taxon survived.
+#' which the taxon persisted.
 #'
 #' @param taxdf \code{dataframe}. A \code{data.frame} of taxa (such as that
 #'   produced by \code{\link{tax_range_time}}) with columns for the maximum and
@@ -25,7 +25,7 @@
 #'   identify the intervals in which taxa originated and went extinct?
 #'
 #' @return A \code{dataframe} where each row represents an interval during which
-#'   a taxon in the original user-supplied data was alive. The columns are
+#'   a taxon in the original user-supplied data persisted. The columns are
 #'   identical to those in the user-supplied data with additional columns
 #'   included to identify the intervals. If \code{ext_orig} is \code{TRUE},
 #'   two additional columns are added to identify in which intervals taxa
@@ -52,6 +52,10 @@ tax_time_expand <- function(
     stop("`taxdf` should be a dataframe")
   }
 
+  if (!any(c(min_ma, max_ma) %in% colnames(taxdf))) {
+    stop("Either `min_ma` or `max_ma` is not a named column in `taxdf`")
+  }
+
   if (!is.numeric(taxdf[, max_ma])) {
     stop("The class of the max_ma column must be numeric.")
   }
@@ -59,12 +63,16 @@ tax_time_expand <- function(
     stop("The class of the min_ma column must be numeric.")
   }
 
-  if (!(rank %in% c("stage", "epoch", "period", "era", "eon"))) {
-    stop("`rank` must be either: stage, epoch, period, era, or eon")
+  if (any(taxdf[, c(min_ma, max_ma)] < 0)) {
+    stop("Maximum and minimum ages must be positive.")
   }
 
-  if (!any(c(min_ma, max_ma) %in% colnames(taxdf))) {
-    stop("Either `min_ma` or `max_ma` is not a named column in `taxdf`")
+  if (any(taxdf[, max_ma] < taxdf[, min_ma])) {
+    stop("Maximum ages must be larger than or equal to minimum ages.")
+  }
+
+  if (!(rank %in% c("stage", "epoch", "period", "era", "eon"))) {
+    stop("`rank` must be either: stage, epoch, period, era, or eon")
   }
 
   if (!is.logical(ext_orig)) {
@@ -98,5 +106,7 @@ tax_time_expand <- function(
     if (nrow(int_tax) == 0) return(NULL)
     cbind(int_tax, intervals[i, ])
   })
-  do.call(rbind, dat_list)
+  dat <- do.call(rbind, dat_list)
+  rownames(dat) <- NULL
+  dat
 }

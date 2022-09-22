@@ -37,7 +37,7 @@ identify the intervals in which taxa originated and went extinct?}
 }
 \value{
 A \code{dataframe} where each row represents an interval during which
-a taxon in the original user-supplied data was alive. The columns are
+a taxon in the original user-supplied data persisted. The columns are
 identical to those in the user-supplied data with additional columns
 included to identify the intervals. If \code{ext_orig} is \code{TRUE},
 two additional columns are added to identify in which intervals taxa
@@ -50,7 +50,7 @@ resulting pseudo-occurrences should not be treated as equivalent to actual
 occurrence data (e.g., like that from the Paleobiology Database), such
 pseudo-occurrences may be useful for performing statistical analyses where
 the row representing a taxon must be replicated for each interval through
-which the taxon survived.
+which the taxon persisted.
 }
 \section{Developer(s)}{
 
@@ -59,7 +59,7 @@ William Gearty
 
 \section{Reviewer(s)}{
 
-TBD
+Lewis A. Jones
 }
 
 \examples{
