@@ -34,7 +34,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-XXX
+Sofia Galvan
 }
 
 \examples{
