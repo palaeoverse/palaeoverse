@@ -22,18 +22,13 @@ into 180, part of the Northern Hemisphere latitudinal range will be missing.}
 generated?}
 }
 \value{
-A \code{dataframe} of latitudinal bins of a given size, or a list
-with a \code{dataframe} of the latitudinal bins (\code{list$Bins}),
-and a named \code{numeric} vector (bin number) of binned latitudes
-(midpoint latitude of bin) if assign specified (\code{list$Assignation}).
+A \code{dataframe} of latitudinal bins of user-defined size.
 }
 \description{
 A function to generate latitudinal bins of a given size. If the desired size
 of the bins is not compatible with the entire latitudinal range
 (90°S to 90°N ), bin size can be updated to the nearest integer
-which is divisible into 180 to fit the entire range. This function also
-allows the user to easily assign occurrence data to latitudinal bins via
-the assign argument.
+which is divisible into 180 to fit the entire range.
 }
 \section{Developer(s)}{
 
