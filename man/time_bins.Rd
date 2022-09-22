@@ -30,11 +30,12 @@ from: "stage", "epoch", "period", "era", and "eon".}
 the length in millions of years (Myr) of the time bins desired.}
 
 \item{assign}{\code{numeric}. A numeric vector of age estimates to use to
-assign to bins of a given size. If assign is specified, a numeric vector is
+assign to requested bins. If assign is specified, a numeric vector is
 returned of the midpoint age of the specified bins. Note this is the
-simplified approach of assignment in \code{palaeoverse}.
+simplified approach of assignment in \code{palaeoverse} included for data with
+'known' point-age estimates.
 See \code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}
-for a wider range of binning methods}
+for a wider range of binning methods.}
 
 \item{scale}{\code{character}. Specify the desired geological timescale to
 be used "GTS2020" or "GTS2012". "GTS2020" is the default.}

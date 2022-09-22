@@ -4,7 +4,7 @@
 \alias{lat_bins}
 \title{Generate latitudinal bins}
 \usage{
-lat_bins(size = 10, fit = FALSE, assign = NULL, plot = FALSE)
+lat_bins(size = 10, fit = FALSE, plot = FALSE)
 }
 \arguments{
 \item{size}{\code{numeric}. A single numeric value defining the width of the
@@ -18,29 +18,17 @@ set to the nearest integer which is divisible into 180 (the entire
 latitudinal range). If \code{fit = FALSE}, and bin size is not divisible
 into 180, part of the Northern Hemisphere latitudinal range will be missing.}
 
-\item{assign}{\code{numeric}. A numeric vector of latitudes (or
-palaeolatitudes) to assign to bins of a given size. If assign is
-specified, a numeric vector is returned of the midpoint latitudes of the
-bins to which the occurrences are allocated. If an occurrence sits on a bin
-boundary, it is automatically assigned to the bin with the higher bin
-number.}
-
 \item{plot}{\code{logical}. Should a plot of the latitudinal bins be
 generated?}
 }
 \value{
-A \code{dataframe} of latitudinal bins of a given size, or a list
-with a \code{dataframe} of the latitudinal bins (\code{list$Bins}),
-and a named \code{numeric} vector (bin number) of binned latitudes
-(midpoint latitude of bin) if assign specified (\code{list$Assignation}).
+A \code{dataframe} of latitudinal bins of user-defined size.
 }
 \description{
 A function to generate latitudinal bins of a given size. If the desired size
 of the bins is not compatible with the entire latitudinal range
 (90°S to 90°N ), bin size can be updated to the nearest integer
-which is divisible into 180 to fit the entire range. This function also
-allows the user to easily assign occurrence data to latitudinal bins via
-the assign argument.
+which is divisible into 180 to fit the entire range.
 }
 \section{Developer(s)}{
 
@@ -59,6 +47,4 @@ lat_bins(size = 20)
 #Generate latitudinal bins with closest fit to 13 degrees
 lat_bins(size = 13, fit = TRUE)
 
-#Assign bins based on given latitudes
-lat_bins(assign = c(-20, 45, 11, 67))
 }
