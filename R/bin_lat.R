@@ -29,7 +29,7 @@
 #' # Bin data
 #' bin_lat(occdf = occdf, bins = bins, lat = "lat")
 #'
-bin_lat <- function(occdf, bins, lat = "lat"){
+bin_lat <- function(occdf, bins, lat = "lat") {
   #=== Handling errors ===
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe.")
