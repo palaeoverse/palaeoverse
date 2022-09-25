@@ -176,15 +176,15 @@
 #'
 #' A table of geological intervals and the earliest and latest
 #' corresponding international geological stage. The table was compiled using
-#' regional stratigraphies, the Geowhen Database
-#' (\url{https://timescalefoundation.org/resources/geowhen/}), temporal
-#' information from the Paleobiology Database
-#' (\url{https://paleobiodb.org/classic/displaySearchStrataForm}) and the
-#' Geological Timescale 2016
-#' (\url{https://stratigraphy.org/ICSchart/ChronostratChart2016-10.pdf}).
+#' regional stratigraphies, the [Geowhen Database](
+#' https://timescalefoundation.org/resources/geowhen/), temporal
+#' information from the [Paleobiology Database](
+#' https://paleobiodb.org/classic/displaySearchStrataForm) and the
+#' [Geological Timescale 2016](
+#' https://stratigraphy.org/ICSchart/ChronostratChart2016-10.pdf).
 #' Some assignments were made with incomplete information on
 #' the stratigraphic provenance of intervals. The assignments in this
-#' table are tentative and should be verified before use.
+#' table should be verified before research use.
 #'
 #' @format A data frame with 783 rows and 3 variables:
 #' \describe{
@@ -195,5 +195,6 @@
 #'   the interval}
 #' }
 #' @source Compiled by K. Eichenseer for assigning geological stages to
-#' occurrences from the Paleobiology Database and the Paleoreefs Database.
+#' occurrences from the [Paleobiology Database](https://paleobiodb.org)
+#' and the [Paleoreefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
 "interval_key"

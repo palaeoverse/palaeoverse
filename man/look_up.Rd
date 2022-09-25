@@ -73,11 +73,13 @@ be set to \code{FALSE}.
 
 An exemplary \code{int_key} has been included within this package
 (\code{\link{interval_key}}). This key works well for assigning
-geological stages to many of the intervals from the Paleobiology Database
-and the Paleoreefs Database. Palaeoverse can provide no guaranty that all of
+geological stages to many of the intervals from the
+\href{https://paleobiodb.org}{Paleobiology Database}
+and the \href{https://www.paleo-reefs.pal.uni-erlangen.de/}{Paleoreefs Database}.
+Palaeoverse can provide no guaranty that all of
 the stage assignments with the exemplary key are accurate.
-The table corresponding to this key can be found at
-https://drive.google.com/file/d/16OWHzbcUyWICDkGafZZ-pvaWDU5mzqDJ/view
+The table corresponding to this key can be loaded with
+\code{palaeoverse::interval_key}.
 }
 \section{Developer(s)}{
 
@@ -86,7 +88,7 @@ Kilian Eichenseer & William Gearty
 
 \section{Reviewer(s)}{
 
-...
+Lewis A. Jones
 }
 
 \examples{
