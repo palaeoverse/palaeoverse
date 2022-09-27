@@ -24,14 +24,13 @@
 #' @param uncertainty \code{logical}. Should the uncertainty in
 #' palaeogeographic reconstructions be returned? If set to TRUE, the
 #' palaeocoordinates from all reconstruction files (models) are returned, along
-#' with
-#' their respective longitudinal and latitudinal range, and the maximum great
-#' circle distance between palaeocoordinates (in km). This argument is only
+#' with their respective palaeolatitudinal range and the maximum Great
+#' Circle Distance between palaeocoordinates (in km). This argument is only
 #' relevant if `method` is set to "grid".
 #' @param round \code{numeric}. Numeric value indicating the number of decimal
 #' places `lng`, `lat` and `age` should be rounded to. This functionality is
 #' only relevant for the "point" `method`. Rounding can speed up palaeorotation
-#' by reducing the number of unique coordinate pairs. Defaults to NULL
+#' by reducing the number of unique coordinate pairs. Defaults to `NULL`
 #' (no rounding of values).
 #'
 #' @return A \code{dataframe} containing the original input occurrence
@@ -40,6 +39,9 @@
 #' ("rot_lng" and "rot_lat"), and the reconstructed coordinates
 #' (i.e., "p_lng" and "p_lat"). The "point" `method` uses the input coordinates
 #' and age as the reference; reference coordinates are therefore not returned.
+#' If uncertainty is set to `TRUE`, palaeocoordinates for all available models
+#' will be returned, along with the palaeolatitudinal range (`range_p_lat`) and
+#' the maximum Great Circle Distance (`max_dist`) in km.
 #'
 #' @details This function can generate palaeocoordinates using two different
 #' approaches (`method`):
@@ -138,7 +140,7 @@
 #' Lewis A. Jones
 #' @section Reviewer(s):
 #' Kilian Eichenseer and Lucas Buffan
-#' @importFrom fields rdist.earth
+#' @importFrom geosphere distm distHaversine
 #' @importFrom utils download.file
 #' @importFrom pbapply pblapply
 #' @importFrom httr RETRY GET content
@@ -359,46 +361,20 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       uncertain_lng <- occdf[, lng_nme]
       uncertain_lat <- occdf[, lat_nme]
 
-      # Calculate palaeolongitudinal range
-      uncertainty_p_lng <- vector("numeric")
-      for (i in seq_len(nrow(uncertain_lng))) {
-        tmp_lng <- na.omit(as.numeric(uncertain_lng[i, ]))
-        if (length(tmp_lng) <= 1) {
-          uncertainty_p_lng[i] <- NA
-          next
-        }
-        mx <- max(as.numeric(tmp_lng))
-        mn <- min(as.numeric(tmp_lng))
-
-        range <- abs((mx %% 360) - (mn %% 360))
-
-        if (is.na(range)) {
-          uncertainty_p_lng[i] <- range
-          next
-        }
-
-        if (range >= 180) {
-          range <- abs(range - 360)
-        } else {
-          range <- abs(range)
-        }
-        uncertainty_p_lng[i] <- range
-      }
-
       # Calculate palaeolatitudinal range
-      uncertainty_p_lat <- vector("numeric")
+      range_p_lat <- vector("numeric")
       for (i in seq_len(nrow(uncertain_lat))) {
         tmp_lat <- na.omit(as.numeric(uncertain_lat[i, ]))
         if (length(tmp_lat) <= 1) {
-          uncertainty_p_lat[i] <- NA
+          range_p_lat[i] <- NA
           next
         }
-        uncertainty_p_lat[i] <- max(as.numeric(tmp_lat)) -
+        range_p_lat[i] <- max(as.numeric(tmp_lat)) -
           min(as.numeric(tmp_lat))
       }
 
-      # Calculate GCD distance between points
-      uncertainty_dist <- vector("numeric")
+      # Calculate max distance between points
+      max_dist <- vector("numeric")
       for (i in seq_len(nrow(uncertain_lat))) {
         # Get combination of coordinates for all models
         tmpdf <- cbind(p_lng = as.numeric(uncertain_lng[i, ]),
@@ -407,19 +383,20 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         tmpdf <- na.omit(tmpdf)
         # Allocate NA if only one or less models are available
         if (nrow(tmpdf) <= 1) {
-          uncertainty_dist[i] <- NA
+          max_dist[i] <- NA
           next
         }
-        # Calculate GCD matrix using the Haversine method with a radius of
-        # 6378.388 km by default
-        vals <- fields::rdist.earth(x1 = tmpdf[, c("p_lng", "p_lat")],
-                                    miles = FALSE)
+        # Calculate GCD matrix
+        dist <- geosphere::distm(x = tmpdf,
+                                 fun = geosphere::distHaversine)
+        # Convert to km
+        dist <- dist / 10^3
         # Get maximum GCD in km
-        uncertainty_dist[i] <- as.numeric(max(vals))
+        max_dist[i] <- round(as.numeric(max(dist)), digits = 2)
       }
 
-      occdf <- cbind.data.frame(occdf, uncertainty_p_lng, uncertainty_p_lat,
-                                uncertainty_dist)
+      # Bind data
+      occdf <- cbind.data.frame(occdf, range_p_lat, max_dist)
 
     } else {
       tmp <- data.frame(

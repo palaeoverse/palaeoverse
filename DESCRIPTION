@@ -35,7 +35,7 @@ Imports:
     h3jsr,
     httr,
     pbapply,
-    fields
+    geosphere
 Suggests: 
     divDyn,
     rmarkdown,
