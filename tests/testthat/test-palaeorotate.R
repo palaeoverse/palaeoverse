@@ -9,8 +9,8 @@ test_that("palaeorotate() works", {
   expect_equal(
     ncol(
       palaeorotate(occdf = occdf,
-                   uncertainty = TRUE)[, c("uncertainty_p_lng",
-                                           "uncertainty_p_lat")]), 2)
+                   uncertainty = TRUE)[, c("range_p_lat",
+                                           "max_dist")]), 2)
 
   expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")), 3)
 

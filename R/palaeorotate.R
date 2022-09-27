@@ -14,7 +14,7 @@
 #' longitude (defaults to "lng").
 #' @param lat \code{character}. The name of the column you wish to be treated as
 #' latitude (defaults to "lat").
-#' @param age \code{numeric}. The name of the column you wish to be treated as
+#' @param age \code{character}. The name of the column you wish to be treated as
 #' the age for rotation (defaults to "age").
 #' @param model \code{character}. The name of the plate rotation model to be
 #' used to reconstruct palaeocoordinates. See details for available models.
@@ -41,7 +41,8 @@
 #' and age as the reference; reference coordinates are therefore not returned.
 #' If uncertainty is set to `TRUE`, palaeocoordinates for all available models
 #' will be returned, along with the palaeolatitudinal range (`range_p_lat`) and
-#' the maximum Great Circle Distance (`max_dist`) in km.
+#' the maximum Great Circle Distance (`max_dist`) in km (calculate via
+#' \code{\link[geosphere]{distHaversine}}).
 #'
 #' @details This function can generate palaeocoordinates using two different
 #' approaches (`method`):
@@ -58,8 +59,8 @@
 #' spatial aggregation. The reconstruction files provide pre-generated
 #' palaeocoordinates for a grid of 1&deg; x 1&deg;, allowing the past
 #' distribution of fossil occurrences to be estimated efficiently. Access to
-#' the reconstruction files and documentation is available via the palaeorotate
-#' package (\url{https://github.com/LewisAJones/palaeorotate}).
+#' the reconstruction files and documentation is available via the
+#' `palaeorotate` package (\url{https://github.com/LewisAJones/palaeorotate}).
 #'
 #' - GPlates API: The "point" `method` uses the GPlates API service
 #' \url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point
