@@ -59,7 +59,7 @@ to the earliest and latest international geological stage which
 could be assigned to the occurrence based on the given interval names.
 \code{interval_max_ma} and \code{interval_min_ma} return maximal and minimal interval ages
 if provided in the interval key, or if they can be fetched from GTS2012 or GTS2020.
-A column \code{mid_ma} is appended to provide the midpoint
+A column \code{interval_mid_ma} is appended to provide the midpoint
 age of the interval.
 }
 \description{
@@ -110,5 +110,6 @@ interval_key <- data.frame(
                   late_stage = c("Changhsingian", "Asselian"))
 # assign stages using the custom interval_key, use "GTS2012":
 occdf <- look_up(occdf, int_key = interval_key, assign_with_GTS = "GTS2012",
-early_interval = "stage", print_assigned = TRUE)
+early_interval = "stage", late_interval = "stage",
+print_assigned = TRUE)
 }

@@ -44,7 +44,7 @@
 #' could be assigned to the occurrence based on the given interval names.
 #' `interval_max_ma` and `interval_min_ma` return maximal and minimal interval ages
 #' if provided in the interval key, or if they can be fetched from GTS2012 or GTS2020.
-#' A column `mid_ma` is appended to provide the midpoint
+#' A column `interval_mid_ma` is appended to provide the midpoint
 #' age of the interval.
 #'
 #' @details
@@ -85,7 +85,8 @@
 #'                   late_stage = c("Changhsingian", "Asselian"))
 #' # assign stages using the custom interval_key, use "GTS2012":
 #' occdf <- look_up(occdf, int_key = interval_key, assign_with_GTS = "GTS2012",
-#' early_interval = "stage", print_assigned = TRUE)
+#' early_interval = "stage", late_interval = "stage",
+#' print_assigned = TRUE)
 #' @export
 look_up <- function(occdf, int_key = palaeoverse::interval_key,
                     assign_with_GTS = "GTS2020",
@@ -101,45 +102,34 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
     stop('`occdf` should be a dataframe.')
   }
 
-  if (is.null(early_interval) && !("early_interval" %in% colnames(occdf))) {
-    stop('`occdf` needs to have a column named "early_interval", or an
-         alternative name for the early interval column needs to be provided.')
+  if (!is.character(early_interval)) {
+    stop('`early_interval` needs to be of type `character`')
   }
-
-  if (!is.null(early_interval)) {
-    if (!is.character(early_interval))
-      stop('`early_interval` needs to be of type `character`')
-    if (!early_interval %in% colnames(occdf))
+  if (!early_interval %in% colnames(occdf)) {
       stop('`early_interval` needs to match a column name of `occdf`')
   }
 
-  if (!is.null(late_interval)) {
-    if (!is.character(late_interval))
-      stop('`late_interval` needs to be of type `character`')
-    if (!late_interval %in% colnames(occdf))
-      stop('`late_interval` needs to match a column name of `occdf`')
+  if (!is.character(late_interval)) {
+    stop('`late_interval` needs to be of type `character`')
+  }
+  if (!late_interval %in% colnames(occdf)) {
+    stop('`late_interval` needs to match a column name of `occdf`')
   }
 
   if (is.data.frame(int_key) == FALSE) {
     stop('`int_key` should be a dataframe.')
   }
 
-  if (!("interval_name" %in% colnames(int_key))) {
-    stop('`int_key` needs to contain a column "interval_name"')
-  } else if (!is.character(int_key$interval_name)) {
-    stop('`int_key$interval_name` needs to be of type `character`')
+  if(!(all(c("interval_name", "early_stage", "late_stage") %in%
+           colnames(int_key)))) {
+    stop('`int_key` needs to contain the columns "interval_name",
+         "early_stage" and "late_stage"')
   }
 
-  if (!("early_stage" %in% colnames(int_key))) {
-    stop('`int_key` needs to contain a column "early_stage"')
-  } else if (!is.character(int_key$early_stage)) {
-    stop('`int_key$early_stage` needs to be of type `character`')
-  }
-
-  if ("late_stage" %in% colnames(int_key)) {
-    if (!is.character(int_key$late_stage)) {
-      stop('`int_key$late_stage` needs to be of type `character`')
-    }
+  if(!(is.character(int_key$interval_name) & is.character(int_key$early_stage) &
+       is.character(int_key$late_stage))) {
+    stop('`int_key$interval_name`, `int_key$early_stage`, and
+         `int_key$late_stage` needs to be of type `character`')
   }
 
   if ("max_ma" %in% colnames(int_key)) {
@@ -183,10 +173,16 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
   # add columns to output data frame
   occdf$early_stage <- rep(NA_character_, nrow(occdf))
   occdf$late_stage <- rep(NA_character_, nrow(occdf))
-  if ("max_ma" %in% colnames(int_key) || is.character(assign_with_GTS))
+  if ("max_ma" %in% colnames(int_key) || is.character(assign_with_GTS)) {
     occdf$interval_max_ma <- rep(NA_real_, nrow(occdf))
-  if ("min_ma" %in% colnames(int_key) || is.character(assign_with_GTS))
+    }
+  if (("max_ma" %in% colnames(int_key) &
+      "min_ma" %in% colnames(int_key)) || is.character(assign_with_GTS)) {
+    occdf$interval_mid_ma <- rep(NA_real_, nrow(occdf))
+    }
+  if ("min_ma" %in% colnames(int_key) || is.character(assign_with_GTS)) {
     occdf$interval_min_ma <- rep(NA_real_, nrow(occdf))
+    }
 
 
   #=== Assignment of stages based on look-up table ===
@@ -349,7 +345,7 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
 
   if ("interval_max_ma" %in% colnames(occdf) &&
       "interval_min_ma" %in% colnames(occdf)) {
-    occdf$stage_mid_ma <- (occdf$interval_max_ma + occdf$interval_min_ma) / 2
+    occdf$interval_mid_ma <- (occdf$interval_max_ma + occdf$interval_min_ma) / 2
   }
 
   #=== Ouput ===
