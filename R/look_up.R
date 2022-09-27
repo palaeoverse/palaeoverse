@@ -1,4 +1,4 @@
-#' Look up geological intervals and assign stages
+#' Look up geological intervals and assign geological stages
 #'
 #' A function to assign fossil occurrences to [international geological stages](
 #' https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf) from the
@@ -9,7 +9,8 @@
 #' wish to bin, with columns specifying the earliest and the latest possible
 #' interval associated with each occurrence.
 #' @param int_key \code{dataframe}. A dataframe linking interval names to
-#' international, geological stage names, or other, user-defined intervals.
+#' international, geological stage names from the ICS, or other, user-defined
+#' intervals.
 #' This dataframe should contain the following named columns containing
 #' `character` values: \cr
 #' \itemize{
@@ -19,10 +20,11 @@
 #' \item `late_stage` contains the latest stage corresponding to the
 #' intervals. \cr
 #' }
-#' Optionally, the numeric vectors \cr
+#' Optionally, named columns provide maximal and minimal ages for the
+#' intervals. \cr
 #' \itemize{
-#' \item `stage_max_ma` and
-#' \item `stage_min_ma` provide maximal and minimal ages for the intervals.
+#' \item `max_ma`
+#' \item `min_ma`
 #' }
 #' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
 #' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to
@@ -40,15 +42,15 @@
 #' appended columns is returned: `early_stage` and `late_stage`, corresponding
 #' to the earliest and latest international geological stage which
 #' could be assigned to the occurrence based on the given interval names.
-#' `stage_max_ma` and `stage_min_ma` return maximal and minimal ages if provided
-#' in the interval key, or if they can be fetched from GTS2012 or GTS2020.
+#' `interval_max_ma` and `interval_min_ma` return maximal and minimal interval ages
+#' if provided in the interval key, or if they can be fetched from GTS2012 or GTS2020.
 #' A column `mid_ma` is appended to provide the midpoint
 #' age of the interval.
 #'
 #' @details
 #' Instead of  geological stages, the user can supply any names in the
-#' `early_stage` and `late_stage` column; `assign_with_GTS` should then
-#' be set to \code{FALSE}.
+#' `early_stage` and `late_stage` column of `int_key`.
+#' `assign_with_GTS` should then be set to \code{FALSE}.
 #'
 #' An exemplary `int_key` has been included within this package
 #' (\code{\link{interval_key}}). This key works well for assigning
@@ -66,7 +68,6 @@
 #' @section Reviewer(s):
 #' Lewis A. Jones
 #' @examples
-#' \dontrun{
 #' # Grab internal tetrapod data
 #' occdf <- tetrapods
 #' # assign stages using the exemplary interval_key
@@ -83,13 +84,13 @@
 #'                   early_stage = c("Asselian", "Asselian"),
 #'                   late_stage = c("Changhsingian", "Asselian"))
 #' # assign stages using the custom interval_key, use "GTS2012":
-#' occdf <- look_up(occdf, int_key=interval_key, assign_with_GTS="GTS2012",
-#' early_interval = "stage", print_assigned=TRUE)
-#' }
+#' occdf <- look_up(occdf, int_key = interval_key, assign_with_GTS = "GTS2012",
+#' early_interval = "stage", print_assigned = TRUE)
 #' @export
 look_up <- function(occdf, int_key = palaeoverse::interval_key,
                     assign_with_GTS = "GTS2020",
-                    early_interval = NULL, late_interval = NULL,
+                    early_interval = "early_interval",
+                    late_interval = "late_interval",
                     print_assigned = FALSE) {
 
 
@@ -141,9 +142,9 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
     }
   }
 
-  if ("stage_max_ma" %in% colnames(int_key)) {
-    if (!is.numeric(int_key$stage_max_ma)) {
-      stop("`int_key$stage_max_ma` needs to be of type `numeric`")
+  if ("max_ma" %in% colnames(int_key)) {
+    if (!is.numeric(int_key$max_ma)) {
+      stop("`int_key$max_ma` needs to be of type `numeric`")
     }
   }
 
@@ -182,10 +183,10 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
   # add columns to output data frame
   occdf$early_stage <- rep(NA_character_, nrow(occdf))
   occdf$late_stage <- rep(NA_character_, nrow(occdf))
-  if ("stage_max_ma" %in% colnames(int_key) || is.character(assign_with_GTS))
-    occdf$stage_max_ma <- rep(NA_real_, nrow(occdf))
-  if ("stage_min_ma" %in% colnames(int_key) || is.character(assign_with_GTS))
-    occdf$stage_min_ma <- rep(NA_real_, nrow(occdf))
+  if ("max_ma" %in% colnames(int_key) || is.character(assign_with_GTS))
+    occdf$interval_max_ma <- rep(NA_real_, nrow(occdf))
+  if ("min_ma" %in% colnames(int_key) || is.character(assign_with_GTS))
+    occdf$interval_min_ma <- rep(NA_real_, nrow(occdf))
 
 
   #=== Assignment of stages based on look-up table ===
@@ -203,9 +204,9 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
     occdf$early_stage[early == assign1[i]] <-
       int_key$early_stage[int_key$interval_name == assign1[i]]
     # max_ma
-    if ("stage_max_ma" %in% colnames(int_key)) {
-      occdf$stage_max_ma[early == assign1[i]] <-
-        int_key$stage_max_ma[int_key$interval_name == assign1[i]]
+    if ("max_ma" %in% colnames(int_key)) {
+      occdf$interval_max_ma[early == assign1[i]] <-
+        int_key$max_ma[int_key$interval_name == assign1[i]]
     }
   }
 
@@ -222,9 +223,9 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
     occdf$late_stage[late == assign2[i]] <-
       int_key$late_stage[int_key$interval_name == assign2[i]]
     # min_ma
-    if ("stage_min_ma" %in% colnames(int_key)) {
-      occdf$stage_min_ma[late == assign2[i]] <-
-        int_key$stage_min_ma[int_key$interval_name == assign2[i]]
+    if ("min_ma" %in% colnames(int_key)) {
+      occdf$interval_min_ma[late == assign2[i]] <-
+        int_key$min_ma[int_key$interval_name == assign2[i]]
     }
   }
 
@@ -304,7 +305,7 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
 
     # add max_ma and min_ma based on GTS
     # max_ma
-    if ("stage_max_ma" %in% colnames(occdf)) {
+    if ("interval_max_ma" %in% colnames(occdf)) {
       stage_unique <- unique(occdf$early_stage)
       # find assignable intervals
       assign_age_ind <- vapply(stage_unique, function(x) {
@@ -317,13 +318,13 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
       }, FUN.VALUE = numeric(1))
       # assign max age
       for (i in seq_len(length(assign_age))) {
-        occdf$stage_max_ma[occdf$early_stage == assign_age[i] &
-                             is.na(occdf$stage_max_ma)] <-
+        occdf$interval_max_ma[occdf$early_stage == assign_age[i] &
+                             is.na(occdf$interval_max_ma)] <-
           assigned_max_ma_GTS[i]
       }
     }
     # min_ma
-    if ("stage_min_ma" %in% colnames(occdf)) {
+    if ("interval_min_ma" %in% colnames(occdf)) {
       stage_unique <- unique(occdf$late_stage)
       # find assignable intervals
       assign_age_ind <- vapply(stage_unique, function(x) {
@@ -336,8 +337,8 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
       }, FUN.VALUE = numeric(1))
       # assign min age
       for (i in seq_len(length(assign_age))) {
-        occdf$stage_min_ma[occdf$late_stage == assign_age[i] &
-                             is.na(occdf$stage_min_ma)] <-
+        occdf$interval_min_ma[occdf$late_stage == assign_age[i] &
+                             is.na(occdf$interval_min_ma)] <-
           assigned_min_ma_GTS[i]
       }
     }
@@ -346,9 +347,9 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
   #=== add stage_mid_ma ages to the output ===
 
 
-  if ("stage_max_ma" %in% colnames(occdf) &&
-      "stage_min_ma" %in% colnames(occdf)) {
-    occdf$stage_mid_ma <- (occdf$stage_max_ma + occdf$stage_min_ma) / 2
+  if ("interval_max_ma" %in% colnames(occdf) &&
+      "interval_min_ma" %in% colnames(occdf)) {
+    occdf$stage_mid_ma <- (occdf$interval_max_ma + occdf$interval_min_ma) / 2
   }
 
   #=== Ouput ===

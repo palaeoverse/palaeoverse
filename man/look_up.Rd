@@ -2,14 +2,14 @@
 % Please edit documentation in R/look_up.R
 \name{look_up}
 \alias{look_up}
-\title{Look up geological intervals and assign stages}
+\title{Look up geological intervals and assign geological stages}
 \usage{
 look_up(
   occdf,
   int_key = palaeoverse::interval_key,
   assign_with_GTS = "GTS2020",
-  early_interval = NULL,
-  late_interval = NULL,
+  early_interval = "early_interval",
+  late_interval = "late_interval",
   print_assigned = FALSE
 )
 }
@@ -19,7 +19,8 @@ wish to bin, with columns specifying the earliest and the latest possible
 interval associated with each occurrence.}
 
 \item{int_key}{\code{dataframe}. A dataframe linking interval names to
-international, geological stage names, or other, user-defined intervals.
+international, geological stage names from the ICS, or other, user-defined
+intervals.
 This dataframe should contain the following named columns containing
 \code{character} values: \cr
 \itemize{
@@ -29,10 +30,11 @@ corresponding to the intervals, and, optionally \cr
 \item \code{late_stage} contains the latest stage corresponding to the
 intervals. \cr
 }
-Optionally, the numeric vectors \cr
+Optionally, named columns provide maximal and minimal ages for the
+intervals. \cr
 \itemize{
-\item \code{stage_max_ma} and
-\item \code{stage_min_ma} provide maximal and minimal ages for the intervals.
+\item \code{max_ma}
+\item \code{min_ma}
 }}
 
 \item{assign_with_GTS}{\code{character} or \code{FALSE}. Allows intervals to
@@ -55,8 +57,8 @@ A \code{dataframe} of the original input \code{data} with the following
 appended columns is returned: \code{early_stage} and \code{late_stage}, corresponding
 to the earliest and latest international geological stage which
 could be assigned to the occurrence based on the given interval names.
-\code{stage_max_ma} and \code{stage_min_ma} return maximal and minimal ages if provided
-in the interval key, or if they can be fetched from GTS2012 or GTS2020.
+\code{interval_max_ma} and \code{interval_min_ma} return maximal and minimal interval ages
+if provided in the interval key, or if they can be fetched from GTS2012 or GTS2020.
 A column \code{mid_ma} is appended to provide the midpoint
 age of the interval.
 }
@@ -67,8 +69,8 @@ or user-defined intervals based on interval names.
 }
 \details{
 Instead of  geological stages, the user can supply any names in the
-\code{early_stage} and \code{late_stage} column; \code{assign_with_GTS} should then
-be set to \code{FALSE}.
+\code{early_stage} and \code{late_stage} column of \code{int_key}.
+\code{assign_with_GTS} should then be set to \code{FALSE}.
 
 An exemplary \code{int_key} has been included within this package
 (\code{\link{interval_key}}). This key works well for assigning
@@ -91,7 +93,6 @@ Lewis A. Jones
 }
 
 \examples{
-\dontrun{
 # Grab internal tetrapod data
 occdf <- tetrapods
 # assign stages using the exemplary interval_key
@@ -108,7 +109,6 @@ interval_key <- data.frame(
                   early_stage = c("Asselian", "Asselian"),
                   late_stage = c("Changhsingian", "Asselian"))
 # assign stages using the custom interval_key, use "GTS2012":
-occdf <- look_up(occdf, int_key=interval_key, assign_with_GTS="GTS2012",
-early_interval = "stage", print_assigned=TRUE)
-}
+occdf <- look_up(occdf, int_key = interval_key, assign_with_GTS = "GTS2012",
+early_interval = "stage", print_assigned = TRUE)
 }
