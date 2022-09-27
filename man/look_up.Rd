@@ -2,7 +2,7 @@
 % Please edit documentation in R/look_up.R
 \name{look_up}
 \alias{look_up}
-\title{Look up geological intervals and assign ICS ages and stages}
+\title{Look up geological intervals and assign stages}
 \usage{
 look_up(
   occdf,
@@ -15,11 +15,8 @@ look_up(
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you
-wish to bin. The following named columns need to be contained:
-\code{early_interval} and, optionally, \code{late_interval}. These columns need
-to be \code{character} values. If no \code{late_interval} is supplied, only
-\code{early_interval} is used, and it is assumed that the occurrences are from
-that interval only.}
+wish to bin, with columns specifying the earliest and the latest possible
+interval associated with each occurrence.}
 
 \item{int_key}{\code{dataframe}. A dataframe linking interval names to
 international, geological stage names, or other, user-defined intervals.
@@ -42,15 +39,16 @@ Optionally, the numeric vectors \cr
 be searched in the \code{GTS2020} (default) or the \code{GTS2012} table. Set to
 \code{FALSE} to disable.}
 
-\item{early_interval}{\code{character}. Alternative column name that contains
-the earliest or only interval from which the occurrences are from.}
+\item{early_interval}{\code{character}. Name of the column in \code{occdf} that
+contains the earliest interval from which the occurrences are from. Defaults
+to \code{early_interval}.}
 
-\item{late_interval}{\code{character}. Alternative column name that contains
-the latest interval from which the occurrences are from.}
+\item{late_interval}{\code{character}. Name of the column in \code{occdf} that
+contains the latest interval from which the occurrences are from. Defaults
+to \code{late_interval}.}
 
 \item{print_assigned}{\code{logical}. Should the assigned interval names be
-printed?
-Defaults to \code{FALSE}.}
+printed? Defaults to \code{FALSE}.}
 }
 \value{
 A \code{dataframe} of the original input \code{data} with the following
@@ -63,7 +61,8 @@ A column \code{mid_ma} is appended to provide the midpoint
 age of the interval.
 }
 \description{
-A function to assign fossil occurrences to international geological stages
+A function to assign fossil occurrences to \href{https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf}{international geological stages} from the
+International Commision on Stratigraphy (ICS)
 or user-defined intervals based on interval names.
 }
 \details{

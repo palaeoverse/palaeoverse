@@ -1,14 +1,13 @@
-#' Look up geological intervals and assign ICS ages and stages
+#' Look up geological intervals and assign stages
 #'
-#' A function to assign fossil occurrences to international geological stages
+#' A function to assign fossil occurrences to [international geological stages](
+#' https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf) from the
+#' International Commision on Stratigraphy (ICS)
 #' or user-defined intervals based on interval names.
 #'
 #' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
-#' wish to bin. The following named columns need to be contained:
-#' `early_interval` and, optionally, `late_interval`. These columns need
-#' to be `character` values. If no `late_interval` is supplied, only
-#' `early_interval` is used, and it is assumed that the occurrences are from
-#' that interval only.
+#' wish to bin, with columns specifying the earliest and the latest possible
+#' interval associated with each occurrence.
 #' @param int_key \code{dataframe}. A dataframe linking interval names to
 #' international, geological stage names, or other, user-defined intervals.
 #' This dataframe should contain the following named columns containing
@@ -28,13 +27,14 @@
 #' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
 #' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to
 #' \code{FALSE} to disable.
-#' @param early_interval \code{character}. Alternative column name that contains
-#' the earliest or only interval from which the occurrences are from.
-#' @param late_interval \code{character}. Alternative column name that contains
-#' the latest interval from which the occurrences are from.
+#' @param early_interval \code{character}. Name of the column in `occdf` that
+#' contains the earliest interval from which the occurrences are from. Defaults
+#'  to `early_interval`.
+#' @param late_interval \code{character}. Name of the column in `occdf` that
+#' contains the latest interval from which the occurrences are from. Defaults
+#'  to `late_interval`.
 #' @param print_assigned \code{logical}. Should the assigned interval names be
-#' printed?
-#' Defaults to \code{FALSE}.
+#' printed? Defaults to \code{FALSE}.
 #'
 #' @return A \code{dataframe} of the original input `data` with the following
 #' appended columns is returned: `early_stage` and `late_stage`, corresponding
