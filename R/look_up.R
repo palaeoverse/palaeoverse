@@ -98,59 +98,59 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
   #=== Handling errors ===
 
   if (is.data.frame(occdf) == FALSE) {
-    stop("`occdf` should be a dataframe.")
+    stop('`occdf` should be a dataframe.')
   }
 
   if (is.null(early_interval) && !("early_interval" %in% colnames(occdf))) {
-    stop("`occdf` needs to have a column named `early_interval`, or an
-         alternative name for the early interval column needs to be provided.")
+    stop('`occdf` needs to have a column named "early_interval", or an
+         alternative name for the early interval column needs to be provided.')
   }
 
   if (!is.null(early_interval)) {
     if (!is.character(early_interval))
-      stop("`early_interval` needs to be of type `character`")
+      stop('`early_interval` needs to be of type `character`')
     if (!early_interval %in% colnames(occdf))
-      stop("`early_interval` needs to match a column name of `occdf`")
+      stop('`early_interval` needs to match a column name of `occdf`')
   }
 
   if (!is.null(late_interval)) {
     if (!is.character(late_interval))
-      stop("`late_interval` needs to be of type `character`")
+      stop('`late_interval` needs to be of type `character`')
     if (!late_interval %in% colnames(occdf))
-      stop("`late_interval` needs to match a column name of `occdf`")
+      stop('`late_interval` needs to match a column name of `occdf`')
   }
 
   if (is.data.frame(int_key) == FALSE) {
-    stop("`int_key` should be a dataframe.")
+    stop('`int_key` should be a dataframe.')
   }
 
   if (!("interval_name" %in% colnames(int_key))) {
-    stop("`int_key` needs to contain a column `interval_name`")
+    stop('`int_key` needs to contain a column "interval_name"')
   } else if (!is.character(int_key$interval_name)) {
-    stop("`int_key$interval_name` needs to be of type `character`")
+    stop('`int_key$interval_name` needs to be of type `character`')
   }
 
   if (!("early_stage" %in% colnames(int_key))) {
-    stop("`int_key` needs to contain a column `early_stage`")
+    stop('`int_key` needs to contain a column "early_stage"')
   } else if (!is.character(int_key$early_stage)) {
-    stop("`int_key$early_stage` needs to be of type `character`")
+    stop('`int_key$early_stage` needs to be of type `character`')
   }
 
   if ("late_stage" %in% colnames(int_key)) {
     if (!is.character(int_key$late_stage)) {
-      stop("`int_key$late_stage` needs to be of type `character`")
+      stop('`int_key$late_stage` needs to be of type `character`')
     }
   }
 
   if ("max_ma" %in% colnames(int_key)) {
     if (!is.numeric(int_key$max_ma)) {
-      stop("`int_key$max_ma` needs to be of type `numeric`")
+      stop('`int_key$max_ma` needs to be of type `numeric`')
     }
   }
 
   if ("min_ma" %in% colnames(int_key)) {
     if (!is.numeric(int_key$min_ma)) {
-      stop("`int_key$min_ma` needs to be of type `numeric`")
+      stop('`int_key$min_ma` needs to be of type `numeric`')
     }
   }
 
@@ -245,8 +245,8 @@ look_up <- function(occdf, int_key = palaeoverse::interval_key,
                   if (assign_with_GTS == FALSE) {
                     NULL
                   } else {
-                    stop("`assign_with_GTS` needs to be `FALSE`, `GTS2012` or
-                          `GTS2020`")
+                    stop('`assign_with_GTS` needs to be `FALSE`, `GTS2012` or
+                          `GTS2020`')
                   }
                 }
   )
