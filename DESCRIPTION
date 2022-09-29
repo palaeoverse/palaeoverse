@@ -33,7 +33,6 @@ Imports:
     ape,
     sf,
     h3jsr,
-    fields,
     geosphere
 Suggests: 
     divDyn,

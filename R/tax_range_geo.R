@@ -6,8 +6,8 @@
 #' occupied equal-area hexagonal grid cells.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences.
-#' This dataframe should contain at least three columns: names of taxa
-#' (`character`), longitude (`numeric`) and latitude (`numeric`).
+#' This dataframe should contain at least three columns: names of taxa,
+#' longitude and latitude.
 #' @param name \code{character}. The name of the column you wish to be treated
 #' as the input names (e.g., "species" or "genus"). NA data should be removed
 #' prior to function call.
@@ -54,9 +54,9 @@
 #' The palaeolatitudinal range of each taxa is also calculated.
 #' - Maximum Great Circle Distance: the "gcd" method calculates the maximum
 #' Great Circle Distance between occurrences for each taxon in `occdf`. It does
-#' so using \code{\link[fields:rdist.earth]{fields::rdist.earth()}}. This
-#' function calculates Great Circle Distance using the Haversine method with
-#' the radius of the Earth set to the 6378.388 km (equatorial radius).
+#' so using \code{\link[geosphere:distHaversine]{geosphere::distHaversine()}}.
+#' This function calculates Great Circle Distance using the Haversine method
+#' with the radius of the Earth set to the 6378.137 km.
 #' Great Circle Distance represents the shortest distance between two
 #' points on the surface of a sphere. This is different from Euclidean Distance,
 #' which represents the distance between two points on a plane.
@@ -82,7 +82,7 @@
 #' Bethany Allen
 #' @importFrom geosphere areaPolygon
 #' @importFrom grDevices chull
-#' @importFrom fields rdist.earth
+#' @importFrom geosphere distm distHaversine
 #' @importFrom h3jsr point_to_h3
 #' @examples
 #' # Grab internal data
@@ -211,9 +211,11 @@ in `occdf`")
       taxon_id <- i
       # Subset df
       tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
-      # Calculate GCD matrix using the Haversine method with a radius of
-      # 6378.388 km by default
-      vals <- fields::rdist.earth(x1 = tmp[,c(lng, lat)], miles = FALSE)
+      # Calculate GCD matrix using the Haversine method
+      vals <- geosphere::distm(x = tmp[,c(lng, lat)],
+                               fun = geosphere::distHaversine)
+      # Convert to km
+      vals <- vals / 10^3
       # Extract location of points with max GCD
       loc <- which(vals == max(vals), arr.ind = TRUE)
       # Get maximum GCD in km
@@ -244,8 +246,7 @@ in `occdf`")
                          spacing = rep(NA, length(unique_taxa)))
     # Generate equal area hexagonal grid
     # Which resolution should be used based on input distance/spacing?
-    # Use the h3jsr::h3_info_table to calculate resolution (however, this
-    # table is not exported in their package, added into palaeoverse)
+    # Use the h3jsr::h3_info_table to calculate resolution
     grid <- h3jsr::h3_info_table[
       which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)), ]
     # Add resolution spacing

@@ -15,8 +15,8 @@ tax_range_geo(
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences.
-This dataframe should contain at least three columns: names of taxa
-(\code{character}), longitude (\code{numeric}) and latitude (\code{numeric}).}
+This dataframe should contain at least three columns: names of taxa,
+longitude and latitude.}
 
 \item{name}{\code{character}. The name of the column you wish to be treated
 as the input names (e.g., "species" or "genus"). NA data should be removed
@@ -79,9 +79,9 @@ maximum and minimum latitudinal occurrence.
 The palaeolatitudinal range of each taxa is also calculated.
 \item Maximum Great Circle Distance: the "gcd" method calculates the maximum
 Great Circle Distance between occurrences for each taxon in \code{occdf}. It does
-so using \code{\link[fields:rdist.earth]{fields::rdist.earth()}}. This
-function calculates Great Circle Distance using the Haversine method with
-the radius of the Earth set to the 6378.388 km (equatorial radius).
+so using \code{\link[geosphere:distHaversine]{geosphere::distHaversine()}}.
+This function calculates Great Circle Distance using the Haversine method
+with the radius of the Earth set to the 6378.137 km.
 Great Circle Distance represents the shortest distance between two
 points on the surface of a sphere. This is different from Euclidean Distance,
 which represents the distance between two points on a plane.
