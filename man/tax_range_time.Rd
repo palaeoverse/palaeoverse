@@ -6,51 +6,33 @@
 \usage{
 tax_range_time(
   occdf,
-  name = "name",
+  name = "genus",
   min_ma = "min_ma",
   max_ma = "max_ma",
   by = "FAD",
-  scale = "GTS2020",
-  plot = FALSE,
-  return_error = FALSE
+  plot = FALSE
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences. The
-dataframe should contain at least three columns: names of taxa
-and the maximum and minimum age which constrain the
-age range of the fossil occurrence. If the age range columns are provided as
-\code{numeric} values, they should be in millions of years before present.
-If the age range columns are provided as \code{character} values
-(i.e. stage names), the function will attempt to extract numeric age data
-from the Geological Timescale by matching the provided character strings to
-the stage names.}
+\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences containing
+at least three columns: names of taxa, maximum age and minimum age.
+These ages should constrain the age range of the fossil occurrence
+and are assumed to be in millions of years before present.}
 
 \item{name}{\code{character}. The name of the column you wish to be treated
-as the input names (e.g., "species" or "genus"). NA data should be removed
-prior to function call.}
+as the input names, e.g. "genus" (default).}
 
 \item{min_ma}{\code{character}. The name of the column you wish to be treated
-as the minimum limit of the age range (e.g., "min_ma").}
+as the minimum limit of the age range, e.g. "min_ma" (default).}
 
 \item{max_ma}{\code{character}. The name of the column you wish to be treated
-as the maximum limit of the age range (e.g., "max_ma").}
+as the maximum limit of the age range, e.g. "max_ma" (default).}
 
 \item{by}{\code{character}. How should the output be sorted?
-Either: "FAD" (first-appearance date), "LAD" (last-appearance data), "name"
-(alphabetically by taxon names).}
-
-\item{scale}{\code{character}. Specify the desired geological timescale to
-be used, either "GTS2020" (default) or "GTS2012". This argument is only
-useful if the supplied "max_ma" and "min_ma" columns are \code{character}
-values. For similar advanced functionality, see \code{\link{look_up}}.}
+Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
+or "name" (alphabetically by taxon names).}
 
 \item{plot}{\code{logical}. Should a plot of the ranges be generated?}
-
-\item{return_error}{\code{logical}. Should a vector be returned
-of the interval names of \code{occdf} that could not be matched to
-GTS? This is only relevant if \code{max_ma} and \code{min_ma}
-are \code{character} values.}
 }
 \value{
 A \code{dataframe} containing the following columns:
@@ -68,12 +50,12 @@ The temporal range(s) of taxa are calculated by extracting all
 unique taxa (\code{name} column) from the input \code{occdf}, and checking their first
 and last appearance. The temporal duration of each taxon is also calculated.
 A plot of the temporal range of each taxa is also returned if \code{plot = TRUE}.
-If \code{return_error == TRUE}, a vector with interval names that cannot be
-matched to stage names is returned.
+If the input data columns contain NAs, these should be removed prior to
+function call.
 
 Note: this function provides output based solely on the user input data. The
 true duration of a taxon is likely confounded by uncertainty in dating
-occurrences and incomplete sampling and preservation.
+occurrences, and incomplete sampling and preservation.
 }
 \section{Developer(s)}{
 

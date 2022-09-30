@@ -1,19 +1,10 @@
 test_that("tax_range_time() works", {
 
-  occdf <- data.frame(name = c(c("Bulbasaur"), c("Charmander"), c("Squirtle")),
-                      max_ma = c("Hettangian", "Albian", "Maastrichtian"),
-                      min_ma = c("Tortonian", "Cenomanian", "Bartonia"))
+  occdf <- tetrapods
 
-  expect_error(tax_range_time(occdf = occdf, plot = TRUE))
+  occdf <- subset(occdf, !is.na(genus))
 
-  expect_true(is.vector(
-    tax_range_time(occdf = occdf, plot = TRUE, return_error = TRUE)))
-
-  occdf <- data.frame(name = c(c("Bulbasaur"), c("Charmander"), c("Squirtle")),
-                      max_ma = c("Hettangian", "Albian", "Maastrichtian"),
-                      min_ma = c("Tortonian", "Cenomanian", "Bartonian"))
-
-  unique_taxa <- length(unique(occdf$name))
+  unique_taxa <- length(unique(occdf$genus))
 
   # Expect true
   expect_true(
@@ -31,14 +22,14 @@ test_that("tax_range_time() works", {
 
   # Expect error
   expect_error(tax_range_time(occdf = NA))
+  expect_error(tax_range_time(occdf = occdf, max_ma = "test"))
+  expect_error(tax_range_time(occdf = occdf, min_ma = "test"))
+  expect_error(tax_range_time(occdf = occdf, by = "test"))
   expect_error(tax_range_time(occdf = occdf, plot = "test"))
   expect_error(tax_range_time(occdf = occdf, name = "test"))
-  occdf$name[1] <- NA
+  occdf$genus[1] <- NA
   expect_error(tax_range_time(occdf = occdf))
-  occdf$name[1] <- "Bulbasaur"
-  occdf$max_ma[1] <- NA
-  expect_error(tax_range_time(occdf = occdf))
-  occdf$max_ma <- 5
+  occdf$max_ma[1] <- "test"
   expect_error(tax_range_time(occdf = occdf))
 
 })

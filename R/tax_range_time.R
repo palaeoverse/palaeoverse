@@ -3,34 +3,20 @@
 #' A function to calculate the temporal range of fossil taxa from occurrence
 #' data.
 #'
-#' @param occdf \code{dataframe}. A dataframe of fossil occurrences. The
-#' dataframe should contain at least three columns: names of taxa
-#' and the maximum and minimum age which constrain the
-#' age range of the fossil occurrence. If the age range columns are provided as
-#' `numeric` values, they should be in millions of years before present.
-#' If the age range columns are provided as `character` values
-#' (i.e. stage names), the function will attempt to extract numeric age data
-#' from the Geological Timescale by matching the provided character strings to
-#' the stage names.
+#' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing
+#' at least three columns: names of taxa, maximum age and minimum age.
+#' These ages should constrain the age range of the fossil occurrence
+#' and are assumed to be in millions of years before present.
 #' @param name \code{character}. The name of the column you wish to be treated
-#' as the input names (e.g., "species" or "genus"). NA data should be removed
-#' prior to function call.
+#' as the input names, e.g. "genus" (default).
 #' @param min_ma \code{character}. The name of the column you wish to be treated
-#' as the minimum limit of the age range (e.g., "min_ma").
+#' as the minimum limit of the age range, e.g. "min_ma" (default).
 #' @param max_ma \code{character}. The name of the column you wish to be treated
-#' as the maximum limit of the age range (e.g., "max_ma").
+#' as the maximum limit of the age range, e.g. "max_ma" (default).
 #' @param by \code{character}. How should the output be sorted?
-#' Either: "FAD" (first-appearance date), "LAD" (last-appearance data), "name"
-#' (alphabetically by taxon names).
-#' @param scale \code{character}. Specify the desired geological timescale to
-#' be used, either "GTS2020" (default) or "GTS2012". This argument is only
-#' useful if the supplied "max_ma" and "min_ma" columns are \code{character}
-#' values. For similar advanced functionality, see \code{\link{look_up}}.
+#' Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
+#' or "name" (alphabetically by taxon names).
 #' @param plot \code{logical}. Should a plot of the ranges be generated?
-#' @param return_error \code{logical}. Should a vector be returned
-#' of the interval names of `occdf` that could not be matched to
-#' GTS? This is only relevant if `max_ma` and `min_ma`
-#' are `character` values.
 #'
 #' @return A \code{dataframe} containing the following columns:
 #' unique taxa (`taxa`), taxa ID (`taxon_id`), first appearance of taxon
@@ -42,12 +28,12 @@
 #' unique taxa (`name` column) from the input `occdf`, and checking their first
 #' and last appearance. The temporal duration of each taxon is also calculated.
 #' A plot of the temporal range of each taxa is also returned if `plot = TRUE`.
-#' If `return_error == TRUE`, a vector with interval names that cannot be
-#' matched to stage names is returned.
+#' If the input data columns contain NAs, these should be removed prior to
+#' function call.
 #'
 #' Note: this function provides output based solely on the user input data. The
 #' true duration of a taxon is likely confounded by uncertainty in dating
-#' occurrences and incomplete sampling and preservation.
+#' occurrences, and incomplete sampling and preservation.
 #'
 #' @section Developer(s):
 #' Lewis A. Jones
@@ -64,13 +50,11 @@
 #'
 #' @export
 tax_range_time <- function(occdf,
-                           name = "name",
+                           name = "genus",
                            min_ma = "min_ma",
                            max_ma = "max_ma",
                            by = "FAD",
-                           scale = "GTS2020",
-                           plot = FALSE,
-                           return_error = FALSE) {
+                           plot = FALSE) {
 
   #=== Handling errors ===
   if (is.data.frame(occdf) == FALSE) {
@@ -81,9 +65,8 @@ tax_range_time <- function(occdf,
     stop("`plot` should be logical (TRUE/FALSE)")
   }
 
-  if (class(occdf[, max_ma]) != class(occdf[, min_ma])) {
-    stop("The class of max_ma and min_ma must be the same.
-Either numeric or character, but not both.")
+  if (!is.numeric(occdf[, max_ma]) || !is.numeric(occdf[, min_ma])) {
+    stop("`max_ma` and `min_ma` must be of class numeric.")
   }
 
   if (any(c(name, min_ma, max_ma) %in% colnames(occdf) == FALSE)) {
@@ -108,84 +91,42 @@ Either numeric or character, but not both.")
   # Order taxa
   unique_taxa <- unique_taxa[order(unique_taxa)]
 
-  # Character string entered
-  if (is.character(occdf[, min_ma]) && is.character(occdf[, max_ma])) {
-    # Which GTS should be used?
-    if (scale == "GTS2020") {
-      df <- palaeoverse::GTS2020
-    }
-    if (scale == "GTS2012") {
-      df <- palaeoverse::GTS2012
-    }
-    df <- subset(df, rank == "stage")
-    # Which intervals are present?
-    unique_intervals <- unique(c(occdf[, max_ma], occdf[, min_ma]))
-    # Which of these intervals are present in the GTS
-    vec <- which(df$interval_name %in% unique_intervals)
-    # If not available, stop and return error
-    if (length(vec) != length(unique_intervals)) {
-      error_vec <- which(!unique_intervals %in% df$interval_name)
-      error_vec <- unique_intervals[error_vec]
-      if (return_error == TRUE) {
-        return(error_vec)
-      } else {
-      stop(
-        paste(c(
-          "Check spelling of specified max_ma and min_ma intervals.
-  Available interval names are accessible via GTS2020 and GTS2012.
-  Could not extract age information for the following:",
-          capture.output(print(error_vec))
-        ),
-        collapse = "\n"
-      ))
-      }
-    }
-    # Convert character to numeric ages
-    for (i in seq_along(df$interval_name)) {
-      occdf[which(occdf[, max_ma] == df$interval_name[i]), max_ma] <-
-        df$max_ma[i]
-      occdf[which(occdf[, min_ma] == df$interval_name[i]), min_ma] <-
-        df$min_ma[i]
-    }
-    occdf[, max_ma] <- as.numeric(occdf[, max_ma])
-    occdf[, min_ma] <- as.numeric(occdf[, min_ma])
-  }
   #=== Temporal range ===
   # Generate dataframe for population
   temp_df <- data.frame(taxa = unique_taxa,
                           taxon_id = seq(1, length(unique_taxa), 1),
-                          FAD_ma = rep(NA, length(unique_taxa)),
-                          LAD_ma = rep(NA, length(unique_taxa)),
+                          max_ma = rep(NA, length(unique_taxa)),
+                          min_ma = rep(NA, length(unique_taxa)),
                           range_myr = rep(NA, length(unique_taxa)),
                           n_occ = rep(NA, length(unique_taxa)))
     # Run for loop across unique taxa
     for(i in seq_along(unique_taxa)){
       vec <- which(occdf[, name] == unique_taxa[i])
-      temp_df$FAD_ma[i] <- max(occdf[vec, max_ma])
-      temp_df$LAD_ma[i] <- min(occdf[vec, min_ma])
-      temp_df$range_myr[i] <- temp_df$FAD_ma[i] - temp_df$LAD_ma[i]
+      temp_df$max_ma[i] <- max(occdf[vec, max_ma])
+      temp_df$min_ma[i] <- min(occdf[vec, min_ma])
+      temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]
       temp_df$n_occ[i] <- length(vec)
     }
     # Remove row names
     row.names(temp_df) <- NULL
     # Round off values
-    temp_df[, c("FAD_ma", "LAD_ma", "range_myr")] <- round(
-      x = temp_df[, c("FAD_ma", "LAD_ma", "range_myr")], digits = 3)
+    temp_df[, c("max_ma", "min_ma", "range_myr")] <- round(
+      x = temp_df[, c("max_ma", "min_ma", "range_myr")], digits = 3)
 
     # Should data be ordered by FAD or LAD?
     if (by == "FAD") {
-      temp_df <- temp_df[order(temp_df$FAD_ma), ]
+      temp_df <- temp_df[order(temp_df$max_ma), ]
       temp_df$taxon_id <- 1:nrow(temp_df)
     }
 
     if (by == "LAD") {
-      temp_df <- temp_df[order(temp_df$LAD_ma), ]
+      temp_df <- temp_df[order(temp_df$min_ma), ]
       temp_df$taxon_id <- 1:nrow(temp_df)
       }
 
     # Plot data?
     if (plot == TRUE){
-      x_range <- c(max(temp_df$FAD_ma), min(temp_df$LAD_ma))
+      x_range <- c(max(temp_df$max_ma), min(temp_df$min_ma))
       y_range <- c(0, nrow(temp_df))
       plot(x = NA,
            y = NA,
@@ -194,27 +135,23 @@ Either numeric or character, but not both.")
            axes = TRUE,
            xaxt = "n",
            xlab = NA,
-           ylab = "Taxa ID",
+           ylab = "Taxon ID",
            main = "Temporal range of taxa")
-      segments(x0 = temp_df$FAD_ma,
-               x1 = temp_df$LAD_ma,
+      segments(x0 = temp_df$max_ma,
+               x1 = temp_df$min_ma,
                y0 = temp_df$taxon_id,
                col = temp_df$taxon_id)
-      points(x = temp_df$FAD_ma,
+      points(x = temp_df$max_ma,
              y = temp_df$taxon_id,
              pch = 20,
              col = temp_df$taxon_id)
-      points(x = temp_df$LAD_ma,
+      points(x = temp_df$min_ma,
              y = temp_df$taxon_id,
              pch = 20,
              col = temp_df$taxon_id)
       axis_geo(side = 1, intervals = "periods")
       title(xlab = "Time (Ma)", line = 4)
     }
-
-    # House keeping
-    colnames(temp_df)[which(colnames(temp_df) == "FAD_ma")] <- c("max_ma")
-    colnames(temp_df)[which(colnames(temp_df) == "LAD_ma")] <- c("min_ma")
 
     # Return dataframe
     return(temp_df)
