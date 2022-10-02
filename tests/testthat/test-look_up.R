@@ -6,7 +6,7 @@ test_that("look_up() works", {
   # check correct format and output
   expect_true(is.data.frame(look_up(occdf[1:10, ])))
   expect_true(is.character((look_up(occdf[1:10, ]))$early_stage))
-  expect_true(is.numeric((look_up(occdf[1:10, ]))$stage_min_ma))
+  expect_true(is.numeric((look_up(occdf[1:10, ]))$interval_min_ma))
 
   # check correct amount of data returned
   expect_equal(nrow(look_up(occdf[1:10, ])), 10)
@@ -24,16 +24,16 @@ test_that("look_up() works", {
     interval_name = c("Missourian", "Gzhelian", "Capitanian"),
     early_stage = c("Kasimovian", "Gzhelian", "Capitanian"),
     late_stage = c("Sakmarian", "Gzhelian", "Capitanian"),
-    stage_max_ma = c(400, 360, 300),
-    stage_min_ma = c(370, 350, 290))
+    max_ma = c(400, 360, 300),
+    min_ma = c(370, 350, 290))
 
   expect_equal(ncol(look_up(occdf[1:10, ], int_key = custom_key,
                             assign_with_GTS = FALSE)), 37)
 
   expect_equal((look_up(occdf[1:10, ], int_key = custom_key,
-                        assign_with_GTS = FALSE))$stage_max_ma[1], 400)
+                        assign_with_GTS = FALSE))$interval_max_ma[1], 400)
   expect_equal((look_up(occdf[1:10, ], int_key = custom_key,
-                        assign_with_GTS = FALSE))$stage_mid_ma[2], 295)
+                        assign_with_GTS = FALSE))$interval_mid_ma[2], 295)
   expect_equal((look_up(occdf[1:10, ], int_key = custom_key,
                         assign_with_GTS = FALSE))$late_stage[1], "Gzhelian")
 
@@ -41,13 +41,15 @@ test_that("look_up() works", {
   occdf <- tetrapods[1:10, ]
   occdf <- occdf[, -which(colnames(occdf) == "late_interval")]
   expect_equal((look_up(occdf[1:10, ], int_key = custom_key,
-                        assign_with_GTS = FALSE))$late_stage[1], "Sakmarian")
+                        assign_with_GTS = FALSE, late_interval =
+                          "early_interval"))$late_stage[1], "Sakmarian")
 
   # check whether different early_interval name works
   colnames(occdf)[which(colnames(occdf) == "early_interval")] <- "some_interval"
   expect_equal((look_up(
     occdf[1:10, ], int_key = custom_key, assign_with_GTS = FALSE,
-    early_interval = "some_interval"))$late_stage[1], "Sakmarian")
+    early_interval = "some_interval", late_interval = "some_interval")
+    )$late_stage[1], "Sakmarian")
 
   # check whether different late_interval name works
   occdf <- tetrapods[1:10, ]
@@ -57,6 +59,7 @@ test_that("look_up() works", {
     late_interval = "other_interval"))$late_stage[1], "Gzhelian")
 
   # check error handling
+  occdf <- tetrapods[1:10, ]
   expect_error(look_up("Sakmarian"))
   expect_error(look_up(occdf[names(occdf) != "early_interval"]))
   expect_error(look_up(occdf, early_interval = "test"))

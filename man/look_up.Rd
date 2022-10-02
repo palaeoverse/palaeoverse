@@ -35,7 +35,9 @@ intervals. \cr
 \itemize{
 \item \code{max_ma}
 \item \code{min_ma}
-}}
+}
+Alternatively, this can be set to \code{FALSE} to only assign intervals using
+one of the GTS tables (see below).}
 
 \item{assign_with_GTS}{\code{character} or \code{FALSE}. Allows intervals to
 be searched in the \code{GTS2020} (default) or the \code{GTS2012} table. Set to
@@ -57,9 +59,9 @@ A \code{dataframe} of the original input \code{data} with the following
 appended columns is returned: \code{early_stage} and \code{late_stage}, corresponding
 to the earliest and latest international geological stage which
 could be assigned to the occurrence based on the given interval names.
-\code{interval_max_ma} and \code{interval_min_ma} return maximal and minimal interval ages
-if provided in the interval key, or if they can be fetched from GTS2012 or GTS2020.
-A column \code{interval_mid_ma} is appended to provide the midpoint
+\code{interval_max_ma} and \code{interval_min_ma} return maximal and minimal interval
+ages if provided in the interval key, or if they can be fetched from GTS2012
+or GTS2020. A column \code{interval_mid_ma} is appended to provide the midpoint
 age of the interval.
 }
 \description{
