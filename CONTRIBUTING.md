@@ -4,6 +4,9 @@ At `palaeoverse` we have adopted a set of [structures and standards](https://git
 
 ## How to contribute?
 
+
+You (the contributor) should clone the desired repository (i.e., [the palaeoverse R package](https://github.com/palaeoverse-community/palaeoverse)) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation, and unit tests. Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.
+
 ### Minor changes
 
 You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit roxygen2 comments in the .R file, not the .Rd file.
