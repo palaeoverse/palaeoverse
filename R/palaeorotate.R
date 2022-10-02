@@ -19,8 +19,9 @@
 #' @param model \code{character}. The name of the plate rotation model to be
 #' used to reconstruct palaeocoordinates. See details for available models.
 #' @param method \code{character}. Method used to calculate palaeocoordinates
-#' for fossil occurrences. Either "grid" to use reconstruction files, or "point"
-#' to use the GPlates API service. See details section for specific details.
+#' for fossil occurrences. Either "grid" (default) to use reconstruction files,
+#' or "point" to use the GPlates API service. See details section for specific
+#' details.
 #' @param uncertainty \code{logical}. Should the uncertainty in
 #' palaeogeographic reconstructions be returned? If set to TRUE, the
 #' palaeocoordinates from all reconstruction files (models) are returned, along
@@ -41,7 +42,7 @@
 #' and age as the reference; reference coordinates are therefore not returned.
 #' If uncertainty is set to `TRUE`, palaeocoordinates for all available models
 #' will be returned, along with the palaeolatitudinal range (`range_p_lat`) and
-#' the maximum Great Circle Distance (`max_dist`) in km (calculate via
+#' the maximum Great Circle Distance (`max_dist`) in km (calculated via
 #' \code{\link[geosphere]{distHaversine}}).
 #'
 #' @details This function can generate palaeocoordinates using two different
@@ -61,6 +62,7 @@
 #' distribution of fossil occurrences to be estimated efficiently. Access to
 #' the reconstruction files and documentation is available via the
 #' `palaeorotate` package (\url{https://github.com/LewisAJones/palaeorotate}).
+#' Note: each reconstruction file is 5--10 MB in size.
 #'
 #' - GPlates API: The "point" `method` uses the GPlates API service
 #' \url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point
@@ -181,7 +183,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   }
 
   if (any(c(lng, lat, age) %in% colnames(occdf) == FALSE)) {
-    stop("defined `lng`, `lat`, and `age` not found in `occdf`")
+    stop("defined `lng`, `lat`, or `age` not found in `occdf`")
   }
 
   if (any(!is.numeric(occdf[, lat]), is.na(occdf[, lat]),

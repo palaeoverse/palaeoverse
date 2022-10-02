@@ -34,8 +34,9 @@ the age for rotation (defaults to "age").}
 used to reconstruct palaeocoordinates. See details for available models.}
 
 \item{method}{\code{character}. Method used to calculate palaeocoordinates
-for fossil occurrences. Either "grid" to use reconstruction files, or "point"
-to use the GPlates API service. See details section for specific details.}
+for fossil occurrences. Either "grid" (default) to use reconstruction files,
+or "point" to use the GPlates API service. See details section for specific
+details.}
 
 \item{uncertainty}{\code{logical}. Should the uncertainty in
 palaeogeographic reconstructions be returned? If set to TRUE, the
@@ -59,7 +60,7 @@ age of rotation ("rot_age"), the reference coordinates rotated
 and age as the reference; reference coordinates are therefore not returned.
 If uncertainty is set to \code{TRUE}, palaeocoordinates for all available models
 will be returned, along with the palaeolatitudinal range (\code{range_p_lat}) and
-the maximum Great Circle Distance (\code{max_dist}) in km (calculate via
+the maximum Great Circle Distance (\code{max_dist}) in km (calculated via
 \code{\link[geosphere]{distHaversine}}).
 }
 \description{
@@ -87,6 +88,7 @@ palaeocoordinates for a grid of 1° x 1°, allowing the past
 distribution of fossil occurrences to be estimated efficiently. Access to
 the reconstruction files and documentation is available via the
 \code{palaeorotate} package (\url{https://github.com/LewisAJones/palaeorotate}).
+Note: each reconstruction file is 5--10 MB in size.
 \item GPlates API: The "point" \code{method} uses the GPlates API service
 \url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point
 data. The use of this \code{method} is slower than the "grid" \code{method} if many
