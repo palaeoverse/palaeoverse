@@ -4,13 +4,10 @@
 #' different approaches commonly applied in palaeobiology.
 #'
 #' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
-#' wish to bin. This dataframe should contain  the following named columns:
-#' "max_ma" and "min_ma". These columns may be either `numeric` or `character`
-#' values. Ages given in `numeric` form are preferred for bin assignment.
-#' However, if interval names are provided, the function will try to match
-#' names to the Geological Timescale 2012/2020 (depending on user
-#' specification) to generate `numeric` ages for occurrences (see
-#' "return_error" for additional information).
+#' wish to bin. This dataframe should contain the following named columns:
+#' "max_ma" and "min_ma". These columns should contain `numeric` values.
+#' If required, `numeric` ages can be generated from interval names via the
+#' \code{\link[palaeoverse:look_up]{look_up()}}.
 #' @param bins \code{dataframe}. A dataframe of the bins that you wish to
 #' allocate fossil occurrences to such as that returned by
 #' \code{\link[palaeoverse:time_bins]{time_bins()}}. This dataframe must
@@ -24,15 +21,6 @@
 #' of replications for sampling. This argument is only useful in the case of
 #' the "random" or "point" method being specified in the `method` argument.
 #' Defaults to 100.
-#' @param scale \code{character}. Specify the desired geological timescale to
-#' be used ("GTS2020" or "GTS2012"). This argument is only relevant if "min_ma"
-#' and "max_ma" columns are `character` values of interval names. Available
-#' interval names can be accessed via the call \code{GTS2020$interval_name} or
-#' \code{GTS2012$interval_name}. "GTS2020" is the default option.
-#' @param return_error \code{logical}. Should a vector of numbers be returned
-#' to flag the rows of the `occdf` that cannot be matched to `character`
-#' interval names? This is only relevant if `occdf$max_ma` and `occdf$min_ma`
-#' are `character` values.
 #'
 #' @return For methods "mid", "majority" and "all", a \code{dataframe} of the
 #' original input `occdf` with the following appended columns is returned:
@@ -79,7 +67,6 @@
 #' @section Reviewer(s):
 #' William Gearty
 #' @importFrom stats dunif
-#' @importFrom utils capture.output
 #' @examples
 #' \dontrun{
 #' #Grab internal tetrapod data
@@ -102,8 +89,7 @@
 #' bin_time(occdf = occdf, bins = bins, method = "point", reps = 100)
 #' }
 #' @export
-bin_time <- function(occdf, bins, method = "mid", reps = 100,
-           scale = "GTS2020", return_error = FALSE) {
+bin_time <- function(occdf, bins, method = "mid", reps = 100) {
     #=== Handling errors ===
     if (is.data.frame(occdf) == FALSE) {
       stop("`occdf` should be a dataframe.")
@@ -124,19 +110,17 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       method <- possible_methods[method_match]
     }
 
-    if (scale %in% c("GTS2020", "GTS2012") == FALSE) {
-      stop("Invalid `scale`. Choose either 'GTS2020' or 'GTS2012'")
-    }
     if (is.numeric(reps) == FALSE) {
       stop("Invalid `reps`. Choose an numeric value.")
     }
-    if (is.logical(return_error) == FALSE) {
-      stop("Invalid `return_error`.
-           Choose a logical value (i.e. TRUE or FALSE).")
-    }
+
     if (class(occdf$max_ma) != class(occdf$min_ma)) {
       stop("Invalid occdf$max_ma or occdf$min_ma.
            Columns should be of the same class.")
+    }
+
+    if (!all(c("bin", "max_ma", "min_ma") %in% colnames(bins))) {
+      stop("bin, max_ma and/or min_ma do not exist in `bins`")
     }
 
     if (is.numeric(occdf$max_ma) &&
@@ -144,68 +128,9 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       stop("Maximum age of occurrence data surpasses maximum age of bins")
     }
 
-    #=== Sorting non-numeric age designations ===
-    if (is.character(occdf$max_ma)) {
-      # If entered value for max_ma is character rather than numeric:
-
-      # which geological timescale to use?
-      if (scale == "GTS2020") {
-        df <- palaeoverse::GTS2020
-      }
-      if (scale == "GTS2012") {
-        df <- palaeoverse::GTS2012
-      }
-
-      # Re-name columns to work with rest of function.
-      occdf$tmp_bin <- seq_len(nrow(occdf))
-      names(occdf)[names(occdf) == "max_ma"] <- "max_interval"
-      names(occdf)[names(occdf) == "min_ma"] <- "min_interval"
-
-      # Merge dataframes (max ma)
-      occdf <- merge(
-        x = occdf,
-        y = df[, c("interval_name", "max_ma")],
-        by.x = "max_interval",
-        by.y = "interval_name",
-        all.x = TRUE
-      )
-
-      # Merge dataframes (min ma)
-      occdf <- merge(
-        x = occdf,
-        y = df[, c("interval_name", "min_ma")],
-        by.x = "min_interval",
-        by.y = "interval_name",
-        all.x = TRUE
-      )
-
-      # Ensure order of dataframe is maintained after merge
-      occdf <- occdf[order(occdf$tmp_bin), ]
-
-      occdf <- occdf[, -which(colnames(occdf) == "tmp_bin")]
-
-      # If not all intervals can be matched, produce error report
-      # and message to fix spellings.
-      if (any(is.na(occdf$min_ma)) == TRUE ||
-          any(is.na(occdf$max_ma)) == TRUE) {
-        # Generate error vector
-        error_vec <- which(is.na(occdf$min_ma) | is.na(occdf$max_ma))
-        # Should an error vector be returned to the user?
-        if (return_error == TRUE) {
-          return(error_vec)
-        } else {
-          # return error message
-          stop(paste(c(
-  "Unable to match interval to numeric value for all occurrences. Available
-  intervals names are accessible via GTS2020 and GTS2012. Please check interval
-  spelling for the following rows in `occdf` (note: an error vector can be
-  returned with the `return_error` argument):",
-              capture.output(print(error_vec))
-            ),
-            collapse = "\n"
-          ))
-        }
-      }
+    if (is.numeric(occdf$min_ma) &&
+        min(occdf$min_ma) < min(bins$min_ma)) {
+      stop("Minimum age of occurrence data is less than minimum age of bins")
     }
 
     #=== Reporting Info ===

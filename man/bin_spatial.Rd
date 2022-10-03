@@ -114,7 +114,6 @@ bins <- unique(occdf$cell_ID)
 n <- 10
 
 # Rarefy data across sub-grid grid cells
-
 # Returns a list with each element a bin with respective mean genus richness
 df <- lapply(bins, function(x) {
   # subset occdf for respective grid cell
