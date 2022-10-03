@@ -57,7 +57,7 @@
 #' Lewis A. Jones
 #' @section Reviewer(s):
 #' Bethany Allen and Kilian Eichenseer
-#' @importFrom sf st_as_sf st_drop_geometry st_wrap_dateline
+#' @importFrom sf st_as_sf st_drop_geometry
 #' @importFrom h3jsr point_to_h3 h3_to_point
 #' @examples
 #' # Get internal data
@@ -122,7 +122,7 @@ bin_spatial <- function(occdf,
 
   if (lng %in% colnames(occdf) == FALSE ||
       lat %in% colnames(occdf) == FALSE) {
-    stop("input column names do not exist in `occdf")
+    stop("input column names do not exist in `occdf`")
   }
 
   if (!is.numeric(occdf[, lng]) || !is.numeric(occdf[, lat])) {
@@ -158,9 +158,10 @@ bin_spatial <- function(occdf,
   #=== Grid binning  ===
   # Generate equal area hexagonal grid
   # Which resolution should be used based on input distance/spacing?
-  # Use the h3jsr::h3_info_table to calculate resolution
-  grid <- h3jsr::h3_info_table[
-    which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)), ]
+  # Use the h3_info_table to calculate resolution (included in
+  # palaeoverse as not exported)
+  grid <- h3_info_table[
+    which.min(abs(h3_info_table$avg_cendist_km - spacing)), ]
   # Add column grid specification
   grid$grid <- c("primary")
 
@@ -204,16 +205,12 @@ bin_spatial <- function(occdf,
   # Get children at desired resolution
   children <- h3jsr::get_children(
     h3_address = all_cells, res = grid$h3_resolution, simple = TRUE)
-  # Get base cells and wrap around dateline
+  # Get base cells
   base_grid <- h3jsr::h3_to_polygon(input = children, simple = TRUE)
-  base_grid <- sf::st_wrap_dateline(x = base_grid,
-                                    options = "WRAPDATELINE=YES",
-                                    quiet = TRUE)
-  # Get occupied cells and wrap around dateline
+
+  # Get occupied cells
   primary <- h3jsr::h3_to_polygon(input = occdf$cell_ID, simple = TRUE)
-  primary <- sf::st_wrap_dateline(x = primary,
-                                  options = "WRAPDATELINE=YES",
-                                  quiet = TRUE)
+
   # Plot data?
   if (plot == TRUE) {
 
@@ -230,9 +227,6 @@ bin_spatial <- function(occdf,
     if (!is.null(sub_grid)) {
       secondary <- h3jsr::h3_to_polygon(input = occdf$cell_ID_sub,
                                         simple = TRUE)
-      secondary <- sf::st_wrap_dateline(x = secondary,
-                                      options = "WRAPDATELINE=YES",
-                                      quiet = TRUE)
       plot(secondary, col = "#1d91c0",
            add = TRUE)
     }

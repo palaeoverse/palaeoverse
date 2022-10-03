@@ -42,10 +42,13 @@ test_that("time_bins() works", {
                                         "max_ma", "mid_ma", "min_ma",
                                         "duration_myr", "grouping_rank",
                                         "intervals"))
+  expect_equal(nrow(time_bins(size = 50)), 11)
 
 
 
   #error handling
+  expect_error(time_bins(interval = c("Mastrichtian", "Danian")))
+  expect_error(time_bins(interval = c(600, 200)))
   expect_error(time_bins(interval = "Mastrichtian", scale = "GTS2012",
                          plot = TRUE))
   expect_error(time_bins(interval = "Mastrichtian", scale = "2012",

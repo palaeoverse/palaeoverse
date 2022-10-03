@@ -32,8 +32,10 @@ Imports:
     deeptime (>= 0.2.1),
     ape,
     sf,
+    geosphere,
     h3jsr,
-    geosphere
+    httr,
+    pbapply
 Suggests: 
     divDyn,
     rmarkdown,
