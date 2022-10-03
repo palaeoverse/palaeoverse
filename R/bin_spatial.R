@@ -158,10 +158,9 @@ bin_spatial <- function(occdf,
   #=== Grid binning  ===
   # Generate equal area hexagonal grid
   # Which resolution should be used based on input distance/spacing?
-  # Use the h3jsr::h3_info_table to calculate resolution (included in
-  # palaeoverse as not exported)
-  grid <- h3_info_table[
-    which.min(abs(h3_info_table$avg_cendist_km - spacing)), ]
+  # Use the h3jsr::h3_info_table to calculate resolution
+  grid <- h3jsr::h3_info_table[
+    which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)), ]
   # Add column grid specification
   grid$grid <- c("primary")
 
@@ -176,8 +175,8 @@ bin_spatial <- function(occdf,
 
   # Sub-grid desired?
   if (!is.null(sub_grid)) {
-    s_grid <- h3_info_table[
-      which.min(abs(h3_info_table$avg_cendist_km - sub_grid)), ]
+    s_grid <- h3jsr::h3_info_table[
+      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - sub_grid)), ]
     # Throw error if grids are the same
     if (grid$h3_resolution == s_grid$h3_resolution) {
       stop("`spacing` and `sub_grid` values result in the same resolution.
