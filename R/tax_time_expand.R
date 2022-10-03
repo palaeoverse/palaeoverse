@@ -12,7 +12,9 @@
 #'   produced by \code{\link{tax_range_time}}) with columns for the maximum and
 #'   minimum ages (FADs and LADs). Each row should represent a unique taxon.
 #'   Additional columns may be included (e.g., taxon names, additional taxonomy,
-#'   etc) and will be included in the returned \code{data.frame}.
+#'   etc) and will be included in the returned \code{data.frame}. If required,
+#'   `numeric` ages can be generated from interval names via the
+#'   \code{\link{look_up}} function.
 #' @param max_ma \code{character}. The name of the column you wish to be treated
 #'   as the maximum limit (FADs) of the age range (e.g., "max_ma").
 #' @param min_ma \code{character}. The name of the column you wish to be treated
