@@ -247,8 +247,8 @@ in `occdf`")
     # Generate equal area hexagonal grid
     # Which resolution should be used based on input distance/spacing?
     # Use the h3jsr::h3_info_table to calculate resolution
-    grid <- h3_info_table[
-      which.min(abs(h3_info_table$avg_cendist_km - spacing)), ]
+    grid <- h3jsr::h3_info_table[
+      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)), ]
     # Add resolution spacing
     oc_df$spacing <- grid$avg_cendist_km
     # Run for loop over all unique taxa
