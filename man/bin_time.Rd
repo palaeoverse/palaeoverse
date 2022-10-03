@@ -4,24 +4,14 @@
 \alias{bin_time}
 \title{Assign fossil occurrences to time bins}
 \usage{
-bin_time(
-  occdf,
-  bins,
-  method = "mid",
-  reps = 100,
-  scale = "GTS2020",
-  return_error = FALSE
-)
+bin_time(occdf, bins, method = "mid", reps = 100)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you
-wish to bin. This dataframe should contain  the following named columns:
-"max_ma" and "min_ma". These columns may be either \code{numeric} or \code{character}
-values. Ages given in \code{numeric} form are preferred for bin assignment.
-However, if interval names are provided, the function will try to match
-names to the Geological Timescale 2012/2020 (depending on user
-specification) to generate \code{numeric} ages for occurrences (see
-"return_error" for additional information).}
+wish to bin. This dataframe should contain the following named columns:
+"max_ma" and "min_ma". These columns should contain \code{numeric} values.
+If required, \code{numeric} ages can be generated from interval names via the
+\code{\link[palaeoverse:look_up]{look_up()}}.}
 
 \item{bins}{\code{dataframe}. A dataframe of the bins that you wish to
 allocate fossil occurrences to such as that returned by
@@ -38,17 +28,6 @@ each.}
 of replications for sampling. This argument is only useful in the case of
 the "random" or "point" method being specified in the \code{method} argument.
 Defaults to 100.}
-
-\item{scale}{\code{character}. Specify the desired geological timescale to
-be used ("GTS2020" or "GTS2012"). This argument is only relevant if "min_ma"
-and "max_ma" columns are \code{character} values of interval names. Available
-interval names can be accessed via the call \code{GTS2020$interval_name} or
-\code{GTS2012$interval_name}. "GTS2020" is the default option.}
-
-\item{return_error}{\code{logical}. Should a vector of numbers be returned
-to flag the rows of the \code{occdf} that cannot be matched to \code{character}
-interval names? This is only relevant if \code{occdf$max_ma} and \code{occdf$min_ma}
-are \code{character} values.}
 }
 \value{
 For methods "mid", "majority" and "all", a \code{dataframe} of the

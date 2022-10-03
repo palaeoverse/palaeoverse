@@ -49,3 +49,7 @@ po/*~
 
 # Test .pdfs
 tests/testthat/*.pdf
+docs
+
+# Raw data
+data-raw/
