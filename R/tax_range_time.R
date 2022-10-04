@@ -117,12 +117,12 @@ tax_range_time <- function(occdf,
     # Should data be ordered by FAD or LAD?
     if (by == "FAD") {
       temp_df <- temp_df[order(temp_df$max_ma), ]
-      temp_df$taxon_id <- 1:seq_len(nrow(temp_df))
+      temp_df$taxon_id <- seq_len(nrow(temp_df))
     }
 
     if (by == "LAD") {
       temp_df <- temp_df[order(temp_df$min_ma), ]
-      temp_df$taxon_id <- 1:seq_len(nrow(temp_df))
+      temp_df$taxon_id <- seq_len(nrow(temp_df))
       }
 
     # Plot data?

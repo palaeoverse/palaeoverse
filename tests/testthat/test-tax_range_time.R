@@ -7,10 +7,7 @@ test_that("tax_range_time() works", {
   unique_taxa <- length(unique(occdf$genus))
 
   # Expect true
-  expect_true(
-    is.data.frame(
-      tax_range_time(occdf = occdf,
-                     plot = FALSE)))
+  expect_true(is.data.frame(tax_range_time(occdf = occdf)))
 
   # Expect equal
   expect_equal(
