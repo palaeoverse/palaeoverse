@@ -73,7 +73,7 @@ tax_time_expand <- function(
     stop("Maximum ages must be larger than or equal to minimum ages.")
   }
 
-  if (!(rank %in% c("stage", "epoch", "period", "era", "eon"))) {
+  if (length(rank) > 1 || !(rank %in% c("stage", "epoch", "period", "era", "eon"))) {
     stop("`rank` must be either: stage, epoch, period, era, or eon")
   }
 
