@@ -16,43 +16,49 @@ tax_range_geo(
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences.
 This dataframe should contain at least three columns: names of taxa,
-longitude and latitude.}
+longitude and latitude (see \code{name}, \code{lng}, and \code{lat} arguments).}
 
 \item{name}{\code{character}. The name of the column you wish to be treated
 as the input names (e.g., "species" or "genus"). NA data should be removed
 prior to function call.}
 
 \item{lng}{\code{character}. The name of the column you wish to be treated
-as the input longitude (e.g., "lng" or "p_lng").}
+as the input longitude (e.g., "lng" or "p_lng"). NA data should be removed
+prior to function call.}
 
 \item{lat}{\code{character}. The name of the column you wish to be treated
-as the input latitude (e.g., "lat" or "p_lat").}
+as the input latitude (e.g., "lat" or "p_lat"). NA data should be removed
+prior to function call.}
 
 \item{method}{\code{character}. How should geographic range be calculated
 for each taxon in \code{occdf}? Four options exist in this function:
 "con", "lat", "gcd", and "occ". See Details for a description of each.}
 
 \item{spacing}{\code{numeric}. The desired spacing (in km) between the
-center of adjacent grid cells. Only useful if the \code{method} argument is set
+center of adjacent grid cells. Only required if the \code{method} argument is set
 to "occ". The default is 100.}
 }
 \value{
 A \code{dataframe} with method-specific columns:
 \itemize{
-\item For the "con" method, a \code{dataframe} with unique taxa (\code{taxa}),
-taxon ID (\code{taxon_id}), convex hull coordinates (\code{lng} & \code{lat}), and area
-(\code{area}) in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}} is returned.
+\item For the "con" method, a \code{dataframe} with each unique taxa (\code{taxa}) and
+taxon ID (\code{taxon_id}) by convex hull coordinate (\code{lng} & \code{lat}) combination,
+and area (\code{area}) in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}} is
+returned.
 \item For the "lat" method, a \code{dataframe} with unique taxa (\code{taxa}),
 taxon ID (\code{taxon_id}), maximum latitude of occurrence (\code{max_lat}),
 minimum latitude of occurrence (\code{min_lat}), and latitudinal
 range (\code{range_lat}) is returned.
-\item For the "gcd" method, a \code{dataframe} with unique taxa (\code{taxa}), taxon
-ID (\code{taxon_id}), coordinates of the two most distant points
-(\code{lng} & \code{lat}), and the 'Great Circle Distance' (\code{GCD}) between these
+\item For the "gcd" method, a \code{dataframe} with each unique taxa (\code{taxa}) and
+taxon ID (\code{taxon_id}) by coordinate combination (\code{lng} & \code{lat}) of the two
+most distant points, and the 'Great Circle Distance' (\code{GCD}) between these
 points in km is returned.
 \item For the "occ" method, a \code{dataframe} with unique taxa (\code{taxa}), taxon
-ID (\code{taxon_id}), the number of occupied cells (\code{cells}), and the spacing
-between cells (\code{spacing}) in km is returned.
+ID (\code{taxon_id}), the number of occupied cells (\code{cells}), proportion of
+occupied cells from all occupied by occurrences (\code{proportional_occ}),
+and the spacing between cells (\code{spacing}) in km is returned. Note: the number
+of occupied cells and proportion of occupied cells is highly dependent on
+the user-defined \code{spacing.}
 For the "con", "lat" and "gcd" method, values of zero indicate that the
 respective taxon is a singleton (i.e. represented by only one occurrence).
 }
@@ -75,8 +81,9 @@ convex hull method works by creating a polygon that encompasses all
 occurrence points of the taxon.
 \item Latitudinal: the "lat" method calculates the palaeolatitudinal
 range of a taxa. It does so for each taxon in \code{occdf} by finding their
-maximum and minimum latitudinal occurrence.
-The palaeolatitudinal range of each taxa is also calculated.
+maximum and minimum latitudinal occurrence (from input \code{lat}).
+The palaeolatitudinal range of each taxa is also calculated (i.e. the
+difference between the minimum and maximum latitude).
 \item Maximum Great Circle Distance: the "gcd" method calculates the maximum
 Great Circle Distance between occurrences for each taxon in \code{occdf}. It does
 so using \code{\link[geosphere:distHaversine]{geosphere::distHaversine()}}.
@@ -85,10 +92,11 @@ with the radius of the Earth set to the 6378.137 km.
 Great Circle Distance represents the shortest distance between two
 points on the surface of a sphere. This is different from Euclidean Distance,
 which represents the distance between two points on a plane.
-\item Occupied cells: the "occ" method calculates the number of occupied
-equal-area grid cells. It does so using discrete hexagonal grids via the
-\code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3 library,
-a geospatial indexing system that partitions the world into hexagonal cells:
+\item Occupied cells: the "occ" method calculates the number and proportion of
+occupied equal-area grid cells. It does so using discrete hexagonal grids
+via the \code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3
+library, a geospatial indexing system that partitions the world into
+hexagonal cells:
 \url{https://h3geo.org/docs}. In H3, 16 different resolutions are available:
 \url{https://h3geo.org/docs/core-library/restable}. In the implementation of
 the \code{tax_range_geo()} function, the resolution is defined by the user-input
@@ -111,7 +119,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Bethany Allen
+Bethany Allen & Christopher D. Dean
 }
 
 \examples{

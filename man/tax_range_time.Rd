@@ -15,7 +15,8 @@ tax_range_time(
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences containing
-at least three columns: names of taxa, maximum age and minimum age.
+at least three columns: names of taxa, maximum age and minimum age
+(see \code{name}, \code{lng}, and \code{lat} arguments).
 These ages should constrain the age range of the fossil occurrence
 and are assumed to be in millions of years before present.}
 
@@ -64,7 +65,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Bethany Allen
+Bethany Allen & Christopher D. Dean
 }
 
 \examples{

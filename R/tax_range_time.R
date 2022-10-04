@@ -4,7 +4,8 @@
 #' data.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing
-#' at least three columns: names of taxa, maximum age and minimum age.
+#' at least three columns: names of taxa, maximum age and minimum age
+#' (see `name`, `lng`, and `lat` arguments).
 #' These ages should constrain the age range of the fossil occurrence
 #' and are assumed to be in millions of years before present.
 #' @param name \code{character}. The name of the column you wish to be treated
@@ -38,7 +39,7 @@
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Bethany Allen
+#' Bethany Allen & Christopher D. Dean
 #' @importFrom graphics points
 #' @examples
 #' # Grab internal data
@@ -140,15 +141,15 @@ tax_range_time <- function(occdf,
       segments(x0 = temp_df$max_ma,
                x1 = temp_df$min_ma,
                y0 = temp_df$taxon_id,
-               col = temp_df$taxon_id)
+               col = "black")
       points(x = temp_df$max_ma,
              y = temp_df$taxon_id,
              pch = 20,
-             col = temp_df$taxon_id)
+             col = "black")
       points(x = temp_df$min_ma,
              y = temp_df$taxon_id,
              pch = 20,
-             col = temp_df$taxon_id)
+             col = "black")
       axis_geo(side = 1, intervals = "periods")
       title(xlab = "Time (Ma)", line = 4)
     }
