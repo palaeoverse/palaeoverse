@@ -20,7 +20,7 @@
 #' @param plot \code{logical}. Should a plot of the ranges be generated?
 #'
 #' @return A \code{dataframe} containing the following columns:
-#' unique taxa (`taxa`), taxa ID (`taxon_id`), first appearance of taxon
+#' unique taxa (`taxa`), taxon ID (`taxon_id`), first appearance of taxon
 #' (`max_ma`), last appearance of taxon (`min_ma`), duration of temporal
 #' range (`range_myr`), and number of occurrences per taxon (`n_occ`) is
 #' returned.
@@ -28,7 +28,7 @@
 #' @details The temporal range(s) of taxa are calculated by extracting all
 #' unique taxa (`name` column) from the input `occdf`, and checking their first
 #' and last appearance. The temporal duration of each taxon is also calculated.
-#' A plot of the temporal range of each taxa is also returned if `plot = TRUE`.
+#' A plot of the temporal range of each taxon is also returned if `plot = TRUE`.
 #' If the input data columns contain NAs, these should be removed prior to
 #' function call.
 #'

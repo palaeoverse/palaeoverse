@@ -80,9 +80,9 @@ the convex hull (in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}) using
 convex hull method works by creating a polygon that encompasses all
 occurrence points of the taxon.
 \item Latitudinal: the "lat" method calculates the palaeolatitudinal
-range of a taxa. It does so for each taxon in \code{occdf} by finding their
+range of a taxon. It does so for each taxon in \code{occdf} by finding their
 maximum and minimum latitudinal occurrence (from input \code{lat}).
-The palaeolatitudinal range of each taxa is also calculated (i.e. the
+The palaeolatitudinal range of each taxon is also calculated (i.e. the
 difference between the minimum and maximum latitude).
 \item Maximum Great Circle Distance: the "gcd" method calculates the maximum
 Great Circle Distance between occurrences for each taxon in \code{occdf}. It does
