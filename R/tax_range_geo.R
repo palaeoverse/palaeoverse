@@ -127,15 +127,15 @@ in `occdf`")
     stop("`method` is not of character class")
   }
 
-  if (!is.numeric(occdf[,lat]) || !is.numeric(occdf[,lng])) {
+  if (!is.numeric(occdf[, lat]) || !is.numeric(occdf[, lng])) {
     stop("`lng` and/or `lat` columns are not of numeric class")
   }
 
-  if (any(is.na(occdf[,name]))) {
+  if (any(is.na(occdf[, name]))) {
     stop("The `name` column contains NA values")
   }
 
-  if (any(is.na(occdf[,lat])) || any(is.na(occdf[,lng]))) {
+  if (any(is.na(occdf[, lat])) || any(is.na(occdf[, lng]))) {
     stop("`lng` and/or `lat` columns contain NA values")
   }
 
@@ -153,7 +153,7 @@ in `occdf`")
   }
 
   #=== Set-up ===
-  unique_taxa <- unique(occdf[,name])
+  unique_taxa <- unique(occdf[, name])
   # Order taxa
   unique_taxa <- unique_taxa[order(unique_taxa)]
 
@@ -168,7 +168,7 @@ in `occdf`")
       # Subset taxa
       tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
       # Calculate convex hull
-      tmp <- tmp[chull(x = tmp[,lng], y = tmp[,lat]), c(lng, lat)]
+      tmp <- tmp[chull(x = tmp[, lng], y = tmp[, lat]), c(lng, lat)]
       # Calculate area of convex hull and convert to km^2
       area <- geosphere::areaPolygon(tmp) / 1e+6
       # Round to three decimal places
@@ -190,7 +190,7 @@ in `occdf`")
                          min_lat = rep(NA, length(unique_taxa)),
                          range_lat = rep(NA, length(unique_taxa)))
     # Run for loop across unique taxa
-    for(i in seq_along(unique_taxa)){
+    for (i in seq_along(unique_taxa)) {
       vec <- which(occdf[, name] == unique_taxa[i])
       lat_df$max_lat[i] <- max(occdf[vec, lat])
       lat_df$min_lat[i] <- min(occdf[vec, lat])
@@ -212,7 +212,7 @@ in `occdf`")
     # Generate dataframe for population
     gcd_df <- data.frame()
     # Run for loop across unique taxa
-    for(i in seq_along(unique_taxa)){
+    for (i in seq_along(unique_taxa)) {
       # Unique taxa name
       taxa <- unique_taxa[i]
       # taxon id
@@ -220,7 +220,7 @@ in `occdf`")
       # Subset df
       tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
       # Calculate GCD matrix using the Haversine method
-      vals <- geosphere::distm(x = tmp[,c(lng, lat)],
+      vals <- geosphere::distm(x = tmp[ ,c(lng, lat)],
                                fun = geosphere::distHaversine)
       # Convert to km
       vals <- vals / 10^3
@@ -265,10 +265,10 @@ in `occdf`")
     # Run for loop over all unique taxa
     for (i in seq_along(unique_taxa)) {
       # Subset df
-      tmp <- occdf[which(occdf[, name] == unique_taxa[i]),]
+      tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
       # Extract cell ID
       cells <- suppressMessages(
-        h3jsr::point_to_h3(tmp[,c(lng, lat)], res = grid$h3_resolution)
+        h3jsr::point_to_h3(tmp[, c(lng, lat)], res = grid$h3_resolution)
       )
       # Calculate number of unique cells occupied
       oc_df$cells[i] <- length(unique(cells))

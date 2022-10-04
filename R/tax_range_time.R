@@ -101,7 +101,7 @@ tax_range_time <- function(occdf,
                           range_myr = rep(NA, length(unique_taxa)),
                           n_occ = rep(NA, length(unique_taxa)))
     # Run for loop across unique taxa
-    for(i in seq_along(unique_taxa)){
+    for (i in seq_along(unique_taxa)) {
       vec <- which(occdf[, name] == unique_taxa[i])
       temp_df$max_ma[i] <- max(occdf[vec, max_ma])
       temp_df$min_ma[i] <- min(occdf[vec, min_ma])
@@ -117,16 +117,16 @@ tax_range_time <- function(occdf,
     # Should data be ordered by FAD or LAD?
     if (by == "FAD") {
       temp_df <- temp_df[order(temp_df$max_ma), ]
-      temp_df$taxon_id <- 1:nrow(temp_df)
+      temp_df$taxon_id <- 1:seq_len(nrow(temp_df))
     }
 
     if (by == "LAD") {
       temp_df <- temp_df[order(temp_df$min_ma), ]
-      temp_df$taxon_id <- 1:nrow(temp_df)
+      temp_df$taxon_id <- 1:seq_len(nrow(temp_df))
       }
 
     # Plot data?
-    if (plot == TRUE){
+    if (plot == TRUE) {
       x_range <- c(max(temp_df$max_ma), min(temp_df$min_ma))
       y_range <- c(0, nrow(temp_df))
       plot(x = NA,
