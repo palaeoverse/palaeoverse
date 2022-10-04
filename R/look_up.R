@@ -6,17 +6,23 @@
 #' or user-defined intervals based on interval names.
 #'
 #' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
-#' wish to bin, with columns specifying the earliest and the latest possible
-#' interval associated with each occurrence.
+#' wish to bin, with columns of class \code{character} specifying the earliest
+#' and the latest possible interval associated with each occurrence.
+#' @param early_interval \code{character}. Name of the column in `occdf` that
+#' contains the earliest interval from which the occurrences are from. Defaults
+#'  to `early_interval`.
+#' @param late_interval \code{character}. Name of the column in `occdf` that
+#' contains the latest interval from which the occurrences are from. Defaults
+#'  to `late_interval`.
 #' @param int_key \code{dataframe}. A dataframe linking interval names to
-#' international, geological stage names from the ICS, or other, user-defined
+#' international geological stage names from the ICS, or other, user-defined
 #' intervals.
 #' This dataframe should contain the following named columns containing
 #' `character` values: \cr
 #' \itemize{
 #' \item `interval_name` contains the names to be matched from `occdf` \cr
-#' \item `early_stage` contains the names of the earliest or only stages
-#' corresponding to the intervals, and, optionally \cr
+#' \item `early_stage` contains the names of the earliest stages
+#' corresponding to the intervals, and \cr
 #' \item `late_stage` contains the latest stage corresponding to the
 #' intervals. \cr
 #' }
@@ -31,12 +37,6 @@
 #' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
 #' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to
 #' \code{FALSE} to disable.
-#' @param early_interval \code{character}. Name of the column in `occdf` that
-#' contains the earliest interval from which the occurrences are from. Defaults
-#'  to `early_interval`.
-#' @param late_interval \code{character}. Name of the column in `occdf` that
-#' contains the latest interval from which the occurrences are from. Defaults
-#'  to `late_interval`.
 #' @param print_assigned \code{logical}. Should the assigned interval names be
 #' printed? Defaults to \code{FALSE}.
 #'
@@ -59,7 +59,7 @@
 #' geological stages to many of the intervals from the
 #' [Paleobiology Database](https://paleobiodb.org)
 #' and the [Paleoreefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
-#' Palaeoverse can provide no guaranty that all of
+#' `palaeoverse` cannot guarantee that all of
 #' the stage assignments with the exemplary key are accurate.
 #' The table corresponding to this key can be loaded with
 #' `palaeoverse::interval_key`.
@@ -86,14 +86,15 @@
 #'                   early_stage = c("Asselian", "Asselian"),
 #'                   late_stage = c("Changhsingian", "Asselian"))
 #' # assign stages using the custom interval_key, use "GTS2012":
-#' occdf <- look_up(occdf, int_key = interval_key, assign_with_GTS = "GTS2012",
+#' occdf <- look_up(occdf,
 #' early_interval = "stage", late_interval = "stage",
+#' int_key = interval_key, assign_with_GTS = "GTS2012",
 #' print_assigned = TRUE)
 #' @export
-look_up <- function(occdf, int_key = palaeoverse::interval_key,
-                    assign_with_GTS = "GTS2020",
-                    early_interval = "early_interval",
+look_up <- function(occdf, early_interval = "early_interval",
                     late_interval = "late_interval",
+                    int_key = palaeoverse::interval_key,
+                    assign_with_GTS = "GTS2020",
                     print_assigned = FALSE) {
 
 
