@@ -15,7 +15,7 @@ test_that("tax_time_expand() works", {
   # error handling
   expect_error(tax_time_expand(taxdf, scale = "GTS2067"))
   expect_error(tax_time_expand(taxdf, rank = "stages"))
-  #expect_error(tax_time_expand(taxdf, rank = c("stage", "period")))
+  expect_error(tax_time_expand(taxdf, rank = c("stage", "period")))
   expect_error(tax_time_expand(taxdf, ext_orig = "ext"))
   expect_error(tax_time_expand(c("A", "B")))
 
