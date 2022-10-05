@@ -5,84 +5,72 @@
 \title{tax_check}
 \usage{
 tax_check(
-  x,
-  names,
-  groups = NULL,
-  sim = 90,
+  taxdf,
+  name = "genus",
+  group = NULL,
+  dis = 0.05,
   start = 1,
-  pref = NULL,
-  suff = NULL,
   verbose = TRUE
 )
 }
 \arguments{
-\item{x}{\code{dataframe}. A data.frame with named columns (e.g., 'species',
-'genus', etc.). This must contain taxon names and optionally a further
-column denoting the groups within which taxon names will be checked against
-one another (e.g., 'family', 'order', etc.). NA values or empty strings in
-the name and group columns (i.e., '' and ' ') will be ignored.}
+\item{taxdf}{\code{dataframe}. A dataframe with named columns containing
+taxon names (e.g. "species", "genus"). An optional column
+containing the groups (e.g. "family", "order") which taxon names
+belong to may also be provided (see \code{group} for details).
+NA values or empty strings in the name and group columns (i.e. "" and " ")
+are ignored.}
 
-\item{names}{\code{character}. The column name of the taxon names you wish
-to check (e.g., 'genus').}
+\item{name}{\code{character}. The column name of the taxon names you wish
+to check (e.g. "genus").}
 
-\item{groups}{\code{character}. The column name of the higher taxonomic
-assignments in \code{x} you wish to group by. If \code{NULL} (default), name
+\item{group}{\code{character}. The column name of the higher taxonomic
+assignments in \code{taxdf} you wish to group by. If \code{NULL} (default), name
 comparison will be conducted within alphabetical groups.}
 
-\item{sim}{\code{numeric}. The percentage similarity threshold. Potential
-synonyms below this threshold are not shown}
+\item{dis}{\code{numeric}. The dissimilarity threshold: a value greater than
+0, and less than 1. Potential synonyms above this threshold are not returned.}
 
 \item{start}{\code{numeric}. The number of shared characters at the
-beginnings of two potential synonyms, below which the match will not be
-shown. By default this value is set to 1 (i.e., the first letters must
-match).}
-
-\item{pref}{\code{character}. A vector of prefixes which help distinguish
-otherwise similar taxon names. Synonyms will only be shown if none or both
-names of a potential synonym pair bear the same prefix. The default is
-\code{NULL}.}
-
-\item{suff}{\code{character}. A vector of suffixes which help distinguish
-otherwise similar taxon names. Synonyms will only be shown if none or both
-names of a potential synonym pair bear the same suffix. The default is
-\code{NULL}.}
+beginning of potential synonyms that should match. Potential synonyms below
+this value will not be returned. By default this value is set to 1 (i.e.
+the first letter of synonyms must match).}
 
 \item{verbose}{\code{logical}. Should the results of the non-letter
 character check be reported to the user? If \code{TRUE}, the result will only be
 reported if such characters are detected in the taxon names.}
 }
 \value{
-If verbose = \verb{TRUE' (default), a \code{list} with two elements. The first element in the list (synonyms) is a data.frame with each row reporting a pair of synonyms. The first column 'group' contains the higher group in which they occur (this may be the alphabetical groupings default). The second column 'greater' contains the most common synonym in each pair. The third column 'lesser' contains the least common synonym in each pair. The third and fourth columns (freq_1, freq_2) contain the respective frequencies of each synonym in a pair. If no matches were found for the filtering parameters, this element is }NULL\verb{instead. The second element (non_letter) is a vector of taxon names which contain non-letter characters, or}NULL\verb{if none were detected. If verbose =}FALSE\verb{, a \code{data.frame} as described above, or }NULL` if no matches were found.
+If verbose = \code{TRUE} (default), a \code{list} with three elements. The
+first element in the list (synonyms) is a \code{data.frame} with each row
+reporting a pair of synonyms. The first column "group" contains the higher
+group in which they occur (alphabetical groupings if \code{group} is
+not provided). The second column "greater" contains the most common synonym
+in each pair. The third column "lesser" contains the least common synonym in
+each pair. The third and fourth column (\code{count_greater}, \code{count_lesser})
+contain the respective counts of each synonym in a pair. If no matches were
+found for the filtering arguments, this element is \code{NULL} instead. The second
+element (\code{non_letter_name}) is a vector of taxon names which contain non-letter
+characters, or \code{NULL} if none were detected. The third element
+(non_letter_group) is a vector of taxon groups which contain non-letter
+characters, or \code{NULL} if none were detected. If verbose = \code{FALSE}, a
+\code{data.frame} as described above is returned, or \code{NULL} if no matches
+were found.
 }
 \description{
-A function for checking for potential spelling variations of the same
+A function to check for potential spelling variations of the same
 taxon. Spelling variations are checked within alphabetical groups (default),
-or within higher taxonomic groups, if provided.
+or within higher taxonomic groups if provided.
 }
 \details{
 When higher taxonomy is provided, but some entries are missing,
 comparisons will still be made within alphabetical groups of taxa which lack
-higher taxonomic affiliations. The function also performs a check for non-
-letter characters which are not expected to be present in correctly-
-formatted taxon names. This detection may be made available to the user via
-the \code{verbose} argument. Comparison is first performed using the Jaro string
-dissimilarity with the \code{stringdistmatrix} function from the \code{stringdist}
-package. This can be easily interpreted as a percentage similarity,
-converted as (1 - Jaro string dissimilarity). Low similarity pairs are not
-shown, nor those which do not share a given number of starting letters. The
-Jaro threshold is set to 90\% similarity by default, but synonyms may still
-slip through at lower similarity thresholds.
-
-Latin or Greek prefixes and suffixes are frequently used to differentiate
-taxon names which share a common stem, e.g., 'Gelidorthis' and Gelidorthina'
-(suffixes 'is' and 'ina'), and can even induce spuriously high similarity
-with each other, e.g., Protosuchus and Parasuchus (prefixes Proto' and
-'Para') or. Vectors of prefixes and suffixes can be supplied and matches
-will only be shown if neither bears a given prefix or suffix, or if the
-prefix or suffix is the same in both synonyms. Prefixes and suffixes may
-have no effect if the Jaro threshold is very high and their use is entirely
-optional, but can be useful to prevent large numbers of false matches for
-large data sets from being shown to the user.
+higher taxonomic affiliations. The function also performs a check for
+non-letter characters which are not expected to be present in
+correctly-formatted taxon names. This detection may be made available to the
+user via the \code{verbose} argument. Comparisons are performed using the
+Jaro string dissimilarity metric via
+\code{\link[stringdist:stringdistmatrix]{stringdist::stringdistmatrix()}}.
 
 As all string distance metrics rely on approximate string matching,
 different metrics can produce different results. This function uses Jaro
@@ -94,45 +82,26 @@ and workflow for cleaning taxonomic occurrence data is available in the
 }
 \section{Reference}{
 
-M. P. J. van der Loo (2014). The stringdist package for approximate string
-matching. The R Journal 6, 111-122.
+van der Loo, M. P. J. (2014). The stringdist package for approximate string
+matching. The R Journal 6, 111--122.
 }
 
 \section{Developer(s)}{
 
-Joseph T. Flannery-Sutherland
+Joseph T. Flannery-Sutherland & Lewis A. Jones
 }
 
 \section{Reviewer(s)}{
 
-Lewis A. Jones & Killian Eichenseer
+Lewis A. Jones & Kilian Eichenseer
 }
 
 \examples{
 # load occurrence data
 data("tetrapods")
+# Check taxon names alphabetically
+tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
+# Check taxon names by group
+tax_check(taxdf = tetrapods, name = "genus", group = "family", dis = 0.1)
 
-# synonym check with default params. Data is well curated so
-# few matches are returned and no non-letter checks triggered
-
-synon <- tax_check(tetrapods, names = "genus", groups = "family")
-
-\dontrun{
-# grab a brachiopod dataset and define prefixes and suffixes
-brachios <- read.csv(paste0("https://paleobiodb.org/data1.2/occs/list.csv",
-                     "?base_name=Brachiopoda",
-                     "&interval=Cambrian,Silurian",
-                     "&show=class"))
-
-b_pref <- c("Neo", "Micro", "Schizo", "Stropho", "Ortho")
-b_suff <- c("spirifer", "rhynchus", "strophia", "treta", "thyris",
-            "orthis", "ina", "ella", "trypa")
-
-# synonym check with and without prefixes and suffixes
-synon1 <- tax_check(brachios, names = "genus", groups = "family")
-
-synon2 <- tax_check(brachios, names = "genus", groups = "family",
-                    pref = b_pref, suff = b_suff)
-
-}
 }

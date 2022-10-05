@@ -1,73 +1,54 @@
 #' tax_check
 #'
-#' A function for checking for potential spelling variations of the same
+#' A function to check for potential spelling variations of the same
 #' taxon. Spelling variations are checked within alphabetical groups (default),
-#' or within higher taxonomic groups, if provided.
+#' or within higher taxonomic groups if provided.
 #'
-#' @param x \code{dataframe}. A data.frame with named columns (e.g., 'species',
-#' 'genus', etc.). This must contain taxon names and optionally a further
-#' column denoting the groups within which taxon names will be checked against
-#' one another (e.g., 'family', 'order', etc.). NA values or empty strings in
-#' the name and group columns (i.e., '' and ' ') will be ignored.
-#' @param names \code{character}. The column name of the taxon names you wish
-#' to check (e.g., 'genus').
-#' @param groups \code{character}. The column name of the higher taxonomic
-#' assignments in `x` you wish to group by. If `NULL` (default), name
+#' @param taxdf \code{dataframe}. A dataframe with named columns containing
+#' taxon names (e.g. "species", "genus"). An optional column
+#' containing the groups (e.g. "family", "order") which taxon names
+#' belong to may also be provided (see `group` for details).
+#' NA values or empty strings in the name and group columns (i.e. "" and " ")
+#' are ignored.
+#' @param name \code{character}. The column name of the taxon names you wish
+#' to check (e.g. "genus").
+#' @param group \code{character}. The column name of the higher taxonomic
+#' assignments in `taxdf` you wish to group by. If `NULL` (default), name
 #' comparison will be conducted within alphabetical groups.
-#' @param sim \code{numeric}. The percentage similarity threshold. Potential
-#' synonyms below this threshold are not shown
+#' @param dis \code{numeric}. The dissimilarity threshold: a value greater than
+#' 0, and less than 1. Potential synonyms above this threshold are not returned.
 #' @param start \code{numeric}. The number of shared characters at the
-#' beginnings of two potential synonyms, below which the match will not be
-#' shown. By default this value is set to 1 (i.e., the first letters must
-#' match).
-#' @param pref \code{character}. A vector of prefixes which help distinguish
-#' otherwise similar taxon names. Synonyms will only be shown if none or both
-#' names of a potential synonym pair bear the same prefix. The default is
-#' `NULL`.
-#' @param suff \code{character}. A vector of suffixes which help distinguish
-#' otherwise similar taxon names. Synonyms will only be shown if none or both
-#' names of a potential synonym pair bear the same suffix. The default is
-#' `NULL`.
+#' beginning of potential synonyms that should match. Potential synonyms below
+#' this value will not be returned. By default this value is set to 1 (i.e.
+#' the first letter of synonyms must match).
 #' @param verbose \code{logical}. Should the results of the non-letter
 #' character check be reported to the user? If `TRUE`, the result will only be
 #' reported if such characters are detected in the taxon names.
 #'
-#' @return If verbose = `TRUE' (default), a \code{list} with two elements. The
-#' first element in the list (synonyms) is a data.frame with each row reporting
-#' a pair of synonyms. The first column 'group' contains the higher group in
-#' which they occur (this may be the alphabetical groupings default). The
-#' second column 'greater' contains the most common synonym in each pair. The
-#' third column 'lesser' contains the least common synonym in each pair. The
-#' third and fourth columns (freq_1, freq_2) contain the respective frequencies
-#' of each synonym in a pair. If no matches were found for the filtering
-#' parameters, this element is `NULL` instead. The second element (non_letter)
-#' is a vector of taxon names which contain non-letter characters, or `NULL` if
-#' none were detected. If verbose = `FALSE`, a \code{data.frame} as described
-#' above, or `NULL` if no matches were found.
+#' @return If verbose = `TRUE` (default), a \code{list} with three elements. The
+#' first element in the list (synonyms) is a \code{data.frame} with each row
+#' reporting a pair of synonyms. The first column "group" contains the higher
+#' group in which they occur (alphabetical groupings if `group` is
+#' not provided). The second column "greater" contains the most common synonym
+#' in each pair. The third column "lesser" contains the least common synonym in
+#' each pair. The third and fourth column (`count_greater`, `count_lesser`)
+#' contain the respective counts of each synonym in a pair. If no matches were
+#' found for the filtering arguments, this element is `NULL` instead. The second
+#' element (`non_letter_name`) is a vector of taxon names which contain non-letter
+#' characters, or `NULL` if none were detected. The third element
+#' (non_letter_group) is a vector of taxon groups which contain non-letter
+#' characters, or `NULL` if none were detected. If verbose = `FALSE`, a
+#' \code{data.frame} as described above is returned, or `NULL` if no matches
+#' were found.
 #'
 #' @details When higher taxonomy is provided, but some entries are missing,
 #' comparisons will still be made within alphabetical groups of taxa which lack
-#' higher taxonomic affiliations. The function also performs a check for non-
-#' letter characters which are not expected to be present in correctly-
-#' formatted taxon names. This detection may be made available to the user via
-#' the `verbose` argument. Comparison is first performed using the Jaro string
-#' dissimilarity with the `stringdistmatrix` function from the `stringdist`
-#' package. This can be easily interpreted as a percentage similarity,
-#' converted as (1 - Jaro string dissimilarity). Low similarity pairs are not
-#' shown, nor those which do not share a given number of starting letters. The
-#' Jaro threshold is set to 90% similarity by default, but synonyms may still
-#' slip through at lower similarity thresholds.
-#'
-#' Latin or Greek prefixes and suffixes are frequently used to differentiate
-#' taxon names which share a common stem, e.g., 'Gelidorthis' and Gelidorthina'
-#' (suffixes 'is' and 'ina'), and can even induce spuriously high similarity
-#' with each other, e.g., Protosuchus and Parasuchus (prefixes Proto' and
-#' 'Para') or. Vectors of prefixes and suffixes can be supplied and matches
-#' will only be shown if neither bears a given prefix or suffix, or if the
-#' prefix or suffix is the same in both synonyms. Prefixes and suffixes may
-#' have no effect if the Jaro threshold is very high and their use is entirely
-#' optional, but can be useful to prevent large numbers of false matches for
-#' large data sets from being shown to the user.
+#' higher taxonomic affiliations. The function also performs a check for
+#' non-letter characters which are not expected to be present in
+#' correctly-formatted taxon names. This detection may be made available to the
+#' user via the `verbose` argument. Comparisons are performed using the
+#' Jaro string dissimilarity metric via
+#' \code{\link[stringdist:stringdistmatrix]{stringdist::stringdistmatrix()}}.
 #'
 #' As all string distance metrics rely on approximate string matching,
 #' different metrics can produce different results. This function uses Jaro
@@ -78,11 +59,11 @@
 #' `fossilbrush` R package on CRAN.
 #'
 #' @section Reference:
-#' M. P. J. van der Loo (2014). The stringdist package for approximate string
-#' matching. The R Journal 6, 111-122.
+#' van der Loo, M. P. J. (2014). The stringdist package for approximate string
+#' matching. The R Journal 6, 111--122.
 #'
 #' @section Developer(s):
-#' Joseph T. Flannery-Sutherland
+#' Joseph T. Flannery-Sutherland & Lewis A. Jones
 #' @section Reviewer(s):
 #' Lewis A. Jones & Kilian Eichenseer
 #' @importFrom stats na.omit
@@ -90,135 +71,122 @@
 #' @examples
 #' # load occurrence data
 #' data("tetrapods")
+#' # Check taxon names alphabetically
+#' tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
+#' # Check taxon names by group
+#' tax_check(taxdf = tetrapods, name = "genus", group = "family", dis = 0.1)
 #'
-#' # synonym check with default params. Data is well curated so
-#' # few matches are returned and no non-letter checks triggered
-#'
-#' synon <- tax_check(tetrapods, names = "genus", groups = "family")
-#'
-#' \dontrun{
-#' # grab a brachiopod dataset and define prefixes and suffixes
-#' brachios <- read.csv(paste0("https://paleobiodb.org/data1.2/occs/list.csv",
-#'                      "?base_name=Brachiopoda",
-#'                      "&interval=Cambrian,Silurian",
-#'                      "&show=class"))
-#'
-#' b_pref <- c("Neo", "Micro", "Schizo", "Stropho", "Ortho")
-#' b_suff <- c("spirifer", "rhynchus", "strophia", "treta", "thyris",
-#'             "orthis", "ina", "ella", "trypa")
-#'
-#' # synonym check with and without prefixes and suffixes
-#' synon1 <- tax_check(brachios, names = "genus", groups = "family")
-#'
-#' synon2 <- tax_check(brachios, names = "genus", groups = "family",
-#'                     pref = b_pref, suff = b_suff)
-#'
-#' }
 #' @export
-
-tax_check <- function(x, names, groups = NULL, sim = 90, start = 1,
-                      pref = NULL, suff = NULL, verbose = TRUE) {
+tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
+                      start = 1, verbose = TRUE){
 
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
-  # x: a data.frame with column names and at least one row
-  if(!exists("x")) {x <- NULL}
-  if(any(c(!is.data.frame(x), nrow(x) == 0, is.null(colnames(x))))) {
-    stop("Please supply 'x' as a data.frame with named columns, containing
+  # taxdf: a data.frame with column names and at least one row
+  if (!exists("taxdf")) {
+    taxdf <- NULL
+    }
+
+  if (any(c(!is.data.frame(taxdf),
+            nrow(taxdf) == 0,
+            is.null(colnames(taxdf))))) {
+    stop("Please supply `taxdf` as a data.frame with named columns, containing
          taxon names, and optionally their higher classification")
   }
 
-  # names: a 1L character vector denoting a character column in x
-  if(!exists("names")) {names <- NULL}
-  if(any(c(!is.atomic(names), length(names) != 1, !names %in% colnames(x)))) {
-    stop("Please specify 'names' as a single column name in 'x'")
+  # names: a 1L character vector denoting a character column in taxdf
+  if (any(c(!is.atomic(name),
+            length(name) != 1,
+            !name %in% colnames(taxdf)))) {
+    stop("Please specify `name` as a single column name in `taxdf`")
   }
-  x[grep("^$|^\\s+$", x[,names]),names] <- NA
-  if(!is.character(x[,names]) | all(is.na(x[,names]))) {
-    stop("The 'names' column in 'x' must contain data of class character and
+
+  # Replace missing values with NA
+  taxdf[grep("^$|^\\s+$", taxdf[, name]), name] <- NA
+
+  if (!is.character(taxdf[, name]) || all(is.na(taxdf[, name]))) {
+    stop("The `name` column in `taxdf` must contain data of class character and
          at least one entry that is not NA or empty")
   }
 
-  # groups: If not NULL, a 1L character vector denoting a character column in x
-  if(!is.null(groups)) {
-    if(any(c(!is.atomic(groups), length(groups) != 1,
-             !groups %in% colnames(x)))) {
-      stop("Please specify 'groups' as a single column name in 'x")
+  # groups: If not NULL, a 1L character vector denoting a character column
+  # in taxdf
+  if (!is.null(group)) {
+    if (any(c(!is.atomic(group), length(group) != 1,
+             !group %in% colnames(taxdf)))) {
+      stop("Please specify `group` as a single column name in `taxdf`")
     }
-    if(!is.character(x[,groups])) {
-      stop("The 'groups' column in 'x' must contain data of class character")
+    if (!is.character(taxdf[, group])) {
+      stop("The `group` column in `taxdf` must contain data of class character")
     }
-    groups <- gsub("^$|^\\s+$", NA, x[,groups])
+    group <- gsub("^$|^\\s+$", NA, taxdf[, group])
   } else {
-    groups <- substring(x[,names], 1, 1)
+    group <- substring(taxdf[, name], 1, 1)
   }
 
-  # sim: a 1L numeric > 0 and < 1
-  if(any(c(!is.numeric(sim), length(sim) != 1, !is.atomic(sim)))) {
-    stop("'sim' must be a single numeric, greater than 0, less than 100")
+  # dis: a 1L numeric > 0 and < 1
+  if (any(c(!is.numeric(dis), length(dis) != 1, !is.atomic(dis)))) {
+    stop("`dis` must be a single numeric, greater than 0 and less than 1")
   }
-  if(sim >= 100 | sim <= 0) {
-    stop("'sim' must be a single numeric, greater than 0, less than 100")
+  if (dis >= 1 | dis <= 0) {
+    stop("`dis` must be a single numeric, greater than 0 and less than 1")
   }
 
   # start: a 1L integer >= 0
-  if(!is.null(start)) {
-    if(any(c(!is.numeric(start), length(start) != 1, !is.atomic(start)))) {
-      stop("'start' must be a single positive integer, or zero")
+  if (!is.null(start)) {
+    if (any(c(!is.numeric(start),
+              length(start) != 1,
+              !is.atomic(start)))) {
+      stop("`start` must be a single positive integer, or zero")
     }
-    if(any(c(start < 0, start %% 1 != 0, is.nan(start), is.infinite(start)))) {
-      stop("'start' must be a single positive integer, or zero")
+    if (any(c(start < 0, start %% 1 != 0,
+              is.nan(start),
+              is.infinite(start)))) {
+      stop("`start` must be a single positive integer, or zero")
     }
-  }
-
-  # pref, suff: If not NULL, character vectors
-  if(is.null(pref)) {pref <- ""}
-  if(is.null(suff)) {suff <- ""}
-  if(any(c(!is.atomic(c(pref, suff)), !is.character(pref),
-           !is.character(suff)))) {
-    stop("'pref' and 'suff' must be character vectors or NULL")
   }
 
   # verbose: a 1L logical vector
-  if(any(c(!is.atomic(c(verbose)), !is.logical(verbose),
+  if (any(c(!is.atomic(c(verbose)),
+           !is.logical(verbose),
            length(verbose) != 1))) {
-    stop("'verbose' must be a single logical value")
+    stop("`verbose` must be a single logical value")
   }
 
   # check for non-letter characters, returning NULL if none
-  gp <- unique(grep("[^[:alpha:] ]", groups, value = TRUE))
-  if(verbose) {warning("Non-letter characters present in the group names")}
+  gp <- unique(grep("[^[:alpha:] ]", group, value = TRUE))
+  if (length(gp) != 0) {
+    warning("Non-letter characters present in the group names")
+  } else {
+    gp <- NULL
+  }
 
-  nm <- unique(grep("[^[:alpha:] ]", x[,names], value = TRUE))
-  if(length(nm) != 0) {
-    if(verbose) {warning("Non-letter characters present in the taxon names")}
+  nm <- unique(grep("[^[:alpha:] ]", taxdf[, name], value = TRUE))
+  if (length(nm) != 0) {
+    warning("Non-letter characters present in the taxon names")
   } else {
     nm <- NULL
   }
 
-
   # FORMAT INPUT DATA ------------------------------------------------------- #
 
   # names data.frame, drop missing names, fill missing groups alphabetically
-  x <- x2 <- data.frame(groups = groups, names = x[,names])
-  x <- x[!duplicated(x),,drop = FALSE]
-  x <- x[!is.na(x[,"names"]),,drop = FALSE]
-  no_group <- which(is.na(x[,"groups"]))
-  x[no_group, "groups"] <- substring(x[no_group, "names"], 1, 1)
-  # convert from similarity to dissimilarity
-  sim <- 1 - (sim / 100)
-
+  taxdf <- taxdf2 <- data.frame(group = group, name = taxdf[, name])
+  taxdf <- taxdf[!duplicated(taxdf), , drop = FALSE]
+  taxdf <- taxdf[!is.na(taxdf[, "name"]), , drop = FALSE]
+  no_group <- which(is.na(taxdf[, "group"]))
+  taxdf[no_group, "group"] <- substring(taxdf[no_group, "name"], 1, 1)
 
   # RUN GROUPWISE COMPARISONS ----------------------------------------------- #
 
   # apply the comparison procedure group wise
-  sp <- lapply(unique(x[,"groups"]), function(y) {
+  sp <- lapply(unique(taxdf[, "group"]), function(y) {
 
     # all taxon names which belong to group y
-    ob <- x[x[,"groups"] == y,"names"]
+    ob <- taxdf[taxdf[, "group"] == y, "name"]
 
     # if there is are not multiple names in the group, skip
-    if(length(ob) < 2) {
+    if (length(ob) < 2) {
       flag <- NULL
 
     # otherwise perform group wise comparisons
@@ -232,10 +200,10 @@ tax_check <- function(x, names, groups = NULL, sim = 90, start = 1,
       diag(test) <- 1
 
       # subset to those which fall below the dissimilarity threshold
-      flag <- which(test < sim, arr.ind = TRUE)
+      flag <- which(test < dis, arr.ind = TRUE)
 
       # if there are no remaining flagged names, return NULL
-      if(length(flag) == 0) {
+      if (length(flag) == 0) {
         flag <- NULL
 
       # otherwise additionally filter using shared starting/ending letters
@@ -244,11 +212,13 @@ tax_check <- function(x, names, groups = NULL, sim = 90, start = 1,
         # retrieve names
         flag <- cbind(ob[flag[,1]], ob[flag[,2]], y)
         # drop equivalent rows (xy, yx pairs)
-        eq <- duplicated(t(apply(flag, 1, function(z) {paste0(z[order(z)])})))
-        flag <- flag[!eq,,drop = FALSE]
+        eq <- duplicated(t(apply(flag, 1, function(z) {
+          paste0(z[order(z)])
+          })))
+        flag <- flag[!eq, , drop = FALSE]
 
         # cull by first y letter non-matches
-        if(!is.null(start)) {
+        if (!is.null(start)) {
           c1 <- substr(flag[,1], start = 1, stop = start)
           c2 <- substr(flag[,2], start = 1, stop = start)
           flag <- flag[which(c1 == c2), , drop = FALSE]
@@ -259,33 +229,6 @@ tax_check <- function(x, names, groups = NULL, sim = 90, start = 1,
           flag <- NULL
 
         # otherwise cull by prefixes and suffixes if supplied
-        } else {
-
-          if(as.logical(sum(nchar(c(pref, suff))))) {
-
-            # set the regex for prefixes and suffixes within a single vector
-            common <- c(paste0("^", na.omit(pref)), paste0(na.omit(suff), "$"))
-            common <- common[nchar(common) > 1]
-
-            to_drop <- unlist(lapply(common, function(z) {
-              # grep the common suffix in the first column
-              g1 <- grepl(z, flag[,1])
-              # grep that same suffix for the second column
-              g2 <- grepl(z, flag[,2])
-              # designate the non matching elements in the data.frame
-              which(g1 != g2)
-            }))
-
-            # drop entries without matching prefixes/suffixes
-            if(length(to_drop) != 0) {
-              flag <- flag[-to_drop,,drop = FALSE]
-
-              # if there are no remaining flagged names, return NULL
-              if(length(flag) == 0) {
-                flag <- NULL
-              }
-            }
-          }
         }
       }
     }
@@ -297,34 +240,34 @@ tax_check <- function(x, names, groups = NULL, sim = 90, start = 1,
   # format initial results data.frame from list
   err <- sp[!unlist(lapply(sp, is.null))]
   err <- as.data.frame(do.call(rbind, err))
-  err$f1 <- as.vector(table(x2[,"names"])[match(err$V1,
-                                                names(table(x2[,"names"])))])
-  err$f2 <- as.vector(table(x2[,"names"])[match(err$V2,
-                                                names(table(x2[,"names"])))])
+  err$f1 <- as.vector(table(taxdf2[, "name"])[match(err$V1,
+                                                names(table(taxdf2[, "name"])))])
+  err$f2 <- as.vector(table(taxdf2[, "name"])[match(err$V2,
+                                                names(table(taxdf2[, "name"])))])
 
   # NULL if no matches present
   if(nrow(err) == 0) {
-    err = NULL
+    err <- NULL
 
   # else reorder rows so the more frequent synonym is in the first column
   } else {
 
-    mins <- apply(err[,4:5], 1, which.min) - 1
+    mins <- apply(err[, 4:5], 1, which.min) - 1
     maxs <- abs(mins - 1)
-    fq1 <- unlist(err[,4:5])[1:length(maxs) + (maxs * length(maxs))]
-    fq2 <- unlist(err[,4:5])[1:length(mins) + (mins * length(mins))]
-    mins <- unlist(err[,1:2])[1:length(mins) + (mins * length(mins))]
-    maxs <- unlist(err[,1:2])[1:length(maxs) + (maxs * length(maxs))]
+    fq1 <- unlist(err[, 4:5])[1:length(maxs) + (maxs * length(maxs))]
+    fq2 <- unlist(err[, 4:5])[1:length(mins) + (mins * length(mins))]
+    mins <- unlist(err[, 1:2])[1:length(mins) + (mins * length(mins))]
+    maxs <- unlist(err[, 1:2])[1:length(maxs) + (maxs * length(maxs))]
     err <- data.frame(group = err$y, greater = as.vector(maxs),
-                      lesser = as.vector(mins), freq_1 = fq1,
-                      freq_2 = fq2)
-    err <- err[order(err[,"group"], err[,"greater"], method = "radix"),]
+                      lesser = as.vector(mins), count_greater = fq1,
+                      count_lesser = fq2)
+    err <- err[order(err[, "group"], err[, "greater"], method = "radix"), ]
     row.names(err) <- NULL
   }
 
   # return
   if(verbose) {
-    return(list(synonyms = err, non_letter = nm))
+    return(list(synonyms = err, non_letter_name = nm, non_letter_group = gp))
   } else {
     return(err)
   }
