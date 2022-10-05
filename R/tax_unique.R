@@ -1,7 +1,28 @@
 #' Filter occurrences to unique taxa
 #'
 #' A function to filter a list of taxonomic occurrences to unique taxa of a
-#' predefined resolution. In many cases palaeobiologists achieve this by
+#' predefined resolution.
+#'
+#' @param paleobioDB \code{dataframe}. A dataframe of taxonomic occurrences
+#' downloaded directly from the Paleobiology Database. The dataframe must
+#' include the following columns: class, order, family, genus, accepted_name.
+#' @param species \code{character}. A vector of species names.
+#' @param genus \code{character}. A vector of genus names.
+#' @param family \code{character}. A vector of family names.
+#' @param order \code{character}. A vector of order names.
+#' @param class \code{character}. A vector of class names.
+#' @param resolution \code{character}. The taxonomic resolution at which to
+#' identify unique occurrences, either species (the default) or genus.
+#' @param group \code{numeric, character}. A category within which to determine
+#' unique taxa. When using \code{paleobioDB}, this should specify the
+#' column within the dataframe to use as the category. When using individual
+#' taxonomic vectors, this should be an additional vector of numbers or
+#' character-based labels designating which category each occurrence belongs to.
+#'
+#' @return A \code{dataframe} of unique taxa, with row numbers corresponding to
+#' the original dataset.
+#'
+#' @details In many cases palaeobiologists achieve this by
 #' retaining only unique occurrences identified to the given taxonomic
 #' resolution, however here we also retain occurrences identified to a coarser
 #' resolution which are not already represented within the dataset.
@@ -28,25 +49,6 @@
 #' can be defined as unique either across the whole dataset or within set
 #' categories (e.g. temporal intervals, spatial bins). Missing data should be
 #' indicated with NAs.
-#'
-#' @param paleobioDB \code{dataframe}. A dataframe of taxonomic occurrences
-#' downloaded directly from the Paleobiology Database. The dataframe must
-#' include the following columns: class, order, family, genus, accepted_name.
-#' @param species \code{character}. A vector of species names.
-#' @param genus \code{character}. A vector of genus names.
-#' @param family \code{character}. A vector of family names.
-#' @param order \code{character}. A vector of order names.
-#' @param class \code{character}. A vector of class names.
-#' @param resolution \code{character}. The taxonomic resolution at which to
-#' identify unique occurrences, either species (the default) or genus.
-#' @param group \code{numeric, character}. A category within which to determine
-#' unique taxa. When using \code{paleobioDB}, this should specify the
-#' column within the dataframe to use as the category. When using individual
-#' taxonomic vectors, this should be an additional vector of numbers or
-#' character-based labels designating which category each occurrence belongs to.
-#'
-#' @return A \code{dataframe} of unique taxa, with row numbers corresponding to
-#' the original dataset.
 #'
 #' @section Developer(s):
 #' Bethany Allen
@@ -273,7 +275,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     new_dataset <- rbind(new_dataset, to_retain)
   }
 
-  #Remove 'by' column if only one category
+  #Remove 'group' column if only one category
   if (length(uniq_cats) == 1) {
     new_dataset <- subset(new_dataset, select = -c(category))
   }
