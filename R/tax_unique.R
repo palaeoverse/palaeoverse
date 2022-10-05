@@ -51,6 +51,7 @@
 #' @section Developer(s):
 #' Bethany Allen
 #' @section Reviewer(s):
+#' Lewis A. Jones and William Gearty
 #'
 #' @examples
 #' #Retain unique species
@@ -273,6 +274,11 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
 
     #Add occurrences to retain to the new dataset
     new_dataset <- rbind(new_dataset, to_retain)
+  }
+
+  #Remove 'by' column if only one category
+  if (length(uniq_cats) == 1) {
+    new_dataset <- subset(new_dataset, select = -c(category))
   }
 
   return(new_dataset)
