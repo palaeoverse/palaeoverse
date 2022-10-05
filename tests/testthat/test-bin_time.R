@@ -19,14 +19,11 @@ test_that("bin_time() works", {
 
   expect_error(bin_time(occdf = data.frame(),
                             bins = data.frame(),
-                            method = "mid",
-                            scale = "2012"))
+                            method = "mid"))
 
   expect_error(bin_time(occdf = data.frame(),
                             bins = data.frame(),
-                            method = "mid",
-                            scale = "GTS2020",
-                            return_error = "TRUE"))
+                            method = "mid"))
 
   #expect equal
   occdf <- tetrapods
@@ -36,10 +33,6 @@ test_that("bin_time() works", {
                      min_ma = seq(0, 530, 10))
   #tests
   expect_equal(class(bin_time(occdf = occdf, bins = bins,
-                                  method = "mid")$bin_assignment), "integer")
-
-  expect_equal(class(bin_time(occdf = occdf, bins = bins,
-                                  scale = "GTS2012",
                                   method = "mid")$bin_assignment), "integer")
 
   expect_equal(length(bin_time(occdf = occdf, bins = bins,
@@ -67,7 +60,7 @@ test_that("bin_time() works", {
 
   occdf <- data.frame(max_ma = c("Mastrichtian", "Albian"),
                       min_ma = c("Mastrichtian", "Albian"))
-  expect_equal(is.integer(bin_time(occdf = occdf,
+  expect_error(bin_time(occdf = occdf,
                                        bins = bins,
-                                       return_error = TRUE)), TRUE)
+                                       return_error = TRUE))
 })

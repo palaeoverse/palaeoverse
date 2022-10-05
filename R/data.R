@@ -130,3 +130,45 @@
 #' @source Compiled by Bethany Allen, current version downloaded on 14th July
 #' 2022. See item descriptions for details.
 "tetrapods"
+
+#' Example dataset: Phanerozoic reefs from the PaleoReefs Database
+#'
+#' A dataset of Phanerozoic reef occurrences from the PaleoReefs Database
+#' (PARED) \url{https://www.paleo-reefs.pal.uni-erlangen.de}. This example
+#' dataset includes a subset of the available data from PARED, but can be used
+#' to demonstrate how the functions in the `palaeoverse` package might be
+#' applied.
+#'
+#' @format A data frame with 4363 rows and 14 variables:
+#' \describe{
+#'   \item{r_number}{Reference number given to the particular fossil
+#'   reef in PARED}
+#'   \item{name}{Reference name given to the particular fossil
+#'   reef in PARED}
+#'   \item{formation}{The geological formation to which the fossil
+#'   reef belongs}
+#'   \item{system}{The stratigraphic system to which the fossil
+#'   reef belongs}
+#'   \item{series}{The stratigraphic series to which the fossil
+#'   reef belongs}
+#'   \item{interval}{The stratigraphic interval to which the fossil
+#'   reef belongs}
+#'   \item{biota_main}{The main biota present within the fossil
+#'   reef}
+#'   \item{biota_sec}{The secondary biota present within the fossil
+#'   reef}
+#'   \item{lng}{The modern-day longitude of the fossil reef}
+#'   \item{lat}{The modern-day latitude of the fossil reef}
+#'   \item{country}{The country or ocean the fossil reef is located in}
+#'   \item{authors}{The authors of the publication documenting the fossil reef}
+#'   \item{title}{The title of the publication documenting the fossil reef}
+#'   \item{year}{The year of the publication documenting the fossil reef}
+#' }
+#' @section References:
+#' Kiessling, W. & Krause, M. C. (2022). PaleoReefs Database (PARED)
+#' (1.0) Data set. \doi{10.5281/zenodo.6037852}
+#' \cr
+#' @source Compiled by Lewis A. Jones, current version downloaded on 25th July
+#' 2022. \doi{10.5281/zenodo.6037852}
+"reefs"
+
