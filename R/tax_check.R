@@ -34,8 +34,8 @@
 #' each pair. The third and fourth column (`count_greater`, `count_lesser`)
 #' contain the respective counts of each synonym in a pair. If no matches were
 #' found for the filtering arguments, this element is `NULL` instead. The second
-#' element (`non_letter_name`) is a vector of taxon names which contain non-letter
-#' characters, or `NULL` if none were detected. The third element
+#' element (`non_letter_name`) is a vector of taxon names which contain
+#' non-letter characters, or `NULL` if none were detected. The third element
 #' (non_letter_group) is a vector of taxon groups which contain non-letter
 #' characters, or `NULL` if none were detected. If verbose = `FALSE`, a
 #' \code{data.frame} as described above is returned, or `NULL` if no matches
@@ -78,7 +78,7 @@
 #'
 #' @export
 tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
-                      start = 1, verbose = TRUE){
+                      start = 1, verbose = TRUE) {
 
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
@@ -128,7 +128,7 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
   if (any(c(!is.numeric(dis), length(dis) != 1, !is.atomic(dis)))) {
     stop("`dis` must be a single numeric, greater than 0 and less than 1")
   }
-  if (dis >= 1 | dis <= 0) {
+  if (dis >= 1 || dis <= 0) {
     stop("`dis` must be a single numeric, greater than 0 and less than 1")
   }
 
@@ -210,7 +210,7 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
       } else {
 
         # retrieve names
-        flag <- cbind(ob[flag[,1]], ob[flag[,2]], y)
+        flag <- cbind(ob[flag[, 1]], ob[flag[, 2]], y)
         # drop equivalent rows (xy, yx pairs)
         eq <- duplicated(t(apply(flag, 1, function(z) {
           paste0(z[order(z)])
@@ -219,20 +219,20 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
 
         # cull by first y letter non-matches
         if (!is.null(start)) {
-          c1 <- substr(flag[,1], start = 1, stop = start)
-          c2 <- substr(flag[,2], start = 1, stop = start)
+          c1 <- substr(flag[, 1], start = 1, stop = start)
+          c2 <- substr(flag[, 2], start = 1, stop = start)
           flag <- flag[which(c1 == c2), , drop = FALSE]
         }
 
         # if there are no remaining flagged names, return NULL
-        if(length(flag) == 0) {
+        if (length(flag) == 0) {
           flag <- NULL
 
         # otherwise cull by prefixes and suffixes if supplied
         }
       }
     }
-    out <- flag
+    flag
   })
 
   # FORMAT OUTPUT ----------------------------------------------------------- #
@@ -241,12 +241,14 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
   err <- sp[!unlist(lapply(sp, is.null))]
   err <- as.data.frame(do.call(rbind, err))
   err$f1 <- as.vector(table(taxdf2[, "name"])[match(err$V1,
-                                                names(table(taxdf2[, "name"])))])
+                                                names(table(
+                                                  taxdf2[, "name"])))])
   err$f2 <- as.vector(table(taxdf2[, "name"])[match(err$V2,
-                                                names(table(taxdf2[, "name"])))])
+                                                names(table(
+                                                  taxdf2[, "name"])))])
 
   # NULL if no matches present
-  if(nrow(err) == 0) {
+  if (nrow(err) == 0) {
     err <- NULL
 
   # else reorder rows so the more frequent synonym is in the first column
@@ -254,10 +256,10 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
 
     mins <- apply(err[, 4:5], 1, which.min) - 1
     maxs <- abs(mins - 1)
-    fq1 <- unlist(err[, 4:5])[1:length(maxs) + (maxs * length(maxs))]
-    fq2 <- unlist(err[, 4:5])[1:length(mins) + (mins * length(mins))]
-    mins <- unlist(err[, 1:2])[1:length(mins) + (mins * length(mins))]
-    maxs <- unlist(err[, 1:2])[1:length(maxs) + (maxs * length(maxs))]
+    fq1 <- unlist(err[, 4:5])[seq_along(maxs) + (maxs * length(maxs))]
+    fq2 <- unlist(err[, 4:5])[seq_along(mins) + (mins * length(mins))]
+    mins <- unlist(err[, 1:2])[seq_along(mins) + (mins * length(mins))]
+    maxs <- unlist(err[, 1:2])[seq_along(maxs) + (maxs * length(maxs))]
     err <- data.frame(group = err$y, greater = as.vector(maxs),
                       lesser = as.vector(mins), count_greater = fq1,
                       count_lesser = fq2)
@@ -266,7 +268,7 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
   }
 
   # return
-  if(verbose) {
+  if (verbose) {
     return(list(synonyms = err, non_letter_name = nm, non_letter_group = gp))
   } else {
     return(err)

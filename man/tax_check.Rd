@@ -50,8 +50,8 @@ in each pair. The third column "lesser" contains the least common synonym in
 each pair. The third and fourth column (\code{count_greater}, \code{count_lesser})
 contain the respective counts of each synonym in a pair. If no matches were
 found for the filtering arguments, this element is \code{NULL} instead. The second
-element (\code{non_letter_name}) is a vector of taxon names which contain non-letter
-characters, or \code{NULL} if none were detected. The third element
+element (\code{non_letter_name}) is a vector of taxon names which contain
+non-letter characters, or \code{NULL} if none were detected. The third element
 (non_letter_group) is a vector of taxon groups which contain non-letter
 characters, or \code{NULL} if none were detected. If verbose = \code{FALSE}, a
 \code{data.frame} as described above is returned, or \code{NULL} if no matches

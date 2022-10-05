@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_lat.R
 \name{bin_lat}
 \alias{bin_lat}
-\title{Assign fossil occurrences to time bins}
+\title{Assign fossil occurrences to latitudinal bins}
 \usage{
 bin_lat(occdf, bins, lat = "lat")
 }
