@@ -12,7 +12,7 @@ tax_unique(
   order = NULL,
   class = NULL,
   resolution = "species",
-  by = NULL
+  group = NULL
 )
 }
 \arguments{
@@ -31,9 +31,9 @@ include the following columns: class, order, family, genus, accepted_name.}
 \item{class}{\code{character}. A vector of class names.}
 
 \item{resolution}{\code{character}. The taxonomic resolution at which to
-identify unique occurrences, either species (the default) or genera.}
+identify unique occurrences, either species (the default) or genus.}
 
-\item{by}{\code{numeric, character}. A category within which to determine
+\item{group}{\code{numeric, character}. A category within which to determine
 unique taxa. When using \code{paleobioDB}, this should specify the
 column within the dataframe to use as the category. When using individual
 taxonomic vectors, this should be an additional vector of numbers or
@@ -45,7 +45,10 @@ the original dataset.
 }
 \description{
 A function to filter a list of taxonomic occurrences to unique taxa of a
-predefined resolution. In many cases palaeobiologists achieve this by
+predefined resolution.
+}
+\details{
+In many cases palaeobiologists achieve count unique taxa by
 retaining only unique occurrences identified to the given taxonomic
 resolution, however here we also retain occurrences identified to a coarser
 resolution which are not already represented within the dataset.
@@ -80,6 +83,7 @@ Bethany Allen
 
 \section{Reviewer(s)}{
 
+Lewis A. Jones and William Gearty
 }
 
 \examples{
@@ -90,9 +94,9 @@ tax_unique(species = c("rex", "aegyptiacus", NA),
            family = c("Tyrannosauridae", "Spinosauridae", "Diplodocidae"))
 
 #Retain unique genera
-tax_unique(paleobioDB = tetrapods, resolution = "genera")
+tax_unique(paleobioDB = tetrapods, resolution = "genus")
 
 #Retain unique species within each country
-tax_unique(paleobioDB = tetrapods, by = "cc")
+tax_unique(paleobioDB = tetrapods, group = "cc")
 
 }
