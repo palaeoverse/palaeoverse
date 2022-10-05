@@ -2,15 +2,16 @@ test_that("tax_unique() works", {
   data(tetrapods)
 
   #expect equal
-  expect_equal(ncol(tax_unique(paleobioDB = tetrapods)), 6)
+  expect_equal(ncol(tax_unique(paleobioDB = tetrapods)), 5)
+  expect_equal(ncol(tax_unique(paleobioDB = tetrapods, group = "cc")), 6)
   expect_equal(ncol(tax_unique(species = c("rex", "aegyptiacus"),
                           genus = c("Tyrannosaurus", "Spinosaurus"),
-                          family = c("Tyrannosauridae", "Spinosauridae"))), 5)
+                          family = c("Tyrannosauridae", "Spinosauridae"))), 4)
   expect_equal(ncol(tax_unique(species = c("rex", "aegyptiacus"),
                                genus = c("Tyrannosaurus", "Spinosaurus"),
-                               family = c("Tyrannosauridae", "Spinosauridae"))),
+                               family = c("Tyrannosauridae", "Spinosauridae"),
                                order = c("Coelurosauria", "Orionides"),
-                               class = c("Tetanurae", "Tetanurae"), 5)
+                               class = c("Tetanurae", "Tetanurae"))), 6)
   expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", NA),
                           genus = c("Tyrannosaurus", "Spinosaurus", NA),
                           family = c("Tyrannosauridae", "Spinosauridae",
@@ -33,7 +34,7 @@ test_that("tax_unique() works", {
                                          "Tyrannosaurus"),
                                family = c("Tyrannosauridae", "Spinosauridae",
                                           "Tyrannosauridae"),
-                              resolution = "genera")), 2)
+                              resolution = "genus")), 2)
   expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", NA),
                                genus = c("Tyrannosaurus", "Spinosaurus", NA),
                                family = c("Tyrannosauridae", "Spinosauridae",
@@ -47,7 +48,7 @@ test_that("tax_unique() works", {
 
   #expect error
   expect_error(tax_unique(paleobioDB = 100))
-  expect_error(tax_unique(paleobioDB = 100, species = 100))
+  expect_error(tax_unique(paleobioDB = tetrapods, genus = 100))
   expect_error(tax_unique(paleobioDB = subset(tetrapods, select = -genus)))
   expect_error(tax_unique(paleobioDB = tetrapods, group = "test"))
   expect_error(tax_unique(species = c("rex", "aegyptiacus", NA),
@@ -67,5 +68,4 @@ test_that("tax_unique() works", {
                           genus = c("Tyrannosaurus", "Spinosaurus"),
                           family = c("Tyrannosauridae", "Spinosauridae"),
                           group = TRUE))
-
 })

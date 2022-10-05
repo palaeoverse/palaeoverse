@@ -81,10 +81,6 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
 
   if (!is.null(paleobioDB)) {
 
-    paleobioDB$class <- gsub("NO_CLASS_SPECIFIED", NA, paleobioDB$class)
-    paleobioDB$order <- gsub("NO_ORDER_SPECIFIED", NA, paleobioDB$order)
-    paleobioDB$family <- gsub("NO_FAMILY_SPECIFIED", NA, paleobioDB$family)
-
     if (!is.null(genus)) {
       stop("Must enter either paleobioDB or individual taxonomic vectors, not
            both")
@@ -105,6 +101,10 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
       stop("paleobioDB must contain the accepted_name column to estimate
            diversity at species level")
     }
+
+    paleobioDB$class <- gsub("NO_CLASS_SPECIFIED", NA, paleobioDB$class)
+    paleobioDB$order <- gsub("NO_ORDER_SPECIFIED", NA, paleobioDB$order)
+    paleobioDB$family <- gsub("NO_FAMILY_SPECIFIED", NA, paleobioDB$family)
 
     if ((any(grepl("[[:punct:]]", paleobioDB$class))) ||
         (any(grepl("[[:punct:]]", paleobioDB$order))) ||
@@ -137,7 +137,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
       (!is.null(family) && any(grepl("[[:punct:]]", family))) ||
       (!is.null(genus) && any(grepl("[[:punct:]]", genus))) ||
       (!is.null(species) && any(grepl("[[:punct:]]", species)))) {
-    stop("Taxonomy vectors should not contain punctuation")
+    stop("Taxonomic vectors should not contain punctuation")
   }
 
   if (!is.null(genus) && (resolution == "species") && (is.null(species))) {
@@ -146,19 +146,19 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
   }
 
   if ((resolution != "species") && (resolution != "genus")) {
-    stop("Resolution must be species or genus")
+    stop("Resolution must be 'species' or 'genus'")
   }
 
   if (!is.null(group) && !is.null(paleobioDB)) {
     if (!group %in% colnames(paleobioDB)) {
-    stop("by must be a column name within the paleobioDB data frame")
+    stop("Group must be a column name within the paleobioDB data frame")
     }
   }
 
   if (!is.null(group) && !is.null(species)) {
     if (!is.vector(group) || length(group) != length(species)) {
-    stop("When using taxonomic vectors, by should also be a vector of the same
-         length as the other vectors")
+    stop("When using taxonomic vectors, group should also be a vector of the
+    same length as the other vectors")
     }
   }
 
