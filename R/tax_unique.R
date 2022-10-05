@@ -22,7 +22,7 @@
 #' @return A \code{dataframe} of unique taxa, with row numbers corresponding to
 #' the original dataset.
 #'
-#' @details In many cases palaeobiologists achieve this by
+#' @details In many cases palaeobiologists achieve count unique taxa by
 #' retaining only unique occurrences identified to the given taxonomic
 #' resolution, however here we also retain occurrences identified to a coarser
 #' resolution which are not already represented within the dataset.
@@ -79,36 +79,34 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     stop("Must enter either paleobioDB or individual taxonomic vectors")
   }
 
-  if (!is.null(paleobioDB) && !is.null(species)) {
-    stop("Must enter either paleobioDB or individual taxonomic vectors, not
-         both")
-  }
-
-  if (!is.null(paleobioDB) && !is.data.frame(paleobioDB)) {
-    stop("paleobioDB must be a data.frame")
-  }
-
   if (!is.null(paleobioDB)) {
-    if (any(!(c("class", "order", "family", "genus", "accepted_name")
-             %in% colnames(paleobioDB)))) {
-    stop("paleobioDB must contain the following named columns: class, order,
-    family, genus, accepted_name")
-    }
-  }
 
-  if (!is.null(paleobioDB)) {
     paleobioDB$class <- gsub("NO_CLASS_SPECIFIED", NA, paleobioDB$class)
     paleobioDB$order <- gsub("NO_ORDER_SPECIFIED", NA, paleobioDB$order)
     paleobioDB$family <- gsub("NO_FAMILY_SPECIFIED", NA, paleobioDB$family)
-  }
 
-  if (!is.null(paleobioDB) &&
-      (any(grepl("[[:punct:]]", paleobioDB$class))) ||
-      (any(grepl("[[:punct:]]", paleobioDB$order))) ||
-      (any(grepl("[[:punct:]]", paleobioDB$family))) ||
-      (any(grepl("[[:punct:]]", paleobioDB$genus))) ||
-      (any(grepl("[[:punct:]]", paleobioDB$accepted_name)))) {
-    stop("paleobioDB taxonomy columns should not contain punctuation")
+    if (!is.null(species)) {
+      stop("Must enter either paleobioDB or individual taxonomic vectors, not
+           both")
+    }
+
+    if (!is.data.frame(paleobioDB)) {
+      stop("paleobioDB must be a data.frame")
+    }
+
+    if (any(!(c("class", "order", "family", "genus", "accepted_name")
+              %in% colnames(paleobioDB)))) {
+    stop("paleobioDB must contain the following named columns: class, order,
+    family, genus, accepted_name")
+    }
+
+    if ((any(grepl("[[:punct:]]", paleobioDB$class))) ||
+        (any(grepl("[[:punct:]]", paleobioDB$order))) ||
+        (any(grepl("[[:punct:]]", paleobioDB$family))) ||
+        (any(grepl("[[:punct:]]", paleobioDB$genus))) ||
+        (any(grepl("[[:punct:]]", paleobioDB$accepted_name)))) {
+      stop("paleobioDB taxonomy columns should not contain punctuation")
+    }
   }
 
   if ((!is.null(class) && !is.vector(class)) ||
