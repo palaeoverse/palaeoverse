@@ -38,8 +38,8 @@
 #' @param order \code{character}. A vector of order names.
 #' @param class \code{character}. A vector of class names.
 #' @param resolution \code{character}. The taxonomic resolution at which to
-#' identify unique occurrences, either species (the default) or genera.
-#' @param by \code{numeric, character}. A category within which to determine
+#' identify unique occurrences, either species (the default) or genus.
+#' @param group \code{numeric, character}. A category within which to determine
 #' unique taxa. When using \code{paleobioDB}, this should specify the
 #' column within the dataframe to use as the category. When using individual
 #' taxonomic vectors, this should be an additional vector of numbers or
@@ -61,16 +61,16 @@
 #'            family = c("Tyrannosauridae", "Spinosauridae", "Diplodocidae"))
 #'
 #' #Retain unique genera
-#' tax_unique(paleobioDB = tetrapods, resolution = "genera")
+#' tax_unique(paleobioDB = tetrapods, resolution = "genus")
 #'
 #' #Retain unique species within each country
-#' tax_unique(paleobioDB = tetrapods, by = "cc")
+#' tax_unique(paleobioDB = tetrapods, group = "cc")
 #'
 #' @export
 #'
 tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
                        family = NULL, order = NULL, class = NULL,
-                       resolution = "species", by = NULL) {
+                       resolution = "species", group = NULL) {
 
 #Give errors for incorrect input
   if (is.null(paleobioDB) && is.null(species)) {
@@ -83,17 +83,14 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
   }
 
   if (!is.null(paleobioDB) && !is.data.frame(paleobioDB)) {
-    stop("paleobioDB must be a data frame")
+    stop("paleobioDB must be a data.frame")
   }
 
   if (!is.null(paleobioDB)) {
-    if (!"class" %in% colnames(paleobioDB) ||
-       !"order" %in% colnames(paleobioDB) ||
-       !"family" %in% colnames(paleobioDB) ||
-       !"genus" %in% colnames(paleobioDB) ||
-       !"accepted_name" %in% colnames(paleobioDB)) {
-    stop("paleobioDB must contain the following columns: class, order, family,
-         genus, accepted_name")
+    if (any(!(c("class", "order", "family", "genus", "accepted_name")
+             %in% colnames(paleobioDB)))) {
+    stop("paleobioDB must contain the following named columns: class, order,
+    family, genus, accepted_name")
     }
   }
 
@@ -117,7 +114,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
       (!is.null(family) && !is.vector(family)) ||
       (!is.null(genus) && !is.vector(genus)) ||
       (!is.null(species) && !is.vector(species))) {
-    stop("Taxononic information must be in a vector")
+    stop("Taxononic information must be of class vector")
   }
 
   if (!is.null(species)) {
@@ -137,18 +134,18 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     stop("Taxonomy vectors should not contain punctuation")
   }
 
-  if ((resolution != "species") && (resolution != "genera")) {
+  if ((resolution != "species") && (resolution != "genus")) {
     stop("Resolution must be species or genera")
   }
 
-  if (!is.null(by) && !is.null(paleobioDB)) {
-    if (!by %in% colnames(paleobioDB)) {
+  if (!is.null(group) && !is.null(paleobioDB)) {
+    if (!group %in% colnames(paleobioDB)) {
     stop("by must be a column name within the paleobioDB data frame")
     }
   }
 
-  if (!is.null(by) && !is.null(species)) {
-    if (!is.vector(by) || length(by) != length(species)) {
+  if (!is.null(group) && !is.null(species)) {
+    if (!is.vector(group) || length(group) != length(species)) {
     stop("When using taxonomic vectors, by should also be a vector of the same
          length as the other vectors")
     }
@@ -162,8 +159,8 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
                                 "genus", "accepted_name")]
 
     #If a category is provided, add it as a column
-    if (!is.null(by)) {
-      occurrences$category <- paleobioDB[[by]]
+    if (!is.null(group)) {
+      occurrences$category <- paleobioDB[[group]]
     } else {
       occurrences$category <- 1
     }
@@ -175,7 +172,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     #Rename column
     colnames(occurrences)[colnames(occurrences) == "accepted_name"] <-
       "genus_species"
-  } else
+  }
 
   if (is.null(paleobioDB)) {
     #Compile supplied columns into a data frame
@@ -188,8 +185,8 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     occurrences$genus_species[grep("NA", occurrences$genus_species)] <- NA
 
     #If a category is provided, add it as a column
-    if (!is.null(by)) {
-      occurrences$category <- by
+    if (!is.null(group)) {
+      occurrences$category <- group
     } else {
       occurrences$category <- 1
     }
@@ -223,7 +220,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
       one_cat <- one_cat[is.na(one_cat$genus), ]
     } else
 
-    if (resolution == "genera") {
+    if (resolution == "genus") {
       #Remove genus_species column and remove genus repeats
       if (!is.null(paleobioDB)) {
       one_cat <- subset(one_cat, select = -c(genus_species))
