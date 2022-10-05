@@ -49,7 +49,7 @@ test_that("tax_unique() works", {
   expect_error(tax_unique(paleobioDB = 100))
   expect_error(tax_unique(paleobioDB = 100, species = 100))
   expect_error(tax_unique(paleobioDB = subset(tetrapods, select = -genus)))
-  expect_error(tax_unique(paleobioDB = tetrapods, by = "test"))
+  expect_error(tax_unique(paleobioDB = tetrapods, group = "test"))
   expect_error(tax_unique(species = c("rex", "aegyptiacus", NA),
                           genus = c("Tyrannosaurus", "Spinosaurus"),
                           family = tetrapods))
@@ -66,6 +66,6 @@ test_that("tax_unique() works", {
   expect_error(tax_unique(species = c("rex", "aegyptiacus"),
                           genus = c("Tyrannosaurus", "Spinosaurus"),
                           family = c("Tyrannosauridae", "Spinosauridae"),
-                          by = TRUE))
+                          group = TRUE))
 
 })
