@@ -163,6 +163,8 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
   }
 
 #Run function
+  genus_species <- NULL
+  category <- NULL
 
   if (!is.null(paleobioDB)) {
     #Filter paleobioDB necessary columns
