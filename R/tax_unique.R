@@ -75,7 +75,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
                        resolution = "species", group = NULL) {
 
 #Give errors for incorrect input
-  if (is.null(paleobioDB) && is.null(species)) {
+  if (is.null(paleobioDB) && is.null(genus)) {
     stop("Must enter either paleobioDB or individual taxonomic vectors")
   }
 
@@ -85,7 +85,7 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     paleobioDB$order <- gsub("NO_ORDER_SPECIFIED", NA, paleobioDB$order)
     paleobioDB$family <- gsub("NO_FAMILY_SPECIFIED", NA, paleobioDB$family)
 
-    if (!is.null(species)) {
+    if (!is.null(genus)) {
       stop("Must enter either paleobioDB or individual taxonomic vectors, not
            both")
     }
@@ -97,7 +97,13 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     if (any(!(c("class", "order", "family", "genus", "accepted_name")
               %in% colnames(paleobioDB)))) {
     stop("paleobioDB must contain the following named columns: class, order,
-    family, genus, accepted_name")
+    family, genus")
+    }
+
+    if ((resolution == "species") &&
+        !("accepted_name" %in% colnames(paleobioDB))) {
+      stop("paleobioDB must contain the accepted_name column to estimate
+           diversity at species level")
     }
 
     if ((any(grepl("[[:punct:]]", paleobioDB$class))) ||
@@ -117,11 +123,11 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     stop("Taxononic information must be of class vector")
   }
 
-  if (!is.null(species)) {
-    if (length(species) != length(genus) ||
-        length(species) != length(family) ||
-        (!is.null(order) && (length(species) != length(order))) ||
-        (!is.null(class) && (length(species) != length(class)))) {
+  if (!is.null(genus)) {
+    if ((!is.null(species) && (length(genus) != length(species))) ||
+        length(genus) != length(family) ||
+        (!is.null(order) && (length(genus) != length(order))) ||
+        (!is.null(class) && (length(genus) != length(class)))) {
       stop("Taxononic vectors must all be the same length")
         }
   }
@@ -134,8 +140,13 @@ tax_unique <- function(paleobioDB = NULL, species = NULL, genus = NULL,
     stop("Taxonomy vectors should not contain punctuation")
   }
 
+  if (!is.null(genus) && (resolution == "species") && (is.null(species))) {
+    stop("Vector of species names must be supplied to estimate diversity at
+         species level")
+  }
+
   if ((resolution != "species") && (resolution != "genus")) {
-    stop("Resolution must be species or genera")
+    stop("Resolution must be species or genus")
   }
 
   if (!is.null(group) && !is.null(paleobioDB)) {
