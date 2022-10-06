@@ -73,4 +73,7 @@ test_that("look_up() works", {
   expect_error(look_up(occdf, int_key = custom_key[names(custom_key) !=
                                                      "interval_name"]))
   expect_error(look_up(occdf, int_key = FALSE, assign_with_GTS = FALSE))
+
+  interval_key$max_ma <- rep(1,nrow(interval_key))
+  expect_error(look_up(occdf[1:10, ], int_key = interval_key))
 })

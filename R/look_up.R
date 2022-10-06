@@ -2,14 +2,14 @@
 #'
 #' A function that uses interval names to assign either
 #' [international geological stages](
-#' https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf),
+#' https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf)
 #' from the International Commission on Stratigraphy (ICS), or
 #' user-defined intervals, along with associated numerical ages,
 #' to fossil occurrences.
 #'
-#' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
-#' wish to bin, with columns of class \code{character} specifying the earliest
-#' and the latest possible interval associated with each occurrence.
+#' @param occdf \code{dataframe}. A dataframe of fossil occurrences or other
+#' geological data, with columns of class \code{character} specifying the
+#' earliest and the latest possible interval associated with each occurrence.
 #' @param early_interval \code{character}. Name of the column in `occdf` that
 #' contains the earliest interval from which the occurrences are from. Defaults
 #'  to `early_interval`.
@@ -28,19 +28,19 @@
 #' \item `late_stage` contains the latest stage corresponding to the
 #' intervals \cr
 #' }
-#' Optionally, named columns provide maximum and minimum ages for the
-#' intervals: \cr
+#' Optionally, named, \code{numeric} columns provide maximum and minimum ages
+#' for the intervals: \cr
 #' \itemize{
 #' \item `max_ma`
 #' \item `min_ma`
 #' }
-#' Alternatively, this can be set to \code{FALSE} to only assign intervals using
-#' one of the GTS tables (see below).
+#' Alternatively, this can be set to \code{FALSE} to only assign stages and
+#' numerical ages using one of the GTS tables (see below).
 #' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
 #' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to
 #' \code{FALSE} to disable.
-#' @param print_assigned \code{logical}. Should interval names assigned using
-#' 'int_key' be printed? Defaults to \code{FALSE}.
+#' @param print_unassigned \code{logical}. Should interval names which could not
+#' be assigned printed? Defaults to \code{TRUE}.
 #'
 #' @return A \code{dataframe} of the original input `data` with the following
 #' appended columns is returned: `early_stage` and `late_stage`, corresponding
@@ -92,7 +92,7 @@
 #' occdf <- look_up(occdf,
 #' early_interval = "stage", late_interval = "stage",
 #' int_key = interval_key, assign_with_GTS = "GTS2012",
-#' print_assigned = TRUE)
+#' print_unassigned = TRUE)
 #'
 #' ##  Just use GTS2020 with no int_key in order to assign numerical ages:
 #' # Get internal tetrapod data
@@ -106,7 +106,7 @@ look_up <- function(occdf, early_interval = "early_interval",
                     late_interval = "late_interval",
                     int_key = palaeoverse::interval_key,
                     assign_with_GTS = "GTS2020",
-                    print_assigned = FALSE) {
+                    print_unassigned = TRUE) {
 
 
 
@@ -362,7 +362,6 @@ look_up <- function(occdf, early_interval = "early_interval",
 
   #=== add stage_mid_ma ages to the output ===
 
-
   if ("interval_max_ma" %in% colnames(occdf) &&
       "interval_min_ma" %in% colnames(occdf)) {
     occdf$interval_mid_ma <- (occdf$interval_max_ma + occdf$interval_min_ma) / 2
@@ -370,11 +369,16 @@ look_up <- function(occdf, early_interval = "early_interval",
 
   #=== Ouput ===
 
-  # optional: print assigned stages
-  if (print_assigned && is.data.frame(int_key)) {
-    message(
-      "The following intervals have been matched with stages from int_key:")
-    print(unique(c(assign1, assign2)))
+  # optional: print interval names which could not be assigned stages
+  if (print_unassigned) {
+    unassigned <- c(occdf$early_interval[which(is.na(occdf$early_stage))],
+                    occdf$late_interval[which(is.na(occdf$late_stage))])
+    if(length(unassigned >=1)) {
+      message(
+      "The following intervals could not be matched with intervals from int_key
+      or GTS:")
+    print(sort(unique(unassigned)))
+    }
   }
 
   # return output
