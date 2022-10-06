@@ -58,7 +58,7 @@
 #' @section Reviewer(s):
 #' Bethany Allen and Kilian Eichenseer
 #' @importFrom sf st_as_sf st_drop_geometry
-#' @importFrom h3jsr point_to_h3 h3_to_point
+#' @importFrom h3jsr point_to_cell cell_to_point cell_to_polygon
 #' @examples
 #' # Get internal data
 #' data("reefs")
@@ -165,13 +165,13 @@ bin_spatial <- function(occdf,
   grid$grid <- c("primary")
 
   # Extract cell ID
-  occdf$cell_ID <- h3jsr::point_to_h3(occdf, res = grid$h3_resolution)
+  occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = grid$h3_resolution)
 
   # Extract cell centroids
   occdf$cell_centroid_lng <- sf::st_coordinates(
-    h3jsr::h3_to_point(h3_address = occdf$cell_ID))[, c("X")]
+    h3jsr::cell_to_point(h3_address = occdf$cell_ID))[, c("X")]
   occdf$cell_centroid_lat <- sf::st_coordinates(
-    h3jsr::h3_to_point(h3_address = occdf$cell_ID))[, c("Y")]
+    h3jsr::cell_to_point(h3_address = occdf$cell_ID))[, c("Y")]
 
   # Sub-grid desired?
   if (!is.null(sub_grid)) {
@@ -186,13 +186,13 @@ bin_spatial <- function(occdf,
     # Add column grid specification
     s_grid$grid <- c("sub-grid")
     # Extract cell ID
-    occdf$cell_ID_sub <- h3jsr::point_to_h3(occdf, res = s_grid$h3_resolution)
+    occdf$cell_ID_sub <- h3jsr::point_to_cell(occdf, res = s_grid$h3_resolution)
 
     # Extract cell centroids
     occdf$cell_centroid_lng_sub <- sf::st_coordinates(
-      h3jsr::h3_to_point(h3_address = occdf$cell_ID_sub))[, c("X")]
+      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub))[, c("X")]
     occdf$cell_centroid_lat_sub <- sf::st_coordinates(
-      h3jsr::h3_to_point(h3_address = occdf$cell_ID_sub))[, c("Y")]
+      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub))[, c("Y")]
   }
 
   # Drop geometries column
@@ -205,10 +205,10 @@ bin_spatial <- function(occdf,
   children <- h3jsr::get_children(
     h3_address = all_cells, res = grid$h3_resolution, simple = TRUE)
   # Get base cells
-  base_grid <- h3jsr::h3_to_polygon(input = children, simple = TRUE)
+  base_grid <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
 
   # Get occupied cells
-  primary <- h3jsr::h3_to_polygon(input = occdf$cell_ID, simple = TRUE)
+  primary <- h3jsr::cell_to_polygon(input = occdf$cell_ID, simple = TRUE)
 
   # Plot data?
   if (plot == TRUE) {
@@ -224,7 +224,7 @@ bin_spatial <- function(occdf,
          xlab = "Longitude",
          add = TRUE)
     if (!is.null(sub_grid)) {
-      secondary <- h3jsr::h3_to_polygon(input = occdf$cell_ID_sub,
+      secondary <- h3jsr::cell_to_polygon(input = occdf$cell_ID_sub,
                                         simple = TRUE)
       plot(secondary, col = "#1d91c0",
            add = TRUE)

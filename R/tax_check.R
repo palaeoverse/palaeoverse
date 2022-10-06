@@ -1,6 +1,6 @@
 #' tax_check
 #'
-#' A function to check for potential spelling variations of the same
+#' A function to check for and count potential spelling variations of the same
 #' taxon. Spelling variations are checked within alphabetical groups (default),
 #' or within higher taxonomic groups if provided.
 #'
@@ -16,7 +16,10 @@
 #' assignments in `taxdf` you wish to group by. If `NULL` (default), name
 #' comparison will be conducted within alphabetical groups.
 #' @param dis \code{numeric}. The dissimilarity threshold: a value greater than
-#' 0, and less than 1. Potential synonyms above this threshold are not returned.
+#' 0 (completely dissimilar), and less than 1 (completely similar).
+#' Potential synonyms above this threshold are not returned.
+#' This value is set to 0.05 by default, but the user might wish to experiment
+#' with this value for their specific data.
 #' @param start \code{numeric}. The number of shared characters at the
 #' beginning of potential synonyms that should match. Potential synonyms below
 #' this value will not be returned. By default this value is set to 1 (i.e.
@@ -27,8 +30,8 @@
 #'
 #' @return If verbose = `TRUE` (default), a \code{list} with three elements. The
 #' first element in the list (synonyms) is a \code{data.frame} with each row
-#' reporting a pair of synonyms. The first column "group" contains the higher
-#' group in which they occur (alphabetical groupings if `group` is
+#' reporting a pair of potential synonyms. The first column "group" contains the
+#' higher group in which they occur (alphabetical groupings if `group` is
 #' not provided). The second column "greater" contains the most common synonym
 #' in each pair. The third column "lesser" contains the least common synonym in
 #' each pair. The third and fourth column (`count_greater`, `count_lesser`)
@@ -65,7 +68,7 @@
 #' @section Developer(s):
 #' Joseph T. Flannery-Sutherland & Lewis A. Jones
 #' @section Reviewer(s):
-#' Lewis A. Jones & Kilian Eichenseer
+#' Lewis A. Jones, Kilian Eichenseer & Christopher D. Dean
 #' @importFrom stats na.omit
 #' @importFrom stringdist stringdistmatrix
 #' @examples
@@ -228,7 +231,6 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
         if (length(flag) == 0) {
           flag <- NULL
 
-        # otherwise cull by prefixes and suffixes if supplied
         }
       }
     }
