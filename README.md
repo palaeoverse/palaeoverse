@@ -1,4 +1,4 @@
-# palaeoverse <img src="man/figures/hexlogo.png" align="right" width="120" />
+# palaeoverse <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml)
@@ -34,6 +34,10 @@ If you are interested in contributing to the `palaeoverse` R package, you can do
 
 As with any community project, society, or meeting we feel it is important to established some expectations of behaviour in the `palaeoverse` community. Please read our [code of conduct](https://github.com/palaeoverse-community/palaeoverse/blob/main/CODE_OF_CONDUCT.md), and reach out if you ever face any issues. Everyone has the right to live and work in a harassment-free environment.
 
-<img align="right" src="man/figures/hexbanner.png">
+<p align="center">
 
-<p align="right"; style="font-size:11px">Hexlogo by Miranta Kouvari</p>
+<img src="man/figures/logo.png" width="120" />
+
+</p>
+
+<p align="left"; style="font-size:11px">Hexlogo by Miranta Kouvari and Cecily Nicholl</p>
