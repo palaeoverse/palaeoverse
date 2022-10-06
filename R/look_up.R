@@ -149,7 +149,7 @@ look_up <- function(occdf, early_interval = "early_interval",
            "early_stage" and "late_stage"')
     }
 
-    if(!(is.character(int_key$interval_name) &&
+    if (!(is.character(int_key$interval_name) &&
          is.character(int_key$early_stage) &&
          is.character(int_key$late_stage))) {
       stop('`int_key$interval_name`, `int_key$early_stage`, and
@@ -208,7 +208,7 @@ look_up <- function(occdf, early_interval = "early_interval",
   late_unique <- unique(late)
 
   #=== Assignment of stages based on look-up table ===
-  if(is.data.frame(int_key)) {
+  if (is.data.frame(int_key)) {
     # early stage
     # find assignable intervals
     assign_ind1 <- vapply(early_unique, function(x) {
