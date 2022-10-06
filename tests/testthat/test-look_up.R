@@ -58,6 +58,11 @@ test_that("look_up() works", {
     occdf[1:10, ], int_key = custom_key, assign_with_GTS = FALSE,
     late_interval = "other_interval"))$late_stage[1], "Gzhelian")
 
+  # check behaviour without int_key
+  occdf <- tetrapods[1:10, ]
+  expect_equal((look_up(occdf[1:10, ], int_key = FALSE,
+                        assign_with_GTS = "GTS2012"))$early_stage[1:2], c(NA, "Capitanian"))
+
   # check error handling
   occdf <- tetrapods[1:10, ]
   expect_error(look_up("Sakmarian"))
