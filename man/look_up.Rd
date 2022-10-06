@@ -58,11 +58,11 @@ be assigned printed? Defaults to \code{TRUE}.}
 A \code{dataframe} of the original input \code{data} with the following
 appended columns is returned: \code{early_stage} and \code{late_stage}, corresponding
 to the earliest and latest international geological stage which
-could be assigned to the occurrence based on the given interval names.
+could be assigned to the occurrences based on the given interval names.
 \code{interval_max_ma} and \code{interval_min_ma} return maximum and minimum interval
 ages if provided in the interval key, or if they can be fetched from GTS2012
 or GTS2020. A column \code{interval_mid_ma} is appended to provide the midpoint
-age of the interval.
+ages of the intervals.
 }
 \description{
 A function that uses interval names to assign either
@@ -97,7 +97,7 @@ Lewis A. Jones & Christopher D. Dean
 }
 
 \examples{
-## Use the exemplary, default int_key:
+## Use the exemplary, default int_key and GTS2020 (default):
 # Get internal tetrapod data
 occdf <- tetrapods
 # assign stages and numerical ages

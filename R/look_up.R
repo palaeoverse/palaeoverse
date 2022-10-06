@@ -45,11 +45,11 @@
 #' @return A \code{dataframe} of the original input `data` with the following
 #' appended columns is returned: `early_stage` and `late_stage`, corresponding
 #' to the earliest and latest international geological stage which
-#' could be assigned to the occurrence based on the given interval names.
+#' could be assigned to the occurrences based on the given interval names.
 #' `interval_max_ma` and `interval_min_ma` return maximum and minimum interval
 #' ages if provided in the interval key, or if they can be fetched from GTS2012
 #' or GTS2020. A column `interval_mid_ma` is appended to provide the midpoint
-#' age of the interval.
+#' ages of the intervals.
 #'
 #' @details
 #' Instead of  geological stages, the user can supply any names in the
@@ -72,7 +72,7 @@
 #' @section Reviewer(s):
 #' Lewis A. Jones & Christopher D. Dean
 #' @examples
-#' ## Use the exemplary, default int_key:
+#' ## Use the exemplary, default int_key and GTS2020 (default):
 #' # Get internal tetrapod data
 #' occdf <- tetrapods
 #' # assign stages and numerical ages
@@ -132,20 +132,25 @@ look_up <- function(occdf, early_interval = "early_interval",
 
   # int_key checks
   if (is.data.frame(int_key) == FALSE) {
-    if(int_key != FALSE) {
+    if (int_key != FALSE) {
       stop('`int_key` should be a dataframe.')
-    } else if (!(assign_with_GTS %in% c("GTS2020","GTS2012"))) stop(
+    } else {
+      if (!(assign_with_GTS %in% c("GTS2020", "GTS2012"))) {
+        stop(
       'assignment with GTS needs to be enabled if `int_key` is set to `FALSE`'
     )
+      }
+    }
   } else {
 
-    if(!(all(c("interval_name", "early_stage", "late_stage") %in%
+    if (!(all(c("interval_name", "early_stage", "late_stage") %in%
              colnames(int_key)))) {
       stop('`int_key` needs to contain the columns "interval_name",
            "early_stage" and "late_stage"')
     }
 
-    if(!(is.character(int_key$interval_name) & is.character(int_key$early_stage) &
+    if(!(is.character(int_key$interval_name) &&
+         is.character(int_key$early_stage) &&
          is.character(int_key$late_stage))) {
       stop('`int_key$interval_name`, `int_key$early_stage`, and
            `int_key$late_stage` needs to be of type `character`')
@@ -177,7 +182,7 @@ look_up <- function(occdf, early_interval = "early_interval",
   }, logical(1)))
   late[replace_ind] <- early[replace_ind]
   # in this case, display a warning
-  if(length(replace_ind) >= 1) {
+  if (length(replace_ind) >= 1) {
     warning('`NA`, `""` or `" "` entries from `late_interval` have been
             filled in with the corresponding `early_interval` entries')
   }
@@ -188,7 +193,7 @@ look_up <- function(occdf, early_interval = "early_interval",
   if ("max_ma" %in% colnames(int_key) || is.character(assign_with_GTS)) {
     occdf$interval_max_ma <- rep(NA_real_, nrow(occdf))
     }
-  if (("max_ma" %in% colnames(int_key) &
+  if (("max_ma" %in% colnames(int_key) &&
       "min_ma" %in% colnames(int_key)) || is.character(assign_with_GTS)) {
     occdf$interval_mid_ma <- rep(NA_real_, nrow(occdf))
     }
@@ -241,8 +246,8 @@ look_up <- function(occdf, early_interval = "early_interval",
     }
 
   } else { # set assign indices to FALSE in case there is no int_key
-    assign_ind1 <- rep(FALSE,length(early_unique))
-    assign_ind2 <- rep(FALSE,length(late_unique))
+    assign_ind1 <- rep(FALSE, length(early_unique))
+    assign_ind2 <- rep(FALSE, length(late_unique))
   }
 
   #=== Assignment of stages based on GTS2020 ===
@@ -269,9 +274,11 @@ look_up <- function(occdf, early_interval = "early_interval",
 
   # correct error in GTS2012 ### REMOVE ONCE FIXED IN palaeoverse::GTS2012
   if (assign_with_GTS == "GTS2012") {
-    GTS$min_ma[GTS$interval_name == "Upper Ordovician"] <- 443.4 }
+    GTS$min_ma[GTS$interval_name == "Upper Ordovician"] <- 443.4
+    }
   if (assign_with_GTS == "GTS2012") {
-    GTS$min_ma[GTS$interval_name == "Llandovery"] <- 443.4 }
+    GTS$min_ma[GTS$interval_name == "Llandovery"] <- 443.4
+    }
 
   # implement GTS assignment
   if (!is.null(GTS)) {
@@ -373,7 +380,7 @@ look_up <- function(occdf, early_interval = "early_interval",
   if (print_unassigned) {
     unassigned <- c(occdf$early_interval[which(is.na(occdf$early_stage))],
                     occdf$late_interval[which(is.na(occdf$late_stage))])
-    if(length(unassigned >=1)) {
+    if (length(unassigned >=1)) {
       message(
       "The following intervals could not be matched with intervals from int_key
       or GTS:")
