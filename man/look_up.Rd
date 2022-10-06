@@ -36,10 +36,10 @@ This dataframe should contain the following named columns containing
 \item \code{early_stage} contains the names of the earliest stages
 corresponding to the intervals, and \cr
 \item \code{late_stage} contains the latest stage corresponding to the
-intervals. \cr
+intervals \cr
 }
 Optionally, named columns provide maximal and minimal ages for the
-intervals. \cr
+intervals: \cr
 \itemize{
 \item \code{max_ma}
 \item \code{min_ma}
@@ -65,9 +65,11 @@ or GTS2020. A column \code{interval_mid_ma} is appended to provide the midpoint
 age of the interval.
 }
 \description{
-A function to assign fossil occurrences to \href{https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf}{international geological stages} from the
-International Commision on Stratigraphy (ICS)
-or user-defined intervals based on interval names.
+A function that uses interval names to assign either
+\href{https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf}{international geological stages},
+from the International Commission on Stratigraphy (ICS), or
+user-defined intervals, along with associated numerical ages,
+to fossil occurrences.
 }
 \details{
 Instead of  geological stages, the user can supply any names in the
@@ -91,7 +93,7 @@ Kilian Eichenseer & William Gearty
 
 \section{Reviewer(s)}{
 
-Lewis A. Jones
+Lewis A. Jones & Christopher D. Dean
 }
 
 \examples{

@@ -175,7 +175,8 @@
 #' Example dataset: Interval key for the look_up function
 #'
 #' A table of geological intervals and the earliest and latest
-#' corresponding international geological stage. The table was compiled using
+#' corresponding international geological stages from the International
+#' Commission on Stratigraphy (ICS). The table was compiled using
 #' regional stratigraphies, the [Geowhen Database](
 #' https://timescalefoundation.org/resources/geowhen/), temporal
 #' information from the [Paleobiology Database](

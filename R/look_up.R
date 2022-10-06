@@ -1,9 +1,11 @@
 #' Look up geological intervals and assign geological stages
 #'
-#' A function to assign fossil occurrences to [international geological stages](
-#' https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf) from the
-#' International Commision on Stratigraphy (ICS)
-#' or user-defined intervals based on interval names.
+#' A function that uses interval names to assign either
+#' [international geological stages](
+#' https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf),
+#' from the International Commission on Stratigraphy (ICS), or
+#' user-defined intervals, along with associated numerical ages,
+#' to fossil occurrences.
 #'
 #' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
 #' wish to bin, with columns of class \code{character} specifying the earliest
@@ -24,10 +26,10 @@
 #' \item `early_stage` contains the names of the earliest stages
 #' corresponding to the intervals, and \cr
 #' \item `late_stage` contains the latest stage corresponding to the
-#' intervals. \cr
+#' intervals \cr
 #' }
 #' Optionally, named columns provide maximal and minimal ages for the
-#' intervals. \cr
+#' intervals: \cr
 #' \itemize{
 #' \item `max_ma`
 #' \item `min_ma`
@@ -68,7 +70,7 @@
 #' @section Developer(s):
 #' Kilian Eichenseer & William Gearty
 #' @section Reviewer(s):
-#' Lewis A. Jones
+#' Lewis A. Jones & Christopher D. Dean
 #' @examples
 #' # Grab internal tetrapod data
 #' occdf <- tetrapods
