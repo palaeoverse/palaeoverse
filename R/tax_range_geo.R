@@ -91,7 +91,7 @@
 #' @importFrom geosphere areaPolygon
 #' @importFrom grDevices chull
 #' @importFrom geosphere distm distHaversine
-#' @importFrom h3jsr point_to_h3
+#' @importFrom h3jsr point_to_cell
 #' @examples
 #' # Grab internal data
 #' occdf <- tetrapods
@@ -268,7 +268,7 @@ in `occdf`")
       tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
       # Extract cell ID
       cells <- suppressMessages(
-        h3jsr::point_to_h3(tmp[, c(lng, lat)], res = grid$h3_resolution)
+        h3jsr::point_to_cell(tmp[, c(lng, lat)], res = grid$h3_resolution)
       )
       # Calculate number of unique cells occupied
       oc_df$cells[i] <- length(unique(cells))

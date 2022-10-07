@@ -1,4 +1,4 @@
-#' Assign fossil occurrences to time bins
+#' Assign fossil occurrences to latitudinal bins
 #'
 #' A function to assign fossil occurrences to user-specified latitudinal bins.
 #'
