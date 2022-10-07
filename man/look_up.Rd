@@ -10,7 +10,7 @@ look_up(
   late_interval = "late_interval",
   int_key = palaeoverse::interval_key,
   assign_with_GTS = "GTS2020",
-  print_unassigned = TRUE
+  return_unassigned = FALSE
 )
 }
 \arguments{
@@ -34,7 +34,7 @@ This dataframe should contain the following named columns containing
 \itemize{
 \item \code{interval_name} contains the names to be matched from \code{occdf} \cr
 \item \code{early_stage} contains the names of the earliest stages
-corresponding to the intervals, and \cr
+corresponding to the intervals, \cr
 \item \code{late_stage} contains the latest stage corresponding to the
 intervals \cr
 }
@@ -44,15 +44,16 @@ for the intervals: \cr
 \item \code{max_ma}
 \item \code{min_ma}
 }
-Alternatively, this can be set to \code{FALSE} to only assign stages and
-numerical ages using one of the GTS tables (see below).}
+If set to \code{FALSE}, stages and numerical ages can be assigned based on
+one of the GTS tables (see below).}
 
 \item{assign_with_GTS}{\code{character} or \code{FALSE}. Allows intervals to
 be searched in the \code{GTS2020} (default) or the \code{GTS2012} table. Set to
 \code{FALSE} to disable.}
 
-\item{print_unassigned}{\code{logical}. Should interval names which could not
-be assigned printed? Defaults to \code{TRUE}.}
+\item{return_unassigned}{\code{logical}. Return interval names which could not
+be assigned, instead of the dataframe with assignments.
+Defaults to \code{FALSE}.}
 }
 \value{
 A \code{dataframe} of the original input \code{data} with the following
@@ -67,11 +68,14 @@ ages of the intervals.
 \description{
 A function that uses interval names to assign either
 \href{https://stratigraphy.org/ICSchart/ChronostratChart2022-02.pdf}{international geological stages}
-from the International Commission on Stratigraphy (ICS), or
-user-defined intervals, along with associated numerical ages,
-to fossil occurrences.
+and numeric ages from the International Commission on Stratigraphy (ICS), or
+user-defined intervals, to fossil occurrences.
 }
 \details{
+If no 'int_key' is supplied, this function can be used to assign numerical
+ages based on stages from a GTS table, and to assign stages based on
+GTS interval names.
+
 Instead of  geological stages, the user can supply any names in the
 \code{early_stage} and \code{late_stage} column of \code{int_key}.
 \code{assign_with_GTS} should then be set to \code{FALSE}.
@@ -102,6 +106,8 @@ Lewis A. Jones & Christopher D. Dean
 occdf <- tetrapods
 # assign stages and numerical ages
 occdf <- look_up(occdf)
+# return unassigned intervals
+look_up(occdf, return_unassigned = TRUE)
 
 ## Use own key and GTS2012:
 # create example data
@@ -116,8 +122,7 @@ interval_key <- data.frame(
 # assign stages and numerical ages:
 occdf <- look_up(occdf,
 early_interval = "stage", late_interval = "stage",
-int_key = interval_key, assign_with_GTS = "GTS2012",
-print_unassigned = TRUE)
+int_key = interval_key, assign_with_GTS = "GTS2012")
 
 ##  Just use GTS2020 with no int_key in order to assign numerical ages:
 # Get internal tetrapod data

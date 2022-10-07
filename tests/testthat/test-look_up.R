@@ -14,6 +14,9 @@ test_that("look_up() works", {
   expect_equal(nrow(look_up(occdf[1:10, ], assign_with_GTS = "GTS2012")), 10)
   expect_equal(ncol(look_up(occdf[1:10, ], assign_with_GTS = "GTS2012")), 37)
 
+  # check whether unassigned intervals are returned, if required
+  expect_equal(look_up(occdf[1:100, ], return_unassigned = TRUE), "Early Triassic")
+
   # turn off "GTS": stage ages are not returned as not given in interval_key
   expect_equal(ncol(look_up(occdf[1:10, ], assign_with_GTS = FALSE)), 34)
 
@@ -61,7 +64,8 @@ test_that("look_up() works", {
   # check behaviour without int_key
   occdf <- tetrapods[1:10, ]
   expect_equal((look_up(occdf[1:10, ], int_key = FALSE,
-                        assign_with_GTS = "GTS2012"))$early_stage[1:2], c(NA, "Capitanian"))
+                        assign_with_GTS = "GTS2012"))$early_stage[1:2],
+               c(NA, "Capitanian"))
 
   # check error handling
   occdf <- tetrapods[1:10, ]
@@ -74,6 +78,6 @@ test_that("look_up() works", {
                                                      "interval_name"]))
   expect_error(look_up(occdf, int_key = FALSE, assign_with_GTS = FALSE))
 
-  interval_key$max_ma <- rep(1,nrow(interval_key))
+  interval_key$max_ma <- rep(1, nrow(interval_key))
   expect_error(look_up(occdf[1:10, ], int_key = interval_key))
 })
