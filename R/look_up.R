@@ -53,8 +53,9 @@
 #' ages of the intervals.
 #'
 #' @details
-#' If no 'int_key' is supplied, this function can be used to assign numerical
-#' ages based on stages from a GTS table, and to assign stages based on
+#' If `int_key` is set to \code{FALSE}, this function can be used to assign
+#' numerical
+#' ages solely based on stages from a GTS table, and to assign stages based on
 #' GTS interval names.
 #'
 #' Instead of  geological stages, the user can supply any names in the
