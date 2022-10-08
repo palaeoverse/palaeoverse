@@ -51,8 +51,8 @@ one of the GTS tables (see below).}
 be searched in the \code{GTS2020} (default) or the \code{GTS2012} table. Set to
 \code{FALSE} to disable.}
 
-\item{return_unassigned}{\code{logical}. Return interval names which could not
-be assigned, instead of the dataframe with assignments.
+\item{return_unassigned}{\code{logical}. Return interval names which could
+not be assigned, instead of the dataframe with assignments.
 Defaults to \code{FALSE}.}
 }
 \value{

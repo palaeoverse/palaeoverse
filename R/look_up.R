@@ -39,8 +39,8 @@
 #' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
 #' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to
 #' \code{FALSE} to disable.
-#' @param return_unassigned \code{logical}. Return interval names which could not
-#' be assigned, instead of the dataframe with assignments.
+#' @param return_unassigned \code{logical}. Return interval names which could
+#' not be assigned, instead of the dataframe with assignments.
 #' Defaults to \code{FALSE}.
 #'
 #' @return A \code{dataframe} of the original input `data` with the following
@@ -272,8 +272,8 @@ look_up <- function(occdf, early_interval = "early_interval",
                   if (assign_with_GTS == FALSE) {
                     NULL
                   } else {
-                    stop('`assign_with_GTS` needs to be `FALSE`, `GTS2012` or
-                          `GTS2020`')
+                    stop("`assign_with_GTS` needs to be `FALSE`, `GTS2012` or
+                          `GTS2020`")
                   }
                 }
   )
@@ -385,7 +385,7 @@ look_up <- function(occdf, early_interval = "early_interval",
     if (return_unassigned == FALSE && length(unassigned) >= 1) {
       warning(
     c("The following intervals could not be matched with intervals from int_key
-      or GTS: ", paste(unassigned,collapse = ", "))
+      or GTS: ", paste(unassigned, collapse = ", "))
       )
     }
 
