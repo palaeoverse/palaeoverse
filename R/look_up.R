@@ -23,7 +23,7 @@
 #' \itemize{
 #' \item `interval_name` contains the names to be matched from `occdf` \cr
 #' \item `early_stage` contains the names of the earliest stages
-#' corresponding to the intervals, \cr
+#' corresponding to the intervals \cr
 #' \item `late_stage` contains the latest stage corresponding to the
 #' intervals \cr
 #' }
