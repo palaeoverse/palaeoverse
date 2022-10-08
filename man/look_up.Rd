@@ -34,11 +34,11 @@ This dataframe should contain the following named columns containing
 \itemize{
 \item \code{interval_name} contains the names to be matched from \code{occdf} \cr
 \item \code{early_stage} contains the names of the earliest stages
-corresponding to the intervals, \cr
+corresponding to the intervals \cr
 \item \code{late_stage} contains the latest stage corresponding to the
 intervals \cr
 }
-Optionally, named, \code{numeric} columns provide maximum and minimum ages
+Optionally, named \code{numeric} columns provide maximum and minimum ages
 for the intervals: \cr
 \itemize{
 \item \code{max_ma}

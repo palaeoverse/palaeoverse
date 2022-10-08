@@ -27,7 +27,7 @@
 #' \item `late_stage` contains the latest stage corresponding to the
 #' intervals \cr
 #' }
-#' Optionally, named, \code{numeric} columns provide maximum and minimum ages
+#' Optionally, named \code{numeric} columns provide maximum and minimum ages
 #' for the intervals: \cr
 #' \itemize{
 #' \item `max_ma`
