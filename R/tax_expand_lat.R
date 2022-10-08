@@ -27,7 +27,7 @@
 #' a taxon ranges through. The columns are identical to those in the
 #' user-supplied data with additional columns included to identify bins.
 #' @section Developer(s):
-#' Lewis A. Jones & Will Gearty
+#' Lewis A. Jones & William Gearty
 #' @section Reviewer(s):
 #' XXX
 #' @export

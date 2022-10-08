@@ -41,7 +41,7 @@ bin through which the taxon ranges.
 }
 \section{Developer(s)}{
 
-Lewis A. Jones & Will Gearty
+Lewis A. Jones & William Gearty
 }
 
 \section{Reviewer(s)}{
