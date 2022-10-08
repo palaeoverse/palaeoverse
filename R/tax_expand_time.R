@@ -33,7 +33,7 @@
 #'   two additional columns are added to identify in which intervals taxa
 #'   originated and went extinct.
 #' @section Developer(s):
-#'   William Gearty
+#'   William Gearty & Lewis A. Jones
 #' @section Reviewer(s):
 #'   Lewis A. Jones
 #' @export
@@ -41,8 +41,8 @@
 #' taxdf <- data.frame(name = c("A", "B", "C"),
 #'                     max_ma = c(150, 60, 30),
 #'                     min_ma = c(110, 20, 0))
-#' tax_time_expand(taxdf)
-tax_time_expand <- function(
+#' tax_expand_time(taxdf)
+tax_expand_time <- function(
     taxdf,
     max_ma = "max_ma",
     min_ma = "min_ma",
@@ -54,7 +54,7 @@ tax_time_expand <- function(
     stop("`taxdf` should be a dataframe")
   }
 
-  if (!any(c(min_ma, max_ma) %in% colnames(taxdf))) {
+  if (!all(c(min_ma, max_ma) %in% colnames(taxdf))) {
     stop("Either `min_ma` or `max_ma` is not a named column in `taxdf`")
   }
 
