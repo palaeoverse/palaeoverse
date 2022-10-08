@@ -79,5 +79,18 @@ test_that("look_up() works", {
   expect_error(look_up(occdf, int_key = FALSE, assign_with_GTS = FALSE))
 
   interval_key$max_ma <- rep(1, nrow(interval_key))
+  expect_warning(look_up(occdf[1:10, ], int_key = interval_key))
+
+  interval_key$interval_name <- rep(1, nrow(interval_key))
   expect_error(look_up(occdf[1:10, ], int_key = interval_key))
+
+  interval_key$min_ma <- rep("test", nrow(interval_key))
+  expect_error(look_up(occdf[1:10, ], int_key = interval_key))
+
+  interval_key$max_ma <- rep("test", nrow(interval_key))
+  expect_error(look_up(occdf[1:10, ], int_key = interval_key))
+
+  expect_error(look_up(occdf[1:10, ], early_interval = 5))
+
+  expect_error(look_up(occdf[1:10, ], late_interval = 5))
 })
