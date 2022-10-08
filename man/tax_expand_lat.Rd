@@ -2,13 +2,13 @@
 % Please edit documentation in R/tax_expand_lat.R
 \name{tax_expand_lat}
 \alias{tax_expand_lat}
-\title{Generate pseudo-occurrences from latitudinal range through data}
+\title{Generate pseudo-occurrences from latitudinal range data}
 \usage{
 tax_expand_lat(taxdf, bins, max_lat = "max_lat", min_lat = "min_lat")
 }
 \arguments{
-\item{taxdf}{\code{dataframe}. A \code{data.frame} of taxa (such as that
-produced by \code{\link{tax_range_geo}} for the 'lat' method) with columns
+\item{taxdf}{\code{dataframe}. A \code{data.frame} of taxa (such as the
+output of the 'lat' method in \code{\link{tax_range_geo}}) with columns
 containing latitudinal range data (maximum and minimum latitude).
 Each row should represent a unique taxon. Additional columns may be included
 (e.g. taxon names, additional taxonomy, etc) and will be included in the
@@ -28,8 +28,7 @@ treated as the minimum latitude of the latitudinal range (e.g. "min_lat").}
 \value{
 A \code{dataframe} where each row represents a latitudinal bin which
 a taxon ranges through. The columns are identical to those in the
-user-supplied data with additional columns included to identify the
-intervals.
+user-supplied data with additional columns included to identify bins.
 }
 \description{
 A function to generate pseudo-occurrences for taxa based on latitudinal
