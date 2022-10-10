@@ -9,7 +9,9 @@ tax_expand_lat(taxdf, bins, max_lat = "max_lat", min_lat = "min_lat")
 \arguments{
 \item{taxdf}{\code{dataframe}. A \code{data.frame} of taxa (such as the
 output of the 'lat' method in \code{\link{tax_range_geo}}) with columns
-containing latitudinal range data (maximum and minimum latitude).
+containing latitudinal range data (maximum and minimum latitude). Column
+names are assumed to be "max_lat" and "min_lat", but may be updated via the
+\code{max_lat} and \code{min_lat} arguments.
 Each row should represent a unique taxon. Additional columns may be included
 (e.g. taxon names, additional taxonomy, etc) and will be included in the
 returned \code{data.frame}.}
@@ -28,7 +30,8 @@ treated as the minimum latitude of the latitudinal range (e.g. "min_lat").}
 \value{
 A \code{dataframe} where each row represents a latitudinal bin which
 a taxon ranges through. The columns are identical to those in the
-user-supplied data with additional columns included to identify bins.
+user-supplied data with additional columns included to identify bins. Output
+will be returned in the order of supplied bins.
 }
 \description{
 A function to generate pseudo-occurrences for taxa based on latitudinal
@@ -46,7 +49,7 @@ Lewis A. Jones & William Gearty
 
 \section{Reviewer(s)}{
 
-XXX
+Christopher D. Dean
 }
 
 \examples{
@@ -54,5 +57,8 @@ bins <- lat_bins()
 taxdf <- data.frame(name = c("A", "B", "C"),
                     max_lat = c(60, 20, -10),
                     min_lat = c(20, -40, -60))
-tax_expand_lat(taxdf = taxdf, bins = bins)
+tax_expand_lat(taxdf = taxdf,
+               bins = bins,
+               max_lat = "max_lat",
+               min_lat = "min_lat")
 }
