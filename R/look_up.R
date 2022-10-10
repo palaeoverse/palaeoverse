@@ -33,8 +33,8 @@
 #' \item `max_ma`
 #' \item `min_ma`
 #' }
-#' If set to \code{FALSE} (default), stages and numerical ages can be assigned based on
-#' one of the GTS tables (see below).
+#' If set to \code{FALSE} (default), stages and numerical ages can be assigned
+#' based on one of the GTS tables (see below).
 #'
 #' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
 #' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to

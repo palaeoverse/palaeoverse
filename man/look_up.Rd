@@ -44,8 +44,8 @@ for the intervals: \cr
 \item \code{max_ma}
 \item \code{min_ma}
 }
-If set to \code{FALSE} (default), stages and numerical ages can be assigned based on
-one of the GTS tables (see below).}
+If set to \code{FALSE} (default), stages and numerical ages can be assigned
+based on one of the GTS tables (see below).}
 
 \item{assign_with_GTS}{\code{character} or \code{FALSE}. Allows intervals to
 be searched in the \code{GTS2020} (default) or the \code{GTS2012} table. Set to
