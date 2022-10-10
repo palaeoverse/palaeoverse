@@ -64,13 +64,16 @@
     <loc>https://palaeoverse.org/reference/tax_check.html</loc>
   </url>
   <url>
+    <loc>https://palaeoverse.org/reference/tax_expand_lat.html</loc>
+  </url>
+  <url>
+    <loc>https://palaeoverse.org/reference/tax_expand_time.html</loc>
+  </url>
+  <url>
     <loc>https://palaeoverse.org/reference/tax_range_geo.html</loc>
   </url>
   <url>
     <loc>https://palaeoverse.org/reference/tax_range_time.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.org/reference/tax_time_expand.html</loc>
   </url>
   <url>
     <loc>https://palaeoverse.org/reference/tetrapods.html</loc>
