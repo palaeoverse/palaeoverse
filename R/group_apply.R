@@ -6,8 +6,7 @@
 #' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
 #' wish to analyse. This dataframe must contain the necessary variables for
 #' whichever palaeoverse function you wish to run on it.
-#' @param function_name \code{character}. The function you wish to run on the
-#' dataframe.
+#' @param FUN \code{character}. The function you wish to apply to the occdf.
 #' @param variables \code{character}. A vector of column names which split the
 #' occurrences into subgroups.
 #'
@@ -22,14 +21,17 @@
 #' @section Developer(s):
 #' Bethany Allen & William Gearty
 #' @section Reviewer(s):
-#' William Gearty and Lewis A. Jones
+#' Lewis A. Jones
 #' @examples
 #' #Examples
+#' bins <- lat_bins(size = 20)
+#' occdf <- bin_lat(occdf = tetrapods, bins = bins, lat = "lat")
+#'
 #'
 #' @export
-group_apply <- function(occdf, function_name, variables) {
-  form <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
-  lst <- split(tetrapods, f = form, drop = TRUE)
-  results <- do.call(rbind, lapply(lst, function(item) { blah }))
+group_apply <- function(occdf, FUN, variables, ...) {
+  bin_codes <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
+  lst <- split(occdf, f = bin_codes, drop = TRUE)
+  results <- do.call(rbind, lapply(lst, FUN()))
   return(results)
 }
