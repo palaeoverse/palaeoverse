@@ -11,10 +11,10 @@
 #' earliest and the latest possible interval associated with each occurrence.
 #' @param early_interval \code{character}. Name of the column in `occdf` that
 #' contains the earliest interval from which the occurrences are from. Defaults
-#'  to `early_interval`.
+#'  to "early_interval".
 #' @param late_interval \code{character}. Name of the column in `occdf` that
 #' contains the latest interval from which the occurrences are from. Defaults
-#'  to `late_interval`.
+#'  to "late_interval".
 #' @param int_key \code{dataframe}. A dataframe linking interval names to
 #' international geological stage names from the ICS, or other, user-defined
 #' intervals.
@@ -33,8 +33,8 @@
 #' \item `max_ma`
 #' \item `min_ma`
 #' }
-#' If set to \code{FALSE}, stages and numerical ages can be assigned based on
-#' one of the GTS tables (see below).
+#' If set to \code{FALSE} (default), stages and numerical ages can be assigned
+#' based on one of the GTS tables (see below).
 #'
 #' @param assign_with_GTS \code{character} or \code{FALSE}. Allows intervals to
 #' be searched in the `GTS2020` (default) or the `GTS2012` table. Set to
@@ -53,7 +53,7 @@
 #' ages of the intervals.
 #'
 #' @details
-#' If `int_key` is set to \code{FALSE}, this function can be used to assign
+#' If `int_key` is set to \code{FALSE} (default), this function can be used to assign
 #' numerical
 #' ages solely based on stages from a GTS table, and to assign stages based on
 #' GTS interval names.
@@ -78,40 +78,42 @@
 #' @section Reviewer(s):
 #' Lewis A. Jones & Christopher D. Dean
 #' @examples
-#' ## Use the exemplary, default int_key and GTS2020 (default):
+#' ## Just use GTS2020 (default):
+#' # create exemplary dataframe
+#' taxdf <- data.frame(name = c("A", "B", "C"),
+#' early_interval = c("Maastrichtian", "Campanian", "Sinemurian"),
+#' late_interval = c("Maastrichtian", "Campanian", "Bartonian"))
+#' # assign stages and numerical ages
+#' look_up(taxdf)
+#'
+#' ## Use exemplary int_key
 #' # Get internal tetrapod data
 #' occdf <- tetrapods
 #' # assign stages and numerical ages
-#' occdf <- look_up(occdf)
+#' occdf <- look_up(occdf, int_key = palaeoverse::interval_key)
 #' # return unassigned intervals
-#' look_up(occdf, return_unassigned = TRUE)
+#' look_up(occdf, int_key = palaeoverse::interval_key, return_unassigned = TRUE)
 #'
 #' ## Use own key and GTS2012:
 #' # create example data
 #' occdf <- data.frame(
-#'            stage = c("any Permian", "first Permian stage",
-#'                      "any Permian", "Roadian"))
+#'   stage = c("any Permian", "first Permian stage",
+#'             "any Permian", "Roadian"))
 #' # create example key
 #' interval_key <- data.frame(
-#'                   interval_name = c("any Permian", "first Permian stage"),
-#'                   early_stage = c("Asselian", "Asselian"),
-#'                   late_stage = c("Changhsingian", "Asselian"))
+#'   interval_name = c("any Permian", "first Permian stage"),
+#'   early_stage = c("Asselian", "Asselian"),
+#'   late_stage = c("Changhsingian", "Asselian"))
 #' # assign stages and numerical ages:
-#' occdf <- look_up(occdf,
-#' early_interval = "stage", late_interval = "stage",
-#' int_key = interval_key, assign_with_GTS = "GTS2012")
+#' look_up(occdf,
+#'         early_interval = "stage", late_interval = "stage",
+#'         int_key = interval_key, assign_with_GTS = "GTS2012")
 #'
-#' ##  Just use GTS2020 with no int_key in order to assign numerical ages:
-#' # Get internal tetrapod data
-#' occdf <- tetrapods
-#' # assign numerical ages to stages:
-#' occdf <- look_up(occdf,
-#' int_key = FALSE, assign_with_GTS = "GTS2020")
 #'
 #' @export
 look_up <- function(occdf, early_interval = "early_interval",
                     late_interval = "late_interval",
-                    int_key = palaeoverse::interval_key,
+                    int_key = FALSE,
                     assign_with_GTS = "GTS2020",
                     return_unassigned = FALSE) {
 
