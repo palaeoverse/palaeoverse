@@ -20,11 +20,11 @@ earliest and the latest possible interval associated with each occurrence.}
 
 \item{early_interval}{\code{character}. Name of the column in \code{occdf} that
 contains the earliest interval from which the occurrences are from. Defaults
-to \code{early_interval}.}
+to "early_interval".}
 
 \item{late_interval}{\code{character}. Name of the column in \code{occdf} that
 contains the latest interval from which the occurrences are from. Defaults
-to \code{late_interval}.}
+to "late_interval".}
 
 \item{int_key}{\code{dataframe}. A dataframe linking interval names to
 international geological stage names from the ICS, or other, user-defined
@@ -72,7 +72,7 @@ and numeric ages from the International Commission on Stratigraphy (ICS), or
 user-defined intervals, to fossil occurrences.
 }
 \details{
-If \code{int_key} is set to \code{FALSE}, this function can be used to assign
+If \code{int_key} is set to \code{FALSE} (default), this function can be used to assign
 numerical
 ages solely based on stages from a GTS table, and to assign stages based on
 GTS interval names.

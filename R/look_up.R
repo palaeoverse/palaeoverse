@@ -11,10 +11,10 @@
 #' earliest and the latest possible interval associated with each occurrence.
 #' @param early_interval \code{character}. Name of the column in `occdf` that
 #' contains the earliest interval from which the occurrences are from. Defaults
-#'  to `early_interval`.
+#'  to "early_interval".
 #' @param late_interval \code{character}. Name of the column in `occdf` that
 #' contains the latest interval from which the occurrences are from. Defaults
-#'  to `late_interval`.
+#'  to "late_interval".
 #' @param int_key \code{dataframe}. A dataframe linking interval names to
 #' international geological stage names from the ICS, or other, user-defined
 #' intervals.
@@ -53,7 +53,7 @@
 #' ages of the intervals.
 #'
 #' @details
-#' If `int_key` is set to \code{FALSE}, this function can be used to assign
+#' If `int_key` is set to \code{FALSE} (default), this function can be used to assign
 #' numerical
 #' ages solely based on stages from a GTS table, and to assign stages based on
 #' GTS interval names.
