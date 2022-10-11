@@ -18,7 +18,7 @@ to group by (e.g. "collection_no", "stage_bin").}
 \item{fun}{\code{character}. The palaeoverse function you wish to apply to
 \code{df}. See details for compatible functions.}
 
-\item{...}{\code{args}. Additional arguments available in the called
+\item{...}{Additional arguments available in the called
 function. These additional arguments may be required for function arguments
 without default values, or if you wish to overwrite the default argument
 value (see examples).}
