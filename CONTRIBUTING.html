@@ -21,6 +21,12 @@
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/structure-and-standards.html">Contributing to palaeoverse: structure and standards</a>
+  </div>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -42,13 +48,13 @@
     </div>
 
 <div id="contributing-to-palaeoverse" class="section level1">
-<p>At <code>palaeoverse</code> we have adopted a set of <a href="https://github.com/palaeoverse-community/palaeoverse/raw/main/man/tutorials/structure-and-standards.pdf" class="external-link">structures and standards</a> to follow for contributing to the development of <code>palaeoverse</code>. If you would like to contribute to the <code>palaeoverse</code> toolkit, we strongly advise reading this document.</p>
+<p>At <code>palaeoverse</code> we have adopted a set of <a href="https://htmlpreview.github.io/?https://github.com/palaeoverse-community/palaeoverse/blob/903899abbb45a9c1b3242512692e74c65c320a4f/man/tutorials/structure-and-standards.html" class="external-link">structures and standards</a> to follow for contributing to the development of <code>palaeoverse</code>. If you would like to contribute to the <code>palaeoverse</code> toolkit, we strongly advise reading this document.</p>
 <div class="section level2">
 <h2 id="how-to-contribute">How to contribute?<a class="anchor" aria-label="anchor" href="#how-to-contribute"></a></h2>
-<p>You (the contributor) should clone the desired repository (i.e., <a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">the palaeoverse R package</a>) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull request</a> (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation, and unit tests. Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.</p>
+<p>You (the contributor) should clone the desired repository (i.e. <a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">the palaeoverse R package</a>) to your personal computer. Before changes are made, you should switch to a new git branch (i.e. not the main branch). When your changes are complete, you can submit your changes for merging via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull request</a> (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation, and unit tests. Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.</p>
 <div class="section level3">
 <h3 id="minor-changes">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes"></a></h3>
-<p>You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit roxygen2 comments in the .R file, not the .Rd file.</p>
+<p>You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit roxygen2 comments in the <code>.R</code> file, not the <code>.Rd</code> file.</p>
 </div>
 <div class="section level3">
 <h3 id="substantial-changes">Substantial changes<a class="anchor" aria-label="anchor" href="#substantial-changes"></a></h3>
@@ -56,7 +62,7 @@
 </div>
 <div class="section level3">
 <h3 id="pull-request-process">Pull request process<a class="anchor" aria-label="anchor" href="#pull-request-process"></a></h3>
-<p>You (the contributor) should clone the desired repository (i.e., <a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">the palaeoverse R package</a>) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull request</a> (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation (via <code>roxygen2</code>), and unit tests (via <code>testthat</code>). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.</p>
+<p>You (the contributor) should clone the desired repository (i.e. <a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">the palaeoverse R package</a>) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull request</a> (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation (via <code>roxygen2</code>), and unit tests (via <code>testthat</code>). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.</p>
 <p>If you are not comfortable with git/GitHub, you can reach out to one of the core developers (<a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">see collaborators</a>) via email and they can make a pull request on your behalf. However, you will be expected to respond to any reviewer comments on GitHub (see below).</p>
 <p>If you don’t feel comfortable implementing changes yourself, you can submit a bug report or feature request as a GitHub issue in the proper repository (e.g., <a href="https://github.com/palaeoverse-community/palaeoverse/issues" class="external-link">palaeoverse issues</a>).</p>
 </div>
@@ -78,7 +84,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://orcid.org/0000-0002-3092-4314" class="external-link">Sofia Galvan</a>.</p>
+  <p></p><p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://orcid.org/0000-0002-3092-4314" class="external-link">Sofia Galvan</a>, <a href="https://www.mirantakouvari.com" class="external-link">Miranta Kouvari</a>, <a href="https://emmadunne.github.io" class="external-link">Emma M. Dunne</a>, <a href="https://pedrolgodoy.netlify.app" class="external-link">Pedro L. Godoy</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-students/cecily-nicholl" class="external-link">Cecily Nicholl</a>, <a href="https://www.researchgate.net/profile/Lucas-Buffan" class="external-link">Lucas Buffan</a>, <a href="https://erinmdillon.wordpress.com" class="external-link">Erin M. Dillon</a>, Joseph T. Flannery-Sutherland, <a href="https://linktr.ee/AlessandroChiarenza" class="external-link">A. Alessandro Chiarenza</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
