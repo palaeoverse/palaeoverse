@@ -38,7 +38,7 @@ intervals, spatial regions, or trait values.
 }
 \section{Developer(s)}{
 
-Bethany Allen, Lewis A. Jones, & William Gearty
+Lewis A. Jones, Bethany Allen & William Gearty
 }
 
 \section{Reviewer(s)}{

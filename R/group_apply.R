@@ -24,9 +24,10 @@
 #' intervals, spatial regions, or trait values.
 #'
 #' @section Developer(s):
-#' Bethany Allen, Lewis A. Jones, & William Gearty
+#' Lewis A. Jones, Bethany Allen & William Gearty
 #' @section Reviewer(s):
 #' XXX
+#' @importFrom stats as.formula
 #' @examples
 #' # Examples
 #' # Get tetrapods data
@@ -47,7 +48,7 @@
 #' @export
 group_apply <- function(df, group, fun, ...) {
   # Handle errors
-  if (is.data.frame(df) == FALSE) {
+  if (!is.data.frame(df)) {
     stop("`df` should be a dataframe")
   }
 
@@ -61,7 +62,7 @@ group_apply <- function(df, group, fun, ...) {
   # Generate bin codes
   bin_codes <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
   # Split dataframe
-  lst <- split(occdf, f = bin_codes, drop = TRUE)
+  lst <- split(df, f = bin_codes, drop = TRUE)
   # Apply function
   results <- do.call(rbind, lapply(lst, fun))
   # Get row names (groups)
