@@ -10,7 +10,8 @@
 #' documentation for required columns).
 #' @param group \code{character}. A vector of the column name(s) you wish
 #' to group by (e.g. "collection_no", "stage_bin").
-#' @param fun \code{character}. The function you wish to apply to `df`.
+#' @param fun \code{character}. The palaeoverse function you wish to apply to
+#' `df`. See details for compatible functions.
 #' @param ... \code{args}. Additional arguments available in the called
 #' function. These additional arguments may be required for function arguments
 #' without default values, or if you wish to overwrite the default argument
@@ -32,7 +33,7 @@
 #' grouping variable.
 #' - \code{\link{tax_range_geo}}: return the geographic range of taxa per
 #' grouping variable.
-#' - \code{\link{tax_check}}: return to potential spelling variations of the
+#' - \code{\link{tax_check}}: return potential spelling variations of the
 #' same taxon per grouping variable. Note: `verbose` should be set to FALSE.
 #'
 #'
