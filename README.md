@@ -33,11 +33,11 @@ devtools::install_github("palaeoverse-community/palaeoverse")
 ```
 
 # How to contribute?
-If you are interested in contributing to the `palaeoverse` R package, you can do so by following these [guidelines](https://github.com/palaeoverse-community/palaeoverse/blob/907a8ea07192e39d34f6edfdec8b2920b3b53ee0/CONTRIBUTING.md). We have also adopted a set of [standards and structure](https://htmlpreview.github.io/?https://github.com/palaeoverse-community/palaeoverse/blob/903899abbb45a9c1b3242512692e74c65c320a4f/man/tutorials/structure-and-standards.html) to follow for contributing to the project. If you would like to contribute to `palaeoverse`, we strongly advise reading this document.
+If you are interested in contributing to the `palaeoverse` R package, you can do so by following these [guidelines](https://palaeoverse.org/CONTRIBUTING.html). We have also adopted a set of [standards and structure](https://palaeoverse.org/articles/structure-and-standards.html) to follow for contributing to the project. If you would like to contribute to `palaeoverse`, we strongly advise reading this document.
 
 # Code of Conduct
 
-As with any community project, society, or meeting we feel it is important to established some expectations of behaviour in the `palaeoverse` community. Please read our [code of conduct](https://github.com/palaeoverse-community/palaeoverse/blob/main/CODE_OF_CONDUCT.md), and reach out if you ever face any issues. Everyone has the right to live and work in a harassment-free environment.
+As with any community project, society, or meeting we feel it is important to established some expectations of behaviour in the `palaeoverse` community. Please read our [code of conduct](https://palaeoverse.org/CODE_OF_CONDUCT.html), and reach out if you ever face any issues. Everyone has the right to live and work in a harassment-free environment.
 
 <p align="left">
 

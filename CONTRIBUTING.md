@@ -1,6 +1,6 @@
 # Contributing to palaeoverse
 
-At `palaeoverse` we have adopted a set of [structures and standards](https://htmlpreview.github.io/?https://github.com/palaeoverse-community/palaeoverse/blob/903899abbb45a9c1b3242512692e74c65c320a4f/man/tutorials/structure-and-standards.html) to follow for contributing to the development of `palaeoverse`. If you would like to contribute to the `palaeoverse` toolkit, we strongly advise reading this document.
+At `palaeoverse` we have adopted a set of [structures and standards]https://palaeoverse.org/articles/structure-and-standards.html) to follow for contributing to the development of `palaeoverse`. If you would like to contribute to the `palaeoverse` toolkit, we strongly advise reading this document.
 
 ## How to contribute?
 
@@ -8,7 +8,7 @@ You (the contributor) should clone the desired repository (i.e. [the palaeoverse
 
 ### Minor changes
 
-You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit roxygen2 comments in the `.R` file, not the `.Rd` file.
+You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit `roxygen2` comments in the `.R` file, not the `.Rd` file.
 
 ### Substantial changes
 
