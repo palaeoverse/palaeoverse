@@ -159,7 +159,7 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   #Substitute labels used in PBDB downloads
   occdf$family <- gsub("NO_FAMILY_SPECIFIED", NA, occdf$family)
 
-  if(!is.null(order)) {
+  if (!is.null(order)) {
     occdf$order <- gsub("NO_ORDER_SPECIFIED", NA, occdf$order)
   }
 
@@ -202,11 +202,10 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
 
 #Run function
   genus_species <- NULL
-  category <- NULL
   occurrences <- subset(occdf, select = c(binomial, species, genus, family,
                                           order, class, names))
 
-  if (!is.null(names)){
+  if (!is.null(names)) {
     #If name is not a binomial, replace with NA
     occurrences$names[grep(" ", occurrences$names, invert = TRUE)] <- NA
 
@@ -219,6 +218,11 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     #Rename column
     colnames(occurrences)[colnames(occurrences) == "binomial"] <-
       "genus_species"
+
+    #If no 'genus' column is given, make one
+    if (is.null(genus)) {
+      occurrences$genus <- sub(" .*", "", occurrences$genus_species)
+    }
   }
 
   if (!is.null(species)) {
@@ -290,11 +294,11 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   #Produce column with unique taxon names
   if (resolution == "species") {
     to_retain$unique_names <- to_retain$genus_species
-  } else
+  } else {
     to_retain$unique_names <- NA
+  }
 
-
-  for (i in 1:nrow(to_retain)) {
+  for (i in 1:seq_len(nrow(to_retain))) {
     if (is.na(to_retain$unique_names[i])) {
       if (!is.na(to_retain$genus[i])) {
       to_retain$unique_names[i] <- paste(to_retain$genus[i], "sp.")
@@ -317,8 +321,7 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     if (!is.null(order)) {
       to_retain <- to_retain[, c("order", "family", "genus", "genus_species",
                                 "unique_names")]
-    } else
-    {
+    } else {
       to_retain <- to_retain[, c("family", "genus", "genus_species",
                                "unique_names")]
     }
@@ -331,8 +334,7 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     } else
       if (!is.null(order)) {
         to_retain <- to_retain[, c("order", "family", "genus", "unique_names")]
-    } else
-      {
+    } else {
         to_retain <- to_retain[, c("family", "genus", "unique_names")]
       }
   }

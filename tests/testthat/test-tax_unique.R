@@ -33,8 +33,13 @@ test_that("tax_unique() works", {
                                class = "class")), 4)
 
   #expect true
-  expect_true(is.data.frame(tax_unique(occdf = tetrapods)))
-  expect_true(is.data.frame(tax_unique(occdf = dinosaurs)))
+  expect_true(is.data.frame(tax_unique(occdf = tetrapods, genus = "genus",
+                                       family = "family", order = "order",
+                                       class = "class", names =
+                                         "accepted_name")))
+  expect_true(is.data.frame(tax_unique(occdf = dinosaurs, species = "species",
+                                       genus = "genus", family = "family",
+                                       order = "order", class = "class")))
 
   #expect error
   expect_error(tax_unique(species = "species", genus = "genus"))
