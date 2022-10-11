@@ -1,7 +1,8 @@
 #' Apply a function over grouping(s) of data
 #'
 #' A function to apply palaeoverse functionality across subsets (groups) of
-#' data, delineated using one or more variables.
+#' data, delineated using one or more variables. See details for compatible
+#' functions.
 #'
 #' @param df \code{dataframe}. A dataframe of the fossil data you
 #' wish to analyse. This dataframe must contain the necessary variables for
@@ -22,6 +23,13 @@
 #' palaeoverse functions on various groupings of data. For example,
 #' this enables the separate analysis of occurrences from different time
 #' intervals, spatial regions, or trait values.
+#' \cr
+#' \cr
+#' Available compatible `palaeoverse` functions:
+#' - \code{\link{tax_unique}}
+#' - \code{\link{tax_range_time}}
+#' - \code{\link{tax_range_geo}}
+#'
 #'
 #' @section Developer(s):
 #' Lewis A. Jones, Bethany Allen & William Gearty
