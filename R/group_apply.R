@@ -12,7 +12,7 @@
 #' to group by (e.g. "collection_no", "stage_bin").
 #' @param fun \code{character}. The palaeoverse function you wish to apply to
 #' `df`. See details for compatible functions.
-#' @param ... \code{args}. Additional arguments available in the called
+#' @param ... Additional arguments available in the called
 #' function. These additional arguments may be required for function arguments
 #' without default values, or if you wish to overwrite the default argument
 #' value (see examples).
