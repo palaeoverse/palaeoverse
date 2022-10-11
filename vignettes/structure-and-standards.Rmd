@@ -1,27 +1,21 @@
 ---
-title: |
-  **Introduction to palaeoverse:**
-  <br>  
-  **structure and standards**
-author: |
-  ![](figures/hexlogo){width=10cm}  
-  <br>  
-  <br>  
-  **Authors:** Lewis A. Jones, William Gearty, Kilian Eichenseer, and Bethany Allen
-  <br>  
-  <br>  
-  **Reviewed by:** Christopher D. Dean and Sofía Galván
-date: "Last updated: `r format(Sys.time(), '%d %B, %Y')`"
-output:
-  pdf_document:
-    number_sections: true
-urlcolor: blue
+title: "Contributing to palaeoverse: structure and standards"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Contributing to palaeoverse: structure and standards}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
+
+<img src="https://github.com/palaeoverse-community/palaeoverse/raw/main/man/figures/logo.png" align="center" width="120" />
+
 \newpage
+
+<div style="text-align: justify"> 
 
 # Introduction
 
-The `palaeoverse` *R* package is a community-driven software library providing generic tools for palaeobiological analysis. The core principles of palaeoverse are to: (1) streamline analyses, (2) enhance code readability, and (3) improve reproducibility of results.
+The `palaeoverse` R package is a community-driven software library providing generic tools for palaeobiological analysis. The core principles of palaeoverse are to: (1) streamline analyses, (2) enhance code readability, and (3) improve reproducibility of results.
 
 This document describes the essential structure and conventions of the `palaeoverse` R package. Naturally, there are always disagreements regarding best practices and conventions, and `palaeoverse` is no exception. Despite this, all the essentials in `palaeoverse` are encouraged to make the lives of both the developer, and the user, easier. It is worth noting that the core structure and conventions adopted in `palaeoverse` are heavily influenced by Hadley Wickham and Jenny Bryan's [R Packages](https://r-pkgs.org/index.html) and the [tidyverse style guide](https://style.tidyverse.org/index.html), which is currently also Google's guide.  
 <br>
@@ -52,19 +46,19 @@ We recommend using the following conventions to make your code easier for us (an
 
 **Assigning:** use arrows (<-) rather than equals sign to assign.
 
-**Comments:** please explain your processes comprehensively using comments (#), as this will help us to understand your intentions and to proof-read the code.
+**Comments:** please explain your code comprehensively using comments (#) as this will help us to understand your intentions and to review the code.
 
-**Packages:** please use as few external packages (i.e. dependencies) as possible, as the package is more likely to break when alterations are made to these; if your code uses packages, load them all at the start of the script. This is more transparent for the user than having various packages sprinkled throughout the code.
+**Packages:** please use as few external packages (i.e. dependencies) as possible, as the package is more likely to break when alterations are made to these; if your code uses packages, load them all at the start of the script (i.e. in tutorials or examples). This is more transparent for the user than having various packages sprinkled throughout the code.
 
 **Progress:** if your code may take a long time to run (more than a minute), include a progress bar such as `'txtProgressBar()'` in your function.
 
-**Sections:** use lines of '-' or '=' to indicate section breaks. It is hard to provide exact details on how long a section break should be. However, we tend to think of them as paragraphs in our code. **Tip:** In RStudio, you can use `'# SECTION NAME ###'` to make a section which is interpreted by the outline feature. You can also make subsections by adding more `'#"` before the section name.
+**Sections:** use lines of '-' or '=' to indicate section breaks. It is hard to provide exact details on how long a section break should be. However, we tend to think of them as paragraphs in our code. **Tip:** In RStudio, you can use `'# SECTION NAME ###'` to make a section which is interpreted by the outline feature. You can also make subsections by adding more `'#"` before the section name. If you are using RStudio, you can also use the keyboard shortcut `cmd + shift + r`.
 
 **Spacing:** add spaces to your code to make it more human-readable.
 
 **Objects:** use object names that are short but relevant to their contents, ideally in 'lowercase snake_case'.
 
-**Wrapping:** break long commands into multiple lines, conventionally no line should be longer than ~75 characters.
+**Wrapping:** break long commands into multiple lines, conventionally no line should be longer than ~75--80 characters.
 
 **Language:** use plain English (British spelling preferred, but not required) for your code and documentation.
 
@@ -79,20 +73,20 @@ y <- x + 1
 ```
 
 # Data
-Often we will want to include data in palaeoverse. This might come in the form of example datasets for testing functions (e.g. fossil occurrences), reference datasets such as the Geological Timescale 2020, or even data that is fundamental for a function to run. In palaeoverse's structure, we currently recognize four main ways of including data in the package depending on its usage.
+Often we might want to include data into palaeoverse. This might come in the form of example datasets for testing functions (e.g. fossil occurrences), reference datasets such as the Geological Timescale 2020, or even data that is fundamental for a function to run. In palaeoverse's structure, we currently recognize four main ways of including data in the package depending on its usage.
 
 - Raw data
 - Internal data
 - Exported data
 - External data (preferred option)
 
-However, for the sake of file size efficiency, please only include data and variables in your files which will be used by your function. **Note:** in order to be released on CRAN, R packages must be less than 5 MB in size. Please only include data that is absolutely vital for your function. The preferred solution to including data into palaeoverse functions is calling the data via an API or download URL (i.e. external data). We have our own data repository for including data, so please get in touch if you want to include data. 
+However, for the sake of file size efficiency, please only include data and variables in your files which will be used by your function. **Note:** in order to be released on CRAN, R packages must be less than 5 MB in size. Please only include data that is absolutely vital for your function. The preferred solution to including data into palaeoverse functions is calling the data via an API or download URL (i.e. external data).
 
 ## Raw data
-Raw data should always be included in `inst/extdata`. If you want to include cleaned data in `data/`, it is generally a good idea to include the code used to process the raw data. If you ever need to reproduce or update your cleaned data, this will save you precious time. The code for processing your data should be included in `data-raw/`. Strictly speaking, raw data does not need to be documented. However, it is a good idea to include the original source and version (including a download date) in your code.
+Raw data should always be included in `inst/extdata`. If you want to include cleaned/processed data in `data/`, it is generally a good idea to include the code used to process the raw data. If you ever need to reproduce or update your cleaned data, this will save you precious time. The code for processing your data should be included in `data-raw/`. Strictly speaking, raw data does not need to be documented. However, it is a good idea to include the original source and version (including a download date) in your code.
 
 ## Internal data
-Data you do not wish to directly make available to the user should be saved as `R/sysdata.rda`. This is the best option for pre-computed data tables that are needed for a function to run. Strictly speaking raw data does not need to be documented. However, it is a good idea to document the internal data in the function documentation. 
+Data you do not wish to directly make available to the user should be saved as `R/sysdata.rda`. This is the best option for pre-computed data tables that are needed for a function to run. Strictly speaking internal data does not need to be documented. However, it is a good idea to document the internal data in the function documentation. 
 
 ## Exported data
 Package data you wish to make available to the user should be stored in `data/`. Each file in this directory should be either a `'.rda'` or `'.RData'`. This file type is fast, small and explicit. The most appropriate way to include exported data is to use `usethis::use_data()`.
@@ -100,17 +94,14 @@ Package data you wish to make available to the user should be stored in `data/`.
 When using large datasets, we want to ensure that our files are not bloated and taking up too much space on our users' machines. As such, you may want to experiment with the compression settings in `usethis::use_data()`. Generally, `xz` and `gzip` can create smaller files than the default `bzip2`. You can also implement several 'hacks' to generate smaller files which you may want to consider for large datasets (depending on whether your data is sensitive to such changes). Data with many decimal places consume a lot of memory, consider how many significant figures are relevant for your data, and `round()` accordingly. You can also experiment with your file size by multiplying your data by X (e.g. 1,000) to remove decimal places altogether. **Note:** Remember to undo any transformations when calling or working with the data.
 
 ## External data
-External data is the preferred approach for contributors to include data into `palaeoverse` and will be required in almost all cases. This is to ensure that the package does not become unnecessary bloated to all users when the data can just be called by a download link. Currently, external data are stored on a private Dropbox account. It is likely that in the future this will be migrated elsewhere but for all intent and purposes, Dropbox does a good job for now. If you wish to include external data, please get in touch with one of the palaeoverse developers, and we can store it on the Dropbox account and provide a static link.
+External data is the preferred approach for contributors to include data into `palaeoverse` and will be required in almost all cases. This is to ensure that the package does not become unnecessary bloated to all users when the data can just be called by a download link. Currently, external data are stored on a GitHub repo (reconstruction files for `palaeorotate`). It is likely that in the future this will be migrated elsewhere as GitHub is not a data repository (hopefully a dedicated server when funding allows!). If you wish to include external data, please get in touch with one of the palaeoverse developers, and we can discuss what might be the best solution.
 
 ```{r download, include = TRUE, eval = FALSE}
 #generate temp directory
 files <- tempdir()
-
 #download files
-download.file(url = "www.myfiles.com", destfile = paste0(files, "/my-download.csv"))
-
+download.file(url = "www.goo.com", destfile = paste0(files, "/mgoo.csv"))
 #run some kind function using the download
-
 #REMEMBER: remove downloaded files
 unlink(x = paste0(files, "/", list.files(files)))
 ```
@@ -176,13 +167,13 @@ Functions are saved as `'.R'` files in the `'R'` folder. The name of the file ne
 ```
 Add the `'@export'` namespace tag to make the function available.
 
-To get started with `roxygen2`, set your working directory to your package directory, or to the directory where you store your function as a `'.R'` file. The R command `devtools::document()` creates a 'man' folder in the directory, which contains a `'.Rd'` file corresponding to your documented function. Opening that file in RStudio, you can create a preview to see what the documentation looks like. After you have implemented changes, rebuild your documentation file with Ctrl+Shift+B or `devtools::document()`.
+To get started with `roxygen2`, set your working directory to the package directory, or to the directory where you store your function as a `'.R'` file. The R command `devtools::document()` creates a 'man' folder in the directory, which contains a `'.Rd'` file corresponding to your documented function. Opening that file in RStudio, you can create a preview to see what the documentation looks like. After you have implemented changes, rebuild your documentation file with Ctrl+Shift+B or `devtools::document()`.
 
 ## Efficiency
 When possible, you should make coding decisions which will ensure that your code is maximally efficient - this could make a big difference to users who want to apply your function to a large dataset. A few general examples include:
 
-- Using functions from the `'apply'` family rather than for-loops
-- Storing objects as lists, or lists of lists, rather than data frames
+- Using functions from the `'apply'` family can be faster than for-loops. However, a for-loop is almost always more reader-friendly, so try to balance the two!
+- Storing objects as lists, or lists of lists, rather than data frames inside functions
 - Vectorise, when possible
 - Avoiding using `rbind()` and `cbind()` to compile objects row-wise or column-wise within for-loops; specifying the row or column number using the iteration number is usually a faster alternative.
 
@@ -201,8 +192,10 @@ Examples of error messages include
 To implement error messages in R, the `stop()` function can be used: 
 
 ```{r error, include = TRUE, eval = FALSE}
-#generate error message
-if(!is.numeric(x)) stop("Error: 'x' must be a numeric vector.")
+# Generate error message
+if (!is.numeric(x)) {
+  stop("Error: 'x' must be a numeric vector.")
+}
 ```
 
 ## Warning messages
@@ -211,8 +204,10 @@ In general, we try to minimise the use of warning messages in `palaeoverse` as t
 To implement warning messages in R, the `warning()` function can be used:
 
 ```{r warning, include = TRUE, eval = FALSE}
-#generate error message
-if(!is.numeric(x)) warning("Warning: 'x' must be a numeric vector.")
+# Generate warning message
+if (!is.numeric(x)) {
+  warning("Warning: 'x' must be a numeric vector.")
+}
 ```
 
 ## Tests
@@ -231,10 +226,10 @@ Make sure to create enough tests within your `.R` file to cover all of the possi
 
 Related tests should be bundled within `test_that()` calls combined with strings of text to identify the broad reason for each bundle of tests (e.g., testing a function works with a particular type of data). Finally, if tests rely on data or packages outside of the `palaeoverse` community must have, they should be skipped if those data or packages are not available.
 
-Ultimately, we aim to have >90% code coverage, which means 90% of the lines of code in our codebase should be tested by at least one test. Pushing code to GitHub will trigger a code coverage check, which will alert you as to whether you need to write more tests.
+Ultimately, we aim to have >90% code coverage (95% preferred), which means 90% of the lines of code in our codebase should be tested by at least one test. Pushing code to GitHub will trigger a code coverage check, which will alert you as to whether you need to write more tests.
 
 ```{r test, include = TRUE, eval = FALSE}
-#test expected outcome is equal to actual outcome
+# Test expected outcome is equal to actual outcome
 test_that("time_bins() works", {
   expect_equal(nrow(time_bins(interval = c("Maastrichtian"))), 1)
 })
@@ -247,19 +242,32 @@ We use git via Github [(**palaeoverse-community**)](https://github.com/palaeover
 
 - [Setting up git within RStudio (short)](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)
 - [Collaborating in R with git and GitHub (50 min. youtube video)](https://www.youtube.com/watch?v=megZYkCLMA4)
-- [Git and GitHub and R packages (medium length)](https://r-pkgs.org/git.html)
+- [Git and GitHub and R packages (medium length)](https://rfortherestofus.com/2021/02/how-to-use-git-github-with-r/)
 - [A comprehensive guide to git and R (very long)](https://happygitwithr.com/)
 
 ## How to contribute?
-You (the contributor) should clone the desired repository (i.e. [the palaeoverse R package](https://github.com/palaeoverse-community/palaeoverse)) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation, and unit tests. Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.
 
-If you are not comfortable with git/GitHub, you can reach out to one of the core developers ([see collaborators](https://github.com/palaeoverse-community/palaeoverse)) via email and they can make a pull request on your behalf. However, you will be expected to respond to any review comments on GitHub (see below).
+### Minor changes
 
-If you don't feel comfortable implementing changes yourself, you can submit a bug report or feature request as a GitHub issue in the proper repository (e.g., [palaeoverse issues](https://github.com/palaeoverse-community/palaeoverse/issues)).
+You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit roxygen2 comments in the `.R` file, not the `.Rd` file.
+
+### Substantial changes
+
+If you would like to make a substantial change, you should first file an issue and make sure someone from the development team agrees that it’s needed. If you’ve found a bug, please file an issue that illustrates the bug with a reproducible example.
+
+### Pull request process
+
+You (the contributor) should clone the desired repository (i.e. [the palaeoverse R package](https://github.com/palaeoverse-community/palaeoverse)) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation (via `roxygen2`), and unit tests (via `testthat`). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.
+
+If you are not comfortable with git/GitHub, you can reach out to one of the core developers ([see collaborators](https://github.com/palaeoverse-community/palaeoverse)) via email and they can make a pull request on your behalf. However, you will be expected to respond to any reviewer comments on GitHub (see below).
+
+If you don't feel comfortable implementing changes yourself, you can submit a bug report or feature request as a GitHub issue in the proper repository (e.g. [palaeoverse issues](https://github.com/palaeoverse-community/palaeoverse/issues)).
 
 ## Code review
-All pull requests must be reviewed by two core developers of palaeoverse ([see collaborators](https://github.com/palaeoverse-community/palaeoverse)) before merging. The review process will ensure that contributions 1) meet the standards and expectations as described above, 2) successfully perform the functions that they claim to perform, and 3) don't break any other parts of the codebase.
+All pull requests must be reviewed by two core developers of `palaeoverse` ([see collaborators](https://github.com/palaeoverse-community/palaeoverse)) before merging. The review process will ensure that contributions 1) meet the standards and expectations as described above, 2) successfully perform the functions that they claim to perform, and 3) don't break any other parts of the codebase.
 
-Submitting a pull request for one of the palaeoverse R packages will automatically initiate an [R CMD check](https://r-pkgs.org/r-cmd-check.html), [lintr check](https://lintr.r-lib.org/index.html), and [test coverage check](https://github.com/r-lib/covr) via GitHub Actions. While these checks will conduct some automatic review to ensure the package has not been broken by the new code and that the code matches the style guide (see above), a manual review is still required before the pull request can be merged.
+Submitting a pull request to the `palaeoverse` package will automatically initiate an [R CMD check](https://r-pkgs.org/r-cmd-check.html), [lintr check](https://lintr.r-lib.org/index.html), and [test coverage check](https://github.com/r-lib/covr) via GitHub Actions. While these checks will conduct some automatic review to ensure the package has not been broken by the new code and that the code matches the style guide (see above), a manual review is still required before the pull request can be merged.
 
 Reviewers may have questions while reviewing your pull request. You are expected to respond to any of these questions via GitHub. If fixes and/or changes are required, you are expected to make these changes. If the required changes are minor enough, reviewers may make them for you, but this should not be expected. If you have any questions or lack the background to make the required changes, you should work with the reviewer to determine a plan of attack.
+
+</div>
