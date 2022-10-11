@@ -5,53 +5,62 @@
 \title{Filter occurrences to unique taxa}
 \usage{
 tax_unique(
-  paleobioDB = NULL,
+  occdf = NULL,
+  binomial = NULL,
   species = NULL,
   genus = NULL,
   family = NULL,
   order = NULL,
   class = NULL,
-  resolution = "species",
-  group = NULL
+  names = NULL,
+  resolution = "species"
 )
 }
 \arguments{
-\item{paleobioDB}{\code{dataframe}. A dataframe of taxonomic occurrences
-downloaded directly from the Paleobiology Database. The dataframe must
-include the following columns: class, order, family, genus, accepted_name.}
+\item{occdf}{\code{dataframe}. A dataframe containing information on the
+occurrences or taxa to filter.}
 
-\item{species}{\code{character}. A vector of species names.}
+\item{binomial}{\code{character}. The name of the column in the dataframe
+containing the genus and species names of the occurrences, either in the
+form "genus species" or "genus_species".}
 
-\item{genus}{\code{character}. A vector of genus names.}
+\item{species}{\code{character}. The name of the column in the dataframe
+containing the species-level identifications.}
 
-\item{family}{\code{character}. A vector of family names.}
+\item{genus}{\code{character}. The name of the column in the data frame
+containing the genus-level identifications.}
 
-\item{order}{\code{character}. A vector of order names.}
+\item{family}{\code{character}. The name of the column in the data frame
+containing the family-level identifications.}
 
-\item{class}{\code{character}. A vector of class names.}
+\item{order}{\code{character}. The name of the column in the data frame
+containing the order-level identifications.}
+
+\item{class}{\code{character}. The name of the column in the data frame
+containing the class-level identifications.}
+
+\item{names}{\code{character}. The name of the column in the data frame
+containing the taxonomic names at mixed taxonomic levels; the data column
+"accepted_names" in a Paleobiology Database download is of this type.}
 
 \item{resolution}{\code{character}. The taxonomic resolution at which to
 identify unique occurrences, either species (the default) or genus.}
-
-\item{group}{\code{numeric, character}. A category within which to determine
-unique taxa. When using \code{paleobioDB}, this should specify the
-column within the dataframe to use as the category. When using individual
-taxonomic vectors, this should be an additional vector of numbers or
-character-based labels designating which category each occurrence belongs to.}
 }
 \value{
-A \code{dataframe} of unique taxa, with row numbers corresponding to
-the original dataset.
+A \code{dataframe} of taxa, with each row corresponding to a unique
+"species" or "genus" in the dataset (depending on the chosen resolution).
+The dataframe will include the taxonomic information provided into the
+function, as well as a column providing the 'unique' names of each taxon.
 }
 \description{
 A function to filter a list of taxonomic occurrences to unique taxa of a
 predefined resolution.
 }
 \details{
-In many cases palaeobiologists achieve count unique taxa by
-retaining only unique occurrences identified to the given taxonomic
-resolution, however here we also retain occurrences identified to a coarser
-resolution which are not already represented within the dataset.
+In many cases palaeobiologists count unique taxa by retaining only
+unique occurrences identified to the given taxonomic resolution, however
+here we also retain occurrences identified to a coarser resolution which are
+not already represented within the dataset.
 If we take the following set of occurrences:
 Albertosaurus sarcophagus
 Ankylosaurus sp.
@@ -66,15 +75,21 @@ each of the indeterminately identified occurrences represents at least one
 species not already represented in the dataset. This function is designed to
 deal with such taxonomic data, and would retain all seven 'species' in this
 dataset.
-Data can be supplied in one of two forms, either a dataframe containing
-standard occurrence data from the Paleobiology Database, or a series of
-vectors which each describe a different taxonomic level for a set of
-occurrences (the order of names in the vectors must correspond). At a
-minimum, species, genus, and family vectors must be supplied. Occurrence
-data can be filtered to retain either unique species or unique genera, and
-can be defined as unique either across the whole dataset or within set
-categories (e.g. temporal intervals, spatial bins). Missing data should be
-indicated with NAs.
+Taxonomic information is supplied within a dataframe, in which columns
+provide identifications at different taxonomic levels. Occurrence
+data can be filtered to retain either unique species or unique genera. If a
+species-level filter is desired, the minimum input is for either 'binomial',
+'species' and 'genus', or 'names' and 'genus' columns to be entered, as well
+as a 'family' column. In a standard Paleobiology Database dataframe, species
+information is only captured in the 'accepted_name' column, so a species-
+level filter should use 'genus = 'genus'' and 'names = 'accepted_name''
+arguments.If a genus-level filter is desired, the minimum input is for
+either 'binomial' or 'genus' columns to be entered, as well as a 'family'
+column.
+Missing data should be indicated with NAs, although the function can handle
+the e.g. "NO_FAMILY_SPECIFIED" labels within Paleobiology Database datasets.
+The function matches taxonomic names at increasingly higher taxonomic levels,
+so homonyms may be falsely filtered out.
 }
 \section{Developer(s)}{
 
@@ -88,15 +103,18 @@ Lewis A. Jones and William Gearty
 
 \examples{
 #Retain unique species
-tax_unique(paleobioDB = tetrapods)
-tax_unique(species = c("rex", "aegyptiacus", NA),
-           genus = c("Tyrannosaurus", "Spinosaurus", NA),
-           family = c("Tyrannosauridae", "Spinosauridae", "Diplodocidae"))
+tax_unique(occdf = tetrapods, genus = "genus", family = "family", order =
+"order", class = "class", names = "accepted_name")
 
 #Retain unique genera
-tax_unique(paleobioDB = tetrapods, resolution = "genus")
+tax_unique(occdf = tetrapods, genus = "genus", family = "family", order =
+"order", class = "class", resolution = "genus")
 
-#Retain unique species within each country
-tax_unique(paleobioDB = tetrapods, group = "cc")
+#Create dataframe from lists
+occdf <- data.frame(c("rex", "aegyptiacus", NA), c("Tyrannosaurus",
+"Spinosaurus", NA), c("Tyrannosauridae", "Spinosauridae", "Diplodocidae"))
+colnames(occdf) <- c("species", "genus", "family")
+tax_unique(occdf = occdf, species = "species", genus = "genus", family =
+"family")
 
 }

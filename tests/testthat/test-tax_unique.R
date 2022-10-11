@@ -1,65 +1,50 @@
 test_that("tax_unique() works", {
   data(tetrapods)
+  dinosaurs <- data.frame(c("rex", "aegyptiacus", NA, NA, "rex"),
+                          c("Tyrannosaurus", "Spinosaurus", NA, NA,
+                          "Tyrannosaurus"), c("Tyrannosaurus rex",
+                          "Spinosaurus aegyptiacus", NA, NA,
+                          "Tyrannosaurus rex"), c("Tyrannosauridae",
+                          "Spinosauridae", "Diplodocidae", NA,
+                          "Tyrannosauridae"), c("Coelurosauria", "Orionides",
+                          NA, NA, "Coelurosauria"), c("Tetanurae", "Tetanurae",
+                          NA, "Neosauropoda", "Tetanurae"))
+  colnames(dinosaurs) <- c("species", "genus", "binomial", "family", "order",
+                           "class")
 
   #expect equal
-  expect_equal(ncol(tax_unique(paleobioDB = tetrapods)), 5)
-  expect_equal(ncol(tax_unique(species = c("rex", "aegyptiacus"),
-                          genus = c("Tyrannosaurus", "Spinosaurus"),
-                          family = c("Tyrannosauridae", "Spinosauridae"))), 4)
-  expect_equal(ncol(tax_unique(species = c("rex", "aegyptiacus"),
-                               genus = c("Tyrannosaurus", "Spinosaurus"),
-                               family = c("Tyrannosauridae", "Spinosauridae"),
-                               order = c("Coelurosauria", "Orionides"),
-                               class = c("Tetanurae", "Tetanurae"))), 6)
-  expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", NA),
-                          genus = c("Tyrannosaurus", "Spinosaurus", NA),
-                          family = c("Tyrannosauridae", "Spinosauridae",
-                                     "Diplodocidae"))), 3)
-  expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", NA),
-                               genus = c("Tyrannosaurus", "Spinosaurus", NA),
-                               family = c("Tyrannosauridae", "Spinosauridae",
-                                          NA),
-                               order = c("Coelurosauria", "Orionides",
-                                          "Diplodocimorpha"))), 3)
-  expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", NA),
-                               genus = c("Tyrannosaurus", "Spinosaurus", NA),
-                               family = c("Tyrannosauridae", "Spinosauridae",
-                                          NA),
-                               order = c("Coelurosauria", "Orionides", NA),
-                               class = c("Tetanurae", "Tetanurae",
-                                         "Neosauropoda"))), 3)
-  expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", "imperator"),
-                               genus = c("Tyrannosaurus", "Spinosaurus",
-                                         "Tyrannosaurus"),
-                               family = c("Tyrannosauridae", "Spinosauridae",
-                                          "Tyrannosauridae"),
-                              resolution = "genus")), 2)
-  expect_equal(nrow(tax_unique(species = c("rex", "aegyptiacus", NA),
-                               genus = c("Tyrannosaurus", "Spinosaurus", NA),
-                               family = c("Tyrannosauridae", "Spinosauridae",
-                                          "Tyrannosauridae"))), 2)
+  expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
+                                 "family", order = "order", class = "class",
+                               names = "accepted_name")), 6)
+  expect_equal(ncol(tax_unique(occdf = dinosaurs, species = "species", genus =
+                                 "genus", family = "family", order = "order",
+                               class = "class")), 6)
+  expect_equal(ncol(tax_unique(occdf = dinosaurs, binomial = "binomial",
+                               family = "family", order = "order",
+                               class = "class")), 6)
+  expect_equal(ncol(tax_unique(occdf = dinosaurs, binomial = "binomial",
+                               family = "family", order = "order",
+                               class = "class", resolution = "genus")), 5)
+  expect_equal(nrow(tax_unique(occdf = dinosaurs, species = "species", genus =
+                                 "genus", family = "family", order = "order",
+                               class = "class")), 4)
+  expect_equal(nrow(tax_unique(occdf = dinosaurs, binomial = "binomial",
+                               family = "family", order = "order",
+                               class = "class")), 4)
 
   #expect true
-  expect_true(is.data.frame(tax_unique(paleobioDB = tetrapods)))
-  expect_true(is.data.frame(tax_unique(species = c("rex", "aegyptiacus"),
-                              genus = c("Tyrannosaurus", "Spinosaurus"),
-                              family = c("Tyrannosauridae", "Spinosauridae"))))
+  expect_true(is.data.frame(tax_unique(occdf = tetrapods)))
+  expect_true(is.data.frame(tax_unique(occdf = dinosaurs)))
 
   #expect error
-  expect_error(tax_unique(paleobioDB = 100))
-  expect_error(tax_unique(paleobioDB = tetrapods, genus = 100))
-  expect_error(tax_unique(paleobioDB = subset(tetrapods, select = -genus)))
-  expect_error(tax_unique(species = c("rex", "aegyptiacus", NA),
-                          genus = c("Tyrannosaurus", "Spinosaurus"),
-                          family = tetrapods))
-  expect_error(tax_unique(species = c("rex", "aegyptiacus", NA),
-                          genus = c("Tyrannosaurus", "Spinosaurus"),
-                          family = c("Tyrannosauridae", "Spinosauridae")))
-  expect_error(tax_unique(species = c("? rex", "aegyptiacus"),
-                          genus = c("Tyrannosaurus", "Spinosaurus"),
-                          family = c("Tyrannosauridae", "Spinosauridae")))
-  expect_error(tax_unique(species = c("rex", "aegyptiacus"),
-                          genus = c("Tyrannosaurus", "Spinosaurus"),
-                          family = c("Tyrannosauridae", "Spinosauridae"),
-                          resolution = TRUE))
+  expect_error(tax_unique(species = "species", genus = "genus"))
+  expect_error(tax_unique(occdf = 100))
+  expect_error(tax_unique(occdf = tetrapods, species = "species", genus =
+                            "genus"))
+  expect_error(tax_unique(occdf = tetrapods, species = "species", genus =
+                            "genus", family = "test"))
+  expect_error(tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+                          names = "identified_name"))
+  expect_error(tax_unique(occdf = tetrapods, species = "species", genus =
+                            "genus", family = "family", resolution = "test"))
 })
