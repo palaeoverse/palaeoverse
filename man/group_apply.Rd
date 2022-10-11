@@ -28,13 +28,22 @@ appended column indicating the user-defined grouping (\code{group}).
 }
 \description{
 A function to apply palaeoverse functionality across subsets (groups) of
-data, delineated using one or more variables.
+data, delineated using one or more variables. See details for compatible
+functions.
 }
 \details{
 This function is a wrapper which can be used to run other
 palaeoverse functions on various groupings of data. For example,
 this enables the separate analysis of occurrences from different time
 intervals, spatial regions, or trait values.
+\cr
+\cr
+Available compatible \code{palaeoverse} functions:
+\itemize{
+\item \code{\link{tax_unique}}
+\item \code{\link{tax_range_time}}
+\item \code{\link{tax_range_geo}}
+}
 }
 \section{Developer(s)}{
 

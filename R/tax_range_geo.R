@@ -107,7 +107,7 @@
 #' tax_range_geo(occdf = occdf, name = "genus", method = "occ")
 #' @export
 tax_range_geo <- function(occdf,
-                          name = "name",
+                          name = "genus",
                           lng = "lng",
                           lat = "lat",
                           method = "lat",
