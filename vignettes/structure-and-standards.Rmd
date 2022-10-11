@@ -1,19 +1,10 @@
 ---
-title: "**Contributing to palaeoverse: structure and standards**"
-authors:
-  - Lewis A. Jones
-  - Wiliam Gearty
-  - Kilian Eichenseer
-  - Bethany Allen
-  - Christopher D. Dean
-  - Sofia Galvan
-date: today
-title-block-banner: true
-logo: "https://github.com/palaeoverse-community/palaeoverse/raw/main/man/figures/logo.png"
-urlcolor: blue
-format:
-  html:
-    self-contained: true
+title: "Contributing to palaeoverse: structure and standards"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Contributing to palaeoverse: structure and standards}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 <img src="https://github.com/palaeoverse-community/palaeoverse/raw/main/man/figures/logo.png" align="center" width="120" />
