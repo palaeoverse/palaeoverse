@@ -298,7 +298,7 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     to_retain$unique_names <- NA
   }
 
-  for (i in 1:seq_len(nrow(to_retain))) {
+  for (i in 1:nrow(to_retain)) {
     if (is.na(to_retain$unique_names[i])) {
       if (!is.na(to_retain$genus[i])) {
       to_retain$unique_names[i] <- paste(to_retain$genus[i], "sp.")
