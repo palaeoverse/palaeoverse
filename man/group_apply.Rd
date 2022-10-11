@@ -24,7 +24,7 @@ value (see examples).}
 }
 \value{
 A \code{dataframe} of the outputs from the selected function, with an
-appended column indicating the user-defined grouping (\code{group}).
+appended column indicating the user-defined grouping (\code{grouping}).
 }
 \description{
 A function to apply palaeoverse functionality across subsets (groups) of
@@ -40,9 +40,14 @@ intervals, spatial regions, or trait values.
 \cr
 Available compatible \code{palaeoverse} functions:
 \itemize{
-\item \code{\link{tax_unique}}
-\item \code{\link{tax_range_time}}
-\item \code{\link{tax_range_geo}}
+\item \code{\link{tax_unique}}: return the number of unique taxa per grouping
+variable.
+\item \code{\link{tax_range_time}}: return the temporal range of taxa per
+grouping variable.
+\item \code{\link{tax_range_geo}}: return the geographic range of taxa per
+grouping variable.
+\item \code{\link{tax_check}}: return to potential spelling variations of the
+same taxon per grouping variable. Note: \code{verbose} should be set to FALSE.
 }
 }
 \section{Developer(s)}{
