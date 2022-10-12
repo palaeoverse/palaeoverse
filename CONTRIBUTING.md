@@ -1,6 +1,6 @@
 # Contributing to palaeoverse
 
-At `palaeoverse` we have adopted a set of [structures and standards]https://palaeoverse.org/articles/structure-and-standards.html) to follow for contributing to the development of `palaeoverse`. If you would like to contribute to the `palaeoverse` toolkit, we strongly advise reading this document.
+At `palaeoverse` we have adopted a set of [structures and standards](https://palaeoverse.org/articles/structure-and-standards.html) to follow for contributing to the development of `palaeoverse`. If you would like to contribute to the `palaeoverse` toolkit, we strongly advise reading this document.
 
 ## How to contribute?
 
