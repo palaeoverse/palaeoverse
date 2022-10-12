@@ -1,17 +1,17 @@
 #' Apply a function over grouping(s) of data
 #'
-#' A function to apply palaeoverse functionality across subsets (groups) of
-#' data, delineated using one or more variables. See details for compatible
-#' functions.
+#' A function to apply `palaeoverse` functionality across subsets (groups) of
+#' data, delineated using one or more variables. `data.frame` related functions
+#' (e.g. `nrow`, `ncol`, `lengths`, `unique`) may also be used.
 #'
-#' @param df \code{dataframe}. A dataframe of the fossil data you
-#' wish to analyse. This dataframe must contain the necessary variables for
-#' whichever palaeoverse function you wish to call (see function specific
+#' @param occdf \code{dataframe}. A dataframe of fossil occurrences.
+#' This dataframe must contain the necessary variables for
+#' whichever `palaeoverse` function you wish to call (see function specific
 #' documentation for required columns).
-#' @param group \code{character}. A vector of the column name(s) you wish
-#' to group by (e.g. "collection_no", "stage_bin").
-#' @param fun \code{character}. The palaeoverse function you wish to apply to
-#' `df`. See details for compatible functions.
+#' @param group \code{character}. A vector of column names, specifying the
+#' grouping (e.g. "collection_no", "stage_bin").
+#' @param fun \code{function}. The `palaeoverse` function you wish to apply to
+#' `occdf`. See details for compatible functions.
 #' @param ... Additional arguments available in the called
 #' function. These additional arguments may be required for function arguments
 #' without default values, or if you wish to overwrite the default argument
@@ -21,12 +21,13 @@
 #' appended column indicating the user-defined grouping (`grouping`).
 #'
 #' @details This function is a wrapper which can be used to run other
-#' palaeoverse functions on various groupings of data. For example,
-#' this enables the separate analysis of occurrences from different time
-#' intervals, spatial regions, or trait values.
+#' `palaeoverse` functions on various groupings of data. `data.frame` related
+#' functions (e.g. `nrow`, `ncol`, `lengths`, `unique`) may also be used.
+#' For example, `group_apply` enables the separate analysis of occurrences from
+#' different time intervals, spatial regions, or trait values.
 #' \cr
 #' \cr
-#' Available compatible `palaeoverse` functions:
+#' Relevant `palaeoverse` functions:
 #' - \code{\link{tax_unique}}: return the number of unique taxa per grouping
 #' variable.
 #' - \code{\link{tax_range_time}}: return the temporal range of taxa per
@@ -34,13 +35,13 @@
 #' - \code{\link{tax_range_geo}}: return the geographic range of taxa per
 #' grouping variable.
 #' - \code{\link{tax_check}}: return potential spelling variations of the
-#' same taxon per grouping variable. Note: `verbose` should be set to FALSE.
+#' same taxon per grouping variable. Note: `verbose` needs to be set to FALSE.
 #'
 #'
 #' @section Developer(s):
-#' Lewis A. Jones, Bethany Allen & William Gearty
+#' Lewis A. Jones & William Gearty
 #' @section Reviewer(s):
-#' XXX
+#' Kilian Eichenseer & Bethany Allen
 #' @importFrom stats as.formula
 #' @examples
 #' # Examples
@@ -48,54 +49,71 @@
 #' occdf <- tetrapods
 #' # Remove NA data
 #' occdf <- subset(occdf, !is.na(genus))
-#' # Temporal range of data per time bin with default arguments
-#' group_apply(df = occdf, group = c("cc"), fun = tax_range_time)
-#' # Temporal range of data per time bin with updated arguments
-#' group_apply(df = occdf,
-#'             group = c("cc"),
-#'             fun = tax_range_time,
-#'             name = "family") # Run at family level (default: "genus")
-#' # Use multiple grouping variables
-#' group_apply(df = occdf,
-#'             group = c("collection_no", "cc"),
-#'             fun = tax_range_time)
+#' # Count number of occurrences from each country
+#' ex1 <- group_apply(occdf = occdf, group = c("cc"), fun = nrow)
+#' # Temporal range of taxa per time bin with default arguments
+#' ex2 <- group_apply(occdf = occdf, group = c("cc"), fun = tax_range_time)
+#' # Temporal range of taxa per time bin with updated arguments
+#' ex3 <- group_apply(occdf = occdf,
+#'                    group = c("cc"),
+#'                    fun = tax_range_time,
+#'                    name = "family") # Run at family level (default: "genus")
+#' # Use multiple variables (number of occurrences per collection and country)
+#' ex4 <- group_apply(occdf = occdf,
+#'                    group = c("collection_no", "cc"),
+#'                    fun = nrow)
 #' @export
-group_apply <- function(df, group, fun, ...) {
+group_apply <- function(occdf, group, fun, ...) {
 
   # Handle errors
-  if (!is.data.frame(df)) {
-    stop("`df` should be a dataframe")
+  if (!is.data.frame(occdf)) {
+    stop("`occdf` should be a dataframe")
   }
 
-  if (!any(group %in% colnames(df))) {
-    stop("Supplied `group` is not a named column in `df`")
+  if (!any(group %in% colnames(occdf))) {
+    stop("Supplied `group` is not a named column in `occdf`")
   }
 
-  fun_name <- deparse(substitute(fun))
-  avail <- c("tax_unique", "tax_range_time", "tax_range_geo", "tax_check")
-  if (!fun_name %in% avail) {
-    stop("Specified function not available or compatible with group_apply.
-    Choose from:", paste(" ", avail))
+  if (!is.function(fun)) {
+    stop("Supplied `fun` is not a function")
   }
 
   # Update default arguments with supp arguments
   supp_args <- list(...)
+  # Which arguments should be updated?
   indx <- which(names(formals(fun)) %in% names(supp_args))
+  # Which arguments exist in the function?
+  indy <- which(names(supp_args) %in% names(formals(fun)))
+  # Subset supp arguments to those applicable
+  supp_args <- supp_args[indy]
+  # Update order to match function order
+  supp_args <- supp_args[order(match(names(supp_args),
+                                     names(formals(fun)[indx])))]
+  # Update arguments with user-defined input
   formals(fun)[indx] <- supp_args
   # Generate bin codes
   bin_codes <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
   # Split dataframe
-  lst <- split(df, f = bin_codes, drop = TRUE)
+  lst <- split(occdf, f = bin_codes, drop = TRUE)
+  # Group names
+  nme <- names(lst)
   # Apply function
-  results <- do.call(rbind, lapply(lst, fun))
+  output <- do.call(rbind, lapply(lst, fun))
+  # String match
   # Get row names (groups)
-  grouping <- row.names(results)
-  # Clean up group names
-  grouping <- tools::file_path_sans_ext(grouping)
+  grouping <- row.names(output)
+  for (i in nme) {
+    vec <- grep(pattern = i, x = grouping, ignore.case = FALSE)
+    grouping[vec] <- i
+  }
   # Remove funky row names
-  row.names(results) <- NULL
+  row.names(output) <- NULL
   # Add group column
-  results <- cbind.data.frame(results, grouping)
-  # Return results
-  return(results)
+  output <- cbind.data.frame(output, grouping)
+  # Update output if none returned
+  if (nrow(output) == 0) {
+    output <- NULL
+  }
+  # Return output
+  return(output)
 }

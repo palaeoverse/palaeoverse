@@ -4,19 +4,19 @@
 \alias{group_apply}
 \title{Apply a function over grouping(s) of data}
 \usage{
-group_apply(df, group, fun, ...)
+group_apply(occdf, group, fun, ...)
 }
 \arguments{
-\item{df}{\code{dataframe}. A dataframe of the fossil data you
-wish to analyse. This dataframe must contain the necessary variables for
-whichever palaeoverse function you wish to call (see function specific
+\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences.
+This dataframe must contain the necessary variables for
+whichever \code{palaeoverse} function you wish to call (see function specific
 documentation for required columns).}
 
-\item{group}{\code{character}. A vector of the column name(s) you wish
-to group by (e.g. "collection_no", "stage_bin").}
+\item{group}{\code{character}. A vector of column names, specifying the
+grouping (e.g. "collection_no", "stage_bin").}
 
-\item{fun}{\code{character}. The palaeoverse function you wish to apply to
-\code{df}. See details for compatible functions.}
+\item{fun}{\code{function}. The \code{palaeoverse} function you wish to apply to
+\code{occdf}. See details for compatible functions.}
 
 \item{...}{Additional arguments available in the called
 function. These additional arguments may be required for function arguments
@@ -28,18 +28,19 @@ A \code{dataframe} of the outputs from the selected function, with an
 appended column indicating the user-defined grouping (\code{grouping}).
 }
 \description{
-A function to apply palaeoverse functionality across subsets (groups) of
-data, delineated using one or more variables. See details for compatible
-functions.
+A function to apply \code{palaeoverse} functionality across subsets (groups) of
+data, delineated using one or more variables. \code{data.frame} related functions
+(e.g. \code{nrow}, \code{ncol}, \code{lengths}, \code{unique}) may also be used.
 }
 \details{
 This function is a wrapper which can be used to run other
-palaeoverse functions on various groupings of data. For example,
-this enables the separate analysis of occurrences from different time
-intervals, spatial regions, or trait values.
+\code{palaeoverse} functions on various groupings of data. \code{data.frame} related
+functions (e.g. \code{nrow}, \code{ncol}, \code{lengths}, \code{unique}) may also be used.
+For example, \code{group_apply} enables the separate analysis of occurrences from
+different time intervals, spatial regions, or trait values.
 \cr
 \cr
-Available compatible \code{palaeoverse} functions:
+Relevant \code{palaeoverse} functions:
 \itemize{
 \item \code{\link{tax_unique}}: return the number of unique taxa per grouping
 variable.
@@ -48,17 +49,17 @@ grouping variable.
 \item \code{\link{tax_range_geo}}: return the geographic range of taxa per
 grouping variable.
 \item \code{\link{tax_check}}: return potential spelling variations of the
-same taxon per grouping variable. Note: \code{verbose} should be set to FALSE.
+same taxon per grouping variable. Note: \code{verbose} needs to be set to FALSE.
 }
 }
 \section{Developer(s)}{
 
-Lewis A. Jones, Bethany Allen & William Gearty
+Lewis A. Jones & William Gearty
 }
 
 \section{Reviewer(s)}{
 
-XXX
+Kilian Eichenseer & Bethany Allen
 }
 
 \examples{
@@ -67,15 +68,17 @@ XXX
 occdf <- tetrapods
 # Remove NA data
 occdf <- subset(occdf, !is.na(genus))
-# Temporal range of data per time bin with default arguments
-group_apply(df = occdf, group = c("cc"), fun = tax_range_time)
-# Temporal range of data per time bin with updated arguments
-group_apply(df = occdf,
-            group = c("cc"),
-            fun = tax_range_time,
-            name = "family") # Run at family level (default: "genus")
-# Use multiple grouping variables
-group_apply(df = occdf,
-            group = c("collection_no", "cc"),
-            fun = tax_range_time)
+# Count number of occurrences from each country
+ex1 <- group_apply(occdf = occdf, group = c("cc"), fun = nrow)
+# Temporal range of taxa per time bin with default arguments
+ex2 <- group_apply(occdf = occdf, group = c("cc"), fun = tax_range_time)
+# Temporal range of taxa per time bin with updated arguments
+ex3 <- group_apply(occdf = occdf,
+                   group = c("cc"),
+                   fun = tax_range_time,
+                   name = "family") # Run at family level (default: "genus")
+# Use multiple variables (number of occurrences per collection and country)
+ex4 <- group_apply(occdf = occdf,
+                   group = c("collection_no", "cc"),
+                   fun = nrow)
 }
