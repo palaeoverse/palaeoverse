@@ -15,7 +15,7 @@ test_that("tax_unique() works", {
   #expect equal
   expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
                                  "family", order = "order", class = "class",
-                               names = "accepted_name")), 6)
+                               name = "accepted_name")), 6)
   expect_equal(ncol(tax_unique(occdf = dinosaurs, species = "species", genus =
                                  "genus", family = "family", order = "order",
                                class = "class")), 6)
@@ -35,7 +35,7 @@ test_that("tax_unique() works", {
   #expect true
   expect_true(is.data.frame(tax_unique(occdf = tetrapods, genus = "genus",
                                        family = "family", order = "order",
-                                       class = "class", names =
+                                       class = "class", name =
                                          "accepted_name")))
   expect_true(is.data.frame(tax_unique(occdf = dinosaurs, species = "species",
                                        genus = "genus", family = "family",
@@ -56,13 +56,13 @@ test_that("tax_unique() works", {
                             "genus", family = "family", order = "order",
                             class = "test"))
   expect_error(tax_unique(occdf = dinosaurs, genus = "genus", family = "family",
-                          order = "order", class = "class", names = "test"))
+                          order = "order", class = "class", name = "test"))
   expect_error(tax_unique(occdf = dinosaurs, genus = "genus", family = "family"
                           ))
   expect_error(tax_unique(occdf = dinosaurs, species = "species", family =
                             "family", resolution = "genus"))
   expect_error(tax_unique(occdf = tetrapods, genus = "genus", family = "family",
-                          names = "identified_name"))
+                          name = "identified_name"))
   expect_error(tax_unique(occdf = dinosaurs, species = "species", genus =
                             "genus", family = "family", resolution = "test"))
 })

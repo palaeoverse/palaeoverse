@@ -12,7 +12,7 @@ tax_unique(
   family = NULL,
   order = NULL,
   class = NULL,
-  names = NULL,
+  name = NULL,
   resolution = "species"
 )
 }
@@ -25,26 +25,27 @@ containing the genus and species names of the occurrences, either in the
 form "genus species" or "genus_species".}
 
 \item{species}{\code{character}. The name of the column in the dataframe
-containing the species-level identifications.}
+containing the species-level identifications (i.e. the specific epithet).}
 
-\item{genus}{\code{character}. The name of the column in the data frame
+\item{genus}{\code{character}. The name of the column in the dataframe
 containing the genus-level identifications.}
 
-\item{family}{\code{character}. The name of the column in the data frame
+\item{family}{\code{character}. The name of the column in the dataframe
 containing the family-level identifications.}
 
-\item{order}{\code{character}. The name of the column in the data frame
+\item{order}{\code{character}. The name of the column in the dataframe
 containing the order-level identifications.}
 
-\item{class}{\code{character}. The name of the column in the data frame
+\item{class}{\code{character}. The name of the column in the dataframe
 containing the class-level identifications.}
 
-\item{names}{\code{character}. The name of the column in the data frame
+\item{name}{\code{character}. The name of the column in the dataframe
 containing the taxonomic names at mixed taxonomic levels; the data column
-"accepted_names" in a Paleobiology Database download is of this type.}
+"accepted_names" in a \link{Paleobiology Database} (https://paleobiodb.org/#/)
+occurrence dataframe is of this type.}
 
 \item{resolution}{\code{character}. The taxonomic resolution at which to
-identify unique occurrences, either species (the default) or genus.}
+identify unique occurrences, either "species" (the default) or "genus".}
 }
 \value{
 A \code{dataframe} of taxa, with each row corresponding to a unique
@@ -54,43 +55,64 @@ function, as well as a column providing the 'unique' names of each taxon.
 }
 \description{
 A function to filter a list of taxonomic occurrences to unique taxa of a
-predefined resolution.
+predefined resolution. Occurrences identified to a coarser taxonomic
+resolution than the desired level are retained if they belong to a clade
+which is not otherwise represented in the dataset (see details section for
+further information). This has previously been described as "cryptic
+diversity" (e.g. Mannion et al. 2011).
 }
 \details{
 In many cases palaeobiologists count unique taxa by retaining only
-unique occurrences identified to the given taxonomic resolution, however
-here we also retain occurrences identified to a coarser resolution which are
-not already represented within the dataset.
+unique occurrences identified to a given taxonomic resolution, however
+this function retain occurrences identified to a coarser taxonomic resolution
+which are not already represented within the dataset.
 If we take the following set of occurrences:
-Albertosaurus sarcophagus
-Ankylosaurus sp.
-Aves indet.
-Ceratopsidae indet.
-Hadrosauridae indet.
-Ornithominus sp.
-Tyrannosaurus rex
-then a filter for species-level identifications will reduce the species
-diversity to two. However, none of these clades are nested within another, so
-each of the indeterminately identified occurrences represents at least one
-species not already represented in the dataset. This function is designed to
-deal with such taxonomic data, and would retain all seven 'species' in this
-dataset.
+\itemize{
+\item \emph{Albertosaurus sarcophagus}
+\item \emph{Ankylosaurus} sp.
+\item Aves indet.
+\item Ceratopsidae indet.
+\item Hadrosauridae indet.
+\item Ornithominus sp.
+\item \emph{Tyrannosaurus rex}
+a filter for species-level identifications would reduce the species richness
+to two. However, none of these clades are nested within one another, so each
+of the indeterminately identified occurrences represents at least one species
+not already represented in the dataset. This function is designed to deal
+with such taxonomic data, and would retain all seven 'species' in this
+example.
+}
+
 Taxonomic information is supplied within a dataframe, in which columns
 provide identifications at different taxonomic levels. Occurrence
-data can be filtered to retain either unique species or unique genera. If a
-species-level filter is desired, the minimum input is for either 'binomial',
-'species' and 'genus', or 'names' and 'genus' columns to be entered, as well
-as a 'family' column. In a standard Paleobiology Database dataframe, species
-information is only captured in the 'accepted_name' column, so a species-
-level filter should use 'genus = 'genus'' and 'names = 'accepted_name''
-arguments.If a genus-level filter is desired, the minimum input is for
-either 'binomial' or 'genus' columns to be entered, as well as a 'family'
-column.
+data can be filtered to retain either unique species, or unique genera. If a
+species-level filter is desired, the minimum input requires either (1)
+\code{binomial}, (2) \code{species} and \code{genus}, or (3) \code{name} and \code{genus} columns to
+be entered, as well as a \code{family} column. In a standard
+\link{Paleobiology Database} (https://paleobiodb.org/#/) occurrence dataframe,
+species names are only captured in the 'accepted_name' column, so a
+species-level filter should use '\code{genus} = "genus"' and '\code{name} =
+"accepted_name"' arguments. If a genus-level filter is desired, the minimum
+input requires either (1) \code{binomial} or (2) \code{genus} columns to be entered, as
+well as a \code{family} column.
+
 Missing data should be indicated with NAs, although the function can handle
-the e.g. "NO_FAMILY_SPECIFIED" labels within Paleobiology Database datasets.
+common labels such as "NO_FAMILY_SPECIFIED" within Paleobiology Database
+datasets.
+
 The function matches taxonomic names at increasingly higher taxonomic levels,
 so homonyms may be falsely filtered out.
 }
+\section{References}{
+
+
+Mannion, P. D., Upchurch, P., Carrano, M. T., and Barrett, P. M. (2011).
+Testing the effect of the rock record on diversity: a multidisciplinary
+approach to elucidating the generic richness of sauropodomorph dinosaurs
+through time.
+Biological Reviews, 86, 157-181. \doi{10.1111/j.1469-185X.2010.00139.x}.
+}
+
 \section{Developer(s)}{
 
 Bethany Allen
@@ -103,18 +125,18 @@ Lewis A. Jones and William Gearty
 
 \examples{
 #Retain unique species
-tax_unique(occdf = tetrapods, genus = "genus", family = "family", order =
-"order", class = "class", names = "accepted_name")
+species <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+order = "order", class = "class", name = "accepted_name")
 
 #Retain unique genera
-tax_unique(occdf = tetrapods, genus = "genus", family = "family", order =
-"order", class = "class", resolution = "genus")
+genera <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+order = "order", class = "class", resolution = "genus")
 
 #Create dataframe from lists
-occdf <- data.frame(c("rex", "aegyptiacus", NA), c("Tyrannosaurus",
-"Spinosaurus", NA), c("Tyrannosauridae", "Spinosauridae", "Diplodocidae"))
-colnames(occdf) <- c("species", "genus", "family")
-tax_unique(occdf = occdf, species = "species", genus = "genus", family =
-"family")
+occdf <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
+c("Tyrannosaurus", "Spinosaurus", NA), family = c("Tyrannosauridae",
+"Spinosauridae", "Diplodocidae"))
+dinosaur_species <- tax_unique(occdf = occdf, species = "species", genus =
+"genus", family = "family")
 
 }
