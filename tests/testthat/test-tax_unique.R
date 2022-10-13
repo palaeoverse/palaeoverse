@@ -17,9 +17,20 @@ test_that("tax_unique() works", {
                                  "family", order = "order", class = "class",
                                name = "accepted_name")), 6)
   expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
+                                 "family", order = "order", name =
+                                 "accepted_name")), 5)
+  expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
+                                 "family", name = "accepted_name")), 4)
+  expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
                                  "family", order = "order", class = "class",
                                name = "accepted_name", resolution = "genus")),
                                   5)
+  expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
+                                 "family", order = "order", name =
+                                 "accepted_name", resolution = "genus")), 4)
+  expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
+                                 "family", name = "accepted_name", resolution =
+                                 "genus")), 3)
   expect_equal(ncol(tax_unique(occdf = dinosaurs, species = "species", genus =
                                  "genus", family = "family", order = "order",
                                class = "class")), 6)
