@@ -16,6 +16,10 @@ test_that("tax_unique() works", {
   expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
                                  "family", order = "order", class = "class",
                                name = "accepted_name")), 6)
+  expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
+                                 "family", order = "order", class = "class",
+                               name = "accepted_name", resolution = "genus")),
+                                  5)
   expect_equal(ncol(tax_unique(occdf = dinosaurs, species = "species", genus =
                                  "genus", family = "family", order = "order",
                                class = "class")), 6)
@@ -45,6 +49,7 @@ test_that("tax_unique() works", {
   expect_error(tax_unique(species = "species", genus = "genus"))
   expect_error(tax_unique(occdf = 100))
   expect_error(tax_unique(occdf = tetrapods, binomial = "test"))
+  expect_error(tax_unique(occdf = tetrapods, species = "test"))
   expect_error(tax_unique(occdf = tetrapods, genus = "test"))
   expect_error(tax_unique(occdf = dinosaurs, species = "species", genus =
                             "genus"))
@@ -61,6 +66,18 @@ test_that("tax_unique() works", {
                           ))
   expect_error(tax_unique(occdf = dinosaurs, species = "species", family =
                             "family", resolution = "genus"))
+  expect_error(tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+                          class = "identified_name", resolution = "genus"))
+  expect_error(tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+                          order = "identified_name", resolution = "genus"))
+  expect_error(tax_unique(occdf = tetrapods, genus = "genus", family =
+                            "identified_name", resolution = "genus"))
+  expect_error(tax_unique(occdf = tetrapods, genus = "identified_name", family =
+                            "family", resolution = "genus"))
+  expect_error(tax_unique(occdf = tetrapods, species = "identified_name", genus
+                          = "genus", family = "family", resolution = "genus"))
+  expect_error(tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+                          binomial = "identified_name", resolution = "genus"))
   expect_error(tax_unique(occdf = tetrapods, genus = "genus", family = "family",
                           name = "identified_name"))
   expect_error(tax_unique(occdf = dinosaurs, species = "species", genus =
