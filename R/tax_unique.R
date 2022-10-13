@@ -387,5 +387,6 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     to_retain <- to_retain[order(to_retain$genus_species), ]
   }
 
+  row.names(to_retain) <- NULL
   return(to_retain)
 }
