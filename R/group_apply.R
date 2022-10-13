@@ -5,12 +5,12 @@
 #' (e.g. `nrow`, `ncol`, `lengths`, `unique`) may also be used.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences.
-#' This dataframe must contain the necessary variables for
-#' whichever `palaeoverse` function you wish to call (see function specific
+#' This dataframe must contain the grouping variables and the necessary
+#' variables for the function you wish to call (see function specific
 #' documentation for required columns).
 #' @param group \code{character}. A vector of column names, specifying the
 #' grouping (e.g. "collection_no", "stage_bin").
-#' @param fun \code{function}. The `palaeoverse` function you wish to apply to
+#' @param fun \code{function}. The function you wish to apply to
 #' `occdf`. See details for compatible functions.
 #' @param ... Additional arguments available in the called
 #' function. These additional arguments may be required for function arguments
@@ -20,11 +20,11 @@
 #' @return A \code{dataframe} of the outputs from the selected function, with an
 #' appended column indicating the user-defined grouping (`grouping`).
 #'
-#' @details This function is a wrapper which can be used to run other
-#' `palaeoverse` functions on various groupings of data. `data.frame` related
-#' functions (e.g. `nrow`, `ncol`, `lengths`, `unique`) may also be used.
-#' For example, `group_apply` enables the separate analysis of occurrences from
-#' different time intervals, spatial regions, or trait values.
+#' @details `group_apply` enables the separate analysis of occurrences from
+#' different time intervals, spatial regions, or trait values. The function
+#' serves as a wrapper around `palaeoverse` functions on groupings of
+#' data. `data.frame` related functions (e.g. `nrow`, `ncol`, `lengths`,
+#' `unique`) may also be used.
 #' \cr
 #' \cr
 #' Relevant `palaeoverse` functions:

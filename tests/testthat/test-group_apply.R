@@ -30,6 +30,9 @@ test_that("group_apply works", {
                            group = c("cc"),
                            fun = tax_range_time))
   expect_error(group_apply(occdf = occdf,
+                           group = c("cc"),
+                           fun = "tax_range_time"))
+  expect_error(group_apply(occdf = occdf,
                            group = c("test"),
                            fun = tax_range_time))
   expect_error(group_apply(occdf = occdf,

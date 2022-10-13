@@ -8,14 +8,14 @@ group_apply(occdf, group, fun, ...)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences.
-This dataframe must contain the necessary variables for
-whichever \code{palaeoverse} function you wish to call (see function specific
+This dataframe must contain the grouping variables and the necessary
+variables for the function you wish to call (see function specific
 documentation for required columns).}
 
 \item{group}{\code{character}. A vector of column names, specifying the
 grouping (e.g. "collection_no", "stage_bin").}
 
-\item{fun}{\code{function}. The \code{palaeoverse} function you wish to apply to
+\item{fun}{\code{function}. The function you wish to apply to
 \code{occdf}. See details for compatible functions.}
 
 \item{...}{Additional arguments available in the called
@@ -33,11 +33,11 @@ data, delineated using one or more variables. \code{data.frame} related function
 (e.g. \code{nrow}, \code{ncol}, \code{lengths}, \code{unique}) may also be used.
 }
 \details{
-This function is a wrapper which can be used to run other
-\code{palaeoverse} functions on various groupings of data. \code{data.frame} related
-functions (e.g. \code{nrow}, \code{ncol}, \code{lengths}, \code{unique}) may also be used.
-For example, \code{group_apply} enables the separate analysis of occurrences from
-different time intervals, spatial regions, or trait values.
+\code{group_apply} enables the separate analysis of occurrences from
+different time intervals, spatial regions, or trait values. The function
+serves as a wrapper around \code{palaeoverse} functions on groupings of
+data. \code{data.frame} related functions (e.g. \code{nrow}, \code{ncol}, \code{lengths},
+\code{unique}) may also be used.
 \cr
 \cr
 Relevant \code{palaeoverse} functions:
