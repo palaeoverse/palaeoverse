@@ -21,8 +21,8 @@
 #' without default values, or if you wish to overwrite the default argument
 #' value (see examples).
 #'
-#' @return A \code{dataframe} of the outputs from the selected function, with an
-#' appended column indicating the user-defined groups (`grouping`).
+#' @return A \code{dataframe} of the outputs from the selected function, with
+#' appended column(s) indicating the user-defined groups (`grouping`).
 #'
 #' @details `group_apply` applies functions to subgroups of data within a
 #' supplied dataset, enabling the separate analysis of occurrences or taxa from
@@ -95,19 +95,16 @@ group_apply <- function(occdf, group, fun, ...) {
     stop("Supplied `fun` is not a function")
   }
 
-  # Update default arguments with supp arguments
   supp_args <- list(...)
-  # Which arguments should be updated?
-  indx <- which(names(formals(fun)) %in% names(supp_args))
-  # Which arguments exist in the function?
-  indy <- which(names(supp_args) %in% names(formals(fun)))
-  # Subset supp arguments to those applicable
-  supp_args <- supp_args[indy]
-  # Update order to match function order
-  supp_args <- supp_args[order(match(names(supp_args),
-                                     names(formals(fun)[indx])))]
-  # Update arguments with user-defined input
-  formals(fun)[indx] <- supp_args
+  indx <- which(!(names(supp_args) %in% names(formals(fun))))
+  if (length(indx) > 1) {
+    stop(paste(paste0("`", names(supp_args)[indx], "`", collapse = "/"),
+               "are not valid arguments for the specified function"))
+  } else if (length(indx) == 1) {
+    stop(paste0("`", names(supp_args)[indx], "`",
+                " is not a valid argument for the specified function"))
+  }
+
   # Generate bin codes
   bin_codes <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
   # Split dataframe
@@ -118,7 +115,7 @@ group_apply <- function(occdf, group, fun, ...) {
   nme_df <- do.call(rbind.data.frame, strsplit(nme, "&1*^$0%", fixed = TRUE))
   colnames(nme_df) <- group
   # Apply function
-  output_lst <- lapply(lst, fun)
+  output_lst <- lapply(lst, fun, ...)
   # Add groupings to output
   output_df <- do.call(rbind.data.frame,
                        lapply(seq_along(output_lst), FUN = function(i) {
