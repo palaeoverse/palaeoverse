@@ -331,21 +331,21 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
 
   #Produce column with unique taxon names
   if (resolution == "species") {
-    to_retain$unique_names <- to_retain$genus_species
+    to_retain$unique_name <- to_retain$genus_species
   } else {
-    to_retain$unique_names <- NA
+    to_retain$unique_name <- NA
   }
 
   for (i in seq_len(nrow(to_retain))) {
-    if (is.na(to_retain$unique_names[i])) {
+    if (is.na(to_retain$unique_name[i])) {
       if (!is.na(to_retain$genus[i])) {
-      to_retain$unique_names[i] <- paste(to_retain$genus[i], "sp.")
+      to_retain$unique_name[i] <- paste(to_retain$genus[i], "sp.")
       } else if (!is.na(to_retain$family[i])) {
-      to_retain$unique_names[i] <- paste(to_retain$family[i], "indet.")
+      to_retain$unique_name[i] <- paste(to_retain$family[i], "indet.")
       } else if (!is.na(to_retain$order[i])) {
-      to_retain$unique_names[i] <- paste(to_retain$order[i], "indet.")
+      to_retain$unique_name[i] <- paste(to_retain$order[i], "indet.")
       } else if (!is.na(to_retain$class[i])) {
-      to_retain$unique_names[i] <- paste(to_retain$class[i], "indet.")
+      to_retain$unique_name[i] <- paste(to_retain$class[i], "indet.")
       }
     }
   }
@@ -354,24 +354,24 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   if (resolution == "species") {
     if (!is.null(class)) {
       to_retain <- to_retain[, c("class", "order", "family", "genus",
-                               "genus_species", "unique_names")]
+                               "genus_species", "unique_name")]
     } else if (!is.null(order)) {
       to_retain <- to_retain[, c("order", "family", "genus", "genus_species",
-                                "unique_names")]
+                                "unique_name")]
     } else {
       to_retain <- to_retain[, c("family", "genus", "genus_species",
-                               "unique_names")]
+                               "unique_name")]
     }
   }
 
   if (resolution == "genus") {
      if (!is.null(class)) {
       to_retain <- to_retain[, c("class", "order", "family", "genus",
-                                 "unique_names")]
+                                 "unique_name")]
     } else if (!is.null(order)) {
-        to_retain <- to_retain[, c("order", "family", "genus", "unique_names")]
+        to_retain <- to_retain[, c("order", "family", "genus", "unique_name")]
     } else {
-        to_retain <- to_retain[, c("family", "genus", "unique_names")]
+        to_retain <- to_retain[, c("family", "genus", "unique_name")]
       }
   }
 
