@@ -111,26 +111,26 @@ group_apply <- function(occdf, group, fun, ...) {
   # Generate bin codes
   bin_codes <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
   # Split dataframe
-  lst <- split(occdf, f = bin_codes, drop = TRUE)
+  lst <- split(occdf, f = bin_codes, drop = TRUE, sep = "&1*^$0%")
   # Group names
   nme <- names(lst)
+  # Split into individual columns
+  nme_df <- do.call(rbind.data.frame, strsplit(nme, "&1*^$0%", fixed = TRUE))
+  colnames(nme_df) <- group
   # Apply function
-  output <- do.call(rbind, lapply(lst, fun))
-  # String match
-  # Get row names (groups)
-  grouping <- row.names(output)
-  for (i in nme) {
-    vec <- grep(pattern = i, x = grouping, ignore.case = FALSE)
-    grouping[vec] <- i
-  }
-  # Remove funky row names
-  row.names(output) <- NULL
-  # Add group column
-  output <- cbind.data.frame(output, grouping)
+  output_lst <- lapply(lst, fun)
+  # Add groupings to output
+  output_df <- do.call(rbind.data.frame,
+                       lapply(seq_along(output_lst), FUN = function(i) {
+    df <- output_lst[[i]]
+    if (!is.null(nrow(df)) && nrow(df) > 0) {
+      cbind.data.frame(df, nme_df[i, , drop = FALSE])
+    }
+  }))
   # Update output if none returned
-  if (nrow(output) == 0) {
-    output <- NULL
+  if (nrow(output_df) == 0) {
+    output_df <- NULL
   }
   # Return output
-  return(output)
+  return(output_df)
 }
