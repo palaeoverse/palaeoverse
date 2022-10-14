@@ -2,7 +2,7 @@ Package: palaeoverse
 Title: A community-driven toolkit to support palaeobiological analyses
 Version: 0.0.0.9000
 Authors@R: c(
-    person(given = "Lewis", middle = "A.", family = "Jones", email = "LewisAlan.Jones@uvigo.es",
+    person(given = "Lewis A.", family = "Jones", email = "LewisAlan.Jones@uvigo.es",
       role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3902-8986")),
     person(given = "William", family = "Gearty", email = "willgearty@gmail.com",
       role = c("aut"), comment = c(ORCID = "0000-0003-0076-3262")),
@@ -10,10 +10,26 @@ Authors@R: c(
       role = c("aut"), comment = c(ORCID = "0000-0003-0282-6407")),
     person(given = "Kilian", family = "Eichenseer", email = "kilian.eichenseer@gmail.com",
       role = c("aut"), comment = c(ORCID = "0000-0002-0477-8878")),
-    person(given = "Christopher", middle = "D.", family = "Dean", email = "christopherdaviddean@gmail.com",
+    person(given = "Christopher D.", family = "Dean", email = "christopherdaviddean@gmail.com",
       role = c("aut"), comment = c(ORCID = "0000-0001-6471-6903")),      
     person(given = "Sofia", family = "Galvan", email = "sofia.galvan@uvigo.es",
-      role = c("aut"), comment = c(ORCID = "0000-0002-3092-4314")))
+      role = c("aut"), comment = c(ORCID = "0000-0002-3092-4314")),
+    person(given = "Miranta", family = "Kouvari", email = "m.kouvari@ucl.ac.uk",
+      role = c("aut")),
+    person(given = "Emma M.", family = "Dunne", email = "dunne.emma.m@gmail.com",
+      role = c("aut"), comment = c(ORCID = "0000-0002-4989-5904")),
+    person(given = "Pedro L.", family = "Godoy", email = "pedrolorenagodoy@gmail.com ",
+      role = c("aut"), comment = c(ORCID = "0000-0003-4519-5094")),
+    person(given = "Cecily", family = "Nicholl", email = "cecily.nicholl@ucl.ac.uk",
+      role = c("aut"), comment = c(ORCID = "0000-0003-2860-2604")),
+    person(given = "Lucas", family = "Buffan", email = "lucas.l.buffan@gmail.com",
+      role = c("aut")),
+    person(given = "Erin M.", family = "Dillon", email = "emdillon23@gmail.com",
+      role = c("aut"), comment = c(ORCID = "0000-0003-0249-027X")),
+    person(given = "Joseph T.", family = "Flannery-Sutherland", email = "jf15558@bristol.ac.uk",
+      role = c("aut"), comment = c(ORCID = "0000-0001-8232-6773")),
+    person(given = "A. Alessandro", family = "Chiarenza", email = "a.chiarenza15@gmail.com",
+      role = c("aut"), comment = c(ORCID = "0000-0001-5525-6730")))
 Description: A community-driven software package to support palaeobiological analyses. 
   The package contains a range of functions to help streamline analyses and provide reusable and readable code.
   The intention of the package is to improve reproducible research in palaeobiology.

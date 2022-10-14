@@ -1,15 +1,14 @@
 # Contributing to palaeoverse
 
-At `palaeoverse` we have adopted a set of [structures and standards](https://github.com/palaeoverse-community/palaeoverse/raw/main/man/tutorials/structure-and-standards.pdf) to follow for contributing to the development of `palaeoverse`. If you would like to contribute to the `palaeoverse` toolkit, we strongly advise reading this document.
+At `palaeoverse` we have adopted a set of [structures and standards](https://palaeoverse.org/articles/structure-and-standards.html) to follow for contributing to the development of `palaeoverse`. If you would like to contribute to the `palaeoverse` toolkit, we strongly advise reading this document.
 
 ## How to contribute?
 
-
-You (the contributor) should clone the desired repository (i.e., [the palaeoverse R package](https://github.com/palaeoverse-community/palaeoverse)) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation, and unit tests. Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.
+You (the contributor) should clone the desired repository (i.e. [the palaeoverse R package](https://github.com/palaeoverse-community/palaeoverse)) to your personal computer. Before changes are made, you should switch to a new git branch (i.e. not the main branch). When your changes are complete, you can submit your changes for merging via a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation, and unit tests. Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.
 
 ### Minor changes
 
-You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit roxygen2 comments in the .R file, not the .Rd file.
+You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit `roxygen2` comments in the `.R` file, not the `.Rd` file.
 
 ### Substantial changes
 
@@ -17,7 +16,7 @@ If you would like to make a substantial change, you should first file an issue a
 
 ### Pull request process
 
-You (the contributor) should clone the desired repository (i.e., [the palaeoverse R package](https://github.com/palaeoverse-community/palaeoverse)) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation (via `roxygen2`), and unit tests (via `testthat`). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.
+You (the contributor) should clone the desired repository (i.e. [the palaeoverse R package](https://github.com/palaeoverse-community/palaeoverse)) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation (via `roxygen2`), and unit tests (via `testthat`). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.
 
 If you are not comfortable with git/GitHub, you can reach out to one of the core developers ([see collaborators](https://github.com/palaeoverse-community/palaeoverse)) via email and they can make a pull request on your behalf. However, you will be expected to respond to any reviewer comments on GitHub (see below).
 
