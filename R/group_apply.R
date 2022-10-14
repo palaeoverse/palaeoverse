@@ -1,15 +1,19 @@
 #' Apply a function over grouping(s) of data
 #'
 #' A function to apply `palaeoverse` functionality across subsets (groups) of
-#' data, delineated using one or more variables. `data.frame` related functions
-#' (e.g. `nrow`, `ncol`, `lengths`, `unique`) may also be used.
+#' data, delineated using one or more variables. Functions which receive a
+#' `data.frame` as input (e.g. `nrow`, `ncol`, `lengths`, `unique`) may also be
+#' used.
 #'
-#' @param occdf \code{dataframe}. A dataframe of fossil occurrences.
+#' @param occdf \code{dataframe}. A dataframe of fossil occurrences or taxa,
+#' as relevant to the desired function.
 #' This dataframe must contain the grouping variables and the necessary
-#' variables for the function you wish to call (see function specific
+#' variables for the function you wish to call (see function-specific
 #' documentation for required columns).
 #' @param group \code{character}. A vector of column names, specifying the
-#' grouping (e.g. "collection_no", "stage_bin").
+#' desired subgroups (e.g. "collection_no", "stage_bin"). Supplying more than
+#' one grouping variable will produce an output containing subgroups for each
+#' unique combination of values.
 #' @param fun \code{function}. The function you wish to apply to
 #' `occdf`. See details for compatible functions.
 #' @param ... Additional arguments available in the called
@@ -18,16 +22,22 @@
 #' value (see examples).
 #'
 #' @return A \code{dataframe} of the outputs from the selected function, with an
-#' appended column indicating the user-defined grouping (`grouping`).
+#' appended column indicating the user-defined groups (`grouping`).
 #'
-#' @details `group_apply` enables the separate analysis of occurrences from
+#' @details `group_apply` applies functions to subgroups of data within a
+#' supplied dataset, enabling the separate analysis of occurrences or taxa from
 #' different time intervals, spatial regions, or trait values. The function
-#' serves as a wrapper around `palaeoverse` functions on groupings of
-#' data. `data.frame` related functions (e.g. `nrow`, `ncol`, `lengths`,
+#' serves as a wrapper around `palaeoverse` functions. Other functions which
+#' can be applied to a `data.frame` (e.g. `nrow`, `ncol`, `lengths`,
 #' `unique`) may also be used.
 #' \cr
 #' \cr
-#' Relevant `palaeoverse` functions:
+#' All `palaeoverse` functions which require a dataframe input can be used in
+#' conjunction with the `group_apply` function. However, this is unnecessary
+#' for many functions (e.g. \code{\link{bin_time}}) as groups do not need to
+#' be partitioned before binning. This list provides
+#' users with `palaeoverse` functions that might be interesting to apply across
+#' group(s):
 #' - \code{\link{tax_unique}}: return the number of unique taxa per grouping
 #' variable.
 #' - \code{\link{tax_range_time}}: return the temporal range of taxa per
@@ -50,18 +60,25 @@
 #' # Remove NA data
 #' occdf <- subset(occdf, !is.na(genus))
 #' # Count number of occurrences from each country
-#' ex1 <- group_apply(occdf = occdf, group = c("cc"), fun = nrow)
-#' # Temporal range of taxa per time bin with default arguments
-#' ex2 <- group_apply(occdf = occdf, group = c("cc"), fun = tax_range_time)
-#' # Temporal range of taxa per time bin with updated arguments
+#' ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
+#' # Temporal range of taxa per country with default arguments
+#' ex2 <- group_apply(occdf = occdf, group = "cc", fun = tax_range_time)
+#' # Temporal range of taxa per country with updated arguments
 #' ex3 <- group_apply(occdf = occdf,
 #'                    group = c("cc"),
 #'                    fun = tax_range_time,
-#'                    name = "family") # Run at family level (default: "genus")
-#' # Use multiple variables (number of occurrences per collection and country)
+#'                    by = "LAD") # Order by LAD (default: "FAD")
+#' # Use multiple variables (number of occurrences per collection and formation)
 #' ex4 <- group_apply(occdf = occdf,
-#'                    group = c("collection_no", "cc"),
+#'                    group = c("collection_no", "formation"),
 #'                    fun = nrow)
+#' # Compute counts of occurrences per latitudinal bin
+#' # Set up lat bins
+#' bins <- lat_bins()
+#' # bin occurrences
+#' occdf <- bin_lat(occdf = tetrapods, bins = bins)
+#' # Calculate number of occurrences per bin
+#' ex5 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
 #' @export
 group_apply <- function(occdf, group, fun, ...) {
 
