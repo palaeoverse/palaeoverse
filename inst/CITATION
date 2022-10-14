@@ -16,7 +16,6 @@ citEntry(entry = "Article",
                                    as.person("Joseph T. Flannery-Sutherland"),
                                    as.person("Erin M. Dillon"),
                                    as.person("A. Alessandro Chiarenza")),
-
          journal      = "TBC",
          year         = "TBC",
          volume       = "TBC",
