@@ -120,10 +120,11 @@ group_apply <- function(occdf, group, fun, ...) {
   # Add groupings to output
   output_df <- do.call(rbind.data.frame,
                        lapply(seq_along(output_lst), FUN = function(i) {
-    df <- data.frame(output_lst[[i]])
-    if (ncol(df)) {
+    df <- output_lst[[i]]
+    if (!is.data.frame(df)) {
+      df <- data.frame(df)
       colnames(df) <- fun_name
-      }
+    }
     if (!is.null(nrow(df)) && nrow(df) > 0) {
       cbind.data.frame(df, nme_df[i, , drop = FALSE])
     }
