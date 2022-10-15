@@ -11,7 +11,7 @@ testdf <- data.frame(family = c("Examplidae", "Examplidae", "Taxonidae",
 # test errors from incorrectly supplied arguments, and warnings
 test_that("tax_check() accepts taxon names, no groups", {
   # not data.frame or zero length data.frame supplied
-  expect_error(tax_check())
+  expect_error(tax_check(name = "genus", group = TRUE))
   expect_error(tax_check(1))
   expect_error(tax_check(data.frame()))
   # name column not/incorrectly specified

@@ -4,7 +4,7 @@
 #' taxon. Spelling variations are checked within alphabetical groups (default),
 #' or within higher taxonomic groups if provided.
 #'
-#' @param taxdf \code{dataframe}. A dataframe with named columns containing
+#' @param occdf \code{dataframe}. A dataframe with named columns containing
 #' taxon names (e.g. "species", "genus"). An optional column
 #' containing the groups (e.g. "family", "order") which taxon names
 #' belong to may also be provided (see `group` for details).
@@ -13,7 +13,7 @@
 #' @param name \code{character}. The column name of the taxon names you wish
 #' to check (e.g. "genus").
 #' @param group \code{character}. The column name of the higher taxonomic
-#' assignments in `taxdf` you wish to group by. If `NULL` (default), name
+#' assignments in `occdf` you wish to group by. If `NULL` (default), name
 #' comparison will be conducted within alphabetical groups.
 #' @param dis \code{numeric}. The dissimilarity threshold: a value greater than
 #' 0 (completely dissimilar), and less than 1 (completely similar).
@@ -75,56 +75,56 @@
 #' # load occurrence data
 #' data("tetrapods")
 #' # Check taxon names alphabetically
-#' tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
+#' tax_check(occdf = tetrapods, name = "genus", dis = 0.1)
 #' # Check taxon names by group
-#' tax_check(taxdf = tetrapods, name = "genus", group = "family", dis = 0.1)
+#' tax_check(occdf = tetrapods, name = "genus", group = "family", dis = 0.1)
 #'
 #' @export
-tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
+tax_check <- function(occdf, name = "genus", group = NULL, dis = 0.05,
                       start = 1, verbose = TRUE) {
 
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
-  # taxdf: a data.frame with column names and at least one row
-  if (!exists("taxdf")) {
-    taxdf <- NULL
+  # occdf: a data.frame with column names and at least one row
+  if (!exists("occdf")) {
+    occdf <- NULL
     }
 
-  if (any(c(!is.data.frame(taxdf),
-            nrow(taxdf) == 0,
-            is.null(colnames(taxdf))))) {
-    stop("Please supply `taxdf` as a data.frame with named columns, containing
+  if (any(c(!is.data.frame(occdf),
+            nrow(occdf) == 0,
+            is.null(colnames(occdf))))) {
+    stop("Please supply `occdf` as a data.frame with named columns, containing
          taxon names, and optionally their higher classification")
   }
 
-  # names: a 1L character vector denoting a character column in taxdf
+  # names: a 1L character vector denoting a character column in occdf
   if (any(c(!is.atomic(name),
             length(name) != 1,
-            !name %in% colnames(taxdf)))) {
-    stop("Please specify `name` as a single column name in `taxdf`")
+            !name %in% colnames(occdf)))) {
+    stop("Please specify `name` as a single column name in `occdf`")
   }
 
   # Replace missing values with NA
-  taxdf[grep("^$|^\\s+$", taxdf[, name]), name] <- NA
+  occdf[grep("^$|^\\s+$", occdf[, name]), name] <- NA
 
-  if (!is.character(taxdf[, name]) || all(is.na(taxdf[, name]))) {
-    stop("The `name` column in `taxdf` must contain data of class character and
+  if (!is.character(occdf[, name]) || all(is.na(occdf[, name]))) {
+    stop("The `name` column in `occdf` must contain data of class character and
          at least one entry that is not NA or empty")
   }
 
   # groups: If not NULL, a 1L character vector denoting a character column
-  # in taxdf
+  # in occdf
   if (!is.null(group)) {
     if (any(c(!is.atomic(group), length(group) != 1,
-             !group %in% colnames(taxdf)))) {
-      stop("Please specify `group` as a single column name in `taxdf`")
+             !group %in% colnames(occdf)))) {
+      stop("Please specify `group` as a single column name in `occdf`")
     }
-    if (!is.character(taxdf[, group])) {
-      stop("The `group` column in `taxdf` must contain data of class character")
+    if (!is.character(occdf[, group])) {
+      stop("The `group` column in `occdf` must contain data of class character")
     }
-    group <- gsub("^$|^\\s+$", NA, taxdf[, group])
+    group <- gsub("^$|^\\s+$", NA, occdf[, group])
   } else {
-    group <- substring(taxdf[, name], 1, 1)
+    group <- substring(occdf[, name], 1, 1)
   }
 
   # dis: a 1L numeric > 0 and < 1
@@ -164,7 +164,7 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
     gp <- NULL
   }
 
-  nm <- unique(grep("[^[:alpha:] ]", taxdf[, name], value = TRUE))
+  nm <- unique(grep("[^[:alpha:] ]", occdf[, name], value = TRUE))
   if (length(nm) != 0) {
     warning("Non-letter characters present in the taxon names")
   } else {
@@ -174,19 +174,19 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
   # FORMAT INPUT DATA ------------------------------------------------------- #
 
   # names data.frame, drop missing names, fill missing groups alphabetically
-  taxdf <- taxdf2 <- data.frame(group = group, name = taxdf[, name])
-  taxdf <- taxdf[!duplicated(taxdf), , drop = FALSE]
-  taxdf <- taxdf[!is.na(taxdf[, "name"]), , drop = FALSE]
-  no_group <- which(is.na(taxdf[, "group"]))
-  taxdf[no_group, "group"] <- substring(taxdf[no_group, "name"], 1, 1)
+  occdf <- occdf2 <- data.frame(group = group, name = occdf[, name])
+  occdf <- occdf[!duplicated(occdf), , drop = FALSE]
+  occdf <- occdf[!is.na(occdf[, "name"]), , drop = FALSE]
+  no_group <- which(is.na(occdf[, "group"]))
+  occdf[no_group, "group"] <- substring(occdf[no_group, "name"], 1, 1)
 
   # RUN GROUPWISE COMPARISONS ----------------------------------------------- #
 
   # apply the comparison procedure group wise
-  sp <- lapply(unique(taxdf[, "group"]), function(y) {
+  sp <- lapply(unique(occdf[, "group"]), function(y) {
 
     # all taxon names which belong to group y
-    ob <- taxdf[taxdf[, "group"] == y, "name"]
+    ob <- occdf[occdf[, "group"] == y, "name"]
 
     # if there is are not multiple names in the group, skip
     if (length(ob) < 2) {
@@ -242,12 +242,12 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
   # format initial results data.frame from list
   err <- sp[!unlist(lapply(sp, is.null))]
   err <- as.data.frame(do.call(rbind, err))
-  err$f1 <- as.vector(table(taxdf2[, "name"])[match(err$V1,
+  err$f1 <- as.vector(table(occdf2[, "name"])[match(err$V1,
                                                 names(table(
-                                                  taxdf2[, "name"])))])
-  err$f2 <- as.vector(table(taxdf2[, "name"])[match(err$V2,
+                                                  occdf2[, "name"])))])
+  err$f2 <- as.vector(table(occdf2[, "name"])[match(err$V2,
                                                 names(table(
-                                                  taxdf2[, "name"])))])
+                                                  occdf2[, "name"])))])
 
   # NULL if no matches present
   if (nrow(err) == 0) {

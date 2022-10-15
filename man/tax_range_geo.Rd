@@ -6,7 +6,7 @@
 \usage{
 tax_range_geo(
   occdf,
-  name = "name",
+  name = "genus",
   lng = "lng",
   lat = "lat",
   method = "lat",
