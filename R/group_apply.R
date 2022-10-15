@@ -121,8 +121,9 @@ group_apply <- function(occdf, group, fun, ...) {
   output_df <- do.call(rbind.data.frame,
                        lapply(seq_along(output_lst), FUN = function(i) {
     df <- output_lst[[i]]
+    if (is.null(df)) return(df)
     if (!is.data.frame(df)) {
-      df <- data.frame(df)
+      df <- as.data.frame(df)
       colnames(df) <- fun_name
     }
     if (!is.null(nrow(df)) && nrow(df) > 0) {
