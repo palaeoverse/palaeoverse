@@ -61,7 +61,7 @@ or within higher taxonomic groups if provided.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tax_check</span><span class="op">(</span></span>
-<span>  <span class="va">taxdf</span>,</span>
+<span>  <span class="va">occdf</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">"genus"</span>,</span>
 <span>  group <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  dis <span class="op">=</span> <span class="fl">0.05</span>,</span>
@@ -72,7 +72,7 @@ or within higher taxonomic groups if provided.</p>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>taxdf</dt>
+    <dl><dt>occdf</dt>
 <dd><p><code>dataframe</code>. A dataframe with named columns containing
 taxon names (e.g. "species", "genus"). An optional column
 containing the groups (e.g. "family", "order") which taxon names
@@ -88,7 +88,7 @@ to check (e.g. "genus").</p></dd>
 
 <dt>group</dt>
 <dd><p><code>character</code>. The column name of the higher taxonomic
-assignments in <code>taxdf</code> you wish to group by. If <code>NULL</code> (default), name
+assignments in <code>occdf</code> you wish to group by. If <code>NULL</code> (default), name
 comparison will be conducted within alphabetical groups.</p></dd>
 
 
@@ -176,7 +176,7 @@ matching. The R Journal 6, 111--122.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># load occurrence data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tetrapods"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Check taxon names alphabetically</span></span></span>
-<span class="r-in"><span><span class="fu">tax_check</span><span class="op">(</span>taxdf <span class="op">=</span> <span class="va">tetrapods</span>, name <span class="op">=</span> <span class="st">"genus"</span>, dis <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">tax_check</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span>, name <span class="op">=</span> <span class="st">"genus"</span>, dis <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $synonyms</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    group            greater              lesser count_greater count_lesser</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      A        Adelosaurus        Aphelosaurus             1            1</span>
@@ -231,7 +231,7 @@ matching. The R Journal 6, 111--122.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Check taxon names by group</span></span></span>
-<span class="r-in"><span><span class="fu">tax_check</span><span class="op">(</span>taxdf <span class="op">=</span> <span class="va">tetrapods</span>, name <span class="op">=</span> <span class="st">"genus"</span>, group <span class="op">=</span> <span class="st">"family"</span>, dis <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">tax_check</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span>, name <span class="op">=</span> <span class="st">"genus"</span>, group <span class="op">=</span> <span class="st">"family"</span>, dis <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Non-letter characters present in the group names</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $synonyms</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 group            greater              lesser count_greater</span>
