@@ -22,13 +22,15 @@ unique combination of values.}
 \code{occdf}. See details for compatible functions.}
 
 \item{...}{Additional arguments available in the called
-function. These additional arguments may be required for function arguments
+function. These arguments may be required for function arguments
 without default values, or if you wish to overwrite the default argument
 value (see examples).}
 }
 \value{
-A \code{dataframe} of the outputs from the selected function, with
-appended column(s) indicating the user-defined groups.
+A \code{data.frame} of the outputs from the selected function, with
+appended column(s) indicating the user-defined groups. If a single vector
+is returned via the called function, it will be transformed to a
+\code{data.frame} with the column name equal to the input function.
 }
 \description{
 A function to apply \code{palaeoverse} functionality across subsets (groups) of

@@ -17,12 +17,14 @@
 #' @param fun \code{function}. The function you wish to apply to
 #' `occdf`. See details for compatible functions.
 #' @param ... Additional arguments available in the called
-#' function. These additional arguments may be required for function arguments
+#' function. These arguments may be required for function arguments
 #' without default values, or if you wish to overwrite the default argument
 #' value (see examples).
 #'
-#' @return A \code{dataframe} of the outputs from the selected function, with
-#' appended column(s) indicating the user-defined groups.
+#' @return A \code{data.frame} of the outputs from the selected function, with
+#' appended column(s) indicating the user-defined groups. If a single vector
+#' is returned via the called function, it will be transformed to a
+#' \code{data.frame} with the column name equal to the input function.
 #'
 #' @details `group_apply` applies functions to subgroups of data within a
 #' supplied dataset, enabling the separate analysis of occurrences or taxa from
