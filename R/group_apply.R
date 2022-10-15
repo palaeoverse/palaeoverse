@@ -22,7 +22,7 @@
 #' value (see examples).
 #'
 #' @return A \code{dataframe} of the outputs from the selected function, with
-#' appended column(s) indicating the user-defined groups (`grouping`).
+#' appended column(s) indicating the user-defined groups.
 #'
 #' @details `group_apply` applies functions to subgroups of data within a
 #' supplied dataset, enabling the separate analysis of occurrences or taxa from
@@ -104,7 +104,6 @@ group_apply <- function(occdf, group, fun, ...) {
     stop(paste0("`", names(supp_args)[indx], "`",
                 " is not a valid argument for the specified function"))
   }
-
   # Generate bin codes
   bin_codes <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
   # Split dataframe
@@ -116,10 +115,15 @@ group_apply <- function(occdf, group, fun, ...) {
   colnames(nme_df) <- group
   # Apply function
   output_lst <- lapply(lst, fun, ...)
+  # Function name
+  fun_name <- deparse(substitute(fun))
   # Add groupings to output
   output_df <- do.call(rbind.data.frame,
                        lapply(seq_along(output_lst), FUN = function(i) {
-    df <- output_lst[[i]]
+    df <- data.frame(output_lst[[i]])
+    if (ncol(df)) {
+      colnames(df) <- fun_name
+      }
     if (!is.null(nrow(df)) && nrow(df) > 0) {
       cbind.data.frame(df, nme_df[i, , drop = FALSE])
     }

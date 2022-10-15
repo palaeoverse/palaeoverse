@@ -28,7 +28,7 @@ value (see examples).}
 }
 \value{
 A \code{dataframe} of the outputs from the selected function, with
-appended column(s) indicating the user-defined groups (\code{grouping}).
+appended column(s) indicating the user-defined groups.
 }
 \description{
 A function to apply \code{palaeoverse} functionality across subsets (groups) of
