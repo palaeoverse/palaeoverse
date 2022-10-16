@@ -69,10 +69,11 @@ dinosaurs <- c("Nasutoceratops_titusi", "Diabloceratops_eatoni",
 "Triceratops_horridus", "Triceratops_prorsus")
 
 #Table of taxon names in list, tree or both
-phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs)
+ex1 <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs)
 
 #Counts of taxa in list, tree or both
-phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs, out = "counts")
+ex2 <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
+                   out = "counts")
 
 #Trim tree to tips in the list
 my_ceratopsians <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,

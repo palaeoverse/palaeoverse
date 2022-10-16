@@ -68,26 +68,24 @@
 #' William Gearty
 #' @importFrom stats dunif
 #' @examples
-#' \dontrun{
 #' #Grab internal tetrapod data
 #' occdf <- tetrapods
 #' bins <- time_bins()
 #'
 #' #Assign via midpoint age of fossil occurrence data
-#' bin_time(occdf = occdf, bins = bins, method = "mid")
+#' ex1 <- bin_time(occdf = occdf, bins = bins, method = "mid")
 #'
 #' #Assign to all bins that age range covers
-#' bin_time(occdf = occdf, bins = bins, method = "all")
+#' ex2 <- bin_time(occdf = occdf, bins = bins, method = "all")
 #'
 #' #Assign via majority overlap based on fossil occurrence age range
-#' bin_time(occdf = occdf, bins = bins, method = "majority")
+#' ex3 <- bin_time(occdf = occdf, bins = bins, method = "majority")
 #'
 #' #Assign randomly to overlapping bins based on fossil occurrence age range
-#' bin_time(occdf = occdf, bins = bins, method = "random", reps = 100)
+#' ex4 <- bin_time(occdf = occdf, bins = bins, method = "random", reps = 10)
 #'
 #' #Assign point estimates based on fossil occurrence age range
-#' bin_time(occdf = occdf, bins = bins, method = "point", reps = 100)
-#' }
+#' ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 10)
 #' @export
 bin_time <- function(occdf, bins, method = "mid", reps = 100) {
     #=== Handling errors ===

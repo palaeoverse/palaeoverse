@@ -197,10 +197,10 @@ occdf <- data.frame(lng = c(2, -103, -66),
                 age = c(88, 125, 200))
 
 #Calculate palaeocoordinates using reconstruction files
-palaeorotate(occdf = occdf, method = "grid")
+ex1 <- palaeorotate(occdf = occdf, method = "grid")
 
 #Calculate palaeocoordinates using the GPlates API
-palaeorotate(occdf = occdf, method = "point")
+ex2 <- palaeorotate(occdf = occdf, method = "point")
 
 #Now with some real fossil occurrence data!
 
@@ -211,8 +211,8 @@ data(tetrapods)
 tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 
 #Rotate the data
-palaeorotate(occdf = tetrapods)
+ex3 <- palaeorotate(occdf = tetrapods)
 
 #Calculate uncertainity in palaeocoordinates from models
-palaeorotate(occdf = tetrapods, uncertainty = TRUE)
+ex4 <- palaeorotate(occdf = tetrapods, uncertainty = TRUE)
 }

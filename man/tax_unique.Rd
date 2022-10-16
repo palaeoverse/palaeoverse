@@ -139,4 +139,14 @@ c("Tyrannosaurus", "Spinosaurus", NA), family = c("Tyrannosauridae",
 dinosaur_species <- tax_unique(occdf = occdf, species = "species", genus =
 "genus", family = "family")
 
+#Retain unique genera per collection with group_apply
+genera <- group_apply(occdf = tetrapods,
+                     group = c("collection_no"),
+                     fun = tax_unique,
+                     genus = "genus",
+                     family = "family",
+                     order = "order",
+                     class = "class",
+                     resolution = "genus")
+
 }

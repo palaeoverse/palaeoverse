@@ -25,10 +25,10 @@
 #' @export
 #' @examples
 #' #Generate 20 degrees latitudinal bins
-#' lat_bins(size = 20)
+#' bins <- lat_bins(size = 20)
 #'
 #' #Generate latitudinal bins with closest fit to 13 degrees
-#' lat_bins(size = 13, fit = TRUE)
+#' bins <- lat_bins(size = 13, fit = TRUE)
 #'
 lat_bins <- function(size = 10, fit = FALSE, plot = FALSE) {
   #error handling
