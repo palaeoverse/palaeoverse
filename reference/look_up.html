@@ -175,15 +175,7 @@ The table corresponding to this key can be loaded with
 <span class="r-in"><span>early_interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Maastrichtian"</span>, <span class="st">"Campanian"</span>, <span class="st">"Sinemurian"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>late_interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Maastrichtian"</span>, <span class="st">"Campanian"</span>, <span class="st">"Bartonian"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># assign stages and numerical ages</span></span></span>
-<span class="r-in"><span><span class="fu">look_up</span><span class="op">(</span><span class="va">taxdf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   name early_interval late_interval   early_stage    late_stage interval_max_ma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    A  Maastrichtian Maastrichtian Maastrichtian Maastrichtian            72.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    B      Campanian     Campanian     Campanian     Campanian            83.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    C     Sinemurian     Bartonian    Sinemurian     Bartonian           199.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   interval_mid_ma interval_min_ma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          69.050           66.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2          77.850           72.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         118.505           37.71</span>
+<span class="r-in"><span><span class="va">taxdf</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">taxdf</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Use exemplary int_key</span></span></span>
 <span class="r-in"><span><span class="co"># Get internal tetrapod data</span></span></span>
@@ -195,10 +187,10 @@ The table corresponding to this key can be loaded with
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following intervals could not be matched with intervals from int_key</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>       or GTS: Early Triassic, Late Pennsylvanian, Vokhmian</span>
 <span class="r-in"><span><span class="co"># return unassigned intervals</span></span></span>
-<span class="r-in"><span><span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>, int_key <span class="op">=</span> <span class="fu">palaeoverse</span><span class="fu">::</span><span class="va"><a href="interval_key.html">interval_key</a></span>, return_unassigned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">unassigned</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>, int_key <span class="op">=</span> <span class="fu">palaeoverse</span><span class="fu">::</span><span class="va"><a href="interval_key.html">interval_key</a></span>,</span></span>
+<span class="r-in"><span>                      return_unassigned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`NA`, `""` or `" "` entries from `late_interval` have been</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>             filled in with the corresponding `early_interval` entries</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Early Triassic"     "Late Pennsylvanian" "Vokhmian"          </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Use own key and GTS2012:</span></span></span>
 <span class="r-in"><span><span class="co"># create example data</span></span></span>
@@ -211,20 +203,9 @@ The table corresponding to this key can be loaded with
 <span class="r-in"><span>  early_stage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Asselian"</span>, <span class="st">"Asselian"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  late_stage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Changhsingian"</span>, <span class="st">"Asselian"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># assign stages and numerical ages:</span></span></span>
-<span class="r-in"><span><span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>,</span></span>
-<span class="r-in"><span>        early_interval <span class="op">=</span> <span class="st">"stage"</span>, late_interval <span class="op">=</span> <span class="st">"stage"</span>,</span></span>
-<span class="r-in"><span>        int_key <span class="op">=</span> <span class="va">interval_key</span>, assign_with_GTS <span class="op">=</span> <span class="st">"GTS2012"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 stage early_stage    late_stage interval_max_ma interval_mid_ma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         any Permian    Asselian Changhsingian           298.9          275.55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 first Permian stage    Asselian      Asselian           298.9          297.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         any Permian    Asselian Changhsingian           298.9          275.55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             Roadian     Roadian       Roadian           272.3          270.55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   interval_min_ma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           252.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           295.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           252.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4           268.8</span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>,</span></span>
+<span class="r-in"><span>                 early_interval <span class="op">=</span> <span class="st">"stage"</span>, late_interval <span class="op">=</span> <span class="st">"stage"</span>,</span></span>
+<span class="r-in"><span>                 int_key <span class="op">=</span> <span class="va">interval_key</span>, assign_with_GTS <span class="op">=</span> <span class="st">"GTS2012"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

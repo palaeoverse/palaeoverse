@@ -110,37 +110,11 @@ generated?</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Generate 20 degrees latitudinal bins</span></span></span>
-<span class="r-in"><span><span class="fu">lat_bins</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   bin max mid min</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1  90  80  70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2  70  60  50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3  50  40  30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4  30  20  10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5  10   0 -10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 -10 -20 -30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 -30 -40 -50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 -50 -60 -70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 -70 -80 -90</span>
+<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">lat_bins</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Generate latitudinal bins with closest fit to 13 degrees</span></span></span>
-<span class="r-in"><span><span class="fu">lat_bins</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">13</span>, fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">lat_bins</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">13</span>, fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Bin size set to 12 degrees to fit latitudinal range.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    bin max mid min</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    1  90  84  78</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2  78  72  66</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    3  66  60  54</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    4  54  48  42</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    5  42  36  30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    6  30  24  18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    7  18  12   6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    8   6   0  -6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    9  -6 -12 -18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  10 -18 -24 -30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11  11 -30 -36 -42</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12  12 -42 -48 -54</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  13 -54 -60 -66</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  14 -66 -72 -78</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  15 -78 -84 -90</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

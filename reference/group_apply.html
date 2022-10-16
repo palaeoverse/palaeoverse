@@ -151,11 +151,15 @@ same taxon per grouping variable. Note: <code>verbose</code> needs to be set to 
 <span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, group <span class="op">=</span> <span class="st">"cc"</span>, fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Temporal range of taxa per country with default arguments</span></span></span>
 <span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, group <span class="op">=</span> <span class="st">"cc"</span>, fun <span class="op">=</span> <span class="va">tax_range_time</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Temporal range of taxa per country with updated arguments</span></span></span>
-<span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>,</span></span>
-<span class="r-in"><span>                   group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cc"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                   fun <span class="op">=</span> <span class="va">tax_range_time</span>,</span></span>
-<span class="r-in"><span>                   by <span class="op">=</span> <span class="st">"LAD"</span><span class="op">)</span> <span class="co"># Order by LAD (default: "FAD")</span></span></span>
+<span class="r-in"><span><span class="co"># Unique genera per collection with group_apply and input arguments</span></span></span>
+<span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span>,</span></span>
+<span class="r-in"><span>                     group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"collection_no"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                     fun <span class="op">=</span> <span class="va">tax_unique</span>,</span></span>
+<span class="r-in"><span>                     genus <span class="op">=</span> <span class="st">"genus"</span>,</span></span>
+<span class="r-in"><span>                     family <span class="op">=</span> <span class="st">"family"</span>,</span></span>
+<span class="r-in"><span>                     order <span class="op">=</span> <span class="st">"order"</span>,</span></span>
+<span class="r-in"><span>                     class <span class="op">=</span> <span class="st">"class"</span>,</span></span>
+<span class="r-in"><span>                     resolution <span class="op">=</span> <span class="st">"genus"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Use multiple variables (number of occurrences per collection and formation)</span></span></span>
 <span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>,</span></span>
 <span class="r-in"><span>                   group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"collection_no"</span>, <span class="st">"formation"</span><span class="op">)</span>,</span></span>

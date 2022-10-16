@@ -140,55 +140,11 @@ your branch lengths following pruning.</p>
 <span class="r-in"><span><span class="st">"Triceratops_horridus"</span>, <span class="st">"Triceratops_prorsus"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Table of taxon names in list, tree or both</span></span></span>
-<span class="r-in"><span><span class="fu">phylo_check</span><span class="op">(</span>tree <span class="op">=</span> <span class="va">ceratopsianTreeRaia</span>, list <span class="op">=</span> <span class="va">dinosaurs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                        Taxon name Present in tree Present in list</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7            Avaceratops_lammersi            TRUE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8           Diabloceratops_eatoni            TRUE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20           Triceratops_horridus            TRUE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21            Triceratops_prorsus            TRUE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26         Leptoceratops_gracilis            TRUE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33           Psittacosaurus_major            TRUE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35        Psittacosaurus_sinensis            TRUE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38          Nasutoceratops_titusi           FALSE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39      Zuniceratops_christopheri           FALSE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40     Xenoceratops_foremostensis           FALSE            TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            Centrosaurus_apertus            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       Styracosaurus_albertensis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      Pachyrhinosaurus_perotorum            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       Pachyrhinosaurus_lakustai            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           Achelousaurus_horneri            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      Einiosaurus_procurvicornis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9           Chasmosaurus_russelli            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10             Chasmosaurus_belli            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11         Mojoceratops_perifania            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12    Agujaceratops_mariscalensis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13      Pentaceratops_sternbergii            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14            Utahceratops_gettyi            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15        Vagaceratops_irvinensis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16      Kosmoceratops_richardsoni            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17          Anchiceratops_ornatus            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18      Arrhinoceratops_brachyops            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19               Torosaurus_latus            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22   Bagaceratops_rozhdestvenskyi            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23  Protoceratops_hellenikorhinus            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24         Protoceratops_andrewsi            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25      Prenoceratops_pieganensis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27        Archaeoceratops_oshimai            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28         Auroraceratops_rugosus            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29     Liaoceratops_yanzigouensis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30           Hongshanosaurus_houi            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31    Psittacosaurus_mongoliensis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32  Psittacosaurus_meileyingensis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34       Psittacosaurus_gobiensis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36 Psittacosaurus_neimongoliensis            TRUE           FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37                 Yinlong_downsi            TRUE           FALSE</span>
+<span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">phylo_check</span><span class="op">(</span>tree <span class="op">=</span> <span class="va">ceratopsianTreeRaia</span>, list <span class="op">=</span> <span class="va">dinosaurs</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Counts of taxa in list, tree or both</span></span></span>
-<span class="r-in"><span><span class="fu">phylo_check</span><span class="op">(</span>tree <span class="op">=</span> <span class="va">ceratopsianTreeRaia</span>, list <span class="op">=</span> <span class="va">dinosaurs</span>, out <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        Category Number of taxa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Tree and list              7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Only in tree             30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  Only in list              3</span>
+<span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">phylo_check</span><span class="op">(</span>tree <span class="op">=</span> <span class="va">ceratopsianTreeRaia</span>, list <span class="op">=</span> <span class="va">dinosaurs</span>,</span></span>
+<span class="r-in"><span>                   out <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Trim tree to tips in the list</span></span></span>
 <span class="r-in"><span><span class="va">my_ceratopsians</span> <span class="op">&lt;-</span> <span class="fu">phylo_check</span><span class="op">(</span>tree <span class="op">=</span> <span class="va">ceratopsianTreeRaia</span>, list <span class="op">=</span> <span class="va">dinosaurs</span>,</span></span>

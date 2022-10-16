@@ -148,77 +148,7 @@ originated and went extinct.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">taxdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                    max_ma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">150</span>, <span class="fl">60</span>, <span class="fl">30</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                    min_ma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">110</span>, <span class="fl">20</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">tax_expand_time</span><span class="op">(</span><span class="va">taxdf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    name max_ma min_ma   ext  orig interval_number     interval_name  rank</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     C     30      0 FALSE FALSE               1        Meghalayan stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     C     30      0 FALSE FALSE               2     Northgrippian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     C     30      0 FALSE FALSE               3      Greenlandian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     C     30      0 FALSE FALSE               4 Upper Pleistocene stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     C     30      0 FALSE FALSE               5         Chibanian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     C     30      0 FALSE FALSE               6         Calabrian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7     C     30      0 FALSE FALSE               7          Gelasian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8     C     30      0 FALSE FALSE               8        Piacenzian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9     C     30      0 FALSE FALSE               9          Zanclean stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10    C     30      0 FALSE FALSE              10         Messinian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11    C     30      0 FALSE FALSE              11         Tortonian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12    C     30      0 FALSE FALSE              12      Serravallian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13    C     30      0 FALSE FALSE              13          Langhian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14    B     60     20  TRUE FALSE              14       Burdigalian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15    C     30      0 FALSE FALSE              14       Burdigalian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16    B     60     20 FALSE FALSE              15        Aquitanian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17    C     30      0 FALSE FALSE              15        Aquitanian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18    B     60     20 FALSE FALSE              16          Chattian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19    C     30      0 FALSE FALSE              16          Chattian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20    B     60     20 FALSE FALSE              17          Rupelian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21    C     30      0 FALSE  TRUE              17          Rupelian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22    B     60     20 FALSE FALSE              18        Priabonian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23    B     60     20 FALSE FALSE              19         Bartonian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24    B     60     20 FALSE FALSE              20          Lutetian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25    B     60     20 FALSE FALSE              21          Ypresian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26    B     60     20 FALSE FALSE              22         Thanetian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27    B     60     20 FALSE  TRUE              23         Selandian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28    A    150    110  TRUE FALSE              31            Albian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29    A    150    110 FALSE FALSE              32            Aptian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30    A    150    110 FALSE FALSE              33         Barremian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31    A    150    110 FALSE FALSE              34       Hauterivian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32    A    150    110 FALSE FALSE              35       Valanginian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33    A    150    110 FALSE FALSE              36        Berriasian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34    A    150    110 FALSE  TRUE              37         Tithonian stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      max_ma    mid_ma   min_ma duration_myr  font  colour</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    0.0042   0.00210   0.0000       0.0042 black #FDEDEC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    0.0082   0.00620   0.0042       0.0040 black #FDECE4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    0.0117   0.00995   0.0082       0.0035 black #FEECDB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    0.1290   0.07035   0.0117       0.1173 black #FFF2D3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    0.7740   0.45150   0.1290       0.6450 black #FFF2C7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    1.8000   1.28700   0.7740       1.0260 black #FFF2BA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2.5800   2.19000   1.8000       0.7800 black #FFEDB3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    3.6000   3.09000   2.5800       1.0200 black #FFFFBF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    5.3330   4.46650   3.6000       1.7330 black #FFFFB3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   7.2460   6.28950   5.3330       1.9130 black #FFFF73</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11  11.6300   9.43800   7.2460       4.3840 black #FFFF66</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12  13.8200  12.72500  11.6300       2.1900 black #FFFF59</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  15.9700  14.89500  13.8200       2.1500 black #FFFF4D</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  20.4400  18.20500  15.9700       4.4700 black #FFFF41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  20.4400  18.20500  15.9700       4.4700 black #FFFF41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  23.0300  21.73500  20.4400       2.5900 black #FFFF33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17  23.0300  21.73500  20.4400       2.5900 black #FFFF33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18  27.8200  25.42500  23.0300       4.7900 black #FEE6AA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19  27.8200  25.42500  23.0300       4.7900 black #FEE6AA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  33.9000  30.86000  27.8200       6.0800 black #FED99A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21  33.9000  30.86000  27.8200       6.0800 black #FED99A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22  37.7100  35.80500  33.9000       3.8100 black #FDCDA1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23  41.2000  39.45500  37.7100       3.4900 black #FDC091</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24  47.8000  44.50000  41.2000       6.6000 black #FDB482</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25  56.0000  51.90000  47.8000       8.2000 black #FCA773</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26  59.2000  57.60000  56.0000       3.2000 black #FDBF6F</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27  61.6000  60.40000  59.2000       2.4000 black #FEBF65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28 113.0000 106.75000 100.5000      12.5000 black #CCEA97</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29 125.0000 119.00000 113.0000      12.0000 black #BFE48A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30 129.4000 127.20000 125.0000       4.4000 black #B3DF7F</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31 132.6000 131.00000 129.4000       3.2000 black #A6D975</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32 139.8000 136.20000 132.6000       7.2000 black #99D36A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33 145.0000 142.40000 139.8000       5.2000 black #8CCD60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34 152.1000 148.55000 145.0000       7.1000 black #D9F1F7</span>
+<span class="r-in"><span><span class="va">ex</span> <span class="op">&lt;-</span> <span class="fu">tax_expand_time</span><span class="op">(</span><span class="va">taxdf</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
