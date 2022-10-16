@@ -74,6 +74,6 @@ occdf <- tetrapods
 # Remove NAs
 occdf <- subset(occdf, !is.na(genus))
 # Temporal range
-tax_range_time(occdf = occdf, name = "genus", plot = TRUE)
+ex <- tax_range_time(occdf = occdf, name = "genus", plot = TRUE)
 
 }

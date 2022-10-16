@@ -86,17 +86,19 @@ Kilian Eichenseer & William Gearty
 
 \examples{
 #Using numeric age
-time_bins(interval = 10, plot = TRUE)
+ex1 <- time_bins(interval = 10, plot = TRUE)
 
 #Using numeric age range
-time_bins(interval = c(50, 100), plot = TRUE)
+ex2 <- time_bins(interval = c(50, 100), plot = TRUE)
 
 #Using a single interval name
-time_bins(interval = c("Maastrichtian"), plot = TRUE)
+ex3 <- time_bins(interval = c("Maastrichtian"), plot = TRUE)
 
 #Using a range of intervals and near-equal duration bins
-time_bins(interval = c("Fortunian", "Meghalayan"), size = 10, plot = TRUE)
+ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"),
+                 size = 10, plot = TRUE)
 
 #Assign bins based on given age estimates
-time_bins(interval = c("Fortunian", "Meghalayan"), assign = c(232, 167, 33))
+ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
+                 assign = c(232, 167, 33))
 }

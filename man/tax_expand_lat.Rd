@@ -57,8 +57,8 @@ bins <- lat_bins()
 taxdf <- data.frame(name = c("A", "B", "C"),
                     max_lat = c(60, 20, -10),
                     min_lat = c(20, -40, -60))
-tax_expand_lat(taxdf = taxdf,
-               bins = bins,
-               max_lat = "max_lat",
-               min_lat = "min_lat")
+ex <- tax_expand_lat(taxdf = taxdf,
+                     bins = bins,
+                     max_lat = "max_lat",
+                     min_lat = "min_lat")
 }

@@ -41,7 +41,7 @@
 #' taxdf <- data.frame(name = c("A", "B", "C"),
 #'                     max_ma = c(150, 60, 30),
 #'                     min_ma = c(110, 20, 0))
-#' tax_expand_time(taxdf)
+#' ex <- tax_expand_time(taxdf)
 tax_expand_time <- function(
     taxdf,
     max_ma = "max_ma",

@@ -43,6 +43,6 @@ occdf <- tetrapods
 # Generate latitudinal bins
 bins <- lat_bins(size = 10)
 # Bin data
-bin_lat(occdf = occdf, bins = bins, lat = "lat")
+occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
 
 }
