@@ -52,7 +52,7 @@ We recommend using the following conventions to make your code easier for us (an
 
 **Progress:** if your code may take a long time to run (more than a minute), include a progress bar such as `'txtProgressBar()'` in your function.
 
-**Sections:** use lines of '-' or '=' to indicate section breaks. It is hard to provide exact details on how long a section break should be. However, we tend to think of them as paragraphs in our code. **Tip:** In RStudio, you can use `'# SECTION NAME ###'` to make a section which is interpreted by the outline feature. You can also make subsections by adding more `'#"` before the section name. If you are using RStudio, you can also use the keyboard shortcut `cmd + shift + r`.
+**Sections:** use lines of '-' or '=' to indicate section breaks. It is hard to provide exact details on how long a section break should be. However, we tend to think of them as paragraphs in our code. **Tip:** In RStudio, you can use `'# SECTION NAME ###'` to make a section which is interpreted by the outline feature. You can also make subsections by adding more `'#"` before the section name. If you are using RStudio, you can also use the keyboard shortcut `Cmd/Ctrl + Shift + R`.
 
 **Spacing:** add spaces to your code to make it more human-readable.
 
@@ -147,8 +147,11 @@ Documenting your data is to provide a thorough description of the data and any i
 **Variables:** Describe each of the columns in your dataset, providing as much information as you can on the full name of the variable, data type (e.g. continuous, discrete, categoric, etc.), units, and how it was collected.
 
 # Functions
+## Conventions
+Functions are saved as `'.R'` files in the `'R'` folder. The name of the file needs to correspond to the function, e.g. the file `time_bins.R` contains the function `time_bins()`. Function names and arguments should be informative and aim to keep in line with available functions in `palaeoverse`. For example, all functions that bin data, whether it be by time or space, start with `bin_`, whereas taxonomic-related functions start with `tax_` (e.g. `tax_unique`, `tax_check`). Where possible, argument names should also consist with functions in the package. For example, if a function requires an occurrence dataframe as input, the argument name should be `occdf`. It is difficult to give a complete static summary of all the conventions as `palaeoverse` will undoubtedly evolve over time. We also wish to remain flexible for contributors, provided that it does not compromise the user-friendliness of the package. We welcome contributors to check through the source code of `palaeoverse` for function examples.
+
 ## Documentation
-Functions are saved as `'.R'` files in the `'R'` folder. The name of the file needs to correspond to the function, e.g. the file `time_bins.R` contains the function `time_bins()`. For documentation, we use `roxygen2`. The title, a brief description, and every argument (including the input class and default input) and the output of the function need to be documented in `roxygen2` style, for example:
+For documentation, we use [roxygen2](https://roxygen2.r-lib.org). The title, a brief description, and every argument (including the input class and default input) and the output of the function need to be documented in `roxygen2` style, for example:
 ```{r function, include = TRUE, eval = FALSE}
 #' An exemplary function
 #' This function is used to demonstrate the documentation of functions.
@@ -174,7 +177,7 @@ When possible, you should make coding decisions which will ensure that your code
 
 - Using functions from the `'apply'` family can be faster than for-loops. However, a for-loop is almost always more reader-friendly, so try to balance the two!
 - Storing objects as lists, or lists of lists, rather than data frames inside functions
-- Vectorise, when possible
+- Vectorise, when possible. This way a function can operate on all elements of a vector without needing to loop through each element.
 - Avoiding using `rbind()` and `cbind()` to compile objects row-wise or column-wise within for-loops; specifying the row or column number using the iteration number is usually a faster alternative.
 
 However, please don't let this deter you - we welcome submissions from R users of all experience levels, and our team of in-house code evaluators can help you with any concerns about efficiency.
@@ -199,7 +202,7 @@ if (!is.numeric(x)) {
 ```
 
 ## Warning messages
-In general, we try to minimise the use of warning messages in `palaeoverse` as these can be easily ignored by the user, or completely skipped in pipeline analyses ([see more?](https://www.r-bloggers.com/2012/05/a-warning-about-warning/)). However, as with most things in life, there is a time and a place. So, while the use of `warning()` is generally discouraged if throwing an error will suffice, we do allow the use of warning messages in `palaeoverse`, where appropiate. 
+In general, we try to minimise the use of warning messages in `palaeoverse` as these can be easily ignored by the user, or completely skipped in pipeline analyses ([see more?](https://www.r-bloggers.com/2012/05/a-warning-about-warning/)). However, as with most things in life, there is a time and a place. So, while the use of `warning()` is generally discouraged if throwing an error will suffice, we do allow the use of warning messages in `palaeoverse`, where appropriate. Warning messages can be useful for providing additional information to the user about function output. For example, in the `palaeorotate` function we provide a warning to users if one or more points could not be reconstructed due to the georeferenced plate not existing at the desired time of reconstruction.
 
 To implement warning messages in R, the `warning()` function can be used:
 
@@ -213,7 +216,7 @@ if (!is.numeric(x)) {
 ## Tests
 Testing is perhaps one of the most important parts of developing a function. If you have not already, we recommend reading through Chapter 12–Testing of ['R packages'](https://r-pkgs.org/tests.html#test-organisation) before continuing here as `palaeoverse` follows this guidance.
 
-Before a function can be added to `palaeoverse`, it needs to go through formal testing. This is required as **hopefully** your function will be very popular, and we need to ensure that it behaves as expected to avoid any issues. To do so, we make use of the R package `testthat`.
+Before a function can be added to `palaeoverse`, it needs to go through formal testing. This is required as hopefully your function will be very popular, and we need to ensure that it behaves as expected to avoid any issues. To do so, we make use of the R package `testthat`.
 
 The initial setup for function testing with `testthat` is already established in palaeoverse, under the directory `'tests/testthat/'`. The organisation of test files must match that of `'R/'` files in `palaeoverse`. For example, the function `time_bins()` is saved as `time_bins.R` in the `R/` directory, and has an associated test file of `'test-time_bins.R'` in the `'tests/testthat'` directory. This ensures that associated function testing is clear.
 
@@ -235,7 +238,9 @@ test_that("time_bins() works", {
 })
 ```
 
-# Contributing
+# Contributing to palaeoverse
+
+At `palaeoverse` we have adopted a set of [structures and standards](https://palaeoverse.org/articles/structure-and-standards.html) to follow for contributing to the development of `palaeoverse`. If you would like to contribute to the `palaeoverse` toolkit, we strongly advise reading this document first. If you plan to contribute a function to `palaeoverse`, you should first raise an [issue](https://github.com/palaeoverse-community/palaeoverse/issues) via the GitHub repository (see below). This way the development team can assess whether the function is suitable or needed in the `palaeoverse` toolkit prior to submission.
 
 ## Git and GitHub
 We use git via Github [(**palaeoverse-community**)](https://github.com/palaeoverse-community) to manage our R code and data. If you are not familiar with these tools, there are some excellent free resources available online:
@@ -245,7 +250,7 @@ We use git via Github [(**palaeoverse-community**)](https://github.com/palaeover
 - [Git and GitHub and R packages (medium length)](https://rfortherestofus.com/2021/02/how-to-use-git-github-with-r/)
 - [A comprehensive guide to git and R (very long)](https://happygitwithr.com/)
 
-## How to contribute?
+## How to contribute
 
 ### Minor changes
 
@@ -257,7 +262,7 @@ If you would like to make a substantial change, you should first file an issue a
 
 ### Pull request process
 
-You (the contributor) should clone the desired repository (i.e. [the palaeoverse R package](https://github.com/palaeoverse-community/palaeoverse)) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (“PR”) on GitHub. Note that a complete pull request should include a succinct description of what the code changes do, proper documentation (via `roxygen2`), and unit tests (via `testthat`). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.
+You (the contributor) should clone the desired repository (i.e. [the palaeoverse R package](https://github.com/palaeoverse-community/palaeoverse)) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) (“PR”) on GitHub. Note that a complete pull request should include a succinct description ([see function template](https://github.com/palaeoverse-community/palaeoverse/blob/main/pull_request_template.md)) of what the code changes do, proper documentation (via [roxygen2](https://roxygen2.r-lib.org)), and unit tests (via `testthat`). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.
 
 If you are not comfortable with git/GitHub, you can reach out to one of the core developers ([see collaborators](https://github.com/palaeoverse-community/palaeoverse)) via email and they can make a pull request on your behalf. However, you will be expected to respond to any reviewer comments on GitHub (see below).
 

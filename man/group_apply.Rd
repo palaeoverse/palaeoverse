@@ -84,11 +84,15 @@ occdf <- subset(occdf, !is.na(genus))
 ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
 # Temporal range of taxa per country with default arguments
 ex2 <- group_apply(occdf = occdf, group = "cc", fun = tax_range_time)
-# Temporal range of taxa per country with updated arguments
-ex3 <- group_apply(occdf = occdf,
-                   group = c("cc"),
-                   fun = tax_range_time,
-                   by = "LAD") # Order by LAD (default: "FAD")
+# Unique genera per collection with group_apply and input arguments
+ex3 <- group_apply(occdf = tetrapods,
+                     group = c("collection_no"),
+                     fun = tax_unique,
+                     genus = "genus",
+                     family = "family",
+                     order = "order",
+                     class = "class",
+                     resolution = "genus")
 # Use multiple variables (number of occurrences per collection and formation)
 ex4 <- group_apply(occdf = occdf,
                    group = c("collection_no", "formation"),
