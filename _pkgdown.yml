@@ -52,7 +52,7 @@ reference:
 
 - title: Data binning
   desc: >
-    Various functions for binning occurrence data into spatial or temporal bins.
+    Functions for binning occurrence data.
   contents:
   - bin_lat
   - bin_spatial
