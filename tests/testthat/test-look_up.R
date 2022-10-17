@@ -1,7 +1,7 @@
 test_that("look_up() works", {
 
   occdf <- tetrapods
-  vec <- append(vec, c(NA, " ", ""))
+  vec <- c(NA, " ", "")
   occdf <- occdf[which(!occdf$late_interval %in% vec),]
   vec <- look_up(occdf = occdf, return_unassigned = TRUE)
   vec <- append(vec, c(NA, " ", ""))

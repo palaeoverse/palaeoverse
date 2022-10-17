@@ -32,18 +32,18 @@ reef}
 }
 }
 \source{
-Compiled by Lewis A. Jones, current version downloaded on 25th July
-2022. \doi{10.5281/zenodo.6037852}
+Compiled by Lewis A. Jones. Downloaded on the 25th July 2022.
+\doi{10.5281/zenodo.6037852}
 }
 \usage{
 reefs
 }
 \description{
-A dataset of Phanerozoic reef occurrences from the PaleoReefs Database
-(PARED) \url{https://www.paleo-reefs.pal.uni-erlangen.de}. This example
-dataset includes a subset of the available data from PARED, but can be used
-to demonstrate how the functions in the \code{palaeoverse} package might be
-applied.
+A dataset of Phanerozoic reef occurrences from the
+\href{https://www.paleo-reefs.pal.uni-erlangen.de}{PaleoReefs Database} (PARED).
+This example dataset includes a subset of the available data from PARED,
+but can be used to demonstrate how the functions in the \code{palaeoverse}
+package might be applied.
 }
 \section{References}{
 

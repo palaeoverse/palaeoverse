@@ -34,8 +34,8 @@ assign to requested bins. If assign is specified, a numeric vector is
 returned of the midpoint age of the specified bins. Note this is the
 simplified approach of assignment in \code{palaeoverse} included for data with
 'known' point-age estimates.
-See \code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}
-for a wider range of binning methods.}
+For a wider range of binning methods, see
+\code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}.}
 
 \item{scale}{\code{character}. Specify the desired geological timescale to
 be used "GTS2020" or "GTS2012". "GTS2020" is the default.}
@@ -69,10 +69,9 @@ Additional information on each timescale and source can be accessed via:
 \item \code{\link{GTS2012}}
 }
 
-Available intervals names are also accessible via
-\code{GTS2020$interval_name} or \code{GTS2012$interval_name}. Data of the
-Geological Timescale 2020 and 2012 were compiled by Lewis A. Jones
-(2022-07-02).
+Available intervals names are accessible via the \code{interval_name}
+column in \code{GTS2012} and \code{GTS2020}. Data of the Geological Timescale 2020
+and 2012 were compiled by Lewis A. Jones (2022-07-02).
 }
 \section{Developer(s)}{
 

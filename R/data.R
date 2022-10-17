@@ -1,8 +1,8 @@
 #' Geological Timescale 2020
 #'
 #' A dataframe of the Geological Timescale 2020. Age data from the
-#' International Commission on Stratigraphy:
-#' \url{https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf}.
+#' [International Commission on Stratigraphy]
+#' (https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf).
 #' Supplementary information is included in the dataset for plotting
 #' functionality (e.g. GTS2020 colour scheme).
 #'
@@ -21,22 +21,22 @@
 #'   \item{duration_myr}{The duration of the interval in millions of years.}
 #'   \item{font}{Colour of font to use for plotting in conjunction with the
 #'   colour column.}
-#'   \item{colour}{Colours of stages based on the ICS timescale
-#'   \url{https://stratigraphy.org/timescale/}.}
+#'   \item{colour}{Colours of stages based on the [ICS timescale]
+#'   (https://stratigraphy.org/timescale/).}
 #' }
 #' @section References:
 #' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2020).
 #' Geologic Timescale 2020. Elsevier.
 #' \cr
-#' @source Compiled by Lewis A. Jones (2022-07-02) from
-#' \url{https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf}.
+#' @source Compiled by Lewis A. Jones (2022-07-02) from the [ICS]
+#' (https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf).
 "GTS2020"
 
 #' Geological Timescale 2012
 #'
 #' A dataframe of the Geological Timescale 2012. Age data from the
-#' International Commission on Stratigraphy:
-#' \url{https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf}.
+#' [International Commission on Stratigraphy]
+#' (https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf).
 #' Supplementary information is also included in the dataset for plotting
 #' functionality (e.g. GTS2012 colour scheme).
 #'
@@ -55,21 +55,22 @@
 #'   \item{duration_myr}{The duration of the interval in millions of years.}
 #'   \item{font}{Colour of font to use for plotting in conjunction with the
 #'   colour column.}
-#'   \item{colour}{Colours of stages based on the ICS timescale
-#'   \url{https://stratigraphy.org/timescale/}.}
+#'   \item{colour}{Colours of stages based on the [ICS timescale]
+#'   (https://stratigraphy.org/timescale/).}
 #' }
 #' @section References:
 #' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2012).
 #' Geologic Timescale 2012. Elsevier.
 #' \cr
-#' @source Compiled by Lewis A. Jones (2022-07-02) from
-#' \url{https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf}.
+#' @source Compiled by Lewis A. Jones (2022-07-02) from the [ICS]
+#' (https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf).
 "GTS2012"
 
 #' Example dataset: Early tetrapod data from the Paleobiology Database
 #'
 #' A dataset of tetrapod occurrences ranging from the Carboniferous through to
-#' the Early Triassic, from \url{https://paleobiodb.org/}. Dataset includes a
+#' the Early Triassic, from the
+#' [Palaeobiology Database](https://paleobiodb.org/). Dataset includes a
 #' range of variables relevant to common palaeobiological analyses, relating to
 #' identification, geography, environmental context, traits and more. Additional
 #' information can be found at \url{https://paleobiodb.org/data1.2/}.
@@ -133,11 +134,11 @@
 
 #' Example dataset: Phanerozoic reefs from the PaleoReefs Database
 #'
-#' A dataset of Phanerozoic reef occurrences from the PaleoReefs Database
-#' (PARED) \url{https://www.paleo-reefs.pal.uni-erlangen.de}. This example
-#' dataset includes a subset of the available data from PARED, but can be used
-#' to demonstrate how the functions in the `palaeoverse` package might be
-#' applied.
+#' A dataset of Phanerozoic reef occurrences from the
+#' [PaleoReefs Database](https://www.paleo-reefs.pal.uni-erlangen.de) (PARED).
+#' This example dataset includes a subset of the available data from PARED,
+#' but can be used to demonstrate how the functions in the `palaeoverse`
+#' package might be applied.
 #'
 #' @format A data frame with 4363 rows and 14 variables:
 #' \describe{
@@ -168,8 +169,8 @@
 #' Kiessling, W. & Krause, M. C. (2022). PaleoReefs Database (PARED)
 #' (1.0) Data set. \doi{10.5281/zenodo.6037852}
 #' \cr
-#' @source Compiled by Lewis A. Jones, current version downloaded on 25th July
-#' 2022. \doi{10.5281/zenodo.6037852}
+#' @source Compiled by Lewis A. Jones. Downloaded on the 25th July 2022.
+#' \doi{10.5281/zenodo.6037852}
 "reefs"
 
 #' Example dataset: Interval key for the look_up function

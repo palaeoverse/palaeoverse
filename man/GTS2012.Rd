@@ -20,21 +20,21 @@ present.}
 \item{duration_myr}{The duration of the interval in millions of years.}
 \item{font}{Colour of font to use for plotting in conjunction with the
 colour column.}
-\item{colour}{Colours of stages based on the ICS timescale
-\url{https://stratigraphy.org/timescale/}.}
+\item{colour}{Colours of stages based on the \link{ICS timescale}
+(https://stratigraphy.org/timescale/).}
 }
 }
 \source{
-Compiled by Lewis A. Jones (2022-07-02) from
-\url{https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf}.
+Compiled by Lewis A. Jones (2022-07-02) from the \link{ICS}
+(https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf).
 }
 \usage{
 GTS2012
 }
 \description{
 A dataframe of the Geological Timescale 2012. Age data from the
-International Commission on Stratigraphy:
-\url{https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf}.
+\link{International Commission on Stratigraphy}
+(https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf).
 Supplementary information is also included in the dataset for plotting
 functionality (e.g. GTS2012 colour scheme).
 }

@@ -62,7 +62,8 @@ tetrapods
 }
 \description{
 A dataset of tetrapod occurrences ranging from the Carboniferous through to
-the Early Triassic, from \url{https://paleobiodb.org/}. Dataset includes a
+the Early Triassic, from the
+\href{https://paleobiodb.org/}{Palaeobiology Database}. Dataset includes a
 range of variables relevant to common palaeobiological analyses, relating to
 identification, geography, environmental context, traits and more. Additional
 information can be found at \url{https://paleobiodb.org/data1.2/}.

@@ -28,8 +28,8 @@
 #' returned of the midpoint age of the specified bins. Note this is the
 #' simplified approach of assignment in `palaeoverse` included for data with
 #' 'known' point-age estimates.
-#' See \code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}
-#' for a wider range of binning methods.
+#' For a wider range of binning methods, see
+#' \code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}.
 #' @param scale \code{character}. Specify the desired geological timescale to
 #' be used "GTS2020" or "GTS2012". "GTS2020" is the default.
 #' @param plot \code{logical}. Should a plot of time bins be generated?
@@ -47,10 +47,9 @@
 #' - \code{\link{GTS2020}}
 #' - \code{\link{GTS2012}}
 #'
-#' Available intervals names are also accessible via
-#' \code{GTS2020$interval_name} or \code{GTS2012$interval_name}. Data of the
-#' Geological Timescale 2020 and 2012 were compiled by Lewis A. Jones
-#' (2022-07-02).
+#' Available intervals names are accessible via the `interval_name`
+#' column in `GTS2012` and `GTS2020`. Data of the Geological Timescale 2020
+#' and 2012 were compiled by Lewis A. Jones (2022-07-02).
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
