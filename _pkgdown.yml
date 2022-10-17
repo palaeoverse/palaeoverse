@@ -58,7 +58,7 @@ reference:
   - bin_spatial
   - bin_time
 
-- title: Data summarization
+- title: Data summarisation
   desc: >
     Functions to summarise occurrence-level data.
   contents:
