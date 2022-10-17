@@ -60,7 +60,7 @@ reference:
 
 - title: Data summarization
   desc: >
-    Various functions to summarize occurrence-level data.
+    Functions to summarise occurrence-level data.
   contents:
   - tax_range_geo
   - tax_range_time
