@@ -67,7 +67,7 @@ reference:
 
 - title: Data visualization
   desc: >
-    Functions to aid in the visualization of your data and the results of your analyses.
+    Functions to aid in the visualisation of data and analysis results.
   contents:
   - axis_geo
 
