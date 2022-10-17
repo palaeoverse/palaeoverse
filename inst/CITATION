@@ -3,7 +3,7 @@ citHeader("To cite palaeoverse in publications, use the following citation:")
 citEntry(entry  = "Article",
          title  = "palaeoverse:a community-driven R package to support palaeobiological analyses",
          author = personList(as.person("Lewis A. Jones"),
-                                   as.person("Will Gearty"),
+                                   as.person("William Gearty"),
                                    as.person("Bethany Allen"),
                                    as.person("Kilian Eichenseer"),
                                    as.person("Christopher D. Dean"),
@@ -22,9 +22,9 @@ citEntry(entry  = "Article",
          number       = "TBC",
          pages        = "TBC",
          url          = "TBC",
-         
+
          textVersion  =
            paste(
-           "Jones, Lewis A., Gearty, W., Allen, B., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Dunne, E.M., Godoy, P.L., Nicholl, C., Flannery-Sutherland, J.T., Dillon, E.M., Chiarenza, A.A. 2022.",
+           "Jones, L. A., Gearty, W., Allen, B., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Dunne, E.M., Godoy, P.L., Nicholl, C., Flannery-Sutherland, J.T., Dillon, E.M., Chiarenza, A.A. 2022.",
            "palaeoverse: a community-driven R package to support palaeobiological analyses.")
 )

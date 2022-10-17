@@ -2,7 +2,7 @@
 % Please edit documentation in R/tax_check.R
 \name{tax_check}
 \alias{tax_check}
-\title{tax_check}
+\title{Taxonomic spell check}
 \usage{
 tax_check(
   occdf,

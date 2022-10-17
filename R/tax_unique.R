@@ -38,14 +38,17 @@
 #' unique occurrences identified to a given taxonomic resolution, however
 #' this function retain occurrences identified to a coarser taxonomic resolution
 #' which are not already represented within the dataset.
+#'
 #' If we take the following set of occurrences:
+#'
 #' - *Albertosaurus sarcophagus*
 #' - *Ankylosaurus* sp.
 #' - Aves indet.
 #' - Ceratopsidae indet.
 #' - Hadrosauridae indet.
-#' - Ornithominus sp.
+#' - *Ornithomimus* sp.
 #' - *Tyrannosaurus rex*
+#'
 #' a filter for species-level identifications would reduce the species richness
 #' to two. However, none of these clades are nested within one another, so each
 #' of the indeterminately identified occurrences represents at least one species
@@ -84,7 +87,7 @@
 #' @section Developer(s):
 #' Bethany Allen
 #' @section Reviewer(s):
-#' Lewis A. Jones and William Gearty
+#' Lewis A. Jones & William Gearty
 #'
 #' @examples
 #' #Retain unique species

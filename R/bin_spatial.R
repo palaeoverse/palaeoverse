@@ -56,7 +56,7 @@
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Bethany Allen and Kilian Eichenseer
+#' Bethany Allen & Kilian Eichenseer
 #' @importFrom sf st_as_sf st_drop_geometry
 #' @importFrom h3jsr point_to_cell cell_to_point cell_to_polygon
 #' @examples

@@ -1,4 +1,4 @@
-#' tax_check
+#' Taxonomic spell check
 #'
 #' A function to check for and count potential spelling variations of the same
 #' taxon. Spelling variations are checked within alphabetical groups (default),

@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/palaeoverse-community/palaeoverse/branch/main/graph/badge.svg?token=HQQO2CRIKT)](https://codecov.io/gh/palaeoverse-community/palaeoverse)
 <!-- badges: end -->
 
-`palaeoverse` is an *R* package developed by palaeobiologists, for palaeobiologists.
+`palaeoverse` is an R package developed by palaeobiologists, for palaeobiologists.
 
 The aim of `palaeoverse` is to generate a community-driven software package of generic functions for the palaeobiological community. The package does not provide implementations of statistical analyses, rather it provides auxiliary functions to help streamline analyses and improve code readability and reproducibility.
 

@@ -14,8 +14,9 @@
 #' both the tree and the list removed ("diff_table"), the counts of taxa
 #' included and not included in the tree ("counts"), or the phylogeny trimmed to
 #' only include taxa in the provided list ("tree").
-#' @param sort \code{character}. If out = "table", sort the names by presence in
-#' the tree ("presence", the default), or alphabetically ("az").
+#' @param sort \code{character}. If out = "full_table" or out = "diff_table",
+#' sort the names by presence in the tree ("presence", the default), or
+#' alphabetically ("az").
 #' @return If out = "full_table", a \code{dataframe} describing whether taxon
 #' names are present in the list and/or the tree. If out = "diff_table", a
 #' \code{dataframe} describing which taxon names are present in the list or the
@@ -33,13 +34,13 @@
 #' @section Developer(s):
 #' Bethany Allen
 #' @section Reviewer(s):
-#' William Gearty and Pedro Godoy
+#' William Gearty & Pedro Godoy
 #'
 #' @examples
 #' #Read in example tree of ceratopsians from paleotree
 #' library(paleotree)
 #' data(RaiaCopesRule)
-#' plot(ceratopsianTreeRaia)
+#' plot(ceratopsianTreeRaia, cex = 0.5)
 #'
 #' #Specify list of names
 #' dinosaurs <- c("Nasutoceratops_titusi", "Diabloceratops_eatoni",

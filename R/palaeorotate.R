@@ -142,7 +142,7 @@
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Kilian Eichenseer and Lucas Buffan
+#' Kilian Eichenseer & Lucas Buffan
 #' @importFrom geosphere distm distHaversine
 #' @importFrom utils download.file
 #' @importFrom pbapply pblapply

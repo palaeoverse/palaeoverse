@@ -187,7 +187,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Kilian Eichenseer and Lucas Buffan
+Kilian Eichenseer & Lucas Buffan
 }
 
 \examples{

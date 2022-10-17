@@ -84,7 +84,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Bethany Allen and Kilian Eichenseer
+Bethany Allen & Kilian Eichenseer
 }
 
 \examples{

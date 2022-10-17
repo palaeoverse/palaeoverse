@@ -1,4 +1,4 @@
-#' Expand taxa to interval-level pseudo-occurrences
+#' Generate pseudo-occurrences from temporal range data
 #'
 #' A function to generate interval-level pseudo-occurrences for taxa based on
 #' temporal ranges (e.g., the output of \code{\link{tax_range_time}}). While the

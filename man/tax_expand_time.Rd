@@ -2,7 +2,7 @@
 % Please edit documentation in R/tax_expand_time.R
 \name{tax_expand_time}
 \alias{tax_expand_time}
-\title{Expand taxa to interval-level pseudo-occurrences}
+\title{Generate pseudo-occurrences from temporal range data}
 \usage{
 tax_expand_time(
   taxdf,

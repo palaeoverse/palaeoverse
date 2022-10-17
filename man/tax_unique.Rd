@@ -66,6 +66,7 @@ In many cases palaeobiologists count unique taxa by retaining only
 unique occurrences identified to a given taxonomic resolution, however
 this function retain occurrences identified to a coarser taxonomic resolution
 which are not already represented within the dataset.
+
 If we take the following set of occurrences:
 \itemize{
 \item \emph{Albertosaurus sarcophagus}
@@ -73,15 +74,16 @@ If we take the following set of occurrences:
 \item Aves indet.
 \item Ceratopsidae indet.
 \item Hadrosauridae indet.
-\item Ornithominus sp.
+\item \emph{Ornithomimus} sp.
 \item \emph{Tyrannosaurus rex}
+}
+
 a filter for species-level identifications would reduce the species richness
 to two. However, none of these clades are nested within one another, so each
 of the indeterminately identified occurrences represents at least one species
 not already represented in the dataset. This function is designed to deal
 with such taxonomic data, and would retain all seven 'species' in this
 example.
-}
 
 Taxonomic information is supplied within a dataframe, in which columns
 provide identifications at different taxonomic levels. Occurrence
@@ -120,7 +122,7 @@ Bethany Allen
 
 \section{Reviewer(s)}{
 
-Lewis A. Jones and William Gearty
+Lewis A. Jones & William Gearty
 }
 
 \examples{
