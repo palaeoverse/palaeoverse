@@ -39,7 +39,7 @@ home:
 reference:
 - title: Data cleaning and preparing
   desc: >
-    Various functions for cleaning and preparing your occurrence or taxonomic
+    Functions for cleaning and preparing occurrence or taxonomic
     data before performing downstream analyses.
   contents:
   - tax_check
