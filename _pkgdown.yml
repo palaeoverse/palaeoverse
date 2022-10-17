@@ -40,7 +40,7 @@ reference:
 - title: Data cleaning and preparing
   desc: >
     Functions for cleaning and preparing occurrence or taxonomic
-    data before performing downstream analyses.
+    data for downstream analyses.
   contents:
   - tax_check
   - phylo_check
