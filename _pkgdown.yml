@@ -73,7 +73,7 @@ reference:
 
 - title: Auxiliary functions
   desc: >
-    Various functions that help perform other functions.
+    Functions to support further functionality.
   contents:
   - lat_bins
   - time_bins
