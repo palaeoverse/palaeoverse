@@ -61,11 +61,11 @@
 #' palaeocoordinates for a grid of 1&deg; x 1&deg;, allowing the past
 #' distribution of fossil occurrences to be estimated efficiently. Access to
 #' the reconstruction files and documentation is available via the
-#' `palaeorotate` package (\url{https://github.com/LewisAJones/palaeorotate}).
+#' [palaeorotate](https://github.com/LewisAJones/palaeorotate) package.
 #' Note: each reconstruction file is 5--10 MB in size.
 #'
-#' - GPlates API: The "point" `method` uses the GPlates API service
-#' \url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point
+#' - GPlates API: The "point" `method` uses the [GPlates Web Service](
+#' https://gwsdoc.gplates.org) to reconstruct palaeorotations for point
 #' data. The use of this `method` is slower than the "grid" `method` if many
 #' unique time intervals exist in your dataset. However, it provides
 #' palaeocoordinates with higher precision.
@@ -121,8 +121,8 @@
 #'
 #' - Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models
 #' (PaleoDEMs) for the
-#' Phanerozoic. PALEOMAP Project.
-#' \url{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}.
+#' Phanerozoic. [PALEOMAP Project](
+#' https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/).
 #'
 #' - Seton, M., Müller, R.D., Zahirovic, S., Gaina, C., Torsvik, T.H.,
 #' Shephard, G., Talsma, A., Gurnis, M., Turner, M., Maus, S., Chandler, M.
@@ -136,8 +136,8 @@
 #' data with plate tectonics.
 #' Biogeosciences, 10(3), 1529–1541. \doi{10.5194/bg-10-1529-2013}.
 #'
-#' See GPlates documentation for additional information and details:
-#' \url{https://gwsdoc.gplates.org/reconstruction}.
+#' See [GPlates documentation](https://gwsdoc.gplates.org/reconstruction)
+#' for additional information and details.
 #'
 #' @section Developer(s):
 #' Lewis A. Jones

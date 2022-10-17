@@ -66,7 +66,7 @@
 #' (\code{\link{interval_key}}). This key works well for assigning
 #' geological stages to many of the intervals from the
 #' [Paleobiology Database](https://paleobiodb.org)
-#' and the [Paleoreefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
+#' and the [PaleoReefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
 #' `palaeoverse` cannot guarantee that all of
 #' the stage assignments with the exemplary key are accurate.
 #' The table corresponding to this key can be loaded with

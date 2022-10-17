@@ -1,8 +1,8 @@
 #' Geological Timescale 2020
 #'
 #' A dataframe of the Geological Timescale 2020. Age data from the
-#' [International Commission on Stratigraphy]
-#' (https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf).
+#' [International Commission on Stratigraphy](
+#' https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf).
 #' Supplementary information is included in the dataset for plotting
 #' functionality (e.g. GTS2020 colour scheme).
 #'
@@ -21,22 +21,22 @@
 #'   \item{duration_myr}{The duration of the interval in millions of years.}
 #'   \item{font}{Colour of font to use for plotting in conjunction with the
 #'   colour column.}
-#'   \item{colour}{Colours of stages based on the [ICS timescale]
-#'   (https://stratigraphy.org/timescale/).}
+#'   \item{colour}{Colours of stages based on the [ICS timescale](
+#'   https://stratigraphy.org/timescale/).}
 #' }
 #' @section References:
 #' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2020).
 #' Geologic Timescale 2020. Elsevier.
 #' \cr
-#' @source Compiled by Lewis A. Jones (2022-07-02) from the [ICS]
-#' (https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf).
+#' @source Compiled by Lewis A. Jones (2022-07-02) from the [ICS](
+#' https://stratigraphy.org/ICSchart/ChronostratChart2020-03.pdf).
 "GTS2020"
 
 #' Geological Timescale 2012
 #'
 #' A dataframe of the Geological Timescale 2012. Age data from the
-#' [International Commission on Stratigraphy]
-#' (https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf).
+#' [International Commission on Stratigraphy](
+#' https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf).
 #' Supplementary information is also included in the dataset for plotting
 #' functionality (e.g. GTS2012 colour scheme).
 #'
@@ -55,15 +55,15 @@
 #'   \item{duration_myr}{The duration of the interval in millions of years.}
 #'   \item{font}{Colour of font to use for plotting in conjunction with the
 #'   colour column.}
-#'   \item{colour}{Colours of stages based on the [ICS timescale]
-#'   (https://stratigraphy.org/timescale/).}
+#'   \item{colour}{Colours of stages based on the [ICS timescale](
+#'   https://stratigraphy.org/timescale/).}
 #' }
 #' @section References:
 #' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2012).
 #' Geologic Timescale 2012. Elsevier.
 #' \cr
-#' @source Compiled by Lewis A. Jones (2022-07-02) from the [ICS]
-#' (https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf).
+#' @source Compiled by Lewis A. Jones (2022-07-02) from the [ICS](
+#' https://stratigraphy.org/ICSchart/ChronostratChart2012.pdf).
 "GTS2012"
 
 #' Example dataset: Early tetrapod data from the Paleobiology Database
@@ -73,7 +73,7 @@
 #' [Palaeobiology Database](https://paleobiodb.org/). Dataset includes a
 #' range of variables relevant to common palaeobiological analyses, relating to
 #' identification, geography, environmental context, traits and more. Additional
-#' information can be found at \url{https://paleobiodb.org/data1.2/}.
+#' information can be found [here](https://paleobiodb.org/data1.2/).
 #' The downloaded data is unaltered, with the exception of removing some
 #' superfluous variables, and can be used to demonstrate how the functions
 #' in the palaeoverse package might be applied.
@@ -178,7 +178,7 @@
 #' A table of geological intervals and the earliest and latest
 #' corresponding international geological stages from the International
 #' Commission on Stratigraphy (ICS). The table was compiled using
-#' regional stratigraphies, the [Geowhen Database](
+#' regional stratigraphies, the [GeoWhen Database](
 #' https://timescalefoundation.org/resources/geowhen/), temporal
 #' information from the [Paleobiology Database](
 #' https://paleobiodb.org/classic/displaySearchStrataForm) and the
@@ -198,5 +198,5 @@
 #' }
 #' @source Compiled by K. Eichenseer for assigning geological stages to
 #' occurrences from the [Paleobiology Database](https://paleobiodb.org)
-#' and the [Paleoreefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
+#' and the [PaleoReefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
 "interval_key"

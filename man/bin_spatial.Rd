@@ -53,14 +53,15 @@ bins/samples using a hexagonal equal-area grid.
 \details{
 This function assigns fossil occurrence data into
 equal-area grid cells using discrete hexagonal grids via the
-\code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3 library,
-a geospatial indexing system that partitions the world into hexagonal cells:
-\url{https://h3geo.org/docs}. In H3, 16 different resolutions are available:
-\url{https://h3geo.org/docs/core-library/restable}. In the implementation of
-the \code{bin_spatial()} function, the resolution is defined by the user-input
-\code{spacing} which represents the distance between the centroid of adjacent
-cells. Using this distance, the function identifies which resolution is most
-similar to the input \code{spacing}, and uses this resolution.
+\code{\link[h3jsr]{h3jsr}} package. This package relies on
+\href{https://h3geo.org/docs}{Uber's H3} library, a geospatial indexing system
+that partitions the world into hexagonal cells. In H3, 16 different
+resolutions are available
+(\href{https://h3geo.org/docs/core-library/restable}{see here}). In the
+implementation of the \code{bin_spatial()} function, the resolution is defined by
+the user-input \code{spacing} which represents the distance between the centroid
+of adjacent cells. Using this distance, the function identifies which
+resolution is most similar to the input \code{spacing}, and uses this resolution.
 
 Additional functionality allows the user to simultaneously assign occurrence
 data to equal-area grid cells of a finer-scale grid (i.e., a ‘sub-grid’)
@@ -74,8 +75,7 @@ Note: prior to implementation, coordinate reference system (CRS) for input
 data is defined as EPSG:4326 (World Geodetic System
 1984). The user should transform their data accordingly if this is
 not appropriate. If you are unfamiliar with working with geographic data,
-we highly recommend checking out Geocomputation with R
-\url{https://geocompr.robinlovelace.net/index.html}.
+we highly recommend checking out \href{https://geocompr.robinlovelace.net/index.html}{Geocomputation with R}.
 }
 \section{Developer(s)}{
 

@@ -85,7 +85,7 @@ An exemplary \code{int_key} has been included within this package
 (\code{\link{interval_key}}). This key works well for assigning
 geological stages to many of the intervals from the
 \href{https://paleobiodb.org}{Paleobiology Database}
-and the \href{https://www.paleo-reefs.pal.uni-erlangen.de/}{Paleoreefs Database}.
+and the \href{https://www.paleo-reefs.pal.uni-erlangen.de/}{PaleoReefs Database}.
 \code{palaeoverse} cannot guarantee that all of
 the stage assignments with the exemplary key are accurate.
 The table corresponding to this key can be loaded with

@@ -17,7 +17,7 @@ the interval}
 \source{
 Compiled by K. Eichenseer for assigning geological stages to
 occurrences from the \href{https://paleobiodb.org}{Paleobiology Database}
-and the \href{https://www.paleo-reefs.pal.uni-erlangen.de/}{Paleoreefs Database}.
+and the \href{https://www.paleo-reefs.pal.uni-erlangen.de/}{PaleoReefs Database}.
 }
 \usage{
 interval_key
@@ -26,7 +26,7 @@ interval_key
 A table of geological intervals and the earliest and latest
 corresponding international geological stages from the International
 Commission on Stratigraphy (ICS). The table was compiled using
-regional stratigraphies, the \href{https://timescalefoundation.org/resources/geowhen/}{Geowhen Database}, temporal
+regional stratigraphies, the \href{https://timescalefoundation.org/resources/geowhen/}{GeoWhen Database}, temporal
 information from the \href{https://paleobiodb.org/classic/displaySearchStrataForm}{Paleobiology Database} and the
 \href{https://stratigraphy.org/ICSchart/ChronostratChart2016-10.pdf}{Geological Timescale 2016}.
 Some assignments were made with incomplete information on

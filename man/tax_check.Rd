@@ -72,7 +72,7 @@ higher taxonomic affiliations. The function also performs a check for
 non-letter characters which are not expected to be present in
 correctly-formatted taxon names. This detection may be made available to the
 user via the \code{verbose} argument. Comparisons are performed using the
-Jaro string dissimilarity metric via
+Jaro dissimilarity metric via
 \code{\link[stringdist:stringdistmatrix]{stringdist::stringdistmatrix()}}.
 
 As all string distance metrics rely on approximate string matching,

@@ -66,7 +66,7 @@ the Early Triassic, from the
 \href{https://paleobiodb.org/}{Palaeobiology Database}. Dataset includes a
 range of variables relevant to common palaeobiological analyses, relating to
 identification, geography, environmental context, traits and more. Additional
-information can be found at \url{https://paleobiodb.org/data1.2/}.
+information can be found \href{https://paleobiodb.org/data1.2/}{here}.
 The downloaded data is unaltered, with the exception of removing some
 superfluous variables, and can be used to demonstrate how the functions
 in the palaeoverse package might be applied.

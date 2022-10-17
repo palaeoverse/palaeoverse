@@ -24,7 +24,7 @@
 #' containing the class-level identifications.
 #' @param name \code{character}. The name of the column in the dataframe
 #' containing the taxonomic names at mixed taxonomic levels; the data column
-#' "accepted_names" in a Paleobiology Database \url{https://paleobiodb.org/#/}
+#' "accepted_names" in a [Paleobiology Database](https://paleobiodb.org/#/)
 #' occurrence dataframe is of this type.
 #' @param resolution \code{character}. The taxonomic resolution at which to
 #' identify unique occurrences, either "species" (the default) or "genus".
@@ -61,8 +61,9 @@
 #' data can be filtered to retain either unique species, or unique genera. If a
 #' species-level filter is desired, the minimum input requires either (1)
 #' `binomial`, (2) `species` and `genus`, or (3) `name` and `genus` columns to
-#' be entered, as well as a `family` column. In a standard Paleobiology Database
-#' \url{https://paleobiodb.org/#/} occurrence dataframe, species names are only
+#' be entered, as well as a `family` column. In a standard
+#' [Paleobiology Database](https://paleobiodb.org/#/)
+#' occurrence dataframe, species names are only
 #' captured in the 'accepted_name' column, so a species-level filter should use
 #' '`genus` = "genus"' and '`name` = "accepted_name"' arguments. If a
 #' genus-level filter is desired, the minimum input requires either (1)
