@@ -57,14 +57,14 @@ reference:
     Functions for binning occurrence data.
   contents:
   - bin_lat
-  - bin_spatial
+  - bin_space
   - bin_time
 
 - title: Data summarisation
   desc: >
     Functions to summarise occurrence-level data.
   contents:
-  - tax_range_geo
+  - tax_range_space
   - tax_range_time
 
 - title: Data visualization
