@@ -16,10 +16,10 @@ test_that("palaeorotate() works", {
 
   expect_equal(nrow(palaeorotate(occdf = occdf, model = "MERDITH2021")), 3)
 
-  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point")), 3)
+  expect_equal(nrow(palaeorotate(occdf = occdf,
+                                 method = "point",
+                                 model = "PALEOMAP")), 3)
 
-  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
-                                 model = "MERDITH2021")), 3)
   expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
                                  round = 2)), 3)
 
@@ -100,6 +100,18 @@ test_that("palaeorotate() works", {
                       lat = c(46, 95, -65),
                       age = c(88, 203, 467))
   expect_error(palaeorotate(occdf = occdf))
+
+  # Negative values
+  occdf <- data.frame(lng = c(2, 95, -178),
+                      lat = c(46, 95, -65),
+                      age = c(-88, 203, 467))
+  expect_error(palaeorotate(occdf = occdf))
+
+  # Incorrect round values
+  occdf <- data.frame(lng = c(2, 95, -178),
+                      lat = c(46, 50, -65),
+                      age = c(88, 203, 467))
+  expect_error(palaeorotate(occdf = occdf, round = "TEST"))
 
 })
 

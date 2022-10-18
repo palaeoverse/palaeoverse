@@ -34,7 +34,7 @@
 #' that partitions the world into hexagonal cells. In H3, 16 different
 #' resolutions are available
 #' ([see here](https://h3geo.org/docs/core-library/restable)). In the
-#' implementation of the `bin_spatial()` function, the resolution is defined by
+#' implementation of the `bin_space()` function, the resolution is defined by
 #' the user-input `spacing` which represents the distance between the centroid
 #' of adjacent cells. Using this distance, the function identifies which
 #' resolution is most similar to the input `spacing`, and uses this resolution.
@@ -68,17 +68,17 @@
 #' occdf <- reefs[1:500, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_spatial(occdf = occdf, spacing = 250, plot = TRUE)
+#' ex1 <- bin_space(occdf = occdf, spacing = 250, plot = TRUE)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- bin_spatial(occdf = occdf, spacing = 250, sub_grid = 50, plot = TRUE)
+#' ex2 <- bin_space(occdf = occdf, spacing = 250, sub_grid = 50, plot = TRUE)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
 #' data("tetrapods")
 #'
 #' # Assign to spatial bin
-#' occdf <- bin_spatial(occdf = tetrapods, spacing = 1000, sub_grid = 250)
+#' occdf <- bin_space(occdf = tetrapods, spacing = 1000, sub_grid = 250)
 #'
 #' # Get unique bins
 #' bins <- unique(occdf$cell_ID)
@@ -108,7 +108,7 @@
 #'   mean(counts)
 #' })
 #' @export
-bin_spatial <- function(occdf,
+bin_space <- function(occdf,
                         lng = "lng",
                         lat = "lat",
                         spacing = 100,

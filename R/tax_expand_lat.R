@@ -1,7 +1,8 @@
 #' Generate pseudo-occurrences from latitudinal range data
 #'
 #' A function to generate pseudo-occurrences for taxa based on latitudinal
-#' ranges (e.g. the output of the 'lat' method in \code{\link{tax_range_geo}}).
+#' ranges (e.g. the output of the 'lat' method in
+#' \code{\link{tax_range_space}}).
 #' While the resulting pseudo-occurrences should not be treated as equivalent
 #' to actual occurrence data (e.g. like that from the Paleobiology Database),
 #' such pseudo-occurrences may be useful for  performing statistical analyses
@@ -9,7 +10,7 @@
 #' bin through which the taxon ranges.
 #'
 #' @param taxdf \code{dataframe}. A \code{data.frame} of taxa (such as the
-#' output of the 'lat' method in \code{\link{tax_range_geo}}) with columns
+#' output of the 'lat' method in \code{\link{tax_range_space}}) with columns
 #' containing latitudinal range data (maximum and minimum latitude). Column
 #' names are assumed to be "max_lat" and "min_lat", but may be updated via the
 #' `max_lat` and `min_lat` arguments.

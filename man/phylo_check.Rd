@@ -60,7 +60,9 @@ William Gearty & Pedro Godoy
 #Read in example tree of ceratopsians from paleotree
 library(paleotree)
 data(RaiaCopesRule)
-plot(ceratopsianTreeRaia, cex = 0.5)
+#Set smaller margins for plotting
+par(mar = rep(0.5, 4))
+plot(ceratopsianTreeRaia)
 
 #Specify list of names
 dinosaurs <- c("Nasutoceratops_titusi", "Diabloceratops_eatoni",

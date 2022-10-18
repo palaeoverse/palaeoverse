@@ -44,7 +44,7 @@
 #' variable.
 #' - \code{\link{tax_range_time}}: return the temporal range of taxa per
 #' grouping variable.
-#' - \code{\link{tax_range_geo}}: return the geographic range of taxa per
+#' - \code{\link{tax_range_space}}: return the geographic range of taxa per
 #' grouping variable.
 #' - \code{\link{tax_check}}: return potential spelling variations of the
 #' same taxon per grouping variable. Note: `verbose` needs to be set to FALSE.

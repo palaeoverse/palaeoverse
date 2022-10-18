@@ -47,7 +47,7 @@
 #' respective taxon is a singleton (i.e. represented by only one occurrence).
 #'
 #' @details Four commonly applied approaches (Darroch et al., 2020)
-#' are available using the `tax_range_geo` function for calculating ranges:
+#' are available using the `tax_range_space` function for calculating ranges:
 #' - Convex hull: the "con" method calculates the geographic range of taxa
 #' using a convex hull for each taxon in `occdf`, and calculates the area of
 #' the convex hull (in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}) using
@@ -74,7 +74,7 @@
 #' that partitions the world into hexagonal cells. In H3, 16 different
 #' resolutions are available
 #' ([see here](https://h3geo.org/docs/core-library/restable)).
-#' In the implementation of the `tax_range_geo()` function, the resolution is
+#' In the implementation of the `tax_range_space()` function, the resolution is
 #' defined by the user-input `spacing` which represents the distance between
 #' the centroid of adjacent cells. Using this distance, the function identifies
 #' which resolution is most similar to the input `spacing`, and uses this
@@ -99,15 +99,15 @@
 #' # Remove NAs
 #' occdf <- subset(occdf, !is.na(genus))
 #' # Convex hull
-#' ex1 <- tax_range_geo(occdf = occdf, name = "genus", method = "con")
+#' ex1 <- tax_range_space(occdf = occdf, name = "genus", method = "con")
 #' # Latitudinal range
-#' ex2 <- tax_range_geo(occdf = occdf, name = "genus", method = "lat")
+#' ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
 #' # Great Circle Distance
-#' ex3 <- tax_range_geo(occdf = occdf, name = "genus", method = "gcd")
+#' ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
 #' # Occupied grid cells
-#' ex4 <- tax_range_geo(occdf = occdf, name = "genus", method = "occ")
+#' ex4 <- tax_range_space(occdf = occdf, name = "genus", method = "occ")
 #' @export
-tax_range_geo <- function(occdf,
+tax_range_space <- function(occdf,
                           name = "genus",
                           lng = "lng",
                           lat = "lat",
