@@ -1,4 +1,4 @@
-test_that("palaeorotate() works", {
+test_that("palaeorotate() point method works", {
   test <- try(exp = GET(
     paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
            "?points=95,54,142,-33&time=140&model=SETON2012")
@@ -12,28 +12,12 @@ test_that("palaeorotate() works", {
                       lat = c(46, 35, -7),
                       age = c(88, 125, 200))
 
-  expect_equal(nrow(palaeorotate(occdf = occdf)), 3)
-
-  expect_equal(
-    ncol(
-      palaeorotate(occdf = occdf,
-                   uncertainty = TRUE)[, c("range_p_lat",
-                                           "max_dist")]), 2)
-
-  expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")), 3)
-
-  expect_equal(nrow(palaeorotate(occdf = occdf, model = "MERDITH2021")), 3)
-
   expect_equal(nrow(palaeorotate(occdf = occdf,
                                  method = "point",
                                  model = "PALEOMAP")), 3)
 
   expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
                                  round = 2)), 3)
-
-  occdf <- data.frame(lng = c(2, -103, -66),
-                      lat = c(46, 35, -7),
-                      age = c(88, 125, 400))
 
   # Expect message
   # Model does not extend to this timeframe
@@ -63,6 +47,41 @@ test_that("palaeorotate() works", {
                               model = "MERDITH2021"),
                  msg)
 
+  # Model doesn't exist
+  expect_error(palaeorotate(occdf = occdf, method = "point",
+                            model = "Mirdith2021"))
+
+  expect_error(palaeorotate(occdf = occdf, method = "point",
+                            model = "WRIGHT2013"))
+
+
+})
+
+test_that("palaeorotate() grid method works", {
+
+  occdf <- data.frame(lng = c(2, -103, -66),
+                      lat = c(46, 35, -7),
+                      age = c(88, 125, 200))
+
+  expect_equal(nrow(palaeorotate(occdf = occdf)), 3)
+
+  expect_equal(
+    ncol(
+      palaeorotate(occdf = occdf,
+                   uncertainty = TRUE)[, c("range_p_lat",
+                                           "max_dist")]), 2)
+
+  expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")), 3)
+
+  expect_equal(nrow(palaeorotate(occdf = occdf, model = "MERDITH2021")), 3)
+
+
+
+  occdf <- data.frame(lng = c(2, -103, -66),
+                      lat = c(46, 35, -7),
+                      age = c(88, 125, 400))
+
+
   # Wrong uncertainty input
   expect_error(palaeorotate(occdf = occdf, uncertainty = "TRUE"))
 
@@ -71,13 +90,6 @@ test_that("palaeorotate() works", {
 
   # Model doesn't exist
   expect_error(palaeorotate(occdf = occdf, model = "Mirdith2021"))
-
-  # Model doesn't exist
-  expect_error(palaeorotate(occdf = occdf, method = "point",
-                            model = "Mirdith2021"))
-
-  expect_error(palaeorotate(occdf = occdf, method = "point",
-                            model = "WRIGHT2013"))
 
   # Method doesn't exist
   expect_error(palaeorotate(occdf = occdf, method = "both"))
