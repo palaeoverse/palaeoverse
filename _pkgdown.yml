@@ -32,3 +32,62 @@ authors:
     href: https://erinmdillon.wordpress.com
   A. Alessandro Chiarenza:
     href: https://linktr.ee/AlessandroChiarenza
+
+home:
+  links:
+  - text: Twitter
+    href: https://twitter.com/ThePalaeoverse
+
+reference:
+- title: Data cleaning and preparing
+  desc: >
+    Functions for cleaning and preparing occurrence or taxonomic
+    data for downstream analyses.
+  contents:
+  - tax_check
+  - phylo_check
+  - tax_unique
+  - palaeorotate
+  - look_up
+  - tax_expand_lat
+  - tax_expand_time
+
+- title: Data binning
+  desc: >
+    Functions for binning occurrence data.
+  contents:
+  - bin_lat
+  - bin_spatial
+  - bin_time
+
+- title: Data summarisation
+  desc: >
+    Functions to summarise occurrence-level data.
+  contents:
+  - tax_range_geo
+  - tax_range_time
+
+- title: Data visualization
+  desc: >
+    Functions to aid in the visualisation of data and analysis results.
+  contents:
+  - axis_geo
+
+- title: Auxiliary functions
+  desc: >
+    Functions to support further functionality.
+  contents:
+  - lat_bins
+  - time_bins
+  - group_apply
+
+- title: Built-in data
+  desc: >
+    palaeoverse comes with a selection of built-in datasets that are used in
+    examples to illustrate various use cases.
+  contents:
+  - GTS2012
+  - GTS2020
+  - interval_key
+  - reefs
+  - tetrapods
