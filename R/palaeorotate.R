@@ -149,6 +149,7 @@
 #' @importFrom httr RETRY GET content
 #' @importFrom stats na.omit
 #' @examples
+#' \dontrun{
 #' #Generic example with a few occurrences
 #' occdf <- data.frame(lng = c(2, -103, -66),
 #'                 lat = c(46, 35, -7),
@@ -173,6 +174,7 @@
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
 #' ex4 <- palaeorotate(occdf = tetrapods, uncertainty = TRUE)
+#' }
 #' @export
 palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                          model = "MERDITH2021", method = "grid",

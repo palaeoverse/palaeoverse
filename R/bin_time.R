@@ -25,7 +25,7 @@
 #' @return For methods "mid", "majority" and "all", a \code{dataframe} of the
 #' original input `occdf` with the following appended columns is returned:
 #' occurrence id (`id`), number of bins the occurrence age
-#' range covers (`n_bins`), bin assignment (`bin_assignment`), and bin midpoint
+#' range covers (`n_bin`), bin assignment (`bin_assignment`), and bin midpoint
 #' (`bin_midpoint`). In the case of the "random" and "point" method, a
 #' \code{list} is returned (of length reps) with each element a copy of
 #' the `occdf` and appended columns (random: `bin_assignment` and
@@ -44,7 +44,7 @@
 #' - All: The "all" method bins an occurrence into every bin its age range
 #' covers. For occurrences with age ranges of more than one bin, the occurrence
 #' row is duplicated. Each occurrence is assigned an ID in the column
-#' `occdf$id` so that duplicates can be tracked. Additionally, `occdf$n_bins`
+#' `occdf$id` so that duplicates can be tracked. Additionally, `occdf$n_bin`
 #' records the number of bins each occurrence appears within.
 #' - Random: The "random" method randomly samples X amount of bins (with
 #' replacement) from the bins that the fossil occurrence age range covers with
@@ -154,12 +154,12 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100) {
 
     # Generate empty column for recording the number of bins an occurrence
     # appears in, and empty columns for the new bin allocation and midpoint.
-    occdf$n_bins <- NA
+    occdf$n_bin <- NA
     occdf$bin_assignment <- NA
     occdf$bin_midpoint <- NA
 
     # Assign number of bins per occurrence.
-    occdf$n_bins <- lengths(bin_list)
+    occdf$n_bin <- lengths(bin_list)
 
     # Generate midpoint ages of bins
     bins$mid_ma <- (bins$max_ma + bins$min_ma) / 2
@@ -252,7 +252,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100) {
     #--- Method 3: All ---
     if (method == "all") {
       # Duplicate rows by number of bins.
-      occdf <- occdf[rep(seq_len(dim(occdf)[1]), occdf$n_bins), ]
+      occdf <- occdf[rep(seq_len(dim(occdf)[1]), occdf$n_bin), ]
 
       # Use id to track unique rows and update bin numbers.
       for (i in id) {

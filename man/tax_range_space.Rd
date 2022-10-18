@@ -41,20 +41,20 @@ to "occ". The default is 100.}
 \value{
 A \code{dataframe} with method-specific columns:
 \itemize{
-\item For the "con" method, a \code{dataframe} with each unique taxa (\code{taxa}) and
-taxon ID (\code{taxon_id}) by convex hull coordinate (\code{lng} & \code{lat}) combination,
-and area (\code{area}) in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}} is
-returned.
-\item For the "lat" method, a \code{dataframe} with unique taxa (\code{taxa}),
+\item For the "con" method, a \code{dataframe} with each unique taxa (\code{taxon})
+and taxon ID (\code{taxon_id}) by convex hull coordinate (\code{lng} & \code{lat})
+combination, and area (\code{area}) in
+km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}} is returned.
+\item For the "lat" method, a \code{dataframe} with unique taxa (\code{taxon}),
 taxon ID (\code{taxon_id}), maximum latitude of occurrence (\code{max_lat}),
 minimum latitude of occurrence (\code{min_lat}), and latitudinal
 range (\code{range_lat}) is returned.
-\item For the "gcd" method, a \code{dataframe} with each unique taxa (\code{taxa}) and
-taxon ID (\code{taxon_id}) by coordinate combination (\code{lng} & \code{lat}) of the two
-most distant points, and the 'Great Circle Distance' (\code{GCD}) between these
-points in km is returned.
-\item For the "occ" method, a \code{dataframe} with unique taxa (\code{taxa}), taxon
-ID (\code{taxon_id}), the number of occupied cells (\code{cells}), proportion of
+\item For the "gcd" method, a \code{dataframe} with each unique taxa (\code{taxon})
+and taxon ID (\code{taxon_id}) by coordinate combination (\code{lng} & \code{lat}) of the
+two most distant points, and the 'Great Circle Distance' (\code{gcd}) between
+these points in km is returned.
+\item For the "occ" method, a \code{dataframe} with unique taxa (\code{taxon}), taxon
+ID (\code{taxon_id}), the number of occupied cells (\code{n_cell}), proportion of
 occupied cells from all occupied by occurrences (\code{proportional_occ}),
 and the spacing between cells (\code{spacing}) in km is returned. Note: the number
 of occupied cells and proportion of occupied cells is highly dependent on

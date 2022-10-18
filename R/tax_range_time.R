@@ -20,7 +20,7 @@
 #' @param plot \code{logical}. Should a plot of the ranges be generated?
 #'
 #' @return A \code{dataframe} containing the following columns:
-#' unique taxa (`taxa`), taxon ID (`taxon_id`), first appearance of taxon
+#' unique taxa (`taxon`), taxon ID (`taxon_id`), first appearance of taxon
 #' (`max_ma`), last appearance of taxon (`min_ma`), duration of temporal
 #' range (`range_myr`), and number of occurrences per taxon (`n_occ`) is
 #' returned.
@@ -94,12 +94,12 @@ tax_range_time <- function(occdf,
 
   #=== Temporal range ===
   # Generate dataframe for population
-  temp_df <- data.frame(taxa = unique_taxa,
-                          taxon_id = seq(1, length(unique_taxa), 1),
-                          max_ma = rep(NA, length(unique_taxa)),
-                          min_ma = rep(NA, length(unique_taxa)),
-                          range_myr = rep(NA, length(unique_taxa)),
-                          n_occ = rep(NA, length(unique_taxa)))
+  temp_df <- data.frame(taxon = unique_taxa,
+                        taxon_id = seq(1, length(unique_taxa), 1),
+                        max_ma = rep(NA, length(unique_taxa)),
+                        min_ma = rep(NA, length(unique_taxa)),
+                        range_myr = rep(NA, length(unique_taxa)),
+                        n_occ = rep(NA, length(unique_taxa)))
     # Run for loop across unique taxa
     for (i in seq_along(unique_taxa)) {
       vec <- which(occdf[, name] == unique_taxa[i])

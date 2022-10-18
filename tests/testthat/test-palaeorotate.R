@@ -1,4 +1,12 @@
 test_that("palaeorotate() works", {
+  test <- try(exp = GET(
+    paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
+           "?points=95,54,142,-33&time=140&model=SETON2012")
+  ), silent = TRUE)
+  test <- grep("Error", test)
+  if (test == 1) {
+    skip("GPlates API not available.")
+  }
 
   occdf <- data.frame(lng = c(2, -103, -66),
                       lat = c(46, 35, -7),

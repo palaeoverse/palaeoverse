@@ -189,6 +189,7 @@ Kilian Eichenseer & Lucas Buffan
 }
 
 \examples{
+\dontrun{
 #Generic example with a few occurrences
 occdf <- data.frame(lng = c(2, -103, -66),
                 lat = c(46, 35, -7),
@@ -213,4 +214,5 @@ ex3 <- palaeorotate(occdf = tetrapods)
 
 #Calculate uncertainity in palaeocoordinates from models
 ex4 <- palaeorotate(occdf = tetrapods, uncertainty = TRUE)
+}
 }
