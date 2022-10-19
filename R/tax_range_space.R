@@ -38,7 +38,7 @@
 #' two most distant points, and the 'Great Circle Distance' (`gcd`) between
 #' these points in km is returned.
 #' - For the "occ" method, a \code{dataframe} with unique taxa (`taxon`), taxon
-#' ID (`taxon_id`), the number of occupied cells (`n_cell`), proportion of
+#' ID (`taxon_id`), the number of occupied cells (`n_cells`), proportion of
 #' occupied cells from all occupied by occurrences (`proportional_occ`),
 #' and the spacing between cells (`spacing`) in km is returned. Note: the number
 #' of occupied cells and proportion of occupied cells is highly dependent on
@@ -251,7 +251,7 @@ in `occdf`")
     # Generate dataframe for population
     oc_df <- data.frame(taxon = unique_taxa,
                         taxon_id = seq(1, length(unique_taxa), 1),
-                        n_cell = rep(NA, length(unique_taxa)),
+                        n_cells = rep(NA, length(unique_taxa)),
                         proportional_occ = rep(NA, length(unique_taxa)),
                         spacing = rep(NA, length(unique_taxa)))
     # Generate equal area hexagonal grid
@@ -268,16 +268,16 @@ in `occdf`")
       # Subset df
       tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
       # Extract cell ID
-      n_cell <- suppressMessages(
+      n_cells <- suppressMessages(
         h3jsr::point_to_cell(tmp[, c(lng, lat)], res = grid$h3_resolution)
       )
       # Calculate number of unique cells occupied
-      oc_df$n_cell[i] <- length(unique(n_cell))
+      oc_df$n_cells[i] <- length(unique(n_cells))
       # Append cells
-      tracker <- append(tracker, n_cell)
+      tracker <- append(tracker, n_cells)
     }
     # Get proportional occupancy
-    oc_df$proportional_occ <- round(oc_df$n_cell / length(unique(tracker)),
+    oc_df$proportional_occ <- round(oc_df$n_cells / length(unique(tracker)),
                                     digits = 3)
     # Return data
     return(oc_df)

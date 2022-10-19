@@ -54,7 +54,7 @@ and taxon ID (\code{taxon_id}) by coordinate combination (\code{lng} & \code{lat
 two most distant points, and the 'Great Circle Distance' (\code{gcd}) between
 these points in km is returned.
 \item For the "occ" method, a \code{dataframe} with unique taxa (\code{taxon}), taxon
-ID (\code{taxon_id}), the number of occupied cells (\code{n_cell}), proportion of
+ID (\code{taxon_id}), the number of occupied cells (\code{n_cells}), proportion of
 occupied cells from all occupied by occurrences (\code{proportional_occ}),
 and the spacing between cells (\code{spacing}) in km is returned. Note: the number
 of occupied cells and proportion of occupied cells is highly dependent on

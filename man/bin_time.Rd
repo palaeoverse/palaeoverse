@@ -33,7 +33,7 @@ Defaults to 100.}
 For methods "mid", "majority" and "all", a \code{dataframe} of the
 original input \code{occdf} with the following appended columns is returned:
 occurrence id (\code{id}), number of bins the occurrence age
-range covers (\code{n_bin}), bin assignment (\code{bin_assignment}), and bin midpoint
+range covers (\code{n_bins}), bin assignment (\code{bin_assignment}), and bin midpoint
 (\code{bin_midpoint}). In the case of the "random" and "point" method, a
 \code{list} is returned (of length reps) with each element a copy of
 the \code{occdf} and appended columns (random: \code{bin_assignment} and
@@ -58,7 +58,7 @@ occurrence dataset.
 \item All: The "all" method bins an occurrence into every bin its age range
 covers. For occurrences with age ranges of more than one bin, the occurrence
 row is duplicated. Each occurrence is assigned an ID in the column
-\code{occdf$id} so that duplicates can be tracked. Additionally, \code{occdf$n_bin}
+\code{occdf$id} so that duplicates can be tracked. Additionally, \code{occdf$n_bins}
 records the number of bins each occurrence appears within.
 \item Random: The "random" method randomly samples X amount of bins (with
 replacement) from the bins that the fossil occurrence age range covers with

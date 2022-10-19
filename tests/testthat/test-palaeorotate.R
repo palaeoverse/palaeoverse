@@ -1,16 +1,9 @@
 test_that("palaeorotate() point method works", {
-  test <- try(exp = GET(
-    paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
-           "?points=95,54,142,-33&time=140&model=SETON2012")
-  ), silent = TRUE)
-  test <- grep("Error", test)
-  if (test == 1) {
-    skip("GPlates API not available.")
-  }
+  skip_if_offline(host = "gwsdoc.gplates.org")
 
   occdf <- data.frame(lng = c(2, -103, -66),
                       lat = c(46, 35, -7),
-                      age = c(88, 125, 200))
+                      age = c(88, 125, 300))
 
   expect_equal(nrow(palaeorotate(occdf = occdf,
                                  method = "point",
@@ -31,16 +24,17 @@ test_that("palaeorotate() point method works", {
                               method = "point",
                               model = "SETON2012"),
                  msg)
+
+  occdf <- data.frame(lng = c(-41),
+                      lat = c(37),
+                      age = c(300))
+
   # Plate polygon does not exist at time
   msg <-
     paste0("Palaeocoordinates could not be reconstructed for all points.",
            "\n",
            "Georeferenced plate does not exist at time of reconstruction."
     )
-
-  occdf <- data.frame(lng = c(-41),
-                      lat = c(37),
-                      age = c(300))
 
   expect_message(palaeorotate(occdf = occdf,
                               method = "point",
