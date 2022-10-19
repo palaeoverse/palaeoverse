@@ -161,18 +161,36 @@ Time to plot alpha diversity! Let's start with a simple scatterplot:
 
 ```{r}
 
-plot(alpha_data$mid_ma, alpha_data$n_taxa,
-   xlab="Time (Ma)", ylab="No. taxa", 
-   pch = 19)
+plot(alpha_data$mid_ma, alpha_data$n_taxa, # add the points
+     xlim = rev(range(alpha_data$mid_ma)), # reverse the x-axis
+     xlab="Time (Ma)", ylab="No. taxa", # axes labels
+     pch = 19, col = "#0e826f") # point style and colour
 
 ```
 
 
 
+
 ### 2. Adding a geological timescale to a plot axis
 
-```{r}
+Sometimes, we might like to add a geological timescale to our plots. `axis_geo()` adds a geological timescale between the plot and the axis. 
 
+Taking our plot from above, let's use this function to add a timescale to the x-axis
+
+```{r}
+# set margins
+par(mar = c(7.1, 4.1, 4.1, 2.1)) # expand at bottom if adding more interval categories
+
+# alpha diversity plot
+plot(alpha_data$mid_ma, alpha_data$n_taxa, # add the points
+     axes = FALSE,
+     xlim = rev(range(alpha_data$mid_ma)), # reverse the x-axis
+     xlab=" ", ylab="No. taxa", # axes labels
+     pch = 19, col = "#0e826f") # point style and colour
+box()
+axis(2)
+axis_geo(side = 1, intervals = list("epochs", "periods"))
+title(xlab = "Time (Ma)", line = 4)
 
 
 ```
