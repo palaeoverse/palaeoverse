@@ -221,7 +221,7 @@ in `occdf`")
       # Subset df
       tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
       # Calculate GCD matrix using the Haversine method
-      vals <- geosphere::distm(x = tmp[ ,c(lng, lat)],
+      vals <- geosphere::distm(x = tmp[, c(lng, lat)],
                                fun = geosphere::distHaversine)
       # Convert to km
       vals <- vals / 10^3

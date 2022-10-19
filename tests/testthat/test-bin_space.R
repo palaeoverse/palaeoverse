@@ -1,11 +1,11 @@
 test_that("bin_space() works", {
-  occdf = tetrapods
-  lng = "lng"
-  lat = "lat"
-  spacing = 1000
-  sub_grid = 250
-  return = FALSE
-  plot = FALSE
+  occdf <- tetrapods
+  lng <- "lng"
+  lat <- "lat"
+  spacing <- 1000
+  sub_grid <- 250
+  return <- FALSE
+  plot <- FALSE
 
   # Expect equal
   expect_equal(

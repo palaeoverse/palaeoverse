@@ -17,19 +17,24 @@
 #' consist of at least 3 columns of data. See \code{deeptime::periods} for an
 #' example.
 #' \itemize{
-#'   \item The \code{name} column (\code{interval_name} is also allowed) lists the names of each time interval. These
-#'         will be used as labels if no abbreviations are provided.
-#'   \item The \code{max_age} column (\code{max_ma} is also allowed) lists the oldest boundary of each time
-#'         interval. Values should always be positive.
-#'   \item The \code{min_age} column (\code{min_ma} is also allowed) lists the youngest boundary of each time
-#'         interval. Values should always be positive.
+#'   \item The \code{name} column (\code{interval_name} is also allowed) lists
+#'         the names of each time interval. These will be used as labels if no
+#'         abbreviations are provided.
+#'   \item The \code{max_age} column (\code{max_ma} is also allowed) lists the
+#'         oldest boundary of each time interval. Values should always be
+#'         positive.
+#'   \item The \code{min_age} column (\code{min_ma} is also allowed) lists the
+#'         youngest boundary of each time interval. Values should always be
+#'         positive.
 #'   \item The \code{abbr} column is optional and lists abbreviations that may
 #'         be used as labels.
-#'   \item The \code{color} column (\code{colour} is also allowed) is also optional and lists a color for the
-#'         background for each time interval (see the Color Specification
-#'         section \code{\link[graphics:par]{here}}).
-#'   \item The \code{lab_color} (\code{lab_colour} is also allowed) column is also optional and lists a color for
-#'         the label for each time interval (see the Color Specification section
+#'   \item The \code{color} column (\code{colour} is also allowed) is also
+#'         optional and lists a color for the background for each time interval
+#'         (see the Color Specification section
+#'         \code{\link[graphics:par]{here}}).
+#'   \item The \code{lab_color} (\code{lab_colour} is also allowed) column is
+#'         also optional and lists a color for the label for each time interval
+#'         (see the Color Specification section
 #'         \code{\link[graphics:par]{here}}).
 #' }
 #'

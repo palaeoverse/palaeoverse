@@ -152,7 +152,7 @@ bin_space <- function(occdf,
 
   #=== Set-up ===
   # Convert to sf object and add CRS
-  occdf <- sf::st_as_sf(occdf, coords=c(lng, lat),
+  occdf <- sf::st_as_sf(occdf, coords = c(lng, lat),
                         remove = FALSE,
                         crs = "EPSG:4326")
 

@@ -2,13 +2,13 @@ test_that("look_up() works", {
 
   occdf <- tetrapods
   vec <- c(NA, " ", "")
-  occdf <- occdf[which(!occdf$late_interval %in% vec),]
+  occdf <- occdf[which(!occdf$late_interval %in% vec), ]
   vec <- look_up(occdf = occdf, return_unassigned = TRUE)
   vec <- append(vec, c(NA, " ", ""))
 
   # load tetrapod data
-  occdf <- occdf[which(!occdf$late_interval %in% vec),]
-  occdf <- occdf[which(!occdf$early_interval %in% vec),]
+  occdf <- occdf[which(!occdf$late_interval %in% vec), ]
+  occdf <- occdf[which(!occdf$early_interval %in% vec), ]
   occdf$late_interval <- occdf$early_interval
 
   # check correct format and output
@@ -30,7 +30,7 @@ test_that("look_up() works", {
   # check whether unassigned intervals are returned, if required
   occdf <- tetrapods
   vec <- c(NA, " ", "")
-  occdf <- occdf[which(!occdf$late_interval %in% vec),]
+  occdf <- occdf[which(!occdf$late_interval %in% vec), ]
   expect_equal(look_up(occdf[1:100, ], int_key = palaeoverse::interval_key,
                        return_unassigned = TRUE), "Early Triassic")
 

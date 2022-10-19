@@ -128,4 +128,3 @@ test_that("palaeorotate() grid method works", {
   expect_error(palaeorotate(occdf = occdf, round = "TEST"))
 
 })
-

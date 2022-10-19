@@ -98,8 +98,7 @@ tax_expand_lat <- function(taxdf,
     }
     cbind(int_tax, bins[i, ])
   })
-  dat <- do.call(rbind,dat_list)
+  dat <- do.call(rbind, dat_list)
   rownames(dat) <- NULL
   dat
 }
-

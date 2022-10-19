@@ -6,13 +6,16 @@ test_that("tax_range_soace() works", {
 
   # Expect equal
   expect_equal(
-    nrow(tax_range_space(occdf = occdf, name = "accepted_name", method = "lat")),
+    nrow(tax_range_space(occdf = occdf, name = "accepted_name",
+                         method = "lat")),
     unique_taxa)
   expect_equal(
-    nrow(tax_range_space(occdf = occdf, name = "accepted_name",  method = "lat")),
+    nrow(tax_range_space(occdf = occdf, name = "accepted_name",
+                         method = "lat")),
     unique_taxa)
   expect_equal(
-    nrow(tax_range_space(occdf = occdf, name = "accepted_name", method = "occ")),
+    nrow(tax_range_space(occdf = occdf, name = "accepted_name",
+                         method = "occ")),
     unique_taxa)
 
   # Expect greater than
@@ -49,7 +52,7 @@ test_that("tax_range_soace() works", {
   expect_error(tax_range_space(occdf = occdf, name = "accepted_name"))
   occdf$lat[1] <- NA
   expect_error(tax_range_space(occdf = occdf, name = "accepted_name"))
-  occdf <- occdf[,-which(colnames(occdf) == "name")]
+  occdf <- occdf[, -which(colnames(occdf) == "name")]
   expect_error(tax_range_space(occdf = occdf))
 
 })
