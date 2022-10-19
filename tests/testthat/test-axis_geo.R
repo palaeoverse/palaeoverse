@@ -9,6 +9,17 @@ test_that("axis_geo() works", {
   })
 })
 
+test_that("axis_geo() works with old GTS scale", {
+  expect_doppelganger("axis_geo() with old GTS scale", function() {
+    plot(x = coral_div$stage_age, y = coral_div$n, axes = FALSE,
+         xlim = c(250, 0), xlab = NA, ylab = "Diversity")
+    box()
+
+    axis(side = 2)
+    axis_geo(side = 1, intervals = time_bins(rank = "period"))
+  })
+})
+
 test_that("axis_geo() works with multiple scales", {
   expect_doppelganger("axis_geo() with multiple scales", function() {
     par(mar = c(6.6, 4.1, 4.1, 2.1))

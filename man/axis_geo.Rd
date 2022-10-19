@@ -134,18 +134,18 @@ If a custom \code{data.frame} is provided (with \code{intervals}), it should
 consist of at least 3 columns of data. See \code{deeptime::periods} for an
 example.
 \itemize{
-\item The \code{name} column lists the names of each time interval. These
+\item The \code{name} column (\code{interval_name} is also allowed) lists the names of each time interval. These
 will be used as labels if no abbreviations are provided.
-\item The \code{max_age} column lists the oldest boundary of each time
+\item The \code{max_age} column (\code{max_ma} is also allowed) lists the oldest boundary of each time
 interval. Values should always be positive.
-\item The \code{min_age} column lists the youngest boundary of each time
+\item The \code{min_age} column (\code{min_ma} is also allowed) lists the youngest boundary of each time
 interval. Values should always be positive.
 \item The \code{abbr} column is optional and lists abbreviations that may
 be used as labels.
-\item The \code{color} column is also optional and lists a color for the
+\item The \code{color} column (\code{colour} is also allowed) is also optional and lists a color for the
 background for each time interval (see the Color Specification
 section \code{\link[graphics:par]{here}}).
-\item The \code{lab_color} column is also optional and lists a color for
+\item The \code{lab_color} (\code{lab_colour} is also allowed) column is also optional and lists a color for
 the label for each time interval (see the Color Specification section
 \code{\link[graphics:par]{here}}).
 }
@@ -199,6 +199,16 @@ plot(0:30, axes = FALSE, xlim = c(30, 0), ylim = c(30, 0),
 box()
 axis(2)
 axis_geo(side = 1, intervals = "North American land mammal ages")
+# the line argument here depends on the absolute size of the plot
+title(xlab = "Time (Ma)", line = 4)
+
+# scale with old GTS intervals
+par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
+plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
+     xlab = NA, ylab = "Depth (m)")
+box()
+axis(2)
+axis_geo(side = 1, intervals = time_bins(rank = "period"))
 # the line argument here depends on the absolute size of the plot
 title(xlab = "Time (Ma)", line = 4)
 
