@@ -14,3 +14,5 @@ The development team would like to acknowledge and thank all financial support w
 **Christopher D. Dean:** The Royal Society (grant number: RF_ERE_210013)
 
 **Pedro L. Godoy:** FAPESP Post-Doctoral fellowship (grant number: 2022/05697-9)
+
+**William Gearty:** Population Biology Program of Excellence Postdoctoral Fellowship (the University of Nebraska-Lincoln) and the Lerner-Gray Postdoctoral Research Fellowship (American Museum of Natural History).

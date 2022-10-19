@@ -13,23 +13,23 @@ Authors@R: c(
     person(given = "Christopher D.", family = "Dean", email = "christopherdaviddean@gmail.com",
       role = c("aut"), comment = c(ORCID = "0000-0001-6471-6903")),      
     person(given = "Sofia", family = "Galvan", email = "sofia.galvan@uvigo.es",
-      role = c("aut"), comment = c(ORCID = "0000-0002-3092-4314")),
+      role = c("ctb"), comment = c(ORCID = "0000-0002-3092-4314")),
     person(given = "Miranta", family = "Kouvari", email = "m.kouvari@ucl.ac.uk",
-      role = c("aut"), comment = c(ORCID = "0000-0002-5442-6221")),
+      role = c("ctb"), comment = c(ORCID = "0000-0002-5442-6221")),
     person(given = "Emma M.", family = "Dunne", email = "dunne.emma.m@gmail.com",
-      role = c("aut"), comment = c(ORCID = "0000-0002-4989-5904")),
+      role = c("ctb"), comment = c(ORCID = "0000-0002-4989-5904")),
     person(given = "Pedro L.", family = "Godoy", email = "pedrolorenagodoy@gmail.com ",
-      role = c("aut"), comment = c(ORCID = "0000-0003-4519-5094")),
+      role = c("ctb"), comment = c(ORCID = "0000-0003-4519-5094")),
     person(given = "Cecily", family = "Nicholl", email = "cecily.nicholl@ucl.ac.uk",
-      role = c("aut"), comment = c(ORCID = "0000-0003-2860-2604")),
+      role = c("ctb"), comment = c(ORCID = "0000-0003-2860-2604")),
     person(given = "Lucas", family = "Buffan", email = "lucas.l.buffan@gmail.com",
-      role = c("aut"), comment = c(ORCID = "0000-0002-2353-1432")),
+      role = c("ctb"), comment = c(ORCID = "0000-0002-2353-1432")),
     person(given = "Erin M.", family = "Dillon", email = "emdillon23@gmail.com",
-      role = c("aut"), comment = c(ORCID = "0000-0003-0249-027X")),
+      role = c("ctb"), comment = c(ORCID = "0000-0003-0249-027X")),
     person(given = "Joseph T.", family = "Flannery-Sutherland", email = "jf15558@bristol.ac.uk",
       role = c("aut"), comment = c(ORCID = "0000-0001-8232-6773")),
     person(given = "A. Alessandro", family = "Chiarenza", email = "a.chiarenza15@gmail.com",
-      role = c("aut"), comment = c(ORCID = "0000-0001-5525-6730")))
+      role = c("ctb"), comment = c(ORCID = "0000-0001-5525-6730")))
 Description: A community-driven R package to support palaeobiological analyses. 
   The package contains a range of functions to help streamline palaeobiological analyses
   and improve code reproducibility and accessibility. The wider aim of this R package is 
