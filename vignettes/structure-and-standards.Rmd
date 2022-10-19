@@ -30,7 +30,7 @@ File names should always be concise, meaningful and end in `'.R'`. Avoid using s
 ```{r names, include=TRUE, eval = FALSE}
 
 # Nein!
-Sup3r Aw3sum Functi0n.r
+Sup3rAw3sumFuncti0n.r
 
 # Besser
 super_awesome_function.R
@@ -114,7 +114,7 @@ Objects in `data/` are always exported by default, and should be documented acco
 #'
 #' A dataset of the Geological Time Scale 2020. Age data from:
 #'  \url{https://stratigraphy.org/timescale/}.
-#' Supplementary information is also included in the dataset for 
+#' Supplementary information is also included in the dataset for
 #' plotting functionality (e.g. GTS2020 colour scheme).
 #'
 #' @format A data frame with 189 rows and 20 variables:
@@ -127,7 +127,7 @@ Objects in `data/` are always exported by default, and should be documented acco
 #'   ...
 #' }
 #' @section References:
-#' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2020). 
+#' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2020).
 #' Geologic time scale 2020. Elsevier.
 #' @source Compiled by Lewis A. Jones. See item descriptions for details.
 "GTS2020"
@@ -157,7 +157,7 @@ For documentation, we use [roxygen2](https://roxygen2.r-lib.org). The title, a b
 #' This function is used to demonstrate the documentation of functions.
 #' @param example \code{character}. Arguments are the function inputs.
 #' @param another_example \code{logical}. All arguments need to be documented.
-#' @return A \code{list} is returned as output in in this example function. 
+#' @return A \code{list} is returned as output in in this example function.
 #' @details Describe more details if necessary, and list sources if applicable.
 #' @section Developer:
 #' Your name
