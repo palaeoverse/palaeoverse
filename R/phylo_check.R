@@ -136,7 +136,7 @@ phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
   }
 
   if (out == "full_table" || out == "diff_table") {
-    colnames(table) <- c("Taxon name", "Present in tree", "Present in list")
+    colnames(table) <- c("taxon_name", "present_in_tree", "present_in_list")
     return(table)
   }
 
@@ -150,9 +150,9 @@ phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
     only_list <- length(which(difference == -1))
     in_both <- length(which(difference == 0))
 
-    counts <- data.frame(c("Tree and list", "Only in tree", "Only in list"),
+    counts <- data.frame(c("tree_and_list", "only_in_tree", "only_in_list"),
                         c(in_both, only_tree, only_list))
-    colnames(counts) <- c("Category", "Number of taxa")
+    colnames(counts) <- c("category", "number_of_taxa")
 
     return(counts)
   }
