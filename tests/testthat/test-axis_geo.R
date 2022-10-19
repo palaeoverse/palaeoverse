@@ -44,14 +44,15 @@ test_that("axis_geo() can be used on multiple sides", {
     axis_geo(side = 1, intervals = list("epochs", "periods"),
              height = list(.05, .03), tick_at = seq(0, 100, 25))
     axis_geo(side = 2, height = list(.03, .05),
-             intervals = list("epochs", "periods"), bord_color = "purple",
+             intervals = list("epochs", "periods"), bord_col = "purple",
              center_end_labels = list(FALSE, TRUE), exact = TRUE)
     axis_geo(side = 3, height = list(.03, .05),
              intervals = list("epochs", "periods"), abbr = FALSE,
              skip = c("Paleogene", "Holocene", "Pleistocene", "Pliocene",
-                      "Quaternary"))
+                      "Quaternary"), lab_col = list("blue", "purple"))
     axis_geo(side = 4, height = list(.04, .03),
              intervals = list("epochs", "periods"),
+             fill = list("lightblue", "yellow"),
              lty = list("solid", "dashed"), exact = TRUE, round = 1)
   })
 })
