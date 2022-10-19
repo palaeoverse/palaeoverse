@@ -30,9 +30,13 @@ Authors@R: c(
       role = c("aut"), comment = c(ORCID = "0000-0001-8232-6773")),
     person(given = "A. Alessandro", family = "Chiarenza", email = "a.chiarenza15@gmail.com",
       role = c("aut"), comment = c(ORCID = "0000-0001-5525-6730")))
-Description: A community-driven software package to support palaeobiological analyses. 
-  The package contains a range of functions to help streamline analyses and provide reusable and readable code.
-  The intention of the package is to improve reproducible research in palaeobiology.
+Description: A community-driven R package to support palaeobiological analyses. 
+  The package contains a range of functions to help streamline palaeobiological analyses
+  and improve code reproducibility and accessibility. The wider aim of this R package is 
+  to bring the palaeobiological community together to establish agreed standards. The
+  package currently includes functionality for data cleaning, binning (time and space),
+  exploration, summarisation and visualisation. Reference datasets (e.g. Geological Time
+  Scales) and auxiliary functions are also provided.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
