@@ -98,14 +98,15 @@
 <h2 id="files">Files<a class="anchor" aria-label="anchor" href="#files"></a>
 </h2>
 <p>File names should always be concise, meaningful and end in <code>'.R'</code>. Avoid using special characters whenever possible (i.e. stick to letters and numbers), and use <code>'_'</code> or <code>'-'</code> instead of spaces in file names. The use of lowercase is also strongly encouraged, and <strong>never</strong> have file names that only differ in capitalization. <strong>Note:</strong> the preferred separator is <code>'_'</code> to consist with the ‘lowercase snake_case’ convention for developing functions (more on that later!).<br><br></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nein!</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Sup3r Aw3sum Functi0n.r</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Besser</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>super_awesome_function.R</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Das ist gut!</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>time_bins.R</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Nein!</span></span>
+<span><span class="va">Sup3rAw3sumFuncti0n.r</span></span>
+<span></span>
+<span><span class="co"># Besser</span></span>
+<span><span class="va">super_awesome_function.R</span></span>
+<span></span>
+<span><span class="co"># Das ist gut!</span></span>
+<span><span class="va">time_bins.R</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="r-style-guide">R style guide<a class="anchor" aria-label="anchor" href="#r-style-guide"></a>
@@ -178,7 +179,7 @@
 <span><span class="co">#'</span></span>
 <span><span class="co">#' A dataset of the Geological Time Scale 2020. Age data from:</span></span>
 <span><span class="co">#'  \url{https://stratigraphy.org/timescale/}.</span></span>
-<span><span class="co">#' Supplementary information is also included in the dataset for </span></span>
+<span><span class="co">#' Supplementary information is also included in the dataset for</span></span>
 <span><span class="co">#' plotting functionality (e.g. GTS2020 colour scheme).</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @format A data frame with 189 rows and 20 variables:</span></span>
@@ -191,7 +192,7 @@
 <span><span class="co">#'   ...</span></span>
 <span><span class="co">#' }</span></span>
 <span><span class="co">#' @section References:</span></span>
-<span><span class="co">#' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2020). </span></span>
+<span><span class="co">#' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2020).</span></span>
 <span><span class="co">#' Geologic time scale 2020. Elsevier.</span></span>
 <span><span class="co">#' @source Compiled by Lewis A. Jones. See item descriptions for details.</span></span>
 <span><span class="st">"GTS2020"</span></span></code></pre></div>
@@ -224,7 +225,7 @@
 <span><span class="co">#' This function is used to demonstrate the documentation of functions.</span></span>
 <span><span class="co">#' @param example \code{character}. Arguments are the function inputs.</span></span>
 <span><span class="co">#' @param another_example \code{logical}. All arguments need to be documented.</span></span>
-<span><span class="co">#' @return A \code{list} is returned as output in in this example function. </span></span>
+<span><span class="co">#' @return A \code{list} is returned as output in this example function.</span></span>
 <span><span class="co">#' @details Describe more details if necessary, and list sources if applicable.</span></span>
 <span><span class="co">#' @section Developer:</span></span>
 <span><span class="co">#' Your name</span></span>
@@ -354,7 +355,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://orcid.org/0000-0002-3092-4314" class="external-link">Sofia Galvan</a>, <a href="https://www.mirantakouvari.com" class="external-link">Miranta Kouvari</a>, <a href="https://emmadunne.github.io" class="external-link">Emma M. Dunne</a>, <a href="https://pedrolgodoy.netlify.app" class="external-link">Pedro L. Godoy</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-students/cecily-nicholl" class="external-link">Cecily Nicholl</a>, <a href="https://www.researchgate.net/profile/Lucas-Buffan" class="external-link">Lucas Buffan</a>, <a href="https://erinmdillon.wordpress.com" class="external-link">Erin M. Dillon</a>, Joseph T. Flannery-Sutherland, <a href="https://linktr.ee/AlessandroChiarenza" class="external-link">A. Alessandro Chiarenza</a>.</p>
+<p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://www.researchgate.net/profile/Joseph-Flannery-Sutherland" class="external-link">Joseph T. Flannery-Sutherland</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

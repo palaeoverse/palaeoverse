@@ -123,7 +123,7 @@ containing the class-level identifications.</p></dd>
 <dt>name</dt>
 <dd><p><code>character</code>. The name of the column in the dataframe
 containing the taxonomic names at mixed taxonomic levels; the data column
-"accepted_names" in a Paleobiology Database <a href="https://paleobiodb.org/#/" class="external-link">https://paleobiodb.org/#/</a>
+"accepted_names" in a <a href="https://paleobiodb.org/#/" class="external-link">Paleobiology Database</a>
 occurrence dataframe is of this type.</p></dd>
 
 
@@ -146,27 +146,28 @@ function, as well as a column providing the 'unique' names of each taxon.</p>
     <p>In many cases palaeobiologists count unique taxa by retaining only
 unique occurrences identified to a given taxonomic resolution, however
 this function retain occurrences identified to a coarser taxonomic resolution
-which are not already represented within the dataset.
-If we take the following set of occurrences:</p><ul><li><p><em>Albertosaurus sarcophagus</em></p></li>
+which are not already represented within the dataset.</p>
+<p>If we take the following set of occurrences:</p><ul><li><p><em>Albertosaurus sarcophagus</em></p></li>
 <li><p><em>Ankylosaurus</em> sp.</p></li>
 <li><p>Aves indet.</p></li>
 <li><p>Ceratopsidae indet.</p></li>
 <li><p>Hadrosauridae indet.</p></li>
-<li><p>Ornithominus sp.</p></li>
-<li><p><em>Tyrannosaurus rex</em>
-a filter for species-level identifications would reduce the species richness
+<li><p><em>Ornithomimus</em> sp.</p></li>
+<li><p><em>Tyrannosaurus rex</em></p></li>
+</ul><p>a filter for species-level identifications would reduce the species richness
 to two. However, none of these clades are nested within one another, so each
 of the indeterminately identified occurrences represents at least one species
 not already represented in the dataset. This function is designed to deal
 with such taxonomic data, and would retain all seven 'species' in this
-example.</p></li>
-</ul><p>Taxonomic information is supplied within a dataframe, in which columns
+example.</p>
+<p>Taxonomic information is supplied within a dataframe, in which columns
 provide identifications at different taxonomic levels. Occurrence
 data can be filtered to retain either unique species, or unique genera. If a
 species-level filter is desired, the minimum input requires either (1)
 <code>binomial</code>, (2) <code>species</code> and <code>genus</code>, or (3) <code>name</code> and <code>genus</code> columns to
-be entered, as well as a <code>family</code> column. In a standard Paleobiology Database
-<a href="https://paleobiodb.org/#/" class="external-link">https://paleobiodb.org/#/</a> occurrence dataframe, species names are only
+be entered, as well as a <code>family</code> column. In a standard
+<a href="https://paleobiodb.org/#/" class="external-link">Paleobiology Database</a>
+occurrence dataframe, species names are only
 captured in the 'accepted_name' column, so a species-level filter should use
 '<code>genus</code> = "genus"' and '<code>name</code> = "accepted_name"' arguments. If a
 genus-level filter is desired, the minimum input requires either (1)
@@ -200,7 +201,7 @@ Biological Reviews, 86, 157-181. <a href="https://doi.org/10.1111/j.1469-185X.20
     <h2 id="reviewer-s-">Reviewer(s)<a class="anchor" aria-label="anchor" href="#reviewer-s-"></a></h2>
     
 
-<p>Lewis A. Jones and William Gearty</p>
+<p>Lewis A. Jones &amp; William Gearty</p>
     </div>
 
     <div class="section level2">
@@ -237,7 +238,7 @@ Biological Reviews, 86, 157-181. <a href="https://doi.org/10.1111/j.1469-185X.20
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://orcid.org/0000-0002-3092-4314" class="external-link">Sofia Galvan</a>, <a href="https://www.mirantakouvari.com" class="external-link">Miranta Kouvari</a>, <a href="https://emmadunne.github.io" class="external-link">Emma M. Dunne</a>, <a href="https://pedrolgodoy.netlify.app" class="external-link">Pedro L. Godoy</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-students/cecily-nicholl" class="external-link">Cecily Nicholl</a>, <a href="https://www.researchgate.net/profile/Lucas-Buffan" class="external-link">Lucas Buffan</a>, <a href="https://erinmdillon.wordpress.com" class="external-link">Erin M. Dillon</a>, Joseph T. Flannery-Sutherland, <a href="https://linktr.ee/AlessandroChiarenza" class="external-link">A. Alessandro Chiarenza</a>.</p>
+  <p></p><p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://www.researchgate.net/profile/Joseph-Flannery-Sutherland" class="external-link">Joseph T. Flannery-Sutherland</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

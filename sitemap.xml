@@ -10,6 +10,9 @@
     <loc>https://palaeoverse.org/CONTRIBUTING.html</loc>
   </url>
   <url>
+    <loc>https://palaeoverse.org/FUNDING.html</loc>
+  </url>
+  <url>
     <loc>https://palaeoverse.org/LICENSE.html</loc>
   </url>
   <url>
@@ -40,7 +43,7 @@
     <loc>https://palaeoverse.org/reference/bin_lat.html</loc>
   </url>
   <url>
-    <loc>https://palaeoverse.org/reference/bin_spatial.html</loc>
+    <loc>https://palaeoverse.org/reference/bin_space.html</loc>
   </url>
   <url>
     <loc>https://palaeoverse.org/reference/bin_time.html</loc>
@@ -79,7 +82,7 @@
     <loc>https://palaeoverse.org/reference/tax_expand_time.html</loc>
   </url>
   <url>
-    <loc>https://palaeoverse.org/reference/tax_range_geo.html</loc>
+    <loc>https://palaeoverse.org/reference/tax_range_space.html</loc>
   </url>
   <url>
     <loc>https://palaeoverse.org/reference/tax_range_time.html</loc>

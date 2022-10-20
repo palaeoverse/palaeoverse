@@ -93,13 +93,13 @@ publication-ready.</p>
 <span>  height <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  fill <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lab <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  lab_color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lab_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  lab_size <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  rot <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  abbr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  center_end_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  skip <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Quaternary"</span>, <span class="st">"Holocene"</span>, <span class="st">"Late Pleistocene"</span><span class="op">)</span>,</span>
-<span>  bord_color <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  bord_col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>  lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"lty"</span><span class="op">)</span>,</span>
 <span>  lwd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"lwd"</span><span class="op">)</span>,</span>
 <span>  bkgd <span class="op">=</span> <span class="st">"grey90"</span>,</span>
@@ -146,13 +146,14 @@ column) and will be recycled if/as necessary.</p></dd>
 <dd><p><code>logical</code>. Should interval labels be included?</p></dd>
 
 
-<dt>lab_color</dt>
+<dt>lab_col</dt>
 <dd><p><code>character</code>. The color of the labels. The default is to
-use the <code>lab_color</code> column included in <code>intervals</code>. If a custom
-dataset is provided with <code>intervals</code> without a <code>lab_color</code> column
-and without specifying <code>lab_color</code>, all labels will be black. Custom
-label colors can be provided with this option (overriding the
-<code>lab_color</code> column) and will be recycled if/as necessary.</p></dd>
+use the <code>lab_color</code> or <code>lab_colour</code> column included in
+<code>intervals</code>. If a custom dataset is provided with <code>intervals</code>
+without a <code>lab_color</code> or <code>lab_colour</code> column and without
+specifying <code>lab_col</code>, all labels will be black. Custom label colors
+can be provided with this option (overriding the <code>lab_color</code> or
+<code>lab_colour</code> column) and will be recycled if/as necessary.</p></dd>
 
 
 <dt>lab_size</dt>
@@ -184,7 +185,7 @@ also include interval abbreviations. Quaternary, Holocene, and Late
 Pleistocene are skipped by default. Set to NULL if this is not desired.</p></dd>
 
 
-<dt>bord_color</dt>
+<dt>bord_col</dt>
 <dd><p><code>character</code>. The border color of the interval boxes.</p></dd>
 
 
@@ -246,24 +247,29 @@ argument is passed directly to <code><a href="https://rdrr.io/r/graphics/axis.ht
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>If a custom <code>data.frame</code> is provided (with <code>intervals</code>), it should
 consist of at least 3 columns of data. See <code><a href="https://rdrr.io/pkg/deeptime/man/periods.html" class="external-link">deeptime::periods</a></code> for an
-example.</p><ul><li><p>The <code>name</code> column lists the names of each time interval. These
-will be used as labels if no abbreviations are provided.</p></li>
-<li><p>The <code>max_age</code> column lists the oldest boundary of each time
-interval. Values should always be positive.</p></li>
-<li><p>The <code>min_age</code> column lists the youngest boundary of each time
-interval. Values should always be positive.</p></li>
+example.</p><ul><li><p>The <code>name</code> column (<code>interval_name</code> is also allowed) lists
+the names of each time interval. These will be used as labels if no
+abbreviations are provided.</p></li>
+<li><p>The <code>max_age</code> column (<code>max_ma</code> is also allowed) lists the
+oldest boundary of each time interval. Values should always be
+positive.</p></li>
+<li><p>The <code>min_age</code> column (<code>min_ma</code> is also allowed) lists the
+youngest boundary of each time interval. Values should always be
+positive.</p></li>
 <li><p>The <code>abbr</code> column is optional and lists abbreviations that may
 be used as labels.</p></li>
-<li><p>The <code>color</code> column is also optional and lists a color for the
-background for each time interval (see the Color Specification
-section <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">here</a></code>).</p></li>
-<li><p>The <code>lab_color</code> column is also optional and lists a color for
-the label for each time interval (see the Color Specification section
+<li><p>The <code>color</code> column (<code>colour</code> is also allowed) is also
+optional and lists a color for the background for each time interval
+(see the Color Specification section
+<code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">here</a></code>).</p></li>
+<li><p>The <code>lab_color</code> (<code>lab_colour</code> is also allowed) column is
+also optional and lists a color for the label for each time interval
+(see the Color Specification section
 <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">here</a></code>).</p></li>
 </ul><p><code>intervals</code> may also be a list if multiple time scales should be added
 to a single side of the plot. In this case, <code>height</code>, <code>fill</code>,
-<code>lab</code>, <code>lab_color</code>, <code>lab_size</code>, <code>rot</code>, <code>abbr</code>,
-<code>center_end_labels</code>, <code>skip</code>, <code>bord_color</code>, <code>lty</code>, and
+<code>lab</code>, <code>lab_col</code>, <code>lab_size</code>, <code>rot</code>, <code>abbr</code>,
+<code>center_end_labels</code>, <code>skip</code>, <code>bord_col</code>, <code>lty</code>, and
 <code>lwd</code> can also be lists. If these lists are not as long as
 <code>intervals</code>, the elements will be recycled. If individual values
 (or vectors, e.g., for <code>skip</code>) are used for these parameters, they will
@@ -319,6 +325,17 @@ border. The axis will always be placed on the outside of the last scale.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>xlab <span class="op">=</span> <span class="st">"Time (Ma)"</span>, line <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="axis_geo-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># scale with old GTS intervals</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6.1</span>, <span class="fl">4.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span><span class="op">)</span><span class="op">)</span> <span class="co"># modify margin</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, axes <span class="op">=</span> <span class="cn">FALSE</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>     xlab <span class="op">=</span> <span class="cn">NA</span>, ylab <span class="op">=</span> <span class="st">"Depth (m)"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">axis_geo</span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="fu"><a href="time_bins.html">time_bins</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="st">"period"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># the line argument here depends on the absolute size of the plot</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>xlab <span class="op">=</span> <span class="st">"Time (Ma)"</span>, line <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="axis_geo-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># scale with custom intervals</span></span></span>
 <span class="r-in"><span><span class="va">intervals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>min_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, <span class="fl">25</span>, <span class="fl">32</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                        max_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">25</span>, <span class="fl">32</span>, <span class="fl">40</span><span class="op">)</span>,</span></span>
@@ -331,7 +348,7 @@ border. The axis will always be placed on the outside of the last scale.</p>
 <span class="r-in"><span><span class="fu">axis_geo</span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="va">intervals</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># the line argument here depends on the absolute size of the plot</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>xlab <span class="op">=</span> <span class="st">"Time (Ma)"</span>, line <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="axis_geo-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="axis_geo-5.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -339,7 +356,7 @@ border. The axis will always be placed on the outside of the last scale.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://orcid.org/0000-0002-3092-4314" class="external-link">Sofia Galvan</a>, <a href="https://www.mirantakouvari.com" class="external-link">Miranta Kouvari</a>, <a href="https://emmadunne.github.io" class="external-link">Emma M. Dunne</a>, <a href="https://pedrolgodoy.netlify.app" class="external-link">Pedro L. Godoy</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-students/cecily-nicholl" class="external-link">Cecily Nicholl</a>, <a href="https://www.researchgate.net/profile/Lucas-Buffan" class="external-link">Lucas Buffan</a>, <a href="https://erinmdillon.wordpress.com" class="external-link">Erin M. Dillon</a>, Joseph T. Flannery-Sutherland, <a href="https://linktr.ee/AlessandroChiarenza" class="external-link">A. Alessandro Chiarenza</a>.</p>
+  <p></p><p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://www.researchgate.net/profile/Joseph-Flannery-Sutherland" class="external-link">Joseph T. Flannery-Sutherland</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -162,10 +162,9 @@ spatial aggregation. The reconstruction files provide pre-generated
 palaeocoordinates for a grid of 1° x 1°, allowing the past
 distribution of fossil occurrences to be estimated efficiently. Access to
 the reconstruction files and documentation is available via the
-<code>palaeorotate</code> package (<a href="https://github.com/LewisAJones/palaeorotate" class="external-link">https://github.com/LewisAJones/palaeorotate</a>).
+<a href="https://github.com/LewisAJones/palaeorotate" class="external-link">palaeorotate</a> package.
 Note: each reconstruction file is 5--10 MB in size.</p></li>
-<li><p>GPlates API: The "point" <code>method</code> uses the GPlates API service
-<a href="https://gwsdoc.gplates.org" class="external-link">https://gwsdoc.gplates.org</a> to reconstruct palaeorotations for point
+<li><p>GPlates API: The "point" <code>method</code> uses the <a href="https://gwsdoc.gplates.org" class="external-link">GPlates Web Service</a> to reconstruct palaeorotations for point
 data. The use of this <code>method</code> is slower than the "grid" <code>method</code> if many
 unique time intervals exist in your dataset. However, it provides
 palaeocoordinates with higher precision.</p></li>
@@ -221,8 +220,7 @@ Pangea breakup, Annual Review of Earth and Planetary Sciences, Vol 44,
 .</p></li>
 <li><p>Scotese, C., &amp; Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models
 (PaleoDEMs) for the
-Phanerozoic. PALEOMAP Project.
-<a href="https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/" class="external-link">https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/</a>.</p></li>
+Phanerozoic. <a href="https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/" class="external-link">PALEOMAP Project</a>.</p></li>
 <li><p>Seton, M., Müller, R.D., Zahirovic, S., Gaina, C., Torsvik, T.H.,
 Shephard, G., Talsma, A., Gurnis, M., Turner, M., Maus, S., Chandler, M.
 (2012). Global continental and ocean basin reconstructions since 200 Ma.
@@ -235,8 +233,8 @@ reconstructions: integrating open-access paleogeographic and paleobiology
 data with plate tectonics.
 Biogeosciences, 10(3), 1529–1541. <a href="https://doi.org/10.5194/bg-10-1529-2013" class="external-link">doi:10.5194/bg-10-1529-2013</a>
 .</p></li>
-</ul><p>See GPlates documentation for additional information and details:
-<a href="https://gwsdoc.gplates.org/reconstruction" class="external-link">https://gwsdoc.gplates.org/reconstruction</a>.</p>
+</ul><p>See <a href="https://gwsdoc.gplates.org/reconstruction" class="external-link">GPlates documentation</a>
+for additional information and details.</p>
     </div>
     <div class="section level2">
     <h2 id="developer-s-">Developer(s)<a class="anchor" aria-label="anchor" href="#developer-s-"></a></h2>
@@ -248,12 +246,13 @@ Biogeosciences, 10(3), 1529–1541. <a href="https://doi.org/10.5194/bg-10-1529-
     <h2 id="reviewer-s-">Reviewer(s)<a class="anchor" aria-label="anchor" href="#reviewer-s-"></a></h2>
     
 
-<p>Kilian Eichenseer and Lucas Buffan</p>
+<p>Kilian Eichenseer &amp; Lucas Buffan</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Generic example with a few occurrences</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">#Generic example with a few occurrences</span></span></span>
 <span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lng <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="op">-</span><span class="fl">103</span>, <span class="op">-</span><span class="fl">66</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">46</span>, <span class="fl">35</span>, <span class="op">-</span><span class="fl">7</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">88</span>, <span class="fl">125</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -274,11 +273,10 @@ Biogeosciences, 10(3), 1529–1541. <a href="https://doi.org/10.5194/bg-10-1529-
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Rotate the data</span></span></span>
 <span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">palaeorotate</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Palaeocoordinates could not be reconstructed for all points.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Georeferenced plate does not exist at time of reconstruction.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Calculate uncertainity in palaeocoordinates from models</span></span></span>
 <span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">palaeorotate</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span>, uncertainty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -286,7 +284,7 @@ Biogeosciences, 10(3), 1529–1541. <a href="https://doi.org/10.5194/bg-10-1529-
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://orcid.org/0000-0002-3092-4314" class="external-link">Sofia Galvan</a>, <a href="https://www.mirantakouvari.com" class="external-link">Miranta Kouvari</a>, <a href="https://emmadunne.github.io" class="external-link">Emma M. Dunne</a>, <a href="https://pedrolgodoy.netlify.app" class="external-link">Pedro L. Godoy</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-students/cecily-nicholl" class="external-link">Cecily Nicholl</a>, <a href="https://www.researchgate.net/profile/Lucas-Buffan" class="external-link">Lucas Buffan</a>, <a href="https://erinmdillon.wordpress.com" class="external-link">Erin M. Dillon</a>, Joseph T. Flannery-Sutherland, <a href="https://linktr.ee/AlessandroChiarenza" class="external-link">A. Alessandro Chiarenza</a>.</p>
+  <p></p><p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://www.researchgate.net/profile/Joseph-Flannery-Sutherland" class="external-link">Joseph T. Flannery-Sutherland</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
