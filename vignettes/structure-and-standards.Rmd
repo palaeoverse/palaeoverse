@@ -157,7 +157,7 @@ For documentation, we use [roxygen2](https://roxygen2.r-lib.org). The title, a b
 #' This function is used to demonstrate the documentation of functions.
 #' @param example \code{character}. Arguments are the function inputs.
 #' @param another_example \code{logical}. All arguments need to be documented.
-#' @return A \code{list} is returned as output in in this example function.
+#' @return A \code{list} is returned as output in this example function.
 #' @details Describe more details if necessary, and list sources if applicable.
 #' @section Developer:
 #' Your name
