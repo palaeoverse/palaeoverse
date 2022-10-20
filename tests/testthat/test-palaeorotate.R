@@ -1,4 +1,57 @@
-test_that("palaeorotate() works", {
+test_that("palaeorotate() point method works", {
+  skip_if_offline(host = "gwsdoc.gplates.org")
+
+  occdf <- data.frame(lng = c(2, -103, -66),
+                      lat = c(46, 35, -7),
+                      age = c(88, 125, 300))
+
+  expect_equal(nrow(palaeorotate(occdf = occdf,
+                                 method = "point",
+                                 model = "PALEOMAP")), 3)
+
+  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
+                                 round = 2)), 3)
+
+  # Expect message
+  # Model does not extend to this timeframe
+  msg <-
+    paste0("Palaeocoordinates equal to input coordinates detected.",
+           "\n",
+           "Check desired model covers the temporal range of your data."
+    )
+
+  expect_message(palaeorotate(occdf = occdf,
+                              method = "point",
+                              model = "SETON2012"),
+                 msg)
+
+  occdf <- data.frame(lng = c(-41),
+                      lat = c(37),
+                      age = c(300))
+
+  # Plate polygon does not exist at time
+  msg <-
+    paste0("Palaeocoordinates could not be reconstructed for all points.",
+           "\n",
+           "Georeferenced plate does not exist at time of reconstruction."
+    )
+
+  expect_message(palaeorotate(occdf = occdf,
+                              method = "point",
+                              model = "MERDITH2021"),
+                 msg)
+
+  # Model doesn't exist
+  expect_error(palaeorotate(occdf = occdf, method = "point",
+                            model = "Mirdith2021"))
+
+  expect_error(palaeorotate(occdf = occdf, method = "point",
+                            model = "WRIGHT2013"))
+
+
+})
+
+test_that("palaeorotate() grid method works", {
 
   occdf <- data.frame(lng = c(2, -103, -66),
                       lat = c(46, 35, -7),
@@ -16,44 +69,12 @@ test_that("palaeorotate() works", {
 
   expect_equal(nrow(palaeorotate(occdf = occdf, model = "MERDITH2021")), 3)
 
-  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point")), 3)
 
-  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
-                                 model = "MERDITH2021")), 3)
-  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
-                                 round = 2)), 3)
 
   occdf <- data.frame(lng = c(2, -103, -66),
                       lat = c(46, 35, -7),
                       age = c(88, 125, 400))
 
-  # Expect message
-  # Model does not extend to this timeframe
-  msg <-
-    paste0("Palaeocoordinates equal to input coordinates detected.",
-           "\n",
-           "Check desired model covers the temporal range of your data."
-    )
-
-  expect_message(palaeorotate(occdf = occdf,
-                              method = "point",
-                              model = "SETON2012"),
-                 msg)
-  # Plate polygon does not exist at time
-  msg <-
-    paste0("Palaeocoordinates could not be reconstructed for all points.",
-           "\n",
-           "Georeferenced plate does not exist at time of reconstruction."
-    )
-
-  occdf <- data.frame(lng = c(-41),
-                      lat = c(37),
-                      age = c(300))
-
-  expect_message(palaeorotate(occdf = occdf,
-                              method = "point",
-                              model = "MERDITH2021"),
-                 msg)
 
   # Wrong uncertainty input
   expect_error(palaeorotate(occdf = occdf, uncertainty = "TRUE"))
@@ -63,13 +84,6 @@ test_that("palaeorotate() works", {
 
   # Model doesn't exist
   expect_error(palaeorotate(occdf = occdf, model = "Mirdith2021"))
-
-  # Model doesn't exist
-  expect_error(palaeorotate(occdf = occdf, method = "point",
-                            model = "Mirdith2021"))
-
-  expect_error(palaeorotate(occdf = occdf, method = "point",
-                            model = "WRIGHT2013"))
 
   # Method doesn't exist
   expect_error(palaeorotate(occdf = occdf, method = "both"))
@@ -101,5 +115,16 @@ test_that("palaeorotate() works", {
                       age = c(88, 203, 467))
   expect_error(palaeorotate(occdf = occdf))
 
-})
+  # Negative values
+  occdf <- data.frame(lng = c(2, 95, -178),
+                      lat = c(46, 95, -65),
+                      age = c(-88, 203, 467))
+  expect_error(palaeorotate(occdf = occdf))
 
+  # Incorrect round values
+  occdf <- data.frame(lng = c(2, 95, -178),
+                      lat = c(46, 50, -65),
+                      age = c(88, 203, 467))
+  expect_error(palaeorotate(occdf = occdf, round = "TEST"))
+
+})

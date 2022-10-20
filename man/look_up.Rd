@@ -72,10 +72,9 @@ and numeric ages from the International Commission on Stratigraphy (ICS), or
 user-defined intervals, to fossil occurrences.
 }
 \details{
-If \code{int_key} is set to \code{FALSE} (default), this function can be used to assign
-numerical
-ages solely based on stages from a GTS table, and to assign stages based on
-GTS interval names.
+If \code{int_key} is set to \code{FALSE} (default), this function can be used to
+assign numerical ages solely based on stages from a GTS table, and to assign
+stages based on GTS interval names.
 
 Instead of  geological stages, the user can supply any names in the
 \code{early_stage} and \code{late_stage} column of \code{int_key}.
@@ -85,7 +84,7 @@ An exemplary \code{int_key} has been included within this package
 (\code{\link{interval_key}}). This key works well for assigning
 geological stages to many of the intervals from the
 \href{https://paleobiodb.org}{Paleobiology Database}
-and the \href{https://www.paleo-reefs.pal.uni-erlangen.de/}{Paleoreefs Database}.
+and the \href{https://www.paleo-reefs.pal.uni-erlangen.de/}{PaleoReefs Database}.
 \code{palaeoverse} cannot guarantee that all of
 the stage assignments with the exemplary key are accurate.
 The table corresponding to this key can be loaded with

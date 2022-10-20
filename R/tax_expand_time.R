@@ -1,4 +1,4 @@
-#' Expand taxa to interval-level pseudo-occurrences
+#' Generate pseudo-occurrences from temporal range data
 #'
 #' A function to generate interval-level pseudo-occurrences for taxa based on
 #' temporal ranges (e.g., the output of \code{\link{tax_range_time}}). While the
@@ -73,7 +73,8 @@ tax_expand_time <- function(
     stop("Maximum ages must be larger than or equal to minimum ages.")
   }
 
-  if (length(rank) > 1 || !(rank %in% c("stage", "epoch", "period", "era", "eon"))) {
+  if (length(rank) > 1 ||
+      !(rank %in% c("stage", "epoch", "period", "era", "eon"))) {
     stop("`rank` must be either: stage, epoch, period, era, or eon")
   }
 

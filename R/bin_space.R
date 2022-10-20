@@ -29,14 +29,15 @@
 #'
 #' @details This function assigns fossil occurrence data into
 #' equal-area grid cells using discrete hexagonal grids via the
-#' \code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3 library,
-#' a geospatial indexing system that partitions the world into hexagonal cells:
-#' \url{https://h3geo.org/docs}. In H3, 16 different resolutions are available:
-#' \url{https://h3geo.org/docs/core-library/restable}. In the implementation of
-#' the `bin_spatial()` function, the resolution is defined by the user-input
-#' `spacing` which represents the distance between the centroid of adjacent
-#' cells. Using this distance, the function identifies which resolution is most
-#' similar to the input `spacing`, and uses this resolution.
+#' \code{\link[h3jsr]{h3jsr}} package. This package relies on
+#' [Uber's H3](https://h3geo.org/docs) library, a geospatial indexing system
+#' that partitions the world into hexagonal cells. In H3, 16 different
+#' resolutions are available
+#' ([see here](https://h3geo.org/docs/core-library/restable)). In the
+#' implementation of the `bin_space()` function, the resolution is defined by
+#' the user-input `spacing` which represents the distance between the centroid
+#' of adjacent cells. Using this distance, the function identifies which
+#' resolution is most similar to the input `spacing`, and uses this resolution.
 #'
 #' Additional functionality allows the user to simultaneously assign occurrence
 #' data to equal-area grid cells of a finer-scale grid (i.e., a ‘sub-grid’)
@@ -50,13 +51,13 @@
 #' data is defined as EPSG:4326 (World Geodetic System
 #' 1984). The user should transform their data accordingly if this is
 #' not appropriate. If you are unfamiliar with working with geographic data,
-#' we highly recommend checking out Geocomputation with R
-#' \url{https://geocompr.robinlovelace.net/index.html}.
+#' we highly recommend checking out [Geocomputation with R](
+#' https://geocompr.robinlovelace.net/index.html).
 #'
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Bethany Allen and Kilian Eichenseer
+#' Bethany Allen & Kilian Eichenseer
 #' @importFrom sf st_as_sf st_drop_geometry
 #' @importFrom h3jsr point_to_cell cell_to_point cell_to_polygon
 #' @examples
@@ -67,17 +68,17 @@
 #' occdf <- reefs[1:500, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_spatial(occdf = occdf, spacing = 250, plot = TRUE)
+#' ex1 <- bin_space(occdf = occdf, spacing = 250, plot = TRUE)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- bin_spatial(occdf = occdf, spacing = 250, sub_grid = 50, plot = TRUE)
+#' ex2 <- bin_space(occdf = occdf, spacing = 250, sub_grid = 50, plot = TRUE)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
 #' data("tetrapods")
 #'
 #' # Assign to spatial bin
-#' occdf <- bin_spatial(occdf = tetrapods, spacing = 1000, sub_grid = 250)
+#' occdf <- bin_space(occdf = tetrapods, spacing = 1000, sub_grid = 250)
 #'
 #' # Get unique bins
 #' bins <- unique(occdf$cell_ID)
@@ -107,7 +108,7 @@
 #'   mean(counts)
 #' })
 #' @export
-bin_spatial <- function(occdf,
+bin_space <- function(occdf,
                         lng = "lng",
                         lat = "lat",
                         spacing = 100,
@@ -151,7 +152,7 @@ bin_spatial <- function(occdf,
 
   #=== Set-up ===
   # Convert to sf object and add CRS
-  occdf <- sf::st_as_sf(occdf, coords=c(lng, lat),
+  occdf <- sf::st_as_sf(occdf, coords = c(lng, lat),
                         remove = FALSE,
                         crs = "EPSG:4326")
 

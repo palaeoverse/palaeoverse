@@ -87,10 +87,9 @@ spatial aggregation. The reconstruction files provide pre-generated
 palaeocoordinates for a grid of 1° x 1°, allowing the past
 distribution of fossil occurrences to be estimated efficiently. Access to
 the reconstruction files and documentation is available via the
-\code{palaeorotate} package (\url{https://github.com/LewisAJones/palaeorotate}).
+\href{https://github.com/LewisAJones/palaeorotate}{palaeorotate} package.
 Note: each reconstruction file is 5--10 MB in size.
-\item GPlates API: The "point" \code{method} uses the GPlates API service
-\url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point
+\item GPlates API: The "point" \code{method} uses the \href{https://gwsdoc.gplates.org}{GPlates Web Service} to reconstruct palaeorotations for point
 data. The use of this \code{method} is slower than the "grid" \code{method} if many
 unique time intervals exist in your dataset. However, it provides
 palaeocoordinates with higher precision.
@@ -162,8 +161,7 @@ Pangea breakup, Annual Review of Earth and Planetary Sciences, Vol 44,
 107-138. \doi{10.1146/annurev-earth-060115-012211}.
 \item Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models
 (PaleoDEMs) for the
-Phanerozoic. PALEOMAP Project.
-\url{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}.
+Phanerozoic. \href{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}{PALEOMAP Project}.
 \item Seton, M., Müller, R.D., Zahirovic, S., Gaina, C., Torsvik, T.H.,
 Shephard, G., Talsma, A., Gurnis, M., Turner, M., Maus, S., Chandler, M.
 (2012). Global continental and ocean basin reconstructions since 200 Ma.
@@ -176,8 +174,8 @@ data with plate tectonics.
 Biogeosciences, 10(3), 1529–1541. \doi{10.5194/bg-10-1529-2013}.
 }
 
-See GPlates documentation for additional information and details:
-\url{https://gwsdoc.gplates.org/reconstruction}.
+See \href{https://gwsdoc.gplates.org/reconstruction}{GPlates documentation}
+for additional information and details.
 }
 
 \section{Developer(s)}{
@@ -187,10 +185,11 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Kilian Eichenseer and Lucas Buffan
+Kilian Eichenseer & Lucas Buffan
 }
 
 \examples{
+\dontrun{
 #Generic example with a few occurrences
 occdf <- data.frame(lng = c(2, -103, -66),
                 lat = c(46, 35, -7),
@@ -215,4 +214,5 @@ ex3 <- palaeorotate(occdf = tetrapods)
 
 #Calculate uncertainity in palaeocoordinates from models
 ex4 <- palaeorotate(occdf = tetrapods, uncertainty = TRUE)
+}
 }

@@ -25,20 +25,20 @@
 #' to "occ". The default is 100.
 #'
 #' @return A \code{dataframe} with method-specific columns:
-#' - For the "con" method, a \code{dataframe} with each unique taxa (`taxa`) and
-#' taxon ID (`taxon_id`) by convex hull coordinate (`lng` & `lat`) combination,
-#' and area (`area`) in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}} is
-#' returned.
-#' - For the "lat" method, a \code{dataframe} with unique taxa (`taxa`),
+#' - For the "con" method, a \code{dataframe} with each unique taxa (`taxon`)
+#' and taxon ID (`taxon_id`) by convex hull coordinate (`lng` & `lat`)
+#' combination, and area (`area`) in
+#' km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}} is returned.
+#' - For the "lat" method, a \code{dataframe} with unique taxa (`taxon`),
 #' taxon ID (`taxon_id`), maximum latitude of occurrence (`max_lat`),
 #' minimum latitude of occurrence (`min_lat`), and latitudinal
 #' range (`range_lat`) is returned.
-#' - For the "gcd" method, a \code{dataframe} with each unique taxa (`taxa`) and
-#' taxon ID (`taxon_id`) by coordinate combination (`lng` & `lat`) of the two
-#' most distant points, and the 'Great Circle Distance' (`GCD`) between these
-#' points in km is returned.
-#' - For the "occ" method, a \code{dataframe} with unique taxa (`taxa`), taxon
-#' ID (`taxon_id`), the number of occupied cells (`cells`), proportion of
+#' - For the "gcd" method, a \code{dataframe} with each unique taxa (`taxon`)
+#' and taxon ID (`taxon_id`) by coordinate combination (`lng` & `lat`) of the
+#' two most distant points, and the 'Great Circle Distance' (`gcd`) between
+#' these points in km is returned.
+#' - For the "occ" method, a \code{dataframe} with unique taxa (`taxon`), taxon
+#' ID (`taxon_id`), the number of occupied cells (`n_cells`), proportion of
 #' occupied cells from all occupied by occurrences (`proportional_occ`),
 #' and the spacing between cells (`spacing`) in km is returned. Note: the number
 #' of occupied cells and proportion of occupied cells is highly dependent on
@@ -47,7 +47,7 @@
 #' respective taxon is a singleton (i.e. represented by only one occurrence).
 #'
 #' @details Four commonly applied approaches (Darroch et al., 2020)
-#' are available using the `tax_range_geo` function for calculating ranges:
+#' are available using the `tax_range_space` function for calculating ranges:
 #' - Convex hull: the "con" method calculates the geographic range of taxa
 #' using a convex hull for each taxon in `occdf`, and calculates the area of
 #' the convex hull (in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}) using
@@ -69,15 +69,16 @@
 #' which represents the distance between two points on a plane.
 #' - Occupied cells: the "occ" method calculates the number and proportion of
 #' occupied equal-area grid cells. It does so using discrete hexagonal grids
-#' via the \code{\link[h3jsr]{h3jsr}} package. This package relies on Uber's H3
-#' library, a geospatial indexing system that partitions the world into
-#' hexagonal cells:
-#' \url{https://h3geo.org/docs}. In H3, 16 different resolutions are available:
-#' \url{https://h3geo.org/docs/core-library/restable}. In the implementation of
-#' the `tax_range_geo()` function, the resolution is defined by the user-input
-#' `spacing` which represents the distance between the centroid of adjacent
-#' cells. Using this distance, the function identifies which resolution is most
-#' similar to the input `spacing`, and uses this resolution.
+#' via the \code{\link[h3jsr]{h3jsr}} package. This package relies on
+#' [Uber's H3](https://h3geo.org/docs) library, a geospatial indexing system
+#' that partitions the world into hexagonal cells. In H3, 16 different
+#' resolutions are available
+#' ([see here](https://h3geo.org/docs/core-library/restable)).
+#' In the implementation of the `tax_range_space()` function, the resolution is
+#' defined by the user-input `spacing` which represents the distance between
+#' the centroid of adjacent cells. Using this distance, the function identifies
+#' which resolution is most similar to the input `spacing`, and uses this
+#' resolution.
 #'
 #' @section Reference(s):
 #' Darroch, S. A., Casey, M. M., Antell, G. S., Sweeney, A., & Saupe, E. E.
@@ -98,15 +99,15 @@
 #' # Remove NAs
 #' occdf <- subset(occdf, !is.na(genus))
 #' # Convex hull
-#' ex1 <- tax_range_geo(occdf = occdf, name = "genus", method = "con")
+#' ex1 <- tax_range_space(occdf = occdf, name = "genus", method = "con")
 #' # Latitudinal range
-#' ex2 <- tax_range_geo(occdf = occdf, name = "genus", method = "lat")
+#' ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
 #' # Great Circle Distance
-#' ex3 <- tax_range_geo(occdf = occdf, name = "genus", method = "gcd")
+#' ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
 #' # Occupied grid cells
-#' ex4 <- tax_range_geo(occdf = occdf, name = "genus", method = "occ")
+#' ex4 <- tax_range_space(occdf = occdf, name = "genus", method = "occ")
 #' @export
-tax_range_geo <- function(occdf,
+tax_range_space <- function(occdf,
                           name = "genus",
                           lng = "lng",
                           lat = "lat",
@@ -163,7 +164,7 @@ in `occdf`")
     spat_df <- data.frame()
     # Run for loop across unique taxa
     for (i in seq_along(unique_taxa)) {
-      taxa <- unique_taxa[i]
+      taxon <- unique_taxa[i]
       taxon_id <- i
       # Subset taxa
       tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
@@ -173,7 +174,7 @@ in `occdf`")
       area <- geosphere::areaPolygon(tmp) / 1e+6
       # Round to three decimal places
       area <- round(area, digits = 3)
-      tmp <- cbind.data.frame(taxa, taxon_id, tmp, area)
+      tmp <- cbind.data.frame(taxon, taxon_id, tmp, area)
       spat_df <- rbind.data.frame(spat_df, tmp)
     }
     # Remove row names
@@ -184,7 +185,7 @@ in `occdf`")
   #=== Latitudinal range ===
   if (method == "lat") {
     # Generate dataframe for population
-    lat_df <- data.frame(taxa = unique_taxa,
+    lat_df <- data.frame(taxon = unique_taxa,
                          taxon_id = seq(1, length(unique_taxa), 1),
                          max_lat = rep(NA, length(unique_taxa)),
                          min_lat = rep(NA, length(unique_taxa)),
@@ -214,24 +215,24 @@ in `occdf`")
     # Run for loop across unique taxa
     for (i in seq_along(unique_taxa)) {
       # Unique taxa name
-      taxa <- unique_taxa[i]
+      taxon <- unique_taxa[i]
       # taxon id
       taxon_id <- i
       # Subset df
       tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
       # Calculate GCD matrix using the Haversine method
-      vals <- geosphere::distm(x = tmp[ ,c(lng, lat)],
+      vals <- geosphere::distm(x = tmp[, c(lng, lat)],
                                fun = geosphere::distHaversine)
       # Convert to km
       vals <- vals / 10^3
       # Extract location of points with max GCD
       loc <- which(vals == max(vals), arr.ind = TRUE)
       # Get maximum GCD in km
-      GCD <- as.numeric(max(vals))
+      gcd <- as.numeric(max(vals))
       # Extract coordinates of points
       coords <- data.frame(tmp[loc[1, 1:2], c(lng, lat)])
       # Build dataframe
-      tmp <- cbind.data.frame(taxa, taxon_id, coords, GCD)
+      tmp <- cbind.data.frame(taxon, taxon_id, coords, gcd)
       gcd_df <- rbind.data.frame(gcd_df, tmp)
     }
 
@@ -239,8 +240,8 @@ in `occdf`")
     row.names(gcd_df) <- NULL
 
     # Round off values
-    gcd_df[, c(lng, lat, "GCD")] <- round(
-      x = gcd_df[, c(lng, lat, "GCD")], digits = 3)
+    gcd_df[, c(lng, lat, "gcd")] <- round(
+      x = gcd_df[, c(lng, lat, "gcd")], digits = 3)
 
     # Return dataframe
     return(gcd_df)
@@ -248,11 +249,11 @@ in `occdf`")
   #=== Occupied grid cells  ===
   if (method == "occ") {
     # Generate dataframe for population
-    oc_df <- data.frame(taxa = unique_taxa,
-                         taxon_id = seq(1, length(unique_taxa), 1),
-                         cells = rep(NA, length(unique_taxa)),
-                         proportional_occ = rep(NA, length(unique_taxa)),
-                         spacing = rep(NA, length(unique_taxa)))
+    oc_df <- data.frame(taxon = unique_taxa,
+                        taxon_id = seq(1, length(unique_taxa), 1),
+                        n_cells = rep(NA, length(unique_taxa)),
+                        proportional_occ = rep(NA, length(unique_taxa)),
+                        spacing = rep(NA, length(unique_taxa)))
     # Generate equal area hexagonal grid
     # Which resolution should be used based on input distance/spacing?
     # Use the h3jsr::h3_info_table to calculate resolution
@@ -267,16 +268,16 @@ in `occdf`")
       # Subset df
       tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
       # Extract cell ID
-      cells <- suppressMessages(
+      n_cells <- suppressMessages(
         h3jsr::point_to_cell(tmp[, c(lng, lat)], res = grid$h3_resolution)
       )
       # Calculate number of unique cells occupied
-      oc_df$cells[i] <- length(unique(cells))
+      oc_df$n_cells[i] <- length(unique(n_cells))
       # Append cells
-      tracker <- append(tracker, cells)
+      tracker <- append(tracker, n_cells)
     }
     # Get proportional occupancy
-    oc_df$proportional_occ <- round(oc_df$cells / length(unique(tracker)),
+    oc_df$proportional_occ <- round(oc_df$n_cells / length(unique(tracker)),
                                     digits = 3)
     # Return data
     return(oc_df)

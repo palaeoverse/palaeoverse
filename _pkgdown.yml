@@ -26,6 +26,8 @@ authors:
     href: https://www.ucl.ac.uk/earth-sciences/people/research-students/cecily-nicholl
   Lucas Buffan:
     href: https://www.researchgate.net/profile/Lucas-Buffan
+  Joseph T. Flannery-Sutherland:
+    href: https://www.researchgate.net/profile/Joseph-Flannery-Sutherland
   Erin M. Dillon:
     href: https://erinmdillon.wordpress.com
   A. Alessandro Chiarenza:
@@ -55,14 +57,14 @@ reference:
     Functions for binning occurrence data.
   contents:
   - bin_lat
-  - bin_spatial
+  - bin_space
   - bin_time
 
 - title: Data summarisation
   desc: >
     Functions to summarise occurrence-level data.
   contents:
-  - tax_range_geo
+  - tax_range_space
   - tax_range_time
 
 - title: Data visualization

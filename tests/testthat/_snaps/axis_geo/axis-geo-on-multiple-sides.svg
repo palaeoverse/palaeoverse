@@ -416,37 +416,37 @@
 <rect x='-1986.24' y='89.57' width='85.44' height='11.23' style='stroke-width: 0.75; fill: #8CB06C;' />
 <line x1='100.80' y1='100.80' x2='100.80' y2='89.57' style='stroke-width: 0.75;' />
 <line x1='619.20' y1='100.80' x2='619.20' y2='89.57' style='stroke-width: 0.75;' />
-<text x='531.93' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='45.37px' lengthAdjust='spacingAndGlyphs'>Miocene</text>
-<text x='463.37' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Oligocene</text>
-<text x='384.24' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.71px' lengthAdjust='spacingAndGlyphs'>Eocene</text>
-<text x='307.20' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='56.72px' lengthAdjust='spacingAndGlyphs'>Paleocene</text>
-<text x='200.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='88.07px' lengthAdjust='spacingAndGlyphs'>Late Cretaceous</text>
-<text x='109.20' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='92.06px' lengthAdjust='spacingAndGlyphs'>Early Cretaceous</text>
-<text x='-140.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='70.72px' lengthAdjust='spacingAndGlyphs'>Late Jurassic</text>
-<text x='-210.24' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='82.71px' lengthAdjust='spacingAndGlyphs'>Middle Jurassic</text>
-<text x='-300.96' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='74.71px' lengthAdjust='spacingAndGlyphs'>Early Jurassic</text>
-<text x='-451.92' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='68.03px' lengthAdjust='spacingAndGlyphs'>Late Triassic</text>
-<text x='-562.08' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.03px' lengthAdjust='spacingAndGlyphs'>Middle Triassic</text>
-<text x='-597.84' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='72.02px' lengthAdjust='spacingAndGlyphs'>Early Triassic</text>
-<text x='-627.39' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.05px' lengthAdjust='spacingAndGlyphs'>Lopingian</text>
-<text x='-678.05' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='68.06px' lengthAdjust='spacingAndGlyphs'>Guadalupian</text>
-<text x='-772.58' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='53.36px' lengthAdjust='spacingAndGlyphs'>Cisuralian</text>
-<text x='-893.04' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='78.07px' lengthAdjust='spacingAndGlyphs'>Pennsylvanian</text>
-<text x='-1037.04' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='71.37px' lengthAdjust='spacingAndGlyphs'>Mississippian</text>
-<text x='-1179.84' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='77.40px' lengthAdjust='spacingAndGlyphs'>Late Devonian</text>
-<text x='-1262.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='89.40px' lengthAdjust='spacingAndGlyphs'>Middle Devonian</text>
-<text x='-1350.00' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='81.39px' lengthAdjust='spacingAndGlyphs'>Early Devonian</text>
-<text x='-1421.28' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='33.34px' lengthAdjust='spacingAndGlyphs'>Pridoli</text>
-<text x='-1440.96' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='38.03px' lengthAdjust='spacingAndGlyphs'>Ludlow</text>
-<text x='-1465.92' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='46.02px' lengthAdjust='spacingAndGlyphs'>Wenlock</text>
-<text x='-1505.28' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='58.72px' lengthAdjust='spacingAndGlyphs'>Llandovery</text>
-<text x='-1565.28' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='84.06px' lengthAdjust='spacingAndGlyphs'>Late Ordovician</text>
-<text x='-1628.16' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='96.06px' lengthAdjust='spacingAndGlyphs'>Middle Ordovician</text>
-<text x='-1692.96' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='88.05px' lengthAdjust='spacingAndGlyphs'>Early Ordovician</text>
-<text x='-1757.76' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Furongian</text>
-<text x='-1814.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='60.70px' lengthAdjust='spacingAndGlyphs'>Miaolingian</text>
-<text x='-1872.00' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Series 2</text>
-<text x='-1943.52' y='99.31' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='70.71px' lengthAdjust='spacingAndGlyphs'>Terreneuvian</text>
+<text x='531.93' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='45.37px' lengthAdjust='spacingAndGlyphs'>Miocene</text>
+<text x='463.37' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Oligocene</text>
+<text x='384.24' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='40.71px' lengthAdjust='spacingAndGlyphs'>Eocene</text>
+<text x='307.20' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='56.72px' lengthAdjust='spacingAndGlyphs'>Paleocene</text>
+<text x='200.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='88.07px' lengthAdjust='spacingAndGlyphs'>Late Cretaceous</text>
+<text x='109.20' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='92.06px' lengthAdjust='spacingAndGlyphs'>Early Cretaceous</text>
+<text x='-140.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='70.72px' lengthAdjust='spacingAndGlyphs'>Late Jurassic</text>
+<text x='-210.24' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='82.71px' lengthAdjust='spacingAndGlyphs'>Middle Jurassic</text>
+<text x='-300.96' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='74.71px' lengthAdjust='spacingAndGlyphs'>Early Jurassic</text>
+<text x='-451.92' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='68.03px' lengthAdjust='spacingAndGlyphs'>Late Triassic</text>
+<text x='-562.08' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='80.03px' lengthAdjust='spacingAndGlyphs'>Middle Triassic</text>
+<text x='-597.84' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='72.02px' lengthAdjust='spacingAndGlyphs'>Early Triassic</text>
+<text x='-627.39' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='52.05px' lengthAdjust='spacingAndGlyphs'>Lopingian</text>
+<text x='-678.05' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='68.06px' lengthAdjust='spacingAndGlyphs'>Guadalupian</text>
+<text x='-772.58' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='53.36px' lengthAdjust='spacingAndGlyphs'>Cisuralian</text>
+<text x='-893.04' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='78.07px' lengthAdjust='spacingAndGlyphs'>Pennsylvanian</text>
+<text x='-1037.04' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='71.37px' lengthAdjust='spacingAndGlyphs'>Mississippian</text>
+<text x='-1179.84' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='77.40px' lengthAdjust='spacingAndGlyphs'>Late Devonian</text>
+<text x='-1262.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='89.40px' lengthAdjust='spacingAndGlyphs'>Middle Devonian</text>
+<text x='-1350.00' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='81.39px' lengthAdjust='spacingAndGlyphs'>Early Devonian</text>
+<text x='-1421.28' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='33.34px' lengthAdjust='spacingAndGlyphs'>Pridoli</text>
+<text x='-1440.96' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='38.03px' lengthAdjust='spacingAndGlyphs'>Ludlow</text>
+<text x='-1465.92' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='46.02px' lengthAdjust='spacingAndGlyphs'>Wenlock</text>
+<text x='-1505.28' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='58.72px' lengthAdjust='spacingAndGlyphs'>Llandovery</text>
+<text x='-1565.28' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='84.06px' lengthAdjust='spacingAndGlyphs'>Late Ordovician</text>
+<text x='-1628.16' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='96.06px' lengthAdjust='spacingAndGlyphs'>Middle Ordovician</text>
+<text x='-1692.96' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='88.05px' lengthAdjust='spacingAndGlyphs'>Early Ordovician</text>
+<text x='-1757.76' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Furongian</text>
+<text x='-1814.40' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='60.70px' lengthAdjust='spacingAndGlyphs'>Miaolingian</text>
+<text x='-1872.00' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Series 2</text>
+<text x='-1943.52' y='99.31' text-anchor='middle' style='font-size: 12.00px; fill: #0000FF; font-family: sans;' textLength='70.71px' lengthAdjust='spacingAndGlyphs'>Terreneuvian</text>
 <rect x='587.62' y='70.85' width='12.38' height='18.72' style='stroke-width: 0.75; fill: #F9F97F;' />
 <rect x='489.46' y='70.85' width='98.16' height='18.72' style='stroke-width: 0.75; fill: #FFE619;' />
 <rect x='283.20' y='70.85' width='206.26' height='18.72' style='stroke-width: 0.75; fill: #FD9A52;' />
@@ -464,18 +464,18 @@
 <rect x='-4200.00' y='70.85' width='1344.00' height='18.72' style='stroke-width: 0.75; fill: #FFA5D2;' />
 <line x1='100.80' y1='89.57' x2='100.80' y2='70.85' style='stroke-width: 0.75;' />
 <line x1='619.20' y1='89.57' x2='619.20' y2='70.85' style='stroke-width: 0.75;' />
-<text x='538.54' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='48.72px' lengthAdjust='spacingAndGlyphs'>Neogene</text>
-<text x='192.00' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
-<text x='-231.12' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Jurassic</text>
-<text x='-487.68' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='41.34px' lengthAdjust='spacingAndGlyphs'>Triassic</text>
-<text x='-721.92' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.69px' lengthAdjust='spacingAndGlyphs'>Permian</text>
-<text x='-978.72' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='75.38px' lengthAdjust='spacingAndGlyphs'>Carboniferous</text>
-<text x='-1267.44' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='50.71px' lengthAdjust='spacingAndGlyphs'>Devonian</text>
-<text x='-1471.20' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.02px' lengthAdjust='spacingAndGlyphs'>Silurian</text>
-<text x='-1630.08' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='57.37px' lengthAdjust='spacingAndGlyphs'>Ordovician</text>
-<text x='-1858.08' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.03px' lengthAdjust='spacingAndGlyphs'>Cambrian</text>
-<text x='-2217.12' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Ediacaran</text>
-<text x='-2652.00' y='84.34' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cryogenian</text>
+<text x='538.54' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='48.72px' lengthAdjust='spacingAndGlyphs'>Neogene</text>
+<text x='192.00' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
+<text x='-231.12' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Jurassic</text>
+<text x='-487.68' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='41.34px' lengthAdjust='spacingAndGlyphs'>Triassic</text>
+<text x='-721.92' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='44.69px' lengthAdjust='spacingAndGlyphs'>Permian</text>
+<text x='-978.72' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='75.38px' lengthAdjust='spacingAndGlyphs'>Carboniferous</text>
+<text x='-1267.44' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='50.71px' lengthAdjust='spacingAndGlyphs'>Devonian</text>
+<text x='-1471.20' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='40.02px' lengthAdjust='spacingAndGlyphs'>Silurian</text>
+<text x='-1630.08' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='57.37px' lengthAdjust='spacingAndGlyphs'>Ordovician</text>
+<text x='-1858.08' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='52.03px' lengthAdjust='spacingAndGlyphs'>Cambrian</text>
+<text x='-2217.12' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Ediacaran</text>
+<text x='-2652.00' y='84.34' text-anchor='middle' style='font-size: 12.00px; fill: #A020F0; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cryogenian</text>
 <line x1='100.80' y1='70.85' x2='619.20' y2='70.85' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
@@ -501,40 +501,40 @@
 <g clip-path='url(#cpNjE5LjIwfDY1NS40OXwxMDAuODB8NDc1LjIw)'>
 <rect x='619.20' y='100.80' width='36.29' height='374.40' style='stroke-width: 0.75; stroke: none; fill: #E5E5E5;' />
 <line x1='619.20' y1='475.20' x2='619.20' y2='100.80' style='stroke-width: 0.75;' />
-<rect x='619.20' y='114.67' width='20.74' height='0.043' style='stroke-width: 0.75; fill: #FEF2E0;' />
-<rect x='619.20' y='114.71' width='20.74' height='9.37' style='stroke-width: 0.75; fill: #FFF2AE;' />
-<rect x='619.20' y='124.08' width='20.74' height='10.05' style='stroke-width: 0.75; fill: #FFFF99;' />
-<rect x='619.20' y='134.13' width='20.74' height='64.58' style='stroke-width: 0.75; fill: #FFFF00;' />
-<rect x='619.20' y='198.71' width='20.74' height='39.67' style='stroke-width: 0.75; fill: #FDC07A;' />
-<rect x='619.20' y='238.37' width='20.74' height='80.65' style='stroke-width: 0.75; fill: #FDB46C;' />
-<rect x='619.20' y='319.02' width='20.74' height='36.49' style='stroke-width: 0.75; fill: #FDA75F;' />
-<rect x='619.20' y='355.51' width='20.74' height='125.89' style='stroke-width: 0.75; fill: #A6D84A;' />
-<rect x='619.20' y='481.40' width='20.74' height='162.39' style='stroke-width: 0.75; fill: #8CCD57;' />
-<rect x='619.20' y='643.79' width='20.74' height='67.51' style='stroke-width: 0.75; fill: #B3E3EE;' />
-<rect x='619.20' y='711.30' width='20.74' height='38.68' style='stroke-width: 0.75; fill: #80CFD8;' />
-<rect x='619.20' y='749.98' width='20.74' height='99.26' style='stroke-width: 0.75; fill: #42AED0;' />
-<rect x='619.20' y='849.24' width='20.74' height='130.27' style='stroke-width: 0.75; fill: #BD8CC3;' />
-<rect x='619.20' y='979.51' width='20.74' height='37.22' style='stroke-width: 0.75; fill: #B168B1;' />
-<rect x='619.20' y='1016.73' width='20.74' height='17.16' style='stroke-width: 0.75; fill: #983999;' />
-<rect x='619.20' y='1033.89' width='20.74' height='27.76' style='stroke-width: 0.75; fill: #FBA794;' />
-<rect x='619.20' y='1061.65' width='20.74' height='49.26' style='stroke-width: 0.75; fill: #FB745C;' />
-<rect x='619.20' y='1110.91' width='20.74' height='94.48' style='stroke-width: 0.75; fill: #EF5845;' />
-<rect x='619.20' y='1205.39' width='20.74' height='88.67' style='stroke-width: 0.75; fill: #99C2B5;' />
-<rect x='619.20' y='1294.06' width='20.74' height='130.27' style='stroke-width: 0.75; fill: #678F66;' />
-<rect x='619.20' y='1424.34' width='20.74' height='86.85' style='stroke-width: 0.75; fill: #F1E19D;' />
-<rect x='619.20' y='1511.19' width='20.74' height='38.68' style='stroke-width: 0.75; fill: #F1C868;' />
-<rect x='619.20' y='1549.87' width='20.74' height='94.51' style='stroke-width: 0.75; fill: #E5AC4D;' />
-<rect x='619.20' y='1644.38' width='20.74' height='13.87' style='stroke-width: 0.75; fill: #E6F5E1;' />
-<rect x='619.20' y='1658.25' width='20.74' height='16.06' style='stroke-width: 0.75; fill: #BFE6CF;' />
-<rect x='619.20' y='1674.30' width='20.74' height='21.89' style='stroke-width: 0.75; fill: #B3E1C2;' />
-<rect x='619.20' y='1696.20' width='20.74' height='37.95' style='stroke-width: 0.75; fill: #99D7B3;' />
-<rect x='619.20' y='1734.15' width='20.74' height='53.28' style='stroke-width: 0.75; fill: #7FCA93;' />
-<rect x='619.20' y='1787.42' width='20.74' height='42.33' style='stroke-width: 0.75; fill: #4DB47E;' />
-<rect x='619.20' y='1829.75' width='20.74' height='56.20' style='stroke-width: 0.75; fill: #1A9D6F;' />
-<rect x='619.20' y='1885.95' width='20.74' height='42.33' style='stroke-width: 0.75; fill: #B3E095;' />
-<rect x='619.20' y='1928.28' width='20.74' height='43.79' style='stroke-width: 0.75; fill: #A6CF86;' />
-<rect x='619.20' y='1972.07' width='20.74' height='43.79' style='stroke-width: 0.75; fill: #99C078;' />
-<rect x='619.20' y='2015.86' width='20.74' height='64.95' style='stroke-width: 0.75; fill: #8CB06C;' />
+<rect x='619.20' y='114.67' width='20.74' height='0.043' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='114.71' width='20.74' height='9.37' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='124.08' width='20.74' height='10.05' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='134.13' width='20.74' height='64.58' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='198.71' width='20.74' height='39.67' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='238.37' width='20.74' height='80.65' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='319.02' width='20.74' height='36.49' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='355.51' width='20.74' height='125.89' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='481.40' width='20.74' height='162.39' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='643.79' width='20.74' height='67.51' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='711.30' width='20.74' height='38.68' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='749.98' width='20.74' height='99.26' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='849.24' width='20.74' height='130.27' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='979.51' width='20.74' height='37.22' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1016.73' width='20.74' height='17.16' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1033.89' width='20.74' height='27.76' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1061.65' width='20.74' height='49.26' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1110.91' width='20.74' height='94.48' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1205.39' width='20.74' height='88.67' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1294.06' width='20.74' height='130.27' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1424.34' width='20.74' height='86.85' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1511.19' width='20.74' height='38.68' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1549.87' width='20.74' height='94.51' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1644.38' width='20.74' height='13.87' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1658.25' width='20.74' height='16.06' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1674.30' width='20.74' height='21.89' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1696.20' width='20.74' height='37.95' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1734.15' width='20.74' height='53.28' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1787.42' width='20.74' height='42.33' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1829.75' width='20.74' height='56.20' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1885.95' width='20.74' height='42.33' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1928.28' width='20.74' height='43.79' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='1972.07' width='20.74' height='43.79' style='stroke-width: 0.75; fill: #ADD8E6;' />
+<rect x='619.20' y='2015.86' width='20.74' height='64.95' style='stroke-width: 0.75; fill: #ADD8E6;' />
 <line x1='619.20' y1='475.20' x2='639.94' y2='475.20' style='stroke-width: 0.75;' />
 <line x1='619.20' y1='100.80' x2='639.94' y2='100.80' style='stroke-width: 0.75;' />
 <text transform='translate(633.70,119.40) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>Ple</text>
@@ -570,21 +570,21 @@
 <text transform='translate(633.70,1950.18) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.66px' lengthAdjust='spacingAndGlyphs'>Ml</text>
 <text transform='translate(633.70,1993.96) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>S2</text>
 <text transform='translate(633.70,2048.34) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='7.33px' lengthAdjust='spacingAndGlyphs'>T</text>
-<rect x='639.94' y='114.67' width='15.55' height='9.41' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #F9F97F;' />
-<rect x='639.94' y='124.08' width='15.55' height='74.62' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFE619;' />
-<rect x='639.94' y='198.71' width='15.55' height='156.80' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FD9A52;' />
-<rect x='639.94' y='355.51' width='15.55' height='288.28' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #7FC64E;' />
-<rect x='639.94' y='643.79' width='15.55' height='205.45' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #34B2C9;' />
-<rect x='639.94' y='849.24' width='15.55' height='184.65' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #812B92;' />
-<rect x='639.94' y='1033.89' width='15.55' height='171.50' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #F04028;' />
-<rect x='639.94' y='1205.39' width='15.55' height='218.95' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #67A599;' />
-<rect x='639.94' y='1424.34' width='15.55' height='220.04' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #CB8C37;' />
-<rect x='639.94' y='1644.38' width='15.55' height='89.77' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #B3E1B6;' />
-<rect x='639.94' y='1734.15' width='15.55' height='151.80' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #009270;' />
-<rect x='639.94' y='1885.95' width='15.55' height='194.86' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #7FA056;' />
-<rect x='639.94' y='2080.81' width='15.55' height='351.05' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFC3E1;' />
-<rect x='639.94' y='2431.86' width='15.55' height='310.18' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFAFD7;' />
-<rect x='639.94' y='2742.04' width='15.55' height='1021.75' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFA5D2;' />
+<rect x='639.94' y='114.67' width='15.55' height='9.41' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='124.08' width='15.55' height='74.62' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='198.71' width='15.55' height='156.80' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='355.51' width='15.55' height='288.28' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='643.79' width='15.55' height='205.45' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='849.24' width='15.55' height='184.65' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='1033.89' width='15.55' height='171.50' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='1205.39' width='15.55' height='218.95' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='1424.34' width='15.55' height='220.04' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='1644.38' width='15.55' height='89.77' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='1734.15' width='15.55' height='151.80' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='1885.95' width='15.55' height='194.86' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='2080.81' width='15.55' height='351.05' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='2431.86' width='15.55' height='310.18' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
+<rect x='639.94' y='2742.04' width='15.55' height='1021.75' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
 <line x1='639.94' y1='475.20' x2='655.49' y2='475.20' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
 <line x1='639.94' y1='100.80' x2='655.49' y2='100.80' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00;' />
 <text transform='translate(651.84,161.39) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>Ng</text>

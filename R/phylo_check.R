@@ -14,8 +14,9 @@
 #' both the tree and the list removed ("diff_table"), the counts of taxa
 #' included and not included in the tree ("counts"), or the phylogeny trimmed to
 #' only include taxa in the provided list ("tree").
-#' @param sort \code{character}. If out = "table", sort the names by presence in
-#' the tree ("presence", the default), or alphabetically ("az").
+#' @param sort \code{character}. If out = "full_table" or out = "diff_table",
+#' sort the names by presence in the tree ("presence", the default), or
+#' alphabetically ("az").
 #' @return If out = "full_table", a \code{dataframe} describing whether taxon
 #' names are present in the list and/or the tree. If out = "diff_table", a
 #' \code{dataframe} describing which taxon names are present in the list or the
@@ -33,12 +34,14 @@
 #' @section Developer(s):
 #' Bethany Allen
 #' @section Reviewer(s):
-#' William Gearty and Pedro Godoy
+#' William Gearty & Pedro Godoy
 #'
 #' @examples
 #' #Read in example tree of ceratopsians from paleotree
 #' library(paleotree)
 #' data(RaiaCopesRule)
+#' #Set smaller margins for plotting
+#' par(mar = rep(0.5, 4))
 #' plot(ceratopsianTreeRaia)
 #'
 #' #Specify list of names
@@ -133,7 +136,7 @@ phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
   }
 
   if (out == "full_table" || out == "diff_table") {
-    colnames(table) <- c("Taxon name", "Present in tree", "Present in list")
+    colnames(table) <- c("taxon_name", "present_in_tree", "present_in_list")
     return(table)
   }
 
@@ -147,9 +150,9 @@ phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
     only_list <- length(which(difference == -1))
     in_both <- length(which(difference == 0))
 
-    counts <- data.frame(c("Tree and list", "Only in tree", "Only in list"),
+    counts <- data.frame(c("tree_and_list", "only_in_tree", "only_in_list"),
                         c(in_both, only_tree, only_list))
-    colnames(counts) <- c("Category", "Number of taxa")
+    colnames(counts) <- c("category", "number_of_taxa")
 
     return(counts)
   }

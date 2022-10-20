@@ -8,7 +8,7 @@ tax_expand_lat(taxdf, bins, max_lat = "max_lat", min_lat = "min_lat")
 }
 \arguments{
 \item{taxdf}{\code{dataframe}. A \code{data.frame} of taxa (such as the
-output of the 'lat' method in \code{\link{tax_range_geo}}) with columns
+output of the 'lat' method in \code{\link{tax_range_space}}) with columns
 containing latitudinal range data (maximum and minimum latitude). Column
 names are assumed to be "max_lat" and "min_lat", but may be updated via the
 \code{max_lat} and \code{min_lat} arguments.
@@ -35,7 +35,8 @@ will be returned in the order of supplied bins.
 }
 \description{
 A function to generate pseudo-occurrences for taxa based on latitudinal
-ranges (e.g. the output of the 'lat' method in \code{\link{tax_range_geo}}).
+ranges (e.g. the output of the 'lat' method in
+\code{\link{tax_range_space}}).
 While the resulting pseudo-occurrences should not be treated as equivalent
 to actual occurrence data (e.g. like that from the Paleobiology Database),
 such pseudo-occurrences may be useful for  performing statistical analyses

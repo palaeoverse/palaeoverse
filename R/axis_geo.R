@@ -17,26 +17,31 @@
 #' consist of at least 3 columns of data. See \code{deeptime::periods} for an
 #' example.
 #' \itemize{
-#'   \item The \code{name} column lists the names of each time interval. These
-#'         will be used as labels if no abbreviations are provided.
-#'   \item The \code{max_age} column lists the oldest boundary of each time
-#'         interval. Values should always be positive.
-#'   \item The \code{min_age} column lists the youngest boundary of each time
-#'         interval. Values should always be positive.
+#'   \item The \code{name} column (\code{interval_name} is also allowed) lists
+#'         the names of each time interval. These will be used as labels if no
+#'         abbreviations are provided.
+#'   \item The \code{max_age} column (\code{max_ma} is also allowed) lists the
+#'         oldest boundary of each time interval. Values should always be
+#'         positive.
+#'   \item The \code{min_age} column (\code{min_ma} is also allowed) lists the
+#'         youngest boundary of each time interval. Values should always be
+#'         positive.
 #'   \item The \code{abbr} column is optional and lists abbreviations that may
 #'         be used as labels.
-#'   \item The \code{color} column is also optional and lists a color for the
-#'         background for each time interval (see the Color Specification
-#'         section \code{\link[graphics:par]{here}}).
-#'   \item The \code{lab_color} column is also optional and lists a color for
-#'         the label for each time interval (see the Color Specification section
+#'   \item The \code{color} column (\code{colour} is also allowed) is also
+#'         optional and lists a color for the background for each time interval
+#'         (see the Color Specification section
+#'         \code{\link[graphics:par]{here}}).
+#'   \item The \code{lab_color} (\code{lab_colour} is also allowed) column is
+#'         also optional and lists a color for the label for each time interval
+#'         (see the Color Specification section
 #'         \code{\link[graphics:par]{here}}).
 #' }
 #'
 #' \code{intervals} may also be a list if multiple time scales should be added
 #' to a single side of the plot. In this case, \code{height}, \code{fill},
-#' \code{lab}, \code{lab_color}, \code{lab_size}, \code{rot}, \code{abbr},
-#' \code{center_end_labels}, \code{skip}, \code{bord_color}, \code{lty}, and
+#' \code{lab}, \code{lab_col}, \code{lab_size}, \code{rot}, \code{abbr},
+#' \code{center_end_labels}, \code{skip}, \code{bord_col}, \code{lty}, and
 #' \code{lwd} can also be lists. If these lists are not as long as
 #' \code{intervals}, the elements will be recycled. If individual values
 #' (or vectors, e.g., for \code{skip}) are used for these parameters, they will
@@ -61,12 +66,13 @@
 #'   colors can be provided with this option (overriding the \code{color}
 #'   column) and will be recycled if/as necessary.
 #' @param lab \code{logical}. Should interval labels be included?
-#' @param lab_color \code{character}. The color of the labels. The default is to
-#'   use the \code{lab_color} column included in \code{intervals}. If a custom
-#'   dataset is provided with \code{intervals} without a \code{lab_color} column
-#'   and without specifying \code{lab_color}, all labels will be black. Custom
-#'   label colors can be provided with this option (overriding the
-#'   \code{lab_color} column) and will be recycled if/as necessary.
+#' @param lab_col \code{character}. The color of the labels. The default is to
+#'   use the \code{lab_color} or \code{lab_colour} column included in
+#'   \code{intervals}. If a custom dataset is provided with \code{intervals}
+#'   without a \code{lab_color} or \code{lab_colour} column and without
+#'   specifying \code{lab_col}, all labels will be black. Custom label colors
+#'   can be provided with this option (overriding the \code{lab_color} or
+#'   \code{lab_colour} column) and will be recycled if/as necessary.
 #' @param lab_size \code{numeric}. The size of the labels (see \code{cex} in
 #'   \code{\link[graphics:par]{graphics parameters}}).
 #' @param rot \code{numeric}. The amount of counter-clockwise rotation to add to
@@ -81,7 +87,7 @@
 #'   intervals should not be labeled. If \code{abbr} is \code{TRUE}, this can
 #'   also include interval abbreviations. Quaternary, Holocene, and Late
 #'   Pleistocene are skipped by default. Set to NULL if this is not desired.
-#' @param bord_color \code{character}. The border color of the interval boxes.
+#' @param bord_col \code{character}. The border color of the interval boxes.
 #' @param lty \code{character}. Line type (see \code{lty} in
 #'   \code{\link[graphics:par]{graphics parameters}}).
 #' @param lwd \code{numeric}. Line width (see \code{lwd} in
@@ -148,6 +154,16 @@
 #' # the line argument here depends on the absolute size of the plot
 #' title(xlab = "Time (Ma)", line = 4)
 #'
+#' # scale with old GTS intervals
+#' par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
+#' plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
+#'      xlab = NA, ylab = "Depth (m)")
+#' box()
+#' axis(2)
+#' axis_geo(side = 1, intervals = time_bins(rank = "period"))
+#' # the line argument here depends on the absolute size of the plot
+#' title(xlab = "Time (Ma)", line = 4)
+#'
 #' # scale with custom intervals
 #' intervals <- data.frame(min_age = c(0, 10, 25, 32),
 #'                         max_age = c(10, 25, 32, 40),
@@ -165,11 +181,11 @@ axis_geo <- function(
     # fill arguments:
     fill = NULL,
     # label arguments:
-    lab = TRUE, lab_color = NULL, lab_size = 1, rot = 0, abbr = TRUE,
+    lab = TRUE, lab_col = NULL, lab_size = 1, rot = 0, abbr = TRUE,
     center_end_labels = TRUE,
     skip = c("Quaternary", "Holocene", "Late Pleistocene"),
     # rect border arguments:
-    bord_color = "black", lty = par("lty"), lwd = par("lwd"),
+    bord_col = "black", lty = par("lty"), lwd = par("lwd"),
     # applied to the entire axis:
     bkgd = "grey90", neg = FALSE, exact = FALSE, round = FALSE,
     # passed to axis():
@@ -193,9 +209,9 @@ axis_geo <- function(
     stop("Invalid value supplied for lab, must be a single logical value per
          scale", call. = FALSE)
   }
-  lab_color <- rep(make_list(lab_color), length.out = n_scales)
-  if (!all(sapply(lab_color, is_type_or_null, "character"))) {
-    stop("Invalid value supplied for lab_color, must be character (or NULL)",
+  lab_col <- rep(make_list(lab_col), length.out = n_scales)
+  if (!all(sapply(lab_col, is_type_or_null, "character"))) {
+    stop("Invalid value supplied for lab_col, must be character (or NULL)",
          call. = FALSE)
   }
   lab_size <- rep(make_list(lab_size), length.out = n_scales)
@@ -223,9 +239,9 @@ axis_geo <- function(
     stop("Invalid value supplied for center_end_labels, must be a single logical
          value per scale", call. = FALSE)
   }
-  bord_color <- rep(make_list(bord_color), length.out = n_scales)
-  if (!all(sapply(bord_color, is_type_or_null, "character"))) {
-    stop("Invalid value supplied for bord_color, must be character (or NULL)",
+  bord_col <- rep(make_list(bord_col), length.out = n_scales)
+  if (!all(sapply(bord_col, is_type_or_null, "character"))) {
+    stop("Invalid value supplied for bord_col, must be character (or NULL)",
          call. = FALSE)
   }
   lty <- rep(make_list(lty), length.out = n_scales)
@@ -297,16 +313,16 @@ axis_geo <- function(
   # add segments to inner side of scale
   if (side == 1) {
     segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[4],
-             col = bord_color[[1]], lty = lty[[1]], lwd = lwd[[1]])
+             col = bord_col[[1]], lty = lty[[1]], lwd = lwd[[1]])
   } else if (side == 2) {
     segments(x0 = scale_lims[2], y0 = scale_lims[3], y1 = scale_lims[4],
-             col = bord_color[[1]], lty = lty[[1]], lwd = lwd[[1]])
+             col = bord_col[[1]], lty = lty[[1]], lwd = lwd[[1]])
   } else if (side == 3) {
     segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[3],
-             col = bord_color[[1]], lty = lty[[1]], lwd = lwd[[1]])
+             col = bord_col[[1]], lty = lty[[1]], lwd = lwd[[1]])
   } else if (side == 4) {
     segments(x0 = scale_lims[1], y0 = scale_lims[3], y1 = scale_lims[4],
-             col = bord_color[[1]], lty = lty[[1]], lwd = lwd[[1]])
+             col = bord_col[[1]], lty = lty[[1]], lwd = lwd[[1]])
   }
 
   for (scale in 1:n_scales) {
@@ -315,6 +331,17 @@ axis_geo <- function(
     if (!is(scale_intervals, "data.frame")) {
       scale_intervals <- getScaleData(scale_intervals)
     }
+    # fix column names if using palaeoverse data
+    colnames(scale_intervals)[colnames(scale_intervals) == "interval_name"] <-
+      "name"
+    colnames(scale_intervals)[colnames(scale_intervals) == "max_ma"] <-
+      "max_age"
+    colnames(scale_intervals)[colnames(scale_intervals) == "min_ma"] <-
+      "min_age"
+    colnames(scale_intervals)[colnames(scale_intervals) == "colour"] <-
+      "color"
+    colnames(scale_intervals)[colnames(scale_intervals) == "lab_colour"] <-
+      "lab_color"
 
     # set `neg` to TRUE if both limits are negative
     if (side %in% c(1, 3) && all(plot_lims[1:2] <= 0)) neg <- TRUE
@@ -336,7 +363,7 @@ axis_geo <- function(
       scale_intervals$color <- rep(c("grey60", "grey80"),
                                    length.out = nrow(scale_intervals))
     }
-    scale_lab_color <- lab_color[[scale]]
+    scale_lab_color <- lab_col[[scale]]
     if (!is.null(scale_lab_color)) {
       scale_intervals$lab_color <- rep(scale_lab_color,
                                        length.out = nrow(scale_intervals))
@@ -355,7 +382,7 @@ axis_geo <- function(
     # also add line segments at the ends in case intervals extend beyond axis
     scale_lty <- lty[[scale]]
     scale_lwd <- lwd[[scale]]
-    scale_bord_color <- bord_color[[scale]]
+    scale_bord_color <- bord_col[[scale]]
     if (side %in% c(1, 3)) {
       rect(xleft = scale_intervals$min_age, xright = scale_intervals$max_age,
            ybottom = scale_lims[3], ytop = scale_lims[4],

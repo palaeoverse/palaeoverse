@@ -53,10 +53,9 @@
 #' ages of the intervals.
 #'
 #' @details
-#' If `int_key` is set to \code{FALSE} (default), this function can be used to assign
-#' numerical
-#' ages solely based on stages from a GTS table, and to assign stages based on
-#' GTS interval names.
+#' If `int_key` is set to \code{FALSE} (default), this function can be used to
+#' assign numerical ages solely based on stages from a GTS table, and to assign
+#' stages based on GTS interval names.
 #'
 #' Instead of  geological stages, the user can supply any names in the
 #' `early_stage` and `late_stage` column of `int_key`.
@@ -66,7 +65,7 @@
 #' (\code{\link{interval_key}}). This key works well for assigning
 #' geological stages to many of the intervals from the
 #' [Paleobiology Database](https://paleobiodb.org)
-#' and the [Paleoreefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
+#' and the [PaleoReefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
 #' `palaeoverse` cannot guarantee that all of
 #' the stage assignments with the exemplary key are accurate.
 #' The table corresponding to this key can be loaded with
