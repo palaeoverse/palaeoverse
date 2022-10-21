@@ -45,7 +45,7 @@ citation("palaeoverse")
 
 The aim of `palaeoverse` is to generate a community-driven software package of generic functions for the palaeobiological community. The package does not provide implementations of statistical analyses, rather it provides auxiliary functions to help streamline analyses and improve code readability and reproducibility.
 
-Within `palaeoverse` there are several example datasets. For example, a dataset of tetrapod occurrences ranging from the Carboniferous through to the Early Triassic, from \url{https://paleobiodb.org/}. The dataset includes a range of variables relevant to common palaeobiological analyses, relating to identification, geography, environmental context, traits and more. Additional information can be found at \url{https://paleobiodb.org/data1.2/}. The downloaded data is unaltered, with the exception of removing some superfluous variables, and can be used to demonstrate how the functions in the palaeoverse package might be applied.
+Within `palaeoverse` there are several example datasets. For example, a dataset of tetrapod occurrences ranging from the Carboniferous through to the Early Triassic, from \url{https://paleobiodb.org/}. The dataset includes a range of variables relevant to common palaeobiological analyses, relating to identification, geography, environmental context, traits and more. Additional information can be found at \url{https://paleobiodb.org/data1.2/}. The downloaded data is unaltered, with the exception of removing some superfluous variables, and can be used to demonstrate how the functions in the `palaeoverse` package might be applied.
 
 
 ```{r eval = FALSE, error = FALSE}
@@ -71,11 +71,6 @@ length(tetrapods$occurrence_no)
 ```
 
 ```{r}
-# how many individual taxa:
-length(unique(tetrapods$accepted_name))
-```
-
-```{r}
 # how many individual 'collections' (=localities):
 length(unique(tetrapods$collection_no))
 ```
@@ -90,17 +85,17 @@ In many cases palaeobiologists count unique taxa by retaining only unique occurr
 - *Albertosaurus sarcophagus*
 - *Ankylosaurus* sp.
 - *Ceratopsidae* indet.
-- *Ornithominu*s sp.
+- *Ornithominus* sp.
 - *Tyrannosaurus rex* 
 
-A filter for species-level identifications would reduce the species richness to just two (*A. sarcophagus* and *T. rex*). However, none of these clades are nested within one another, so each of the indeterminately identified occurrences represents at least one species not already represented in the dataset. `tax_unique` is designed to deal with such taxonomic data, and would retain all seven 'species' in this example. For further details see `?tax_unique`.
+A filter for species-level identifications would reduce the species richness to just two (*A. sarcophagus* and *T. rex*). However, none of these clades are nested within one another, so each of the indeterminately identified occurrences represents at least one species not already represented in the dataset. `tax_unique` is designed to deal with such taxonomic data and would retain all seven 'species' in this example. For further details see `?tax_unique`.
 
-This function can be especially useful for when looking at alpha diversity (local richness). Let's apply it to the `tetrapods` dataset, by filtering it to genus-level. 
+This function can be especially useful for when looking at alpha diversity (local richness). Let's apply it to the `tetrapods` dataset by filtering it to genus-level. 
 
 ```{r}
-# filter to species-level:
+# filter to genus-level:
 tet_genera <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
-                      order = "order", class = "class", resolution = "genus")
+                         order = "order", class = "class", resolution = "genus")
 ```
 
 To see how the function has performed, take a look at row 1008, which records an indeterminate occurrence of the family *Melosauridae* This occurrence now has a unique name of 'Melosauridae sp.'
@@ -109,22 +104,31 @@ tet_genera[1008, ]
 
 ```
 
-Now, let's use this function to record the number of unique occurrences by collection (=locality) with group_apply: 
+We can compare how the alpha genus diversity from the original dataset compares to the alpha genus diversity after `tax_unique`:
+```{r}
+# how many unique genera before:
+length(unique(tetrapods$genus))
+
+# how many unique genera after:
+length(unique(tet_genera$unique_name))
+```
+
+Now, let's use this function to record the number of unique occurrences by collection (=locality) with `group_apply`: 
 ```{r}
 coll_genera <- group_apply(occdf = tetrapods,
-                     group = c("collection_no"),
-                     fun = tax_unique,
-                     genus = "genus",
-                     family = "family",
-                     order = "order",
-                     class = "class",
-                     resolution = "genus")
+                           group = c("collection_no"),
+                           fun = tax_unique,
+                           genus = "genus",
+                           family = "family",
+                           order = "order",
+                           class = "class",
+                           resolution = "genus")
 
 # see structure of the new dataframe:
 str(coll_genera)
 ```
 
-Next, let's count the number of unique taxa per collection (=locality)
+Next, let's count the number of unique taxa per collection (=locality):
 ```{r}
 coll_taxa <- aggregate(coll_genera$unique_name, by=list(coll_genera$collection_no), FUN=length)
 
@@ -135,17 +139,15 @@ colnames(coll_taxa) <- c("collection_no","n_taxa")
 head(coll_taxa)
 ```
 
-To plot an alpha diversity (local richness) plot, we will need the ages of intervals in millions of years. Let's grab these from the main `tetrapods` dataset. 
+To plot an alpha diversity (local richness) plot, we will need the ages of intervals in millions of years. Since the numeric ages may have changed since we downloaded the data from the PBDB, we'll use `look_up` to get the numeric ages for the occurrences within `tetrapods` dataset based on their assigned interval names:
 
 ```{r}
+# get new numeric ages for named intervals
+# the default is to use the Geological Time Scale 2020
+occdf <- look_up(tetrapods)
+
 # take the columns pertaining to collections and their ages in millions of years:
-coll_info <- data.frame(tetrapods$collection_no, tetrapods$max_ma, tetrapods$max_ma)
-
-# rename column names:
-colnames(coll_info) <- c("collection_no","max_ma", "min_ma")
-
-# create a new column for the midpoint of each collection:
-coll_info$mid_ma <- (coll_info$max_ma + coll_info$min_ma) / 2
+coll_info <- occdf[, c("collection_no", "interval_max_ma", "interval_mid_ma", "interval_min_ma")]
 
 # remove duplicated collections based on the collection number (column 1)
 coll_info <- coll_info[!duplicated(coll_info[1]),]
@@ -163,8 +165,8 @@ Time to plot alpha diversity! Let's start with a simple scatterplot:
 
 ```{r fig.height=6, fig.width=7.2}
 
-plot(alpha_data$mid_ma, alpha_data$n_taxa, # add the points
-     xlim = rev(range(alpha_data$mid_ma)), # reverse the x-axis
+plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
+     xlim = rev(range(alpha_data$interval_mid_ma, na.rm = TRUE)), # reverse the x-axis
      xlab="Time (Ma)", ylab="No. taxa", # axes labels
      pch = 19, col = "#0e826f") # point style and colour
 
@@ -184,13 +186,13 @@ Taking our plot from above, let's use this function to add a timescale to the x-
 par(mar = c(7.1, 4.1, 4.1, 2.1)) # expand at bottom if adding more interval categories
 
 # alpha diversity plot
-plot(alpha_data$mid_ma, alpha_data$n_taxa, # add the points
+plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
      axes = FALSE,
-     xlim = rev(range(alpha_data$mid_ma)), # reverse the x-axis
+     xlim = rev(range(alpha_data$interval_mid_ma, na.rm = TRUE)), # reverse the x-axis
      xlab=" ", ylab="No. taxa", # axes labels
      pch = 19, col = "#0e826f") # point style and colour
 box()
-axis(2)
+axis(2) # add a normal axis to the elft side
 axis_geo(side = 1, intervals = list("epochs", "periods"))
 title(xlab = "Time (Ma)", line = 4)
 
