@@ -21,10 +21,10 @@ degree coordinates of your occurrences, and they should be of
 class \code{numeric}.}
 
 \item{lng}{\code{character}. The name of the column you wish to be treated
-as the input longitude (e.g., "lng" or "p_lng").}
+as the input longitude (e.g. "lng" or "p_lng").}
 
 \item{lat}{\code{character}. The name of the column you wish to be treated
-as the input latitude (e.g., "lat" or "p_lat").}
+as the input latitude (e.g. "lat" or "p_lat").}
 
 \item{spacing}{\code{numeric}. The desired spacing between the center of
 adjacent cells. This value should be provided in kilometres.}
@@ -64,7 +64,7 @@ of adjacent cells. Using this distance, the function identifies which
 resolution is most similar to the input \code{spacing}, and uses this resolution.
 
 Additional functionality allows the user to simultaneously assign occurrence
-data to equal-area grid cells of a finer-scale grid (i.e., a ‘sub-grid’)
+data to equal-area grid cells of a finer-scale grid (i.e. a ‘sub-grid’)
 within the primary grid via the \code{sub_grid} argument. This might be desirable
 for users to evaluate the differences in the amount of area occupied by
 occurrences within their primary grid cells. This functionality also allows

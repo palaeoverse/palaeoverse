@@ -10,7 +10,7 @@
 #' \code{\link[palaeoverse:lat_bins]{lat_bins()}}. This dataframe must
 #' contain at least the following named columns: "bin", "max" and "min".
 #' @param lat \code{character}. The name of the column you wish to be treated
-#' as the input latitude (e.g., "lat" or "p_lat"). This column should contain
+#' as the input latitude (e.g. "lat" or "p_lat"). This column should contain
 #' numerical values. Defaults to "lat".
 #'
 #' @return A dataframe of the original input `occdf` with appended

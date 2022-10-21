@@ -19,15 +19,15 @@ This dataframe should contain at least three columns: names of taxa,
 longitude and latitude (see \code{name}, \code{lng}, and \code{lat} arguments).}
 
 \item{name}{\code{character}. The name of the column you wish to be treated
-as the input names (e.g., "species" or "genus"). NA data should be removed
+as the input names (e.g. "species" or "genus"). NA data should be removed
 prior to function call.}
 
 \item{lng}{\code{character}. The name of the column you wish to be treated
-as the input longitude (e.g., "lng" or "p_lng"). NA data should be removed
+as the input longitude (e.g. "lng" or "p_lng"). NA data should be removed
 prior to function call.}
 
 \item{lat}{\code{character}. The name of the column you wish to be treated
-as the input latitude (e.g., "lat" or "p_lat"). NA data should be removed
+as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
 prior to function call.}
 
 \item{method}{\code{character}. How should geographic range be calculated
@@ -70,7 +70,7 @@ latitudinal range, maximum great circle distance, and the number of
 occupied equal-area hexagonal grid cells.
 }
 \details{
-Four commonly applied approaches (Darroch et al., 2020)
+Four commonly applied approaches (Darroch et al. 2020)
 are available using the \code{tax_range_space} function for calculating ranges:
 \itemize{
 \item Convex hull: the "con" method calculates the geographic range of taxa

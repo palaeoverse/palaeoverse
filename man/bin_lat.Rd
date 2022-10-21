@@ -17,7 +17,7 @@ allocate fossil occurrences to, such as that returned by
 contain at least the following named columns: "bin", "max" and "min".}
 
 \item{lat}{\code{character}. The name of the column you wish to be treated
-as the input latitude (e.g., "lat" or "p_lat"). This column should contain
+as the input latitude (e.g. "lat" or "p_lat"). This column should contain
 numerical values. Defaults to "lat".}
 }
 \value{

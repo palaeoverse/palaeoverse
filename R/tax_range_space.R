@@ -9,13 +9,13 @@
 #' This dataframe should contain at least three columns: names of taxa,
 #' longitude and latitude (see `name`, `lng`, and `lat` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
-#' as the input names (e.g., "species" or "genus"). NA data should be removed
+#' as the input names (e.g. "species" or "genus"). NA data should be removed
 #' prior to function call.
 #' @param lng \code{character}. The name of the column you wish to be treated
-#' as the input longitude (e.g., "lng" or "p_lng"). NA data should be removed
+#' as the input longitude (e.g. "lng" or "p_lng"). NA data should be removed
 #' prior to function call.
 #' @param lat \code{character}. The name of the column you wish to be treated
-#' as the input latitude (e.g., "lat" or "p_lat"). NA data should be removed
+#' as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
 #' prior to function call.
 #' @param method \code{character}. How should geographic range be calculated
 #' for each taxon in `occdf`? Four options exist in this function:
@@ -46,7 +46,7 @@
 #' For the "con", "lat" and "gcd" method, values of zero indicate that the
 #' respective taxon is a singleton (i.e. represented by only one occurrence).
 #'
-#' @details Four commonly applied approaches (Darroch et al., 2020)
+#' @details Four commonly applied approaches (Darroch et al. 2020)
 #' are available using the `tax_range_space` function for calculating ranges:
 #' - Convex hull: the "con" method calculates the geographic range of taxa
 #' using a convex hull for each taxon in `occdf`, and calculates the area of
