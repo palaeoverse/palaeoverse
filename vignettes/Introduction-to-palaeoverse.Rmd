@@ -198,3 +198,15 @@ title(xlab = "Time (Ma)", line = 4)
 
 
 ```
+
+# Example study 1: The latitudinal diversity gradient of early tetrapods
+
+# Example study 2: Latitudinal trends in Phanerozoic reefs
+
+```{r}
+data("reefs")
+```
+
+```{r}
+look_up(occdf = reefs, early_interval = "interval", late_interval = "interval", int_key = palaeoverse::interval_key)
+```
