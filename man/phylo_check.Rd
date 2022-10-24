@@ -20,8 +20,9 @@ both the tree and the list removed ("diff_table"), the counts of taxa
 included and not included in the tree ("counts"), or the phylogeny trimmed to
 only include taxa in the provided list ("tree").}
 
-\item{sort}{\code{character}. If out = "table", sort the names by presence in
-the tree ("presence", the default), or alphabetically ("az").}
+\item{sort}{\code{character}. If out = "full_table" or out = "diff_table",
+sort the names by presence in the tree ("presence", the default), or
+alphabetically ("az").}
 }
 \value{
 If out = "full_table", a \code{dataframe} describing whether taxon
@@ -52,13 +53,15 @@ Bethany Allen
 
 \section{Reviewer(s)}{
 
-William Gearty and Pedro Godoy
+William Gearty & Pedro Godoy
 }
 
 \examples{
 #Read in example tree of ceratopsians from paleotree
 library(paleotree)
 data(RaiaCopesRule)
+#Set smaller margins for plotting
+par(mar = rep(0.5, 4))
 plot(ceratopsianTreeRaia)
 
 #Specify list of names

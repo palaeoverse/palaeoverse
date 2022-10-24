@@ -2,7 +2,7 @@
 % Please edit documentation in R/tax_expand_time.R
 \name{tax_expand_time}
 \alias{tax_expand_time}
-\title{Expand taxa to interval-level pseudo-occurrences}
+\title{Generate pseudo-occurrences from temporal range data}
 \usage{
 tax_expand_time(
   taxdf,
@@ -17,16 +17,16 @@ tax_expand_time(
 \item{taxdf}{\code{dataframe}. A \code{data.frame} of taxa (such as that
 produced by \code{\link{tax_range_time}}) with columns for the maximum and
 minimum ages (FADs and LADs). Each row should represent a unique taxon.
-Additional columns may be included (e.g., taxon names, additional taxonomy,
+Additional columns may be included (e.g. taxon names, additional taxonomy,
 etc) and will be included in the returned \code{data.frame}. If required,
 \code{numeric} ages can be generated from interval names via the
 \code{\link{look_up}} function.}
 
 \item{max_ma}{\code{character}. The name of the column you wish to be treated
-as the maximum limit (FADs) of the age range (e.g., "max_ma").}
+as the maximum limit (FADs) of the age range (e.g. "max_ma").}
 
 \item{min_ma}{\code{character}. The name of the column you wish to be treated
-as the minimum limit (LADs) of the age range (e.g., "min_ma").}
+as the minimum limit (LADs) of the age range (e.g. "min_ma").}
 
 \item{scale}{\code{character}. Specify the desired geological timescale to
 be used, either "GTS2020" or "GTS2012".}
@@ -47,9 +47,9 @@ originated and went extinct.
 }
 \description{
 A function to generate interval-level pseudo-occurrences for taxa based on
-temporal ranges (e.g., the output of \code{\link{tax_range_time}}). While the
+temporal ranges (e.g. the output of \code{\link{tax_range_time}}). While the
 resulting pseudo-occurrences should not be treated as equivalent to actual
-occurrence data (e.g., like that from the Paleobiology Database), such
+occurrence data (e.g. like that from the Paleobiology Database), such
 pseudo-occurrences may be useful for performing statistical analyses where
 the row representing a taxon must be replicated for each interval through
 which the taxon persisted.

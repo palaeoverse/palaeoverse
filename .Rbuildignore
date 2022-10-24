@@ -11,6 +11,7 @@ codecov.yml
 ^LICENSE\.md$
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
+FUNDING.md
 pull_request_template.md
 cran-comments.md
 ^codecov\.yml$

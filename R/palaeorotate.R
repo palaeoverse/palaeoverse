@@ -61,11 +61,11 @@
 #' palaeocoordinates for a grid of 1&deg; x 1&deg;, allowing the past
 #' distribution of fossil occurrences to be estimated efficiently. Access to
 #' the reconstruction files and documentation is available via the
-#' `palaeorotate` package (\url{https://github.com/LewisAJones/palaeorotate}).
+#' [palaeorotate](https://github.com/LewisAJones/palaeorotate) package.
 #' Note: each reconstruction file is 5--10 MB in size.
 #'
-#' - GPlates API: The "point" `method` uses the GPlates API service
-#' \url{https://gwsdoc.gplates.org} to reconstruct palaeorotations for point
+#' - GPlates API: The "point" `method` uses the [GPlates Web Service](
+#' https://gwsdoc.gplates.org) to reconstruct palaeorotations for point
 #' data. The use of this `method` is slower than the "grid" `method` if many
 #' unique time intervals exist in your dataset. However, it provides
 #' palaeocoordinates with higher precision.
@@ -95,7 +95,7 @@
 #'
 #' - Matthews, K.J., Maloney, K.T., Zahirovic, S., Williams, S.E., Seton, M.,
 #' and Müller, R.D. (2016). Global plate boundary evolution and kinematics
-#' since the late Paleozoic, Global and Planetary Change, 146, 226-250.
+#' since the late Paleozoic. Global and Planetary Change, 146, 226-250.
 #' \doi{10.1016/j.gloplacha.2016.10.002}.
 #'
 #' - Merdith, A., Williams, S.E., Collins, A.S., Tetley, M.G., Mulder, J.A.,
@@ -103,52 +103,53 @@
 #' Müller. R.D. (2021).
 #' Extending full-plate tectonic models into deep time: Linking the
 #' Neoproterozoic and the Phanerozoic.
-#' Earth-Science Reviews 214 (103477). \doi{10.1016/j.earscirev.2020.103477}.
+#' Earth-Science Reviews, 214(103477). \doi{10.1016/j.earscirev.2020.103477}.
 #'
 #' - Müller, R. D., Zahirovic, S., Williams, S. E., Cannon, J., Seton, M.,
 #' Bower, D. J., Tetley, M. G., Heine, C., Le Breton, E., Liu, S.,
 #' Russell, S. H. J., Yang, T., Leonard, J., and Gurnis, M. (2019).
 #' A global plate model including lithospheric deformation along major rifts
 #' and orogens since the Triassic.
-#' Tectonics, vol. 38. \doi{10.1029/2018TC005462}.
+#' Tectonics, 38(6) 1884--1907. \doi{10.1029/2018TC005462}.
 #'
 #' - Müller R.D., Seton, M., Zahirovic, S., Williams, S.E., Matthews, K.J.,
 #' Wright, N.M., Shephard, G.E., Maloney, K.T., Barnett-Moore, N.,
 #' Hosseinpour, M., Bower, D.J., Cannon, J., 2016.
 #' Ocean basin evolution and global-scale plate reorganization events since
-#' Pangea breakup, Annual Review of Earth and Planetary Sciences, Vol 44,
+#' Pangea breakup. Annual Review of Earth and Planetary Sciences 44(1),
 #' 107-138. \doi{10.1146/annurev-earth-060115-012211}.
 #'
 #' - Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models
 #' (PaleoDEMs) for the
-#' Phanerozoic. PALEOMAP Project.
-#' \url{https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/}.
+#' Phanerozoic. [PALEOMAP Project](
+#' https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/).
 #'
 #' - Seton, M., Müller, R.D., Zahirovic, S., Gaina, C., Torsvik, T.H.,
 #' Shephard, G., Talsma, A., Gurnis, M., Turner, M., Maus, S., Chandler, M.
 #' (2012). Global continental and ocean basin reconstructions since 200 Ma.
-#' Earth-Science Reviews, Volume 113, Issues 3-4, July 2012, Pages 212--270.
+#' Earth-Science Reviews, 113(3-4), 212-270.
 #' \doi{10.1016/j.earscirev.2012.03.002}.
 #'
 #' - Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013). Towards
 #' community-driven paleogeographic
 #' reconstructions: integrating open-access paleogeographic and paleobiology
 #' data with plate tectonics.
-#' Biogeosciences, 10(3), 1529–1541. \doi{10.5194/bg-10-1529-2013}.
+#' Biogeosciences, 10(3), 1529-1541. \doi{10.5194/bg-10-1529-2013}.
 #'
-#' See GPlates documentation for additional information and details:
-#' \url{https://gwsdoc.gplates.org/reconstruction}.
+#' See [GPlates documentation](https://gwsdoc.gplates.org/reconstruction)
+#' for additional information and details.
 #'
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Kilian Eichenseer and Lucas Buffan
+#' Kilian Eichenseer & Lucas Buffan
 #' @importFrom geosphere distm distHaversine
 #' @importFrom utils download.file
 #' @importFrom pbapply pblapply
 #' @importFrom httr RETRY GET content
 #' @importFrom stats na.omit
 #' @examples
+#' \dontrun{
 #' #Generic example with a few occurrences
 #' occdf <- data.frame(lng = c(2, -103, -66),
 #'                 lat = c(46, 35, -7),
@@ -173,6 +174,7 @@
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
 #' ex4 <- palaeorotate(occdf = tetrapods, uncertainty = TRUE)
+#' }
 #' @export
 palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                          model = "MERDITH2021", method = "grid",

@@ -10,13 +10,13 @@ axis_geo(
   height = 0.05,
   fill = NULL,
   lab = TRUE,
-  lab_color = NULL,
+  lab_col = NULL,
   lab_size = 1,
   rot = 0,
   abbr = TRUE,
   center_end_labels = TRUE,
   skip = c("Quaternary", "Holocene", "Late Pleistocene"),
-  bord_color = "black",
+  bord_col = "black",
   lty = par("lty"),
   lwd = par("lwd"),
   bkgd = "grey90",
@@ -51,12 +51,13 @@ column) and will be recycled if/as necessary.}
 
 \item{lab}{\code{logical}. Should interval labels be included?}
 
-\item{lab_color}{\code{character}. The color of the labels. The default is to
-use the \code{lab_color} column included in \code{intervals}. If a custom
-dataset is provided with \code{intervals} without a \code{lab_color} column
-and without specifying \code{lab_color}, all labels will be black. Custom
-label colors can be provided with this option (overriding the
-\code{lab_color} column) and will be recycled if/as necessary.}
+\item{lab_col}{\code{character}. The color of the labels. The default is to
+use the \code{lab_color} or \code{lab_colour} column included in
+\code{intervals}. If a custom dataset is provided with \code{intervals}
+without a \code{lab_color} or \code{lab_colour} column and without
+specifying \code{lab_col}, all labels will be black. Custom label colors
+can be provided with this option (overriding the \code{lab_color} or
+\code{lab_colour} column) and will be recycled if/as necessary.}
 
 \item{lab_size}{\code{numeric}. The size of the labels (see \code{cex} in
 \code{\link[graphics:par]{graphics parameters}}).}
@@ -77,7 +78,7 @@ intervals should not be labeled. If \code{abbr} is \code{TRUE}, this can
 also include interval abbreviations. Quaternary, Holocene, and Late
 Pleistocene are skipped by default. Set to NULL if this is not desired.}
 
-\item{bord_color}{\code{character}. The border color of the interval boxes.}
+\item{bord_col}{\code{character}. The border color of the interval boxes.}
 
 \item{lty}{\code{character}. Line type (see \code{lty} in
 \code{\link[graphics:par]{graphics parameters}}).}
@@ -134,29 +135,34 @@ If a custom \code{data.frame} is provided (with \code{intervals}), it should
 consist of at least 3 columns of data. See \code{deeptime::periods} for an
 example.
 \itemize{
-\item The \code{name} column lists the names of each time interval. These
-will be used as labels if no abbreviations are provided.
-\item The \code{max_age} column lists the oldest boundary of each time
-interval. Values should always be positive.
-\item The \code{min_age} column lists the youngest boundary of each time
-interval. Values should always be positive.
+\item The \code{name} column (\code{interval_name} is also allowed) lists
+the names of each time interval. These will be used as labels if no
+abbreviations are provided.
+\item The \code{max_age} column (\code{max_ma} is also allowed) lists the
+oldest boundary of each time interval. Values should always be
+positive.
+\item The \code{min_age} column (\code{min_ma} is also allowed) lists the
+youngest boundary of each time interval. Values should always be
+positive.
 \item The \code{abbr} column is optional and lists abbreviations that may
 be used as labels.
-\item The \code{color} column is also optional and lists a color for the
-background for each time interval (see the Color Specification
-section \code{\link[graphics:par]{here}}).
-\item The \code{lab_color} column is also optional and lists a color for
-the label for each time interval (see the Color Specification section
+\item The \code{color} column (\code{colour} is also allowed) is also
+optional and lists a color for the background for each time interval
+(see the Color Specification section
+\code{\link[graphics:par]{here}}).
+\item The \code{lab_color} (\code{lab_colour} is also allowed) column is
+also optional and lists a color for the label for each time interval
+(see the Color Specification section
 \code{\link[graphics:par]{here}}).
 }
 
 \code{intervals} may also be a list if multiple time scales should be added
 to a single side of the plot. In this case, \code{height}, \code{fill},
-\code{lab}, \code{lab_color}, \code{lab_size}, \code{rot}, \code{abbr},
-\code{center_end_labels}, \code{skip}, \code{bord_color}, \code{lty}, and
+\code{lab}, \code{lab_col}, \code{lab_size}, \code{rot}, \code{abbr},
+\code{center_end_labels}, \code{skip}, \code{bord_col}, \code{lty}, and
 \code{lwd} can also be lists. If these lists are not as long as
 \code{intervals}, the elements will be recycled. If individual values
-(or vectors, e.g., for \code{skip}) are used for these parameters, they will
+(or vectors, e.g. for \code{skip}) are used for these parameters, they will
 be applied to all time scales (and recycled as necessary). If multiple scales
 are requested they will be added sequentially outwards starting from the plot
 border. The axis will always be placed on the outside of the last scale.
@@ -199,6 +205,16 @@ plot(0:30, axes = FALSE, xlim = c(30, 0), ylim = c(30, 0),
 box()
 axis(2)
 axis_geo(side = 1, intervals = "North American land mammal ages")
+# the line argument here depends on the absolute size of the plot
+title(xlab = "Time (Ma)", line = 4)
+
+# scale with old GTS intervals
+par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
+plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
+     xlab = NA, ylab = "Depth (m)")
+box()
+axis(2)
+axis_geo(side = 1, intervals = time_bins(rank = "period"))
 # the line argument here depends on the absolute size of the plot
 title(xlab = "Time (Ma)", line = 4)
 

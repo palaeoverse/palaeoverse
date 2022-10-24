@@ -10,7 +10,8 @@ test_that("tax_expand_time() works", {
   # format
   expect_true(is.data.frame(result1))
   expect_equal(nrow(result1), 34)
-  expect_equal(colnames(result1), c(colnames(taxdf), "ext", "orig", colnames(GTS2020)))
+  expect_equal(colnames(result1),
+               c(colnames(taxdf), "ext", "orig", colnames(GTS2020)))
   expect_equal(colnames(result2), c(colnames(taxdf), colnames(GTS2020)))
   expect_equal(nrow(result3), 32)
 

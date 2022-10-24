@@ -2,10 +2,10 @@
 % Please edit documentation in R/tax_check.R
 \name{tax_check}
 \alias{tax_check}
-\title{tax_check}
+\title{Taxonomic spell check}
 \usage{
 tax_check(
-  occdf,
+  taxdf,
   name = "genus",
   group = NULL,
   dis = 0.05,
@@ -14,7 +14,7 @@ tax_check(
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe with named columns containing
+\item{taxdf}{\code{dataframe}. A dataframe with named columns containing
 taxon names (e.g. "species", "genus"). An optional column
 containing the groups (e.g. "family", "order") which taxon names
 belong to may also be provided (see \code{group} for details).
@@ -25,7 +25,7 @@ are ignored.}
 to check (e.g. "genus").}
 
 \item{group}{\code{character}. The column name of the higher taxonomic
-assignments in \code{occdf} you wish to group by. If \code{NULL} (default), name
+assignments in \code{taxdf} you wish to group by. If \code{NULL} (default), name
 comparison will be conducted within alphabetical groups.}
 
 \item{dis}{\code{numeric}. The dissimilarity threshold: a value greater than
@@ -72,7 +72,7 @@ higher taxonomic affiliations. The function also performs a check for
 non-letter characters which are not expected to be present in
 correctly-formatted taxon names. This detection may be made available to the
 user via the \code{verbose} argument. Comparisons are performed using the
-Jaro string dissimilarity metric via
+Jaro dissimilarity metric via
 \code{\link[stringdist:stringdistmatrix]{stringdist::stringdistmatrix()}}.
 
 As all string distance metrics rely on approximate string matching,
@@ -86,7 +86,7 @@ and workflow for cleaning taxonomic occurrence data is available in the
 \section{Reference}{
 
 van der Loo, M. P. J. (2014). The stringdist package for approximate string
-matching. The R Journal 6, 111--122.
+matching. The R Journal 6, 111-122.
 }
 
 \section{Developer(s)}{
@@ -103,9 +103,9 @@ Lewis A. Jones, Kilian Eichenseer & Christopher D. Dean
 # load occurrence data
 data("tetrapods")
 # Check taxon names alphabetically
-ex1 <- tax_check(occdf = tetrapods, name = "genus", dis = 0.1)
+ex1 <- tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
 # Check taxon names by group
-ex2 <- tax_check(occdf = tetrapods, name = "genus",
+ex2 <- tax_check(taxdf = tetrapods, name = "genus",
                  group = "family", dis = 0.1)
 
 }

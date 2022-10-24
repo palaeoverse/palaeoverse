@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/palaeoverse-community/palaeoverse/branch/main/graph/badge.svg?token=HQQO2CRIKT)](https://codecov.io/gh/palaeoverse-community/palaeoverse)
 <!-- badges: end -->
 
-`palaeoverse` is an *R* package developed by palaeobiologists, for palaeobiologists.
+`palaeoverse` is an R package developed by palaeobiologists, for palaeobiologists.
 
 The aim of `palaeoverse` is to generate a community-driven software package of generic functions for the palaeobiological community. The package does not provide implementations of statistical analyses, rather it provides auxiliary functions to help streamline analyses and improve code readability and reproducibility.
 
@@ -17,7 +17,6 @@ The aim of `palaeoverse` is to generate a community-driven software package of g
 - [Christopher D. Dean](christopherdaviddean@gmail.com), University College London
 - [Sofía Galván](mailto:sofia.galvan@uvigo.es), Universidade de Vigo
 - [Miranta Kouvari](mailto:kouvari.miranta@gmail.com), University College London/Natural History Museum
-- [Emma M. Dunne](mailto:dunne.emma.m@gmail.com), Friedrich-Alexander-Universität Erlangen-Nürnberg
 - [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), University of São Paulo/Stony Brook University
 - [Cecily Nicholl](cecily.nicholl@ucl.ac.uk), University College London
 - [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), École Normale Supérieure de Lyon

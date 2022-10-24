@@ -37,7 +37,7 @@ or "name" (alphabetically by taxon names).}
 }
 \value{
 A \code{dataframe} containing the following columns:
-unique taxa (\code{taxa}), taxon ID (\code{taxon_id}), first appearance of taxon
+unique taxa (\code{taxon}), taxon ID (\code{taxon_id}), first appearance of taxon
 (\code{max_ma}), last appearance of taxon (\code{min_ma}), duration of temporal
 range (\code{range_myr}), and number of occurrences per taxon (\code{n_occ}) is
 returned.

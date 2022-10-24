@@ -11,7 +11,7 @@ test_that("bin_lat works", {
   expect_error(bin_lat(occdf = 2, bins = bins, lat = "lat"))
   expect_error(bin_lat(occdf = occdf, bins = 2, lat = "lat"))
   expect_error(bin_lat(occdf = occdf, bins = 2, lat = "plat"))
-  bins <- bins[,-c(1)]
+  bins <- bins[, -c(1)]
   expect_error(bin_lat(occdf = occdf, bins = bins, lat = "lat"))
   occdf$lat[1] <- NA
   expect_error(bin_lat(occdf = occdf, bins = bins, lat = "lat"))

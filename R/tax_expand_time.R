@@ -1,9 +1,9 @@
-#' Expand taxa to interval-level pseudo-occurrences
+#' Generate pseudo-occurrences from temporal range data
 #'
 #' A function to generate interval-level pseudo-occurrences for taxa based on
-#' temporal ranges (e.g., the output of \code{\link{tax_range_time}}). While the
+#' temporal ranges (e.g. the output of \code{\link{tax_range_time}}). While the
 #' resulting pseudo-occurrences should not be treated as equivalent to actual
-#' occurrence data (e.g., like that from the Paleobiology Database), such
+#' occurrence data (e.g. like that from the Paleobiology Database), such
 #' pseudo-occurrences may be useful for performing statistical analyses where
 #' the row representing a taxon must be replicated for each interval through
 #' which the taxon persisted.
@@ -11,14 +11,14 @@
 #' @param taxdf \code{dataframe}. A \code{data.frame} of taxa (such as that
 #'   produced by \code{\link{tax_range_time}}) with columns for the maximum and
 #'   minimum ages (FADs and LADs). Each row should represent a unique taxon.
-#'   Additional columns may be included (e.g., taxon names, additional taxonomy,
+#'   Additional columns may be included (e.g. taxon names, additional taxonomy,
 #'   etc) and will be included in the returned \code{data.frame}. If required,
 #'   `numeric` ages can be generated from interval names via the
 #'   \code{\link{look_up}} function.
 #' @param max_ma \code{character}. The name of the column you wish to be treated
-#'   as the maximum limit (FADs) of the age range (e.g., "max_ma").
+#'   as the maximum limit (FADs) of the age range (e.g. "max_ma").
 #' @param min_ma \code{character}. The name of the column you wish to be treated
-#'   as the minimum limit (LADs) of the age range (e.g., "min_ma").
+#'   as the minimum limit (LADs) of the age range (e.g. "min_ma").
 #' @param scale \code{character}. Specify the desired geological timescale to
 #'   be used, either "GTS2020" or "GTS2012".
 #' @param rank \code{character}. Specify the desired stratigraphic rank. Choose
@@ -73,7 +73,8 @@ tax_expand_time <- function(
     stop("Maximum ages must be larger than or equal to minimum ages.")
   }
 
-  if (length(rank) > 1 || !(rank %in% c("stage", "epoch", "period", "era", "eon"))) {
+  if (length(rank) > 1 ||
+      !(rank %in% c("stage", "epoch", "period", "era", "eon"))) {
     stop("`rank` must be either: stage, epoch, period, era, or eon")
   }
 
