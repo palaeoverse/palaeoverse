@@ -110,6 +110,15 @@ late_interval = c("Maastrichtian", "Campanian", "Bartonian"))
 taxdf <- look_up(taxdf)
 
 ## Use exemplary int_key
+# Get internal reef data
+occdf <- reefs
+ # assign stages and numerical ages
+occdf <- look_up(occdf,
+                early_interval = "interval",
+                late_interval = "interval",
+                int_key = interval_key)
+
+## Use exemplary int_key and return unassigned
 # Get internal tetrapod data
 occdf <- tetrapods
 # assign stages and numerical ages

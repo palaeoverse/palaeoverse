@@ -5,7 +5,7 @@
 \alias{interval_key}
 \title{Example dataset: Interval key for the look_up function}
 \format{
-A data frame with 783 rows and 3 variables:
+A data frame with 1323 rows and 3 variables:
 \describe{
 \item{interval_name}{Stratigraphic interval}
 \item{early_stage}{Earliest (oldest) geological stage which overlaps with
@@ -15,8 +15,9 @@ the interval}
 }
 }
 \source{
-Compiled by K. Eichenseer for assigning geological stages to
-occurrences from the \href{https://paleobiodb.org}{Paleobiology Database}
+Compiled by Kilian Eichenseer and Lewis Jones for assigning
+geological stages to ccurrences from the
+\href{https://paleobiodb.org}{Paleobiology Database}
 and the \href{https://www.paleo-reefs.pal.uni-erlangen.de/}{PaleoReefs Database}.
 }
 \usage{
@@ -28,9 +29,10 @@ corresponding international geological stages from the International
 Commission on Stratigraphy (ICS). The table was compiled using
 regional stratigraphies, the \href{https://timescalefoundation.org/resources/geowhen/}{GeoWhen Database}, temporal
 information from the \href{https://paleobiodb.org/classic/displaySearchStrataForm}{Paleobiology Database} and the
-\href{https://stratigraphy.org/ICSchart/ChronostratChart2016-10.pdf}{Geological Timescale 2016}.
+\href{https://stratigraphy.org/ICSchart/ChronostratChart2022-10.pdf}{Geological Timescale 2020}.
 Some assignments were made with incomplete information on
 the stratigraphic provenance of intervals. The assignments in this
-table should be verified before research use.
+table should be verified before research use. They are provided here
+as an example of functionality only.
 }
 \keyword{datasets}
