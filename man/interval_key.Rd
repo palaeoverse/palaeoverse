@@ -29,7 +29,7 @@ corresponding international geological stages from the International
 Commission on Stratigraphy (ICS). The table was compiled using
 regional stratigraphies, the \href{https://timescalefoundation.org/resources/geowhen/}{GeoWhen Database}, temporal
 information from the \href{https://paleobiodb.org/classic/displaySearchStrataForm}{Paleobiology Database} and the
-\href{https://stratigraphy.org/ICSchart/ChronostratChart2022-10.pdf}{Geological Timescale 2020}.
+\href{https://stratigraphy.org/ICSchart/ChronostratChart2022-10.pdf}{Geological Timescale 2022}.
 Some assignments were made with incomplete information on
 the stratigraphic provenance of intervals. The assignments in this
 table should be verified before research use. They are provided here

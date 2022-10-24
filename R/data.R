@@ -182,7 +182,7 @@
 #' https://timescalefoundation.org/resources/geowhen/), temporal
 #' information from the [Paleobiology Database](
 #' https://paleobiodb.org/classic/displaySearchStrataForm) and the
-#' [Geological Timescale 2020](
+#' [Geological Timescale 2022](
 #' https://stratigraphy.org/ICSchart/ChronostratChart2022-10.pdf).
 #' Some assignments were made with incomplete information on
 #' the stratigraphic provenance of intervals. The assignments in this
