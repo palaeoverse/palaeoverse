@@ -1,0 +1,329 @@
+---
+title: "Into the palaeoverse"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Into the palaeoverse}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+**Authors:** [The Palaeoverse Development Team](https://github.com/palaeoverse-community/palaeoverse)
+
+**Last updated:** `r Sys.Date()`
+
+```{r setup, include = FALSE, eval = TRUE}
+knitr::opts_chunk$set(echo = FALSE, include = TRUE, eval = FALSE)
+```
+
+<div style="text-align: justify"> 
+
+# Introduction
+
+<img src="https://github.com/palaeoverse-community/palaeoverse/raw/main/man/figures/logo.png" align="right" width="120" />
+
+`palaeoverse` is an R package developed by palaeobiologists, for palaeobiologists. The aim of the package is to generate a community-driven toolkit of generic functions for the palaeobiological community. The package does not provide implementations of statistical analyses, rather it provides auxiliary functions to help streamline analyses and improve code readability and reproducibility. This vignette (or tutorial if you prefer) is provided to guide you through the installation process and the functionality available within `palaeoverse`.
+
+# Installation
+
+The `palaeoverse` package can be installed via the CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse-community/palaeoverse) if the development version is preferred. To install via the CRAN, simply use: 
+
+```{r echo = TRUE}
+install.packages("palaeoverse")
+```
+
+To install the development version, first install the `devtools` package, and then use `install_github` to install `palaeoverse` directly from GitHub. 
+
+```{r echo = TRUE}
+install.packages("devtools")
+devtools::install_github("palaeoverse-community/palaeoverse")
+```
+
+You can now load `palaeoverse` using the default `library` function:
+
+```{r echo = TRUE}
+library(palaeoverse)
+```
+
+**Before we get onto the good stuff, the development team has a small request**. If you use `palaeoverse` in your work, please cite the associated publication. This will help us to continue our work in supporting you to do yours. You can access the appropriate citation via:
+
+```{r echo = TRUE}
+citation("palaeoverse")
+```
+
+# Using the package
+
+Functions in `palaeoverse` are designed around the assumption that most users' data are stored in an occurrence `data.frame`. As such, this is the expected input data format for most functions. We provide two example occurrence datasets (`tetrapods` and `reefs`) within the package from different data sources. While these two datasets have similar structures, the data (variables) available in each differ. The `tetrapods` dataset is a compilation of Carboniferous--Early Triassic tetrapod occurrences (*n* = 5,270) from the [Paleobiology Database](https://paleobiodb.org/#). The `reefs` dataset is a compilation of Phanerozoic reef occurrences (*n* = 4,363) from the [PaleoReefs Database](https://www.paleo-reefs.pal.uni-erlangen.de). In this vignette, we shall use both datasets to demonstrate available functionality in `palaeoverse`.
+
+```{r echo = TRUE}
+# Call the datasets:
+data(tetrapods)
+data(reefs)
+
+# Vew the first five lines of each:
+head(tetrapods)
+head(reefs)
+```
+
+*Note that while both datasets contain a unique occurrence on each row, and unique variables in each column, the variables vary between the two.*
+
+The following functions are currently available in `palaeoverse`: 
+
+| **Function**      | **Description**                                                                |
+|-------------------|:-------------------------------------------------------------------------------|
+| axis_geo          | Add a geological time scale axis to a plot                                     |
+| bin_lat           | Bin fossil occurrences into latitudinal bins                                   |
+| bin_space         | Bin fossil occurrences into spatial bins                                       |
+| bin_time          | Bin occurrences into time bins (choice of approaches)                          |
+| data              | Datasets: 'tetrapods', 'reefs', 'interval_key', 'GTS2012', and 'GTS2020'       |
+| group_apply       | Apply a function over user-defined groups                                      |
+| lat_bins          | Generate latitudinal bins                                                      |
+| look_up           | Link user-specified interval names to the International Geological Time Scale  |
+| palaeorotate      | Reconstruct the palaeogeographic coordinates of fossil occurrences             |
+| phylo_check       | Check taxon names against tips in a phylogeny and/or remove tips from the tree |
+| tax_check         | Check for spelling mistakes in taxon names and flag potential issues           |
+| tax_range_space   | Calculate the geographic range of taxa (choice of approaches)                  |
+| tax_range_time    | Calculate and plot the temporal range of taxa                                  |
+| tax_expand_lat    | Convert taxon latitudinal ranges to bin-level pseudo-occurrences               |
+| tax_expand_time   | Convert taxon temporal ranges to interval-level pseudo-occurrences             |
+| tax_unique        | Calculate the number of unique taxa in a dataset of occurrences                |
+| time_bins         | Generate stratigraphic time bins or near-equal length time bins                |
+
+# Usage examples
+
+## The latitudinal biodiversity gradient of early tetrapods
+
+## Latitudinal trends in Phanerozoic reefs
+
+Reefs have long been considered good tracers of past tropical and subtropical conditions. More specifically, their distribution has historically been used to infer the latitudinal extent of tropical and subtropical climatic conditions in deep time. This is of course an oversimplification given all we know about modern reefs systems and their engineers. However, for the purpose of this example, we do not need to be weighed down by the finer details and can overlook this.
+
+In this example, we will use the `reefs` dataset to evaluate the latitudinal trends in Phanerozoic reefs to demonstrate the functionality available in `palaeoverse`.
+
+Let's start by exploring the dataset. Before conducting any analyses, it is always a good idea to explore your data and understand what you are working with. Details related to the example datasets can be accessed via the usual documentation call:
+
+```{r echo = TRUE}
+# Call documentation for dataset:
+?reefs
+# You can also use:
+help(reefs)
+```
+
+Let's start by exploring the data a little:
+
+```{r echo = TRUE}
+# How many reefs are there in the dataset?
+# Each row represents an individual reef.
+nrow(reefs)
+```
+
+Not bad (*n* = `r nrow(palaeoverse::reefs)`), that's quite a bit of data to play with! Remember that these are reefs (whole ecosystems), not individual occurrences of fossil organisms like in `tetrapods`. But how much does this vary across time? We can make use of the `group_apply` wrapper function to run a function across subsets of data.
+
+```{r echo = TRUE}
+# How many reefs per interval?
+# Let's group by the interval column to test:
+group_apply(occdf = reefs, group = "interval", fun = nrow)
+```
+
+Oh dear, we've just hit a common issue... our reef data does not conform to a common time scale! Some reefs are resolved to stage level, while others are resolved to a finer or coarser temporal resolution. In some instances, regional names are used, while international names are used in others. This makes it challenging to evaluate differences through time... one solution could be to use age values to bin the reefs into time bins, but no age range data is provided in the dataset (i.e. "max_ma" and "min_ma"). We must therefore use the names of each interval to link to a common time scale, '[International Geological Stages](https://stratigraphy.org/chart)' established by the International Commision on Stratigraphy (ICS). Fortunately, we can make use of the `look_up` function to do so. The function can be used to assign international geological stages and numeric ages to occurrences, or use a user-defined interval key to link to a common time scale. Here, we will use the example `interval_key` available in `palaeoverse` to assign international geological stage names and numeric ages.
+
+```{r echo = TRUE}
+# Assign a common time scale based on an interval key
+reefs <- look_up(occdf = reefs,
+                early_interval = "interval",
+                late_interval = "interval",
+                int_key = interval_key)
+# Check output
+head(reefs)
+```
+
+Great! We now have a common time scale and numeric ages. However, some of our reefs seem to range through several stages and we can't count just by just the early or late stage. Our data still needs to be binned. Let's check out the `time_bins` and `bin_time` function. 
+
+```{r echo = TRUE}
+# Now we have numeric ages for our data, we can easily
+# remove pre-Phanerozoic data to focus our study
+reefs <- subset(reefs, interval_max_ma <= 541)
+# Extract Phanerozoic stage-level bins
+bins <- time_bins(interval = "Phanerozoic", rank = "stage")
+# Bin data
+# bin_time requires "max_ma" and "min_ma" columns
+# Add required columns to reefs
+reefs$max_ma <- reefs$interval_max_ma
+reefs$min_ma <- reefs$interval_min_ma
+# Five methods exist in bin_time for binning occurrence data
+# You can see details on each via ?bin_time
+# Bin by midpoint age
+bin_time(occdf = reefs, bins = bins, method = "mid")
+# Bin by overlap majority
+bin_time(occdf = reefs, bins = bins, method = "majority")
+# Bin into every bin within age range
+bin_time(occdf = reefs, bins = bins, method = "all")
+# Bin randomly into bins within age range (equal probability)
+bin_time(occdf = reefs, bins = bins, method = "random", reps = 10)
+# Bin randomly into bins within age range (uniform probability)
+bin_time(occdf = reefs, bins = bins, method = "point", reps = 10)
+# Let's go with "all" for this example!
+reefs <- bin_time(occdf = reefs, bins = bins, method = "all")
+```
+
+*Note that the number of rows of `reefs` has now increased to `r nrow(reefs)`. This is because the "all" method in `bin_time` duplicates an occurrence for every bin the age range overlaps with.*
+
+Let's check those reef numbers through time again using our binned data:
+
+```{r echo = TRUE}
+reefs_time <- group_apply(occdf = reefs, group = "bin_midpoint", fun = nrow)
+```
+
+That's more like it! But, let's not forget it's always useful to visualise our data. Why don't we plot the number of reefs through time? We can even make use of the `axis_geo` function to add the Geological Time Scale to our plot.
+
+```{r echo = TRUE}
+# Plot data
+plot(x = reefs_time$bin_midpoint,
+     y = reefs_time$nrow,
+     xlab = "Time (Ma)", 
+     ylab = "Number of reefs per stage",
+     xlim = c(541, 0),
+     xaxt = "n",
+     type = "p", pch = 20)
+axis_geo(side = 1, intervals = "periods")
+```
+
+You would (and should) of course want to explore your data a little more than this. However, for the sake of brevity, let's focus on our research theme: latitudinal trends in Phanerozoic reefs.
+
+When studying modern latitudinal trends (e.g. in biodiversity), researchers can use the geographic coordinates of samples to conduct the analyses. However, as tectonic plates move through time, palaeobiologists must reconstruct the palaeogeographic coordinates of fossils at time of deposition. In the context of our example,  
+
+# Exploring the functions
+
+### 1. Filter occurrences to unique taxa
+
+In many cases palaeobiologists count unique taxa by retaining only unique occurrences identified to a given taxonomic resolution (e.g. genera or species), however this can result in some useful information being discarded. The `tax_unique` function retains occurrences identified to a coarser taxonomic resolution which are not already represented within the dataset. Take, for example, the following occurrences:
+
+- *Albertosaurus sarcophagus*
+- *Ankylosaurus* sp.
+- *Ceratopsidae* indet.
+- *Ornithominus* sp.
+- *Tyrannosaurus rex* 
+
+A filter for species-level identifications would reduce the species richness to just two (*A. sarcophagus* and *T. rex*). However, none of these clades are nested within one another, so each of the indeterminately identified occurrences represents at least one species not already represented in the dataset. `tax_unique` is designed to deal with such taxonomic data and would retain all seven 'species' in this example. For further details see `?tax_unique`.
+
+This function can be especially useful for when looking at alpha diversity (local richness). Let's apply it to the `tetrapods` dataset by filtering it to genus-level. 
+
+```{r}
+# filter to genus-level:
+tet_genera <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+                         order = "order", class = "class", resolution = "genus")
+```
+
+To see how the function has performed, take a look at row 1008, which records an indeterminate occurrence of the family *Melosauridae* This occurrence now has a unique name of 'Melosauridae sp.'
+```{r}
+tet_genera[1008, ]
+
+```
+
+We can compare how the alpha genus diversity from the original dataset compares to the alpha genus diversity after `tax_unique`:
+```{r}
+# how many unique genera before:
+length(unique(tetrapods$genus))
+
+# how many unique genera after:
+length(unique(tet_genera$unique_name))
+```
+
+Now, let's use this function to record the number of unique occurrences by collection (=locality) with `group_apply`: 
+```{r}
+coll_genera <- group_apply(occdf = tetrapods,
+                           group = c("collection_no"),
+                           fun = tax_unique,
+                           genus = "genus",
+                           family = "family",
+                           order = "order",
+                           class = "class",
+                           resolution = "genus")
+
+# see structure of the new dataframe:
+str(coll_genera)
+```
+
+Next, let's count the number of unique taxa per collection (=locality):
+```{r}
+coll_taxa <- aggregate(coll_genera$unique_name, by=list(coll_genera$collection_no), FUN=length)
+
+# rename column names:
+colnames(coll_taxa) <- c("collection_no","n_taxa")
+
+# take a look at the new dataframe
+head(coll_taxa)
+```
+
+To plot an alpha diversity (local richness) plot, we will need the ages of intervals in millions of years. Since the numeric ages may have changed since we downloaded the data from the PBDB, we'll use `look_up` to get the numeric ages for the occurrences within `tetrapods` dataset based on their assigned interval names:
+
+```{r}
+# get new numeric ages for named intervals
+# the default is to use the Geological Time Scale 2020
+occdf <- look_up(tetrapods)
+
+# take the columns pertaining to collections and their ages in millions of years:
+coll_info <- occdf[, c("collection_no", "interval_max_ma", "interval_mid_ma", "interval_min_ma")]
+
+# remove duplicated collections based on the collection number (column 1)
+coll_info <- coll_info[!duplicated(coll_info[1]),]
+
+# combine this dataframe with the dataframe from above
+alpha_data <- merge(coll_info, coll_taxa, by = "collection_no")
+
+# take a look:
+head(alpha_data)
+
+```
+
+
+Time to plot alpha diversity! Let's start with a simple scatterplot:
+
+```{r fig.height=6, fig.width=7.2}
+
+plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
+     xlim = rev(range(alpha_data$interval_mid_ma, na.rm = TRUE)), # reverse the x-axis
+     xlab="Time (Ma)", ylab="No. taxa", # axes labels
+     pch = 19, col = "#0e826f") # point style and colour
+
+```
+
+
+
+
+### 2. Adding a geological timescale to a plot axis
+
+Sometimes, we might like to add a geological timescale to our plots. `axis_geo()` adds a geological timescale between the plot and the axis. 
+
+Taking our plot from above, let's use this function to add a timescale to the x-axis
+
+```{r fig.height=6, fig.width=7.2}
+# set margins
+par(mar = c(7.1, 4.1, 4.1, 2.1)) # expand at bottom if adding more interval categories
+
+# alpha diversity plot
+plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
+     axes = FALSE,
+     xlim = rev(range(alpha_data$interval_mid_ma, na.rm = TRUE)), # reverse the x-axis
+     xlab=" ", ylab="No. taxa", # axes labels
+     pch = 19, col = "#0e826f") # point style and colour
+box()
+axis(2) # add a normal axis to the elft side
+axis_geo(side = 1, intervals = list("epochs", "periods"))
+title(xlab = "Time (Ma)", line = 4)
+
+
+```
+
+# Example study 1: The latitudinal diversity gradient of early tetrapods
+
+# Example study 2: Latitudinal trends in Phanerozoic reefs
+
+```{r}
+data("reefs")
+```
+
+```{r}
+look_up(occdf = reefs, early_interval = "interval", late_interval = "interval", int_key = palaeoverse::interval_key)
+```
+
+
+</div>
