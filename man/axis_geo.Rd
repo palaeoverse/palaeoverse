@@ -162,7 +162,7 @@ to a single side of the plot. In this case, \code{height}, \code{fill},
 \code{center_end_labels}, \code{skip}, \code{bord_col}, \code{lty}, and
 \code{lwd} can also be lists. If these lists are not as long as
 \code{intervals}, the elements will be recycled. If individual values
-(or vectors, e.g., for \code{skip}) are used for these parameters, they will
+(or vectors, e.g. for \code{skip}) are used for these parameters, they will
 be applied to all time scales (and recycled as necessary). If multiple scales
 are requested they will be added sequentially outwards starting from the plot
 border. The axis will always be placed on the outside of the last scale.

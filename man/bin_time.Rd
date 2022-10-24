@@ -32,9 +32,11 @@ Defaults to 100.}
 \value{
 For methods "mid", "majority" and "all", a \code{dataframe} of the
 original input \code{occdf} with the following appended columns is returned:
-occurrence id (\code{id}), number of bins the occurrence age
+occurrence id (\code{id}), number of bins that the occurrence age
 range covers (\code{n_bins}), bin assignment (\code{bin_assignment}), and bin midpoint
-(\code{bin_midpoint}). In the case of the "random" and "point" method, a
+(\code{bin_midpoint}). In the case of the "majority" method, an additional column
+of the majority percentage overlap (\code{overlap_percentage}) is also appended.
+For the "random" and "point" method, a
 \code{list} is returned (of length reps) with each element a copy of
 the \code{occdf} and appended columns (random: \code{bin_assignment} and
 \code{bin_midpoint}; point: \code{bin_assignment} and \code{point_estimates}).

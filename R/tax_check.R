@@ -63,7 +63,7 @@
 #'
 #' @section Reference:
 #' van der Loo, M. P. J. (2014). The stringdist package for approximate string
-#' matching. The R Journal 6, 111--122.
+#' matching. The R Journal 6, 111-122.
 #'
 #' @section Developer(s):
 #' Joseph T. Flannery-Sutherland & Lewis A. Jones

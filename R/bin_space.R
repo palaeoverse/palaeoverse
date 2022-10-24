@@ -8,9 +8,9 @@
 #' degree coordinates of your occurrences, and they should be of
 #' class `numeric`.
 #' @param lng \code{character}. The name of the column you wish to be treated
-#' as the input longitude (e.g., "lng" or "p_lng").
+#' as the input longitude (e.g. "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
-#' as the input latitude (e.g., "lat" or "p_lat").
+#' as the input latitude (e.g. "lat" or "p_lat").
 #' @param spacing \code{numeric}. The desired spacing between the center of
 #' adjacent cells. This value should be provided in kilometres.
 #' @param sub_grid \code{numeric}. For an optional sub-grid, the desired
@@ -40,7 +40,7 @@
 #' resolution is most similar to the input `spacing`, and uses this resolution.
 #'
 #' Additional functionality allows the user to simultaneously assign occurrence
-#' data to equal-area grid cells of a finer-scale grid (i.e., a ‘sub-grid’)
+#' data to equal-area grid cells of a finer-scale grid (i.e. a ‘sub-grid’)
 #' within the primary grid via the `sub_grid` argument. This might be desirable
 #' for users to evaluate the differences in the amount of area occupied by
 #' occurrences within their primary grid cells. This functionality also allows
