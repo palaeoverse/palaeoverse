@@ -98,9 +98,11 @@ Defaults to 100.</p></dd>
 
 <p>For methods "mid", "majority" and "all", a <code>dataframe</code> of the
 original input <code>occdf</code> with the following appended columns is returned:
-occurrence id (<code>id</code>), number of bins the occurrence age
+occurrence id (<code>id</code>), number of bins that the occurrence age
 range covers (<code>n_bins</code>), bin assignment (<code>bin_assignment</code>), and bin midpoint
-(<code>bin_midpoint</code>). In the case of the "random" and "point" method, a
+(<code>bin_midpoint</code>). In the case of the "majority" method, an additional column
+of the majority percentage overlap (<code>overlap_percentage</code>) is also appended.
+For the "random" and "point" method, a
 <code>list</code> is returned (of length reps) with each element a copy of
 the <code>occdf</code> and appended columns (random: <code>bin_assignment</code> and
 <code>bin_midpoint</code>; point: <code>bin_assignment</code> and <code>point_estimates</code>).</p>
