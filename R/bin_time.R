@@ -97,6 +97,9 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100) {
     if (is.data.frame(bins) == FALSE) {
       stop("`bins` should be a dataframe.")
     }
+    if (any(is.na(occdf$max_ma)) || any(is.na(occdf$min_ma))) {
+      stop("NA values detected in occdf$max_ma or occdf$min_ma.")
+    }
 
     possible_methods <- c("all", "majority", "random", "point", "mid")
     method_match <- charmatch(method, possible_methods)
