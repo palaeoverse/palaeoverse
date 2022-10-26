@@ -7,7 +7,7 @@ Ubuntu-release 20.04.5 (x86_64-pc-linux-gnu): R 4.2.1
 
 Ubuntu-devel 20.04.5 (x86_64-pc-linux-gnu): R 4.2.1 
 
-Ubuntu-oldrel (x86_64-pc-linux-gnu): R 4.1.3 
+Ubuntu-oldrel 20.04.5 (x86_64-pc-linux-gnu): R 4.1.3 
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs.
