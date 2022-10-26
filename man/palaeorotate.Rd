@@ -56,7 +56,7 @@ A \code{dataframe} containing the original input occurrence
 dataframe, the rotation model ("rot_model"),
 age of rotation ("rot_age"), the reference coordinates rotated
 ("rot_lng" and "rot_lat"), and the reconstructed coordinates
-(i.e., "p_lng" and "p_lat"). The "point" \code{method} uses the input coordinates
+(i.e. "p_lng" and "p_lat"). The "point" \code{method} uses the input coordinates
 and age as the reference; reference coordinates are therefore not returned.
 If uncertainty is set to \code{TRUE}, palaeocoordinates for all available models
 will be returned, along with the palaeolatitudinal range (\code{range_p_lat}) and
@@ -65,7 +65,7 @@ the maximum Great Circle Distance (\code{max_dist}) in km (calculated via
 }
 \description{
 A function to generate palaeocoordinates for fossil occurrence data
-(i.e., reconstruct the geographic distribution of organisms'
+(i.e. reconstruct the geographic distribution of organisms'
 remains at time of deposition). Each occurrence is assigned
 palaeocoordinates based on its current geographic position and age
 estimate.
@@ -152,7 +152,7 @@ Bower, D. J., Tetley, M. G., Heine, C., Le Breton, E., Liu, S.,
 Russell, S. H. J., Yang, T., Leonard, J., and Gurnis, M. (2019).
 A global plate model including lithospheric deformation along major rifts
 and orogens since the Triassic.
-Tectonics, 38(6) 1884--1907. \doi{10.1029/2018TC005462}.
+Tectonics, 38(6) 1884-1907. \doi{10.1029/2018TC005462}.
 \item Müller R.D., Seton, M., Zahirovic, S., Williams, S.E., Matthews, K.J.,
 Wright, N.M., Shephard, G.E., Maloney, K.T., Barnett-Moore, N.,
 Hosseinpour, M., Bower, D.J., Cannon, J., 2016.

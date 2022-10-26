@@ -57,8 +57,7 @@ together. For example, for 10 Myr as a target bin size, the
 function will generate groups of bins that have a mean bin length close to
 10 Myr.
 However, users may also want to consider grouping stages based on other
-reasoning e.g. availability of outcrop (see Dean et al. (2020);
-\doi{https://doi.org/10.1111/pala.12492}).
+reasoning e.g. availability of outcrop (see Dean et al. 2020).
 }
 \details{
 This function uses the Geological Timescale 2020 and the Geological
@@ -73,6 +72,15 @@ Available intervals names are accessible via the \code{interval_name}
 column in \code{GTS2012} and \code{GTS2020}. Data of the Geological Timescale 2020
 and 2012 were compiled by Lewis A. Jones (2022-07-02).
 }
+\section{References}{
+
+
+Dean, C.D., Chiarenza, A.A. and Maidment, S.C., 2020. Formation binning: a
+new method for increased temporal resolution in regional studies, applied
+to the Late Cretaceous dinosaur fossil record of North America.
+Palaeontology, 63(6), 881-901. \doi{10.1111/pala.12492}.
+}
+
 \section{Developer(s)}{
 
 Lewis A. Jones

@@ -72,8 +72,8 @@ Bethany Allen & Christopher D. Dean
 # Grab internal data
 occdf <- tetrapods
 # Remove NAs
-occdf <- subset(occdf, !is.na(genus))
+occdf <- subset(occdf, !is.na(order))
 # Temporal range
-ex <- tax_range_time(occdf = occdf, name = "genus", plot = TRUE)
+ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
 
 }

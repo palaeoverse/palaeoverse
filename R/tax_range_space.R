@@ -2,7 +2,7 @@
 #'
 #' A function to calculate the geographic range of fossil taxa from occurrence
 #' data. The function can calculate geographic range in four ways: convex hull,
-#' latitudinal range, maximum great circle distance, and the number of
+#' latitudinal range, maximum Great Circle Distance, and the number of
 #' occupied equal-area hexagonal grid cells.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences.
@@ -35,7 +35,7 @@
 #' range (`range_lat`) is returned.
 #' - For the "gcd" method, a \code{dataframe} with each unique taxa (`taxon`)
 #' and taxon ID (`taxon_id`) by coordinate combination (`lng` & `lat`) of the
-#' two most distant points, and the 'Great Circle Distance' (`gcd`) between
+#' two most distant points, and the Great Circle Distance (`gcd`) between
 #' these points in km is returned.
 #' - For the "occ" method, a \code{dataframe} with unique taxa (`taxon`), taxon
 #' ID (`taxon_id`), the number of occupied cells (`n_cells`), proportion of

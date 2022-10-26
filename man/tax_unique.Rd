@@ -41,7 +41,7 @@ containing the class-level identifications.}
 
 \item{name}{\code{character}. The name of the column in the dataframe
 containing the taxonomic names at mixed taxonomic levels; the data column
-"accepted_names" in a \href{https://paleobiodb.org/#/}{Paleobiology Database}
+"accepted_name" in a \href{https://paleobiodb.org/#/}{Paleobiology Database}
 occurrence dataframe is of this type.}
 
 \item{resolution}{\code{character}. The taxonomic resolution at which to
@@ -62,12 +62,11 @@ further information). This has previously been described as "cryptic
 diversity" (e.g. Mannion et al. 2011).
 }
 \details{
-In many cases palaeobiologists count unique taxa by retaining only
+Palaeobiologists usually count unique taxa by retaining only
 unique occurrences identified to a given taxonomic resolution, however
-this function retain occurrences identified to a coarser taxonomic resolution
-which are not already represented within the dataset.
-
-If we take the following set of occurrences:
+this function retains occurrences identified to a coarser taxonomic
+resolution which are not already represented within the dataset. For example,
+consider the following set of occurrences:
 \itemize{
 \item \emph{Albertosaurus sarcophagus}
 \item \emph{Ankylosaurus} sp.
@@ -78,7 +77,7 @@ If we take the following set of occurrences:
 \item \emph{Tyrannosaurus rex}
 }
 
-a filter for species-level identifications would reduce the species richness
+A filter for species-level identifications would reduce the species richness
 to two. However, none of these clades are nested within one another, so each
 of the indeterminately identified occurrences represents at least one species
 not already represented in the dataset. This function is designed to deal

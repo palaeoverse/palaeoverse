@@ -51,7 +51,7 @@ minimum latitude of occurrence (\code{min_lat}), and latitudinal
 range (\code{range_lat}) is returned.
 \item For the "gcd" method, a \code{dataframe} with each unique taxa (\code{taxon})
 and taxon ID (\code{taxon_id}) by coordinate combination (\code{lng} & \code{lat}) of the
-two most distant points, and the 'Great Circle Distance' (\code{gcd}) between
+two most distant points, and the Great Circle Distance (\code{gcd}) between
 these points in km is returned.
 \item For the "occ" method, a \code{dataframe} with unique taxa (\code{taxon}), taxon
 ID (\code{taxon_id}), the number of occupied cells (\code{n_cells}), proportion of
@@ -66,7 +66,7 @@ respective taxon is a singleton (i.e. represented by only one occurrence).
 \description{
 A function to calculate the geographic range of fossil taxa from occurrence
 data. The function can calculate geographic range in four ways: convex hull,
-latitudinal range, maximum great circle distance, and the number of
+latitudinal range, maximum Great Circle Distance, and the number of
 occupied equal-area hexagonal grid cells.
 }
 \details{

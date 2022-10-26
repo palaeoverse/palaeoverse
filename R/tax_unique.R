@@ -24,7 +24,7 @@
 #' containing the class-level identifications.
 #' @param name \code{character}. The name of the column in the dataframe
 #' containing the taxonomic names at mixed taxonomic levels; the data column
-#' "accepted_names" in a [Paleobiology Database](https://paleobiodb.org/#/)
+#' "accepted_name" in a [Paleobiology Database](https://paleobiodb.org/#/)
 #' occurrence dataframe is of this type.
 #' @param resolution \code{character}. The taxonomic resolution at which to
 #' identify unique occurrences, either "species" (the default) or "genus".
@@ -34,12 +34,11 @@
 #' The dataframe will include the taxonomic information provided into the
 #' function, as well as a column providing the 'unique' names of each taxon.
 #'
-#' @details In many cases palaeobiologists count unique taxa by retaining only
+#' @details Palaeobiologists usually count unique taxa by retaining only
 #' unique occurrences identified to a given taxonomic resolution, however
-#' this function retain occurrences identified to a coarser taxonomic resolution
-#' which are not already represented within the dataset.
-#'
-#' If we take the following set of occurrences:
+#' this function retains occurrences identified to a coarser taxonomic
+#' resolution which are not already represented within the dataset. For example,
+#' consider the following set of occurrences:
 #'
 #' - *Albertosaurus sarcophagus*
 #' - *Ankylosaurus* sp.
@@ -49,7 +48,7 @@
 #' - *Ornithomimus* sp.
 #' - *Tyrannosaurus rex*
 #'
-#' a filter for species-level identifications would reduce the species richness
+#' A filter for species-level identifications would reduce the species richness
 #' to two. However, none of these clades are nested within one another, so each
 #' of the indeterminately identified occurrences represents at least one species
 #' not already represented in the dataset. This function is designed to deal
