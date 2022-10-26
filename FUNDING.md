@@ -16,3 +16,7 @@ The development team would like to acknowledge and thank all financial support w
 **Pedro L. Godoy:** FAPESP Post-Doctoral fellowship (grant number: 2022/05697-9)
 
 **William Gearty:** Population Biology Program of Excellence Postdoctoral Fellowship (the University of Nebraska-Lincoln) and the Lerner-Gray Postdoctoral Research Fellowship (American Museum of Natural History).
+
+**Cecily Nicholl:** The Royal Society (grant number: RGF_R1_180020)
+
+**Miranta Kouvari:** The Royal Society (grant number: RGF_EA_180318)
