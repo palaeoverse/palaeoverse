@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">palaeoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -464,9 +464,9 @@ function can be used:</p>
 </h3>
 <p>Testing is perhaps one of the most important parts of developing a
 function. If you have not already, we recommend reading through Chapter
-12–Testing of <a href="https://r-pkgs.org/tests.html#test-organisation" class="external-link">‘R packages’</a>
-before continuing here as <code>palaeoverse</code> follows this
-guidance.</p>
+12–Testing of <a href="https://r-pkgs.org/testing-basics.html#test-organisation" class="external-link">‘R
+packages’</a> before continuing here as <code>palaeoverse</code> follows
+this guidance.</p>
 <p>Before a function can be added to <code>palaeoverse</code>, it needs
 to go through formal testing. This is required as hopefully your
 function will be very popular, and we need to ensure that it behaves as
@@ -597,11 +597,13 @@ contributions 1) meet the standards and expectations as described above,
 2) successfully perform the functions that they claim to perform, and 3)
 don’t break any other parts of the codebase.</p>
 <p>Submitting a pull request to the <code>palaeoverse</code> package
-will automatically initiate an <a href="https://r-pkgs.org/r-cmd-check.html" class="external-link">R CMD check</a>, <a href="https://lintr.r-lib.org/index.html" class="external-link">lintr check</a>, and <a href="https://github.com/r-lib/covr" class="external-link">test coverage check</a> via GitHub
-Actions. While these checks will conduct some automatic review to ensure
-the package has not been broken by the new code and that the code
-matches the style guide (see above), a manual review is still required
-before the pull request can be merged.</p>
+will automatically initiate an <a href="https://r-pkgs.org/check.html" class="external-link">R
+CMD check</a>, <a href="https://lintr.r-lib.org/index.html" class="external-link">lintr
+check</a>, and <a href="https://github.com/r-lib/covr" class="external-link">test coverage
+check</a> via GitHub Actions. While these checks will conduct some
+automatic review to ensure the package has not been broken by the new
+code and that the code matches the style guide (see above), a manual
+review is still required before the pull request can be merged.</p>
 <p>Reviewers may have questions while reviewing your pull request. You
 are expected to respond to any of these questions via GitHub. If fixes
 and/or changes are required, you are expected to make these changes. If

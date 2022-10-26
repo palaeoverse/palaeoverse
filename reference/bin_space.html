@@ -12,7 +12,7 @@ bins/samples using a hexagonal equal-area grid."><meta property="og:image" conte
     
     <a class="navbar-brand me-2" href="../index.html">palaeoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,10 +126,10 @@ information and polygons.</p>
     <p>This function assigns fossil occurrence data into
 equal-area grid cells using discrete hexagonal grids via the
 <code><a href="https://obrl-soil.github.io/h3jsr/reference/h3jsr-package.html" class="external-link">h3jsr</a></code> package. This package relies on
-<a href="https://h3geo.org/docs" class="external-link">Uber's H3</a> library, a geospatial indexing system
+<a href="https://h3geo.org/docs/" class="external-link">Uber's H3</a> library, a geospatial indexing system
 that partitions the world into hexagonal cells. In H3, 16 different
 resolutions are available
-(<a href="https://h3geo.org/docs/core-library/restable" class="external-link">see here</a>). In the
+(<a href="https://h3geo.org/docs/core-library/restable/" class="external-link">see here</a>). In the
 implementation of the <code>bin_space()</code> function, the resolution is defined by
 the user-input <code>spacing</code> which represents the distance between the centroid
 of adjacent cells. Using this distance, the function identifies which
