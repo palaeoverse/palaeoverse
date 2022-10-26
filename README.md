@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/palaeoverse-community/palaeoverse/branch/main/graph/badge.svg?token=HQQO2CRIKT)](https://codecov.io/gh/palaeoverse-community/palaeoverse)
+[![codecov](https://codecov.io/gh/palaeoverse-community/palaeoverse/branch/main/graph/badge.svg?token=HQQO2CRIKT)](https://app.codecov.io/gh/palaeoverse-community/palaeoverse)
 <!-- badges: end -->
 
 `palaeoverse` is an R package developed by palaeobiologists, for palaeobiologists.
@@ -14,11 +14,11 @@ The aim of `palaeoverse` is to generate a community-driven software package of g
 - [William Gearty](mailto:willgearty@gmail.com), American Museum of Natural History
 - [Bethany J. Allen](mailto:Bethany.Allen@bsse.ethz.ch), ETH Zürich
 - [Kilian Eichenseer](mailto:kilian.eichenseer@gmail.com), Durham University
-- [Christopher D. Dean](christopherdaviddean@gmail.com), University College London
+- [Christopher D. Dean](mailto:christopherdaviddean@gmail.com), University College London
 - [Sofía Galván](mailto:sofia.galvan@uvigo.es), Universidade de Vigo
 - [Miranta Kouvari](mailto:kouvari.miranta@gmail.com), University College London/Natural History Museum
 - [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), University of São Paulo/Stony Brook University
-- [Cecily Nicholl](cecily.nicholl@ucl.ac.uk), University College London
+- [Cecily Nicholl](mailto:cecily.nicholl@ucl.ac.uk), University College London
 - [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), École Normale Supérieure de Lyon
 - [Erin M. Dillon](mailto:erinmdillon@ucsb.edu), Smithsonian Tropical Research Institute/University of California
 - [A. Alessandro Chiarenza](mailto:a.chiarenza15@gmail.com), Universidade de Vigo

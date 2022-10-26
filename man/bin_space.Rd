@@ -54,10 +54,10 @@ bins/samples using a hexagonal equal-area grid.
 This function assigns fossil occurrence data into
 equal-area grid cells using discrete hexagonal grids via the
 \code{\link[h3jsr]{h3jsr}} package. This package relies on
-\href{https://h3geo.org/docs}{Uber's H3} library, a geospatial indexing system
+\href{https://h3geo.org/docs/}{Uber's H3} library, a geospatial indexing system
 that partitions the world into hexagonal cells. In H3, 16 different
 resolutions are available
-(\href{https://h3geo.org/docs/core-library/restable}{see here}). In the
+(\href{https://h3geo.org/docs/core-library/restable/}{see here}). In the
 implementation of the \code{bin_space()} function, the resolution is defined by
 the user-input \code{spacing} which represents the distance between the centroid
 of adjacent cells. Using this distance, the function identifies which

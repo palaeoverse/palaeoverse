@@ -95,10 +95,10 @@ which represents the distance between two points on a plane.
 \item Occupied cells: the "occ" method calculates the number and proportion of
 occupied equal-area grid cells. It does so using discrete hexagonal grids
 via the \code{\link[h3jsr]{h3jsr}} package. This package relies on
-\href{https://h3geo.org/docs}{Uber's H3} library, a geospatial indexing system
+\href{https://h3geo.org/docs/}{Uber's H3} library, a geospatial indexing system
 that partitions the world into hexagonal cells. In H3, 16 different
 resolutions are available
-(\href{https://h3geo.org/docs/core-library/restable}{see here}).
+(\href{https://h3geo.org/docs/core-library/restable/}{see here}).
 In the implementation of the \code{tax_range_space()} function, the resolution is
 defined by the user-input \code{spacing} which represents the distance between
 the centroid of adjacent cells. Using this distance, the function identifies
