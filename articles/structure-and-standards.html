@@ -90,14 +90,34 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code>palaeoverse</code> R package is a community-driven software library providing generic tools for palaeobiological analysis. The core principles of palaeoverse are to: (1) streamline analyses, (2) enhance code readability, and (3) improve reproducibility of results.</p>
-<p>This document describes the essential structure and conventions of the <code>palaeoverse</code> R package. Naturally, there are always disagreements regarding best practices and conventions, and <code>palaeoverse</code> is no exception. Despite this, all the essentials in <code>palaeoverse</code> are encouraged to make the lives of both the developer, and the user, easier. It is worth noting that the core structure and conventions adopted in <code>palaeoverse</code> are heavily influenced by Hadley Wickham and Jenny Bryan’s <a href="https://r-pkgs.org/index.html" class="external-link">R Packages</a> and the <a href="https://style.tidyverse.org/index.html" class="external-link">tidyverse style guide</a>, which is currently also Google’s guide.<br><br></p>
-<p><strong><em>“Good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread.” – tidyverse style guide</em></strong></p>
+<p>The <code>palaeoverse</code> R package is a community-driven software
+library providing generic tools for palaeobiological analysis. The core
+principles of palaeoverse are to: (1) streamline analyses, (2) enhance
+code readability, and (3) improve reproducibility of results.</p>
+<p>This document describes the essential structure and conventions of
+the <code>palaeoverse</code> R package. Naturally, there are always
+disagreements regarding best practices and conventions, and
+<code>palaeoverse</code> is no exception. Despite this, all the
+essentials in <code>palaeoverse</code> are encouraged to make the lives
+of both the developer, and the user, easier. It is worth noting that the
+core structure and conventions adopted in <code>palaeoverse</code> are
+heavily influenced by Hadley Wickham and Jenny Bryan’s <a href="https://r-pkgs.org/index.html" class="external-link">R Packages</a> and the <a href="https://style.tidyverse.org/index.html" class="external-link">tidyverse style guide</a>,
+which is currently also Google’s guide.<br><br></p>
+<p><strong><em>“Good coding style is like correct punctuation: you can
+manage without it, butitsuremakesthingseasiertoread.” – tidyverse style
+guide</em></strong></p>
 </div>
 <div class="section level2">
 <h2 id="files">Files<a class="anchor" aria-label="anchor" href="#files"></a>
 </h2>
-<p>File names should always be concise, meaningful and end in <code>'.R'</code>. Avoid using special characters whenever possible (i.e. stick to letters and numbers), and use <code>'_'</code> or <code>'-'</code> instead of spaces in file names. The use of lowercase is also strongly encouraged, and <strong>never</strong> have file names that only differ in capitalization. <strong>Note:</strong> the preferred separator is <code>'_'</code> to consist with the ‘lowercase snake_case’ convention for developing functions (more on that later!).<br><br></p>
+<p>File names should always be concise, meaningful and end in
+<code>'.R'</code>. Avoid using special characters whenever possible
+(i.e. stick to letters and numbers), and use <code>'_'</code> or
+<code>'-'</code> instead of spaces in file names. The use of lowercase
+is also strongly encouraged, and <strong>never</strong> have file names
+that only differ in capitalization. <strong>Note:</strong> the preferred
+separator is <code>'_'</code> to consist with the ‘lowercase snake_case’
+convention for developing functions (more on that later!).<br><br></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Nein!</span></span>
 <span><span class="va">Sup3rAw3sumFuncti0n.r</span></span>
@@ -111,16 +131,39 @@
 <div class="section level2">
 <h2 id="r-style-guide">R style guide<a class="anchor" aria-label="anchor" href="#r-style-guide"></a>
 </h2>
-<p>We recommend using the following conventions to make your code easier for us (and the community) to understand and use:</p>
-<p><strong>Assigning:</strong> use arrows (&lt;-) rather than equals sign to assign.</p>
-<p><strong>Comments:</strong> please explain your code comprehensively using comments (#) as this will help us to understand your intentions and to review the code.</p>
-<p><strong>Packages:</strong> please use as few external packages (i.e. dependencies) as possible, as the package is more likely to break when alterations are made to these; if your code uses packages, load them all at the start of the script (i.e. in tutorials or examples). This is more transparent for the user than having various packages sprinkled throughout the code.</p>
-<p><strong>Progress:</strong> if your code may take a long time to run (more than a minute), include a progress bar such as <code>'txtProgressBar()'</code> in your function.</p>
-<p><strong>Sections:</strong> use lines of ‘-’ or ‘=’ to indicate section breaks. It is hard to provide exact details on how long a section break should be. However, we tend to think of them as paragraphs in our code. <strong>Tip:</strong> In RStudio, you can use <code>'# SECTION NAME ###'</code> to make a section which is interpreted by the outline feature. You can also make subsections by adding more <code>'#"</code> before the section name. If you are using RStudio, you can also use the keyboard shortcut <code>Cmd/Ctrl + Shift + R</code>.</p>
-<p><strong>Spacing:</strong> add spaces to your code to make it more human-readable.</p>
-<p><strong>Objects:</strong> use object names that are short but relevant to their contents, ideally in ‘lowercase snake_case’.</p>
-<p><strong>Wrapping:</strong> break long commands into multiple lines, conventionally no line should be longer than ~75–80 characters.</p>
-<p><strong>Language:</strong> use plain English (British spelling preferred, but not required) for your code and documentation.</p>
+<p>We recommend using the following conventions to make your code easier
+for us (and the community) to understand and use:</p>
+<p><strong>Assigning:</strong> use arrows (&lt;-) rather than equals
+sign to assign.</p>
+<p><strong>Comments:</strong> please explain your code comprehensively
+using comments (#) as this will help us to understand your intentions
+and to review the code.</p>
+<p><strong>Packages:</strong> please use as few external packages
+(i.e. dependencies) as possible, as the package is more likely to break
+when alterations are made to these; if your code uses packages, load
+them all at the start of the script (i.e. in tutorials or examples).
+This is more transparent for the user than having various packages
+sprinkled throughout the code.</p>
+<p><strong>Progress:</strong> if your code may take a long time to run
+(more than a minute), include a progress bar such as
+<code>'txtProgressBar()'</code> in your function.</p>
+<p><strong>Sections:</strong> use lines of ‘-’ or ‘=’ to indicate
+section breaks. It is hard to provide exact details on how long a
+section break should be. However, we tend to think of them as paragraphs
+in our code. <strong>Tip:</strong> In RStudio, you can use
+<code>'# SECTION NAME ###'</code> to make a section which is interpreted
+by the outline feature. You can also make subsections by adding more
+<code>'#"</code> before the section name. If you are using RStudio, you
+can also use the keyboard shortcut
+<code>Cmd/Ctrl + Shift + R</code>.</p>
+<p><strong>Spacing:</strong> add spaces to your code to make it more
+human-readable.</p>
+<p><strong>Objects:</strong> use object names that are short but
+relevant to their contents, ideally in ‘lowercase snake_case’.</p>
+<p><strong>Wrapping:</strong> break long commands into multiple lines,
+conventionally no line should be longer than ~75–80 characters.</p>
+<p><strong>Language:</strong> use plain English (British spelling
+preferred, but not required) for your code and documentation.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Nope!</span></span>
 <span><span class="va">x</span> <span class="op">=</span> <span class="fl">1</span></span>
@@ -133,34 +176,85 @@
 <div class="section level2">
 <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
 </h2>
-<p>Often we might want to include data into palaeoverse. This might come in the form of example datasets for testing functions (e.g. fossil occurrences), reference datasets such as the Geological Timescale 2020, or even data that is fundamental for a function to run. In palaeoverse’s structure, we currently recognize four main ways of including data in the package depending on its usage.</p>
+<p>Often we might want to include data into palaeoverse. This might come
+in the form of example datasets for testing functions (e.g. fossil
+occurrences), reference datasets such as the Geological Timescale 2020,
+or even data that is fundamental for a function to run. In palaeoverse’s
+structure, we currently recognize four main ways of including data in
+the package depending on its usage.</p>
 <ul>
 <li>Raw data</li>
 <li>Internal data</li>
 <li>Exported data</li>
 <li>External data (preferred option)</li>
 </ul>
-<p>However, for the sake of file size efficiency, please only include data and variables in your files which will be used by your function. <strong>Note:</strong> in order to be released on CRAN, R packages must be less than 5 MB in size. Please only include data that is absolutely vital for your function. The preferred solution to including data into palaeoverse functions is calling the data via an API or download URL (i.e. external data).</p>
+<p>However, for the sake of file size efficiency, please only include
+data and variables in your files which will be used by your function.
+<strong>Note:</strong> in order to be released on CRAN, R packages must
+be less than 5 MB in size. Please only include data that is absolutely
+vital for your function. The preferred solution to including data into
+palaeoverse functions is calling the data via an API or download URL
+(i.e. external data).</p>
 <div class="section level3">
 <h3 id="raw-data">Raw data<a class="anchor" aria-label="anchor" href="#raw-data"></a>
 </h3>
-<p>Raw data should always be included in <code>inst/extdata</code>. If you want to include cleaned/processed data in <code>data/</code>, it is generally a good idea to include the code used to process the raw data. If you ever need to reproduce or update your cleaned data, this will save you precious time. The code for processing your data should be included in <code>data-raw/</code>. Strictly speaking, raw data does not need to be documented. However, it is a good idea to include the original source and version (including a download date) in your code.</p>
+<p>Raw data should always be included in <code>inst/extdata</code>. If
+you want to include cleaned/processed data in <code>data/</code>, it is
+generally a good idea to include the code used to process the raw data.
+If you ever need to reproduce or update your cleaned data, this will
+save you precious time. The code for processing your data should be
+included in <code>data-raw/</code>. Strictly speaking, raw data does not
+need to be documented. However, it is a good idea to include the
+original source and version (including a download date) in your
+code.</p>
 </div>
 <div class="section level3">
 <h3 id="internal-data">Internal data<a class="anchor" aria-label="anchor" href="#internal-data"></a>
 </h3>
-<p>Data you do not wish to directly make available to the user should be saved as <code>R/sysdata.rda</code>. This is the best option for pre-computed data tables that are needed for a function to run. Strictly speaking internal data does not need to be documented. However, it is a good idea to document the internal data in the function documentation.</p>
+<p>Data you do not wish to directly make available to the user should be
+saved as <code>R/sysdata.rda</code>. This is the best option for
+pre-computed data tables that are needed for a function to run. Strictly
+speaking internal data does not need to be documented. However, it is a
+good idea to document the internal data in the function
+documentation.</p>
 </div>
 <div class="section level3">
 <h3 id="exported-data">Exported data<a class="anchor" aria-label="anchor" href="#exported-data"></a>
 </h3>
-<p>Package data you wish to make available to the user should be stored in <code>data/</code>. Each file in this directory should be either a <code>'.rda'</code> or <code>'.RData'</code>. This file type is fast, small and explicit. The most appropriate way to include exported data is to use <code>usethis::use_data()</code>.</p>
-<p>When using large datasets, we want to ensure that our files are not bloated and taking up too much space on our users’ machines. As such, you may want to experiment with the compression settings in <code>usethis::use_data()</code>. Generally, <code>xz</code> and <code>gzip</code> can create smaller files than the default <code>bzip2</code>. You can also implement several ‘hacks’ to generate smaller files which you may want to consider for large datasets (depending on whether your data is sensitive to such changes). Data with many decimal places consume a lot of memory, consider how many significant figures are relevant for your data, and <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round()</a></code> accordingly. You can also experiment with your file size by multiplying your data by X (e.g. 1,000) to remove decimal places altogether. <strong>Note:</strong> Remember to undo any transformations when calling or working with the data.</p>
+<p>Package data you wish to make available to the user should be stored
+in <code>data/</code>. Each file in this directory should be either a
+<code>'.rda'</code> or <code>'.RData'</code>. This file type is fast,
+small and explicit. The most appropriate way to include exported data is
+to use <code>usethis::use_data()</code>.</p>
+<p>When using large datasets, we want to ensure that our files are not
+bloated and taking up too much space on our users’ machines. As such,
+you may want to experiment with the compression settings in
+<code>usethis::use_data()</code>. Generally, <code>xz</code> and
+<code>gzip</code> can create smaller files than the default
+<code>bzip2</code>. You can also implement several ‘hacks’ to generate
+smaller files which you may want to consider for large datasets
+(depending on whether your data is sensitive to such changes). Data with
+many decimal places consume a lot of memory, consider how many
+significant figures are relevant for your data, and <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round()</a></code>
+accordingly. You can also experiment with your file size by multiplying
+your data by X (e.g. 1,000) to remove decimal places altogether.
+<strong>Note:</strong> Remember to undo any transformations when calling
+or working with the data.</p>
 </div>
 <div class="section level3">
 <h3 id="external-data">External data<a class="anchor" aria-label="anchor" href="#external-data"></a>
 </h3>
-<p>External data is the preferred approach for contributors to include data into <code>palaeoverse</code> and will be required in almost all cases. This is to ensure that the package does not become unnecessary bloated to all users when the data can just be called by a download link. Currently, external data are stored on a GitHub repo (reconstruction files for <code>palaeorotate</code>). It is likely that in the future this will be migrated elsewhere as GitHub is not a data repository (hopefully a dedicated server when funding allows!). If you wish to include external data, please get in touch with one of the palaeoverse developers, and we can discuss what might be the best solution.</p>
+<p>External data is the preferred approach for contributors to include
+data into <code>palaeoverse</code> and will be required in almost all
+cases. This is to ensure that the package does not become unnecessary
+bloated to all users when the data can just be called by a download
+link. Currently, external data are stored on a GitHub repo
+(reconstruction files for <code>palaeorotate</code>). It is likely that
+in the future this will be migrated elsewhere as GitHub is not a data
+repository (hopefully a dedicated server when funding allows!). If you
+wish to include external data, please get in touch with one of the
+palaeoverse developers, and we can discuss what might be the best
+solution.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#generate temp directory</span></span>
 <span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -173,7 +267,12 @@
 <div class="section level3">
 <h3 id="data-documentation">Data documentation<a class="anchor" aria-label="anchor" href="#data-documentation"></a>
 </h3>
-<p>Objects in <code>data/</code> are always exported by default, and should be documented accordingly. In order to properly document data, you must document the name of the dataset and save it in <code>R/data</code>. For example, the documentation block used to document GTS2020 is saved as <code>R/data.R</code> and is similar to the following (simplified here):</p>
+<p>Objects in <code>data/</code> are always exported by default, and
+should be documented accordingly. In order to properly document data,
+you must document the name of the dataset and save it in
+<code>R/data</code>. For example, the documentation block used to
+document GTS2020 is saved as <code>R/data.R</code> and is similar to the
+following (simplified here):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Geological Time Scale 2020</span></span>
 <span><span class="co">#'</span></span>
@@ -200,12 +299,25 @@
 <div class="section level3">
 <h3 id="what-does-it-mean-to-document-your-data">What does it mean to document your data?<a class="anchor" aria-label="anchor" href="#what-does-it-mean-to-document-your-data"></a>
 </h3>
-<p>Documenting your data is to provide a thorough description of the data and any information relevant to understanding it. Good documentation is key to reproducible science, and will also help us to ensure that we acknowledge all data collators who have provided data for the <code>palaeoverse</code> package. When providing us with datasets, please give the following information:</p>
-<p><strong>Author(s):</strong> Who collected the data, and prepared its current format? Please provide citations if relevant. Have the authors given permission for the dataset to be included in the <code>palaeoverse</code> package?</p>
+<p>Documenting your data is to provide a thorough description of the
+data and any information relevant to understanding it. Good
+documentation is key to reproducible science, and will also help us to
+ensure that we acknowledge all data collators who have provided data for
+the <code>palaeoverse</code> package. When providing us with datasets,
+please give the following information:</p>
+<p><strong>Author(s):</strong> Who collected the data, and prepared its
+current format? Please provide citations if relevant. Have the authors
+given permission for the dataset to be included in the
+<code>palaeoverse</code> package?</p>
 <p><strong>Description:</strong> Brief description of the dataset.</p>
-<p><strong>Provenance:</strong> When and how was the data collected? When was the dataset finalised in its current form?</p>
-<p><strong>Size:</strong> Please state the full, uncompressed size of the file.</p>
-<p><strong>Variables:</strong> Describe each of the columns in your dataset, providing as much information as you can on the full name of the variable, data type (e.g. continuous, discrete, categoric, etc.), units, and how it was collected.</p>
+<p><strong>Provenance:</strong> When and how was the data collected?
+When was the dataset finalised in its current form?</p>
+<p><strong>Size:</strong> Please state the full, uncompressed size of
+the file.</p>
+<p><strong>Variables:</strong> Describe each of the columns in your
+dataset, providing as much information as you can on the full name of
+the variable, data type (e.g. continuous, discrete, categoric, etc.),
+units, and how it was collected.</p>
 </div>
 </div>
 <div class="section level2">
@@ -214,12 +326,32 @@
 <div class="section level3">
 <h3 id="conventions">Conventions<a class="anchor" aria-label="anchor" href="#conventions"></a>
 </h3>
-<p>Functions are saved as <code>'.R'</code> files in the <code>'R'</code> folder. The name of the file needs to correspond to the function, e.g. the file <code>time_bins.R</code> contains the function <code><a href="../reference/time_bins.html">time_bins()</a></code>. Function names and arguments should be informative and aim to keep in line with available functions in <code>palaeoverse</code>. For example, all functions that bin data, whether it be by time or space, start with <code>bin_</code>, whereas taxonomic-related functions start with <code>tax_</code> (e.g. <code>tax_unique</code>, <code>tax_check</code>). Where possible, argument names should also consist with functions in the package. For example, if a function requires an occurrence dataframe as input, the argument name should be <code>occdf</code>. It is difficult to give a complete static summary of all the conventions as <code>palaeoverse</code> will undoubtedly evolve over time. We also wish to remain flexible for contributors, provided that it does not compromise the user-friendliness of the package. We welcome contributors to check through the source code of <code>palaeoverse</code> for function examples.</p>
+<p>Functions are saved as <code>'.R'</code> files in the
+<code>'R'</code> folder. The name of the file needs to correspond to the
+function, e.g. the file <code>time_bins.R</code> contains the function
+<code><a href="../reference/time_bins.html">time_bins()</a></code>. Function names and arguments should be
+informative and aim to keep in line with available functions in
+<code>palaeoverse</code>. For example, all functions that bin data,
+whether it be by time or space, start with <code>bin_</code>, whereas
+taxonomic-related functions start with <code>tax_</code>
+(e.g. <code>tax_unique</code>, <code>tax_check</code>). Where possible,
+argument names should also consist with functions in the package. For
+example, if a function requires an occurrence dataframe as input, the
+argument name should be <code>occdf</code>. It is difficult to give a
+complete static summary of all the conventions as
+<code>palaeoverse</code> will undoubtedly evolve over time. We also wish
+to remain flexible for contributors, provided that it does not
+compromise the user-friendliness of the package. We welcome contributors
+to check through the source code of <code>palaeoverse</code> for
+function examples.</p>
 </div>
 <div class="section level3">
 <h3 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h3>
-<p>For documentation, we use <a href="https://roxygen2.r-lib.org" class="external-link">roxygen2</a>. The title, a brief description, and every argument (including the input class and default input) and the output of the function need to be documented in <code>roxygen2</code> style, for example:</p>
+<p>For documentation, we use <a href="https://roxygen2.r-lib.org" class="external-link">roxygen2</a>. The title, a brief
+description, and every argument (including the input class and default
+input) and the output of the function need to be documented in
+<code>roxygen2</code> style, for example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' An exemplary function</span></span>
 <span><span class="co">#' This function is used to demonstrate the documentation of functions.</span></span>
@@ -235,35 +367,66 @@
 <span><span class="co">#' #Show off the example function</span></span>
 <span><span class="co">#' example_function(example = “documentation”, another_example = TRUE)</span></span>
 <span><span class="co">#' @export</span></span></code></pre></div>
-<p>Add the <code>'@export'</code> namespace tag to make the function available.</p>
-<p>To get started with <code>roxygen2</code>, set your working directory to the package directory, or to the directory where you store your function as a <code>'.R'</code> file. The R command <code>devtools::document()</code> creates a ‘man’ folder in the directory, which contains a <code>'.Rd'</code> file corresponding to your documented function. Opening that file in RStudio, you can create a preview to see what the documentation looks like. After you have implemented changes, rebuild your documentation file with Ctrl+Shift+B or <code>devtools::document()</code>.</p>
+<p>Add the <code>'@export'</code> namespace tag to make the function
+available.</p>
+<p>To get started with <code>roxygen2</code>, set your working directory
+to the package directory, or to the directory where you store your
+function as a <code>'.R'</code> file. The R command
+<code>devtools::document()</code> creates a ‘man’ folder in the
+directory, which contains a <code>'.Rd'</code> file corresponding to
+your documented function. Opening that file in RStudio, you can create a
+preview to see what the documentation looks like. After you have
+implemented changes, rebuild your documentation file with Ctrl+Shift+B
+or <code>devtools::document()</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="efficiency">Efficiency<a class="anchor" aria-label="anchor" href="#efficiency"></a>
 </h3>
-<p>When possible, you should make coding decisions which will ensure that your code is maximally efficient - this could make a big difference to users who want to apply your function to a large dataset. A few general examples include:</p>
+<p>When possible, you should make coding decisions which will ensure
+that your code is maximally efficient - this could make a big difference
+to users who want to apply your function to a large dataset. A few
+general examples include:</p>
 <ul>
-<li>Using functions from the <code>'apply'</code> family can be faster than for-loops. However, a for-loop is almost always more reader-friendly, so try to balance the two!</li>
-<li>Storing objects as lists, or lists of lists, rather than data frames inside functions</li>
-<li>Vectorise, when possible. This way a function can operate on all elements of a vector without needing to loop through each element.</li>
-<li>Avoiding using <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> and <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code> to compile objects row-wise or column-wise within for-loops; specifying the row or column number using the iteration number is usually a faster alternative.</li>
+<li>Using functions from the <code>'apply'</code> family can be faster
+than for-loops. However, a for-loop is almost always more
+reader-friendly, so try to balance the two!</li>
+<li>Storing objects as lists, or lists of lists, rather than data frames
+inside functions</li>
+<li>Vectorise, when possible. This way a function can operate on all
+elements of a vector without needing to loop through each element.</li>
+<li>Avoiding using <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> and <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code> to
+compile objects row-wise or column-wise within for-loops; specifying the
+row or column number using the iteration number is usually a faster
+alternative.</li>
 </ul>
-<p>However, please don’t let this deter you - we welcome submissions from R users of all experience levels, and our team of in-house code evaluators can help you with any concerns about efficiency.</p>
+<p>However, please don’t let this deter you - we welcome submissions
+from R users of all experience levels, and our team of in-house code
+evaluators can help you with any concerns about efficiency.</p>
 </div>
 <div class="section level3">
 <h3 id="error-messages">Error messages<a class="anchor" aria-label="anchor" href="#error-messages"></a>
 </h3>
-<p>To ensure that the functions are used appropriately, error messages should be generated when the function is receiving input it is not designed for. Error messages consist of a brief description of what went wrong. Sometimes it makes sense to specify where it went wrong, and what kind of input was expected. Optionally, error messages can include hints to guide the user towards correct input.</p>
+<p>To ensure that the functions are used appropriately, error messages
+should be generated when the function is receiving input it is not
+designed for. Error messages consist of a brief description of what went
+wrong. Sometimes it makes sense to specify where it went wrong, and what
+kind of input was expected. Optionally, error messages can include hints
+to guide the user towards correct input.</p>
 <p>Examples of error messages include</p>
 <ul>
-<li>input of the wrong format, e.g. <code>“Error: 'x' must be a numeric vector.”</code>
+<li>input of the wrong format,
+e.g. <code>“Error: 'x' must be a numeric vector.”</code>
 </li>
-<li>input of the wrong dimension, e.g. <code>“Error: 'x' must be a data.frame with two columns.”</code>
+<li>input of the wrong dimension,
+e.g. <code>“Error: 'x' must be a data.frame with two columns.”</code>
 </li>
-<li>input without mandatory names, e.g. <code>“Error: 'x' does not have a column 'stage'.</code> <code>'x' must be a data.frame with the columns 'stage' and 'age'.”</code>
+<li>input without mandatory names,
+e.g. <code>“Error: 'x' does not have a column 'stage'.</code>
+<code>'x' must be a data.frame with the columns 'stage' and 'age'.”</code>
 </li>
 </ul>
-<p>To implement error messages in R, the <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code> function can be used:</p>
+<p>To implement error messages in R, the <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code> function
+can be used:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Generate error message</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">is.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -273,8 +436,20 @@
 <div class="section level3">
 <h3 id="warning-messages">Warning messages<a class="anchor" aria-label="anchor" href="#warning-messages"></a>
 </h3>
-<p>In general, we try to minimise the use of warning messages in <code>palaeoverse</code> as these can be easily ignored by the user, or completely skipped in pipeline analyses (<a href="https://www.r-bloggers.com/2012/05/a-warning-about-warning/" class="external-link">see more?</a>). However, as with most things in life, there is a time and a place. So, while the use of <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> is generally discouraged if throwing an error will suffice, we do allow the use of warning messages in <code>palaeoverse</code>, where appropriate. Warning messages can be useful for providing additional information to the user about function output. For example, in the <code>palaeorotate</code> function we provide a warning to users if one or more points could not be reconstructed due to the georeferenced plate not existing at the desired time of reconstruction.</p>
-<p>To implement warning messages in R, the <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> function can be used:</p>
+<p>In general, we try to minimise the use of warning messages in
+<code>palaeoverse</code> as these can be easily ignored by the user, or
+completely skipped in pipeline analyses (<a href="https://www.r-bloggers.com/2012/05/a-warning-about-warning/" class="external-link">see
+more?</a>). However, as with most things in life, there is a time and a
+place. So, while the use of <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> is generally
+discouraged if throwing an error will suffice, we do allow the use of
+warning messages in <code>palaeoverse</code>, where appropriate. Warning
+messages can be useful for providing additional information to the user
+about function output. For example, in the <code>palaeorotate</code>
+function we provide a warning to users if one or more points could not
+be reconstructed due to the georeferenced plate not existing at the
+desired time of reconstruction.</p>
+<p>To implement warning messages in R, the <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code>
+function can be used:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Generate warning message</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">is.numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -284,17 +459,50 @@
 <div class="section level3">
 <h3 id="tests">Tests<a class="anchor" aria-label="anchor" href="#tests"></a>
 </h3>
-<p>Testing is perhaps one of the most important parts of developing a function. If you have not already, we recommend reading through Chapter 12–Testing of <a href="https://r-pkgs.org/tests.html#test-organisation" class="external-link">‘R packages’</a> before continuing here as <code>palaeoverse</code> follows this guidance.</p>
-<p>Before a function can be added to <code>palaeoverse</code>, it needs to go through formal testing. This is required as hopefully your function will be very popular, and we need to ensure that it behaves as expected to avoid any issues. To do so, we make use of the R package <code>testthat</code>.</p>
-<p>The initial setup for function testing with <code>testthat</code> is already established in palaeoverse, under the directory <code>'tests/testthat/'</code>. The organisation of test files must match that of <code>'R/'</code> files in <code>palaeoverse</code>. For example, the function <code><a href="../reference/time_bins.html">time_bins()</a></code> is saved as <code>time_bins.R</code> in the <code>R/</code> directory, and has an associated test file of <code>'test-time_bins.R'</code> in the <code>'tests/testthat'</code> directory. This ensures that associated function testing is clear.</p>
-<p><strong>Tip:</strong> the <code>usethis</code> package provides a helpful pair of functions for creating/alternating between these files:</p>
+<p>Testing is perhaps one of the most important parts of developing a
+function. If you have not already, we recommend reading through Chapter
+12–Testing of <a href="https://r-pkgs.org/tests.html#test-organisation" class="external-link">‘R packages’</a>
+before continuing here as <code>palaeoverse</code> follows this
+guidance.</p>
+<p>Before a function can be added to <code>palaeoverse</code>, it needs
+to go through formal testing. This is required as hopefully your
+function will be very popular, and we need to ensure that it behaves as
+expected to avoid any issues. To do so, we make use of the R package
+<code>testthat</code>.</p>
+<p>The initial setup for function testing with <code>testthat</code> is
+already established in palaeoverse, under the directory
+<code>'tests/testthat/'</code>. The organisation of test files must
+match that of <code>'R/'</code> files in <code>palaeoverse</code>. For
+example, the function <code><a href="../reference/time_bins.html">time_bins()</a></code> is saved as
+<code>time_bins.R</code> in the <code>R/</code> directory, and has an
+associated test file of <code>'test-time_bins.R'</code> in the
+<code>'tests/testthat'</code> directory. This ensures that associated
+function testing is clear.</p>
+<p><strong>Tip:</strong> the <code>usethis</code> package provides a
+helpful pair of functions for creating/alternating between these
+files:</p>
 <ul>
 <li><code>usethis::use_r()</code></li>
 <li><code>usethis::use_test()</code></li>
 </ul>
-<p>Make sure to create enough tests within your <code>.R</code> file to cover all of the possible variants of a function. This includes creating tests that cover most or all optional arguments and the majority of options for those arguments (and the required arguments). Remember, even if you personally would not use a function for a particular reason, you must attempt to cover the majority of edge cases that may arise that are allowed by the function.</p>
-<p>Related tests should be bundled within <code>test_that()</code> calls combined with strings of text to identify the broad reason for each bundle of tests (e.g., testing a function works with a particular type of data). Finally, if tests rely on data or packages outside of the <code>palaeoverse</code> community must have, they should be skipped if those data or packages are not available.</p>
-<p>Ultimately, we aim to have &gt;90% code coverage (95% preferred), which means 90% of the lines of code in our codebase should be tested by at least one test. Pushing code to GitHub will trigger a code coverage check, which will alert you as to whether you need to write more tests.</p>
+<p>Make sure to create enough tests within your <code>.R</code> file to
+cover all of the possible variants of a function. This includes creating
+tests that cover most or all optional arguments and the majority of
+options for those arguments (and the required arguments). Remember, even
+if you personally would not use a function for a particular reason, you
+must attempt to cover the majority of edge cases that may arise that are
+allowed by the function.</p>
+<p>Related tests should be bundled within <code>test_that()</code> calls
+combined with strings of text to identify the broad reason for each
+bundle of tests (e.g., testing a function works with a particular type
+of data). Finally, if tests rely on data or packages outside of the
+<code>palaeoverse</code> community must have, they should be skipped if
+those data or packages are not available.</p>
+<p>Ultimately, we aim to have &gt;90% code coverage (95% preferred),
+which means 90% of the lines of code in our codebase should be tested by
+at least one test. Pushing code to GitHub will trigger a code coverage
+check, which will alert you as to whether you need to write more
+tests.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Test expected outcome is equal to actual outcome</span></span>
 <span><span class="fu">test_that</span><span class="op">(</span><span class="st">"time_bins() works"</span>, <span class="op">{</span></span>
@@ -305,16 +513,30 @@
 <div class="section level2">
 <h2 id="contributing-to-palaeoverse">Contributing to palaeoverse<a class="anchor" aria-label="anchor" href="#contributing-to-palaeoverse"></a>
 </h2>
-<p>At <code>palaeoverse</code> we have adopted a set of <a href="https://palaeoverse.org/articles/structure-and-standards.html">structures and standards</a> to follow for contributing to the development of <code>palaeoverse</code>. If you would like to contribute to the <code>palaeoverse</code> toolkit, we strongly advise reading this document first. If you plan to contribute a function to <code>palaeoverse</code>, you should first raise an <a href="https://github.com/palaeoverse-community/palaeoverse/issues" class="external-link">issue</a> via the GitHub repository (see below). This way the development team can assess whether the function is suitable or needed in the <code>palaeoverse</code> toolkit prior to submission.</p>
+<p>At <code>palaeoverse</code> we have adopted a set of <a href="https://palaeoverse.org/articles/structure-and-standards.html">structures
+and standards</a> to follow for contributing to the development of
+<code>palaeoverse</code>. If you would like to contribute to the
+<code>palaeoverse</code> toolkit, we strongly advise reading this
+document first. If you plan to contribute a function to
+<code>palaeoverse</code>, you should first raise an <a href="https://github.com/palaeoverse-community/palaeoverse/issues" class="external-link">issue</a>
+via the GitHub repository (see below). This way the development team can
+assess whether the function is suitable or needed in the
+<code>palaeoverse</code> toolkit prior to submission.</p>
 <div class="section level3">
 <h3 id="git-and-github">Git and GitHub<a class="anchor" aria-label="anchor" href="#git-and-github"></a>
 </h3>
-<p>We use git via Github <a href="https://github.com/palaeoverse-community" class="external-link">(<strong>palaeoverse-community</strong>)</a> to manage our R code and data. If you are not familiar with these tools, there are some excellent free resources available online:</p>
+<p>We use git via Github <a href="https://github.com/palaeoverse-community" class="external-link">(<strong>palaeoverse-community</strong>)</a>
+to manage our R code and data. If you are not familiar with these tools,
+there are some excellent free resources available online:</p>
 <ul>
-<li><a href="https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md" class="external-link">Setting up git within RStudio (short)</a></li>
-<li><a href="https://www.youtube.com/watch?v=megZYkCLMA4" class="external-link">Collaborating in R with git and GitHub (50 min. youtube video)</a></li>
-<li><a href="https://rfortherestofus.com/2021/02/how-to-use-git-github-with-r/" class="external-link">Git and GitHub and R packages (medium length)</a></li>
-<li><a href="https://happygitwithr.com/" class="external-link">A comprehensive guide to git and R (very long)</a></li>
+<li><a href="https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md" class="external-link">Setting
+up git within RStudio (short)</a></li>
+<li><a href="https://www.youtube.com/watch?v=megZYkCLMA4" class="external-link">Collaborating
+in R with git and GitHub (50 min. youtube video)</a></li>
+<li><a href="https://rfortherestofus.com/2021/02/how-to-use-git-github-with-r/" class="external-link">Git
+and GitHub and R packages (medium length)</a></li>
+<li><a href="https://happygitwithr.com/" class="external-link">A comprehensive guide to git
+and R (very long)</a></li>
 </ul>
 </div>
 <div class="section level3">
@@ -323,27 +545,67 @@
 <div class="section level4">
 <h4 id="minor-changes">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes"></a>
 </h4>
-<p>You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit roxygen2 comments in the <code>.R</code> file, not the <code>.Rd</code> file.</p>
+<p>You can fix typos, spelling mistakes, or grammatical errors in the
+documentation directly on GitHub, provided it is done so in the source
+file. This means you’ll need to edit roxygen2 comments in the
+<code>.R</code> file, not the <code>.Rd</code> file.</p>
 </div>
 <div class="section level4">
 <h4 id="substantial-changes">Substantial changes<a class="anchor" aria-label="anchor" href="#substantial-changes"></a>
 </h4>
-<p>If you would like to make a substantial change, you should first file an issue and make sure someone from the development team agrees that it’s needed. If you’ve found a bug, please file an issue that illustrates the bug with a reproducible example.</p>
+<p>If you would like to make a substantial change, you should first file
+an issue and make sure someone from the development team agrees that
+it’s needed. If you’ve found a bug, please file an issue that
+illustrates the bug with a reproducible example.</p>
 </div>
 <div class="section level4">
 <h4 id="pull-request-process">Pull request process<a class="anchor" aria-label="anchor" href="#pull-request-process"></a>
 </h4>
-<p>You (the contributor) should clone the desired repository (i.e. <a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">the palaeoverse R package</a>) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull request</a> (“PR”) on GitHub. Note that a complete pull request should include a succinct description (<a href="https://github.com/palaeoverse-community/palaeoverse/blob/main/pull_request_template.md" class="external-link">see function template</a>) of what the code changes do, proper documentation (via <a href="https://roxygen2.r-lib.org" class="external-link">roxygen2</a>), and unit tests (via <code>testthat</code>). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.</p>
-<p>If you are not comfortable with git/GitHub, you can reach out to one of the core developers (<a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">see collaborators</a>) via email and they can make a pull request on your behalf. However, you will be expected to respond to any reviewer comments on GitHub (see below).</p>
-<p>If you don’t feel comfortable implementing changes yourself, you can submit a bug report or feature request as a GitHub issue in the proper repository (e.g. <a href="https://github.com/palaeoverse-community/palaeoverse/issues" class="external-link">palaeoverse issues</a>).</p>
+<p>You (the contributor) should clone the desired repository (i.e. <a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">the
+palaeoverse R package</a>) to your personal computer. Before changes are
+made, you should switch to a new git branch (i.e., not the main branch).
+When your changes are complete, you can submit your changes for merging
+via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull
+request</a> (“PR”) on GitHub. Note that a complete pull request should
+include a succinct description (<a href="https://github.com/palaeoverse-community/palaeoverse/blob/main/pull_request_template.md" class="external-link">see
+function template</a>) of what the code changes do, proper documentation
+(via <a href="https://roxygen2.r-lib.org" class="external-link">roxygen2</a>), and unit tests
+(via <code>testthat</code>). Only the description is required for the
+initial pull request and code review (see below), but pull requests will
+not be merged until they contain complete documentation and tests.</p>
+<p>If you are not comfortable with git/GitHub, you can reach out to one
+of the core developers (<a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">see
+collaborators</a>) via email and they can make a pull request on your
+behalf. However, you will be expected to respond to any reviewer
+comments on GitHub (see below).</p>
+<p>If you don’t feel comfortable implementing changes yourself, you can
+submit a bug report or feature request as a GitHub issue in the proper
+repository (e.g. <a href="https://github.com/palaeoverse-community/palaeoverse/issues" class="external-link">palaeoverse
+issues</a>).</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="code-review">Code review<a class="anchor" aria-label="anchor" href="#code-review"></a>
 </h3>
-<p>All pull requests must be reviewed by two core developers of <code>palaeoverse</code> (<a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">see collaborators</a>) before merging. The review process will ensure that contributions 1) meet the standards and expectations as described above, 2) successfully perform the functions that they claim to perform, and 3) don’t break any other parts of the codebase.</p>
-<p>Submitting a pull request to the <code>palaeoverse</code> package will automatically initiate an <a href="https://r-pkgs.org/r-cmd-check.html" class="external-link">R CMD check</a>, <a href="https://lintr.r-lib.org/index.html" class="external-link">lintr check</a>, and <a href="https://github.com/r-lib/covr" class="external-link">test coverage check</a> via GitHub Actions. While these checks will conduct some automatic review to ensure the package has not been broken by the new code and that the code matches the style guide (see above), a manual review is still required before the pull request can be merged.</p>
-<p>Reviewers may have questions while reviewing your pull request. You are expected to respond to any of these questions via GitHub. If fixes and/or changes are required, you are expected to make these changes. If the required changes are minor enough, reviewers may make them for you, but this should not be expected. If you have any questions or lack the background to make the required changes, you should work with the reviewer to determine a plan of attack.</p>
+<p>All pull requests must be reviewed by two core developers of
+<code>palaeoverse</code> (<a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">see
+collaborators</a>) before merging. The review process will ensure that
+contributions 1) meet the standards and expectations as described above,
+2) successfully perform the functions that they claim to perform, and 3)
+don’t break any other parts of the codebase.</p>
+<p>Submitting a pull request to the <code>palaeoverse</code> package
+will automatically initiate an <a href="https://r-pkgs.org/r-cmd-check.html" class="external-link">R CMD check</a>, <a href="https://lintr.r-lib.org/index.html" class="external-link">lintr check</a>, and <a href="https://github.com/r-lib/covr" class="external-link">test coverage check</a> via GitHub
+Actions. While these checks will conduct some automatic review to ensure
+the package has not been broken by the new code and that the code
+matches the style guide (see above), a manual review is still required
+before the pull request can be merged.</p>
+<p>Reviewers may have questions while reviewing your pull request. You
+are expected to respond to any of these questions via GitHub. If fixes
+and/or changes are required, you are expected to make these changes. If
+the required changes are minor enough, reviewers may make them for you,
+but this should not be expected. If you have any questions or lack the
+background to make the required changes, you should work with the
+reviewer to determine a plan of attack.</p>
 </div>
 </div>
 </div>
@@ -355,7 +617,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://www.researchgate.net/profile/Joseph-Flannery-Sutherland" class="external-link">Joseph T. Flannery-Sutherland</a>.</p>
+<p>Developed by <a href="https://www.lewisajones.com" class="external-link">Lewis A. Jones</a>, <a href="https://williamgearty.com" class="external-link">William Gearty</a>, <a href="https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484" class="external-link">Bethany J. Allen</a>, <a href="https://keichenseer.netlify.app" class="external-link">Kilian Eichenseer</a>, <a href="https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean" class="external-link">Christopher D. Dean</a>, <a href="https://www.researchgate.net/profile/Joseph-Flannery-Sutherland" class="external-link">Joseph T. Flannery-Sutherland</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
