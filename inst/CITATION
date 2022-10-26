@@ -1,6 +1,6 @@
 citHeader("To cite palaeoverse in publications, use the following citation:")
 
-citEntry(entry  = "Article",
+citEntry(entry  = "misc",
          title  = "palaeoverse:a community-driven R package to support palaeobiological analyses",
          author = personList(as.person("Lewis A. Jones"),
                              as.person("William Gearty"),
@@ -15,9 +15,8 @@ citEntry(entry  = "Article",
                              as.person("Erin M. Dillon"),
                              as.person("Joseph T. Flannery-Sutherland"),
                              as.person("A. Alessandro Chiarenza")),
-         journal      = "EarthArXiv",
          year         = "2022",
-         doi          = "TBC",
+         url          = "https://github.com/palaeoverse-community/palaeoverse",
 
          textVersion  =
          paste("Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2022.",
