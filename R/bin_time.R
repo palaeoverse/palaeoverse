@@ -71,7 +71,7 @@
 #' @importFrom stats dunif
 #' @examples
 #' #Grab internal tetrapod data
-#' occdf <- tetrapods
+#' occdf <- tetrapods[1:100, ]
 #' bins <- time_bins()
 #'
 #' #Assign via midpoint age of fossil occurrence data
@@ -84,10 +84,10 @@
 #' ex3 <- bin_time(occdf = occdf, bins = bins, method = "majority")
 #'
 #' #Assign randomly to overlapping bins based on fossil occurrence age range
-#' ex4 <- bin_time(occdf = occdf, bins = bins, method = "random", reps = 10)
+#' ex4 <- bin_time(occdf = occdf, bins = bins, method = "random", reps = 5)
 #'
 #' #Assign point estimates based on fossil occurrence age range
-#' ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 10)
+#' ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5)
 #' @export
 bin_time <- function(occdf, bins, method = "mid", reps = 100) {
     #=== Handling errors ===

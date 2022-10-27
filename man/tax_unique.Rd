@@ -127,22 +127,23 @@ Lewis A. Jones & William Gearty
 
 \examples{
 #Retain unique species
-species <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+occdf <- tetrapods[1:100, ]
+species <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 order = "order", class = "class", name = "accepted_name")
 
 #Retain unique genera
-genera <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+genera <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 order = "order", class = "class", resolution = "genus")
 
 #Create dataframe from lists
-occdf <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
+occdf2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
 c("Tyrannosaurus", "Spinosaurus", NA), family = c("Tyrannosauridae",
 "Spinosauridae", "Diplodocidae"))
-dinosaur_species <- tax_unique(occdf = occdf, species = "species", genus =
+dinosaur_species <- tax_unique(occdf = occdf2, species = "species", genus =
 "genus", family = "family")
 
 #Retain unique genera per collection with group_apply
-genera <- group_apply(occdf = tetrapods,
+genera <- group_apply(occdf = occdf,
                      group = c("collection_no"),
                      fun = tax_unique,
                      genus = "genus",

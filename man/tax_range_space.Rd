@@ -125,7 +125,7 @@ Bethany Allen & Christopher D. Dean
 
 \examples{
 # Grab internal data
-occdf <- tetrapods
+occdf <- tetrapods[1:100, ]
 # Remove NAs
 occdf <- subset(occdf, !is.na(genus))
 # Convex hull
@@ -135,5 +135,6 @@ ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
 # Great Circle Distance
 ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
 # Occupied grid cells
-ex4 <- tax_range_space(occdf = occdf, name = "genus", method = "occ")
+ex4 <- tax_range_space(occdf = occdf, name = "genus",
+                       method = "occ", spacing = 500)
 }

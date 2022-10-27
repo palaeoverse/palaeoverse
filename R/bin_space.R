@@ -65,20 +65,20 @@
 #' data("reefs")
 #'
 #' # Reduce data for plotting
-#' occdf <- reefs[1:500, ]
+#' occdf <- reefs[1:250, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_space(occdf = occdf, spacing = 250, plot = TRUE)
+#' ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- bin_space(occdf = occdf, spacing = 250, sub_grid = 50, plot = TRUE)
+#' ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
-#' data("tetrapods")
+#' occdf <- tetrapods[1:250, ]
 #'
 #' # Assign to spatial bin
-#' occdf <- bin_space(occdf = tetrapods, spacing = 1000, sub_grid = 250)
+#' occdf <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
 #'
 #' # Get unique bins
 #' bins <- unique(occdf$cell_ID)

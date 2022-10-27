@@ -58,15 +58,13 @@
 #' @examples
 #' # Examples
 #' # Get tetrapods data
-#' occdf <- tetrapods
+#' occdf <- tetrapods[1:100, ]
 #' # Remove NA data
 #' occdf <- subset(occdf, !is.na(genus))
 #' # Count number of occurrences from each country
 #' ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
-#' # Temporal range of taxa per country with default arguments
-#' ex2 <- group_apply(occdf = occdf, group = "cc", fun = tax_range_time)
 #' # Unique genera per collection with group_apply and input arguments
-#' ex3 <- group_apply(occdf = tetrapods,
+#' ex2 <- group_apply(occdf = tetrapods,
 #'                      group = c("collection_no"),
 #'                      fun = tax_unique,
 #'                      genus = "genus",
@@ -75,7 +73,7 @@
 #'                      class = "class",
 #'                      resolution = "genus")
 #' # Use multiple variables (number of occurrences per collection and formation)
-#' ex4 <- group_apply(occdf = occdf,
+#' ex3 <- group_apply(occdf = occdf,
 #'                    group = c("collection_no", "formation"),
 #'                    fun = nrow)
 #' # Compute counts of occurrences per latitudinal bin
@@ -84,7 +82,7 @@
 #' # bin occurrences
 #' occdf <- bin_lat(occdf = tetrapods, bins = bins)
 #' # Calculate number of occurrences per bin
-#' ex5 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
+#' ex4 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
 #' @export
 group_apply <- function(occdf, group, fun, ...) {
 

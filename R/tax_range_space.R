@@ -95,7 +95,7 @@
 #' @importFrom h3jsr point_to_cell
 #' @examples
 #' # Grab internal data
-#' occdf <- tetrapods
+#' occdf <- tetrapods[1:100, ]
 #' # Remove NAs
 #' occdf <- subset(occdf, !is.na(genus))
 #' # Convex hull
@@ -105,7 +105,8 @@
 #' # Great Circle Distance
 #' ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
 #' # Occupied grid cells
-#' ex4 <- tax_range_space(occdf = occdf, name = "genus", method = "occ")
+#' ex4 <- tax_range_space(occdf = occdf, name = "genus",
+#'                        method = "occ", spacing = 500)
 #' @export
 tax_range_space <- function(occdf,
                           name = "genus",
