@@ -158,7 +158,7 @@ stored as individual elements within the returned list with an appended
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Grab internal tetrapod data</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span></span></span>
+<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="time_bins.html">time_bins</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Assign via midpoint age of fossil occurrence data</span></span></span>
@@ -171,10 +171,10 @@ stored as individual elements within the returned list with an appended
 <span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"majority"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Assign randomly to overlapping bins based on fossil occurrence age range</span></span></span>
-<span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"random"</span>, reps <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"random"</span>, reps <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Assign point estimates based on fossil occurrence age range</span></span></span>
-<span class="r-in"><span><span class="va">ex5</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"point"</span>, reps <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ex5</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"point"</span>, reps <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
