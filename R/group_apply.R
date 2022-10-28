@@ -64,7 +64,7 @@
 #' # Count number of occurrences from each country
 #' ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
 #' # Unique genera per collection with group_apply and input arguments
-#' ex2 <- group_apply(occdf = tetrapods,
+#' ex2 <- group_apply(occdf = occdf,
 #'                      group = c("collection_no"),
 #'                      fun = tax_unique,
 #'                      genus = "genus",
@@ -80,7 +80,7 @@
 #' # Set up lat bins
 #' bins <- lat_bins()
 #' # bin occurrences
-#' occdf <- bin_lat(occdf = tetrapods, bins = bins)
+#' occdf <- bin_lat(occdf = occdf, bins = bins)
 #' # Calculate number of occurrences per bin
 #' ex4 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
 #' @export
