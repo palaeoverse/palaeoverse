@@ -1,3 +1,8 @@
+# Resubmission
+I have fixed the note relating to example run time.
+
+The outstanding note relates to first time submission.
+
 # Test environments (with Github Actions)
 Windows 10.0.20348 (x86_64-w64-mingw32): R 4.2.1
 
