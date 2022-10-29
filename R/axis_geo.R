@@ -115,6 +115,10 @@
 #'   argument is passed directly to \code{\link[graphics]{axis}}.
 #' @param ... Further arguments that are passed directly to
 #'   \code{\link[graphics]{axis}}.
+#'
+#' @return No return value. Function is used for its side effect, which is to
+#' add an axis of the geological timescale to an already existing plot.
+#'
 #' @section Authors:
 #'   William Gearty & Kilian Eichenseer
 #' @section Reviewer:
@@ -122,8 +126,9 @@
 #' @importFrom graphics rect text clip axis par segments
 #' @importFrom deeptime getScaleData
 #' @importFrom methods is
-#' @export
 #' @examples
+#' # track user par
+#' oldpar <- par(no.readonly = TRUE)
 #' # single scale on bottom
 #' par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
 #' plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
@@ -176,6 +181,10 @@
 #' axis_geo(side = 1, intervals = intervals)
 #' # the line argument here depends on the absolute size of the plot
 #' title(xlab = "Time (Ma)", line = 4)
+#'
+#' # reset user par
+#' par(oldpar)
+#' @export
 axis_geo <- function(
     side = 1, intervals = "epochs", height = 0.05,
     # fill arguments:

@@ -57,6 +57,8 @@ William Gearty & Pedro Godoy
 }
 
 \examples{
+# track user par
+oldpar <- par(no.readonly = TRUE)
 #Read in example tree of ceratopsians from paleotree
 library(paleotree)
 data(RaiaCopesRule)
@@ -82,4 +84,6 @@ ex2 <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
 my_ceratopsians <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
 out = "tree")
 plot(my_ceratopsians)
+# reset user par
+par(oldpar)
 }

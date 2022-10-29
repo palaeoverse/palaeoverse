@@ -149,7 +149,7 @@
 #' @importFrom httr RETRY GET content
 #' @importFrom stats na.omit
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' #Generic example with a few occurrences
 #' occdf <- data.frame(lng = c(2, -103, -66),
 #'                 lat = c(46, 35, -7),

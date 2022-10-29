@@ -116,6 +116,10 @@ argument is passed directly to \code{\link[graphics]{axis}}.}
 \item{...}{Further arguments that are passed directly to
 \code{\link[graphics]{axis}}.}
 }
+\value{
+No return value. Function is used for its side effect, which is to
+add an axis of the geological timescale to an already existing plot.
+}
 \description{
 \code{axis_geo} behaves similarly to \code{\link[graphics]{axis}} in that it
 adds an axis to the specified side of a base R plot. The main difference
@@ -178,6 +182,8 @@ Lewis A. Jones
 }
 
 \examples{
+# track user par
+oldpar <- par(no.readonly = TRUE)
 # single scale on bottom
 par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
 plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
@@ -230,4 +236,7 @@ axis(2)
 axis_geo(side = 1, intervals = intervals)
 # the line argument here depends on the absolute size of the plot
 title(xlab = "Time (Ma)", line = 4)
+
+# reset user par
+par(oldpar)
 }

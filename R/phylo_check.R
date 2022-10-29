@@ -37,6 +37,8 @@
 #' William Gearty & Pedro Godoy
 #'
 #' @examples
+#' # track user par
+#' oldpar <- par(no.readonly = TRUE)
 #' #Read in example tree of ceratopsians from paleotree
 #' library(paleotree)
 #' data(RaiaCopesRule)
@@ -62,8 +64,9 @@
 #' my_ceratopsians <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
 #' out = "tree")
 #' plot(my_ceratopsians)
+#' # reset user par
+#' par(oldpar)
 #' @export
-
 phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
                         sort = "presence") {
   #Errors for incorrect input
