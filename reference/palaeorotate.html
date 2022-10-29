@@ -254,7 +254,7 @@ for additional information and details.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co">#Generic example with a few occurrences</span></span></span>
 <span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lng <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="op">-</span><span class="fl">103</span>, <span class="op">-</span><span class="fl">66</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">46</span>, <span class="fl">35</span>, <span class="op">-</span><span class="fl">7</span><span class="op">)</span>,</span></span>
@@ -276,10 +276,12 @@ for additional information and details.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Rotate the data</span></span></span>
 <span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">palaeorotate</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Palaeocoordinates could not be reconstructed for all points.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Georeferenced plate does not exist at time of reconstruction.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Calculate uncertainity in palaeocoordinates from models</span></span></span>
 <span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">palaeorotate</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span>, uncertainty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
