@@ -3,6 +3,8 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/palaeoverse-community/palaeoverse/branch/main/graph/badge.svg?token=HQQO2CRIKT)](https://app.codecov.io/gh/palaeoverse-community/palaeoverse)
+[![CRAN status](https://www.r-pkg.org/badges/version/palaeoverse)](https://CRAN.R-project.org/package=palaeoverse)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/palaeoverse)](https://cran.r-project.org/package=palaeoverse)
 <!-- badges: end -->
 
 `palaeoverse` is an R package developed by palaeobiologists, for palaeobiologists.
@@ -25,9 +27,16 @@ The aim of `palaeoverse` is to generate a community-driven software package of g
 
 # Installation
 
+The stable version of `palaeoverse` can be installed from CRAN using:
+
+```r
+install.packages("palaeoverse")
+```
+
 The development version of `palaeoverse` can be installed via GitHub using:
 
-```
+```r
+# install.packages("devtools")
 devtools::install_github("palaeoverse-community/palaeoverse")
 ```
 
