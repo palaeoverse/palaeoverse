@@ -31,8 +31,8 @@
 #' @param round \code{numeric}. Numeric value indicating the number of decimal
 #' places `lng`, `lat` and `age` should be rounded to. This functionality is
 #' only relevant for the "point" `method`. Rounding can speed up palaeorotation
-#' by reducing the number of unique coordinate pairs. Defaults to `NULL`
-#' (no rounding of values).
+#' by reducing the number of unique coordinate pairs. Defaults to a value of
+#' 3. If no rounding is desired, set this value to `NULL`.
 #'
 #' @return A \code{dataframe} containing the original input occurrence
 #' dataframe, the rotation model ("rot_model"),
@@ -178,7 +178,7 @@
 #' @export
 palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                          model = "MERDITH2021", method = "grid",
-                         uncertainty = FALSE, round = NULL) {
+                         uncertainty = FALSE, round = 3) {
   # Error-handling ----------------------------------------------------------
   if (!exists("occdf") || !is.data.frame(occdf)) {
     stop("Please supply occdf as a dataframe")
@@ -427,12 +427,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     tmp <- coords[which(coords[, age] == i), ]
     # How many rows?
     nr <- nrow(tmp)
-    # Size of chunks to be rotated
-    chk <- nr / chunks
     # Generate chunk bins
-    chk <- chunks * 1:chk
-    # Add starting value
-    chk <- append(0, chk)
+    chk <- seq(from = 0, to = nr + 300, by = 300)
+    # Update final bin to equal nrow
+    chk[length(chk)] <- nr
     # Chunk size exceeds number of rows?
     if (chk[2] > nr) {
       chk <- append(0, nr)

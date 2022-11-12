@@ -12,7 +12,7 @@ palaeorotate(
   model = "MERDITH2021",
   method = "grid",
   uncertainty = FALSE,
-  round = NULL
+  round = 3
 )
 }
 \arguments{
@@ -48,8 +48,8 @@ relevant if \code{method} is set to "grid".}
 \item{round}{\code{numeric}. Numeric value indicating the number of decimal
 places \code{lng}, \code{lat} and \code{age} should be rounded to. This functionality is
 only relevant for the "point" \code{method}. Rounding can speed up palaeorotation
-by reducing the number of unique coordinate pairs. Defaults to \code{NULL}
-(no rounding of values).}
+by reducing the number of unique coordinate pairs. Defaults to a value of
+3. If no rounding is desired, set this value to \code{NULL}.}
 }
 \value{
 A \code{dataframe} containing the original input occurrence
