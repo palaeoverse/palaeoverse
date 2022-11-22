@@ -2,7 +2,9 @@
 Minor bug fixes
 
 * Added default value for the round argument in palaeorotate. 
-* Resolved issue with chunk processing in palaeorotate. 
+* Resolved issue with chunk processing in palaeorotate.
+
+Added package-level documentation function
 
 # palaeoverse 1.0.0
 First full release of the palaeoverse R package.
