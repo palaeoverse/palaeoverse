@@ -5,7 +5,7 @@
 \title{Generate time bins}
 \usage{
 time_bins(
-  interval = c("Fortunian", "Meghalayan"),
+  interval = "Phanerozoic",
   rank = "stage",
   size = NULL,
   assign = NULL,
@@ -21,7 +21,7 @@ If two interval names are provided, these intervals and those existing
 between are returned. If a single numeric age is provided, the interval that
 covers this age is returned.
 If two numeric ages are provided, the intervals occurring in the range of
-these ages are returned.}
+these ages are returned. Defaults to "Phanerozoic".}
 
 \item{rank}{\code{character}. Which stratigraphic rank is desired? Choose
 from: "stage", "epoch", "period", "era", and "eon".}

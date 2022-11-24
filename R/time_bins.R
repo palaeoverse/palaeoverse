@@ -17,7 +17,7 @@
 #' between are returned. If a single numeric age is provided, the interval that
 #' covers this age is returned.
 #' If two numeric ages are provided, the intervals occurring in the range of
-#' these ages are returned.
+#' these ages are returned. Defaults to "Phanerozoic".
 #' @param rank \code{character}. Which stratigraphic rank is desired? Choose
 #' from: "stage", "epoch", "period", "era", and "eon".
 #' @param size \code{numeric}. If equal-length time bins are desired, specify
@@ -79,7 +79,7 @@
 #' #Assign bins based on given age estimates
 #' ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
 #'                  assign = c(232, 167, 33))
-time_bins <- function(interval = c("Fortunian", "Meghalayan"), rank = "stage",
+time_bins <- function(interval = "Phanerozoic", rank = "stage",
            size = NULL, assign = NULL, scale = "GTS2020", plot = FALSE) {
     # Error handling
     if (!is.character(interval) && !is.numeric(interval)) {
