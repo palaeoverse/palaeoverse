@@ -1,36 +1,43 @@
 test_that("axis_geo() works", {
   expect_doppelganger("axis_geo()", function() {
-    plot(x = coral_div$stage_age, y = coral_div$n, axes = FALSE,
-         xlim = c(250, 0), xlab = NA, ylab = "Diversity")
+    plot(x = reef_df$interval_mid_ma, y = reef_df$p_lat,
+         axes = FALSE, type = "p", pch = 20,
+         xlim = c(542, 0), xlab = NA, ylab = "Paleolatitude")
     box()
 
     axis(side = 2)
     axis_geo(side = 1, intervals = periods)
+    title(xlab = "Time (Ma)", line = 4)
   })
 })
 
 test_that("axis_geo() works with time_bins()", {
   expect_doppelganger("axis_geo() with time_bins() scale", function() {
-    plot(x = coral_div$stage_age, y = coral_div$n, axes = FALSE,
-         xlim = c(250, 0), xlab = NA, ylab = "Diversity")
+    plot(x = reef_df$interval_mid_ma, y = reef_df$p_lat,
+         axes = FALSE, type = "p", pch = 20,
+         xlim = c(542, 0), xlab = NA, ylab = "Paleolatitude")
     box()
 
     axis(side = 2)
-    axis_geo(side = 1, intervals = time_bins(rank = "period", scale = "GTS2020"))
+    axis_geo(side = 1, intervals = time_bins(rank = "period",
+                                             scale = "GTS2020"))
+    title(xlab = "Time (Ma)", line = 4)
   })
 })
 
 test_that("axis_geo() works with multiple scales", {
   expect_doppelganger("axis_geo() with multiple scales", function() {
-    par(mar = c(6.6, 4.1, 4.1, 2.1))
-    plot(x = coral_div$stage_age, y = coral_div$n, axes = FALSE,
-         xlim = c(250, 0), xlab = NA, ylab = "Diversity")
+    par(mar = c(7.6, 4.1, 4.1, 2.1))
+    plot(x = reef_df$interval_mid_ma, y = reef_df$p_lat,
+         axes = FALSE, type = "p", pch = 20,
+         xlim = c(542, 0), xlab = NA, ylab = "Paleolatitude")
     box()
 
     axis(side = 2)
     axis_geo(side = 1, intervals = list(stages, periods),
-             tick_at = seq(0, 250, 25), lab = list(FALSE, TRUE),
+             tick_at = seq(0, 500, 50), lab = list(FALSE, TRUE),
              abbr = FALSE)
+    title(xlab = "Time (Ma)", line = 6)
   })
 })
 
