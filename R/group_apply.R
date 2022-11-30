@@ -100,7 +100,7 @@ group_apply <- function(occdf, group, fun, ...) {
   }
 
   supp_args <- list(...)
-  if (!("..." %in% names(formals(tax_unique)))) {
+  if (!("..." %in% names(formals(fun)))) {
     indx <- which(!(names(supp_args) %in% names(formals(fun))))
     if (length(indx) > 1) {
       stop(paste(paste0("`", names(supp_args)[indx], "`", collapse = "/"),
