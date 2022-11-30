@@ -1,4 +1,5 @@
 test_that("phylo_check() works", {
+  skip_if_not_installed("paleotree")
   library(paleotree)
   data(RaiaCopesRule)
   tree <- ceratopsianTreeRaia
