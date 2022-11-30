@@ -9,9 +9,7 @@ tax_unique(
   binomial = NULL,
   species = NULL,
   genus = NULL,
-  family = NULL,
-  order = NULL,
-  class = NULL,
+  ...,
   name = NULL,
   resolution = "species"
 )
@@ -30,14 +28,10 @@ containing the species-level identifications (i.e. the specific epithet).}
 \item{genus}{\code{character}. The name of the column in the dataframe
 containing the genus-level identifications.}
 
-\item{family}{\code{character}. The name of the column in the dataframe
-containing the family-level identifications.}
-
-\item{order}{\code{character}. The name of the column in the dataframe
-containing the order-level identifications.}
-
-\item{class}{\code{character}. The name of the column in the dataframe
-containing the class-level identifications.}
+\item{...}{\code{character}. Other named arguments specifying the names of
+columns of higher levels of taxonomy (e.g. subfamily, order, superclass).
+These arguments should be in ascending order from lowest to highest (see
+examples below). At least one higher level of taxonomy must be specified.}
 
 \item{name}{\code{character}. The name of the column in the dataframe
 containing the taxonomic names at mixed taxonomic levels; the data column

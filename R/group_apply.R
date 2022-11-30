@@ -100,13 +100,15 @@ group_apply <- function(occdf, group, fun, ...) {
   }
 
   supp_args <- list(...)
-  indx <- which(!(names(supp_args) %in% names(formals(fun))))
-  if (length(indx) > 1) {
-    stop(paste(paste0("`", names(supp_args)[indx], "`", collapse = "/"),
-               "are not valid arguments for the specified function"))
-  } else if (length(indx) == 1) {
-    stop(paste0("`", names(supp_args)[indx], "`",
-                " is not a valid argument for the specified function"))
+  if (!("..." %in% names(formals(tax_unique)))) {
+    indx <- which(!(names(supp_args) %in% names(formals(fun))))
+    if (length(indx) > 1) {
+      stop(paste(paste0("`", names(supp_args)[indx], "`", collapse = "/"),
+                 "are not valid arguments for the specified function"))
+    } else if (length(indx) == 1) {
+      stop(paste0("`", names(supp_args)[indx], "`",
+                  " is not a valid argument for the specified function"))
+    }
   }
   # Generate bin codes
   bin_codes <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
