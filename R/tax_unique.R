@@ -58,14 +58,14 @@
 #' data can be filtered to retain either unique species, or unique genera. If a
 #' species-level filter is desired, the minimum input requires either (1)
 #' `binomial`, (2) `species` and `genus`, or (3) `name` and `genus` columns to
-#' be entered, as well as a `family` column. In a standard
-#' [Paleobiology Database](https://paleobiodb.org/#/)
+#' be entered, as well as at least one column with a higher taxonomic level.
+#' In a standard [Paleobiology Database](https://paleobiodb.org/#/)
 #' occurrence dataframe, species names are only
 #' captured in the 'accepted_name' column, so a species-level filter should use
 #' '`genus` = "genus"' and '`name` = "accepted_name"' arguments. If a
 #' genus-level filter is desired, the minimum input requires either (1)
-#' `binomial` or (2) `genus` columns to be entered, as well as a `family`
-#' column.
+#' `binomial` or (2) `genus` columns to be entered, as well as at least one
+#' column with a higher taxonomic level.
 #'
 #' Missing data should be indicated with NAs, although the function can handle
 #' common labels such as "NO_FAMILY_SPECIFIED" within Paleobiology Database
