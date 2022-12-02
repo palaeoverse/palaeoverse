@@ -1,8 +1,11 @@
-# palaeoverse 1.0.0.9000 (development version)
+# palaeoverse development version
 Minor bug fixes
 
 * Added default value for the round argument in palaeorotate. 
 * Resolved issue with chunk processing in palaeorotate.
+* Fixed the behavior of time_bins(scale = "GTS2012") (#62)
+* Fixed tests when suggested packages were not installed (#64)
+* Removed dependence of tests on divDyn and deeptime
 
 Added package-level documentation function
 
