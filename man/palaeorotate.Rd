@@ -77,17 +77,17 @@ approaches (\code{method}):
 \item Reconstruction files: The "grid" \code{method} uses reconstruction files to
 spatiotemporally
 link present-day geographic coordinates and age estimates with a spatial
-grid (1° x 1°) rotated to the midpoint of Phanerozoic (0--540 Ma)
+grid (~100 km x 100 km) rotated to the midpoint of Phanerozoic (0--540 Ma)
 stratigraphic stages (Geological Timescale, 2020). If specific ages of
 rotation are required, or fine-scale spatial analyses are being conducted,
 use of the "point" \code{method} might be preferable for the user (particularly
 if occurrences are close to plate boundaries). As implemented, points within
 the same grid cell will be assigned equivalent palaeocoordinates due to
 spatial aggregation. The reconstruction files provide pre-generated
-palaeocoordinates for a grid of 1° x 1°, allowing the past
-distribution of fossil occurrences to be estimated efficiently. Access to
-the reconstruction files and documentation is available via the
-\href{https://github.com/LewisAJones/palaeorotate}{palaeorotate} package.
+palaeocoordinates for a grid of ~100 km x 100 km, allowing the past
+distribution of fossil occurrences to be estimated efficiently. The
+reconstruction files along with additional documentation are deposited on
+\href{https://zenodo.org/record/7390066}{Zenodo}.
 Note: each reconstruction file is 5--10 MB in size.
 \item GPlates API: The "point" \code{method} uses the \href{https://gwsdoc.gplates.org}{GPlates Web Service} to reconstruct palaeorotations for point
 data. The use of this \code{method} is slower than the "grid" \code{method} if many
