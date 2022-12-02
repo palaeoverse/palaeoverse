@@ -6,6 +6,7 @@ Minor bug fixes
 * Fixed the behavior of time_bins(scale = "GTS2012") (#62)
 * Fixed tests when suggested packages were not installed (#64)
 * Removed dependence of tests on divDyn and deeptime
+* Fixed tax_range_time example (#60)
 
 Added package-level documentation function
 
