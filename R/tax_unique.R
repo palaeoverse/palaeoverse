@@ -83,7 +83,7 @@
 #' Biological Reviews, 86, 157-181. \doi{10.1111/j.1469-185X.2010.00139.x}.
 #'
 #' @section Developer(s):
-#' Bethany Allen
+#' Bethany Allen & William Gearty
 #' @section Reviewer(s):
 #' Lewis A. Jones & William Gearty
 #'
