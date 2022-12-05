@@ -75,19 +75,20 @@ This function can generate palaeocoordinates using two different
 approaches (\code{method}):
 \itemize{
 \item Reconstruction files: The "grid" \code{method} uses reconstruction files to
-spatiotemporally
-link present-day geographic coordinates and age estimates with a spatial
-grid (~100 km x 100 km) rotated to the midpoint of Phanerozoic (0--540 Ma)
-stratigraphic stages (Geological Timescale, 2020). If specific ages of
-rotation are required, or fine-scale spatial analyses are being conducted,
-use of the "point" \code{method} might be preferable for the user (particularly
-if occurrences are close to plate boundaries). As implemented, points within
-the same grid cell will be assigned equivalent palaeocoordinates due to
-spatial aggregation. The reconstruction files provide pre-generated
-palaeocoordinates for a grid of ~100 km x 100 km, allowing the past
-distribution of fossil occurrences to be estimated efficiently. The
-reconstruction files along with additional documentation are deposited on
-\href{https://zenodo.org/record/7390066}{Zenodo}.
+spatiotemporally link present-day geographic coordinates and age estimates
+with an equal-area hexagonal grid (~100 km spacings) rotated to the
+midpoint of Phanerozoic (0--540 Ma) stratigraphic stages (Geological
+Time Scale, 2020). The grid was generated using the \code{\link[h3jsr]{h3jsr}}
+R package and 'h3_resolution' 3 (see \code{\link[h3jsr]{h3_info_table}}).
+If specific ages of rotation are required, or fine-scale spatial analyses
+are being conducted, use of the "point" \code{method} might be preferable for the
+user (particularly if occurrences are close to plate boundaries). As
+implemented, points within the same grid cell will be assigned equivalent
+palaeocoordinates due to spatial aggregation. The reconstruction files
+provide pre-generated palaeocoordinates for a grid of ~100 km spacings,
+allowing the past distribution of fossil occurrences to be estimated
+efficiently. The reconstruction files along with additional documentation
+are deposited on \href{https://zenodo.org/record/7390066}{Zenodo}.
 Note: each reconstruction file is 5--10 MB in size.
 \item GPlates API: The "point" \code{method} uses the \href{https://gwsdoc.gplates.org}{GPlates Web Service} to reconstruct palaeorotations for point
 data. The use of this \code{method} is slower than the "grid" \code{method} if many

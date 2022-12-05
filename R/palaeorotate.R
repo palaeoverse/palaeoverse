@@ -49,19 +49,20 @@
 #' approaches (`method`):
 #'
 #' - Reconstruction files: The "grid" `method` uses reconstruction files to
-#' spatiotemporally
-#' link present-day geographic coordinates and age estimates with a spatial
-#' grid (~100 km x 100 km) rotated to the midpoint of Phanerozoic (0--540 Ma)
-#' stratigraphic stages (Geological Timescale, 2020). If specific ages of
-#' rotation are required, or fine-scale spatial analyses are being conducted,
-#' use of the "point" `method` might be preferable for the user (particularly
-#' if occurrences are close to plate boundaries). As implemented, points within
-#' the same grid cell will be assigned equivalent palaeocoordinates due to
-#' spatial aggregation. The reconstruction files provide pre-generated
-#' palaeocoordinates for a grid of ~100 km x 100 km, allowing the past
-#' distribution of fossil occurrences to be estimated efficiently. The
-#' reconstruction files along with additional documentation are deposited on
-#' [Zenodo](https://zenodo.org/record/7390066).
+#' spatiotemporally link present-day geographic coordinates and age estimates
+#' with an equal-area hexagonal grid (~100 km spacings) rotated to the
+#' midpoint of Phanerozoic (0--540 Ma) stratigraphic stages (Geological
+#' Time Scale, 2020). The grid was generated using the \code{\link[h3jsr]{h3jsr}}
+#' R package and 'h3_resolution' 3 (see \code{\link[h3jsr]{h3_info_table}}).
+#' If specific ages of rotation are required, or fine-scale spatial analyses
+#' are being conducted, use of the "point" `method` might be preferable for the
+#' user (particularly if occurrences are close to plate boundaries). As
+#' implemented, points within the same grid cell will be assigned equivalent
+#' palaeocoordinates due to spatial aggregation. The reconstruction files
+#' provide pre-generated palaeocoordinates for a grid of ~100 km spacings,
+#' allowing the past distribution of fossil occurrences to be estimated
+#' efficiently. The reconstruction files along with additional documentation
+#' are deposited on [Zenodo](https://zenodo.org/record/7390066).
 #' Note: each reconstruction file is 5--10 MB in size.
 #'
 #' - GPlates API: The "point" `method` uses the [GPlates Web Service](
@@ -322,27 +323,26 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
 
     # Set-up
     # Convert to sf object and add CRS
-    occdf_sf <- sf::st_as_sf(x = occdf,
-                             coords = c(lng, lat),
-                             remove = FALSE,
-                             crs = "EPSG:4326")
-    base_model_sf <- sf::st_as_sf(x = base_model,
-                                  coords = c("lng", "lat"),
-                                  remove = FALSE,
-                                  crs = "EPSG:4326")
+    occdf_sf <- st_as_sf(x = occdf,
+                         coords = c(lng, lat),
+                         remove = FALSE,
+                         crs = "EPSG:4326")
+    base_model_sf <- st_as_sf(x = base_model,
+                              coords = c("lng", "lat"),
+                              remove = FALSE,
+                              crs = "EPSG:4326")
 
     # Match points with cells
-    occ_cell <- h3jsr::point_to_cell(input = occdf_sf,
-                                     res = 3, # Grid resolution
-                                     simple = TRUE)
-    model_cell <- h3jsr::point_to_cell(input = base_model_sf,
-                                       res = 3, # Grid resolution
-                                       simple = TRUE)
+    occ_cell <- point_to_cell(input = occdf_sf,
+                              res = 3, # Grid resolution
+                              simple = TRUE)
+    model_cell <- point_to_cell(input = base_model_sf,
+                                res = 3, # Grid resolution
+                                simple = TRUE)
 
     # Generate row index
-    pc_ind <- sapply(seq_len(nrow(occdf)), function(i) {
-      which(model_cell == occ_cell[i])
-    })
+    pc_ind <- match(x = occ_cell, table = model_cell)
+
     # Assign rotation coordinates
     occdf$rot_lng <- base_model[pc_ind, c("lng")]
     occdf$rot_lat <- base_model[pc_ind, c("lat")]
