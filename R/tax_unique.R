@@ -18,7 +18,7 @@
 #' containing the genus-level identifications.
 #' @param ... \code{character}. Other named arguments specifying the names of
 #' columns of higher levels of taxonomy (e.g. subfamily, order, superclass).
-#' These arguments should be in ascending order from lowest to highest (see
+#' These arguments should be in ascending order from lowest to highest taxonomic rank (see
 #' examples below). At least one higher level of taxonomy must be specified.
 #' @param name \code{character}. The name of the column in the dataframe
 #' containing the taxonomic names at mixed taxonomic levels; the data column
@@ -145,9 +145,9 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   higher_names <- names(higher_args)
   higher_cols <- unname(unlist(higher_args))
   if (length(higher_args) == 0) {
-    stop("At least one higher taxonomic level must be supplied (e.g. family)")
+    stop("At least one higher taxonomic level must be supplied (e.g. `family`)")
   }
-  for (level_label in names(higher_args)) {
+  for (level_label in higher_names) {
     col_name <- higher_args[[level_label]]
     if (!(col_name %in% colnames(occdf))) {
       stop(paste0("`occdf` does not contain column name provided to `",
