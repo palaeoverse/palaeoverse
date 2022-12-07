@@ -150,6 +150,7 @@
 #' @importFrom utils download.file
 #' @importFrom pbapply pblapply
 #' @importFrom httr RETRY GET content
+#' @importFrom curl nslookup
 #' @importFrom stats na.omit
 #' @examples
 #' \donttest{
@@ -260,6 +261,16 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
 
   # Grid rotations ----------------------------------------------------------
   if (method == "grid") {
+    # Check Zenodo (or user) is online
+    tryCatch(
+      {
+        nslookup("zenodo.org")
+      },
+      error = function(e) {
+        stop(paste("Zenodo is not available.",
+        "Either the website is down or you are not connected to the internet."),
+             call. = FALSE)
+      })
     # Get temp directory and download files
     files <- tempdir()
     # OS-specific mode for downloading
@@ -431,6 +442,16 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Point rotations ---------------------------------------------------------
   # Point method to be used?
   if (method == "point") {
+    # Check GPlates Web Service (or user) is online
+    tryCatch(
+      {
+        nslookup("gws.gplates.org")
+      },
+      error = function(e) {
+        stop(paste("GPlates Web Service is not available.",
+        "Either the website is down or you are not connected to the internet."),
+             call. = FALSE)
+      })
   # Define maximum chunk size for API calls
   chunks <- 300
   # Run across unique ages

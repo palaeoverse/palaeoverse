@@ -49,6 +49,7 @@ Imports:
     utils,
     graphics,
     methods,
+    curl,
     deeptime (>= 0.2.1),
     ape,
     sf,

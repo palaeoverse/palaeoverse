@@ -1,6 +1,8 @@
 # palaeoverse 1.0.0.9000 (development version)
 Minor bug fixes
 
+* Updated palaeorotate reconstruction files to use an hexagonal equal-area grid.
+* Added error handling for when GPlates and Zenodo is offline.
 * Added default value for the round argument in palaeorotate. 
 * Resolved issue with chunk processing in palaeorotate.
 
