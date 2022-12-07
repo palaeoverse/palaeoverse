@@ -1,6 +1,7 @@
 # palaeoverse 1.0.0.9000 (development version)
 Minor bug fixes
 
+* tax_unique now supports arbitrary higher taxonomic levels.
 * Added default value for the round argument in palaeorotate. 
 * Resolved issue with chunk processing in palaeorotate.
 
