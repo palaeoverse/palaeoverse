@@ -27,6 +27,15 @@ test_that("look_up() works", {
                         assign_with_GTS = "GTS2012"))$early_stage[1:2],
                c("Induan", "Asselian"))
 
+  # check that no error is produced when pre-Phanerozoic intervals are included
+  occdf <- reefs
+  occdf$interval[1] <- "Meso-archean"
+  expect_equal((look_up(occdf[which(occdf$interval == "Ediacaran" |
+                                      occdf$interval == "Meso-archean"),],
+                        early_interval = "interval",
+                        late_interval = "interval", assign_with_GTS = "GTS2012",
+                        int_key = FALSE))$early_stage, rep(NA_character_,3))
+
   # check whether unassigned intervals are returned, if required
   occdf <- tetrapods
   vec <- c(NA, " ", "")
