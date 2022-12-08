@@ -153,19 +153,20 @@ the maximum Great Circle Distance (<code>max_dist</code>) in km (calculated via
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function can generate palaeocoordinates using two different
 approaches (<code>method</code>):</p><ul><li><p>Reconstruction files: The "grid" <code>method</code> uses reconstruction files to
-spatiotemporally
-link present-day geographic coordinates and age estimates with a spatial
-grid (1° x 1°) rotated to the midpoint of Phanerozoic (0--540 Ma)
-stratigraphic stages (Geological Timescale, 2020). If specific ages of
-rotation are required, or fine-scale spatial analyses are being conducted,
-use of the "point" <code>method</code> might be preferable for the user (particularly
-if occurrences are close to plate boundaries). As implemented, points within
-the same grid cell will be assigned equivalent palaeocoordinates due to
-spatial aggregation. The reconstruction files provide pre-generated
-palaeocoordinates for a grid of 1° x 1°, allowing the past
-distribution of fossil occurrences to be estimated efficiently. Access to
-the reconstruction files and documentation is available via the
-<a href="https://github.com/LewisAJones/palaeorotate" class="external-link">palaeorotate</a> package.
+spatiotemporally link present-day geographic coordinates and age estimates
+with an equal-area hexagonal grid (~100 km spacings) rotated to the
+midpoint of Phanerozoic (0--540 Ma) stratigraphic stages (Geological
+Time Scale, 2020). The grid was generated using the <code><a href="https://obrl-soil.github.io/h3jsr/reference/h3jsr-package.html" class="external-link">h3jsr</a></code>
+R package and 'h3_resolution' 3 (see <code><a href="https://obrl-soil.github.io/h3jsr/reference/h3_info_table.html" class="external-link">h3_info_table</a></code>).
+If specific ages of rotation are required, or fine-scale spatial analyses
+are being conducted, use of the "point" <code>method</code> might be preferable for the
+user (particularly if occurrences are close to plate boundaries). As
+implemented, points within the same grid cell will be assigned equivalent
+palaeocoordinates due to spatial aggregation. The reconstruction files
+provide pre-generated palaeocoordinates for a grid of ~100 km spacings,
+allowing the past distribution of fossil occurrences to be estimated
+efficiently. The reconstruction files along with additional documentation
+are deposited on <a href="https://zenodo.org/record/7390066" class="external-link">Zenodo</a>.
 Note: each reconstruction file is 5--10 MB in size.</p></li>
 <li><p>GPlates API: The "point" <code>method</code> uses the <a href="https://gwsdoc.gplates.org" class="external-link">GPlates Web Service</a> to reconstruct palaeorotations for point
 data. The use of this <code>method</code> is slower than the "grid" <code>method</code> if many
