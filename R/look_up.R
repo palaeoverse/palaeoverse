@@ -338,7 +338,7 @@ look_up <- function(occdf, early_interval = "early_interval",
     # remove pre-Cambrian intervals as there are no stages defined
     pre_camb <- which(assigned_min_ma_gts >=
                         gts$max_ma[which(gts$interval_name == "Fortunian")])
-    if(length(pre_camb) >= 1) {
+    if (length(pre_camb) >= 1) {
       assigned_min_ma_gts <- assigned_min_ma_gts[-pre_camb]
       assign_gts2 <- assign_gts2[-pre_camb]
     }

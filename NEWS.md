@@ -7,6 +7,7 @@ Minor bug fixes
 * Fixed tests when suggested packages were not installed (#64)
 * Removed dependence of tests on divDyn and deeptime
 * Fixed tax_range_time example (#60)
+* Fixed look_up issue when handling pre-Cambrian occurrences.
 
 Added package-level documentation function
 
