@@ -49,19 +49,20 @@
 #' approaches (`method`):
 #'
 #' - Reconstruction files: The "grid" `method` uses reconstruction files to
-#' spatiotemporally
-#' link present-day geographic coordinates and age estimates with a spatial
-#' grid (1&deg; x 1&deg;) rotated to the midpoint of Phanerozoic (0--540 Ma)
-#' stratigraphic stages (Geological Timescale, 2020). If specific ages of
-#' rotation are required, or fine-scale spatial analyses are being conducted,
-#' use of the "point" `method` might be preferable for the user (particularly
-#' if occurrences are close to plate boundaries). As implemented, points within
-#' the same grid cell will be assigned equivalent palaeocoordinates due to
-#' spatial aggregation. The reconstruction files provide pre-generated
-#' palaeocoordinates for a grid of 1&deg; x 1&deg;, allowing the past
-#' distribution of fossil occurrences to be estimated efficiently. Access to
-#' the reconstruction files and documentation is available via the
-#' [palaeorotate](https://github.com/LewisAJones/palaeorotate) package.
+#' spatiotemporally link present-day geographic coordinates and age estimates
+#' with an equal-area hexagonal grid (~100 km spacings) rotated to the
+#' midpoint of Phanerozoic (0--540 Ma) stratigraphic stages (Geological
+#' Time Scale, 2020). The grid was generated using the \code{\link[h3jsr]{h3jsr}}
+#' R package and 'h3_resolution' 3 (see \code{\link[h3jsr]{h3_info_table}}).
+#' If specific ages of rotation are required, or fine-scale spatial analyses
+#' are being conducted, use of the "point" `method` might be preferable for the
+#' user (particularly if occurrences are close to plate boundaries). As
+#' implemented, points within the same grid cell will be assigned equivalent
+#' palaeocoordinates due to spatial aggregation. The reconstruction files
+#' provide pre-generated palaeocoordinates for a grid of ~100 km spacings,
+#' allowing the past distribution of fossil occurrences to be estimated
+#' efficiently. The reconstruction files along with additional documentation
+#' are deposited on [Zenodo](https://zenodo.org/record/7390066).
 #' Note: each reconstruction file is 5--10 MB in size.
 #'
 #' - GPlates API: The "point" `method` uses the [GPlates Web Service](
@@ -144,9 +145,12 @@
 #' @section Reviewer(s):
 #' Kilian Eichenseer & Lucas Buffan
 #' @importFrom geosphere distm distHaversine
+#' @importFrom h3jsr point_to_cell
+#' @importFrom sf st_as_sf
 #' @importFrom utils download.file
 #' @importFrom pbapply pblapply
 #' @importFrom httr RETRY GET content
+#' @importFrom curl nslookup
 #' @importFrom stats na.omit
 #' @examples
 #' \donttest{
@@ -257,6 +261,16 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
 
   # Grid rotations ----------------------------------------------------------
   if (method == "grid") {
+    # Check Zenodo (or user) is online
+    tryCatch(
+      {
+        nslookup("zenodo.org")
+      },
+      error = function(e) {
+        stop(paste("Zenodo is not available.",
+        "Either the website is down or you are not connected to the internet."),
+             call. = FALSE)
+      })
     # Get temp directory and download files
     files <- tempdir()
     # OS-specific mode for downloading
@@ -267,7 +281,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
     # Reconstruction files
     rot_files <- list(
-      BASE = "https://github.com/LewisAJones/palaeorotate/raw/master/data-raw/",
+      BASE = "https://zenodo.org/record/7390066/files/",
       MERDITH2021 = "MERDITH2021.RDS",
       PALEOMAP = "PALEOMAP.RDS",
       GOLONKA = "GOLONKA.RDS",
@@ -318,22 +332,31 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         which.min(abs(occdf[i, age] - rot_age))
       })]
 
-    # Search for matching longitude and  latitude
-    occdf$rot_lng <- sapply(seq_len(nrow(occdf)), function(i) {
-      # Extract closest longitude
-      base_model[which.min(abs(base_model[, c("lng")]  - occdf[i, lng])), 1]
-    }, simplify = TRUE)
+    # Set-up
+    # Convert to sf object and add CRS
+    occdf_sf <- st_as_sf(x = occdf,
+                         coords = c(lng, lat),
+                         remove = FALSE,
+                         crs = "EPSG:4326")
+    base_model_sf <- st_as_sf(x = base_model,
+                              coords = c("lng", "lat"),
+                              remove = FALSE,
+                              crs = "EPSG:4326")
 
-    occdf$rot_lat <- sapply(seq_len(nrow(occdf)), function(i) {
-      # Extract closest latitude
-      base_model[which.min(abs(base_model[, c("lat")]  - occdf[i, lat])), 2]
-    }, simplify = TRUE)
+    # Match points with cells
+    occ_cell <- point_to_cell(input = occdf_sf,
+                              res = 3, # Grid resolution
+                              simple = TRUE)
+    model_cell <- point_to_cell(input = base_model_sf,
+                                res = 3, # Grid resolution
+                                simple = TRUE)
 
     # Generate row index
-    pc_ind <- sapply(seq_len(nrow(occdf)), function(i) {
-      which(base_model[, c("lng")] == occdf[i, "rot_lng"] &
-              base_model[, c("lat")] == occdf[i, "rot_lat"])
-    })
+    pc_ind <- match(x = occ_cell, table = model_cell)
+
+    # Assign rotation coordinates
+    occdf$rot_lng <- base_model[pc_ind, c("lng")]
+    occdf$rot_lat <- base_model[pc_ind, c("lat")]
 
     # Assign coordinates and calculate uncertainty
     if (uncertainty == TRUE) {
@@ -419,6 +442,16 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Point rotations ---------------------------------------------------------
   # Point method to be used?
   if (method == "point") {
+    # Check GPlates Web Service (or user) is online
+    tryCatch(
+      {
+        nslookup("gws.gplates.org")
+      },
+      error = function(e) {
+        stop(paste("GPlates Web Service is not available.",
+        "Either the website is down or you are not connected to the internet."),
+             call. = FALSE)
+      })
   # Define maximum chunk size for API calls
   chunks <- 300
   # Run across unique ages
