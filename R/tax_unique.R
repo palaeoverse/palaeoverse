@@ -274,9 +274,13 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     occurrences <- occurrences[is.na(occurrences$genus_species), ]
 
     #Retain occurrences identified to genus level and not already in dataset
-    to_retain <- rbind(to_retain,
-                       occurrences[(!occurrences$genus %in% c(to_retain$genus,
-                                                              NA)), ])
+    #The merge handles cases where the same genus name occurs in multiple
+    #higher taxonomic groups
+    to_retain <- merge(subset(occurrences,
+                              subset = !is.na(genus),
+                              select = -c(genus_species)),
+                       to_retain,
+                       by = c(rev(higher_names), "genus"), all = T)
     occurrences <- occurrences[is.na(occurrences$genus), ]
 
   } else if (resolution == "genus") {
