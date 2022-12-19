@@ -18,22 +18,25 @@ tax_unique(
 \item{occdf}{\code{dataframe}. A dataframe containing information on the
 occurrences or taxa to filter.}
 
-\item{binomial}{\code{character}. The name of the column in the dataframe
+\item{binomial}{\code{character}. The name of the column in \code{occdf}
 containing the genus and species names of the occurrences, either in the
 form "genus species" or "genus_species".}
 
-\item{species}{\code{character}. The name of the column in the dataframe
+\item{species}{\code{character}. The name of the column in \code{occdf}
 containing the species-level identifications (i.e. the specific epithet).}
 
-\item{genus}{\code{character}. The name of the column in the dataframe
+\item{genus}{\code{character}. The name of the column in \code{occdf}
 containing the genus-level identifications.}
 
-\item{...}{\code{character}. Other named arguments specifying the names of
-columns of higher levels of taxonomy (e.g. subfamily, order, superclass).
-These arguments should be in ascending order from lowest to highest (see
+\item{...}{\code{character}. Other named arguments specifying columns of
+higher levels of taxonomy (e.g. subfamily, order, superclass). The names of
+the arguments will be the column names of the output, and the values of the
+arguments correspond to the columns of \code{occdf}. The given order of the
+arguments is the order in which they are filtered. Therefore, these arguments
+must be in ascending order from lowest to highest taxonomic rank (see
 examples below). At least one higher level of taxonomy must be specified.}
 
-\item{name}{\code{character}. The name of the column in the dataframe
+\item{name}{\code{character}. The name of the column in \code{occdf}
 containing the taxonomic names at mixed taxonomic levels; the data column
 "accepted_name" in a \href{https://paleobiodb.org/#/}{Paleobiology Database}
 occurrence dataframe is of this type.}
@@ -83,14 +86,14 @@ provide identifications at different taxonomic levels. Occurrence
 data can be filtered to retain either unique species, or unique genera. If a
 species-level filter is desired, the minimum input requires either (1)
 \code{binomial}, (2) \code{species} and \code{genus}, or (3) \code{name} and \code{genus} columns to
-be entered, as well as at least one column with a higher taxonomic level.
+be entered, as well as at least one column of a higher taxonomic level.
 In a standard \href{https://paleobiodb.org/#/}{Paleobiology Database}
 occurrence dataframe, species names are only
 captured in the 'accepted_name' column, so a species-level filter should use
 '\code{genus} = "genus"' and '\code{name} = "accepted_name"' arguments. If a
 genus-level filter is desired, the minimum input requires either (1)
 \code{binomial} or (2) \code{genus} columns to be entered, as well as at least one
-column with a higher taxonomic level.
+column of a higher taxonomic level.
 
 Missing data should be indicated with NAs, although the function can handle
 common labels such as "NO_FAMILY_SPECIFIED" within Paleobiology Database
@@ -111,7 +114,7 @@ Biological Reviews, 86, 157-181. \doi{10.1111/j.1469-185X.2010.00139.x}.
 
 \section{Developer(s)}{
 
-Bethany Allen
+Bethany Allen & William Gearty
 }
 
 \section{Reviewer(s)}{

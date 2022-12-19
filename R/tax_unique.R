@@ -9,18 +9,21 @@
 #'
 #' @param occdf \code{dataframe}. A dataframe containing information on the
 #' occurrences or taxa to filter.
-#' @param binomial \code{character}. The name of the column in the dataframe
+#' @param binomial \code{character}. The name of the column in \code{occdf}
 #' containing the genus and species names of the occurrences, either in the
 #' form "genus species" or "genus_species".
-#' @param species \code{character}. The name of the column in the dataframe
+#' @param species \code{character}. The name of the column in \code{occdf}
 #' containing the species-level identifications (i.e. the specific epithet).
-#' @param genus \code{character}. The name of the column in the dataframe
+#' @param genus \code{character}. The name of the column in \code{occdf}
 #' containing the genus-level identifications.
-#' @param ... \code{character}. Other named arguments specifying the names of
-#' columns of higher levels of taxonomy (e.g. subfamily, order, superclass).
-#' These arguments must be in ascending order from lowest to highest taxonomic rank (see
+#' @param ... \code{character}. Other named arguments specifying columns of
+#' higher levels of taxonomy (e.g. subfamily, order, superclass). The names of
+#' the arguments will be the column names of the output, and the values of the
+#' arguments correspond to the columns of \code{occdf}. The given order of the
+#' arguments is the order in which they are filtered. Therefore, these arguments
+#' must be in ascending order from lowest to highest taxonomic rank (see
 #' examples below). At least one higher level of taxonomy must be specified.
-#' @param name \code{character}. The name of the column in the dataframe
+#' @param name \code{character}. The name of the column in \code{occdf}
 #' containing the taxonomic names at mixed taxonomic levels; the data column
 #' "accepted_name" in a [Paleobiology Database](https://paleobiodb.org/#/)
 #' occurrence dataframe is of this type.
