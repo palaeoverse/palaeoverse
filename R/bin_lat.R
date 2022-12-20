@@ -12,6 +12,11 @@
 #' @param lat \code{character}. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat"). This column should contain
 #' numerical values. Defaults to "lat".
+#' @param boundary \code{logical}. If \code{TRUE}, occurrences
+#' falling on the boundaries of latitudinal bins will be duplicated and
+#' binded to the dataframe after being assigned to both bins.
+#' If \code{FALSE}, occurrences will be binned into the upper bin
+#' only (i.e. highest row number).
 #'
 #' @return A dataframe of the original input `occdf` with appended
 #' columns containing respective latitudinal bin information.
@@ -29,7 +34,7 @@
 #' # Bin data
 #' occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
 #'
-bin_lat <- function(occdf, bins, lat = "lat") {
+bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   #=== Handling errors ===
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe.")
@@ -57,12 +62,33 @@ bin_lat <- function(occdf, bins, lat = "lat") {
   occdf$lat_mid <- NA
   occdf$lat_min <- NA
   #=== Assign data ===
-  for (i in seq_len(nrow(bins))){
+  for (i in seq_len(nrow(bins))) {
     vec <- which(occdf[, lat] <= bins$max[i] & occdf[, lat] >= bins$min[i])
     occdf$lat_bin[vec] <- bins$bin[i]
     occdf$lat_max[vec] <- bins$max[i]
     occdf$lat_mid[vec] <- bins$mid[i]
     occdf$lat_min[vec] <- bins$min[i]
+  }
+  #=== Boundary bins ===
+  if (boundary == TRUE &&
+      any(occdf[, lat] %in% c(bins$max, bins$min))) {
+    # Which occurrences fall on boundaries?
+    tmp <- occdf[which(occdf[, lat] %in% c(bins$max, bins$min)), ]
+    # Reverse direction to ensure alternative bin is assigned
+    for (i in rev(seq_len(nrow(bins)))) {
+      vec <- which(tmp[, lat] <= bins$max[i] & tmp[, lat] >= bins$min[i])
+      tmp$lat_bin[vec] <- bins$bin[i]
+      tmp$lat_max[vec] <- bins$max[i]
+      tmp$lat_mid[vec] <- bins$mid[i]
+      tmp$lat_min[vec] <- bins$min[i]
+    }
+    occdf <- rbind.data.frame(occdf, tmp)
+  }
+  #=== Add warning ===
+  if (boundary == FALSE &&
+      any(occdf[, lat] %in% c(bins$max, bins$min))) {
+    message(paste("Presence of occurrences falling on boundaries detected.",
+                   "\nOccurrences assigned to upper bin."))
   }
   #=== Return data ===
   return(occdf)

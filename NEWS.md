@@ -1,4 +1,10 @@
 # palaeoverse development version
+Updates
+
+* Added package-level documentation function
+* lat_bins now accepts user-defined latitudinal range
+* bin_lat now has functionality for handling boundary occurrences
+
 Minor bug fixes
 
 * Updated palaeorotate reconstruction files to use an hexagonal equal-area grid.
@@ -10,8 +16,6 @@ Minor bug fixes
 * Removed dependence of tests on divDyn and deeptime
 * Fixed tax_range_time example (#60)
 * Fixed look_up issue when handling pre-Cambrian occurrences.
-
-Added package-level documentation function
 
 # palaeoverse 1.0.0
 First full release of the palaeoverse R package.

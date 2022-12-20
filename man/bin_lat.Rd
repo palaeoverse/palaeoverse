@@ -4,7 +4,7 @@
 \alias{bin_lat}
 \title{Assign fossil occurrences to latitudinal bins}
 \usage{
-bin_lat(occdf, bins, lat = "lat")
+bin_lat(occdf, bins, lat = "lat", boundary = FALSE)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you
@@ -19,6 +19,12 @@ contain at least the following named columns: "bin", "max" and "min".}
 \item{lat}{\code{character}. The name of the column you wish to be treated
 as the input latitude (e.g. "lat" or "p_lat"). This column should contain
 numerical values. Defaults to "lat".}
+
+\item{boundary}{\code{logical}. If \code{TRUE}, occurrences
+falling on the boundaries of latitudinal bins will be duplicated and
+binded to the dataframe after being assigned to both bins.
+If \code{FALSE}, occurrences will be binned into the upper bin
+only (i.e. highest row number).}
 }
 \value{
 A dataframe of the original input \code{occdf} with appended
