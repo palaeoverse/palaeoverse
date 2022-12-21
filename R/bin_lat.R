@@ -14,7 +14,7 @@
 #' numerical values. Defaults to "lat".
 #' @param boundary \code{logical}. If \code{TRUE}, occurrences
 #' falling on the boundaries of latitudinal bins will be duplicated and
-#' binded to the dataframe after being assigned to both bins.
+#' assigned to both bins.
 #' If \code{FALSE}, occurrences will be binned into the upper bin
 #' only (i.e. highest row number).
 #'
