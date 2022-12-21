@@ -134,6 +134,7 @@
 #' @importFrom graphics rect text clip axis par segments
 #' @importFrom deeptime getScaleData
 #' @importFrom methods is
+#' @importFrom ape .PlotPhyloEnv
 #' @examples
 #' # track user par
 #' oldpar <- par(no.readonly = TRUE)
