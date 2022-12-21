@@ -85,7 +85,7 @@ test_that("axis_geo() works with phylogenies", {
   })
   expect_doppelganger("axis_geo() with downwards fossil tree", function() {
     plot(ceratopsianTreeRaia, direction = "d")
-    axis_geo(phylo = TRUE)
+    axis_geo(side = 2, phylo = TRUE)
   })
 })
 
