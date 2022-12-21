@@ -4,71 +4,76 @@
 #' different approaches commonly applied in palaeobiology.
 #'
 #' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
-#' wish to bin. This dataframe should contain the following named columns:
-#' "max_ma" and "min_ma". These columns should contain `numeric` values.
-#' If required, `numeric` ages can be generated from interval names via the
-#' \code{\link[palaeoverse:look_up]{look_up()}}.
+#'   wish to bin. This dataframe should contain the following named columns:
+#'   "max_ma" and "min_ma". These columns should contain `numeric` values. If
+#'   required, `numeric` ages can be generated from interval names via the
+#'   \code{\link[palaeoverse:look_up]{look_up()}} function.
 #' @param bins \code{dataframe}. A dataframe of the bins that you wish to
-#' allocate fossil occurrences to such as that returned by
-#' \code{\link[palaeoverse:time_bins]{time_bins()}}. This dataframe must
-#' contain at least the following named columns: "bin", "max_ma" and "min_ma".
-#' Columns "max_ma" and "min_ma" must be `numeric` values.
+#'   allocate fossil occurrences to such as that returned by
+#'   \code{\link[palaeoverse:time_bins]{time_bins()}}. This dataframe must
+#'   contain at least the following named columns: "bin", "max_ma" and
+#'   "min_ma". Columns "max_ma" and "min_ma" must be `numeric` values.
 #' @param method \code{character}. The method desired for binning fossil
-#' occurrences. Currently, five methods exist in this function: "mid",
-#' "majority", "all", "random", and "point". See Details for a description of
-#' each.
+#'   occurrences. Currently, five methods exist in this function: "mid",
+#'   "majority", "all", "random", and "point". See Details for a description
+#'   of each.
 #' @param reps \code{numeric}. A non-negative `numeric` specifying the number
-#' of replications for sampling. This argument is only useful in the case of
-#' the "random" or "point" method being specified in the `method` argument.
-#' Defaults to 100.
+#'   of replications for sampling. This argument is only useful in the case of
+#'   the "random" or "point" method being specified in the `method` argument.
+#'   Defaults to 100.
+#' @param prob \code{numeric}. A vector of probability weights for sampling
+#'   ages from the occurrence age range. This argument is only useful in the
+#'   case of the "point" method being specified in the `method` argument.
+#'   Users may wish to use probability density functions such as
+#'   \link[stats]{dnorm}. If `prob` is \code{1} (default), ages are sampled
+#'   equally, i.e. following a uniform distribution.
 #'
 #' @return For methods "mid", "majority" and "all", a \code{dataframe} of the
-#' original input `occdf` with the following appended columns is returned:
-#' occurrence id (`id`), number of bins that the occurrence age
-#' range covers (`n_bins`), bin assignment (`bin_assignment`), and bin midpoint
-#' (`bin_midpoint`). In the case of the "majority" method, an additional column
-#' of the majority percentage overlap (`overlap_percentage`) is also appended.
-#' For the "random" and "point" method, a
-#' \code{list} is returned (of length reps) with each element a copy of
-#' the `occdf` and appended columns (random: `bin_assignment` and
-#' `bin_midpoint`; point: `bin_assignment` and `point_estimates`).
+#'   original input `occdf` with the following appended columns is returned:
+#'   occurrence id (`id`), number of bins that the occurrence age range covers
+#'   (`n_bins`), bin assignment (`bin_assignment`), and bin midpoint
+#'   (`bin_midpoint`). In the case of the "majority" method, an additional
+#'   column of the majority percentage overlap (`overlap_percentage`) is also
+#'   appended. For the "random" and "point" method, a \code{list} is returned
+#'   (of length reps) with each element a copy of the `occdf` and appended
+#'   columns (random: `bin_assignment` and `bin_midpoint`; point:
+#'   `bin_assignment` and `point_estimates`).
 #'
-#' @details Five approaches (methods) exist in the `bin_time()` function
-#' for assigning occurrences to time bins:
+#' @details Five approaches (methods) exist in the `bin_time()` function for
+#'   assigning occurrences to time bins:
 #' - Midpoint: The "mid" method is the simplest approach and uses the midpoint
-#' of the fossil occurrence age range to bin the occurrence.
+#'   of the fossil occurrence age range to bin the occurrence.
 #' - Majority: The "majority" method bins an occurrence into the bin which it
-#' most overlaps with.
-#' As part of this implementation, the majority percentage overlap of the
-#' occurrence is also calculated and returned as an additional column in
-#' `occdf`. If desired, these percentages can be used to further filter an
-#' occurrence dataset.
+#'   most overlaps with. As part of this implementation, the majority
+#'   percentage overlap of the occurrence is also calculated and returned as
+#'   an additional column in `occdf`. If desired, these percentages can be
+#'   used to further filter an occurrence dataset.
 #' - All: The "all" method bins an occurrence into every bin its age range
-#' covers. For occurrences with age ranges of more than one bin, the occurrence
-#' row is duplicated. Each occurrence is assigned an ID in the column
-#' `occdf$id` so that duplicates can be tracked. Additionally, `occdf$n_bins`
-#' records the number of bins each occurrence appears within.
+#'   covers. For occurrences with age ranges of more than one bin, the
+#'   occurrence row is duplicated. Each occurrence is assigned an ID in the
+#'   column `occdf$id` so that duplicates can be tracked. Additionally,
+#'   `occdf$n_bins` records the number of bins each occurrence appears within.
 #' - Random: The "random" method randomly samples X amount of bins (with
-#' replacement) from the bins that the fossil occurrence age range covers with
-#' equal probability regardless of bin length.
-#' The `reps` argument determines the number of times the sample process is
-#' repeated. All replications are stored as individual elements
-#' within the returned list with an appended `bin_assignment` and
-#' `bin_midpoint` column to the original input `occdf`.
-#' - Point: The "point" method randomly samples X amount of point age estimates
-#' from the age range of the fossil occurrence. Sampling follows a
-#' uniform probability distribution defined by the age range of the fossil
-#' occurrence. As such, bins which cover more of the age range of the fossil
-#' occurrence are more likely to be assigned. The `reps` argument determines
-#' the number of times the sample process is repeated. All replications are
-#' stored as individual elements within the returned list with an appended
-#' `bin_assignment` and `point_estimates` column to the original input `occdf`.
+#'   replacement) from the bins that the fossil occurrence age range covers
+#'   with equal probability regardless of bin length. The `reps` argument
+#'   determines the number of times the sample process is repeated. All
+#'   replications are stored as individual elements within the returned list
+#'   with an appended `bin_assignment` and `bin_midpoint` column to the
+#'   original input `occdf`. If desired, users can easily bind this list using
+#'   \code{do.call(rbind, x)}.
+#' - Point: The "point" method randomly samples X (`reps`) amount of point age
+#'   estimates from the age range of the fossil occurrence. Sampling follows
+#'   user-input probability weights (`prob`) and probability density functions
+#'   such as \link[stats]{dnorm} (see example 6) can be used. If `prob` is
+#'   \code{1} (default), ages are sampled equally. The `reps` argument
+#'   determines the number of times the sample process is repeated. All
+#'   replications are stored as individual elements within the returned list
+#'   with an appended `bin_assignment` and `point_estimates` column to the
+#'   original input `occdf`. If desired, users can easily bind this list using
+#'   \code{do.call(rbind, x)}.
 #'
-#' @section Developer(s):
-#' Christopher D. Dean & Lewis A. Jones
-#' @section Reviewer(s):
-#' William Gearty
-#' @importFrom stats dunif
+#' @section Developer(s): Christopher D. Dean & Lewis A. Jones
+#' @section Reviewer(s): William Gearty
 #' @examples
 #' #Grab internal tetrapod data
 #' occdf <- tetrapods[1:100, ]
@@ -88,8 +93,12 @@
 #'
 #' #Assign point estimates based on fossil occurrence age range
 #' ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5)
+#'
+#' #Assign point estimates following a normal distribution
+#' ex6 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5,
+#'                 prob = dnorm(x = 1:100, mean = 50, sd = 25))
 #' @export
-bin_time <- function(occdf, bins, method = "mid", reps = 100) {
+bin_time <- function(occdf, bins, method = "mid", reps = 100, prob = 1) {
     #=== Handling errors ===
     if (is.data.frame(occdf) == FALSE) {
       stop("`occdf` should be a dataframe.")
@@ -117,11 +126,6 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100) {
       stop("Invalid `reps`. Choose an numeric value.")
     }
 
-    if (class(occdf$max_ma) != class(occdf$min_ma)) {
-      stop("Invalid occdf$max_ma or occdf$min_ma.
-           Columns should be of the same class.")
-    }
-
     if (!all(c("bin", "max_ma", "min_ma") %in% colnames(bins))) {
       stop("bin, max_ma and/or min_ma do not exist in `bins`")
     }
@@ -134,6 +138,10 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100) {
     if (is.numeric(occdf$min_ma) &&
         min(occdf$min_ma) < min(bins$min_ma)) {
       stop("Minimum age of occurrence data is less than minimum age of bins")
+    }
+
+    if (is.numeric(prob) == FALSE) {
+      stop("Invalid `prob`. Use numeric values.")
     }
 
     #=== Reporting Info ===
@@ -211,21 +219,22 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100) {
         #generate occurrence sequence for sampling
         occ_seq <- seq(from = occdf[i, "min_ma"],
                        to = occdf[i, "max_ma"],
-                       by = 0.01)
+                       by = 0.001)
+        #generate temporary probability weights for vector size
+        indx <- rep_len(seq(prob), length.out = length(occ_seq))
+        indx <- sort(indx)
+        tmp_prob <- prob[indx]
         #if max/min ages are the same replicate age
-        if (length(occ_seq) == 1) {
+        if (length(unique(occ_seq)) == 1) {
           occ_list[[i]] <- rep(occ_seq, times = reps)
           next
         }else {
-        prob <- dunif(occ_seq,
-                      max = max(occ_seq),
-                      min = min(occ_seq))
         estimates <-
           sample(
             x = occ_seq,
             size = reps,
             replace = TRUE,
-            prob = prob
+            prob = tmp_prob
           )
         occ_list[[i]] <- estimates
         }

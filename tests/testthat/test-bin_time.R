@@ -25,6 +25,9 @@ test_that("bin_time() works", {
                             bins = data.frame(),
                             method = "mid"))
 
+  expect_error(bin_time(occdf = occdf, bins = bins, method = "point",
+                        prob = "test"))
+
   #expect equal
   occdf <- tetrapods
 
