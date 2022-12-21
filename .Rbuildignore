@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.DS_Store$
 ^data-raw$
 ^\.github$
 cran-comments.md
@@ -20,3 +21,4 @@ cran-comments.md
 ^pkgdown$
 ^doc$
 ^Meta$
+.DS_Store
