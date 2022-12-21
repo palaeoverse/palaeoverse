@@ -35,7 +35,8 @@
 #'
 #' # Generate latitudinal bins for defined latitudinal range
 #' bins <- lat_bins(size = 10, max = 50, min = -50)
-lat_bins <- function(size = 10, max = 90, min = -90, fit = FALSE, plot = FALSE) {
+lat_bins <- function(size = 10, max = 90, min = -90,
+                     fit = FALSE, plot = FALSE) {
   #error handling
   if (is.numeric(size) == FALSE) {
     stop("`size` should be a numeric")
