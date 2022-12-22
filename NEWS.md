@@ -18,6 +18,7 @@ Minor bug fixes
 * Fixed tax_range_time example (#60)
 * Fixed look_up issue when handling pre-Cambrian occurrences (#63)
 * tax_unique now retains homonyms from different higher taxonomic groups (#50)
+* Fixed axis_geo for phylogenies (#68)
 
 # palaeoverse 1.0.0
 First full release of the palaeoverse R package.
