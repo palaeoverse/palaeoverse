@@ -575,7 +575,7 @@ axis_geo <- function(
     tick_labels <- pretty(phylo_scale)
     tick_at <- phylo_beta * tick_labels + phylo_alpha
     # Filter to only ticks within limits
-    if (side %in% c(1,3)) {
+    if (side %in% c(1, 3)) {
       tick_inc <- which(tick_at <= scale_lims[2] & tick_at >= scale_lims[1])
     } else {
       tick_inc <- which(tick_at <= scale_lims[4] & tick_at >= scale_lims[3])
