@@ -26,10 +26,19 @@ test_that("bin_time() works", {
                             method = "mid"))
 
   expect_error(bin_time(occdf = occdf, bins = bins, method = "point",
-                        prob = "test"))
+                        fun = NULL))
+
+  expect_error(bin_time(occdf = occdf, bins = bins, method = "point",
+                        fun = dnorm, x = 1))
+
+  expect_error(bin_time(occdf = occdf, bins = bins, method = "point",
+                        fun = dnorm, test = 1))
+
+  expect_error(bin_time(occdf = occdf, bins = bins, method = "point",
+                        fun = dnorm, test1 = 1, test2 = 1))
 
   #expect equal
-  occdf <- tetrapods
+  occdf <- tetrapods[1:100, ]
 
   bins <- data.frame(bin = 1:54,
                      max_ma = seq(10, 540, 10),
@@ -42,7 +51,8 @@ test_that("bin_time() works", {
                                  method = "random")), 100)
 
   expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
-                                    method = "point")), TRUE)
+                                    method = "point", reps = 5,
+                                fun = dnorm, mean = 0.5, sd = 0.25)), TRUE)
 
   expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
                                     reps = 1,

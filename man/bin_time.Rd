@@ -4,7 +4,7 @@
 \alias{bin_time}
 \title{Assign fossil occurrences to time bins}
 \usage{
-bin_time(occdf, bins, method = "mid", reps = 100, prob = 1)
+bin_time(occdf, bins, method = "mid", reps = 100, fun = NULL, ...)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you
@@ -29,12 +29,18 @@ of replications for sampling. This argument is only useful in the case of
 the "random" or "point" method being specified in the \code{method} argument.
 Defaults to 100.}
 
-\item{prob}{\code{numeric}. A vector of probability weights for sampling
-ages from the occurrence age range. This argument is only useful in the
-case of the "point" method being specified in the \code{method} argument.
-Users may wish to use probability density functions such as
-\link[stats]{dnorm}. If \code{prob} is \code{1} (default), ages are sampled
-equally, i.e. following a uniform distribution.}
+\item{fun}{\code{function}. A probability density function from the
+stats package such as \link[stats]{dunif} or \link[stats]{dnorm}.
+This argument is only useful if the "point" method is specified in the
+\code{method} argument.}
+
+\item{...}{Additional arguments available in the called function (\code{fun}).
+These arguments may be required for function arguments without default
+values, or if you wish to overwrite the default argument value (see
+example). \code{x} input values are generated within the function based
+on the age range of the fossil occurrence and should not be manually
+provided. Note that these \code{x} values range between 0 and 1, and
+therefore function arguments should be scaled to be within these bounds.}
 }
 \value{
 For methods "mid", "majority" and "all", a \code{dataframe} of the
@@ -77,14 +83,18 @@ with an appended \code{bin_assignment} and \code{bin_midpoint} column to the
 original input \code{occdf}. If desired, users can easily bind this list using
 \code{do.call(rbind, x)}.
 \item Point: The "point" method randomly samples X (\code{reps}) amount of point age
-estimates from the age range of the fossil occurrence. Sampling follows
-user-input probability weights (\code{prob}) and probability density functions
-such as \link[stats]{dnorm} (see example 6) can be used. If \code{prob} is
-\code{1} (default), ages are sampled equally. The \code{reps} argument
-determines the number of times the sample process is repeated. All
-replications are stored as individual elements within the returned list
-with an appended \code{bin_assignment} and \code{point_estimates} column to the
-original input \code{occdf}. If desired, users can easily bind this list using
+estimates from the age range of the fossil occurrence. Sampling follows a
+user-input probability density function such
+as \link[stats]{dnorm} (see example 5). Users should also provide any
+additional arguments for the probability density function (see \code{...}).
+However, \code{x} (vector of quantiles) values should not be provided as these
+values are input from the age range of each occurrence. These
+values range between 0 and 1, and therefore function arguments should be
+scaled to be within these bounds. The \code{reps} argument determines the
+number of times the sample process is repeated. All replications are
+stored as individual elements within the returned list with an appended
+\code{bin_assignment} and \code{point_estimates} column to the original input
+\code{occdf}. If desired, users can easily bind this list using
 \code{do.call(rbind, x)}.
 }
 }
@@ -113,10 +123,7 @@ ex3 <- bin_time(occdf = occdf, bins = bins, method = "majority")
 #Assign randomly to overlapping bins based on fossil occurrence age range
 ex4 <- bin_time(occdf = occdf, bins = bins, method = "random", reps = 5)
 
-#Assign point estimates based on fossil occurrence age range
-ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5)
-
 #Assign point estimates following a normal distribution
-ex6 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5,
-                prob = dnorm(x = 1:100, mean = 50, sd = 25))
+ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5,
+                fun = dnorm, mean = 0.5, sd = 0.25)
 }

@@ -21,12 +21,17 @@
 #'   of replications for sampling. This argument is only useful in the case of
 #'   the "random" or "point" method being specified in the `method` argument.
 #'   Defaults to 100.
-#' @param prob \code{numeric}. A vector of probability weights for sampling
-#'   ages from the occurrence age range. This argument is only useful in the
-#'   case of the "point" method being specified in the `method` argument.
-#'   Users may wish to use probability density functions such as
-#'   \link[stats]{dnorm}. If `prob` is \code{1} (default), ages are sampled
-#'   equally, i.e. following a uniform distribution.
+#' @param fun \code{function}. A probability density function from the
+#'   stats package such as \link[stats]{dunif} or \link[stats]{dnorm}.
+#'   This argument is only useful if the "point" method is specified in the
+#'   `method` argument.
+#' @param ... Additional arguments available in the called function (`fun`).
+#'   These arguments may be required for function arguments without default
+#'   values, or if you wish to overwrite the default argument value (see
+#'   example). `x` input values are generated within the function based
+#'   on the age range of the fossil occurrence and should not be manually
+#'   provided. Note that these `x` values range between 0 and 1, and
+#'   therefore function arguments should be scaled to be within these bounds.
 #'
 #' @return For methods "mid", "majority" and "all", a \code{dataframe} of the
 #'   original input `occdf` with the following appended columns is returned:
@@ -62,14 +67,18 @@
 #'   original input `occdf`. If desired, users can easily bind this list using
 #'   \code{do.call(rbind, x)}.
 #' - Point: The "point" method randomly samples X (`reps`) amount of point age
-#'   estimates from the age range of the fossil occurrence. Sampling follows
-#'   user-input probability weights (`prob`) and probability density functions
-#'   such as \link[stats]{dnorm} (see example 6) can be used. If `prob` is
-#'   \code{1} (default), ages are sampled equally. The `reps` argument
-#'   determines the number of times the sample process is repeated. All
-#'   replications are stored as individual elements within the returned list
-#'   with an appended `bin_assignment` and `point_estimates` column to the
-#'   original input `occdf`. If desired, users can easily bind this list using
+#'   estimates from the age range of the fossil occurrence. Sampling follows a
+#'   user-input probability density function such
+#'   as \link[stats]{dnorm} (see example 5). Users should also provide any
+#'   additional arguments for the probability density function (see `...`).
+#'   However, `x` (vector of quantiles) values should not be provided as these
+#'   values are input from the age range of each occurrence. These
+#'   values range between 0 and 1, and therefore function arguments should be
+#'   scaled to be within these bounds. The `reps` argument determines the
+#'   number of times the sample process is repeated. All replications are
+#'   stored as individual elements within the returned list with an appended
+#'   `bin_assignment` and `point_estimates` column to the original input
+#'   `occdf`. If desired, users can easily bind this list using
 #'   \code{do.call(rbind, x)}.
 #'
 #' @section Developer(s): Christopher D. Dean & Lewis A. Jones
@@ -91,14 +100,12 @@
 #' #Assign randomly to overlapping bins based on fossil occurrence age range
 #' ex4 <- bin_time(occdf = occdf, bins = bins, method = "random", reps = 5)
 #'
-#' #Assign point estimates based on fossil occurrence age range
-#' ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5)
-#'
 #' #Assign point estimates following a normal distribution
-#' ex6 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5,
-#'                 prob = dnorm(x = 1:100, mean = 50, sd = 25))
+#' ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5,
+#'                 fun = dnorm, mean = 0.5, sd = 0.25)
 #' @export
-bin_time <- function(occdf, bins, method = "mid", reps = 100, prob = 1) {
+bin_time <- function(occdf, bins, method = "mid", reps = 100,
+                     fun = NULL, ...) {
     #=== Handling errors ===
     if (is.data.frame(occdf) == FALSE) {
       stop("`occdf` should be a dataframe.")
@@ -140,8 +147,8 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100, prob = 1) {
       stop("Minimum age of occurrence data is less than minimum age of bins")
     }
 
-    if (is.numeric(prob) == FALSE) {
-      stop("Invalid `prob`. Use numeric values.")
+    if (method == "point" && is.null(fun)) {
+      stop('`fun` is required for the "point" method.')
     }
 
     #=== Reporting Info ===
@@ -209,6 +216,26 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100, prob = 1) {
 
     #--- Method 2: Point estimates ---
     if (method == "point") {
+      # Check for errors in inputs
+      supp_args <- list(...)
+      if (!("..." %in% names(formals(fun)))) {
+        indx <- which(!(names(supp_args) %in% names(formals(fun))))
+        if (length(indx) > 1) {
+          stop(paste(
+            paste0("`", names(supp_args)[indx], "`", collapse = "/"),
+            "are not valid arguments for the specified function"
+          ))
+        } else if (length(indx) == 1) {
+          stop(paste0(
+            "`",
+            names(supp_args)[indx],
+            "`",
+            " is not a valid argument for the specified function"
+          ))
+        } else if ("x" %in% names(supp_args)) {
+          stop("`x` should not be specified. This is generated internally.")
+        }
+      }
       # make occurrence list for filling with reps
       occ_list <- list()
       occ_list <- sapply(seq_len(nrow(occdf)), function(x) NULL)
@@ -220,10 +247,10 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100, prob = 1) {
         occ_seq <- seq(from = occdf[i, "min_ma"],
                        to = occdf[i, "max_ma"],
                        by = 0.001)
-        #generate temporary probability weights for vector size
-        indx <- rep_len(seq(prob), length.out = length(occ_seq))
-        indx <- sort(indx)
-        tmp_prob <- prob[indx]
+        #generate x for input probability function
+        x_prob <- seq(from = 0, to = 1, length.out = length(occ_seq))
+        # Generate probabilities
+        prob <- sapply(x_prob, fun, ...)
         #if max/min ages are the same replicate age
         if (length(unique(occ_seq)) == 1) {
           occ_list[[i]] <- rep(occ_seq, times = reps)
@@ -234,7 +261,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100, prob = 1) {
             x = occ_seq,
             size = reps,
             replace = TRUE,
-            prob = tmp_prob
+            prob = prob
           )
         occ_list[[i]] <- estimates
         }
