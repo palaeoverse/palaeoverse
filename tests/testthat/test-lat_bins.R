@@ -8,6 +8,9 @@ test_that("lat_bins() works", {
 
   #expect error
   expect_error(lat_bins(size = 100))
+  expect_error(lat_bins(max = 100))
+  expect_error(lat_bins(min = 100))
+  expect_error(lat_bins(max = 10, min = 20))
   expect_error(lat_bins(fit = 1))
   expect_error(lat_bins(size = "10"))
   expect_error(lat_bins(plot = "TRUE"))
