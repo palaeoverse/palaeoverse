@@ -37,10 +37,10 @@ This argument is only useful if the "point" method is specified in the
 \item{...}{Additional arguments available in the called function (\code{fun}).
 These arguments may be required for function arguments without default
 values, or if you wish to overwrite the default argument value (see
-example). \code{x} input values are generated within the function based
+example). \code{x} input values are generated internally based
 on the age range of the fossil occurrence and should not be manually
-provided. Note that these \code{x} values range between 0 and 1, and
-therefore function arguments should be scaled to be within these bounds.}
+provided. Note that \code{x} input values range between 0 and 1, and
+function arguments should therefore be scaled to be within these bounds.}
 }
 \value{
 For methods "mid", "majority" and "all", a \code{dataframe} of the

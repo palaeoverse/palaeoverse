@@ -28,10 +28,10 @@
 #' @param ... Additional arguments available in the called function (`fun`).
 #'   These arguments may be required for function arguments without default
 #'   values, or if you wish to overwrite the default argument value (see
-#'   example). `x` input values are generated within the function based
+#'   example). `x` input values are generated internally based
 #'   on the age range of the fossil occurrence and should not be manually
-#'   provided. Note that these `x` values range between 0 and 1, and
-#'   therefore function arguments should be scaled to be within these bounds.
+#'   provided. Note that `x` input values range between 0 and 1, and
+#'   function arguments should therefore be scaled to be within these bounds.
 #'
 #' @return For methods "mid", "majority" and "all", a \code{dataframe} of the
 #'   original input `occdf` with the following appended columns is returned:
