@@ -14,17 +14,17 @@ time_bins(
 )
 }
 \arguments{
-\item{interval}{\code{character or numeric}. Interval name available
-in \code{\link{GTS2020}} or \code{\link{GTS2012}}.
-If a single interval name is provided, this interval is returned.
-If two interval names are provided, these intervals and those existing
-between are returned. If a single numeric age is provided, the interval that
-covers this age is returned.
-If two numeric ages are provided, the intervals occurring in the range of
-these ages are returned. Defaults to "Phanerozoic".}
+\item{interval}{\code{character or numeric}. Interval name available in
+\code{\link{GTS2020}} or \code{\link{GTS2012}}. If a single interval name
+is provided, this interval is returned. If two interval names are
+provided, these intervals and those existing between are returned. If a
+single numeric age is provided, the interval that covers this age is
+returned. If two numeric ages are provided, the intervals occurring in
+the range of these ages are returned. Defaults to "Phanerozoic".}
 
 \item{rank}{\code{character}. Which stratigraphic rank is desired? Choose
-from: "stage", "epoch", "period", "era", and "eon".}
+from: "stage", "epoch", "period", "era", and "eon". If \code{scale} is a
+dataframe, this argument is ignored.}
 
 \item{size}{\code{numeric}. If equal-length time bins are desired, specify
 the length in millions of years (Myr) of the time bins desired.}
@@ -33,12 +33,16 @@ the length in millions of years (Myr) of the time bins desired.}
 assign to requested bins. If assign is specified, a numeric vector is
 returned of the midpoint age of the specified bins. Note this is the
 simplified approach of assignment in \code{palaeoverse} included for data with
-'known' point-age estimates.
-For a wider range of binning methods, see
+'known' point-age estimates. For a wider range of binning methods, see
 \code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}.}
 
-\item{scale}{\code{character}. Specify the desired geological timescale to
-be used "GTS2020" or "GTS2012". "GTS2020" is the default.}
+\item{scale}{\code{character} or \code{data.frame}. Specify the desired
+geological timescale to be used "GTS2020" (default), "GTS2012" or a
+user-input \code{data.frame}. If a \code{data.frame} is provided, it must contain
+at least the following named columns: "interval_name", "max_ma", and
+"min_ma". Column names "name", "max_age", and "min_age" are also accepted,
+but these are assumed to be equivalent to the aforementioned. As such,
+age data should be provided in Ma.}
 
 \item{plot}{\code{logical}. Should a plot of time bins be generated?}
 }
@@ -60,9 +64,13 @@ However, users may also want to consider grouping stages based on other
 reasoning e.g. availability of outcrop (see Dean et al. 2020).
 }
 \details{
-This function uses the Geological Timescale 2020 and the Geological
-Timescale 2012 (depending on user specification).
-Additional information on each timescale and source can be accessed via:
+This function uses either the Geological Time Scale 2020,
+Geological Time Scale 2012, or a user-input \code{data.frame} (see \code{scale}
+argument) to generate time bins. Interval data hosted by Macrostrat are
+also compatiable and accessible via the deeptime R pacakge
+(\code{\link[deeptime]{getScaleData}}).
+Additional information on included Geological Time Scales and source can be
+accessed via:
 \itemize{
 \item \code{\link{GTS2020}}
 \item \code{\link{GTS2012}}
@@ -108,4 +116,15 @@ ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"),
 #Assign bins based on given age estimates
 ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
                  assign = c(232, 167, 33))
+
+#Use user-input data.frame to generate near-equal length bins
+scale <- data.frame(interval_name = 1:5,
+                    min_ma = c(0, 18, 32, 38, 45),
+                    max_ma = c(18, 32, 38, 45, 53))
+ex6 <- time_bins(scale = scale, size = 20, plot = TRUE)
+
+#Use North American land mammal ages from deeptime/Macrostrat
+scale <- deeptime::getScaleData(name = "North American land mammal ages")
+ex7 <- time_bins(scale = scale, size = 10)
+
 }

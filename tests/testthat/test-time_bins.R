@@ -44,7 +44,15 @@ test_that("time_bins() works", {
                                         "intervals"))
   expect_equal(nrow(time_bins(size = 50)), 11)
 
-
+  # Test user-input bins
+  scale <- data.frame(interval_name = 1:5,
+                      min_ma = c(0, 18, 32, 38, 45),
+                      max_ma = c(18, 32, 38, 45, 53))
+  expect_equal(nrow(time_bins(scale = scale, size = 15)), 4)
+  scale <- data.frame(name = 1:5,
+                      min_age = c(0, 18, 32, 38, 45),
+                      max_age = c(18, 32, 38, 45, 53))
+  expect_equal(nrow(time_bins(scale = scale, size = 15)), 4)
 
   #error handling
   expect_error(time_bins(interval = c("Mastrichtian", "Danian")))
@@ -64,4 +72,8 @@ test_that("time_bins() works", {
   expect_error(time_bins(interval = "Mesozoic", size = "ten"))
   expect_error(time_bins(interval = "Mesozoic", rank = "stages"))
   expect_error(time_bins(interval = "Mesozoic", rank = c("stage", "period")))
+  scale <- data.frame(interval_name = 1:5,
+                      min = c(0, 18, 32, 38, 45),
+                      max = c(18, 32, 38, 45, 53))
+  expect_error(time_bins(scale = scale, size = 15))
 })

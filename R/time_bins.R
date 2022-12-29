@@ -10,27 +10,31 @@
 #' However, users may also want to consider grouping stages based on other
 #' reasoning e.g. availability of outcrop (see Dean et al. 2020).
 #'
-#' @param interval \code{character or numeric}. Interval name available
-#' in \code{\link{GTS2020}} or \code{\link{GTS2012}}.
-#' If a single interval name is provided, this interval is returned.
-#' If two interval names are provided, these intervals and those existing
-#' between are returned. If a single numeric age is provided, the interval that
-#' covers this age is returned.
-#' If two numeric ages are provided, the intervals occurring in the range of
-#' these ages are returned. Defaults to "Phanerozoic".
+#' @param interval \code{character or numeric}. Interval name available in
+#'   \code{\link{GTS2020}} or \code{\link{GTS2012}}. If a single interval name
+#'   is provided, this interval is returned. If two interval names are
+#'   provided, these intervals and those existing between are returned. If a
+#'   single numeric age is provided, the interval that covers this age is
+#'   returned. If two numeric ages are provided, the intervals occurring in
+#'   the range of these ages are returned. Defaults to "Phanerozoic".
 #' @param rank \code{character}. Which stratigraphic rank is desired? Choose
-#' from: "stage", "epoch", "period", "era", and "eon".
+#'   from: "stage", "epoch", "period", "era", and "eon". If `scale` is a
+#'   dataframe, this argument is ignored.
 #' @param size \code{numeric}. If equal-length time bins are desired, specify
-#' the length in millions of years (Myr) of the time bins desired.
+#'   the length in millions of years (Myr) of the time bins desired.
 #' @param assign \code{numeric}. A numeric vector of age estimates to use to
-#' assign to requested bins. If assign is specified, a numeric vector is
-#' returned of the midpoint age of the specified bins. Note this is the
-#' simplified approach of assignment in `palaeoverse` included for data with
-#' 'known' point-age estimates.
-#' For a wider range of binning methods, see
-#' \code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}.
-#' @param scale \code{character}. Specify the desired geological timescale to
-#' be used "GTS2020" or "GTS2012". "GTS2020" is the default.
+#'   assign to requested bins. If assign is specified, a numeric vector is
+#'   returned of the midpoint age of the specified bins. Note this is the
+#'   simplified approach of assignment in `palaeoverse` included for data with
+#'   'known' point-age estimates. For a wider range of binning methods, see
+#'   \code{\link[palaeoverse:bin_time]{palaeoverse::bin_time()}}.
+#' @param scale \code{character} or \code{data.frame}. Specify the desired
+#'   geological timescale to be used "GTS2020" (default), "GTS2012" or a
+#'   user-input `data.frame`. If a `data.frame` is provided, it must contain
+#'   at least the following named columns: "interval_name", "max_ma", and
+#'   "min_ma". Column names "name", "max_age", and "min_age" are also accepted,
+#'   but these are assumed to be equivalent to the aforementioned. As such,
+#'   age data should be provided in Ma.
 #' @param plot \code{logical}. Should a plot of time bins be generated?
 #' @importFrom graphics polygon title
 #' @importFrom stats sd
@@ -40,9 +44,13 @@
 #' vector (bin number) of binned age estimates (midpoint of specified bins) if
 #' assign is specified.
 #'
-#' @details This function uses the Geological Timescale 2020 and the Geological
-#' Timescale 2012 (depending on user specification).
-#' Additional information on each timescale and source can be accessed via:
+#' @details This function uses either the Geological Time Scale 2020,
+#' Geological Time Scale 2012, or a user-input `data.frame` (see `scale`
+#' argument) to generate time bins. Interval data hosted by Macrostrat are
+#' also compatiable and accessible via the deeptime R pacakge
+#' (\code{\link[deeptime]{getScaleData}}).
+#' Additional information on included Geological Time Scales and source can be
+#' accessed via:
 #' - \code{\link{GTS2020}}
 #' - \code{\link{GTS2012}}
 #'
@@ -79,6 +87,17 @@
 #' #Assign bins based on given age estimates
 #' ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
 #'                  assign = c(232, 167, 33))
+#'
+#' #Use user-input data.frame to generate near-equal length bins
+#' scale <- data.frame(interval_name = 1:5,
+#'                     min_ma = c(0, 18, 32, 38, 45),
+#'                     max_ma = c(18, 32, 38, 45, 53))
+#' ex6 <- time_bins(scale = scale, size = 20, plot = TRUE)
+#'
+#' #Use North American land mammal ages from deeptime/Macrostrat
+#' scale <- deeptime::getScaleData(name = "North American land mammal ages")
+#' ex7 <- time_bins(scale = scale, size = 10)
+#'
 time_bins <- function(interval = "Phanerozoic", rank = "stage",
            size = NULL, assign = NULL, scale = "GTS2020", plot = FALSE) {
     # Error handling
@@ -99,9 +118,17 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
   You can transform your data using abs().")
     }
 
-    if (scale != "GTS2012" && scale != "GTS2020") {
-      stop("`scale` must be either GTS2012 or GTS2020")
+    if (is.character(scale) &&
+        scale != "GTS2012" &&
+        scale != "GTS2020") {
+      stop("`scale` must be either GTS2012, GTS2020 or a data.frame")
     }
+
+  if (is.data.frame(scale) &&
+      any(!c("max_ma", "min_ma") %in% colnames(scale)) &&
+      any(!c("max_age", "min_age") %in% colnames(scale))) {
+    stop("`scale` does not contain named columns: max_ma and min_ma")
+  }
 
     if (length(interval) > 2) {
       stop("`interval` must be a character or numeric vector of length 1 or 2")
@@ -117,7 +144,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
 
     # Grab data
     # Which geological timescale to use?
-
+  if (is.character(scale)) {
     if (scale == "GTS2020") {
       df <- palaeoverse::GTS2020
     }
@@ -130,67 +157,94 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
     #character string entered
     if (is.character(interval) && length(interval) == 1) {
       #rank ages
-      rank_ages <- df[which(df$rank == rank), ]
-        w <- which(df$interval_name %in% interval)
-        if (length(w) != length(interval)) {
-          stop(
-            paste0(
-              "Check spelling of specified intervals.
+      rank_ages <- df[which(df$rank == rank),]
+      w <- which(df$interval_name %in% interval)
+      if (length(w) != length(interval)) {
+        stop(
+          paste0(
+            "Check spelling of specified intervals.
   Available intervals are accessible via GTS2020 and GTS2012."
-            )
           )
-        }
-        rank_ages <-
-          rank_ages[which(rank_ages$max_ma > df$min_ma[w] &
-                            rank_ages$min_ma < df$max_ma[w]), ]
-        df <- rank_ages
+        )
       }
-      if (is.character(interval) && length(interval) == 2) {
-        # rank ages
-        rank_ages <- df[which(df$rank == rank), ]
-        w <- which(df$interval_name %in% interval)
-        if (length(w) != length(interval)) {
-          stop(
-            paste0(
-              "Check spelling of specified intervals.
+      rank_ages <-
+        rank_ages[which(rank_ages$max_ma > df$min_ma[w] &
+                          rank_ages$min_ma < df$max_ma[w]),]
+      df <- rank_ages
+    }
+    if (is.character(interval) && length(interval) == 2) {
+      # rank ages
+      rank_ages <- df[which(df$rank == rank),]
+      w <- which(df$interval_name %in% interval)
+      if (length(w) != length(interval)) {
+        stop(
+          paste0(
+            "Check spelling of specified intervals.
   Available intervals are accessible via GTS2020 and GTS2012."
-            )
           )
-        }
-        rank_ages <-
-          rank_ages[which(rank_ages$max_ma > min(df$min_ma[w]) &
-                            rank_ages$min_ma < max(df$max_ma[w])), ]
-        df <- subset(df, max_ma <= max(rank_ages$max_ma))
-        df <- subset(df, min_ma >= min(rank_ages$min_ma))
+        )
       }
+      rank_ages <-
+        rank_ages[which(rank_ages$max_ma > min(df$min_ma[w]) &
+                          rank_ages$min_ma < max(df$max_ma[w])),]
+      df <- subset(df, max_ma <= max(rank_ages$max_ma))
+      df <- subset(df, min_ma >= min(rank_ages$min_ma))
+    }
 
     #subset to rank
-    df <- df[which(df$rank == rank), ]
+    df <- df[which(df$rank == rank),]
 
     #numeric ages entered
     if (is.numeric(interval) && length(interval) == 1) {
-        if (interval > max(df$max_ma) || interval < min(df$min_ma)) {
-          stop("Value does not appear in the range of available intervals:
+      if (interval > max(df$max_ma) || interval < min(df$min_ma)) {
+        stop("Value does not appear in the range of available intervals:
     0 to 541")
-        }
-        int_index <-
-          which(interval <= df$max_ma & interval >= df$min_ma)
-        df <- df[int_index, ]
       }
+      int_index <-
+        which(interval <= df$max_ma & interval >= df$min_ma)
+      df <- df[int_index,]
+    }
 
-      if (is.numeric(interval) && length(interval) == 2) {
-        max_int <- max(interval)
-        min_int <- min(interval)
+    if (is.numeric(interval) && length(interval) == 2) {
+      max_int <- max(interval)
+      min_int <- min(interval)
 
-        if (max_int > max(df$max_ma) || min_int < min(df$min_ma)) {
-          stop("Values do not appear in the range of available intervals:
+      if (max_int > max(df$max_ma) || min_int < min(df$min_ma)) {
+        stop("Values do not appear in the range of available intervals:
           0 to 541")
-        }
-
-        int_index <-
-          which(min_int <= df$max_ma & max_int >= df$min_ma)
-        df <- df[int_index, ]
       }
+
+      int_index <-
+        which(min_int <= df$max_ma & max_int >= df$min_ma)
+      df <- df[int_index,]
+    }
+  } else {
+    # Assign input scale to df
+    df <- scale
+    # Match column names to getScaleData (or other user-input data)
+    col_indx <- match(c("name", "max_age", "min_age"), colnames(df))
+    # Column names
+    cnames <- c("interval_name", "max_ma", "min_ma")[which(!is.na(col_indx))]
+    # Remove NA matches
+    col_indx <- col_indx[!is.na(col_indx)]
+    if (length(col_indx) >= 1) {
+      colnames(df)[col_indx] <- cnames
+    }
+
+    # Add mid_ma and duration myr
+    df$mid_ma <- (df$max_ma + df$min_ma) / 2
+    df$duration_myr <- df$max_ma - df$min_ma
+    # Rearrange columns
+    colnme <- colnames(df)
+    order_nme <- c("interval_name", "max_ma",
+                   "mid_ma", "min_ma", "duration_myr")
+    colnme <- colnme[!colnme %in% order_nme]
+    order_nme <- c(colnme, order_nme)
+    df <- df[, order_nme]
+
+    # Order by mid_ma
+    df <- df[order(df$mid_ma), ]
+  }
 
     #are equal length time bins required?
 
@@ -330,5 +384,10 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
         stop("`assign` should be a numeric")
       }
     }
+  # Clean up
+  if (is.data.frame(scale) && !is.null(size)) {
+    df <- df[, -which(colnames(df) == "grouping_rank")]
+  }
+
     return(df)
   }
