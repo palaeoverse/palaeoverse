@@ -32,7 +32,7 @@
 #'   geological timescale to be used "GTS2020" (default), "GTS2012" or a
 #'   user-input `data.frame`. If a `data.frame` is provided, it must contain
 #'   at least the following named columns: "interval_name", "max_ma", and
-#'   "min_ma". Column names "name", "max_age", and "min_ma" are also accepted,
+#'   "min_ma". Column names "name", "max_age", and "min_age" are also accepted,
 #'   but these are assumed to be equivalent to the aforementioned. As such,
 #'   age data should be provided in Ma.
 #' @param plot \code{logical}. Should a plot of time bins be generated?
@@ -221,12 +221,15 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
   } else {
     # Assign input scale to df
     df <- scale
-    # Update column names to work with getScaleData
-    colnames(df)[which(colnames(df) %in% c("name",
-                                           "max_age",
-                                           "min_age"))] <- c("interval_name",
-                                                             "max_ma",
-                                                             "min_ma")
+    # Match column names to getScaleData (or other user-input data)
+    col_indx <- match(c("name", "max_age", "min_age"), colnames(df))
+    # Column names
+    cnames <- c("interval_name", "max_ma", "min_ma")[which(!is.na(col_indx))]
+    # Remove NA matches
+    col_indx <- col_indx[!is.na(col_indx)]
+    if (length(col_indx) >= 1) {
+      colnames(df)[col_indx] <- cnames
+    }
 
     # Add mid_ma and duration myr
     df$mid_ma <- (df$max_ma + df$min_ma) / 2

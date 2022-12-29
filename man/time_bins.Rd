@@ -40,7 +40,7 @@ simplified approach of assignment in \code{palaeoverse} included for data with
 geological timescale to be used "GTS2020" (default), "GTS2012" or a
 user-input \code{data.frame}. If a \code{data.frame} is provided, it must contain
 at least the following named columns: "interval_name", "max_ma", and
-"min_ma". Column names "name", "max_age", and "min_ma" are also accepted,
+"min_ma". Column names "name", "max_age", and "min_age" are also accepted,
 but these are assumed to be equivalent to the aforementioned. As such,
 age data should be provided in Ma.}
 

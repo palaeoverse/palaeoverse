@@ -49,6 +49,10 @@ test_that("time_bins() works", {
                       min_ma = c(0, 18, 32, 38, 45),
                       max_ma = c(18, 32, 38, 45, 53))
   expect_equal(nrow(time_bins(scale = scale, size = 15)), 4)
+  scale <- data.frame(name = 1:5,
+                      min_age = c(0, 18, 32, 38, 45),
+                      max_age = c(18, 32, 38, 45, 53))
+  expect_equal(nrow(time_bins(scale = scale, size = 15)), 4)
 
   #error handling
   expect_error(time_bins(interval = c("Mastrichtian", "Danian")))
