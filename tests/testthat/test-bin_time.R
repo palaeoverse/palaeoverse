@@ -25,8 +25,20 @@ test_that("bin_time() works", {
                             bins = data.frame(),
                             method = "mid"))
 
+  expect_error(bin_time(occdf = occdf, bins = bins, method = "point",
+                        fun = NULL))
+
+  expect_error(bin_time(occdf = occdf, bins = bins, method = "point",
+                        fun = dnorm, x = 1))
+
+  expect_error(bin_time(occdf = occdf, bins = bins, method = "point",
+                        fun = dnorm, test = 1))
+
+  expect_error(bin_time(occdf = occdf, bins = bins, method = "point",
+                        fun = dnorm, test1 = 1, test2 = 1))
+
   #expect equal
-  occdf <- tetrapods
+  occdf <- tetrapods[1:100, ]
 
   bins <- data.frame(bin = 1:54,
                      max_ma = seq(10, 540, 10),
@@ -39,7 +51,20 @@ test_that("bin_time() works", {
                                  method = "random")), 100)
 
   expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
-                                    method = "point")), TRUE)
+                                    method = "point", reps = 5,
+                                fun = dnorm, mean = 0.5, sd = 0.25)), TRUE)
+
+  occdf$min_ma[1] <- occdf$max_ma[1]
+
+  expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
+                                method = "point", reps = 5,
+                                fun = dnorm, mean = 0.5, sd = 0.25)), TRUE)
+
+  drm <- 1
+
+  expect_error(bin_time(occdf = occdf, bins = bins,
+                        method = "point", reps = 5,
+                        fun = drm, mean = 0.5, sd = 0.25))
 
   expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
                                     reps = 1,
@@ -58,9 +83,19 @@ test_that("bin_time() works", {
                                  bins = bins,
                                  method = "all")) > nrow(occdf), TRUE)
 
-  occdf <- data.frame(max_ma = c("Mastrichtian", "Albian"),
-                      min_ma = c("Mastrichtian", "Albian"))
-  expect_error(bin_time(occdf = occdf,
-                                       bins = bins,
-                                       return_error = TRUE))
+  occdf$min_ma[1] <- -5000
+  expect_error(length(bin_time(occdf = occdf,
+                               bins = bins,
+  )))
+
+  occdf$max_ma[1] <- 5000
+  expect_error(length(bin_time(occdf = occdf,
+                               bins = bins,
+  )))
+
+  occdf$max_ma[1] <- NA
+  expect_error(length(bin_time(occdf = occdf,
+                               bins = bins,
+                               )))
+
 })

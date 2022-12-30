@@ -2,6 +2,7 @@
 Updates
 
 * Added package-level documentation function
+* bin_time now accepts user-defined probability function (#20)
 * lat_bins now accepts user-defined latitudinal range (#23)
 * bin_lat now has functionality for handling boundary occurrences (#23)
 * tax_unique now supports arbitrary higher taxonomic levels (#52)
