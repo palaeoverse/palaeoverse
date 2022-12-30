@@ -54,6 +54,18 @@ test_that("bin_time() works", {
                                     method = "point", reps = 5,
                                 fun = dnorm, mean = 0.5, sd = 0.25)), TRUE)
 
+  occdf$min_ma[1] <- occdf$max_ma[1]
+
+  expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
+                                method = "point", reps = 5,
+                                fun = dnorm, mean = 0.5, sd = 0.25)), TRUE)
+
+  drm <- 1
+
+  expect_error(bin_time(occdf = occdf, bins = bins,
+                        method = "point", reps = 5,
+                        fun = drm, mean = 0.5, sd = 0.25))
+
   expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
                                     reps = 1,
                                     method = "random")$bin_midpoint), FALSE)
@@ -71,9 +83,19 @@ test_that("bin_time() works", {
                                  bins = bins,
                                  method = "all")) > nrow(occdf), TRUE)
 
-  occdf <- data.frame(max_ma = c("Mastrichtian", "Albian"),
-                      min_ma = c("Mastrichtian", "Albian"))
-  expect_error(bin_time(occdf = occdf,
-                                       bins = bins,
-                                       return_error = TRUE))
+  occdf$min_ma[1] <- -5000
+  expect_error(length(bin_time(occdf = occdf,
+                               bins = bins,
+  )))
+
+  occdf$max_ma[1] <- 5000
+  expect_error(length(bin_time(occdf = occdf,
+                               bins = bins,
+  )))
+
+  occdf$max_ma[1] <- NA
+  expect_error(length(bin_time(occdf = occdf,
+                               bins = bins,
+                               )))
+
 })

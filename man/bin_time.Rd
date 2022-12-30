@@ -4,7 +4,7 @@
 \alias{bin_time}
 \title{Assign fossil occurrences to time bins}
 \usage{
-bin_time(occdf, bins, method = "mid", reps = 100, fun = NULL, ...)
+bin_time(occdf, bins, method = "mid", reps = 100, fun = dunif, ...)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you

@@ -83,6 +83,7 @@
 #'
 #' @section Developer(s): Christopher D. Dean & Lewis A. Jones
 #' @section Reviewer(s): William Gearty
+#' @importFrom stats dunif
 #' @examples
 #' #Grab internal tetrapod data
 #' occdf <- tetrapods[1:100, ]
@@ -105,7 +106,7 @@
 #'                 fun = dnorm, mean = 0.5, sd = 0.25)
 #' @export
 bin_time <- function(occdf, bins, method = "mid", reps = 100,
-                     fun = NULL, ...) {
+                     fun = dunif, ...) {
     #=== Handling errors ===
     if (is.data.frame(occdf) == FALSE) {
       stop("`occdf` should be a dataframe.")
@@ -134,21 +135,21 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
     }
 
     if (!all(c("bin", "max_ma", "min_ma") %in% colnames(bins))) {
-      stop("bin, max_ma and/or min_ma do not exist in `bins`")
+      stop("bin, max_ma and/or min_ma do not exist in `bins`.")
     }
 
     if (is.numeric(occdf$max_ma) &&
         max(occdf$max_ma) > max(bins$max_ma)) {
-      stop("Maximum age of occurrence data surpasses maximum age of bins")
+      stop("Maximum age of occurrence data surpasses maximum age of bins.")
     }
 
     if (is.numeric(occdf$min_ma) &&
         min(occdf$min_ma) < min(bins$min_ma)) {
-      stop("Minimum age of occurrence data is less than minimum age of bins")
+      stop("Minimum age of occurrence data is less than minimum age of bins.")
     }
 
-    if (method == "point" && is.null(fun)) {
-      stop('`fun` is required for the "point" method.')
+    if (method == "point" && !is.function(fun)) {
+      stop('`fun` is not a function.')
     }
 
     #=== Reporting Info ===
@@ -250,7 +251,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
         #generate x for input probability function
         x_prob <- seq(from = 0, to = 1, length.out = length(occ_seq))
         # Generate probabilities
-        prob <- sapply(x_prob, fun, ...)
+        prob <- fun(x_prob, ...)
         #if max/min ages are the same replicate age
         if (length(unique(occ_seq)) == 1) {
           occ_list[[i]] <- rep(occ_seq, times = reps)
