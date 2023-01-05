@@ -262,7 +262,14 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   }
 
   #Remove absolute repeats
+  occurrences_with_dupes <- occurrences
   occurrences <- unique(occurrences)
+  occurrences$rows <- apply(
+    apply(
+      occurrences_with_dupes, 1, function(a) apply(
+        occurrences, 1, function(b) all(a==b | (is.na(a) & is.na(b))))
+      ), 1, function(row) paste(which(row), collapse = ",")
+    )
 
   #Create an empty dataset to collect unique occurrences in
   to_retain <- data.frame()
@@ -281,6 +288,9 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
                               select = -c(genus_species)),
                        to_retain,
                        by = c(rev(higher_names), "genus"), all = T)
+    to_retain$rows <- ifelse(is.na(to_retain$rows.y),
+                             to_retain$rows.x, to_retain$rows.y)
+    to_retain$rows.x <- to_retain$rows.y <- NULL
     occurrences <- occurrences[is.na(occurrences$genus), ]
 
   } else if (resolution == "genus") {
@@ -299,6 +309,7 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   }
 
   #Retain occurrences identified to higher levels and not already in dataset
+  print(to_retain)
   for (col_name in higher_names) {
     to_retain <- rbind(to_retain,
                        occurrences[!(occurrences[[col_name]] %in%
@@ -331,10 +342,11 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   #Reorder
   if (resolution == "species") {
     to_retain <- to_retain[, c(rev(higher_names), "genus", "genus_species",
-                               "unique_name")]
+                               "unique_name", "rows")]
   }
   if (resolution == "genus") {
-    to_retain <- to_retain[, c(rev(higher_names), "genus", "unique_name")]
+    to_retain <- to_retain[, c(rev(higher_names), "genus", "unique_name",
+                               "rows")]
   }
 
   for (col_name in rev(higher_names)) {
