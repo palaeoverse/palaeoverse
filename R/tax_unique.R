@@ -269,15 +269,20 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   #Remove absolute repeats
   if (orig) {
     occurrences_with_dupes <- occurrences
-    occurrences <- unique(occurrences)
     # List the rows of the original dataframe that correspond to each unique row
-    # This is a huge hit to performance, especially for large occdfs
-    occurrences$rows <- apply(
-      apply(
-        occurrences_with_dupes, 1, function(a) apply(
-          occurrences, 1, function(b) all(a==b | (is.na(a) & is.na(b))))
-      ), 1, function(row) paste(which(row), collapse = ",")
-    )
+    # Hack to include NAs as groups
+    occurrences_with_dupes[is.na(occurrences_with_dupes)] <- "thisisanNAvalue"
+    occurrences_with_dupes$rows <- seq_len(nrow(occurrences_with_dupes))
+    form <- as.formula(
+      paste(". ~",
+            paste(c(rev(higher_names), "genus", "genus_species"),
+                  collapse = " + "))
+      )
+    occurrences <- aggregate(form, data = occurrences_with_dupes,
+                             FUN = paste, collapse = ",")
+    # Switch hack groups back to true NAs
+    occurrences[occurrences == "thisisanNAvalue"] <- NA
+
   } else {
     occurrences <- unique(occurrences)
   }
