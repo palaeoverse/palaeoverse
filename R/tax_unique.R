@@ -29,11 +29,16 @@
 #' occurrence dataframe is of this type.
 #' @param resolution \code{character}. The taxonomic resolution at which to
 #' identify unique occurrences, either "species" (the default) or "genus".
+#' @param orig \code{logical}. Should the original dataframe be returned with
+#' the unique names appended as a new column?
 #'
 #' @return A \code{dataframe} of taxa, with each row corresponding to a unique
 #' "species" or "genus" in the dataset (depending on the chosen resolution).
 #' The dataframe will include the taxonomic information provided into the
-#' function, as well as a column providing the 'unique' names of each taxon.
+#' function, as well as a column providing the 'unique' names of each taxon. If
+#' \code{orig} is \code{TRUE}, the original dataframe (\code{occdf}) will be
+#' returned with these 'unique' names appended as a new column. Occurrences that
+#' do not represent unique taxa will have \code{NA} for their 'unique' names.
 #'
 #' @details Palaeobiologists usually count unique taxa by retaining only
 #' unique occurrences identified to a given taxonomic resolution, however
@@ -121,7 +126,7 @@
 #'
 tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
                        genus = NULL, ..., name = NULL,
-                       resolution = "species") {
+                       resolution = "species", orig = FALSE) {
   #Give errors for incorrect input
   if (is.null(occdf)) {
     stop("Must enter an `occdf` of occurrences or taxon names")
@@ -262,14 +267,20 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   }
 
   #Remove absolute repeats
-  occurrences_with_dupes <- occurrences
-  occurrences <- unique(occurrences)
-  occurrences$rows <- apply(
-    apply(
-      occurrences_with_dupes, 1, function(a) apply(
-        occurrences, 1, function(b) all(a==b | (is.na(a) & is.na(b))))
+  if (orig) {
+    occurrences_with_dupes <- occurrences
+    occurrences <- unique(occurrences)
+    # List the rows of the original dataframe that correspond to each unique row
+    # This is a huge hit to performance, especially for large occdfs
+    occurrences$rows <- apply(
+      apply(
+        occurrences_with_dupes, 1, function(a) apply(
+          occurrences, 1, function(b) all(a==b | (is.na(a) & is.na(b))))
       ), 1, function(row) paste(which(row), collapse = ",")
     )
+  } else {
+    occurrences <- unique(occurrences)
+  }
 
   #Create an empty dataset to collect unique occurrences in
   to_retain <- data.frame()
@@ -288,9 +299,11 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
                               select = -c(genus_species)),
                        to_retain,
                        by = c(rev(higher_names), "genus"), all = T)
-    to_retain$rows <- ifelse(is.na(to_retain$rows.y),
-                             to_retain$rows.x, to_retain$rows.y)
-    to_retain$rows.x <- to_retain$rows.y <- NULL
+    if (orig) {
+      to_retain$rows <- ifelse(is.na(to_retain$rows.y),
+                               to_retain$rows.x, to_retain$rows.y)
+      to_retain$rows.x <- to_retain$rows.y <- NULL
+    }
     occurrences <- occurrences[is.na(occurrences$genus), ]
 
   } else if (resolution == "genus") {
@@ -309,7 +322,6 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   }
 
   #Retain occurrences identified to higher levels and not already in dataset
-  print(to_retain)
   for (col_name in higher_names) {
     to_retain <- rbind(to_retain,
                        occurrences[!(occurrences[[col_name]] %in%
@@ -340,13 +352,14 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   }
 
   #Reorder
+  rows_col <- if (orig) "rows" else NULL
   if (resolution == "species") {
     to_retain <- to_retain[, c(rev(higher_names), "genus", "genus_species",
-                               "unique_name", "rows")]
+                               "unique_name", rows_col)]
   }
   if (resolution == "genus") {
     to_retain <- to_retain[, c(rev(higher_names), "genus", "unique_name",
-                               "rows")]
+                               rows_col)]
   }
 
   for (col_name in rev(higher_names)) {

@@ -11,7 +11,8 @@ tax_unique(
   genus = NULL,
   ...,
   name = NULL,
-  resolution = "species"
+  resolution = "species",
+  orig = FALSE
 )
 }
 \arguments{
@@ -43,12 +44,18 @@ occurrence dataframe is of this type.}
 
 \item{resolution}{\code{character}. The taxonomic resolution at which to
 identify unique occurrences, either "species" (the default) or "genus".}
+
+\item{orig}{\code{logical}. Should the original dataframe be returned with
+the unique names appended as a new column?}
 }
 \value{
 A \code{dataframe} of taxa, with each row corresponding to a unique
 "species" or "genus" in the dataset (depending on the chosen resolution).
 The dataframe will include the taxonomic information provided into the
-function, as well as a column providing the 'unique' names of each taxon.
+function, as well as a column providing the 'unique' names of each taxon. If
+\code{orig} is \code{TRUE}, the original dataframe (\code{occdf}) will be
+returned with these 'unique' names appended as a new column. Occurrences that
+do not represent unique taxa will have \code{NA} for their 'unique' names.
 }
 \description{
 A function to filter a list of taxonomic occurrences to unique taxa of a
