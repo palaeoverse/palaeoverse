@@ -278,8 +278,7 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
             paste(c(rev(higher_names), "genus", "genus_species"),
                   collapse = " + "))
       )
-    occurrences <- aggregate(form, data = occurrences_with_dupes,
-                             FUN = paste, collapse = ",")
+    occurrences <- aggregate(form, data = occurrences_with_dupes, FUN = c)
     # Switch hack groups back to true NAs
     occurrences[occurrences == "thisisanNAvalue"] <- NA
 
@@ -375,6 +374,15 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     to_retain <- to_retain[order(to_retain$genus_species), ]
   }
 
-  row.names(to_retain) <- NULL
-  return(to_retain)
+  if (orig) {
+    # Convert back to original dataframe
+    occdf$unique_name <- NA
+    for (i in seq_len(nrow(to_retain))) {
+      occdf$unique_name[to_retain$rows[[i]]] <- to_retain$unique_name[i]
+    }
+    return(occdf)
+  } else {
+    row.names(to_retain) <- NULL
+    return(to_retain)
+  }
 }
