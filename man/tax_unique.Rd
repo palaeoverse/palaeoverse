@@ -141,7 +141,7 @@ genera <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 order = "order", class = "class", resolution = "genus")
 
 #Append unique names to the original occurrences
-genera_appended <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+genera_append <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 order = "order", class = "class", resolution = "genus", append = TRUE)
 
 #Create dataframe from lists

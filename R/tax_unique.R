@@ -107,7 +107,7 @@
 #' order = "order", class = "class", resolution = "genus")
 #'
 #' #Append unique names to the original occurrences
-#' genera_appended <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+#' genera_append <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 #' order = "order", class = "class", resolution = "genus", append = TRUE)
 #'
 #' #Create dataframe from lists
@@ -304,7 +304,7 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
                               subset = !is.na(genus),
                               select = -c(genus_species)),
                        to_retain,
-                       by = c(rev(higher_names), "genus"), all = T)
+                       by = c(rev(higher_names), "genus"), all = TRUE)
     if (append) {
       to_retain$rows <- ifelse(is.na(to_retain$rows.y),
                                to_retain$rows.x, to_retain$rows.y)
