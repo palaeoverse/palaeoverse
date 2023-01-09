@@ -7,6 +7,7 @@ Updates
 * bin_lat now has functionality for handling boundary occurrences (#23)
 * tax_unique now supports arbitrary higher taxonomic levels (#52)
 * time_bins now supports user input dataframes (#19)
+* tax_unique now supports returning the unique names appended to the input dataframe (#51)
 
 Minor bug fixes
 

@@ -17,6 +17,10 @@ test_that("tax_unique() works", {
                                  "family", order = "order", class = "class",
                                name = "accepted_name")), 6)
   expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
+                                 "family", order = "order", class = "class",
+                               name = "accepted_name", append = TRUE)),
+               ncol(tetrapods) + 1)
+  expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
                                  "family", order = "order", name =
                                  "accepted_name")), 5)
   expect_equal(ncol(tax_unique(occdf = tetrapods, genus = "genus", family =
@@ -46,6 +50,10 @@ test_that("tax_unique() works", {
   expect_equal(nrow(tax_unique(occdf = dinosaurs, binomial = "binomial",
                                family = "family", order = "order",
                                class = "class")), 4)
+  expect_equal(nrow(tax_unique(occdf = dinosaurs, binomial = "binomial",
+                               family = "family", order = "order",
+                               class = "class", append = TRUE)),
+               nrow(dinosaurs))
 
   #expect true
   expect_true(is.data.frame(tax_unique(occdf = tetrapods, genus = "genus",
