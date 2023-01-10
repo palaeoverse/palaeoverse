@@ -3,8 +3,8 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   structure-and-standards: structure-and-standards.html
-last_built: 2022-12-30T15:13Z
+last_built: 2023-01-10T19:47Z
 urls:
-  reference: https://palaeoverse.org/reference
-  article: https://palaeoverse.org/articles
+  reference: https://palaeoverse.palaeoverse.org/reference
+  article: https://palaeoverse.palaeoverse.org/articles
 
