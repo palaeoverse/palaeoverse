@@ -96,6 +96,7 @@
 #' @section Reviewer(s):
 #' Lewis A. Jones & William Gearty
 #'
+#' @importFrom stats aggregate
 #' @examples
 #' #Retain unique species
 #' occdf <- tetrapods[1:100, ]
