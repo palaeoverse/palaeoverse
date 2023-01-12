@@ -35,6 +35,8 @@ home:
   links:
   - text: Twitter
     href: https://twitter.com/ThePalaeoverse
+  - text: Palaeoverse Website
+    href: https://palaeoverse.org
 
 reference:
 - title: Data cleaning and preparing
