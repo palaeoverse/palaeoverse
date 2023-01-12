@@ -29,11 +29,18 @@
 #' occurrence dataframe is of this type.
 #' @param resolution \code{character}. The taxonomic resolution at which to
 #' identify unique occurrences, either "species" (the default) or "genus".
+#' @param append \code{logical}. Should the original dataframe be returned with
+#' the unique names appended as a new column?
 #'
 #' @return A \code{dataframe} of taxa, with each row corresponding to a unique
 #' "species" or "genus" in the dataset (depending on the chosen resolution).
 #' The dataframe will include the taxonomic information provided into the
-#' function, as well as a column providing the 'unique' names of each taxon.
+#' function, as well as a column providing the 'unique' names of each taxon. If
+#' \code{append} is \code{TRUE}, the original dataframe (\code{occdf}) will be
+#' returned with these 'unique' names appended as a new column. Occurrences that
+#' are identified to a coarse taxonomic resolution and belong to a clade which
+#' is already represented within the dataset will have their 'unique' names
+#' listed as \code{NA}.
 #'
 #' @details Palaeobiologists usually count unique taxa by retaining only
 #' unique occurrences identified to a given taxonomic resolution, however
@@ -74,8 +81,8 @@
 #' common labels such as "NO_FAMILY_SPECIFIED" within Paleobiology Database
 #' datasets.
 #'
-#' The function matches taxonomic names at increasingly higher taxonomic levels,
-#' so homonyms may be falsely filtered out.
+#' The function matches taxonomic names at face value, so homonyms may be
+#' falsely filtered out.
 #'
 #' @section References:
 #'
@@ -90,6 +97,7 @@
 #' @section Reviewer(s):
 #' Lewis A. Jones & William Gearty
 #'
+#' @importFrom stats aggregate
 #' @examples
 #' #Retain unique species
 #' occdf <- tetrapods[1:100, ]
@@ -99,6 +107,10 @@
 #' #Retain unique genera
 #' genera <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 #' order = "order", class = "class", resolution = "genus")
+#'
+#' #Append unique names to the original occurrences
+#' genera_append <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+#' order = "order", class = "class", resolution = "genus", append = TRUE)
 #'
 #' #Create dataframe from lists
 #' occdf2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
@@ -121,7 +133,7 @@
 #'
 tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
                        genus = NULL, ..., name = NULL,
-                       resolution = "species") {
+                       resolution = "species", append = FALSE) {
   #Give errors for incorrect input
   if (is.null(occdf)) {
     stop("Must enter an `occdf` of occurrences or taxon names")
@@ -262,7 +274,21 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   }
 
   #Remove absolute repeats
-  occurrences <- unique(occurrences)
+  if (append) {
+    occurrences_with_dupes <- occurrences
+    # List the rows of the original dataframe that correspond to each unique row
+    # Hack to include NAs as groups
+    occurrences_with_dupes[is.na(occurrences_with_dupes)] <- "thisisanNAvalue"
+    occurrences_with_dupes$rows <- seq_len(nrow(occurrences_with_dupes))
+    cols <- c(rev(higher_names), "genus")
+    if (resolution == "species") cols <- c(cols, "genus_species")
+    form <- as.formula(paste("rows ~", paste(cols, collapse = " + ")))
+    occurrences <- aggregate(form, data = occurrences_with_dupes, FUN = c)
+    # Switch hack groups back to true NAs
+    occurrences[occurrences == "thisisanNAvalue"] <- NA
+  } else {
+    occurrences <- unique(occurrences)
+  }
 
   #Create an empty dataset to collect unique occurrences in
   to_retain <- data.frame()
@@ -280,18 +306,25 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
                               subset = !is.na(genus),
                               select = -c(genus_species)),
                        to_retain,
-                       by = c(rev(higher_names), "genus"), all = T)
+                       by = c(rev(higher_names), "genus"), all = TRUE)
+    if (append) {
+      to_retain$rows <- ifelse(is.na(to_retain$rows.y),
+                               to_retain$rows.x, to_retain$rows.y)
+      to_retain$rows.x <- to_retain$rows.y <- NULL
+    }
     occurrences <- occurrences[is.na(occurrences$genus), ]
 
   } else if (resolution == "genus") {
-    #Remove genus_species column and remove genus repeats
-    if (!is.null(binomial) || !is.null(name)) {
-      occurrences <- subset(occurrences, select = -c(genus_species))
-    } else if (!is.null(species)) {
-      occurrences <- subset(occurrences, select = -c(genus_species, species))
-    }
+    if (!append) {
+      #Remove genus_species column and remove genus repeats
+      if (!is.null(binomial) || !is.null(name)) {
+        occurrences <- subset(occurrences, select = -c(genus_species))
+      } else if (!is.null(species)) {
+        occurrences <- subset(occurrences, select = -c(genus_species, species))
+      }
 
-    occurrences <- unique(occurrences)
+      occurrences <- unique(occurrences)
+    }
 
     #Retain genus identifications and remove from dataframe
     to_retain <- rbind(to_retain, occurrences[!is.na(occurrences$genus), ])
@@ -329,12 +362,14 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   }
 
   #Reorder
+  rows_col <- if (append) "rows" else NULL
   if (resolution == "species") {
     to_retain <- to_retain[, c(rev(higher_names), "genus", "genus_species",
-                               "unique_name")]
+                               "unique_name", rows_col)]
   }
   if (resolution == "genus") {
-    to_retain <- to_retain[, c(rev(higher_names), "genus", "unique_name")]
+    to_retain <- to_retain[, c(rev(higher_names), "genus", "unique_name",
+                               rows_col)]
   }
 
   for (col_name in rev(higher_names)) {
@@ -345,6 +380,15 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     to_retain <- to_retain[order(to_retain$genus_species), ]
   }
 
-  row.names(to_retain) <- NULL
-  return(to_retain)
+  if (append) {
+    # Convert back to original dataframe
+    occdf$unique_name <- NA
+    for (i in seq_len(nrow(to_retain))) {
+      occdf$unique_name[to_retain$rows[[i]]] <- to_retain$unique_name[i]
+    }
+    return(occdf)
+  } else {
+    row.names(to_retain) <- NULL
+    return(to_retain)
+  }
 }

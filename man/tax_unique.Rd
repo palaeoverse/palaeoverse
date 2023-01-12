@@ -11,7 +11,8 @@ tax_unique(
   genus = NULL,
   ...,
   name = NULL,
-  resolution = "species"
+  resolution = "species",
+  append = FALSE
 )
 }
 \arguments{
@@ -43,12 +44,20 @@ occurrence dataframe is of this type.}
 
 \item{resolution}{\code{character}. The taxonomic resolution at which to
 identify unique occurrences, either "species" (the default) or "genus".}
+
+\item{append}{\code{logical}. Should the original dataframe be returned with
+the unique names appended as a new column?}
 }
 \value{
 A \code{dataframe} of taxa, with each row corresponding to a unique
 "species" or "genus" in the dataset (depending on the chosen resolution).
 The dataframe will include the taxonomic information provided into the
-function, as well as a column providing the 'unique' names of each taxon.
+function, as well as a column providing the 'unique' names of each taxon. If
+\code{append} is \code{TRUE}, the original dataframe (\code{occdf}) will be
+returned with these 'unique' names appended as a new column. Occurrences that
+are identified to a coarse taxonomic resolution and belong to a clade which
+is already represented within the dataset will have their 'unique' names
+listed as \code{NA}.
 }
 \description{
 A function to filter a list of taxonomic occurrences to unique taxa of a
@@ -99,8 +108,8 @@ Missing data should be indicated with NAs, although the function can handle
 common labels such as "NO_FAMILY_SPECIFIED" within Paleobiology Database
 datasets.
 
-The function matches taxonomic names at increasingly higher taxonomic levels,
-so homonyms may be falsely filtered out.
+The function matches taxonomic names at face value, so homonyms may be
+falsely filtered out.
 }
 \section{References}{
 
@@ -131,6 +140,10 @@ order = "order", class = "class", name = "accepted_name")
 #Retain unique genera
 genera <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 order = "order", class = "class", resolution = "genus")
+
+#Append unique names to the original occurrences
+genera_append <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+order = "order", class = "class", resolution = "genus", append = TRUE)
 
 #Create dataframe from lists
 occdf2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
