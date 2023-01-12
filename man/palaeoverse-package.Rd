@@ -13,8 +13,9 @@ Provides functionality to support data preparation and exploration for palaeobio
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://palaeoverse.org}
+  \item \url{https://palaeoverse.palaeoverse.org}
   \item \url{https://github.com/palaeoverse-community/palaeoverse}
+  \item \url{https://palaeoverse.org}
   \item Report bugs at \url{https://github.com/palaeoverse-community/palaeoverse/issues}
 }
 

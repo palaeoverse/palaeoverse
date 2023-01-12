@@ -240,7 +240,7 @@ test_that("time_bins() works", {
 
 # Contributing to palaeoverse
 
-At `palaeoverse` we have adopted a set of [structures and standards](https://palaeoverse.org/articles/structure-and-standards.html) to follow for contributing to the development of `palaeoverse`. If you would like to contribute to the `palaeoverse` toolkit, we strongly advise reading this document first. If you plan to contribute a function to `palaeoverse`, you should first raise an [issue](https://github.com/palaeoverse-community/palaeoverse/issues) via the GitHub repository (see below). This way the development team can assess whether the function is suitable or needed in the `palaeoverse` toolkit prior to submission.
+At `palaeoverse` we have adopted a set of [structures and standards](https://palaeoverse.palaeoverse.org/articles/structure-and-standards.html) to follow for contributing to the development of `palaeoverse`. If you would like to contribute to the `palaeoverse` toolkit, we strongly advise reading this document first. If you plan to contribute a function to `palaeoverse`, you should first raise an [issue](https://github.com/palaeoverse-community/palaeoverse/issues) via the GitHub repository (see below). This way the development team can assess whether the function is suitable or needed in the `palaeoverse` toolkit prior to submission.
 
 ## Git and GitHub
 We use git via Github [(**palaeoverse-community**)](https://github.com/palaeoverse-community) to manage our R code and data. If you are not familiar with these tools, there are some excellent free resources available online:

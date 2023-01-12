@@ -1,4 +1,4 @@
-# palaeoverse development version
+# palaeoverse 1.1.0
 Updates
 
 * Added package-level documentation function
