@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">palaeoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,10 +51,34 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.0" id="palaeoverse-110">palaeoverse 1.1.0<a class="anchor" aria-label="anchor" href="#palaeoverse-110"></a></h2>
+<p>Updates</p>
+<ul><li>Added package-level documentation function</li>
+<li>bin_time now accepts user-defined probability function (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/20" class="external-link">#20</a>)</li>
+<li>lat_bins now accepts user-defined latitudinal range (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/23" class="external-link">#23</a>)</li>
+<li>bin_lat now has functionality for handling boundary occurrences (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/23" class="external-link">#23</a>)</li>
+<li>tax_unique now supports arbitrary higher taxonomic levels (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/52" class="external-link">#52</a>)</li>
+<li>time_bins now supports user input dataframes (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/19" class="external-link">#19</a>)</li>
+<li>tax_unique now supports returning the unique names appended to the input dataframe (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/51" class="external-link">#51</a>)</li>
+</ul><p>Minor bug fixes</p>
+<ul><li>Updated palaeorotate reconstruction files to use an hexagonal equal-area grid (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/59" class="external-link">#59</a>)</li>
+<li>Added error handling for when GPlates and Zenodo is offline</li>
+<li>Added default value for the round argument in palaeorotate</li>
+<li>Resolved issue with chunk processing in palaeorotate</li>
+<li>Fixed the behavior of time_bins(scale = “GTS2012”) (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/62" class="external-link">#62</a>)</li>
+<li>Fixed tests when suggested packages were not installed (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/64" class="external-link">#64</a>)</li>
+<li>Removed dependence of tests on divDyn and deeptime (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/64" class="external-link">#64</a>)</li>
+<li>Fixed tax_range_time example (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/60" class="external-link">#60</a>)</li>
+<li>Fixed look_up issue when handling pre-Cambrian occurrences (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/63" class="external-link">#63</a>)</li>
+<li>tax_unique now retains homonyms from different higher taxonomic groups (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/50" class="external-link">#50</a>)</li>
+<li>Fixed axis_geo for phylogenies (<a href="https://github.com/palaeoverse-community/palaeoverse/issues/68" class="external-link">#68</a>)</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="palaeoverse-100">palaeoverse 1.0.0<a class="anchor" aria-label="anchor" href="#palaeoverse-100"></a></h2><p class="text-muted">CRAN release: 2022-10-31</p>
 <p>First full release of the palaeoverse R package. The package provides functions to help streamline analyses and improve code readability and reproducibility.</p>
 </div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
