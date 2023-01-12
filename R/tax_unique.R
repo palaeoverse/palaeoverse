@@ -38,8 +38,9 @@
 #' function, as well as a column providing the 'unique' names of each taxon. If
 #' \code{append} is \code{TRUE}, the original dataframe (\code{occdf}) will be
 #' returned with these 'unique' names appended as a new column. Occurrences that
-#' are identified to a coarser taxonomic resolution which is already represented
-#' within the dataset will have \code{NA} for their 'unique' names.
+#' are identified to a coarse taxonomic resolution and belong to a clade which
+#' is already represented within the dataset will have their 'unique' names
+#' listed as \code{NA}.
 #'
 #' @details Palaeobiologists usually count unique taxa by retaining only
 #' unique occurrences identified to a given taxonomic resolution, however
@@ -80,8 +81,8 @@
 #' common labels such as "NO_FAMILY_SPECIFIED" within Paleobiology Database
 #' datasets.
 #'
-#' The function matches taxonomic names at increasingly higher taxonomic levels,
-#' so homonyms may be falsely filtered out.
+#' The function matches taxonomic names at face value, so homonyms may be
+#' falsely filtered out.
 #'
 #' @section References:
 #'
