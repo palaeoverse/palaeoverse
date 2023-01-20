@@ -70,22 +70,22 @@ test_that("axis_geo() works with phylogenies", {
   data(mammal.tree)
   expect_doppelganger("axis_geo() with ultrametric tree", function() {
     plot(mammal.tree)
-    axis_geo(phylo = TRUE)
+    axis_geo(intervals = epochs, phylo = TRUE)
   })
   expect_doppelganger("axis_geo() with backwards ultrametric tree", function() {
     plot(mammal.tree, direction = "l")
-    axis_geo_phylo()
+    axis_geo_phylo(intervals = epochs)
   })
   skip_if_not_installed("paleotree")
   library(paleotree)
   data(RaiaCopesRule)
   expect_doppelganger("axis_geo() with fossil tree", function() {
     plot(ceratopsianTreeRaia)
-    axis_geo_phylo()
+    axis_geo_phylo(intervals = epochs)
   })
   expect_doppelganger("axis_geo() with downwards fossil tree", function() {
     plot(ceratopsianTreeRaia, direction = "d")
-    axis_geo(side = 2, phylo = TRUE)
+    axis_geo(side = 2, intervals = epochs, phylo = TRUE)
   })
 })
 
