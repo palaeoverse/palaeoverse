@@ -1,6 +1,6 @@
 Package: palaeoverse
 Title: Prepare and Explore Data for Palaeobiological Analyses
-Version: 1.1.0.9000
+Version: 1.1.0.9001
 Authors@R: c(
     person(given = "Lewis A.", family = "Jones", email = "LewisAlan.Jones@uvigo.es",
       role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3902-8986")),

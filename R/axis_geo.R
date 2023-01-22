@@ -8,7 +8,7 @@
 #' \code{\link[deeptime]{stages}}, \code{\link[deeptime]{eons}}, and
 #' \code{\link[deeptime]{eras}} and any interval data hosted by Macrostrat are
 #' also available from the \code{deeptime} package (see
-#' \code{\link[deeptime]{getScaleData}}). A custom interval dataset can also
+#' \code{\link[deeptime]{get_scale_data}}). A custom interval dataset can also
 #' be provided (see Details below). The appearance of the axis is highly
 #' customizable (see Usage below), with the intent that plots will be
 #' publication-ready.
@@ -56,7 +56,7 @@
 #'   the default; \code{2}: left; \code{3}: top; \code{4}: right).
 #' @param intervals The interval information to use to plot the axis: either A)
 #'   a \code{character} string indicating a built-in or remotely hosted
-#'   \code{data.frame} (see \code{\link[deeptime]{getScaleData}}), or B) a
+#'   \code{data.frame} (see \code{\link[deeptime]{get_scale_data}}), or B) a
 #'   custom \code{data.frame} of time interval boundaries (see Details).
 #' @param height \code{numeric}. The relative height (or width if \code{side} is
 #'   \code{2} or \code{4}) of the scale. This is relative to the height (if
@@ -133,7 +133,7 @@
 #' @section Reviewer:
 #'   Lewis A. Jones
 #' @importFrom graphics rect text clip axis par segments
-#' @importFrom deeptime getScaleData
+#' @importFrom deeptime get_scale_data
 #' @importFrom methods is
 #' @importFrom ape .PlotPhyloEnv
 #' @examples
@@ -404,7 +404,7 @@ axis_geo <- function(
     # get the requested data if necessary
     scale_intervals <- intervals[[scale]]
     if (!is(scale_intervals, "data.frame")) {
-      scale_intervals <- getScaleData(scale_intervals)
+      scale_intervals <- get_scale_data(scale_intervals)
     }
     # fix column names if using palaeoverse data
     colnames(scale_intervals)[colnames(scale_intervals) == "interval_name"] <-

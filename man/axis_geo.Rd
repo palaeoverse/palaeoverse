@@ -39,7 +39,7 @@ the default; \code{2}: left; \code{3}: top; \code{4}: right).}
 
 \item{intervals}{The interval information to use to plot the axis: either A)
 a \code{character} string indicating a built-in or remotely hosted
-\code{data.frame} (see \code{\link[deeptime]{getScaleData}}), or B) a
+\code{data.frame} (see \code{\link[deeptime]{get_scale_data}}), or B) a
 custom \code{data.frame} of time interval boundaries (see Details).}
 
 \item{height}{\code{numeric}. The relative height (or width if \code{side} is
@@ -142,7 +142,7 @@ ICS. However, international \code{\link[deeptime]{epochs}},
 \code{\link[deeptime]{stages}}, \code{\link[deeptime]{eons}}, and
 \code{\link[deeptime]{eras}} and any interval data hosted by Macrostrat are
 also available from the \code{deeptime} package (see
-\code{\link[deeptime]{getScaleData}}). A custom interval dataset can also
+\code{\link[deeptime]{get_scale_data}}). A custom interval dataset can also
 be provided (see Details below). The appearance of the axis is highly
 customizable (see Usage below), with the intent that plots will be
 publication-ready.
