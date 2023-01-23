@@ -1,3 +1,8 @@
+# palaeoverse 1.1.0.9...
+
+* palaeoverse now requires deeptime (>= 1.0.0)
+* Added additional test to catch when Zenodo is offline (palaeorotate)
+
 # palaeoverse 1.1.0
 Updates
 

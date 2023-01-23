@@ -1,5 +1,6 @@
 test_that("palaeorotate() point method works", {
   skip_if_offline(host = "gwsdoc.gplates.org")
+  skip_if_offline(host = "zenodo.org")
 
   occdf <- data.frame(lng = c(2, -103, -66),
                       lat = c(46, 35, -7),
