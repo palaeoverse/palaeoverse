@@ -540,7 +540,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Add warning
     if (any(!is.na(occdf$p_lng)) || any(!is.na(occdf$p_lat))) {
       if ((sum(occdf$p_lng == occdf[, lng], na.rm = TRUE) +
-          sum(occdf$p_lng == occdf[, lng], na.rm = TRUE)) > 0) {
+          sum(occdf$p_lat == occdf[, lat], na.rm = TRUE)) > 1) {
         message(
           paste0("Palaeocoordinates equal to input coordinates detected.",
                  "\n",
