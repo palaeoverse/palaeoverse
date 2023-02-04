@@ -72,12 +72,14 @@
 #' palaeocoordinates with higher precision.
 #'
 #' Available models and timespan for each `method`:
+#' - "MULLER2022" (Müller et al., 2022)
+#'   - 0--540 Ma (grid)
+#'   - 0--1000 Ma (point)
 #' - "MERDITH2021" (Merdith et al., 2021)
 #'   - 0--540 Ma (grid)
 #'   - 0--1000 Ma (point)
 #' - "MULLER2019" (Müller et al., 2019)
-#'   - 0--540 Ma (grid)
-#'   - 0--1100 Ma (point)
+#'   - 0--250 Ma (grid/point)
 #' - "MULLER2016" (Müller et al., 2016)
 #'   - 0--230 Ma (grid/point)
 #' - "MATTHEWS2016_mantle_ref" (Matthews et al., 2016)
@@ -106,6 +108,12 @@
 #' Neoproterozoic and the Phanerozoic.
 #' Earth-Science Reviews, 214(103477). \doi{10.1016/j.earscirev.2020.103477}.
 #'
+#' - Müller, R. D., Flament, N., Cannon, J., Tetley, M. G., Williams,
+#' S. E., Cao, X., Bodur, Ö. F., Zahirovic, S., and Merdith, A. (2022).
+#' A tectonic-rules-based mantle reference frame since 1 billion years ago –
+#' implications for supercontinent cycles and plate–mantle system evolution,
+#' Solid Earth, 13, 1127–1159. \doi{10.5194/se-13-1127-2022}.
+#'
 #' - Müller, R. D., Zahirovic, S., Williams, S. E., Cannon, J., Seton, M.,
 #' Bower, D. J., Tetley, M. G., Heine, C., Le Breton, E., Liu, S.,
 #' Russell, S. H. J., Yang, T., Leonard, J., and Gurnis, M. (2019).
@@ -115,7 +123,7 @@
 #'
 #' - Müller R.D., Seton, M., Zahirovic, S., Williams, S.E., Matthews, K.J.,
 #' Wright, N.M., Shephard, G.E., Maloney, K.T., Barnett-Moore, N.,
-#' Hosseinpour, M., Bower, D.J., Cannon, J., 2016.
+#' Hosseinpour, M., Bower, D.J., Cannon, J. (2016).
 #' Ocean basin evolution and global-scale plate reorganization events since
 #' Pangea breakup. Annual Review of Earth and Planetary Sciences 44(1),
 #' 107-138. \doi{10.1146/annurev-earth-060115-012211}.
@@ -223,7 +231,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   }
 
   # Model available?
-  available <- c("MERDITH2021",
+  available <- c("MULLER2022",
+                 "MERDITH2021",
                  "MULLER2019",
                  "MULLER2016",
                  "MATTHEWS2016_mantle_ref",
@@ -282,6 +291,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Reconstruction files
     rot_files <- list(
       BASE = "https://zenodo.org/record/7390066/files/",
+      MULLER2022 = "MULLER2022.RDS",
       MERDITH2021 = "MERDITH2021.RDS",
       PALEOMAP = "PALEOMAP.RDS",
       GOLONKA = "GOLONKA.RDS",

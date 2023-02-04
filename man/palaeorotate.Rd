@@ -98,6 +98,11 @@ palaeocoordinates with higher precision.
 
 Available models and timespan for each \code{method}:
 \itemize{
+\item "MULLER2022" (Müller et al., 2022)
+\itemize{
+\item 0--540 Ma (grid)
+\item 0--1000 Ma (point)
+}
 \item "MERDITH2021" (Merdith et al., 2021)
 \itemize{
 \item 0--540 Ma (grid)
@@ -105,8 +110,7 @@ Available models and timespan for each \code{method}:
 }
 \item "MULLER2019" (Müller et al., 2019)
 \itemize{
-\item 0--540 Ma (grid)
-\item 0--1100 Ma (point)
+\item 0--250 Ma (grid/point)
 }
 \item "MULLER2016" (Müller et al., 2016)
 \itemize{
@@ -148,6 +152,11 @@ Müller. R.D. (2021).
 Extending full-plate tectonic models into deep time: Linking the
 Neoproterozoic and the Phanerozoic.
 Earth-Science Reviews, 214(103477). \doi{10.1016/j.earscirev.2020.103477}.
+\item Müller, R. D., Flament, N., Cannon, J., Tetley, M. G., Williams,
+S. E., Cao, X., Bodur, Ö. F., Zahirovic, S., and Merdith, A. (2022).
+A tectonic-rules-based mantle reference frame since 1 billion years ago –
+implications for supercontinent cycles and plate–mantle system evolution,
+Solid Earth, 13, 1127–1159. \doi{10.5194/se-13-1127-2022}.
 \item Müller, R. D., Zahirovic, S., Williams, S. E., Cannon, J., Seton, M.,
 Bower, D. J., Tetley, M. G., Heine, C., Le Breton, E., Liu, S.,
 Russell, S. H. J., Yang, T., Leonard, J., and Gurnis, M. (2019).
@@ -156,7 +165,7 @@ and orogens since the Triassic.
 Tectonics, 38(6) 1884-1907. \doi{10.1029/2018TC005462}.
 \item Müller R.D., Seton, M., Zahirovic, S., Williams, S.E., Matthews, K.J.,
 Wright, N.M., Shephard, G.E., Maloney, K.T., Barnett-Moore, N.,
-Hosseinpour, M., Bower, D.J., Cannon, J., 2016.
+Hosseinpour, M., Bower, D.J., Cannon, J. (2016).
 Ocean basin evolution and global-scale plate reorganization events since
 Pangea breakup. Annual Review of Earth and Planetary Sciences 44(1),
 107-138. \doi{10.1146/annurev-earth-060115-012211}.
