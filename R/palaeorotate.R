@@ -463,7 +463,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
              call. = FALSE)
       })
   # Define maximum chunk size for API calls
-  chunks <- 300
+  chunks <- 200
   # Run across unique ages
   rotations <- pbapply::pblapply(X = uni_ages, function(i) {
     # Subset to age of interest
@@ -471,7 +471,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # How many rows?
     nr <- nrow(tmp)
     # Generate chunk bins
-    chk <- seq(from = 0, to = nr + 300, by = 300)
+    chk <- seq(from = 0, to = nr + chunks, by = chunks)
     # Update final bin to equal nrow
     chk[length(chk)] <- nr
     # Chunk size exceeds number of rows?
