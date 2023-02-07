@@ -3,6 +3,7 @@
 * palaeoverse now requires deeptime (>= 1.0.0)
 * Added additional test to catch when Zenodo is offline (palaeorotate)
 * palaeorotate documentation updated and MULLER2022 model made available
+* uncertainty argument in palaeorotate updated to enable user-input
 
 # palaeoverse 1.1.0
 Updates

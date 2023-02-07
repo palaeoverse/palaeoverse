@@ -63,7 +63,9 @@ test_that("palaeorotate() grid method works", {
   expect_equal(
     ncol(
       palaeorotate(occdf = occdf,
-                   uncertainty = TRUE)[, c("range_p_lat",
+                   uncertainty = c("MERDITH2021",
+                                   "GOLONKA",
+                                   "SETON2012"))[, c("range_p_lat",
                                            "max_dist")]), 2)
 
   expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")), 3)
@@ -78,7 +80,15 @@ test_that("palaeorotate() grid method works", {
 
 
   # Wrong uncertainty input
-  expect_error(palaeorotate(occdf = occdf, uncertainty = "TRUE"))
+  expect_error(palaeorotate(occdf = occdf, uncertainty = c("GALONKA",
+                                                           "MIRDITH2021")))
+  expect_error(palaeorotate(occdf = occdf, uncertainty = c("GOLONKA")))
+
+  # Expect warnings
+  expect_warning(palaeorotate(occdf = occdf, uncertainty = c("GOLONKA",
+                                                           "SETON2012",
+                                                           "MULLER2022")))
+  expect_warning(palaeorotate(occdf = occdf, model = "MULLER2022"))
 
   # Wrong uncertainty input
   expect_error(palaeorotate(occdf = occdf, uncertainty = 2))

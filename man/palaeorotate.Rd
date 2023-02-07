@@ -11,7 +11,7 @@ palaeorotate(
   age = "age",
   model = "MERDITH2021",
   method = "grid",
-  uncertainty = FALSE,
+  uncertainty = NULL,
   round = 3
 )
 }
@@ -38,12 +38,14 @@ for fossil occurrences. Either "grid" (default) to use reconstruction files,
 or "point" to use the GPlates API service. See details section for specific
 details.}
 
-\item{uncertainty}{\code{logical}. Should the uncertainty in
-palaeogeographic reconstructions be returned? If set to TRUE, the
-palaeocoordinates from all reconstruction files (models) are returned, along
-with their respective palaeolatitudinal range and the maximum Great
-Circle Distance between palaeocoordinates (in km). This argument is only
-relevant if \code{method} is set to "grid".}
+\item{uncertainty}{\code{NULL} or \code{character}. The names of the plate
+rotation models to calculate palaeogeographic uncertainty for.
+Palaeocoordinates from all reconstruction files (models) will be returned,
+along with their respective palaeolatitudinal range and the maximum Great
+Circle Distance between palaeocoordinates (in km).
+By default, this argument is set to NULL (default) and palaeogographic
+uncertainty is not calculated. This argument is only relevant if \code{method}
+is set to "grid".}
 
 \item{round}{\code{numeric}. Numeric value indicating the number of decimal
 places \code{lng}, \code{lat} and \code{age} should be rounded to. This functionality is
@@ -138,6 +140,11 @@ Available models and timespan for each \code{method}:
 \item 0--750 Ma (point)
 }
 }
+
+While access is provided to all Global Plate Models available via the
+GPlates API, the use of the following mantle reference frame models is not
+recommended for reconstructing coordinates:
+"MULLER2022", "MULLER2019", and "MATTHEWS2016_mantle_ref".
 }
 \section{References}{
 
@@ -223,6 +230,9 @@ tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 ex3 <- palaeorotate(occdf = tetrapods)
 
 #Calculate uncertainity in palaeocoordinates from models
-ex4 <- palaeorotate(occdf = tetrapods, uncertainty = TRUE)
+ex4 <- palaeorotate(occdf = tetrapods, uncertainty = c("MERDITH2021",
+                                                       "GOLONKA",
+                                                       "PALEOMAP",
+                                                       "SETON2012"))
 }
 }

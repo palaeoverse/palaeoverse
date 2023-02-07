@@ -22,12 +22,14 @@
 #' for fossil occurrences. Either "grid" (default) to use reconstruction files,
 #' or "point" to use the GPlates API service. See details section for specific
 #' details.
-#' @param uncertainty \code{logical}. Should the uncertainty in
-#' palaeogeographic reconstructions be returned? If set to TRUE, the
-#' palaeocoordinates from all reconstruction files (models) are returned, along
-#' with their respective palaeolatitudinal range and the maximum Great
-#' Circle Distance between palaeocoordinates (in km). This argument is only
-#' relevant if `method` is set to "grid".
+#' @param uncertainty \code{NULL} or \code{character}. The names of the plate
+#' rotation models to calculate palaeogeographic uncertainty for.
+#' Palaeocoordinates from all reconstruction files (models) will be returned,
+#' along with their respective palaeolatitudinal range and the maximum Great
+#' Circle Distance between palaeocoordinates (in km).
+#' By default, this argument is set to NULL (default) and palaeogographic
+#' uncertainty is not calculated. This argument is only relevant if `method`
+#' is set to "grid".
 #' @param round \code{numeric}. Numeric value indicating the number of decimal
 #' places `lng`, `lat` and `age` should be rounded to. This functionality is
 #' only relevant for the "point" `method`. Rounding can speed up palaeorotation
@@ -93,6 +95,11 @@
 #' - "PALEOMAP" (Scotese & Wright, 2018)
 #'   - 0--540 Ma (grid)
 #'   - 0--750 Ma (point)
+#'
+#' While access is provided to all Global Plate Models available via the
+#' GPlates API, the use of the following mantle reference frame models is not
+#' recommended for reconstructing coordinates:
+#' "MULLER2022", "MULLER2019", and "MATTHEWS2016_mantle_ref".
 #'
 #' @section References:
 #'
@@ -185,12 +192,15 @@
 #' ex3 <- palaeorotate(occdf = tetrapods)
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
-#' ex4 <- palaeorotate(occdf = tetrapods, uncertainty = TRUE)
+#' ex4 <- palaeorotate(occdf = tetrapods, uncertainty = c("MERDITH2021",
+#'                                                        "GOLONKA",
+#'                                                        "PALEOMAP",
+#'                                                        "SETON2012"))
 #' }
 #' @export
 palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                          model = "MERDITH2021", method = "grid",
-                         uncertainty = FALSE, round = 3) {
+                         uncertainty = NULL, round = 3) {
   # Error-handling ----------------------------------------------------------
   if (!exists("occdf") || !is.data.frame(occdf)) {
     stop("Please supply occdf as a dataframe")
@@ -226,8 +236,29 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     stop("`round` should be NULL or of class numeric")
   }
 
-  if (!is.logical(uncertainty)) {
-    stop("`uncertainty` should be a logical value: TRUE/FALSE")
+  if (!is.null(uncertainty) && !is.character(uncertainty)) {
+    stop("`uncertainty` should be NULL or a vector of model names")
+  }
+
+  # Add warnings for use of mantle reference frame models
+  if (any(model %in% c("MULLER2022", "MULLER2019",
+                   "MATTHEWS2016_mantle_ref"))) {
+    warning(paste0("Selected model(s) use a mantle reference frame and are ",
+    "not recommended for reconstructing palaeocoordinates. See details."))
+  }
+
+  if (any(uncertainty %in% c("MULLER2022", "MULLER2019",
+                       "MATTHEWS2016_mantle_ref"))) {
+    warning(paste0("Selected model(s) use a mantle reference frame and are ",
+    "not recommended for reconstructing palaeocoordinates. See details."))
+  }
+
+  if (length(uncertainty) == 1){
+    stop("At least two models are required to calculate `uncertainty`.")
+  }
+
+  if (is.character(uncertainty)) {
+    model <- uncertainty
   }
 
   # Model available?
@@ -243,17 +274,14 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Match input
   model <- available[charmatch(x = model, table = available)]
   # Invalid model input?
-  if (is.na(model)) {
-    stop("Unavailable model. Choose one from the following: \n",
+  if (any(is.na(model))) {
+    stop("Unavailable model(s). Choose one from the following: \n",
          toString(available))
   }
 
   # Set-up ------------------------------------------------------------------
   # Set up dataframe for populating
-  occdf$rot_model <- model
-  if (uncertainty == TRUE) {
-    occdf$rot_model <- "All available"
-    }
+  occdf$rot_model <- toString(model)
 
   # Should coordinates be rounded off?
   if (!is.null(round)) {
@@ -290,7 +318,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
     # Reconstruction files
     rot_files <- list(
-      BASE = "https://zenodo.org/record/7390066/files/",
+      BASE = "https://zenodo.org/record/7615203/files/",
       MULLER2022 = "MULLER2022.RDS",
       MERDITH2021 = "MERDITH2021.RDS",
       PALEOMAP = "PALEOMAP.RDS",
@@ -302,9 +330,9 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       MATTHEWS2016_mantle_ref = "MATTHEWS2016_mantle_ref.RDS"
     )
 
-    if (uncertainty == TRUE) {
+    if (is.character(uncertainty)) {
       # Download all rotations
-      nme <- names(rot_files[-1])
+      nme <- names(rot_files[uncertainty])
       # Already downloaded check
       if (any(file.exists(paste0(files, "/", nme, ".RDS")) == FALSE)) {
         for (f in nme) {
@@ -331,7 +359,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
 
     # Generate reference object for linking
-    assign("base_model", readRDS(paste0(files, "/", model, ".RDS")))
+    assign("base_model", readRDS(paste0(files, "/", model[1], ".RDS")))
 
     # Get available rotation ages
     rot_age <- colnames(base_model)[3:ncol(base_model)]
@@ -369,7 +397,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     occdf$rot_lat <- base_model[pc_ind, c("lat")]
 
     # Assign coordinates and calculate uncertainty
-    if (uncertainty == TRUE) {
+    if (is.character(uncertainty)) {
       # Create empty list
       rot_files <- list()
       # Load rotations
@@ -463,7 +491,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
              call. = FALSE)
       })
   # Define maximum chunk size for API calls
-  chunks <- 200
+  chunks <- 300
   # Run across unique ages
   rotations <- pbapply::pblapply(X = uni_ages, function(i) {
     # Subset to age of interest
