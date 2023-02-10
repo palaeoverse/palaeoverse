@@ -256,7 +256,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     "not recommended for reconstructing palaeocoordinates. See details."))
   }
 
-  if (length(model) < 2 && uncertainty == TRUE){
+  if (length(model) < 2 && uncertainty == TRUE) {
     stop("At least two models are required to calculate `uncertainty`.")
   }
 
@@ -500,7 +500,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Match data
   for (i in seq_len(nrow(coords))) {
     match <- which(coords$match[i] == occdf$match)
-    occdf[match, colnames(coords)] <- coords[i,]
+    occdf[match, colnames(coords)] <- coords[i, ]
   }
 
   # Drop match column
