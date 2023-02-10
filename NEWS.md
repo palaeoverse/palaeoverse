@@ -2,8 +2,10 @@
 
 * palaeoverse now requires deeptime (>= 1.0.0)
 * Added additional test to catch when Zenodo is offline (palaeorotate)
-* palaeorotate documentation updated and MULLER2022 model made available
-* uncertainty argument in palaeorotate updated to enable user-input
+* palaeorotate documentation updated to reflect updates to GPlates Web Service (#74)
+* MULLER2022 plate rotation model made available in palaeorotate (#74)
+* model argument in palaeorotate now allows multiple models to be called - palaeogeographic uncertainty is now calculated on the requested models
+* max distance calculations in palaeorotate's uncertainty functionality updated to use geosphere::distGeo
 
 # palaeoverse 1.1.0
 Updates
