@@ -64,10 +64,6 @@ test_that("palaeorotate() grid method works", {
   expect_warning(palaeorotate(occdf = occdf, method = "grid",
                               model = "SETON2012"), msg)
 
-  # Too few models
-  expect_error(palaeorotate(occdf = occdf, method = "grid", model = "GOLONKA",
-                            uncertainty = TRUE))
-
   # Wrong uncertainty input
   expect_error(palaeorotate(occdf = occdf, method = "grid",
                             uncertainty = c("GALONKA",

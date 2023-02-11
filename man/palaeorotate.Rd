@@ -11,7 +11,7 @@ palaeorotate(
   age = "age",
   model = "MERDITH2021",
   method = "point",
-  uncertainty = FALSE,
+  uncertainty = TRUE,
   round = 3
 )
 }
@@ -40,7 +40,7 @@ or "point" (default) to use the GPlates API service. See details section
 for specific details.}
 
 \item{uncertainty}{\code{logical}. Should the uncertainty in
-palaeogeographic reconstructions be returned? If set to TRUE, the
+palaeogeographic reconstructions be returned? If set to TRUE (default), the
 palaeolatitudinal range and maximum geographic distance (in km) between
 output palaeocoordinates are calculated. This argument is only relevant if
 more than one plate rotation model is specified in \code{model}.}
@@ -91,7 +91,7 @@ enabling efficient estimation of the past distribution of fossil
 occurrences. The reconstruction files along with additional documentation
 are deposited on \href{https://zenodo.org/record/7615203}{Zenodo}. Note: each
 reconstruction file is 5--10 MB in size.
-\item GPlates API: The "point" \code{method} uses the \href{https://gwsdoc.gplates.org}{GPlates Web Service} to reconstruct palaeorotations for point
+\item GPlates API: The "point" \code{method} uses the \href{https://gwsdoc.gplates.org}{GPlates Web Service} to reconstruct palaeocoordinates for point
 data. The use of this \code{method} is slower than the "grid" \code{method} if many
 unique time intervals exist in your dataset. However, it provides
 palaeocoordinates with higher precision.

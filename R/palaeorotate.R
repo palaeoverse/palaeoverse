@@ -24,7 +24,7 @@
 #' or "point" (default) to use the GPlates API service. See details section
 #' for specific details.
 #' @param uncertainty \code{logical}. Should the uncertainty in
-#' palaeogeographic reconstructions be returned? If set to TRUE, the
+#' palaeogeographic reconstructions be returned? If set to TRUE (default), the
 #' palaeolatitudinal range and maximum geographic distance (in km) between
 #' output palaeocoordinates are calculated. This argument is only relevant if
 #' more than one plate rotation model is specified in `model`.
@@ -67,7 +67,7 @@
 #'   reconstruction file is 5--10 MB in size.
 #'
 #' - GPlates API: The "point" `method` uses the [GPlates Web Service](
-#'   https://gwsdoc.gplates.org) to reconstruct palaeorotations for point
+#'   https://gwsdoc.gplates.org) to reconstruct palaeocoordinates for point
 #'   data. The use of this `method` is slower than the "grid" `method` if many
 #'   unique time intervals exist in your dataset. However, it provides
 #'   palaeocoordinates with higher precision.
@@ -158,7 +158,7 @@
 #' Lewis A. Jones
 #' @section Reviewer(s):
 #' Kilian Eichenseer, Lucas Buffan & Will Gearty
-#' @importFrom geosphere distm distHaversine
+#' @importFrom geosphere distm distGeo
 #' @importFrom h3jsr point_to_cell
 #' @importFrom sf st_as_sf
 #' @importFrom utils download.file
@@ -209,7 +209,7 @@
 #' @export
 palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                          model = "MERDITH2021", method = "point",
-                         uncertainty = FALSE, round = 3) {
+                         uncertainty = TRUE, round = 3) {
   # Error-handling ----------------------------------------------------------
   if (!exists("occdf") || !is.data.frame(occdf)) {
     stop("Please supply occdf as a dataframe")
@@ -256,10 +256,6 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     "not recommended for reconstructing palaeocoordinates. See details."))
   }
 
-  if (length(model) < 2 && uncertainty == TRUE) {
-    stop("At least two models are required to calculate `uncertainty`.")
-  }
-
   # Model available?
   available <- c("MULLER2022",
                  "MERDITH2021",
@@ -279,9 +275,11 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   }
 
   # Set-up ------------------------------------------------------------------
-  # If only one model selected, add column of model name
+  # If only one model selected, add column of model name and set uncertainty
+  # to FALSE
   if (length(model) == 1) {
     occdf$rot_model <- model
+    uncertainty <- FALSE
   }
 
   # Create columns for coordinates
@@ -323,7 +321,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
     # Reconstruction files
     rot_files <- list(
-      BASE = "https://zenodo.org/record/7615203/files/",
+      BASE = paste0(httr::GET("https://zenodo.org/record/7390065")$url,
+                    "/files/"),
       MULLER2022 = "MULLER2022.RDS",
       MERDITH2021 = "MERDITH2021.RDS",
       PALEOMAP = "PALEOMAP.RDS",
