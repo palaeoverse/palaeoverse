@@ -1,6 +1,6 @@
 test_that("axis_geo() works", {
   expect_doppelganger("axis_geo()", function() {
-    plot(x = reef_df$interval_mid_ma, y = reef_df$p_lat,
+    plot(x = reef_df$interval_mid_ma, y = reef_df$lat,
          axes = FALSE, type = "p", pch = 20,
          xlim = c(542, 0), xlab = NA, ylab = "Paleolatitude")
     box()
@@ -13,7 +13,7 @@ test_that("axis_geo() works", {
 
 test_that("axis_geo() works with time_bins()", {
   expect_doppelganger("axis_geo() with time_bins() scale", function() {
-    plot(x = reef_df$interval_mid_ma, y = reef_df$p_lat,
+    plot(x = reef_df$interval_mid_ma, y = reef_df$lat,
          axes = FALSE, type = "p", pch = 20,
          xlim = c(542, 0), xlab = NA, ylab = "Paleolatitude")
     box()
@@ -28,7 +28,7 @@ test_that("axis_geo() works with time_bins()", {
 test_that("axis_geo() works with multiple scales", {
   expect_doppelganger("axis_geo() with multiple scales", function() {
     par(mar = c(7.6, 4.1, 4.1, 2.1))
-    plot(x = reef_df$interval_mid_ma, y = reef_df$p_lat,
+    plot(x = reef_df$interval_mid_ma, y = reef_df$lat,
          axes = FALSE, type = "p", pch = 20,
          xlim = c(542, 0), xlab = NA, ylab = "Paleolatitude")
     box()
