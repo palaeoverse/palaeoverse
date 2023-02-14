@@ -63,7 +63,7 @@
 #'   However, the reconstruction files provide pre-generated palaeocoordinates
 #'   enabling efficient estimation of the past distribution of fossil
 #'   occurrences. The reconstruction files along with additional documentation
-#'   are deposited on [Zenodo](https://zenodo.org/record/7615203). Note: each
+#'   are deposited on [Zenodo](https://zenodo.org/record/7638792). Note: each
 #'   reconstruction file is 5--10 MB in size.
 #'
 #' - GPlates API: The "point" `method` uses the [GPlates Web Service](
@@ -282,6 +282,11 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     uncertainty <- FALSE
   }
 
+  # Create info columns for "grid" method
+  occdf$rot_age <- NA
+  occdf$rot_lng <- NA
+  occdf$rot_lat <- NA
+
   # Create columns for coordinates
   mdls <- data.frame(matrix(nrow = nrow(occdf), ncol = length(model) * 2))
   cnames <- paste(paste0("p_lng_", model), paste0("p_lat_", model))
@@ -351,7 +356,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     assign("ref_model", readRDS(paste0(files, "/", model[1], ".RDS")))
 
     # Get available rotation ages
-    rot_age <- colnames(ref_model)[3:ncol(ref_model)]
+    rot_age <- colnames(ref_model)[4:ncol(ref_model)]
     rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
 
     # Calculate rotation ages for data
@@ -365,21 +370,14 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                          coords = c(lng, lat),
                          remove = FALSE,
                          crs = "EPSG:4326")
-    ref_model_sf <- st_as_sf(x = ref_model,
-                              coords = c("lng", "lat"),
-                              remove = FALSE,
-                              crs = "EPSG:4326")
 
     # Match points with cells
     occ_cell <- point_to_cell(input = occdf_sf,
                               res = 3, # Grid resolution
                               simple = TRUE)
-    model_cell <- point_to_cell(input = ref_model_sf,
-                                res = 3, # Grid resolution
-                                simple = TRUE)
 
     # Generate row index
-    pc_ind <- match(x = occ_cell, table = model_cell)
+    pc_ind <- match(x = occ_cell, table = ref_model$cell)
 
     # Assign rotation coordinates
     occdf$rot_lng <- ref_model[pc_ind, c("lng")]
@@ -497,13 +495,18 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                         occdf[, age])
 
   # Match data
-  for (i in seq_len(nrow(coords))) {
-    match <- which(coords$match[i] == occdf$match)
-    occdf[match, colnames(coords)] <- coords[i, ]
-  }
+  mch <- match(x = occdf$match, table = coords$match)
+
+  occdf[, colnames(coords)] <- coords[mch, ]
 
   # Drop match column
   occdf <- occdf[, -which(colnames(occdf) == "match")]
+
+  # Drop model palaeocoordinate column if only one model selected
+  if (length(model) == 1) {
+    occdf <- occdf[, -c(which(colnames(occdf) %in% c(paste0("p_lng_", model),
+                                            paste0("p_lat_", model))))]
+    }
   }
 
   # Uncertainty calculation -------------------------------------------------
