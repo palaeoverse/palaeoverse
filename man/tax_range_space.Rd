@@ -10,13 +10,14 @@ tax_range_space(
   lng = "lng",
   lat = "lat",
   method = "lat",
-  spacing = 100
+  spacing = 100,
+  coords = FALSE
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences.
-This dataframe should contain at least three columns: names of taxa,
-longitude and latitude (see \code{name}, \code{lng}, and \code{lat} arguments).}
+\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences. This
+dataframe should contain at least three columns: names of taxa, longitude
+and latitude (see \code{name}, \code{lng}, and \code{lat} arguments).}
 
 \item{name}{\code{character}. The name of the column you wish to be treated
 as the input names (e.g. "species" or "genus"). NA data should be removed
@@ -31,12 +32,15 @@ as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
 prior to function call.}
 
 \item{method}{\code{character}. How should geographic range be calculated
-for each taxon in \code{occdf}? Four options exist in this function:
-"con", "lat", "gcd", and "occ". See Details for a description of each.}
+for each taxon in \code{occdf}? Four options exist in this function: "con",
+"lat", "gcd", and "occ". See Details for a description of each.}
 
 \item{spacing}{\code{numeric}. The desired spacing (in km) between the
-center of adjacent grid cells. Only required if the \code{method} argument is set
-to "occ". The default is 100.}
+center of adjacent grid cells. Only required if the \code{method} argument is
+set to "occ". The default is 100.}
+
+\item{coords}{\code{logical}. Should the output coordinates be returned for
+the "con" and "gcd" \code{method}?}
 }
 \value{
 A \code{dataframe} with method-specific columns:
@@ -65,8 +69,8 @@ respective taxon is a singleton (i.e. represented by only one occurrence).
 }
 \description{
 A function to calculate the geographic range of fossil taxa from occurrence
-data. The function can calculate geographic range in four ways: convex hull,
-latitudinal range, maximum Great Circle Distance, and the number of
+data. The function can calculate geographic range in four ways: convex
+hull, latitudinal range, maximum Great Circle Distance, and the number of
 occupied equal-area hexagonal grid cells.
 }
 \details{
@@ -137,4 +141,7 @@ ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
 # Occupied grid cells
 ex4 <- tax_range_space(occdf = occdf, name = "genus",
                        method = "occ", spacing = 500)
+# Convex hull with coordinates
+ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
+coords = TRUE)
 }

@@ -1,7 +1,8 @@
-# palaeoverse 1.1.0.9...
+# palaeoverse 1.1.1
 
 * palaeoverse now requires deeptime (>= 1.0.0)
 * Added additional test to catch when Zenodo is offline (palaeorotate)
+* Added a coords argument to the tax_range_space function to simplify output if desired
 
 # palaeoverse 1.1.0
 Updates

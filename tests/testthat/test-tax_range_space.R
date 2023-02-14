@@ -19,19 +19,19 @@ test_that("tax_range_soace() works", {
     unique_taxa)
 
   # Expect greater than
-  expect_gt(nrow(tax_range_space(occdf = occdf,
+  expect_equal(nrow(tax_range_space(occdf = occdf,
                                name = "accepted_name",
                                method = "gcd")),
                 unique_taxa)
-  expect_gt(nrow(tax_range_space(occdf = occdf,
+  expect_equal(nrow(tax_range_space(occdf = occdf,
                                name = "accepted_name",
                                method = "gcd")),
             unique_taxa)
-  expect_gt(nrow(tax_range_space(occdf = occdf,
+  expect_equal(nrow(tax_range_space(occdf = occdf,
                                name = "accepted_name",
                                method = "con")),
             unique_taxa)
-  expect_gt(nrow(tax_range_space(occdf = occdf, name = "accepted_name",
+  expect_equal(nrow(tax_range_space(occdf = occdf, name = "accepted_name",
                                method = "con")),
             unique_taxa)
 
