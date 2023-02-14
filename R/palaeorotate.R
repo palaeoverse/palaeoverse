@@ -63,7 +63,7 @@
 #'   However, the reconstruction files provide pre-generated palaeocoordinates
 #'   enabling efficient estimation of the past distribution of fossil
 #'   occurrences. The reconstruction files along with additional documentation
-#'   are deposited on [Zenodo](https://zenodo.org/record/7638792). Note: each
+#'   are deposited on [Zenodo](https://zenodo.org/record/7390065). Note: each
 #'   reconstruction file is 5--10 MB in size.
 #'
 #' - GPlates API: The "point" `method` uses the [GPlates Web Service](
