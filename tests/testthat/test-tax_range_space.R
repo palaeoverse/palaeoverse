@@ -1,4 +1,4 @@
-test_that("tax_range_soace() works", {
+test_that("tax_range_space() works", {
   # Grab internal data and set-up
   occdf <- tetrapods
   # n unique taxa
@@ -17,8 +17,6 @@ test_that("tax_range_soace() works", {
     nrow(tax_range_space(occdf = occdf, name = "accepted_name",
                          method = "occ")),
     unique_taxa)
-
-  # Expect greater than
   expect_equal(nrow(tax_range_space(occdf = occdf,
                                name = "accepted_name",
                                method = "gcd")),
