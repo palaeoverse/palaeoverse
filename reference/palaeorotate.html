@@ -75,8 +75,8 @@ estimate.</p>
 <span>  lat <span class="op">=</span> <span class="st">"lat"</span>,</span>
 <span>  age <span class="op">=</span> <span class="st">"age"</span>,</span>
 <span>  model <span class="op">=</span> <span class="st">"MERDITH2021"</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"grid"</span>,</span>
-<span>  uncertainty <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"point"</span>,</span>
+<span>  uncertainty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  round <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -106,24 +106,24 @@ the age for rotation (defaults to "age").</p></dd>
 
 
 <dt>model</dt>
-<dd><p><code>character</code>. The name of the plate rotation model to be
-used to reconstruct palaeocoordinates. See details for available models.</p></dd>
+<dd><p><code>character</code>. The name(s) of the plate rotation model(s)
+to be used to reconstruct palaeocoordinates. See details for available
+models.</p></dd>
 
 
 <dt>method</dt>
 <dd><p><code>character</code>. Method used to calculate palaeocoordinates
-for fossil occurrences. Either "grid" (default) to use reconstruction files,
-or "point" to use the GPlates API service. See details section for specific
-details.</p></dd>
+for fossil occurrences. Either "grid" to use reconstruction files,
+or "point" (default) to use the GPlates API service. See details section
+for specific details.</p></dd>
 
 
 <dt>uncertainty</dt>
 <dd><p><code>logical</code>. Should the uncertainty in
-palaeogeographic reconstructions be returned? If set to TRUE, the
-palaeocoordinates from all reconstruction files (models) are returned, along
-with their respective palaeolatitudinal range and the maximum Great
-Circle Distance between palaeocoordinates (in km). This argument is only
-relevant if <code>method</code> is set to "grid".</p></dd>
+palaeogeographic reconstructions be returned? If set to TRUE (default), the
+palaeolatitudinal range and maximum geographic distance (in km) between
+output palaeocoordinates are calculated. This argument is only relevant if
+more than one plate rotation model is specified in <code>model</code>.</p></dd>
 
 
 <dt>round</dt>
@@ -139,48 +139,44 @@ by reducing the number of unique coordinate pairs. Defaults to a value of
     
 
 <p>A <code>dataframe</code> containing the original input occurrence
-dataframe, the rotation model ("rot_model"),
-age of rotation ("rot_age"), the reference coordinates rotated
-("rot_lng" and "rot_lat"), and the reconstructed coordinates
-(i.e. "p_lng" and "p_lat"). The "point" <code>method</code> uses the input coordinates
-and age as the reference; reference coordinates are therefore not returned.
-If uncertainty is set to <code>TRUE</code>, palaeocoordinates for all available models
-will be returned, along with the palaeolatitudinal range (<code>range_p_lat</code>) and
-the maximum Great Circle Distance (<code>max_dist</code>) in km (calculated via
-<code><a href="https://rdrr.io/pkg/geosphere/man/distHaversine.html" class="external-link">distHaversine</a></code>).</p>
+dataframe and the reconstructed coordinates (i.e. "p_lng", "p_lat"). The
+"grid" <code>method</code> also returns the age of rotation ("rot_age") and the
+reference coordinates rotated ("rot_lng" and "rot_lat"). If only one
+model is requested, a column containing the rotation model used
+("rot_model") is also appended. Otherwise, the name of each model is
+appended to the name of each column containing palaeocoordinates (e.g.
+"p_lng_GOLONKA"). If <code>uncertainty</code> is set to <code>TRUE</code>, the
+palaeolatitudinal range ("range_p_lat") and the maximum geographic
+distance ("max_dist") in km between palaeocoordinates will also be
+returned (the latter calculated via <code><a href="https://rdrr.io/pkg/geosphere/man/distGeo.html" class="external-link">distGeo</a></code>).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function can generate palaeocoordinates using two different
 approaches (<code>method</code>):</p><ul><li><p>Reconstruction files: The "grid" <code>method</code> uses reconstruction files to
 spatiotemporally link present-day geographic coordinates and age estimates
-with an equal-area hexagonal grid (~100 km spacings) rotated to the
-midpoint of Phanerozoic (0--540 Ma) stratigraphic stages (Geological
-Time Scale, 2020). The grid was generated using the <code><a href="https://obrl-soil.github.io/h3jsr/reference/h3jsr-package.html" class="external-link">h3jsr</a></code>
-R package and 'h3_resolution' 3 (see <code><a href="https://obrl-soil.github.io/h3jsr/reference/h3_info_table.html" class="external-link">h3_info_table</a></code>).
-If specific ages of rotation are required, or fine-scale spatial analyses
-are being conducted, use of the "point" <code>method</code> might be preferable for the
-user (particularly if occurrences are close to plate boundaries). As
-implemented, points within the same grid cell will be assigned equivalent
-palaeocoordinates due to spatial aggregation. The reconstruction files
-provide pre-generated palaeocoordinates for a grid of ~100 km spacings,
-allowing the past distribution of fossil occurrences to be estimated
-efficiently. The reconstruction files along with additional documentation
-are deposited on <a href="https://zenodo.org/record/7390066" class="external-link">Zenodo</a>.
+with an equal-area hexagonal grid (spacing = 100 km) rotated to the
+midpoint of Phanerozoic (0--540 Ma) stratigraphic stages (Geological Time
+Scale, 2020). The grid was generated using the <code><a href="https://obrl-soil.github.io/h3jsr/reference/h3jsr-package.html" class="external-link">h3jsr</a></code> R
+package and 'h3_resolution' 3 (see <code><a href="https://obrl-soil.github.io/h3jsr/reference/h3_info_table.html" class="external-link">h3_info_table</a></code>). If
+specific ages of rotation are required, or fine-scale spatial analyses are
+being conducted, use of the "point" <code>method</code> (see GPlates API below) is
+recommended (particularly if occurrences are close to plate boundaries). As
+implemented, when using the "grid" <code>method</code>, coordinates within the same
+grid cell will be assigned equivalent palaeocoordinates due to spatial
+aggregation. However, the reconstruction files provide pre-generated
+palaeocoordinates enabling efficient estimation of the past distribution of
+fossil occurrences. The reconstruction files along with additional
+documentation are deposited on <a href="https://zenodo.org/record/7390065" class="external-link">Zenodo</a>.
 Note: each reconstruction file is 5--10 MB in size.</p></li>
-<li><p>GPlates API: The "point" <code>method</code> uses the <a href="https://gwsdoc.gplates.org" class="external-link">GPlates Web Service</a> to reconstruct palaeorotations for point
+<li><p>GPlates API: The "point" <code>method</code> uses the <a href="https://gwsdoc.gplates.org" class="external-link">GPlates Web Service</a> to reconstruct palaeocoordinates for point
 data. The use of this <code>method</code> is slower than the "grid" <code>method</code> if many
 unique time intervals exist in your dataset. However, it provides
 palaeocoordinates with higher precision.</p></li>
 </ul><p>Available models and timespan for each <code>method</code>:</p><ul><li><p>"MERDITH2021" (Merdith et al., 2021)</p><ul><li><p>0--540 Ma (grid)</p></li>
 <li><p>0--1000 Ma (point)</p></li>
 </ul></li>
-<li><p>"MULLER2019" (Müller et al., 2019)</p><ul><li><p>0--540 Ma (grid)</p></li>
-<li><p>0--1100 Ma (point)</p></li>
-</ul></li>
 <li><p>"MULLER2016" (Müller et al., 2016)</p><ul><li><p>0--230 Ma (grid/point)</p></li>
-</ul></li>
-<li><p>"MATTHEWS2016_mantle_ref" (Matthews et al., 2016)</p><ul><li><p>0--410 Ma (grid/point)</p></li>
 </ul></li>
 <li><p>"MATTHEWS2016_pmag_ref"  (Matthews et al., 2016)</p><ul><li><p>0--410 Ma (grid/point)</p></li>
 </ul></li>
@@ -190,6 +186,15 @@ palaeocoordinates with higher precision.</p></li>
 </ul></li>
 <li><p>"PALEOMAP" (Scotese &amp; Wright, 2018)</p><ul><li><p>0--540 Ma (grid)</p></li>
 <li><p>0--750 Ma (point)</p></li>
+</ul></li>
+</ul><p>Access is also provided for the following mantle reference frame models.
+However, they are generally not recommended for reconstructing
+palaeocoordinates.</p><ul><li><p>"MULLER2022" (Müller et al., 2022)</p><ul><li><p>0--540 Ma (grid)</p></li>
+<li><p>0--1000 Ma (point)</p></li>
+</ul></li>
+<li><p>"MULLER2019" (Müller et al., 2019)</p><ul><li><p>0--250 Ma (grid/point)</p></li>
+</ul></li>
+<li><p>"MATTHEWS2016_mantle_ref" (Matthews et al., 2016)</p><ul><li><p>0--410 Ma (grid/point)</p></li>
 </ul></li>
 </ul></div>
     <div class="section level2">
@@ -208,6 +213,12 @@ Extending full-plate tectonic models into deep time: Linking the
 Neoproterozoic and the Phanerozoic.
 Earth-Science Reviews, 214(103477). <a href="https://doi.org/10.1016/j.earscirev.2020.103477" class="external-link">doi:10.1016/j.earscirev.2020.103477</a>
 .</p></li>
+<li><p>Müller, R. D., Flament, N., Cannon, J., Tetley, M. G., Williams,
+S. E., Cao, X., Bodur, Ö. F., Zahirovic, S., and Merdith, A. (2022).
+A tectonic-rules-based mantle reference frame since 1 billion years ago –
+implications for supercontinent cycles and plate–mantle system evolution,
+Solid Earth, 13, 1127–1159. <a href="https://doi.org/10.5194/se-13-1127-2022" class="external-link">doi:10.5194/se-13-1127-2022</a>
+.</p></li>
 <li><p>Müller, R. D., Zahirovic, S., Williams, S. E., Cannon, J., Seton, M.,
 Bower, D. J., Tetley, M. G., Heine, C., Le Breton, E., Liu, S.,
 Russell, S. H. J., Yang, T., Leonard, J., and Gurnis, M. (2019).
@@ -217,7 +228,7 @@ Tectonics, 38(6) 1884-1907. <a href="https://doi.org/10.1029/2018TC005462" class
 .</p></li>
 <li><p>Müller R.D., Seton, M., Zahirovic, S., Williams, S.E., Matthews, K.J.,
 Wright, N.M., Shephard, G.E., Maloney, K.T., Barnett-Moore, N.,
-Hosseinpour, M., Bower, D.J., Cannon, J., 2016.
+Hosseinpour, M., Bower, D.J., Cannon, J. (2016).
 Ocean basin evolution and global-scale plate reorganization events since
 Pangea breakup. Annual Review of Earth and Planetary Sciences 44(1),
 107-138. <a href="https://doi.org/10.1146/annurev-earth-060115-012211" class="external-link">doi:10.1146/annurev-earth-060115-012211</a>
@@ -250,12 +261,12 @@ for additional information and details.</p>
     <h2 id="reviewer-s-">Reviewer(s)<a class="anchor" aria-label="anchor" href="#reviewer-s-"></a></h2>
     
 
-<p>Kilian Eichenseer &amp; Lucas Buffan</p>
+<p>Kilian Eichenseer, Lucas Buffan &amp; Will Gearty</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co">#Generic example with a few occurrences</span></span></span>
 <span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lng <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="op">-</span><span class="fl">103</span>, <span class="op">-</span><span class="fl">66</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">46</span>, <span class="fl">35</span>, <span class="op">-</span><span class="fl">7</span><span class="op">)</span>,</span></span>
@@ -267,6 +278,14 @@ for additional information and details.</p>
 <span class="r-in"><span><span class="co">#Calculate palaeocoordinates using the GPlates API</span></span></span>
 <span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">palaeorotate</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, method <span class="op">=</span> <span class="st">"point"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Calculate uncertainity in palaeocoordinates from models</span></span></span>
+<span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">palaeorotate</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>,</span></span>
+<span class="r-in"><span>                    method <span class="op">=</span> <span class="st">"grid"</span>,</span></span>
+<span class="r-in"><span>                    model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MERDITH2021"</span>,</span></span>
+<span class="r-in"><span>                              <span class="st">"GOLONKA"</span>,</span></span>
+<span class="r-in"><span>                              <span class="st">"PALEOMAP"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    uncertainty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Now with some real fossil occurrence data!</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Grab some data from the Paleobiology Database</span></span></span>
@@ -277,12 +296,15 @@ for additional information and details.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Rotate the data</span></span></span>
 <span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">palaeorotate</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Palaeocoordinates could not be reconstructed for all points.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Georeferenced plate does not exist at time of reconstruction.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Calculate uncertainity in palaeocoordinates from models</span></span></span>
-<span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">palaeorotate</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span>, uncertainty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">palaeorotate</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span>,</span></span>
+<span class="r-in"><span>                    model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MERDITH2021"</span>,</span></span>
+<span class="r-in"><span>                              <span class="st">"GOLONKA"</span>,</span></span>
+<span class="r-in"><span>                              <span class="st">"PALEOMAP"</span>,</span></span>
+<span class="r-in"><span>                              <span class="st">"SETON2012"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    uncertainty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
