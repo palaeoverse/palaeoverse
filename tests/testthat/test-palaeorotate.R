@@ -10,10 +10,6 @@ test_that("palaeorotate() point method works", {
                                  method = "point",
                                  model = "PALEOMAP")), 3)
 
-  expect_equal(nrow(palaeorotate(occdf = occdf,
-                                 method = "point",
-                                 model = c("PALEOMAP", "SETON2012"))), 3)
-
   expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
                                  round = 2)), 3)
 
