@@ -1,28 +1,30 @@
 #' Calculate the geographic range of fossil taxa
 #'
 #' A function to calculate the geographic range of fossil taxa from occurrence
-#' data. The function can calculate geographic range in four ways: convex hull,
-#' latitudinal range, maximum Great Circle Distance, and the number of
+#' data. The function can calculate geographic range in four ways: convex
+#' hull, latitudinal range, maximum Great Circle Distance, and the number of
 #' occupied equal-area hexagonal grid cells.
 #'
-#' @param occdf \code{dataframe}. A dataframe of fossil occurrences.
-#' This dataframe should contain at least three columns: names of taxa,
-#' longitude and latitude (see `name`, `lng`, and `lat` arguments).
+#' @param occdf \code{dataframe}. A dataframe of fossil occurrences. This
+#'   dataframe should contain at least three columns: names of taxa, longitude
+#'   and latitude (see `name`, `lng`, and `lat` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
-#' as the input names (e.g. "species" or "genus"). NA data should be removed
-#' prior to function call.
+#'   as the input names (e.g. "species" or "genus"). NA data should be removed
+#'   prior to function call.
 #' @param lng \code{character}. The name of the column you wish to be treated
-#' as the input longitude (e.g. "lng" or "p_lng"). NA data should be removed
-#' prior to function call.
+#'   as the input longitude (e.g. "lng" or "p_lng"). NA data should be removed
+#'   prior to function call.
 #' @param lat \code{character}. The name of the column you wish to be treated
-#' as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
-#' prior to function call.
+#'   as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
+#'   prior to function call.
 #' @param method \code{character}. How should geographic range be calculated
-#' for each taxon in `occdf`? Four options exist in this function:
-#' "con", "lat", "gcd", and "occ". See Details for a description of each.
+#'   for each taxon in `occdf`? Four options exist in this function: "con",
+#'   "lat", "gcd", and "occ". See Details for a description of each.
 #' @param spacing \code{numeric}. The desired spacing (in km) between the
-#' center of adjacent grid cells. Only required if the `method` argument is set
-#' to "occ". The default is 100.
+#'   center of adjacent grid cells. Only required if the `method` argument is
+#'   set to "occ". The default is 100.
+#' @param coords \code{logical}. Should the output coordinates be returned for
+#'   the "con" and "gcd" `method`?
 #'
 #' @return A \code{dataframe} with method-specific columns:
 #' - For the "con" method, a \code{dataframe} with each unique taxa (`taxon`)
@@ -107,13 +109,17 @@
 #' # Occupied grid cells
 #' ex4 <- tax_range_space(occdf = occdf, name = "genus",
 #'                        method = "occ", spacing = 500)
+#' # Convex hull with coordinates
+#' ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
+#' coords = TRUE)
 #' @export
 tax_range_space <- function(occdf,
-                          name = "genus",
-                          lng = "lng",
-                          lat = "lat",
-                          method = "lat",
-                          spacing = 100) {
+                            name = "genus",
+                            lng = "lng",
+                            lat = "lat",
+                            method = "lat",
+                            spacing = 100,
+                            coords = FALSE) {
 
   #=== Handling errors ===
   if (!is.data.frame(occdf)) {
@@ -180,6 +186,13 @@ in `occdf`")
     }
     # Remove row names
     row.names(spat_df) <- NULL
+
+    # simplify output?
+    if (coords == FALSE) {
+      spat_df <- spat_df[, -which(colnames(spat_df) %in% c("lng", "lat"))]
+      spat_df <- unique(spat_df)
+    }
+
     return(spat_df)
   }
 
@@ -231,9 +244,9 @@ in `occdf`")
       # Get maximum GCD in km
       gcd <- as.numeric(max(vals))
       # Extract coordinates of points
-      coords <- data.frame(tmp[loc[1, 1:2], c(lng, lat)])
+      xy <- data.frame(tmp[loc[1, 1:2], c(lng, lat)])
       # Build dataframe
-      tmp <- cbind.data.frame(taxon, taxon_id, coords, gcd)
+      tmp <- cbind.data.frame(taxon, taxon_id, xy, gcd)
       gcd_df <- rbind.data.frame(gcd_df, tmp)
     }
 
@@ -243,6 +256,12 @@ in `occdf`")
     # Round off values
     gcd_df[, c(lng, lat, "gcd")] <- round(
       x = gcd_df[, c(lng, lat, "gcd")], digits = 3)
+
+    # simplify output?
+    if (coords == FALSE) {
+      gcd_df <- gcd_df[, -which(colnames(gcd_df) %in% c("lng", "lat"))]
+      gcd_df <- unique(gcd_df)
+    }
 
     # Return dataframe
     return(gcd_df)
