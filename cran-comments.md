@@ -1,3 +1,11 @@
+# CRAN comments
+Package CITATION file contains call(s) to old-style personList() or
+as.personList().  Please use c() on person objects instead. **DONE**
+
+Package CITATION file contains call(s) to old-style citEntry(). Please
+use bibentry() instead. **DONE**
+
+
 # Test environments (with Github Actions)
 Windows 10.0.20348 (x86_64-w64-mingw32): R 4.2.2
 
