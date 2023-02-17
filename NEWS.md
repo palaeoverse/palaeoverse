@@ -1,3 +1,8 @@
+# palaeoverse (development version)
+
+* Added get_timescale_data and removed deeptime dependency
+* Updated font colors in GTS2012 and GTS2020 based on background luminance
+
 # palaeoverse 1.1.1
 
 * palaeoverse now requires deeptime (>= 1.0.0)
