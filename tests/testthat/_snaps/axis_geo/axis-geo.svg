@@ -4439,12 +4439,12 @@
 <text x='618.44' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='57.39px' lengthAdjust='spacingAndGlyphs'>Paleogene</text>
 <text x='552.72' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
 <text x='479.83' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Jurassic</text>
-<text x='422.24' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='41.34px' lengthAdjust='spacingAndGlyphs'>Triassic</text>
-<text x='369.66' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.69px' lengthAdjust='spacingAndGlyphs'>Permian</text>
+<text x='422.24' y='517.78' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='41.34px' lengthAdjust='spacingAndGlyphs'>Triassic</text>
+<text x='369.66' y='517.78' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='44.69px' lengthAdjust='spacingAndGlyphs'>Permian</text>
 <text x='312.01' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='75.38px' lengthAdjust='spacingAndGlyphs'>Carboniferous</text>
 <text x='247.20' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='50.71px' lengthAdjust='spacingAndGlyphs'>Devonian</text>
 <text x='201.46' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.02px' lengthAdjust='spacingAndGlyphs'>Silurian</text>
-<text x='165.80' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='57.37px' lengthAdjust='spacingAndGlyphs'>Ordovician</text>
+<text x='165.80' y='517.78' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='57.37px' lengthAdjust='spacingAndGlyphs'>Ordovician</text>
 <text x='113.43' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.03px' lengthAdjust='spacingAndGlyphs'>Cambrian</text>
 <text x='71.26' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Ediacaran</text>
 <text x='-63.60' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cryogenian</text>

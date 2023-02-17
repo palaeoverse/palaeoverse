@@ -280,7 +280,7 @@
 <text x='-591.93' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.05px' lengthAdjust='spacingAndGlyphs'>Lower Jurassic</text>
 <text x='-772.11' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='77.36px' lengthAdjust='spacingAndGlyphs'>Upper Triassic</text>
 <text x='-903.60' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.03px' lengthAdjust='spacingAndGlyphs'>Middle Triassic</text>
-<text x='-946.28' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='77.36px' lengthAdjust='spacingAndGlyphs'>Lower Triassic</text>
+<text x='-946.28' y='517.78' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='77.36px' lengthAdjust='spacingAndGlyphs'>Lower Triassic</text>
 <text x='-980.37' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.05px' lengthAdjust='spacingAndGlyphs'>Lopingian</text>
 <text x='-1040.67' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='68.06px' lengthAdjust='spacingAndGlyphs'>Guadalupian</text>
 <text x='-1154.68' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='53.36px' lengthAdjust='spacingAndGlyphs'>Cisuralian</text>
@@ -299,7 +299,7 @@
 <text x='-2029.38' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='58.72px' lengthAdjust='spacingAndGlyphs'>Llandovery</text>
 <text x='-2101.00' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='93.39px' lengthAdjust='spacingAndGlyphs'>Upper Ordovician</text>
 <text x='-2176.05' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='96.06px' lengthAdjust='spacingAndGlyphs'>Middle Ordovician</text>
-<text x='-2253.40' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='93.39px' lengthAdjust='spacingAndGlyphs'>Lower Ordovician</text>
+<text x='-2253.40' y='517.78' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='93.39px' lengthAdjust='spacingAndGlyphs'>Lower Ordovician</text>
 <text x='-2330.74' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Furongian</text>
 <text x='-2398.34' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='60.70px' lengthAdjust='spacingAndGlyphs'>Miaolingian</text>
 <text x='-2467.10' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Series 2</text>

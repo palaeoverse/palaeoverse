@@ -50,7 +50,6 @@ Imports:
     graphics,
     methods,
     curl,
-    deeptime (>= 1.0.0),
     ape,
     sf,
     stringdist,

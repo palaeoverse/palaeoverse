@@ -38,8 +38,9 @@ axis_geo_phylo(...)
 the default; \code{2}: left; \code{3}: top; \code{4}: right).}
 
 \item{intervals}{The interval information to use to plot the axis: either A)
-a \code{character} string indicating a built-in or remotely hosted
-\code{data.frame} (see \code{\link[deeptime]{get_scale_data}}), or B) a
+a \code{character} string indicating a rank of intervals from the built-in
+\code{\link{GTS2020}}, B) a \code{character} string indicating a remotely
+hosted \code{data.frame} (see \code{\link{get_timescale_data}}), or C) a
 custom \code{data.frame} of time interval boundaries (see Details).}
 
 \item{height}{\code{numeric}. The relative height (or width if \code{side} is
@@ -48,21 +49,22 @@ custom \code{data.frame} of time interval boundaries (see Details).}
 or \code{4}) of the plot.}
 
 \item{fill}{\code{character}. The fill color of the boxes. The default is to
-use the \code{color} column included in \code{intervals}. If a custom
-dataset is provided with \code{intervals} without a \code{color} column and
-without specifying \code{fill}, a greyscale will be used. Custom fill
-colors can be provided with this option (overriding the \code{color}
-column) and will be recycled if/as necessary.}
+use the \code{colour} or \code{color} column included in \code{intervals}.
+If a custom dataset is provided with \code{intervals} without a
+\code{colour} or \code{color} column and without specifying \code{fill}, a
+greyscale will be used. Custom fill colours can be provided with this
+option (overriding the \code{colour} or \code{color} column) and will be
+recycled if/as necessary.}
 
 \item{lab}{\code{logical}. Should interval labels be included?}
 
-\item{lab_col}{\code{character}. The color of the labels. The default is to
-use the \code{lab_color} or \code{lab_colour} column included in
+\item{lab_col}{\code{character}. The colour of the labels. The default is to
+use the \code{font} or \code{lab_color} column included in
 \code{intervals}. If a custom dataset is provided with \code{intervals}
-without a \code{lab_color} or \code{lab_colour} column and without
-specifying \code{lab_col}, all labels will be black. Custom label colors
-can be provided with this option (overriding the \code{lab_color} or
-\code{lab_colour} column) and will be recycled if/as necessary.}
+without a \code{font} or \code{lab_color} column and without
+specifying \code{lab_col}, all labels will be black. Custom label colours
+can be provided with this option (overriding the \code{font} or
+\code{lab_color} column) and will be recycled if/as necessary.}
 
 \item{lab_size}{\code{numeric}. The size of the labels (see \code{cex} in
 \code{\link[graphics:par]{graphics parameters}}).}
@@ -83,7 +85,7 @@ intervals should not be labeled. If \code{abbr} is \code{TRUE}, this can
 also include interval abbreviations. Quaternary, Holocene, and Late
 Pleistocene are skipped by default. Set to NULL if this is not desired.}
 
-\item{bord_col}{\code{character}. The border color of the interval boxes.}
+\item{bord_col}{\code{character}. The border colour of the interval boxes.}
 
 \item{lty}{\code{character}. Line type (see \code{lty} in
 \code{\link[graphics:par]{graphics parameters}}).}
@@ -91,7 +93,7 @@ Pleistocene are skipped by default. Set to NULL if this is not desired.}
 \item{lwd}{\code{numeric}. Line width (see \code{lwd} in
 \code{\link[graphics:par]{graphics parameters}}).}
 
-\item{bkgd}{\code{character}. The color of the background color of the scale
+\item{bkgd}{\code{character}. The colour of the background of the scale
 when no intervals are being shown.}
 
 \item{neg}{\code{logical}. Set this to \code{TRUE} if your x-axis is using
@@ -137,38 +139,36 @@ add an axis of the geological timescale to an already existing plot.
 \code{axis_geo} behaves similarly to \code{\link[graphics]{axis}} in that it
 adds an axis to the specified side of a base R plot. The main difference
 is that it also adds a geological timescale between the plot and the axis.
-The default scale includes international \code{\link[deeptime]{periods}} from
-ICS. However, international \code{\link[deeptime]{epochs}},
-\code{\link[deeptime]{stages}}, \code{\link[deeptime]{eons}}, and
-\code{\link[deeptime]{eras}} and any interval data hosted by Macrostrat are
-also available from the \code{deeptime} package (see
-\code{\link[deeptime]{get_scale_data}}). A custom interval dataset can also
-be provided (see Details below). The appearance of the axis is highly
-customizable (see Usage below), with the intent that plots will be
+The default scale includes international epochs from the the Geological
+Timescale 2020 (\code{\link{GTS2020}}). However, international periods,
+stages, eons, and eras are also available. Interval data hosted by Macrostrat
+are also available (see \code{\link{get_timescale_data}}). A custom interval
+dataset can also be used (see Details below). The appearance of the axis is
+highly customizable (see Usage below), with the intent that plots will be
 publication-ready.
 }
 \details{
 If a custom \code{data.frame} is provided (with \code{intervals}), it should
-consist of at least 3 columns of data. See \code{deeptime::periods} for an
+consist of at least 3 columns of data. See \code{\link{GTS2020}} for an
 example.
 \itemize{
-\item The \code{name} column (\code{interval_name} is also allowed) lists
+\item The \code{interval_name} column (\code{name} is also allowed) lists
 the names of each time interval. These will be used as labels if no
 abbreviations are provided.
-\item The \code{max_age} column (\code{max_ma} is also allowed) lists the
+\item The \code{max_ma} column (\code{max_age} is also allowed) lists the
 oldest boundary of each time interval. Values should always be
 positive.
-\item The \code{min_age} column (\code{min_ma} is also allowed) lists the
+\item The \code{min_ma} column (\code{min_age} is also allowed) lists the
 youngest boundary of each time interval. Values should always be
 positive.
 \item The \code{abbr} column is optional and lists abbreviations that may
 be used as labels.
-\item The \code{color} column (\code{colour} is also allowed) is also
-optional and lists a color for the background for each time interval
+\item The \code{colour} column (\code{color} is also allowed) is also
+optional and lists a colour for the background for each time interval
 (see the Color Specification section
 \code{\link[graphics:par]{here}}).
-\item The \code{lab_color} (\code{lab_colour} is also allowed) column is
-also optional and lists a color for the label for each time interval
+\item The \code{font} (\code{lab_color} is also allowed) column is
+also optional and lists a colour for the label for each time interval
 (see the Color Specification section
 \code{\link[graphics:par]{here}}).
 }
@@ -183,6 +183,10 @@ to a single side of the plot. In this case, \code{height}, \code{fill},
 be applied to all time scales (and recycled as necessary). If multiple scales
 are requested they will be added sequentially outwards starting from the plot
 border. The axis will always be placed on the outside of the last scale.
+
+If you would like to use intervals from the Geological Time Scale 2012
+(\code{\link{GTS2012}}), you can use \code{\link{get_timescale_data}} and
+supply the returned \code{data.frame} to the \code{intervals} argument.
 
 \code{axis_geo_phylo(...)} is shorthand for
 \code{axis_geo(..., phylo = TRUE)}.
@@ -241,9 +245,9 @@ axis_geo(side = 1, intervals = time_bins(rank = "period"))
 title(xlab = "Time (Ma)", line = 4)
 
 # scale with custom intervals
-intervals <- data.frame(min_age = c(0, 10, 25, 32),
-                        max_age = c(10, 25, 32, 40),
-                        name = c("A", "B", "C", "D"))
+intervals <- data.frame(min_ma = c(0, 10, 25, 32),
+                        max_ma = c(10, 25, 32, 40),
+                        interval_name = c("A", "B", "C", "D"))
 par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
 plot(0:40, axes = FALSE, xlim = c(40, 0), ylim = c(40, 0),
      xlab = NA, ylab = "Depth (m)")
