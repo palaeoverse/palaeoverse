@@ -173,7 +173,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
     }
     if (is.character(interval) && length(interval) == 2) {
       # rank ages
-      rank_ages <- df[which(df$rank == rank),]
+      rank_ages <- df[which(df$rank == rank), ]
       w <- which(df$interval_name %in% interval)
       if (length(w) != length(interval)) {
         stop(
@@ -191,7 +191,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
     }
 
     #subset to rank
-    df <- df[which(df$rank == rank),]
+    df <- df[which(df$rank == rank), ]
 
     #numeric ages entered
     if (is.numeric(interval) && length(interval) == 1) {
