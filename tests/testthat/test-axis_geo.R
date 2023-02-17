@@ -6,7 +6,7 @@ test_that("axis_geo() works", {
     box()
 
     axis(side = 2)
-    axis_geo(side = 1, intervals = periods)
+    axis_geo(side = 1, intervals = "periods")
     title(xlab = "Time (Ma)", line = 4)
   })
 })
@@ -34,7 +34,7 @@ test_that("axis_geo() works with multiple scales", {
     box()
 
     axis(side = 2)
-    axis_geo(side = 1, intervals = list(stages, periods),
+    axis_geo(side = 1, intervals = list("stages", "periods"),
              tick_at = seq(0, 500, 50), lab = list(FALSE, TRUE),
              abbr = FALSE)
     title(xlab = "Time (Ma)", line = 6)
@@ -48,17 +48,17 @@ test_that("axis_geo() can be used on multiple sides", {
          xlab = NA, ylab = NA)
     box()
 
-    axis_geo(side = 1, intervals = list(epochs, periods),
+    axis_geo(side = 1, intervals = list("epochs", "periods"),
              height = list(.05, .03), tick_at = seq(0, 100, 25))
     axis_geo(side = 2, height = list(.03, .05),
-             intervals = list(epochs, periods), bord_col = "purple",
+             intervals = list("epoch", "period"), bord_col = "purple",
              center_end_labels = list(FALSE, TRUE), exact = TRUE)
     axis_geo(side = 3, height = list(.03, .05),
-             intervals = list(epochs, periods), abbr = FALSE,
+             intervals = list("epoch", "period"), abbr = FALSE,
              skip = c("Paleogene", "Holocene", "Pleistocene", "Pliocene",
                       "Quaternary"), lab_col = list("blue", "purple"))
     axis_geo(side = 4, height = list(.04, .03),
-             intervals = list(epochs, periods),
+             intervals = list("epoch", "North American land mammal ages"),
              fill = list("lightblue", "yellow"),
              lty = list("solid", "dashed"), exact = TRUE, round = 1)
   })
@@ -70,22 +70,22 @@ test_that("axis_geo() works with phylogenies", {
   data(mammal.tree)
   expect_doppelganger("axis_geo() with ultrametric tree", function() {
     plot(mammal.tree)
-    axis_geo(intervals = epochs, phylo = TRUE)
+    axis_geo(intervals = "epoch", phylo = TRUE)
   })
   expect_doppelganger("axis_geo() with backwards ultrametric tree", function() {
     plot(mammal.tree, direction = "l")
-    axis_geo_phylo(intervals = epochs)
+    axis_geo_phylo(intervals = "epoch")
   })
   skip_if_not_installed("paleotree")
   library(paleotree)
   data(RaiaCopesRule)
   expect_doppelganger("axis_geo() with fossil tree", function() {
     plot(ceratopsianTreeRaia)
-    axis_geo_phylo(intervals = epochs)
+    axis_geo_phylo(intervals = "epoch")
   })
   expect_doppelganger("axis_geo() with downwards fossil tree", function() {
     plot(ceratopsianTreeRaia, direction = "d")
-    axis_geo(side = 2, intervals = epochs, phylo = TRUE)
+    axis_geo(side = 2, intervals = "epoch", phylo = TRUE)
   })
 })
 

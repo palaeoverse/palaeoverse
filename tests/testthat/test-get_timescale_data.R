@@ -11,6 +11,7 @@ test_that("get_timescale_data works", {
                get_timescale_data(rank = "s"))
 
   expect_error(get_timescale_data(name = "GTS"))
+  expect_error(get_timescale_data(rank = "pickles"))
   expect_error(get_timescale_data(rank = "e"))
   expect_error(get_timescale_data("international house of pancakes"))
   expect_named(

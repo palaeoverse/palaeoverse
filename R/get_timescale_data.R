@@ -46,11 +46,11 @@ get_timescale_data <- function(name = "GTS2020", rank = NULL) {
     if (!is.null(rank)) {
       possible_ranks <- c("period", "epoch", "stage", "era", "eon")
       rank_match <- charmatch(rank, possible_ranks)
-      if (is.na(name_match)) {
+      if (is.na(rank_match)) {
         stop("Invalid `rank`. Choose either:
              'period', 'epoch', 'stage', 'era', or 'eon'.",
              call. = FALSE)
-      }else if (rank_match == 0) {
+      } else if (rank_match == 0) {
         stop("'rank' matches multiple scales. Please be more specific.",
              call. = FALSE
         )
