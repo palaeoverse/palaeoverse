@@ -42,6 +42,7 @@ test_that("axis_geo() works with multiple scales", {
 })
 
 test_that("axis_geo() can be used on multiple sides", {
+  periods_sub <- subset(periods, select = -c(font, colour))
   expect_doppelganger("axis_geo() on multiple sides", function() {
     par(mar = c(7, 7, 7, 7))
     plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(95, 0),
@@ -54,9 +55,9 @@ test_that("axis_geo() can be used on multiple sides", {
              intervals = list("epoch", "period"), bord_col = "purple",
              center_end_labels = list(FALSE, TRUE), exact = TRUE)
     axis_geo(side = 3, height = list(.03, .05),
-             intervals = list("epoch", "period"), abbr = FALSE,
+             intervals = list(epochs, periods_sub), abbr = FALSE,
              skip = c("Paleogene", "Holocene", "Pleistocene", "Pliocene",
-                      "Quaternary"), lab_col = list("blue", "purple"))
+                      "Quaternary"), lab_col = list("blue", NULL))
     axis_geo(side = 4, height = list(.04, .03),
              intervals = list("epoch", "North American land mammal ages"),
              fill = list("lightblue", "yellow"),
