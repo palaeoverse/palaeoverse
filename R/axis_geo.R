@@ -468,7 +468,8 @@ axis_geo <- function(
     } else {
       scale_intervals$label <- scale_intervals$interval_name
     }
-    scale_intervals$label[scale_intervals$interval_name %in% skip[[scale]]] <- ""
+    scale_intervals$label[scale_intervals$interval_name %in%
+                            skip[[scale]]] <- ""
 
     # plot the desired polygons in the unclipped margin
     # also add line segments at the ends in case intervals extend beyond axis

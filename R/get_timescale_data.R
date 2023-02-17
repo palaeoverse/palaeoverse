@@ -72,11 +72,12 @@ get_timescale_data <- function(name = "GTS2020", rank = NULL) {
         )
       }
     )
-    URL <- url(paste0("https://macrostrat.org/api/v2/defs/intervals",
-                      "?format=csv&timescale=", gsub(" ", "%20", name)))
+    macrostrat_url <- url(paste0("https://macrostrat.org/api/v2/defs/intervals",
+                                 "?format=csv&timescale=",
+                                 gsub(" ", "%20", name)))
     raw_dat <- tryCatch(
       {
-        read.csv(URL, header = TRUE, stringsAsFactors = FALSE)
+        read.csv(macrostrat_url, header = TRUE, stringsAsFactors = FALSE)
       },
       error = function(e) {
         stop("'name' does not match a built-in or Macrostrat timescale.",
@@ -85,7 +86,8 @@ get_timescale_data <- function(name = "GTS2020", rank = NULL) {
       }
     )
     clean_dat <- raw_dat[, c("name", "b_age", "t_age", "abbrev", "color")]
-    colnames(clean_dat) <- c("interval_name", "max_ma", "min_ma", "abbr", "colour")
+    colnames(clean_dat) <- c("interval_name", "max_ma", "min_ma", "abbr",
+                             "colour")
     no_abbr <- (is.na(clean_dat$abbr) | clean_dat$abbr == "")
     clean_dat$abbr[no_abbr] <-
       abbreviate(clean_dat$interval_name, minlength = 1,
@@ -96,9 +98,10 @@ get_timescale_data <- function(name = "GTS2020", rank = NULL) {
     dat$duration_myr <- dat$max_ma - dat$min_ma
     # based on https://stackoverflow.com/a/1855903/4660582
     rgbs <- col2rgb(dat$colour)
-    dat$font <- ifelse(apply(rgbs, 2, function(x) (0.299 * x[1] + 0.587 * x[2] +
-                                                     0.114 * x[3]) / 255) > .5,
-                       "black", "white")
+    luminance <- apply(rgbs, 2, function(x) {
+      (0.299 * x[1] + 0.587 * x[2] + 0.114 * x[3]) / 255
+    })
+    dat$font <- ifelse(luminance > .5, "black", "white")
   }
   dat
 }

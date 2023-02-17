@@ -156,7 +156,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
     #character string entered
     if (is.character(interval) && length(interval) == 1) {
       #rank ages
-      rank_ages <- df[which(df$rank == rank),]
+      rank_ages <- df[which(df$rank == rank), ]
       w <- which(df$interval_name %in% interval)
       if (length(w) != length(interval)) {
         stop(
@@ -168,7 +168,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
       }
       rank_ages <-
         rank_ages[which(rank_ages$max_ma > df$min_ma[w] &
-                          rank_ages$min_ma < df$max_ma[w]),]
+                          rank_ages$min_ma < df$max_ma[w]), ]
       df <- rank_ages
     }
     if (is.character(interval) && length(interval) == 2) {
@@ -185,7 +185,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
       }
       rank_ages <-
         rank_ages[which(rank_ages$max_ma > min(df$min_ma[w]) &
-                          rank_ages$min_ma < max(df$max_ma[w])),]
+                          rank_ages$min_ma < max(df$max_ma[w])), ]
       df <- subset(df, max_ma <= max(rank_ages$max_ma))
       df <- subset(df, min_ma >= min(rank_ages$min_ma))
     }
@@ -201,7 +201,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
       }
       int_index <-
         which(interval <= df$max_ma & interval >= df$min_ma)
-      df <- df[int_index,]
+      df <- df[int_index, ]
     }
 
     if (is.numeric(interval) && length(interval) == 2) {
@@ -215,7 +215,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage",
 
       int_index <-
         which(min_int <= df$max_ma & max_int >= df$min_ma)
-      df <- df[int_index,]
+      df <- df[int_index, ]
     }
   } else {
     # Assign input scale to df

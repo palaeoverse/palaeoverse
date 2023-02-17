@@ -3,9 +3,9 @@ test_that("get_timescale_data works", {
                c("interval_number", "interval_name", "rank", "max_ma", "mid_ma",
                  "min_ma", "duration_myr", "font", "colour"))
   expect_equal(get_timescale_data(rank = "stage"),
-               subset(GTS2020, rank =="stage"))
+               subset(GTS2020, rank == "stage"))
   expect_equal(get_timescale_data(name = "GTS2012", rank = "stage"),
-               subset(GTS2012, rank =="stage"))
+               subset(GTS2012, rank == "stage"))
   expect_equal(nrow(get_timescale_data(rank = "eon")), 4)
   expect_equal(get_timescale_data(rank = "stage"),
                get_timescale_data(rank = "s"))
