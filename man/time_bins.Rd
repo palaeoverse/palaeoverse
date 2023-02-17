@@ -67,8 +67,7 @@ reasoning e.g. availability of outcrop (see Dean et al. 2020).
 This function uses either the Geological Time Scale 2020,
 Geological Time Scale 2012, or a user-input \code{data.frame} (see \code{scale}
 argument) to generate time bins. Interval data hosted by Macrostrat are
-also compatiable and accessible via the deeptime R pacakge
-(\code{\link[deeptime]{get_scale_data}}).
+also compatiable and accessible via (\code{\link{get_timescale_data}}).
 Additional information on included Geological Time Scales and source can be
 accessed via:
 \itemize{
@@ -123,8 +122,8 @@ scale <- data.frame(interval_name = 1:5,
                     max_ma = c(18, 32, 38, 45, 53))
 ex6 <- time_bins(scale = scale, size = 20, plot = TRUE)
 
-#Use North American land mammal ages from deeptime/Macrostrat
-scale <- deeptime::get_scale_data(name = "North American land mammal ages")
+#Use North American land mammal ages from Macrostrat
+scale <- get_timescale_data(name = "North American land mammal ages")
 ex7 <- time_bins(scale = scale, size = 10)
 
 }
