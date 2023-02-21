@@ -283,9 +283,11 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   }
 
   # Create info columns for "grid" method
-  occdf$rot_age <- NA
-  occdf$rot_lng <- NA
-  occdf$rot_lat <- NA
+  if (method == "grid") {
+    occdf$rot_age <- NA
+    occdf$rot_lng <- NA
+    occdf$rot_lat <- NA
+  }
 
   # Create columns for coordinates
   mdls <- data.frame(matrix(nrow = nrow(occdf), ncol = length(model) * 2))

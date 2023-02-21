@@ -1,3 +1,7 @@
+# palaeoverse 1.1.1.900
+
+* Fixed unnecessary column output in palaeorotate (#78)
+
 # palaeoverse 1.1.1
 
 * palaeoverse now requires deeptime (>= 1.0.0)
