@@ -10,8 +10,30 @@ test_that("palaeorotate() point method works", {
                                  method = "point",
                                  model = "PALEOMAP")), 3)
 
+  expect_equal(nrow(palaeorotate(occdf = occdf,
+                                 method = "point",
+                                 model = "PALEOMAP")), 3)
+
   expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
                                  round = 2)), 3)
+
+
+  # Check chunk size is working
+  occdf <- data.frame(lng = runif(1500, -180, 180),
+                      lat = runif(1500, -90, 90),
+                      age = rep(100, 1500))
+
+  expect_warning(occdf <- palaeorotate(occdf = occdf,
+                                       method = "point",
+                                       model = "PALEOMAP",
+                                       round = 3), NULL)
+  # Filter out points that can't be reconstructed
+  occdf <- occdf[-which(is.na(occdf$p_lng)), ]
+
+  expect_equal(nrow(palaeorotate(occdf = occdf,
+                                 method = "point",
+                                 model = "PALEOMAP")), nrow(occdf))
+
 
   # Expect message
   occdf <- data.frame(lng = c(-41),
