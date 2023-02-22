@@ -2,7 +2,6 @@
 
 * Fixed unnecessary column output in palaeorotate (#78)
 * Fixed prior updates to "point" method in palaeorotate which introduced binding issues for some specific datasets
-* Added additional tests for palaeorotate
 
 # palaeoverse 1.1.1
 
