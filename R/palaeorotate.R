@@ -439,6 +439,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       chk <- seq(from = 0, to = nr + chunks, by = chunks)
       # Update final bin to equal nrow
       chk[length(chk)] <- nr
+      # Create empty df
+      rot_df <- data.frame()
       # Run across chunks
       for (x in 2:length(chk)) {
       # Lower index
@@ -447,9 +449,9 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       ind_u <- chk[x]
       # Generate API
       tmp_chunk <- tmp[ind_l:ind_u, c(lng, lat)]
-      tmp_chunk <- toString(as.vector(t(tmp_chunk)))
+      tmp_string <- toString(as.vector(t(tmp_chunk)))
       api <- sprintf("?points=%s&time=%f&model=%s",
-                     gsub(" ", "", tmp_chunk), i, m)
+                     gsub(" ", "", tmp_string), i, m)
       api <- paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
                     api, "&return_null_points")
       # Call API
@@ -474,14 +476,18 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       colnames(rots) <- c("p_lng", "p_lat")
       # Replace modern returned coordinates with NA as some models do not
       # return NULL when outside of time range (e.g. SETON2012)
-      rots[which(tmp[, lng] == rots[, c("p_lng")] &
-            tmp[, lat] == rots[, c("p_lat")]), c("p_lng", "p_lat")] <- NA
+      rots[which(tmp_chunk[, lng] == rots[, c("p_lng")] &
+                   tmp_chunk[, lat] == rots[, c("p_lat")]),
+           c("p_lng", "p_lat")] <- NA
       # Update col names if more than one model requested
       if (length(model) > 1) {
         colnames(rots) <- c(paste0("p_lng_", m), paste0("p_lat_", m))
       }
-    }
-      rots
+      # Bind output
+      rot_df <- rbind.data.frame(rot_df, rots)
+      }
+      # Return df
+      rot_df
     })
     # Bind data
     rotations <- do.call(rbind, rotations)
