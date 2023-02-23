@@ -1,3 +1,8 @@
+# palaeoverse (development version)
+
+* Fixed unnecessary column output in palaeorotate (#78)
+* Fixed prior updates to "point" method in palaeorotate which introduced binding issues for some specific datasets
+
 # palaeoverse 1.1.1
 
 * palaeoverse now requires deeptime (>= 1.0.0)
