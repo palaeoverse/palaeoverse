@@ -452,8 +452,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
           # Upper index
           ind_u <- chk[x]
           # Generate API
-          tmp_chunk <- tmp[ind_l:ind_u, c(lng, lat)]
-          tmp_string <- toString(as.vector(t(tmp_chunk)))
+          tmp_chunk <- tmp[ind_l:ind_u, c(lng, lat, age)]
+          tmp_string <- toString(as.vector(t(tmp_chunk[, c(lng, lat)])))
           api <- sprintf("?points=%s&time=%f&model=%s",
                          gsub(" ", "", tmp_string), i, m)
           api <- paste0("https://gws.gplates.org/reconstruct/",
@@ -489,14 +489,14 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
             colnames(rots) <- c(paste0("p_lng_", m), paste0("p_lat_", m))
           }
           # Bind output
+          rots <- cbind.data.frame(tmp_chunk, rots)
           rot_df <- rbind.data.frame(rot_df, rots)
         }
         # Return df
         rot_df
       })
       # Bind data
-      rotations <- do.call(rbind, rotations)
-      coords <- cbind.data.frame(coords, rotations)
+      coords <- do.call(rbind, rotations)
     }
 
     # Set-up matching
