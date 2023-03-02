@@ -241,8 +241,7 @@ ex3 <- palaeorotate(occdf = tetrapods)
 ex4 <- palaeorotate(occdf = tetrapods,
                     model = c("MERDITH2021",
                               "GOLONKA",
-                              "PALEOMAP",
-                              "SETON2012"),
+                              "PALEOMAP"),
                     uncertainty = TRUE)
 }
 }

@@ -202,8 +202,7 @@
 #' ex4 <- palaeorotate(occdf = tetrapods,
 #'                     model = c("MERDITH2021",
 #'                               "GOLONKA",
-#'                               "PALEOMAP",
-#'                               "SETON2012"),
+#'                               "PALEOMAP"),
 #'                     uncertainty = TRUE)
 #' }
 #' @export
@@ -496,7 +495,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         rot_df
       })
       # Bind data
-      coords <- do.call(rbind, rotations)
+      model_coords <- do.call(rbind, rotations)
+      coords <- cbind(coords, model_coords[, 4:5])
     }
 
     # Set-up matching
