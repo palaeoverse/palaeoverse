@@ -60,7 +60,9 @@
 #'   a \code{character} string indicating a rank of intervals from the built-in
 #'   \code{\link{GTS2020}}, B) a \code{character} string indicating a remotely
 #'   hosted \code{data.frame} (see \code{\link{get_timescale_data}}), or C) a
-#'   custom \code{data.frame} of time interval boundaries (see Details).
+#'   custom \code{data.frame} of time interval boundaries (see Details). A list
+#'   of strings or data.frames can be supplied to add multiple time scales to
+#'   the same side of the plot (see Details).
 #' @param height \code{numeric}. The relative height (or width if \code{side} is
 #'   \code{2} or \code{4}) of the scale. This is relative to the height (if
 #'   \code{side} is \code{1} or \code{3}) or width (if \code{side} is \code{2}
@@ -152,13 +154,14 @@
 #' # the line argument here depends on the absolute size of the plot
 #' title(xlab = "Time (Ma)", line = 4)
 #'
-#' # stack multiple scales
+#' # stack multiple scales, abbreviate only one set of labels
 #' par(mar = c(7.1, 4.1, 4.1, 2.1)) # further expand bottom margin
 #' plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
 #'      xlab = NA, ylab = "Depth (m)")
 #' box()
 #' axis(2)
-#' axis_geo(side = 1, intervals = list("epochs", "periods"))
+#' axis_geo(side = 1, intervals = list("epochs", "periods"),
+#'     abbr = list(TRUE, FALSE))
 #' # the line argument here depends on the absolute size of the plot
 #' title(xlab = "Time (Ma)", line = 6)
 #'

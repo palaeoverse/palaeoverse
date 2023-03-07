@@ -1,5 +1,7 @@
 # palaeoverse (development version)
 
+* Fixed unnecessary column output in palaeorotate (#78)
+* Fixed prior updates to "point" method in palaeorotate which introduced binding issues for some specific datasets
 * Added get_timescale_data and removed deeptime dependency
 * Updated font colors in GTS2012 and GTS2020 based on background luminance
 

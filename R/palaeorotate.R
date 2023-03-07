@@ -283,9 +283,11 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   }
 
   # Create info columns for "grid" method
-  occdf$rot_age <- NA
-  occdf$rot_lng <- NA
-  occdf$rot_lat <- NA
+  if (method == "grid") {
+    occdf$rot_age <- NA
+    occdf$rot_lng <- NA
+    occdf$rot_lat <- NA
+  }
 
   # Create columns for coordinates
   mdls <- data.frame(matrix(nrow = nrow(occdf), ncol = length(model) * 2))
@@ -326,7 +328,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
     # Reconstruction files
     rot_files <- list(
-      BASE = paste0(httr::GET("https://zenodo.org/record/7390065")$url,
+      BASE = paste0(GET("https://zenodo.org/record/7390065")$url,
                     "/files/"),
       MULLER2022 = "MULLER2022.RDS",
       MERDITH2021 = "MERDITH2021.RDS",
@@ -418,94 +420,106 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       },
       error = function(e) {
         stop(paste("GPlates Web Service is not available.",
-        "Either the website is down or you are not connected to the internet."),
+      "Either the website is down or you are not connected to the internet."),
              call. = FALSE)
       })
-  # Define maximum chunk size for API calls
-  chunks <- 300
-  # Run across models
-  for (m in model) {
-    # Inform user which model is running
-    message(m)
-    # Run across unique ages
-    rotations <- pbapply::pblapply(X = uni_ages, function(i) {
-      # Subset to age of interest
-      tmp <- coords[which(coords[, age] == i), ]
-      # How many rows?
-      nr <- nrow(tmp)
-      # Generate chunk bins
-      chk <- seq(from = 0, to = nr + chunks, by = chunks)
-      # Update final bin to equal nrow
-      chk[length(chk)] <- nr
-      # Run across chunks
-      for (x in 2:length(chk)) {
-      # Lower index
-      ind_l <- chk[x - 1] + 1
-      # Upper index
-      ind_u <- chk[x]
-      # Generate API
-      tmp_chunk <- tmp[ind_l:ind_u, c(lng, lat)]
-      tmp_chunk <- toString(as.vector(t(tmp_chunk)))
-      api <- sprintf("?points=%s&time=%f&model=%s",
-                     gsub(" ", "", tmp_chunk), i, m)
-      api <- paste0("https://gws.gplates.org/reconstruct/reconstruct_points/",
-                    api, "&return_null_points")
-      # Call API
-      rots <- httr::RETRY(verb = "GET",
-                          url = api,
-                          times = 5,
-                          pause_min = 1,
-                          pause_base = 1,
-                          pause_cap = 10)
-      # Extract coordinates
-      rots <- httr::content(x = rots, as = "parsed")$coordinates
-      # Replace NULL values with NA
-      rpl <- which(rots == "NULL")
-      if (length(rpl) != 0) {
-        for (r in rpl) {
-          rots[[r]] <- list(NA, NA)
+    # Define maximum chunk size for API calls
+    chunks <- 300
+    # Run across models
+    for (m in model) {
+      # Inform user which model is running
+      message(m)
+      # Run across unique ages
+      rotations <- pblapply(X = uni_ages, function(i) {
+        # Subset to age of interest
+        tmp <- coords[which(coords[, age] == i), ]
+        # How many rows?
+        nr <- nrow(tmp)
+        # Generate chunk bins
+        chk <- seq(from = 0, to = nr + chunks, by = chunks)
+        # Update final bin to equal nrow
+        chk[length(chk)] <- nr
+        # If ultimate chunk is the same as penultimate, drop
+        if (chk[length(chk)] == chk[length(chk) - 1]) {
+          chk <- chk[-length(chk)]
         }
-      }
-      # Bind rows
-      rots <- do.call(rbind.data.frame, rots)
-      # col names
-      colnames(rots) <- c("p_lng", "p_lat")
-      # Replace modern returned coordinates with NA as some models do not
-      # return NULL when outside of time range (e.g. SETON2012)
-      rots[which(tmp[, lng] == rots[, c("p_lng")] &
-            tmp[, lat] == rots[, c("p_lat")]), c("p_lng", "p_lat")] <- NA
-      # Update col names if more than one model requested
-      if (length(model) > 1) {
-        colnames(rots) <- c(paste0("p_lng_", m), paste0("p_lat_", m))
-      }
+        # Create empty df
+        rot_df <- data.frame()
+        # Run across chunks
+        for (x in 2:length(chk)) {
+          # Lower index
+          ind_l <- chk[x - 1] + 1
+          # Upper index
+          ind_u <- chk[x]
+          # Generate API
+          tmp_chunk <- tmp[ind_l:ind_u, c(lng, lat, age)]
+          tmp_string <- toString(as.vector(t(tmp_chunk[, c(lng, lat)])))
+          api <- sprintf("?points=%s&time=%f&model=%s",
+                         gsub(" ", "", tmp_string), i, m)
+          api <- paste0("https://gws.gplates.org/reconstruct/",
+                        "reconstruct_points/",
+                        api, "&return_null_points")
+          # Call API
+          rots <- RETRY(verb = "GET",
+                        url = api,
+                        times = 5,
+                        pause_min = 1,
+                        pause_base = 1,
+                        pause_cap = 10)
+          # Extract coordinates
+          rots <- content(x = rots, as = "parsed")$coordinates
+          # Replace NULL values with NA
+          rpl <- which(rots == "NULL")
+          if (length(rpl) != 0) {
+            for (r in rpl) {
+              rots[[r]] <- list(NA, NA)
+            }
+          }
+          # Bind rows
+          rots <- do.call(rbind.data.frame, rots)
+          # col names
+          colnames(rots) <- c("p_lng", "p_lat")
+          # Replace modern returned coordinates with NA as some models do not
+          # return NULL when outside of time range (e.g. SETON2012)
+          rots[which(tmp_chunk[, lng] == rots[, c("p_lng")] &
+                       tmp_chunk[, lat] == rots[, c("p_lat")]),
+               c("p_lng", "p_lat")] <- NA
+          # Update col names if more than one model requested
+          if (length(model) > 1) {
+            colnames(rots) <- c(paste0("p_lng_", m), paste0("p_lat_", m))
+          }
+          # Bind output
+          rots <- cbind.data.frame(tmp_chunk, rots)
+          rot_df <- rbind.data.frame(rot_df, rots)
+        }
+        # Return df
+        rot_df
+      })
+      # Bind data
+      coords <- do.call(rbind, rotations)
     }
-      rots
-    })
-    # Bind data
-    rotations <- do.call(rbind, rotations)
-    coords <- cbind.data.frame(coords, rotations)
-  }
 
-  # Set-up matching
-  coords$match <- paste0(coords[, lng],
-                         coords[, lat],
-                         coords[, age])
-  occdf$match <- paste0(occdf[, lng],
-                        occdf[, lat],
-                        occdf[, age])
+    # Set-up matching
+    coords$match <- paste0(coords[, lng],
+                           coords[, lat],
+                           coords[, age])
+    occdf$match <- paste0(occdf[, lng],
+                          occdf[, lat],
+                          occdf[, age])
 
-  # Match data
-  mch <- match(x = occdf$match, table = coords$match)
+    # Match data
+    mch <- match(x = occdf$match, table = coords$match)
 
-  occdf[, colnames(coords)] <- coords[mch, ]
+    occdf[, colnames(coords)] <- coords[mch, ]
 
-  # Drop match column
-  occdf <- occdf[, -which(colnames(occdf) == "match")]
+    # Drop match column
+    occdf <- occdf[, -which(colnames(occdf) == "match")]
 
-  # Drop model palaeocoordinate column if only one model selected
-  if (length(model) == 1) {
-    occdf <- occdf[, -c(which(colnames(occdf) %in% c(paste0("p_lng_", model),
-                                            paste0("p_lat_", model))))]
+    # Drop model palaeocoordinate column if only one model selected
+    if (length(model) == 1) {
+      occdf <- occdf[, -c(which(colnames(occdf) %in%
+                                  c(paste0("p_lng_", model),
+                                    paste0("p_lat_", model))))]
     }
   }
 
@@ -543,8 +557,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
           next
       } else {
         # Calculate GCD matrix
-        dist <- geosphere::distm(x = tmpdf,
-                                 fun = geosphere::distGeo)
+        dist <- distm(x = tmpdf, fun = distGeo)
         # Convert to km
         dist <- dist / 10^3
         # Get maximum GCD in km
