@@ -1,47 +1,48 @@
 #' Get geological timescale data
 #'
 #' This function takes a name of a geological timescale and returns data for the
-#' timescale. Valid names include those of built-in `data.frames` ([GTS2020()]
-#' and [GTS2012()]) and exact matches to those hosted by Macrostrat (see full
-#' list here: <https://macrostrat.org/api/defs/timescales?all>). If a built-in
-#' `data.frame` is specified with `name`, a specific `rank` may also be
-#' specified. Valid ranks include "period", "epoch", "stage", "era", and "eon"
-#' as well as partial matches of those names (e.g., "per" or "st"). If a rank
-#' is supplied, only the intervals of that rank will be returned from the
-#' specified timescale.
+#' timescale. Valid names include those of built-in `data.frame`s ([GTS2020] and
+#' [GTS2012]) and exact matches to those hosted by
+#' [Macrostrat](https://macrostrat.org/api/defs/timescales?all). If a built-in
+#' `data.frame` is requested with `name`, a specific `rank` may also be
+#' provided. Valid ranks include "stage", "epoch", "period", "era", and "eon" as
+#' well as partial matches of those names (e.g. "st" or "per"). If a rank is
+#' supplied, only the intervals of that rank will be returned from the specified
+#' timescale.
 #'
 #' @param name \code{character}. The name of the desired timescale.
 #' @param rank \code{character}. The name of the desired rank (if `name`
 #'   specifies a built-in timescale).
-#' @return A `data.frame` with at least the following columns:
-#'   \item{name}{the names of the time intervals.}
-#'   \item{max_age}{the oldest boundaries of the time intervals, in millions of
-#'     years.}
-#'   \item{min_age}{the youngest boundaries of the time intervals, in millions
-#'     of years.}
+#' @return A `data.frame` with at least the following columns (although not
+#'   necessarily in this order):
+#'   \item{name}{the names of the time intervals}
+#'   \item{max_ma}{the oldest boundaries of the time intervals, in millions of
+#'     years}
+#'   \item{min_ma}{the youngest boundaries of the time intervals, in millions
+#'     of years}
+#'   \item{mid_ma}{the average of `max_ma` and `min_ma`}
 #'   \item{abbr}{either traditional abbreviations of the names of the time
-#'     intervals (if they exist) or custom abbreviations created with R.}
-#'   \item{color}{hex color codes associated with the time intervals (if
-#'     applicable).}
+#'     intervals (if they exist) or custom abbreviations created with
+#'     [base::abbreviate()]}
+#'   \item{colour}{hex colour codes associated with the time intervals (if
+#'     applicable)}
+#'   \item{font}{text label colours, either "black" or "white" depending on the
+#'     calculated luminance of the values in the colour column}
 #' @importFrom utils read.csv
 #' @importFrom curl nslookup
 #' @importFrom grDevices col2rgb
+#' @examples
+#' # get default geological timescale at the stage level
+#' stages <- get_timescale_data(rank = "stage")
+#' # get a Macrostrat timescale
+#' mammal_ages <- get_timescale_data("north american land mammal ages")
 #' @export
 get_timescale_data <- function(name = "GTS2020", rank = NULL) {
-  possible_names <- c("GTS2020", "GTS2012")
-  name_match <- charmatch(name, possible_names)
-  if (!is.na(name_match)) {
-    if (name_match == 0) {
-      stop("'name' matches both built-in scales. Please be more specific.",
-           call. = FALSE
-      )
-    } else {
-      name <- possible_names[name_match]
-      if (name == "GTS2020") {
-        dat <- palaeoverse::GTS2020
-      } else if (name == "GTS2012") {
-        dat <- palaeoverse::GTS2012
-      }
+  if (name %in% c("GTS2012", "GTS2020")) {
+    if (name == "GTS2020") {
+      dat <- palaeoverse::GTS2020
+    } else if (name == "GTS2012") {
+      dat <- palaeoverse::GTS2012
     }
     if (!is.null(rank)) {
       possible_ranks <- c("period", "epoch", "stage", "era", "eon")
@@ -51,13 +52,16 @@ get_timescale_data <- function(name = "GTS2020", rank = NULL) {
              'period', 'epoch', 'stage', 'era', or 'eon'.",
              call. = FALSE)
       } else if (rank_match == 0) {
-        stop("'rank' matches multiple scales. Please be more specific.",
+        stop("`rank` matches multiple scales. Please be more specific.",
              call. = FALSE
         )
       } else {
         dat <- subset(dat, rank == possible_ranks[rank_match])
       }
     }
+    dat$abbr <-
+      abbreviate(dat$interval_name, minlength = 1,
+                 use.classes = FALSE, named = FALSE)
   } else {
     # try to get the timescale from macrostrat
     # check that we are online and macrostrat is online
@@ -80,7 +84,7 @@ get_timescale_data <- function(name = "GTS2020", rank = NULL) {
         read.csv(macrostrat_url, header = TRUE, stringsAsFactors = FALSE)
       },
       error = function(e) {
-        stop("'name' does not match a built-in or Macrostrat timescale.",
+        stop("`name` does not match a built-in or Macrostrat timescale.",
              call. = FALSE
         )
       }

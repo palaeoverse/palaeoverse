@@ -48,7 +48,7 @@ custom \code{data.frame} of time interval boundaries (see Details).}
 \code{side} is \code{1} or \code{3}) or width (if \code{side} is \code{2}
 or \code{4}) of the plot.}
 
-\item{fill}{\code{character}. The fill color of the boxes. The default is to
+\item{fill}{\code{character}. The fill colour of the boxes. The default is to
 use the \code{colour} or \code{color} column included in \code{intervals}.
 If a custom dataset is provided with \code{intervals} without a
 \code{colour} or \code{color} column and without specifying \code{fill}, a
@@ -144,7 +144,7 @@ Timescale 2020 (\code{\link{GTS2020}}). However, international periods,
 stages, eons, and eras are also available. Interval data hosted by Macrostrat
 are also available (see \code{\link{get_timescale_data}}). A custom interval
 dataset can also be used (see Details below). The appearance of the axis is
-highly customizable (see Usage below), with the intent that plots will be
+highly customisable (see Usage below), with the intent that plots will be
 publication-ready.
 }
 \details{

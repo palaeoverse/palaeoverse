@@ -13,25 +13,36 @@ get_timescale_data(name = "GTS2020", rank = NULL)
 specifies a built-in timescale).}
 }
 \value{
-A \code{data.frame} with at least the following columns:
-\item{name}{the names of the time intervals.}
-\item{max_age}{the oldest boundaries of the time intervals, in millions of
-years.}
-\item{min_age}{the youngest boundaries of the time intervals, in millions
-of years.}
+A \code{data.frame} with at least the following columns (although not
+necessarily in this order):
+\item{name}{the names of the time intervals}
+\item{max_ma}{the oldest boundaries of the time intervals, in millions of
+years}
+\item{min_ma}{the youngest boundaries of the time intervals, in millions
+of years}
+\item{mid_ma}{the average of \code{max_ma} and \code{min_ma}}
 \item{abbr}{either traditional abbreviations of the names of the time
-intervals (if they exist) or custom abbreviations created with R.}
-\item{color}{hex color codes associated with the time intervals (if
-applicable).}
+intervals (if they exist) or custom abbreviations created with
+\code{\link[base:abbreviate]{base::abbreviate()}}}
+\item{colour}{hex colour codes associated with the time intervals (if
+applicable)}
+\item{font}{text label colours, either "black" or "white" depending on the
+calculated luminance of the values in the colour column}
 }
 \description{
 This function takes a name of a geological timescale and returns data for the
-timescale. Valid names include those of built-in \code{data.frames} (\code{\link[=GTS2020]{GTS2020()}}
-and \code{\link[=GTS2012]{GTS2012()}}) and exact matches to those hosted by Macrostrat (see full
-list here: \url{https://macrostrat.org/api/defs/timescales?all}). If a built-in
-\code{data.frame} is specified with \code{name}, a specific \code{rank} may also be
-specified. Valid ranks include "period", "epoch", "stage", "era", and "eon"
-as well as partial matches of those names (e.g., "per" or "st"). If a rank
-is supplied, only the intervals of that rank will be returned from the
-specified timescale.
+timescale. Valid names include those of built-in \code{data.frame}s (\link{GTS2020} and
+\link{GTS2012}) and exact matches to those hosted by
+\href{https://macrostrat.org/api/defs/timescales?all}{Macrostrat}. If a built-in
+\code{data.frame} is requested with \code{name}, a specific \code{rank} may also be
+provided. Valid ranks include "stage", "epoch", "period", "era", and "eon" as
+well as partial matches of those names (e.g. "st" or "per"). If a rank is
+supplied, only the intervals of that rank will be returned from the specified
+timescale.
+}
+\examples{
+# get default geological timescale at the stage level
+stages <- get_timescale_data(rank = "stage")
+# get a Macrostrat timescale
+mammal_ages <- get_timescale_data("north american land mammal ages")
 }

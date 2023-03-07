@@ -178,43 +178,43 @@
 <rect x='-1996.80' y='475.20' width='96.00' height='18.72' style='stroke-width: 0.75; fill: #8CB06C;' />
 <line x1='100.80' y1='493.92' x2='100.80' y2='475.20' style='stroke-width: 0.75;' />
 <line x1='619.20' y1='493.92' x2='619.20' y2='475.20' style='stroke-width: 0.75;' />
-<text x='593.78' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='62.05px' lengthAdjust='spacingAndGlyphs'>Pleistocene</text>
-<text x='581.01' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='46.04px' lengthAdjust='spacingAndGlyphs'>Pliocene</text>
-<text x='531.93' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='45.37px' lengthAdjust='spacingAndGlyphs'>Miocene</text>
-<text x='463.37' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Oligocene</text>
-<text x='384.24' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.71px' lengthAdjust='spacingAndGlyphs'>Eocene</text>
-<text x='307.20' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='56.72px' lengthAdjust='spacingAndGlyphs'>Paleocene</text>
-<text x='200.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='97.40px' lengthAdjust='spacingAndGlyphs'>Upper Cretaceous</text>
-<text x='109.20' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='97.40px' lengthAdjust='spacingAndGlyphs'>Lower Cretaceous</text>
-<text x='-140.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.05px' lengthAdjust='spacingAndGlyphs'>Upper Jurassic</text>
-<text x='-210.24' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='82.71px' lengthAdjust='spacingAndGlyphs'>Middle Jurassic</text>
-<text x='-300.96' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.05px' lengthAdjust='spacingAndGlyphs'>Lower Jurassic</text>
-<text x='-451.92' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='77.36px' lengthAdjust='spacingAndGlyphs'>Upper Triassic</text>
-<text x='-562.08' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.03px' lengthAdjust='spacingAndGlyphs'>Middle Triassic</text>
-<text x='-597.84' y='488.69' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='77.36px' lengthAdjust='spacingAndGlyphs'>Lower Triassic</text>
-<text x='-626.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.05px' lengthAdjust='spacingAndGlyphs'>Lopingian</text>
-<text x='-676.92' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='68.06px' lengthAdjust='spacingAndGlyphs'>Guadalupian</text>
-<text x='-772.44' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='53.36px' lengthAdjust='spacingAndGlyphs'>Cisuralian</text>
-<text x='-854.16' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='114.09px' lengthAdjust='spacingAndGlyphs'>Upper Pennsylvanian</text>
-<text x='-893.28' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='116.76px' lengthAdjust='spacingAndGlyphs'>Middle Pennsylvanian</text>
-<text x='-932.16' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='114.09px' lengthAdjust='spacingAndGlyphs'>Lower Pennsylvanian</text>
-<text x='-969.84' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='107.40px' lengthAdjust='spacingAndGlyphs'>Upper Mississippian</text>
-<text x='-1026.24' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='110.06px' lengthAdjust='spacingAndGlyphs'>Middle Mississippian</text>
-<text x='-1093.44' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='107.40px' lengthAdjust='spacingAndGlyphs'>Lower Mississippian</text>
-<text x='-1179.84' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='86.73px' lengthAdjust='spacingAndGlyphs'>Upper Devonian</text>
-<text x='-1262.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='89.40px' lengthAdjust='spacingAndGlyphs'>Middle Devonian</text>
-<text x='-1350.00' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='86.73px' lengthAdjust='spacingAndGlyphs'>Lower Devonian</text>
-<text x='-1421.28' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='33.34px' lengthAdjust='spacingAndGlyphs'>Pridoli</text>
-<text x='-1440.96' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='38.03px' lengthAdjust='spacingAndGlyphs'>Ludlow</text>
-<text x='-1465.92' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='46.02px' lengthAdjust='spacingAndGlyphs'>Wenlock</text>
-<text x='-1505.28' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='58.72px' lengthAdjust='spacingAndGlyphs'>Llandovery</text>
-<text x='-1565.28' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='93.39px' lengthAdjust='spacingAndGlyphs'>Upper Ordovician</text>
-<text x='-1628.16' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='96.06px' lengthAdjust='spacingAndGlyphs'>Middle Ordovician</text>
-<text x='-1692.96' y='488.69' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='93.39px' lengthAdjust='spacingAndGlyphs'>Lower Ordovician</text>
-<text x='-1757.76' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Furongian</text>
-<text x='-1814.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='60.70px' lengthAdjust='spacingAndGlyphs'>Miaolingian</text>
-<text x='-1872.00' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Series 2</text>
-<text x='-1948.80' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='70.71px' lengthAdjust='spacingAndGlyphs'>Terreneuvian</text>
+<text x='593.78' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>Ple</text>
+<text x='581.01' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.33px' lengthAdjust='spacingAndGlyphs'>Pli</text>
+<text x='531.93' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Mio</text>
+<text x='463.37' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>O</text>
+<text x='384.24' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>E</text>
+<text x='307.20' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pa</text>
+<text x='200.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>UC</text>
+<text x='109.20' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>LC</text>
+<text x='-140.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.67px' lengthAdjust='spacingAndGlyphs'>UJ</text>
+<text x='-210.24' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.01px' lengthAdjust='spacingAndGlyphs'>MJ</text>
+<text x='-300.96' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.68px' lengthAdjust='spacingAndGlyphs'>LJ</text>
+<text x='-451.92' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.00px' lengthAdjust='spacingAndGlyphs'>UT</text>
+<text x='-562.08' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.33px' lengthAdjust='spacingAndGlyphs'>MT</text>
+<text x='-597.84' y='488.69' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='14.00px' lengthAdjust='spacingAndGlyphs'>LT</text>
+<text x='-626.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>Lo</text>
+<text x='-676.92' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>G</text>
+<text x='-772.44' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>C</text>
+<text x='-854.16' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>UP</text>
+<text x='-893.28' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.01px' lengthAdjust='spacingAndGlyphs'>MP</text>
+<text x='-932.16' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>LP</text>
+<text x='-969.84' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>UM</text>
+<text x='-1026.24' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='20.00px' lengthAdjust='spacingAndGlyphs'>MM</text>
+<text x='-1093.44' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>LM</text>
+<text x='-1179.84' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>UD</text>
+<text x='-1262.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>MD</text>
+<text x='-1350.00' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>LD</text>
+<text x='-1421.28' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.00px' lengthAdjust='spacingAndGlyphs'>Pr</text>
+<text x='-1440.96' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>Lu</text>
+<text x='-1465.92' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='11.33px' lengthAdjust='spacingAndGlyphs'>W</text>
+<text x='-1505.28' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>Ll</text>
+<text x='-1565.28' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.01px' lengthAdjust='spacingAndGlyphs'>UO</text>
+<text x='-1628.16' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>MO</text>
+<text x='-1692.96' y='488.69' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='16.01px' lengthAdjust='spacingAndGlyphs'>LO</text>
+<text x='-1757.76' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='7.33px' lengthAdjust='spacingAndGlyphs'>F</text>
+<text x='-1814.40' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Mia</text>
+<text x='-1872.00' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>S2</text>
+<text x='-1948.80' y='488.69' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='7.33px' lengthAdjust='spacingAndGlyphs'>T</text>
 <rect x='587.62' y='493.92' width='12.38' height='11.23' style='stroke-width: 0.75; fill: #F9F97F;' />
 <rect x='489.46' y='493.92' width='98.16' height='11.23' style='stroke-width: 0.75; fill: #FFE619;' />
 <rect x='283.20' y='493.92' width='206.26' height='11.23' style='stroke-width: 0.75; fill: #FD9A52;' />
@@ -232,19 +232,19 @@
 <rect x='-4200.00' y='493.92' width='1344.00' height='11.23' style='stroke-width: 0.75; fill: #FEBF4E;' />
 <line x1='100.80' y1='505.15' x2='100.80' y2='493.92' style='stroke-width: 0.75;' />
 <line x1='619.20' y1='505.15' x2='619.20' y2='493.92' style='stroke-width: 0.75;' />
-<text x='538.54' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='48.72px' lengthAdjust='spacingAndGlyphs'>Neogene</text>
-<text x='386.33' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='57.39px' lengthAdjust='spacingAndGlyphs'>Paleogene</text>
-<text x='192.00' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
-<text x='-231.12' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Jurassic</text>
-<text x='-487.68' y='503.67' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='41.34px' lengthAdjust='spacingAndGlyphs'>Triassic</text>
-<text x='-721.92' y='503.67' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='44.69px' lengthAdjust='spacingAndGlyphs'>Permian</text>
-<text x='-978.72' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='75.38px' lengthAdjust='spacingAndGlyphs'>Carboniferous</text>
-<text x='-1267.44' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='50.71px' lengthAdjust='spacingAndGlyphs'>Devonian</text>
-<text x='-1471.20' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.02px' lengthAdjust='spacingAndGlyphs'>Silurian</text>
-<text x='-1630.08' y='503.67' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='57.37px' lengthAdjust='spacingAndGlyphs'>Ordovician</text>
-<text x='-1863.36' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.03px' lengthAdjust='spacingAndGlyphs'>Cambrian</text>
-<text x='-2222.40' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Ediacaran</text>
-<text x='-2652.00' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cryogenian</text>
+<text x='538.54' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>N</text>
+<text x='386.33' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pa</text>
+<text x='192.00' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Cre</text>
+<text x='-231.12' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.00px' lengthAdjust='spacingAndGlyphs'>J</text>
+<text x='-487.68' y='503.67' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='11.33px' lengthAdjust='spacingAndGlyphs'>Tr</text>
+<text x='-721.92' y='503.67' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pe</text>
+<text x='-978.72' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Car</text>
+<text x='-1267.44' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>D</text>
+<text x='-1471.20' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.33px' lengthAdjust='spacingAndGlyphs'>Sil</text>
+<text x='-1630.08' y='503.67' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='20.01px' lengthAdjust='spacingAndGlyphs'>Ord</text>
+<text x='-1863.36' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='25.34px' lengthAdjust='spacingAndGlyphs'>Cam</text>
+<text x='-2222.40' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Ed</text>
+<text x='-2652.00' y='503.67' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>Cry</text>
 <line x1='100.80' y1='505.15' x2='619.20' y2='505.15' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
@@ -308,43 +308,43 @@
 <rect x='85.25' y='2015.86' width='15.55' height='72.98' style='stroke-width: 0.75; stroke: #A020F0; fill: #8CB06C;' />
 <line x1='85.25' y1='475.20' x2='100.80' y2='475.20' style='stroke-width: 0.75; stroke: #A020F0;' />
 <line x1='85.25' y1='100.80' x2='100.80' y2='100.80' style='stroke-width: 0.75; stroke: #A020F0;' />
-<text transform='translate(97.15,119.40) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='62.05px' lengthAdjust='spacingAndGlyphs'>Pleistocene</text>
-<text transform='translate(97.15,129.10) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='46.04px' lengthAdjust='spacingAndGlyphs'>Pliocene</text>
-<text transform='translate(97.15,166.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='45.37px' lengthAdjust='spacingAndGlyphs'>Miocene</text>
-<text transform='translate(97.15,218.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Oligocene</text>
-<text transform='translate(97.15,278.69) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.71px' lengthAdjust='spacingAndGlyphs'>Eocene</text>
-<text transform='translate(97.15,337.26) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='56.72px' lengthAdjust='spacingAndGlyphs'>Paleocene</text>
-<text transform='translate(97.15,418.46) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='97.40px' lengthAdjust='spacingAndGlyphs'>Upper Cretaceous</text>
-<text transform='translate(97.15,562.60) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='97.40px' lengthAdjust='spacingAndGlyphs'>Lower Cretaceous</text>
-<text transform='translate(97.15,677.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.05px' lengthAdjust='spacingAndGlyphs'>Upper Jurassic</text>
-<text transform='translate(97.15,730.64) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='82.71px' lengthAdjust='spacingAndGlyphs'>Middle Jurassic</text>
-<text transform='translate(97.15,799.61) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.05px' lengthAdjust='spacingAndGlyphs'>Lower Jurassic</text>
-<text transform='translate(97.15,914.37) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='77.36px' lengthAdjust='spacingAndGlyphs'>Upper Triassic</text>
-<text transform='translate(97.15,998.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.03px' lengthAdjust='spacingAndGlyphs'>Middle Triassic</text>
-<text transform='translate(97.15,1025.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='77.36px' lengthAdjust='spacingAndGlyphs'>Lower Triassic</text>
-<text transform='translate(97.15,1047.02) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.05px' lengthAdjust='spacingAndGlyphs'>Lopingian</text>
-<text transform='translate(97.15,1085.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='68.06px' lengthAdjust='spacingAndGlyphs'>Guadalupian</text>
-<text transform='translate(97.15,1158.04) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='53.36px' lengthAdjust='spacingAndGlyphs'>Cisuralian</text>
-<text transform='translate(97.15,1220.17) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='114.09px' lengthAdjust='spacingAndGlyphs'>Upper Pennsylvanian</text>
-<text transform='translate(97.15,1249.91) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='116.76px' lengthAdjust='spacingAndGlyphs'>Middle Pennsylvanian</text>
-<text transform='translate(97.15,1279.47) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='114.09px' lengthAdjust='spacingAndGlyphs'>Lower Pennsylvanian</text>
-<text transform='translate(97.15,1308.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='107.40px' lengthAdjust='spacingAndGlyphs'>Upper Mississippian</text>
-<text transform='translate(97.15,1350.99) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='110.06px' lengthAdjust='spacingAndGlyphs'>Middle Mississippian</text>
-<text transform='translate(97.15,1402.08) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='107.40px' lengthAdjust='spacingAndGlyphs'>Lower Mississippian</text>
-<text transform='translate(97.15,1467.76) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='86.73px' lengthAdjust='spacingAndGlyphs'>Upper Devonian</text>
-<text transform='translate(97.15,1530.53) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='89.40px' lengthAdjust='spacingAndGlyphs'>Middle Devonian</text>
-<text transform='translate(97.15,1597.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='86.73px' lengthAdjust='spacingAndGlyphs'>Lower Devonian</text>
-<text transform='translate(97.15,1651.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='33.34px' lengthAdjust='spacingAndGlyphs'>Pridoli</text>
-<text transform='translate(97.15,1666.27) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='38.03px' lengthAdjust='spacingAndGlyphs'>Ludlow</text>
-<text transform='translate(97.15,1685.25) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='46.02px' lengthAdjust='spacingAndGlyphs'>Wenlock</text>
-<text transform='translate(97.15,1715.17) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='58.72px' lengthAdjust='spacingAndGlyphs'>Llandovery</text>
-<text transform='translate(97.15,1760.79) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='93.39px' lengthAdjust='spacingAndGlyphs'>Upper Ordovician</text>
-<text transform='translate(97.15,1808.59) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='96.06px' lengthAdjust='spacingAndGlyphs'>Middle Ordovician</text>
-<text transform='translate(97.15,1857.85) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='93.39px' lengthAdjust='spacingAndGlyphs'>Lower Ordovician</text>
-<text transform='translate(97.15,1907.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Furongian</text>
-<text transform='translate(97.15,1950.18) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='60.70px' lengthAdjust='spacingAndGlyphs'>Miaolingian</text>
-<text transform='translate(97.15,1993.96) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Series 2</text>
-<text transform='translate(97.15,2052.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='70.71px' lengthAdjust='spacingAndGlyphs'>Terreneuvian</text>
+<text transform='translate(97.15,119.40) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>Ple</text>
+<text transform='translate(97.15,129.10) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.33px' lengthAdjust='spacingAndGlyphs'>Pli</text>
+<text transform='translate(97.15,166.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Mio</text>
+<text transform='translate(97.15,218.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>O</text>
+<text transform='translate(97.15,278.69) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>E</text>
+<text transform='translate(97.15,337.26) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pa</text>
+<text transform='translate(97.15,418.46) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>UC</text>
+<text transform='translate(97.15,562.60) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>LC</text>
+<text transform='translate(97.15,677.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.67px' lengthAdjust='spacingAndGlyphs'>UJ</text>
+<text transform='translate(97.15,730.64) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.01px' lengthAdjust='spacingAndGlyphs'>MJ</text>
+<text transform='translate(97.15,799.61) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.68px' lengthAdjust='spacingAndGlyphs'>LJ</text>
+<text transform='translate(97.15,914.37) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.00px' lengthAdjust='spacingAndGlyphs'>UT</text>
+<text transform='translate(97.15,998.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.33px' lengthAdjust='spacingAndGlyphs'>MT</text>
+<text transform='translate(97.15,1025.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='14.00px' lengthAdjust='spacingAndGlyphs'>LT</text>
+<text transform='translate(97.15,1047.02) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>Lo</text>
+<text transform='translate(97.15,1085.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>G</text>
+<text transform='translate(97.15,1158.04) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>C</text>
+<text transform='translate(97.15,1220.17) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>UP</text>
+<text transform='translate(97.15,1249.91) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.01px' lengthAdjust='spacingAndGlyphs'>MP</text>
+<text transform='translate(97.15,1279.47) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>LP</text>
+<text transform='translate(97.15,1308.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>UM</text>
+<text transform='translate(97.15,1350.99) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='20.00px' lengthAdjust='spacingAndGlyphs'>MM</text>
+<text transform='translate(97.15,1402.08) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>LM</text>
+<text transform='translate(97.15,1467.76) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>UD</text>
+<text transform='translate(97.15,1530.53) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>MD</text>
+<text transform='translate(97.15,1597.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>LD</text>
+<text transform='translate(97.15,1651.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.00px' lengthAdjust='spacingAndGlyphs'>Pr</text>
+<text transform='translate(97.15,1666.27) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>Lu</text>
+<text transform='translate(97.15,1685.25) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='11.33px' lengthAdjust='spacingAndGlyphs'>W</text>
+<text transform='translate(97.15,1715.17) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>Ll</text>
+<text transform='translate(97.15,1760.79) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.01px' lengthAdjust='spacingAndGlyphs'>UO</text>
+<text transform='translate(97.15,1808.59) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>MO</text>
+<text transform='translate(97.15,1857.85) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='16.01px' lengthAdjust='spacingAndGlyphs'>LO</text>
+<text transform='translate(97.15,1907.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='7.33px' lengthAdjust='spacingAndGlyphs'>F</text>
+<text transform='translate(97.15,1950.18) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Mia</text>
+<text transform='translate(97.15,1993.96) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>S2</text>
+<text transform='translate(97.15,2052.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='7.33px' lengthAdjust='spacingAndGlyphs'>T</text>
 <rect x='59.33' y='114.67' width='25.92' height='9.41' style='stroke-width: 0.75; stroke: #A020F0; fill: #F9F97F;' />
 <rect x='59.33' y='124.08' width='25.92' height='74.62' style='stroke-width: 0.75; stroke: #A020F0; fill: #FFE619;' />
 <rect x='59.33' y='198.71' width='25.92' height='156.80' style='stroke-width: 0.75; stroke: #A020F0; fill: #FD9A52;' />
@@ -362,20 +362,20 @@
 <rect x='59.33' y='2742.04' width='25.92' height='1021.75' style='stroke-width: 0.75; stroke: #A020F0; fill: #FEBF4E;' />
 <line x1='59.33' y1='475.20' x2='85.25' y2='475.20' style='stroke-width: 0.75; stroke: #A020F0;' />
 <line x1='59.33' y1='100.80' x2='85.25' y2='100.80' style='stroke-width: 0.75; stroke: #A020F0;' />
-<text transform='translate(76.42,161.39) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='48.72px' lengthAdjust='spacingAndGlyphs'>Neogene</text>
-<text transform='translate(76.42,277.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='57.39px' lengthAdjust='spacingAndGlyphs'>Paleogene</text>
-<text transform='translate(76.42,415.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
-<text transform='translate(76.42,746.51) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Jurassic</text>
-<text transform='translate(76.42,941.56) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='41.34px' lengthAdjust='spacingAndGlyphs'>Triassic</text>
-<text transform='translate(76.42,1119.64) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='44.69px' lengthAdjust='spacingAndGlyphs'>Permian</text>
-<text transform='translate(76.42,1314.86) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='75.38px' lengthAdjust='spacingAndGlyphs'>Carboniferous</text>
-<text transform='translate(76.42,1534.36) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='50.71px' lengthAdjust='spacingAndGlyphs'>Devonian</text>
-<text transform='translate(76.42,1689.26) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.02px' lengthAdjust='spacingAndGlyphs'>Silurian</text>
-<text transform='translate(76.42,1810.05) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='57.37px' lengthAdjust='spacingAndGlyphs'>Ordovician</text>
-<text transform='translate(76.42,1987.40) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.03px' lengthAdjust='spacingAndGlyphs'>Cambrian</text>
-<text transform='translate(76.42,2260.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Ediacaran</text>
-<text transform='translate(76.42,2586.95) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cryogenian</text>
-<text transform='translate(76.42,3252.91) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='36.69px' lengthAdjust='spacingAndGlyphs'>Tonian</text>
+<text transform='translate(76.42,161.39) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>N</text>
+<text transform='translate(76.42,277.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pa</text>
+<text transform='translate(76.42,415.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Cre</text>
+<text transform='translate(76.42,746.51) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.00px' lengthAdjust='spacingAndGlyphs'>J</text>
+<text transform='translate(76.42,941.56) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='11.33px' lengthAdjust='spacingAndGlyphs'>Tr</text>
+<text transform='translate(76.42,1119.64) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pe</text>
+<text transform='translate(76.42,1314.86) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Car</text>
+<text transform='translate(76.42,1534.36) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>D</text>
+<text transform='translate(76.42,1689.26) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.33px' lengthAdjust='spacingAndGlyphs'>Sil</text>
+<text transform='translate(76.42,1810.05) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='20.01px' lengthAdjust='spacingAndGlyphs'>Ord</text>
+<text transform='translate(76.42,1987.40) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='25.34px' lengthAdjust='spacingAndGlyphs'>Cam</text>
+<text transform='translate(76.42,2260.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Ed</text>
+<text transform='translate(76.42,2586.95) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>Cry</text>
+<text transform='translate(76.42,3252.91) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.00px' lengthAdjust='spacingAndGlyphs'>To</text>
 <line x1='59.33' y1='475.20' x2='59.33' y2='100.80' style='stroke-width: 0.75; stroke: #A020F0;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
@@ -565,43 +565,43 @@
 <rect x='619.20' y='2015.86' width='20.74' height='72.98' style='stroke-width: 0.75; fill: #ADD8E6;' />
 <line x1='619.20' y1='475.20' x2='639.94' y2='475.20' style='stroke-width: 0.75;' />
 <line x1='619.20' y1='100.80' x2='639.94' y2='100.80' style='stroke-width: 0.75;' />
-<text transform='translate(633.70,119.40) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='62.05px' lengthAdjust='spacingAndGlyphs'>Pleistocene</text>
-<text transform='translate(633.70,129.10) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='46.04px' lengthAdjust='spacingAndGlyphs'>Pliocene</text>
-<text transform='translate(633.70,166.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='45.37px' lengthAdjust='spacingAndGlyphs'>Miocene</text>
-<text transform='translate(633.70,218.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Oligocene</text>
-<text transform='translate(633.70,278.69) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.71px' lengthAdjust='spacingAndGlyphs'>Eocene</text>
-<text transform='translate(633.70,337.26) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='56.72px' lengthAdjust='spacingAndGlyphs'>Paleocene</text>
-<text transform='translate(633.70,415.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='97.40px' lengthAdjust='spacingAndGlyphs'>Upper Cretaceous</text>
-<text transform='translate(633.70,562.60) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='97.40px' lengthAdjust='spacingAndGlyphs'>Lower Cretaceous</text>
-<text transform='translate(633.70,677.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.05px' lengthAdjust='spacingAndGlyphs'>Upper Jurassic</text>
-<text transform='translate(633.70,730.64) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='82.71px' lengthAdjust='spacingAndGlyphs'>Middle Jurassic</text>
-<text transform='translate(633.70,799.61) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.05px' lengthAdjust='spacingAndGlyphs'>Lower Jurassic</text>
-<text transform='translate(633.70,914.37) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='77.36px' lengthAdjust='spacingAndGlyphs'>Upper Triassic</text>
-<text transform='translate(633.70,998.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='80.03px' lengthAdjust='spacingAndGlyphs'>Middle Triassic</text>
-<text transform='translate(633.70,1025.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='77.36px' lengthAdjust='spacingAndGlyphs'>Lower Triassic</text>
-<text transform='translate(633.70,1047.02) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.05px' lengthAdjust='spacingAndGlyphs'>Lopingian</text>
-<text transform='translate(633.70,1085.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='68.06px' lengthAdjust='spacingAndGlyphs'>Guadalupian</text>
-<text transform='translate(633.70,1158.04) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='53.36px' lengthAdjust='spacingAndGlyphs'>Cisuralian</text>
-<text transform='translate(633.70,1220.17) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='114.09px' lengthAdjust='spacingAndGlyphs'>Upper Pennsylvanian</text>
-<text transform='translate(633.70,1249.91) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='116.76px' lengthAdjust='spacingAndGlyphs'>Middle Pennsylvanian</text>
-<text transform='translate(633.70,1279.47) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='114.09px' lengthAdjust='spacingAndGlyphs'>Lower Pennsylvanian</text>
-<text transform='translate(633.70,1308.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='107.40px' lengthAdjust='spacingAndGlyphs'>Upper Mississippian</text>
-<text transform='translate(633.70,1350.99) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='110.06px' lengthAdjust='spacingAndGlyphs'>Middle Mississippian</text>
-<text transform='translate(633.70,1402.08) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='107.40px' lengthAdjust='spacingAndGlyphs'>Lower Mississippian</text>
-<text transform='translate(633.70,1467.76) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='86.73px' lengthAdjust='spacingAndGlyphs'>Upper Devonian</text>
-<text transform='translate(633.70,1530.53) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='89.40px' lengthAdjust='spacingAndGlyphs'>Middle Devonian</text>
-<text transform='translate(633.70,1597.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='86.73px' lengthAdjust='spacingAndGlyphs'>Lower Devonian</text>
-<text transform='translate(633.70,1651.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='33.34px' lengthAdjust='spacingAndGlyphs'>Pridoli</text>
-<text transform='translate(633.70,1666.27) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='38.03px' lengthAdjust='spacingAndGlyphs'>Ludlow</text>
-<text transform='translate(633.70,1685.25) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='46.02px' lengthAdjust='spacingAndGlyphs'>Wenlock</text>
-<text transform='translate(633.70,1715.17) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='58.72px' lengthAdjust='spacingAndGlyphs'>Llandovery</text>
-<text transform='translate(633.70,1760.79) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='93.39px' lengthAdjust='spacingAndGlyphs'>Upper Ordovician</text>
-<text transform='translate(633.70,1808.59) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='96.06px' lengthAdjust='spacingAndGlyphs'>Middle Ordovician</text>
-<text transform='translate(633.70,1857.85) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='93.39px' lengthAdjust='spacingAndGlyphs'>Lower Ordovician</text>
-<text transform='translate(633.70,1907.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.04px' lengthAdjust='spacingAndGlyphs'>Furongian</text>
-<text transform='translate(633.70,1950.18) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='60.70px' lengthAdjust='spacingAndGlyphs'>Miaolingian</text>
-<text transform='translate(633.70,1993.96) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Series 2</text>
-<text transform='translate(633.70,2052.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='70.71px' lengthAdjust='spacingAndGlyphs'>Terreneuvian</text>
+<text transform='translate(633.70,119.40) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>Ple</text>
+<text transform='translate(633.70,129.10) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.33px' lengthAdjust='spacingAndGlyphs'>Pli</text>
+<text transform='translate(633.70,166.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Mio</text>
+<text transform='translate(633.70,218.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>O</text>
+<text transform='translate(633.70,278.69) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>E</text>
+<text transform='translate(633.70,337.26) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pa</text>
+<text transform='translate(633.70,415.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>UC</text>
+<text transform='translate(633.70,562.60) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>LC</text>
+<text transform='translate(633.70,677.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.67px' lengthAdjust='spacingAndGlyphs'>UJ</text>
+<text transform='translate(633.70,730.64) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.01px' lengthAdjust='spacingAndGlyphs'>MJ</text>
+<text transform='translate(633.70,799.61) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.68px' lengthAdjust='spacingAndGlyphs'>LJ</text>
+<text transform='translate(633.70,914.37) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.00px' lengthAdjust='spacingAndGlyphs'>UT</text>
+<text transform='translate(633.70,998.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.33px' lengthAdjust='spacingAndGlyphs'>MT</text>
+<text transform='translate(633.70,1025.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='14.00px' lengthAdjust='spacingAndGlyphs'>LT</text>
+<text transform='translate(633.70,1047.02) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>Lo</text>
+<text transform='translate(633.70,1085.42) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>G</text>
+<text transform='translate(633.70,1158.04) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>C</text>
+<text transform='translate(633.70,1220.17) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>UP</text>
+<text transform='translate(633.70,1249.91) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.01px' lengthAdjust='spacingAndGlyphs'>MP</text>
+<text transform='translate(633.70,1279.47) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>LP</text>
+<text transform='translate(633.70,1308.11) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>UM</text>
+<text transform='translate(633.70,1350.99) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='20.00px' lengthAdjust='spacingAndGlyphs'>MM</text>
+<text transform='translate(633.70,1402.08) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>LM</text>
+<text transform='translate(633.70,1467.76) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>UD</text>
+<text transform='translate(633.70,1530.53) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>MD</text>
+<text transform='translate(633.70,1597.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>LD</text>
+<text transform='translate(633.70,1651.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='12.00px' lengthAdjust='spacingAndGlyphs'>Pr</text>
+<text transform='translate(633.70,1666.27) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>Lu</text>
+<text transform='translate(633.70,1685.25) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='11.33px' lengthAdjust='spacingAndGlyphs'>W</text>
+<text transform='translate(633.70,1715.17) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>Ll</text>
+<text transform='translate(633.70,1760.79) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.01px' lengthAdjust='spacingAndGlyphs'>UO</text>
+<text transform='translate(633.70,1808.59) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>MO</text>
+<text transform='translate(633.70,1857.85) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='16.01px' lengthAdjust='spacingAndGlyphs'>LO</text>
+<text transform='translate(633.70,1907.12) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='7.33px' lengthAdjust='spacingAndGlyphs'>F</text>
+<text transform='translate(633.70,1950.18) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='19.34px' lengthAdjust='spacingAndGlyphs'>Mia</text>
+<text transform='translate(633.70,1993.96) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>S2</text>
+<text transform='translate(633.70,2052.35) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='7.33px' lengthAdjust='spacingAndGlyphs'>T</text>
 <rect x='639.94' y='114.71' width='15.55' height='1.05' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
 <rect x='639.94' y='115.76' width='15.55' height='5.47' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
 <rect x='639.94' y='121.24' width='15.55' height='11.31' style='stroke-width: 0.75; stroke-dasharray: 4.00,4.00; fill: #FFFF00;' />
