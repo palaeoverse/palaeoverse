@@ -222,11 +222,9 @@ Palaeontology, 63(6), 881-901. <a href="https://doi.org/10.1111/pala.12492" clas
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Use North American land mammal ages from deeptime/Macrostrat</span></span></span>
 <span class="r-in"><span><span class="va">scale</span> <span class="op">&lt;-</span> <span class="fu">deeptime</span><span class="fu">::</span><span class="fu"><a href="https://williamgearty.com/deeptime/reference/get_scale_data.html" class="external-link">get_scale_data</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"North American land mammal ages"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>cannot open URL 'https://macrostrat.org/api/v2/defs/intervals?format=csv&amp;timescale=North%20American%20land%20mammal%20ages': HTTP status was '502 Bad Gateway'</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> 'name' does not match a built-in or Macrostrat timescale.</span>
 <span class="r-in"><span><span class="va">ex7</span> <span class="op">&lt;-</span> <span class="fu">time_bins</span><span class="op">(</span>scale <span class="op">=</span> <span class="va">scale</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Target equal length time bins was set to 10.6 Myr. </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Generated time bins have a mean length of 13.25 Myr and a standard deviation of 4.11 Myr.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Target equal length time bins was set to 9.43 Myr. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Generated time bins have a mean length of 9.43 Myr and a standard deviation of 1.19 Myr.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
