@@ -17,6 +17,17 @@ test_that("palaeorotate() point method works", {
   expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
                                  round = 2)), 3)
 
+  # Expect warning
+  expect_warning(palaeorotate(occdf = occdf,
+                              method = "point",
+                              model = "MULLER2022"), NULL)
+
+  # Check that multiple models are being returned
+  occdf <- palaeorotate(occdf = occdf,
+                        method = "point",
+                        model = c("PALEOMAP", "GOLONKA"),
+                        uncertainty = FALSE)
+  expect_false(any(is.na(occdf)))
 
   # Check chunk size is working
   occdf <- data.frame(lng = runif(1500, -180, 180),
@@ -35,7 +46,7 @@ test_that("palaeorotate() point method works", {
                                  model = "PALEOMAP")), nrow(occdf))
 
 
-  # Expect message
+  # Expect error
   occdf <- data.frame(lng = c(-41),
                       lat = c(37),
                       age = c(300))
@@ -46,8 +57,6 @@ test_that("palaeorotate() point method works", {
 
   expect_error(palaeorotate(occdf = occdf, method = "point",
                             model = "WRIGHT2013"))
-
-
 })
 
 test_that("palaeorotate() grid method works", {
