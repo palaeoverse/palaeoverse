@@ -35,10 +35,10 @@
 #'
 #' # Generate latitudinal bins for defined latitudinal range
 #' bins <- lat_bins(size = 10, max = 50, min = -50)
-lat_bins <- function(size = 10, max = 90, min = -90,
+lat_bins <- function(size = 10, equal = FALSE, max = 90, min = -90,
                      fit = FALSE, plot = FALSE) {
-  #error handling
-  if (is.numeric(size) == FALSE) {
+  # Error handling -------------------------------------------------------
+  if (!is.numeric(size)) {
     stop("`size` should be a numeric")
   }
 
@@ -65,29 +65,46 @@ lat_bins <- function(size = 10, max = 90, min = -90,
   if (is.logical(plot) == FALSE) {
     stop("`plot` should be logical (TRUE/FALSE)")
   }
-
-  # Latitudinal range
-  lat_range <- abs(max - min)
-  # Divide latitudinal range by size of bins
-  bins <- lat_range / size
-  # If fit is set true, generate equal size bins to fit range
-  if (fit == TRUE) {
-    if (is.integer(bins) == FALSE) {
-      int <- lat_range / seq(from = 1, to = 90, by = 1)
-      int <- which(int %% 1 == 0)
-      size <- int[which.min(abs(int - size))]
-      bins <- lat_range / size
+  # Main body ------------------------------------------------------------
+  if (!is.null(equal)) {
+    # Define internal function
+    # x: minimum and maximum latitudes
+    # r: mean radius of the Earth
+    bounded_surface_area <- function(x, r = 6371008.7714) {
+      min <- min(x) * (pi / 180)
+      max <- max(x) * (pi / 180)
+      a <- (2 * pi) * (r^2) * abs(sin(max) - sin(min))
+      return(a)
     }
+    earth_area <- bounded_surface_area(x = c(min, max))
+    bin_area <- earth_area / size
+
+
+  } else {
+    # Latitudinal range
+    lat_range <- abs(max - min)
+    # Divide latitudinal range by size of bins
+    bins <- lat_range / size
+    # If fit is set true, generate equal size bins to fit range
+    if (fit == TRUE) {
+      if (is.integer(bins) == FALSE) {
+        int <- lat_range / seq(from = 1, to = 90, by = 1)
+        int <- which(int %% 1 == 0)
+        size <- int[which.min(abs(int - size))]
+        bins <- lat_range / size
+      }
+    }
+    # Generate latitudinal bins for specified range
+    df <- seq(from = min, to = max, by = size)
+    min <- df[1:bins]
+    max <- df[1:bins] + size
+    mid <- (max + min) / 2
+    bin <- 1:bins
+    df <- cbind(max, mid, min)
+    df <- df[order(-max), ]
+    df <- cbind.data.frame(bin, df)
   }
-  # Generate latitudinal bins for specified range
-  df <- seq(from = min, to = max, by = size)
-  min <- df[1:bins]
-  max <- df[1:bins] + size
-  mid <- (max + min) / 2
-  bin <- 1:bins
-  df <- cbind(max, mid, min)
-  df <- df[order(-max), ]
-  df <- cbind.data.frame(bin, df)
+  # Plot? ----------------------------------------------------------------
   #plot latitudinal bins
   if (plot == TRUE) {
     plot(1, type = "n", xlim = c(-180, 180),
