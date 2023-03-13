@@ -32,7 +32,7 @@ publication-ready."><meta property="og:image" content="https://palaeoverse.palae
     
     <a class="navbar-brand me-2" href="../index.html">palaeoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.900</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,9 +130,7 @@ the default; <code>2</code>: left; <code>3</code>: top; <code>4</code>: right).<
 <dd><p>The interval information to use to plot the axis: either A)
 a <code>character</code> string indicating a built-in or remotely hosted
 <code>data.frame</code> (see <code><a href="https://williamgearty.com/deeptime/reference/get_scale_data.html" class="external-link">get_scale_data</a></code>), or B) a
-custom <code>data.frame</code> of time interval boundaries. A list
-of strings or data.frames can be supplied to add multiple time scales to
-the same side of the plot (see Details).</p></dd>
+custom <code>data.frame</code> of time interval boundaries (see Details).</p></dd>
 
 
 <dt>height</dt>
@@ -335,14 +333,13 @@ border. The axis will always be placed on the outside of the last scale.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>xlab <span class="op">=</span> <span class="st">"Time (Ma)"</span>, line <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="axis_geo-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># stack multiple scales, abbreviate only one set of labels</span></span></span>
+<span class="r-in"><span><span class="co"># stack multiple scales</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7.1</span>, <span class="fl">4.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span><span class="op">)</span><span class="op">)</span> <span class="co"># further expand bottom margin</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, axes <span class="op">=</span> <span class="cn">FALSE</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>     xlab <span class="op">=</span> <span class="cn">NA</span>, ylab <span class="op">=</span> <span class="st">"Depth (m)"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">axis_geo</span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"epochs"</span>, <span class="st">"periods"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    abbr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">axis_geo</span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"epochs"</span>, <span class="st">"periods"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># the line argument here depends on the absolute size of the plot</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>xlab <span class="op">=</span> <span class="st">"Time (Ma)"</span>, line <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="axis_geo-2.png" alt="" width="700" height="433"></span>
