@@ -3,6 +3,7 @@
 * Fixed unnecessary column output in palaeorotate (#78)
 * Fixed prior updates to "point" method in palaeorotate which introduced binding issues for some specific datasets
 * Fixed multi-model call in palaeorotate for the "point" method which did not return all requested model coordinates
+* Fixed an erroneous entry in interval_key (#84)
 
 # palaeoverse 1.1.1
 
