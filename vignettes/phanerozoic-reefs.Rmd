@@ -82,8 +82,6 @@ help(reefs)
 Let's start by exploring the data a little:
 
 ```{r echo = TRUE, eval = TRUE}
-# Remove problem reefs for now (this should be removed)
-reefs <- reefs[-which(reefs$interval == "Atdabanian/Botomian"), ]
 # How many reefs are there in the dataset?
 # Each row represents an individual reef.
 nrow(reefs)
