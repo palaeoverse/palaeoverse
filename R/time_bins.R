@@ -42,6 +42,7 @@
 #' @importFrom stats sd
 #' @importFrom curl nslookup
 #' @importFrom grDevices col2rgb
+#' @importFrom utils read.csv
 #'
 #' @return A \code{data.frame} of time bins for the specified intervals or a
 #'   list with a \code{data.frame} of time bins and a named \code{numeric}
@@ -168,10 +169,9 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     df$bin <- seq_len(nrow(df))
     # Add scale as rank
     df$rank <- scale
-    # Add colour/font columns if they don't already exist
+    # Add colour column if it doesn't already exist
     if(!"colour" %in% colnames(df)) {
       df$colour <- "#80cdc1"
-      df$font <- "black"
     }
   }
   # In-built scales ------------------------------------------------------
@@ -267,15 +267,18 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     df$duration_myr <- (df$max_ma - df$min_ma)
     # Add bin number
     df$bin <- seq_len(nrow(df))
-    # Add colours based on https://stackoverflow.com/a/1855903/4660582
+    # Add scale as rank
+    df$rank <- scale
+  }
+  # Add font colour if it doesn't exist
+  if (!("font" %in% colnames(df))) {
+    # Font colours based on luminance as per
+    # https://stackoverflow.com/a/1855903/4660582
     rgbs <- col2rgb(df$colour)
     luminance <- apply(rgbs, 2, function(x) {
       (0.299 * x[1] + 0.587 * x[2] + 0.114 * x[3]) / 255
     })
-    # Add font colours
     df$font <- ifelse(luminance > .5, "black", "white")
-    # Add scale as rank
-    df$rank <- scale
   }
   # Tidy dataframe -------------------------------------------------------
   # Abbreviate names

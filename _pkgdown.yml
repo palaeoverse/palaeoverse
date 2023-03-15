@@ -79,7 +79,6 @@ reference:
   contents:
   - lat_bins
   - time_bins
-  - get_timescale_data
   - group_apply
 
 - title: Built-in data
