@@ -170,7 +170,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     # Add scale as rank
     df$rank <- scale
     # Add colour column if it doesn't already exist
-    if(!"colour" %in% colnames(df)) {
+    if (!"colour" %in% colnames(df)) {
       df$colour <- "#80cdc1"
     }
   }
@@ -227,7 +227,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     # Which rank should be used?
     df <- df[which(df$rank == rank), ]
     # Error handle
-    if(nrow(df) == 0) {
+    if (nrow(df) == 0) {
       stop("No intervals are available for the defined interval range.")
     }
   }
