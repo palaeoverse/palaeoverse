@@ -1,6 +1,14 @@
-test_that("time_bins() works", {
+test_that("time_bins() works with macrostrat", {
   # Skip if offline
   skip_if_offline(host = "macrostrat.org")
+
+  # Test macrostrat
+  expect_equal(nrow(time_bins(scale = "North american land mammal ages")), 19)
+  expect_equal(nrow(time_bins(size = 10,
+                              scale = "North american land mammal ages")), 7)
+})
+
+test_that("time_bins() works", {
   #correct format
   expect_true(is.data.frame(time_bins(interval = 10)))
   expect_true(is.list(time_bins(interval = c("Fortunian", "Meghalayan"),
@@ -38,8 +46,8 @@ test_that("time_bins() works", {
   expect_equal(colnames(time_bins()), c("bin", "interval_name",
                                         "rank",
                                        "max_ma", "mid_ma", "min_ma",
-                                       "duration_myr", "font", "colour",
-                                       "abbr"))
+                                       "duration_myr", "abbr", "colour",
+                                       "font"))
   expect_equal(colnames(time_bins(size = 10)), c("bin",
                                         "max_ma", "mid_ma", "min_ma",
                                         "duration_myr", "grouping_rank",
@@ -49,11 +57,6 @@ test_that("time_bins() works", {
   # Test edge effect resolve
   expect_equal(nrow(time_bins(interval = c("Phanerozoic"),
                               size = 25, rank = "stage")), 22)
-
-  # Test macrostrat
-  expect_equal(nrow(time_bins(scale = "North american land mammal ages")), 19)
-  expect_equal(nrow(time_bins(size = 10,
-                              scale = "North american land mammal ages")), 7)
 
   # Test user-input bins
   scale <- data.frame(interval_name = 1:5,
