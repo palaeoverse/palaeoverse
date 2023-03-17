@@ -96,7 +96,7 @@ reef_counts <- group_apply(occdf = reefs, group = "interval", fun = nrow)
 head(reef_counts)
 ```
 
-Oh dear, we've just hit a common issue... our reef data does not conform to a common time scale! Some reefs are resolved to stage level, while others are resolved to a coarser or finer temporal resolution. In some instances, regional names are also used, while international names are used in others. This makes it challenging to make comparisons through time... one solution could be to use age values to bin the reefs into time bins, but no age range data is provided in the dataset (i.e. "max_ma" and "min_ma"). We must therefore use the names of each interval to link to a common time scale, the '[International Geological Stages](https://stratigraphy.org/chart)' established by the International Commision on Stratigraphy (ICS). Fortunately, we can make use of the `look_up` function to do so. This function can be used to assign international geological stages and numeric ages to occurrences, or use a user-defined interval key to link to a common time scale. Here, we will use the example `interval_key` available in `palaeoverse` to assign international geological stage names and numeric ages.
+Oh dear, we've just hit a common issue... our reef data does not conform to a common time scale! Some reefs are resolved to stage level, while others are resolved to a coarser or finer temporal resolution. In some instances, regional names are also used, while international names are used in others. This makes it challenging to make comparisons through time... one solution could be to use age values to bin the reefs into time bins, but no age range data is provided in the dataset (i.e. "max_ma" and "min_ma"). We must therefore use the names of each interval to link to a common time scale, the '[International Geological Stages](https://stratigraphy.org/chart)' established by the International Commission on Stratigraphy (ICS). Fortunately, we can make use of the `look_up` function to do so. This function can be used to assign international geological stages and numeric ages to occurrences, or use a user-defined interval key to link to a common time scale. Here, we will use the example `interval_key` available in `palaeoverse` to assign international geological stage names and numeric ages.
 
 ```{r echo = TRUE, eval = TRUE}
 # Load the interval key
@@ -110,7 +110,7 @@ reefs <- look_up(occdf = reefs,
 reefs[100:110, 15:19]
 ```
 
-Great! We now have a common time scale and numeric ages. However, some of our reefs seem to range through several stages and we can't count just by the early or late stage. Our data still needs to be binned. Let's check out the `time_bins` and `bin_time` function. 
+Great! We now have a common time scale and numeric ages. However, some of our reefs seem to range through several stages and we can't count just by the early or late stage. Our data still need to be binned. Let's check out the `time_bins` and `bin_time` functions. 
 
 ```{r echo = TRUE, eval = TRUE}
 # Now we have numeric ages for our data, we can easily
