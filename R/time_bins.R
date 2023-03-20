@@ -340,7 +340,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
                              duration_myr,
                              grouping_rank,
                              intervals)
-      # Mssage user
+      # Message user
       message(
         paste("Target equal length time bins was set to",
               round(size, digits = 2),

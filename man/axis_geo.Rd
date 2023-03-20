@@ -7,7 +7,7 @@
 \usage{
 axis_geo(
   side = 1,
-  intervals = "epochs",
+  intervals = "epoch",
   height = 0.05,
   fill = NULL,
   lab = TRUE,
@@ -90,7 +90,9 @@ Pleistocene are skipped by default. Set to NULL if this is not desired.}
 \item{bord_col}{\code{character}. The border colour of the interval boxes.}
 
 \item{lty}{\code{character}. Line type (see \code{lty} in
-\code{\link[graphics:par]{graphics parameters}}).}
+\code{\link[graphics:par]{graphics parameters}}). This value (or the last
+value if this is a list) will also be passed to
+\code{\link[graphics]{axis}}.}
 
 \item{lwd}{\code{numeric}. Line width (see \code{lwd} in
 \code{\link[graphics:par]{graphics parameters}}).}
@@ -212,7 +214,7 @@ plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
      xlab = NA, ylab = "Depth (m)")
 box()
 axis(2)
-axis_geo(side = 1, intervals = "periods")
+axis_geo(side = 1, intervals = "period")
 # the line argument here depends on the absolute size of the plot
 title(xlab = "Time (Ma)", line = 4)
 
@@ -222,7 +224,7 @@ plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
      xlab = NA, ylab = "Depth (m)")
 box()
 axis(2)
-axis_geo(side = 1, intervals = list("epochs", "periods"),
+axis_geo(side = 1, intervals = list("epoch", "period"),
     abbr = list(TRUE, FALSE))
 # the line argument here depends on the absolute size of the plot
 title(xlab = "Time (Ma)", line = 6)
@@ -234,16 +236,6 @@ plot(0:30, axes = FALSE, xlim = c(30, 0), ylim = c(30, 0),
 box()
 axis(2)
 axis_geo(side = 1, intervals = "North American land mammal ages")
-# the line argument here depends on the absolute size of the plot
-title(xlab = "Time (Ma)", line = 4)
-
-# scale with old GTS intervals
-par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
-plot(0:100, axes = FALSE, xlim = c(100, 0), ylim = c(100, 0),
-     xlab = NA, ylab = "Depth (m)")
-box()
-axis(2)
-axis_geo(side = 1, intervals = time_bins(rank = "period"))
 # the line argument here depends on the absolute size of the plot
 title(xlab = "Time (Ma)", line = 4)
 
