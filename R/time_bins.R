@@ -173,6 +173,10 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     if (!"colour" %in% colnames(df)) {
       df$colour <- "#80cdc1"
     }
+    # Add abbr column if it doesn't already exist
+    if (!"abbr" %in% colnames(df)) {
+      df$abbr <- NA
+    }
   }
   # In-built scales ------------------------------------------------------
   if (scale %in% c("GTS2020", "GTS2012")) {
@@ -281,9 +285,11 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     df$font <- ifelse(luminance > .5, "black", "white")
   }
   # Tidy dataframe -------------------------------------------------------
-  # Abbreviate names
-  df$abbr <- abbreviate(df$interval_name, minlength = 1,
-                        use.classes = FALSE, named = FALSE)
+  # Abbreviate names if required
+  if (any(is.na(df$abbr))) {
+    df$abbr <- abbreviate(df$interval_name, minlength = 1,
+                          use.classes = FALSE, named = FALSE)
+  }
   # Reorder dataframe
   df <- df[, c("bin", "interval_name", "rank", "max_ma", "mid_ma",
                "min_ma", "duration_myr", "abbr", "colour", "font")]

@@ -4512,9 +4512,6 @@
 <rect x='666.40' y='466.56' width='0.0045' height='20.38' style='stroke-width: 0.75; fill: #FDEDEC;' />
 <line x1='59.04' y1='486.94' x2='59.04' y2='466.56' style='stroke-width: 0.75;' />
 <line x1='689.76' y1='486.94' x2='689.76' y2='466.56' style='stroke-width: 0.75;' />
-<rect x='-3212.57' y='486.94' width='431.00' height='20.38' style='stroke-width: 0.75; fill: #F668B2;' />
-<rect x='-2781.57' y='486.94' width='431.00' height='20.38' style='stroke-width: 0.75; fill: #F881B5;' />
-<rect x='-2350.57' y='486.94' width='323.25' height='20.38' style='stroke-width: 0.75; fill: #FAA7C8;' />
 <rect x='-2027.33' y='486.94' width='215.50' height='20.38' style='stroke-width: 0.75; fill: #F74F7C;' />
 <rect x='-1811.83' y='486.94' width='269.37' height='20.38' style='stroke-width: 0.75; fill: #F75B89;' />
 <rect x='-1542.46' y='486.94' width='269.37' height='20.38' style='stroke-width: 0.75; fill: #F76898;' />
@@ -4539,8 +4536,6 @@
 <rect x='663.62' y='486.94' width='2.78' height='20.38' style='stroke-width: 0.75; fill: #F9F97F;' />
 <line x1='59.04' y1='507.31' x2='59.04' y2='486.94' style='stroke-width: 0.75;' />
 <line x1='689.76' y1='507.31' x2='689.76' y2='486.94' style='stroke-width: 0.75;' />
-<text x='-2566.07' y='501.25' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='116.09px' lengthAdjust='spacingAndGlyphs'>Mesoarchean System</text>
-<text x='-2188.95' y='501.25' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='108.75px' lengthAdjust='spacingAndGlyphs'>Neoarchean System</text>
 <text x='-1919.58' y='501.25' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Siderian</text>
 <text x='-1677.14' y='501.25' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='50.04px' lengthAdjust='spacingAndGlyphs'>Rhyacian</text>
 <text x='-1407.77' y='501.25' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='48.69px' lengthAdjust='spacingAndGlyphs'>Orosirian</text>
