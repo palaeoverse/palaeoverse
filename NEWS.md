@@ -1,6 +1,7 @@
 # palaeoverse (development version)
 
 * time_bins updated to enable users to call geological time scales from Macrostrat
+* Fixed minor documentation error in tax_range_time
 * Fixed unnecessary column output in palaeorotate (#78)
 * Fixed prior updates to "point" method in palaeorotate which introduced binding issues for some specific datasets
 * Removed deeptime dependency

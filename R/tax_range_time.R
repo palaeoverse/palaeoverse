@@ -5,7 +5,7 @@
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing
 #' at least three columns: names of taxa, maximum age and minimum age
-#' (see `name`, `lng`, and `lat` arguments).
+#' (see `name`, `min_ma`, and `max_ma` arguments).
 #' These ages should constrain the age range of the fossil occurrence
 #' and are assumed to be in millions of years before present.
 #' @param name \code{character}. The name of the column you wish to be treated
