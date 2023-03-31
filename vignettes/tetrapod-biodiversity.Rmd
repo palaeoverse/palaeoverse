@@ -12,7 +12,7 @@ vignette: >
 **Last updated:** `r Sys.Date()`
 
 ```{r setup, include = FALSE, eval = TRUE}
-knitr::opts_chunk$set(echo = FALSE, include = TRUE, eval = FALSE,
+knitr::opts_chunk$set(echo = TRUE, include = TRUE, eval = TRUE,
                       out.width = "100%", fig.width = 7.2, fig.height = 6, dpi = 600)
 ```
 
@@ -28,42 +28,42 @@ knitr::opts_chunk$set(echo = FALSE, include = TRUE, eval = FALSE,
 
 The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse-community/palaeoverse) if the development version is preferred. To install via the CRAN, simply use: 
 
-```{r echo = TRUE}
+```{r eval = FALSE}
 install.packages("palaeoverse")
 ```
 
 To install the development version, first install the `devtools` package, and then use `install_github` to install `palaeoverse` directly from GitHub. 
 
-```{r echo = TRUE}
+```{r eval = FALSE}
 install.packages("devtools")
 devtools::install_github("palaeoverse-community/palaeoverse")
 ```
 
 You can now load `palaeoverse` using the default `library` function:
 
-```{r echo = TRUE, eval = TRUE}
+```{r}
 library(palaeoverse)
 ```
 
 **Before we get onto the good stuff, the development team has a small request**. If you use `palaeoverse` in your research, please cite the associated publication. This will help us to continue our work in supporting you to do yours. You can access the appropriate citation via:
 
-```{r echo = TRUE}
+```{r eval = FALSE}
 citation("palaeoverse")
 ```
 
-# Now that that's out of the way, let's begin!
+## Now that that's out of the way, let's begin!
 
 The Carboniferous and early Permian have been regarded as critical intervals for early four-limbed vertebrates, in terms of both diversification and biogeography. During this time several major groups of tetrapods emerged (including crown amniotes), and the extensive tropical rainforests of the Carboniferous gave way to dryland vegetation during the Permian, in what's known as the 'Carboniferous Rainforest Collapse' (CRC) (for more information, see Dunne et al., 2018). 
 
 In this vignette we’ll use the `tetrapods` dataset to demonstrate how to use `palaeoverse` functions to examine how alpha diversity and range size vary across this interval.
 
-# Dataset
+# The Tetrapods Dataset
 
 Functions in `palaeoverse` are designed around the assumption that most users' data are stored in an occurrence `data.frame`. As such, this is the expected input data format for most functions. We provide two example occurrence datasets (`tetrapods` and `reefs`) within the package from different data sources. While these two datasets have similar structures, the data (variables) available in each differ. The `tetrapods` dataset is a compilation of Carboniferous--Early Triassic tetrapod occurrences (*n* = 5,270) from the [Paleobiology Database](https://paleobiodb.org/#). We'll be using this dataset to demonstrate some of the available functionality in `palaeoverse`.
 
 Let's get started by exploring the dataset.
 
-```{r echo = TRUE}
+```{r}
 # Call the dataset:
 data(tetrapods)
 
@@ -80,7 +80,7 @@ If we're looking at patterns of tetrapod diversity and distribution over the Car
 
 There are two `palaeoverse` functions that help us to assign occurrences to different intervals, or 'bins', of time. First, we'll use `time_bins` to make some suitable time bins for our study. The function requires a maximum and a minimum time interval to run. As we know we're interested in looking at the Carboniferous and the Permian, we can use these as our intervals to get the suitable stage-level bins that we're after:
 
-```{r echo = TRUE}
+```{r}
 
 # Generate time bins
 bins <- time_bins(interval = c("Carboniferous", "Permian"), 
@@ -93,7 +93,7 @@ head(bins)
 ```
 Now we're ready to bin the occurrences into these time bins using `bin_time`. For now, we'll go with the 'mid' method, but we'll talk about this more in a minute.
 
-```{r echo = TRUE}
+```{r, error = TRUE}
 
 # Generate time bins
 tetrapods <- bin_time(occdf = tetrapods, 
@@ -104,7 +104,7 @@ tetrapods <- bin_time(occdf = tetrapods,
 
 Oh no! We've hit an error. This is because there's some occurrences that sit outside of the time intervals we're interested in. `bin_time` can't bin occurrences which sit outside of the time intervals you've chosen, so for it to work, we'll first have to remove these occurrences. 
 
-```{r echo = TRUE}
+```{r}
 
 # Remove occurrences that are younger than the time intervals we're interested in
 cp_tetrapods <- subset(tetrapods, min_ma > min(bins$min_ma))
@@ -118,7 +118,7 @@ mid_tetrapods <- bin_time(occdf = cp_tetrapods,
 
 That's better! Let's see how our dataset has changed.
 
-```{r echo = TRUE}
+```{r}
 
 # Examine the dataset
 str(mid_tetrapods)
@@ -127,7 +127,7 @@ str(mid_tetrapods)
 
 As you can see, four new columns (variables) have been added to our dataset. Two of these are especially important. First is the `bin_assignment`, which shows which number bin the occurrence has been added to. Second is `n_bins` - this shows how many bins the occurrence could potentially have been placed within. Let's examine this further.
 
-```{r echo = TRUE}
+```{r}
 
 # Make a table of potential number of bins
 table(mid_tetrapods$n_bins) # raw counts
@@ -137,7 +137,7 @@ table(mid_tetrapods$n_bins) / nrow(mid_tetrapods) # proportions
 
 As you can see, only ~17% of the dataset can be assigned to just one bin - the other occurrences can't be confidently assigned to an individual time interval. This is where the other methods for the `bin_time` function come in handy. They provide the user with different options when assigning occurrences to bins. Instead of the 'mid' method, let's try the 'majority' method instead, which places the occurrences in the bin which covers the majority of their potential time range.
 
-```{r echo = TRUE}
+```{r}
 
 # Bin occurrences into chosen time bins
 maj_tetrapods <- bin_time(occdf = cp_tetrapods, 
@@ -150,7 +150,7 @@ We'd recommend playing around with these different options and seeing how they i
 
 Next, we'll also bin up occurrences spatially. We need a couple of functions to do this. Firstly, we need to add palaeocoordinates to our dataset. We can use the `palaeorotate` function to do this. 
 
-```{r echo = TRUE, eval = TRUE, warning = FALSE, message = FALSE}
+```{r warning = FALSE, message = FALSE}
 # Palaeorotate occurrences 
 maj_tetrapods <- palaeorotate(occdf = maj_tetrapods, age = "bin_midpoint",
                               method = "point", model = "PALEOMAP")
@@ -158,14 +158,14 @@ maj_tetrapods <- palaeorotate(occdf = maj_tetrapods, age = "bin_midpoint",
 
 Now let's check that it's worked...
 
-```{r echo = TRUE, eval = TRUE}
+```{r}
 # Check palaeocoordinates
 head(maj_tetrapods[, c("p_lng", "p_lat")])
 ```
 
 Looks good to me! Now that we have palaeocoordinates for our occurrences, we can put them into spatial bins. We can do this using the `bin_space` function, which provides a unique equal area grid cell reference for each occurrence.
 
-```{r echo = TRUE}
+```{r}
 
 # Make a table of potential number of bins
 maj_tetrapods <- bin_space(occdf = maj_tetrapods, 
@@ -174,14 +174,14 @@ maj_tetrapods <- bin_space(occdf = maj_tetrapods,
                            spacing = 100)
 
 # Show the first 6 rows of the new columns added using `bin_space`.
-head(maj_tetrapods[,44:46])
+head(maj_tetrapods[, c("cell_ID", "cell_centroid_lng", "cell_centroid_lat")])
 
 ```
 `bin_space` adds some new columns, including one with the unique grid cell ID, as well as latitudinal and longitudinal coordinates for the centroid of that cell.
 
 Now that we have both temporal and spatial bins, we can see use these data to see how the spatial coverage of tetrapod fossils in our dataset varies through time. 
 
-```{r echo = TRUE}
+```{r message = FALSE}
 library(dplyr)
 
 # Extract unique interval midpoints
@@ -197,7 +197,7 @@ spat.cov <- maj_tetrapods %>%
 ```
 Let's save that for now and move on to some of our analyses!
 
-# 1. Unique taxa and alpha diversity
+# Unique taxa and alpha diversity
 
 In many cases palaeobiologists count unique taxa by retaining only unique occurrences identified to a given taxonomic resolution (e.g. genera or species); however, this can result in some useful information being discarded. The `tax_unique` function retains occurrences identified to a coarser taxonomic resolution which are not already represented within the dataset. Take, for example, the following occurrences:
 
@@ -365,10 +365,10 @@ title(xlab = "Time (Ma)", line = 4)
 
 From this plot it seems like the average geographic range size of tetrapods significantly increased during the Permian. However, we first need to be sure we're not picking up on another pattern. Remember how we calculated the number of unique geographic cells in each time interval earlier? This provides a measure of the spatial spread of the fossil record. It might be that we're not picking up on an increased range size but just a larger geographic spread of fossil bearing rocks within the Permian. To see if this is the case, we can run a simple correlation test between the average geographic range size of tetrapods and the number of unique grid cells in each time interval:
 
-```{r}
+```{r warning = FALSE}
 # Run a correlation test between mean range size and the spatial spread of cells
 # through time
-cor.test(log10(space_tetrapods$mean_area), log10(spat.cov$n_cells), method = "spearman")
+cor.test(log10(space_tetrapods_mean$mean_area), log10(spat.cov$n_cells), method = "spearman")
 
 ```
 The very high rho value and a p-value less than our cut off for significance (0.05) indicate a very strong and statistically significant correlation between average geographic range size and the spatial spread of data. Seems like this work is far from over...
