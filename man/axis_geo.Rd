@@ -39,11 +39,11 @@ the default; \code{2}: left; \code{3}: top; \code{4}: right).}
 
 \item{intervals}{The interval information to use to plot the axis: either A)
 a \code{character} string indicating a rank of intervals from the built-in
-\code{\link{GTS2020}}, B) a \code{character} string indicating a remotely
-hosted \code{data.frame} (see \code{\link{time_bins}}), or C) a custom
-\code{data.frame} of time interval boundaries (see Details). A list of
-strings or data.frames can be supplied to add multiple time scales to the
-same side of the plot (see Details).}
+\code{\link{GTS2020}}, B) a \code{character} string indicating a
+\code{data.frame} hosted by \href{https://macrostrat.org}{Macrostrat} (see
+\code{\link{time_bins}}), or C) a custom \code{data.frame} of time interval
+boundaries (see Details). A list of strings or data.frames can be supplied
+to add multiple time scales to the same side of the plot (see Details).}
 
 \item{height}{\code{numeric}. The relative height (or width if \code{side} is
 \code{2} or \code{4}) of the scale. This is relative to the height (if
@@ -144,12 +144,12 @@ add an axis of the geological timescale to an already existing plot.
 adds an axis to the specified side of a base R plot. The main difference is
 that it also adds a geological timescale between the plot and the axis. The
 default scale includes international epochs from the the Geological Timescale
-2020 (\code{\link{GTS2020}}). However, international periods, stages, eons,
-and eras are also available. Interval data hosted by Macrostrat are also
-available (see \code{\link{time_bins}}). A custom interval dataset can also
-be used (see Details below). The appearance of the axis is highly
-customisable (see Usage below), with the intent that plots will be
-publication-ready.
+2020 (\code{\link{GTS2020}}). However, international stages, periods, eras,
+and eons are also available. Interval data hosted by
+\href{https://macrostrat.org}{Macrostrat} are also available (see
+\code{\link{time_bins}}). A custom interval dataset can also be used (see
+Details below). The appearance of the axis is highly customisable (see Usage
+below), with the intent that plots will be publication-ready.
 }
 \details{
 If a custom \code{data.frame} is provided (with \code{intervals}), it should
