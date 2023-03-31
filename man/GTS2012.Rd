@@ -21,6 +21,7 @@ present.}
 \item{font}{Colour of font to use for plotting in conjunction with the
 colour column.}
 \item{colour}{Colours of stages based on the \href{https://stratigraphy.org/timescale/}{ICS timescale}.}
+\item{abbr}{Standard abbreviations of interval names where appropiate.}
 }
 }
 \source{

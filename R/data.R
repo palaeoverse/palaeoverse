@@ -23,6 +23,7 @@
 #'   colour column.}
 #'   \item{colour}{Colours of stages based on the [ICS timescale](
 #'   https://stratigraphy.org/timescale/).}
+#'   \item{abbr}{Standard abbreviations of interval names where appropiate.}
 #' }
 #' @section References:
 #' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2020).
@@ -57,6 +58,7 @@
 #'   colour column.}
 #'   \item{colour}{Colours of stages based on the [ICS timescale](
 #'   https://stratigraphy.org/timescale/).}
+#'   \item{abbr}{Standard abbreviations of interval names where appropiate.}
 #' }
 #' @section References:
 #' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2012).

@@ -4408,31 +4408,31 @@
 <g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDUwMi41Nnw1MjQuNzQ=)'>
 <rect x='59.04' y='502.56' width='630.72' height='22.18' style='stroke-width: 0.75; stroke: none; fill: #E5E5E5;' />
 <line x1='59.04' y1='502.56' x2='689.76' y2='502.56' style='stroke-width: 0.75;' />
-<rect x='663.62' y='502.56' width='2.78' height='22.18' style='stroke-width: 0.75; fill: #F9F97F;' />
-<rect x='641.59' y='502.56' width='22.03' height='22.18' style='stroke-width: 0.75; fill: #FFE619;' />
-<rect x='595.29' y='502.56' width='46.30' height='22.18' style='stroke-width: 0.75; fill: #FD9A52;' />
-<rect x='510.16' y='502.56' width='85.12' height='22.18' style='stroke-width: 0.75; fill: #7FC64E;' />
-<rect x='449.50' y='502.56' width='60.66' height='22.18' style='stroke-width: 0.75; fill: #34B2C9;' />
-<rect x='394.98' y='502.56' width='54.52' height='22.18' style='stroke-width: 0.75; fill: #812B92;' />
-<rect x='344.34' y='502.56' width='50.64' height='22.18' style='stroke-width: 0.75; fill: #F04028;' />
-<rect x='279.69' y='502.56' width='64.65' height='22.18' style='stroke-width: 0.75; fill: #67A599;' />
-<rect x='214.72' y='502.56' width='64.97' height='22.18' style='stroke-width: 0.75; fill: #CB8C37;' />
-<rect x='188.21' y='502.56' width='26.51' height='22.18' style='stroke-width: 0.75; fill: #B3E1B6;' />
-<rect x='143.39' y='502.56' width='44.82' height='22.18' style='stroke-width: 0.75; fill: #009270;' />
 <rect x='83.48' y='502.56' width='59.91' height='22.18' style='stroke-width: 0.75; fill: #7FA056;' />
+<rect x='143.39' y='502.56' width='44.82' height='22.18' style='stroke-width: 0.75; fill: #009270;' />
+<rect x='188.21' y='502.56' width='26.51' height='22.18' style='stroke-width: 0.75; fill: #B3E1B6;' />
+<rect x='214.72' y='502.56' width='64.97' height='22.18' style='stroke-width: 0.75; fill: #CB8C37;' />
+<rect x='279.69' y='502.56' width='64.65' height='22.18' style='stroke-width: 0.75; fill: #67A599;' />
+<rect x='344.34' y='502.56' width='50.64' height='22.18' style='stroke-width: 0.75; fill: #F04028;' />
+<rect x='394.98' y='502.56' width='54.52' height='22.18' style='stroke-width: 0.75; fill: #812B92;' />
+<rect x='449.50' y='502.56' width='60.66' height='22.18' style='stroke-width: 0.75; fill: #34B2C9;' />
+<rect x='510.16' y='502.56' width='85.12' height='22.18' style='stroke-width: 0.75; fill: #7FC64E;' />
+<rect x='595.29' y='502.56' width='46.30' height='22.18' style='stroke-width: 0.75; fill: #FD9A52;' />
+<rect x='641.59' y='502.56' width='22.03' height='22.18' style='stroke-width: 0.75; fill: #FFE619;' />
+<rect x='663.62' y='502.56' width='2.78' height='22.18' style='stroke-width: 0.75; fill: #F9F97F;' />
 <line x1='59.04' y1='524.74' x2='59.04' y2='502.56' style='stroke-width: 0.75;' />
 <line x1='689.76' y1='524.74' x2='689.76' y2='502.56' style='stroke-width: 0.75;' />
-<text x='652.60' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='48.72px' lengthAdjust='spacingAndGlyphs'>Neogene</text>
-<text x='618.44' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='57.39px' lengthAdjust='spacingAndGlyphs'>Paleogene</text>
-<text x='552.72' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='61.38px' lengthAdjust='spacingAndGlyphs'>Cretaceous</text>
-<text x='479.83' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.03px' lengthAdjust='spacingAndGlyphs'>Jurassic</text>
-<text x='422.24' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='41.34px' lengthAdjust='spacingAndGlyphs'>Triassic</text>
-<text x='369.66' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='44.69px' lengthAdjust='spacingAndGlyphs'>Permian</text>
-<text x='312.01' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='75.38px' lengthAdjust='spacingAndGlyphs'>Carboniferous</text>
-<text x='247.20' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='50.71px' lengthAdjust='spacingAndGlyphs'>Devonian</text>
-<text x='201.46' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.02px' lengthAdjust='spacingAndGlyphs'>Silurian</text>
-<text x='165.80' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='57.37px' lengthAdjust='spacingAndGlyphs'>Ordovician</text>
-<text x='113.43' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='52.03px' lengthAdjust='spacingAndGlyphs'>Cambrian</text>
+<text x='113.43' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='18.67px' lengthAdjust='spacingAndGlyphs'>Cm</text>
+<text x='165.80' y='517.78' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='9.34px' lengthAdjust='spacingAndGlyphs'>O</text>
+<text x='201.46' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>S</text>
+<text x='247.20' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>D</text>
+<text x='312.01' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>C</text>
+<text x='369.66' y='517.78' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>P</text>
+<text x='422.24' y='517.78' text-anchor='middle' style='font-size: 12.00px; fill: #FFFFFF; font-family: sans;' textLength='11.33px' lengthAdjust='spacingAndGlyphs'>Tr</text>
+<text x='479.83' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.00px' lengthAdjust='spacingAndGlyphs'>J</text>
+<text x='552.72' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>K</text>
+<text x='618.44' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>Pg</text>
+<text x='652.60' y='517.78' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='15.34px' lengthAdjust='spacingAndGlyphs'>Ng</text>
 <line x1='59.04' y1='524.74' x2='689.76' y2='524.74' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
