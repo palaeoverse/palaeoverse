@@ -1,8 +1,8 @@
 ---
-title: "Spatial and temporal alpha diversity in Carboniferous and Permian tetrapods"
+title: "Alpha diversity and geographic range size of Carboniferous and Permian tetrapods"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Spatial and temporal alpha diversity in Carboniferous and Permian tetrapods}
+  %\VignetteIndexEntry{Alpha diversity and geographic range size of Carboniferous and Permian tetrapods}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
