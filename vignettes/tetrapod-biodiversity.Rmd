@@ -163,7 +163,7 @@ Now let's check that it's worked...
 head(maj_tetrapods[, c("p_lng", "p_lat")])
 ```
 
-Looks good to me! Now that we have palaeocoordinates for our occurrences, we can put them into spatial bins. We can do this using the `bin_space` function, which provides a unique equal area grid cell reference for each occurrence. We've chosen a spacing of 100 here to match up with some analyses we're doing later.
+Looks good to me! Now that we have palaeocoordinates for our occurrences, we can put them into spatial bins. We can do this using the `bin_space` function, which provides a unique equal area grid cell reference for each occurrence.
 
 ```{r echo = TRUE}
 
