@@ -23,8 +23,6 @@ load_all()
 
 # Introduction
 
-<img src="https://github.com/palaeoverse-community/palaeoverse/raw/main/man/figures/logo.png" align="right" width="120" />
-
 `palaeoverse` is an R package developed by palaeobiologists, for palaeobiologists. The aim of the package is to generate a community-driven toolkit of generic functions for the palaeobiological community. The package does not provide implementations of statistical analyses, rather it provides auxiliary functions to help streamline analyses and improve code readability and reproducibility. This vignette (or tutorial if you prefer) is provided to guide you through the installation process and some of the functionality available within `palaeoverse`. To do so, we will focus on a usage example looking at latitudinal trends in Phanerozoic reefs.
 
 ## Installation
@@ -318,3 +316,5 @@ Merdith, A., Williams, S.E., Collins, A.S., Tetley, M.G., Mulder, J.A., Blades, 
 Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (PaleoDEMs) for the Phanerozoic. [PALEOMAP Project](https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/).
 
 Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013). Towards community-driven paleogeographic reconstructions: integrating open-access paleogeographic and paleobiology data with plate tectonics. Biogeosciences, 10(3), 1529-1541. DOI: 10.5194/bg-10-1529-2013.
+
+</div>

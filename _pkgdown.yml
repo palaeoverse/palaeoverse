@@ -38,6 +38,14 @@ home:
   - text: Palaeoverse website
     href: https://palaeoverse.org
 
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - phanerozoic-reefs
+  - tetrapod-biodiversity
+  - structure-and-standards
+
 reference:
 - title: Data cleaning and preparing
   desc: >

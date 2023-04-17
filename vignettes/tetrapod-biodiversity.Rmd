@@ -17,8 +17,6 @@ vignette: >
 
 # Introduction
 
-<img src="https://github.com/palaeoverse-community/palaeoverse/raw/main/man/figures/logo.png" align="right" width="120" />
-
 `palaeoverse` is an R package developed by palaeobiologists, for palaeobiologists. The aim of the package is to generate a community-driven toolkit of generic functions for the palaeobiological community. The package does not provide implementations of statistical analyses, rather it provides auxiliary functions to help streamline analyses and improve code readability and reproducibility. This vignette (or tutorial if you prefer) is provided to guide you through the installation process and some of the functionality available within `palaeoverse`. To do so, we will focus on a usage example looking at various trends in tetrapods across the Carboniferous/Permian boundary.
 
 ## Installation
