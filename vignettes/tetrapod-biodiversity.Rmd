@@ -13,7 +13,7 @@ vignette: >
 
 
 
-<div style="text-align: justify"> 
+<div style="text-align: justify">
 
 # Introduction
 
@@ -23,14 +23,14 @@ vignette: >
 
 ## Installation
 
-The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse-community/palaeoverse) if the development version is preferred. To install via the CRAN, simply use: 
+The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse-community/palaeoverse) if the development version is preferred. To install via the CRAN, simply use:
 
 
 ```r
 install.packages("palaeoverse")
 ```
 
-To install the development version, first install the `devtools` package, and then use `install_github` to install `palaeoverse` directly from GitHub. 
+To install the development version, first install the `devtools` package, and then use `install_github` to install `palaeoverse` directly from GitHub.
 
 
 ```r
@@ -54,7 +54,7 @@ citation("palaeoverse")
 
 ## Now that that's out of the way, let's begin!
 
-The Carboniferous and early Permian have been regarded as critical intervals for early four-limbed vertebrates, in terms of both diversification and biogeography. During this time several major groups of tetrapods emerged (including crown amniotes), and the extensive tropical rainforests of the Carboniferous gave way to dryland vegetation during the Permian, in what's known as the 'Carboniferous Rainforest Collapse' (CRC) (for more information, see Dunne et al., 2018). 
+The Carboniferous and early Permian have been regarded as critical intervals for early four-limbed vertebrates, in terms of both diversification and biogeography. During this time several major groups of tetrapods emerged (including crown amniotes), and the extensive tropical rainforests of the Carboniferous gave way to dryland vegetation during the Permian, in what's known as the 'Carboniferous Rainforest Collapse' (CRC) (for more information, see Dunne et al., 2018).
 
 In this vignette we’ll use the `tetrapods` dataset to demonstrate how to use `palaeoverse` functions to examine how alpha diversity and range size vary across this interval.
 
@@ -108,9 +108,9 @@ There are two `palaeoverse` functions that help us to assign occurrences to diff
 
 ```r
 # Generate time bins
-bins <- time_bins(interval = c("Carboniferous", "Permian"), 
-                  rank = "stage", 
-                  scale = "GTS2012", 
+bins <- time_bins(interval = c("Carboniferous", "Permian"),
+                  rank = "stage",
+                  scale = "GTS2012",
                   plot = FALSE)
 
 head(bins)
@@ -133,11 +133,11 @@ Before we can bin our occurrences into these time bins, we will need the ages of
 tetrapods <- look_up(tetrapods, int_key = interval_key)
 
 # Make sure that any values which could not be matched contain their original values
-tetrapods$interval_max_ma <- ifelse(is.na(tetrapods$interval_max_ma), 
-                                    tetrapods$max_ma, 
+tetrapods$interval_max_ma <- ifelse(is.na(tetrapods$interval_max_ma),
+                                    tetrapods$max_ma,
                                     tetrapods$interval_max_ma)
-tetrapods$interval_min_ma <- ifelse(is.na(tetrapods$interval_min_ma), 
-                                    tetrapods$min_ma, 
+tetrapods$interval_min_ma <- ifelse(is.na(tetrapods$interval_min_ma),
+                                    tetrapods$min_ma,
                                     tetrapods$interval_min_ma)
 tetrapods$interval_mid_ma <- (tetrapods$min_ma + tetrapods$max_ma)/2
 
@@ -155,7 +155,7 @@ tetrapods[1:5, 35:37]
 ```
 As you can see we've got some new columns with updated interval ages. Handy!
 
-Now we're ready to bin the occurrences into these time bins using `bin_time`. For now, we'll go with the 'mid' method, but we'll talk about this more in a minute. 
+Now we're ready to bin the occurrences into these time bins using `bin_time`. For now, we'll go with the 'mid' method, but we'll talk about this more in a minute.
 
 
 ```r
@@ -164,8 +164,8 @@ colnames(tetrapods)[9:10] <- c("old_max_ma", "old_min_ma")
 colnames(tetrapods)[c(35, 37)] <- c("max_ma", "min_ma")
 
 # Generate time bins
-tetrapods <- bin_time(occdf = tetrapods, 
-                      bins = bins, 
+tetrapods <- bin_time(occdf = tetrapods,
+                      bins = bins,
                       method = 'mid')
 ```
 
@@ -173,7 +173,7 @@ tetrapods <- bin_time(occdf = tetrapods,
 ## Error in bin_time(occdf = tetrapods, bins = bins, method = "mid"): Minimum age of occurrence data is less than minimum age of bins.
 ```
 
-Oh no! We've hit an error. This is because there's some occurrences that sit outside of the time intervals we're interested in. `bin_time` can't bin occurrences which sit outside of the time intervals you've chosen, so for it to work, we'll first have to remove these occurrences. 
+Oh no! We've hit an error. This is because there's some occurrences that sit outside of the time intervals we're interested in. `bin_time` can't bin occurrences which sit outside of the time intervals you've chosen, so for it to work, we'll first have to remove these occurrences.
 
 
 ```r
@@ -181,8 +181,8 @@ Oh no! We've hit an error. This is because there's some occurrences that sit out
 cp_tetrapods <- subset(tetrapods, min_ma > min(bins$min_ma))
 
 # Bin occurrences into chosen time bins
-mid_tetrapods <- bin_time(occdf = cp_tetrapods, 
-                          bins = bins, 
+mid_tetrapods <- bin_time(occdf = cp_tetrapods,
+                          bins = bins,
                           method = 'mid')
 ```
 
@@ -239,18 +239,18 @@ As you can see, only ~25% of the dataset can be assigned to just one bin - the o
 
 ```r
 # Bin occurrences into chosen time bins
-maj_tetrapods <- bin_time(occdf = cp_tetrapods, 
-                          bins = bins, 
+maj_tetrapods <- bin_time(occdf = cp_tetrapods,
+                          bins = bins,
                           method = 'majority')
 ```
 
 We'd recommend playing around with these different options and seeing how they impact your results!
 
-Next, we'll also bin our occurrences spatially. We need a couple of functions to do this. Firstly, we need to add palaeocoordinates to our dataset. We can use the `palaeorotate` function to do this. 
+Next, we'll also bin our occurrences spatially. We need a couple of functions to do this. Firstly, we need to add palaeocoordinates to our dataset. We can use the `palaeorotate` function to do this.
 
 
 ```r
-# Palaeorotate occurrences 
+# Palaeorotate occurrences
 maj_tetrapods <- palaeorotate(occdf = maj_tetrapods, age = "bin_midpoint",
                               method = "point", model = "PALEOMAP")
 ```
@@ -278,9 +278,9 @@ Looks good to me! Now that we have palaeocoordinates for our occurrences, we can
 
 ```r
 # Make a table of potential number of bins
-maj_tetrapods <- bin_space(occdf = maj_tetrapods, 
-                           lng = 'p_lng', 
-                           lat = 'p_lat', 
+maj_tetrapods <- bin_space(occdf = maj_tetrapods,
+                           lng = 'p_lng',
+                           lat = 'p_lat',
                            spacing = 100)
 ```
 
@@ -305,7 +305,7 @@ head(maj_tetrapods[, c("cell_ID", "cell_centroid_lng", "cell_centroid_lat")])
 ```
 `bin_space` adds some new columns, including one with the unique grid cell ID, as well as latitudinal and longitudinal coordinates for the centroid of that cell.
 
-Now that we have both temporal and spatial bins, we can use these data to see how the spatial coverage of tetrapod fossils in our dataset varies through time. 
+Now that we have both temporal and spatial bins, we can use these data to see how the spatial coverage of tetrapod fossils in our dataset varies through time.
 
 
 ```r
@@ -326,11 +326,11 @@ In many cases palaeobiologists count unique taxa by retaining only unique occurr
 - *Ankylosaurus* sp.
 - *Ceratopsidae* indet.
 - *Ornithominus* sp.
-- *Tyrannosaurus rex* 
+- *Tyrannosaurus rex*
 
 A filter for species-level identifications would reduce the species richness to just two (*A. sarcophagus* and *T. rex*). However, none of these clades are nested within one another, so each of the indeterminately identified occurrences represents at least one species not already represented in the dataset. `tax_unique` is designed to deal with such taxonomic data and would retain all seven 'species' in this example. For further details see `?tax_unique`.
 
-This function can be especially useful for when looking at alpha diversity (local richness). Let's apply it to our dataset by filtering it to genus-level. 
+This function can be especially useful for when looking at alpha diversity (local richness). Let's apply it to our dataset by filtering it to genus-level.
 
 
 ```r
@@ -373,7 +373,7 @@ tet_genera[718, ]
 ## 718 Osteichthyes Dicynodontia Dicynodontidae  <NA> Dicynodontidae indet.
 ```
 
-Now, let's use this function to extract the unique genera for each collection (=locality) with `group_apply`: 
+Now, let's use this function to extract the unique genera for each collection (=locality) with `group_apply`:
 
 
 ```r
@@ -469,7 +469,7 @@ plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
 
 <img src="alpha-div-plot-1-1.png" alt="plot of chunk alpha-div-plot-1" width="100%" />
 
-That looks good, but it's a bit difficult to figure out what stages contain which data points. `axis_geo()` adds a geological timescale between the plot and the axis. 
+That looks good, but it's a bit difficult to figure out what stages contain which data points. `axis_geo()` adds a geological timescale between the plot and the axis.
 
 Taking our plot from above, let's use this function to add a timescale to the x-axis:
 
@@ -496,7 +496,7 @@ Amazing! Now we can clearly see that alpha diversity appears to be a lot higher 
 
 # Exploring range size/spatial issues through time
 
-Another factor that we can examine is how range size of taxa changed across the C/P boundary. We can examine this spatial distribution through time using the `tax_range_space` function, which provides several different methods for estimating the distribution of taxonomic occurrences. For now we'll use the method `con` which calculates the geographic range of taxa using a convex hull, but the rest of the methods are described in detail in the function documentation which can be accessed via `?tax_range_space`. 
+Another factor that we can examine is how range size of taxa changed across the C/P boundary. We can examine this spatial distribution through time using the `tax_range_space` function, which provides several different methods for estimating the distribution of taxonomic occurrences. For now we'll use the method `con` which calculates the geographic range of taxa using a convex hull, but the rest of the methods are described in detail in the function documentation which can be accessed via `?tax_range_space`.
 
 We can use this in combination with `group_apply` to calculate the average for each time interval for our dataset:
 

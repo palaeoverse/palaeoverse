@@ -13,3 +13,4 @@ library(devtools)
 build_vignettes()
 
 setwd(old_wd)
+

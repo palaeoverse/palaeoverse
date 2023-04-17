@@ -13,7 +13,7 @@ vignette: >
 
 
 
-<div style="text-align: justify"> 
+<div style="text-align: justify">
 
 # Introduction
 
@@ -23,14 +23,14 @@ vignette: >
 
 ## Installation
 
-The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse-community/palaeoverse) if the development version is preferred. To install via the CRAN, simply use: 
+The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse-community/palaeoverse) if the development version is preferred. To install via the CRAN, simply use:
 
 
 ```r
 install.packages("palaeoverse")
 ```
 
-To install the development version, first install the `devtools` package, and then use `install_github` to install `palaeoverse` directly from GitHub. 
+To install the development version, first install the `devtools` package, and then use `install_github` to install `palaeoverse` directly from GitHub.
 
 
 ```r
@@ -154,7 +154,7 @@ reefs[100:110, 15:19]
 ## 110   Tithonian  Tithonian           152.1          148.55           145.0
 ```
 
-Great! We now have a common time scale and numeric ages. However, some of our reefs seem to range through several stages and we can't count just by the early or late stage. Our data still need to be binned. Let's check out the `time_bins` and `bin_time` functions. 
+Great! We now have a common time scale and numeric ages. However, some of our reefs seem to range through several stages and we can't count just by the early or late stage. Our data still need to be binned. Let's check out the `time_bins` and `bin_time` functions.
 
 
 ```r
@@ -221,7 +221,7 @@ That's more like it! But, let's not forget it's always useful to visualise our d
 # Plot data
 plot(x = reefs_time$interval_mid_ma,
      y = reefs_time$nrow,
-     xlab = "Time (Ma)", 
+     xlab = "Time (Ma)",
      ylab = "Number of reefs per stage",
      xlim = c(541, 0),
      xaxt = "n",
@@ -238,7 +238,7 @@ When studying modern latitudinal trends (e.g. in biodiversity), researchers can 
 
 
 ```r
-# Palaeorotate occurrences 
+# Palaeorotate occurrences
 reefs <- palaeorotate(occdf = reefs, age = "bin_midpoint",
                       method = "point", model = "PALEOMAP")
 ```
@@ -266,7 +266,7 @@ Now let's plot that palaeolatitudinal distribution!
 # Plot data
 plot(x = reefs$bin_midpoint,
      y = reefs$p_lat,
-     xlab = "Time (Ma)", 
+     xlab = "Time (Ma)",
      ylab = "Palaeolatitude (\u00B0)",
      xlim = c(541, 0),
      xaxt = "n",
@@ -293,7 +293,7 @@ reefs_max <- sapply(X = midpoints, FUN = function(x) {
 # Plot data
 plot(x = midpoints,
      y = reefs_max,
-     xlab = "Time (Ma)", 
+     xlab = "Time (Ma)",
      ylab = "Palaeolatitude (\u00B0)",
      xlim = c(541, 0),
      xaxt = "n",
@@ -365,19 +365,19 @@ p_lat_max <- function(occdf, midpoint, p_lat) {
   return(lat_max)
 }
 # Calculate maximum palaeolatitude of reefs for each time bin for each model
-paleomap <- p_lat_max(occdf = reefs, 
-                      midpoint = "bin_midpoint", 
+paleomap <- p_lat_max(occdf = reefs,
+                      midpoint = "bin_midpoint",
                       p_lat = "p_lat_PALEOMAP")
-golonka <- p_lat_max(occdf = reefs, 
-                     midpoint = "bin_midpoint", 
+golonka <- p_lat_max(occdf = reefs,
+                     midpoint = "bin_midpoint",
                      p_lat = "p_lat_GOLONKA")
-merdith <- p_lat_max(occdf = reefs, 
-                     midpoint = "bin_midpoint", 
+merdith <- p_lat_max(occdf = reefs,
+                     midpoint = "bin_midpoint",
                      p_lat = "p_lat_MERDITH2021")
 # Set up plot
 plot(x = NULL,
      y = NULL,
-     xlab = "Time (Ma)", 
+     xlab = "Time (Ma)",
      ylab = "Palaeolatitude (\u00B0)",
      xlim = c(541, 0),
      ylim = c(0, 90),
