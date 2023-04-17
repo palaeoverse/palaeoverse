@@ -189,7 +189,7 @@ in `occdf`")
 
     # simplify output?
     if (coords == FALSE) {
-      spat_df <- spat_df[, -which(colnames(spat_df) %in% c("lng", "lat"))]
+      spat_df <- spat_df[, -which(colnames(spat_df) %in% c(lng, lat))]
       spat_df <- unique(spat_df)
     }
 
