@@ -22,3 +22,6 @@ cran-comments.md
 ^doc$
 ^Meta$
 .DS_Store
+vignettes/precompile.R
+vignettes/phanerozoic-reefs.Rmd.orig
+vignettes/tetrapod-biodiversity.Rmd.orig
