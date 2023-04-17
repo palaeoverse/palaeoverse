@@ -3,11 +3,13 @@
 * time_bins updated to enable users to call geological time scales from Macrostrat
 * Fixed minor documentation error in tax_range_time
 * Fixed unnecessary column output in palaeorotate (#78)
-* Fixed prior updates to "point" method in palaeorotate which introduced binding issues for some specific datasets
+* Fixed binding issues with the "point" method in palaeorotate for some specific datasets (#78)
 * Removed deeptime dependency
 * Updated font colors in GTS2012 and GTS2020 based on background luminance
-* Fixed multi-model call in palaeorotate for the "point" method which did not return all requested model coordinates
+* Fixed multi-model call in palaeorotate for the "point" method which did not return all requested model coordinates (#82)
 * Fixed an erroneous entry in interval_key (#84)
+* Added two tutorial vignettes (#31)
+* Fixed a tax_range_space bug for custom column names
 
 # palaeoverse 1.1.1
 
