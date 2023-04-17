@@ -2,8 +2,10 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  phanerozoic-reefs: phanerozoic-reefs.html
   structure-and-standards: structure-and-standards.html
-last_built: 2023-04-17T18:40Z
+  tetrapod-biodiversity: tetrapod-biodiversity.html
+last_built: 2023-04-17T20:26Z
 urls:
   reference: https://palaeoverse.palaeoverse.org/reference
   article: https://palaeoverse.palaeoverse.org/articles
