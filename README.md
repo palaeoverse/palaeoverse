@@ -50,9 +50,9 @@ As with any community project, society, or meeting we feel it is important to es
 
 # Citation
 
-A [pre-print publication](https://doi.org/10.31223/X5Z94Q) is now available for the palaeoverse R package. Please feel free to leave any comments you may have over at EarthArXiv. We welcome all feedback. If you use the palaeoverse R package in your work, please cite as:
+If you use the palaeoverse R package in your work, please cite as:
 
-Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2022. palaeoverse: a community-driven R package to support palaeobiological analyses. *EarthArXiv*. doi: [10.31223/X5Z94Q](https://doi.org/10.31223/X5Z94Q).
+Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2023. palaeoverse: A community-driven R package to support palaeobiological analysis. *Methods in Ecology and Evolution*. doi: [10.1111/2041-210X.14099](https://doi.org/10.1111/2041-210X.14099).
 
 <p align="left">
 
