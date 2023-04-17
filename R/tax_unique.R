@@ -9,37 +9,44 @@
 #'
 #' @param occdf \code{dataframe}. A dataframe containing information on the
 #' occurrences or taxa to filter.
-#' @param binomial \code{character}. The name of the column in the dataframe
+#' @param binomial \code{character}. The name of the column in \code{occdf}
 #' containing the genus and species names of the occurrences, either in the
 #' form "genus species" or "genus_species".
-#' @param species \code{character}. The name of the column in the dataframe
+#' @param species \code{character}. The name of the column in \code{occdf}
 #' containing the species-level identifications (i.e. the specific epithet).
-#' @param genus \code{character}. The name of the column in the dataframe
+#' @param genus \code{character}. The name of the column in \code{occdf}
 #' containing the genus-level identifications.
-#' @param family \code{character}. The name of the column in the dataframe
-#' containing the family-level identifications.
-#' @param order \code{character}. The name of the column in the dataframe
-#' containing the order-level identifications.
-#' @param class \code{character}. The name of the column in the dataframe
-#' containing the class-level identifications.
-#' @param name \code{character}. The name of the column in the dataframe
+#' @param ... \code{character}. Other named arguments specifying columns of
+#' higher levels of taxonomy (e.g. subfamily, order, superclass). The names of
+#' the arguments will be the column names of the output, and the values of the
+#' arguments correspond to the columns of \code{occdf}. The given order of the
+#' arguments is the order in which they are filtered. Therefore, these arguments
+#' must be in ascending order from lowest to highest taxonomic rank (see
+#' examples below). At least one higher level of taxonomy must be specified.
+#' @param name \code{character}. The name of the column in \code{occdf}
 #' containing the taxonomic names at mixed taxonomic levels; the data column
-#' "accepted_names" in a [Paleobiology Database](https://paleobiodb.org/#/)
+#' "accepted_name" in a [Paleobiology Database](https://paleobiodb.org/#/)
 #' occurrence dataframe is of this type.
 #' @param resolution \code{character}. The taxonomic resolution at which to
 #' identify unique occurrences, either "species" (the default) or "genus".
+#' @param append \code{logical}. Should the original dataframe be returned with
+#' the unique names appended as a new column?
 #'
 #' @return A \code{dataframe} of taxa, with each row corresponding to a unique
 #' "species" or "genus" in the dataset (depending on the chosen resolution).
 #' The dataframe will include the taxonomic information provided into the
-#' function, as well as a column providing the 'unique' names of each taxon.
+#' function, as well as a column providing the 'unique' names of each taxon. If
+#' \code{append} is \code{TRUE}, the original dataframe (\code{occdf}) will be
+#' returned with these 'unique' names appended as a new column. Occurrences that
+#' are identified to a coarse taxonomic resolution and belong to a clade which
+#' is already represented within the dataset will have their 'unique' names
+#' listed as \code{NA}.
 #'
-#' @details In many cases palaeobiologists count unique taxa by retaining only
+#' @details Palaeobiologists usually count unique taxa by retaining only
 #' unique occurrences identified to a given taxonomic resolution, however
-#' this function retain occurrences identified to a coarser taxonomic resolution
-#' which are not already represented within the dataset.
-#'
-#' If we take the following set of occurrences:
+#' this function retains occurrences identified to a coarser taxonomic
+#' resolution which are not already represented within the dataset. For example,
+#' consider the following set of occurrences:
 #'
 #' - *Albertosaurus sarcophagus*
 #' - *Ankylosaurus* sp.
@@ -49,7 +56,7 @@
 #' - *Ornithomimus* sp.
 #' - *Tyrannosaurus rex*
 #'
-#' a filter for species-level identifications would reduce the species richness
+#' A filter for species-level identifications would reduce the species richness
 #' to two. However, none of these clades are nested within one another, so each
 #' of the indeterminately identified occurrences represents at least one species
 #' not already represented in the dataset. This function is designed to deal
@@ -61,21 +68,21 @@
 #' data can be filtered to retain either unique species, or unique genera. If a
 #' species-level filter is desired, the minimum input requires either (1)
 #' `binomial`, (2) `species` and `genus`, or (3) `name` and `genus` columns to
-#' be entered, as well as a `family` column. In a standard
-#' [Paleobiology Database](https://paleobiodb.org/#/)
+#' be entered, as well as at least one column of a higher taxonomic level.
+#' In a standard [Paleobiology Database](https://paleobiodb.org/#/)
 #' occurrence dataframe, species names are only
 #' captured in the 'accepted_name' column, so a species-level filter should use
 #' '`genus` = "genus"' and '`name` = "accepted_name"' arguments. If a
 #' genus-level filter is desired, the minimum input requires either (1)
-#' `binomial` or (2) `genus` columns to be entered, as well as a `family`
-#' column.
+#' `binomial` or (2) `genus` columns to be entered, as well as at least one
+#' column of a higher taxonomic level.
 #'
 #' Missing data should be indicated with NAs, although the function can handle
 #' common labels such as "NO_FAMILY_SPECIFIED" within Paleobiology Database
 #' datasets.
 #'
-#' The function matches taxonomic names at increasingly higher taxonomic levels,
-#' so homonyms may be falsely filtered out.
+#' The function matches taxonomic names at face value, so homonyms may be
+#' falsely filtered out.
 #'
 #' @section References:
 #'
@@ -86,28 +93,34 @@
 #' Biological Reviews, 86, 157-181. \doi{10.1111/j.1469-185X.2010.00139.x}.
 #'
 #' @section Developer(s):
-#' Bethany Allen
+#' Bethany Allen & William Gearty
 #' @section Reviewer(s):
 #' Lewis A. Jones & William Gearty
 #'
+#' @importFrom stats aggregate
 #' @examples
 #' #Retain unique species
-#' species <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+#' occdf <- tetrapods[1:100, ]
+#' species <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 #' order = "order", class = "class", name = "accepted_name")
 #'
 #' #Retain unique genera
-#' genera <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+#' genera <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 #' order = "order", class = "class", resolution = "genus")
 #'
+#' #Append unique names to the original occurrences
+#' genera_append <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+#' order = "order", class = "class", resolution = "genus", append = TRUE)
+#'
 #' #Create dataframe from lists
-#' occdf <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
+#' occdf2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
 #' c("Tyrannosaurus", "Spinosaurus", NA), family = c("Tyrannosauridae",
 #' "Spinosauridae", "Diplodocidae"))
-#' dinosaur_species <- tax_unique(occdf = occdf, species = "species", genus =
+#' dinosaur_species <- tax_unique(occdf = occdf2, species = "species", genus =
 #' "genus", family = "family")
 #'
 #' #Retain unique genera per collection with group_apply
-#' genera <- group_apply(occdf = tetrapods,
+#' genera <- group_apply(occdf = occdf,
 #'                      group = c("collection_no"),
 #'                      fun = tax_unique,
 #'                      genus = "genus",
@@ -119,10 +132,9 @@
 #' @export
 #'
 tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
-                       genus = NULL, family = NULL, order = NULL,
-                       class = NULL, name = NULL, resolution = "species") {
-
-#Give errors for incorrect input
+                       genus = NULL, ..., name = NULL,
+                       resolution = "species", append = FALSE) {
+  #Give errors for incorrect input
   if (is.null(occdf)) {
     stop("Must enter an `occdf` of occurrences or taxon names")
   }
@@ -135,105 +147,55 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   if (!is.null(binomial) && !(binomial %in% colnames(occdf))) {
     stop("`occdf` does not contain column name provided to `binomial`")
   }
-  if (!is.null(binomial)) {
-    colnames(occdf)[colnames(occdf) == binomial] <-
-      "binomial"
-  }
 
   if (!is.null(species) && !(species %in% colnames(occdf))) {
     stop("`occdf` does not contain column name provided to `species`")
-  }
-  if (!is.null(species)) {
-    colnames(occdf)[colnames(occdf) == species] <-
-      "species"
   }
 
   if (!is.null(genus) && !(genus %in% colnames(occdf))) {
     stop("`occdf` does not contain column name provided to `genus`")
   }
-  if (!is.null(genus)) {
-    colnames(occdf)[colnames(occdf) == genus] <-
-      "genus"
-  }
 
-  if (is.null(family)) {
-    stop("`family` argument is missing. Provide column name of family names.")
+  higher_args <- list(...)
+  higher_names <- names(higher_args)
+  higher_cols <- unname(unlist(higher_args))
+  if (length(higher_args) == 0) {
+    stop("At least one higher taxonomic level must be supplied (e.g. `family`)")
   }
-  if (!(family %in% colnames(occdf))) {
-    stop("`occdf` does not contain column name provided to `family`")
-  }
-  colnames(occdf)[colnames(occdf) == family] <- "family"
-
-  if (!is.null(order) && !(order %in% colnames(occdf))) {
-    stop("`occdf` does not contain column name provided to `order`")
-  }
-  if (!is.null(order)) {
-    colnames(occdf)[colnames(occdf) == order] <-
-      "order"
-  }
-
-  if (!is.null(class) && !(class %in% colnames(occdf))) {
-    stop("`occdf` does not contain column name provided to `class`")
-  }
-  if (!is.null(class)) {
-    colnames(occdf)[colnames(occdf) == class] <-
-      "class"
+  for (level_label in higher_names) {
+    col_name <- higher_args[[level_label]]
+    if (!(col_name %in% colnames(occdf))) {
+      stop(paste0("`occdf` does not contain column name provided to `",
+                  level_label, "`"))
+    }
+    #Substitute labels used in PBDB downloads
+    occdf[[col_name]] <-
+      gsub("NO_FAMILY_SPECIFIED|NO_ORDER_SPECIFIED|NO_CLASS_SPECIFIED", NA,
+           occdf[[col_name]])
+    if (any(grepl("[[:punct:]]", occdf[[col_name]]))) {
+      stop(paste0("`", level_label, "` column should not contain punctuation"))
+    }
   }
 
   if (!is.null(name) && !(name %in% colnames(occdf))) {
     stop("`occdf` does not contain column name provided to `names`")
   }
-  if (!is.null(name)) {
-    colnames(occdf)[colnames(occdf) == name] <-
-      "name"
-  }
 
-  #Substitute labels used in PBDB downloads
-  occdf$family <- gsub("NO_FAMILY_SPECIFIED", NA, occdf$family)
-
-  if (!is.null(order)) {
-    occdf$order <- gsub("NO_ORDER_SPECIFIED", NA, occdf$order)
-  }
-
-  if (!is.null(class)) {
-    occdf$class <- gsub("NO_CLASS_SPECIFIED", NA, occdf$class)
-  }
-
-  #Change underscores in binomials to spaces
-  if (!is.null(binomial)) {
-    occdf$binomial <- gsub("_", " ", occdf$binomial)
-  }
-  if (!is.null(name)) {
-    occdf$name <- gsub("_", " ", occdf$name)
-  }
-
-  if (!is.null(class) && any(grepl("[[:punct:]]", occdf$class))) {
-    stop("`class` column should not contain punctuation")
-  }
-
-  if (!is.null(order) && any(grepl("[[:punct:]]", occdf$order))) {
-    stop("`order` column should not contain punctuation")
-  }
-
-  if (!is.null(family) && any(grepl("[[:punct:]]", occdf$family))) {
-    stop("`family` column should not contain punctuation")
-  }
-
-  if (!is.null(genus) && any(grepl("[[:punct:]]", occdf$genus))) {
+  if (!is.null(genus) && any(grepl("[[:punct:]]", occdf[[genus]]))) {
     stop("`genus` column should not contain punctuation")
   }
 
-  if (!is.null(species) && any(grepl("[[:punct:]]", occdf$species))) {
+  if (!is.null(species) && any(grepl("[[:punct:]]", occdf[[species]]))) {
     stop("`species` column should not contain punctuation")
   }
 
   if (!is.null(binomial) && any(grepl("[^[:alnum:][:space:]]",
-                                       occdf$binomial))) {
+                                       occdf[[binomial]]))) {
     stop("`binomial` column should not contain punctuation except spaces or
          underscores")
   }
 
-  if (!is.null(name) && any(grepl("[^[:alnum:][:space:]]", occdf$name))) {
+  if (!is.null(name) && any(grepl("[^[:alnum:][:space:]]", occdf[[name]]))) {
     stop("`name` column should not contain punctuation except spaces or
          underscores")
   }
@@ -254,10 +216,33 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     stop("Resolution must be 'species' or 'genus'")
   }
 
-#Run function
+  #Run function
   genus_species <- NULL
-  occurrences <- subset(occdf, select = c(binomial, species, genus, family,
-                                          order, class, name))
+  occurrences <- occdf[, c(binomial, species, genus, higher_cols, name)]
+
+  #Rename columns
+  if (!is.null(species)) {
+    colnames(occurrences)[colnames(occurrences) == species] <- "species"
+  }
+  if (!is.null(genus)) {
+    colnames(occurrences)[colnames(occurrences) == genus] <- "genus"
+  }
+  if (!is.null(binomial)) {
+    colnames(occurrences)[colnames(occurrences) == binomial] <- "binomial"
+  }
+  if (!is.null(name)) {
+    colnames(occurrences)[colnames(occurrences) == name] <- "name"
+  }
+  colnames(occurrences)[match(higher_cols, colnames(occurrences))] <-
+    higher_names
+
+  #Change underscores in binomials to spaces
+  if (!is.null(binomial)) {
+    occurrences$binomial <- gsub("_", " ", occdf$binomial)
+  }
+  if (!is.null(name)) {
+    occurrences$name <- gsub("_", " ", occurrences$name)
+  }
 
   if (!is.null(name)) {
     #If name is not a binomial, replace with NA
@@ -289,7 +274,21 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   }
 
   #Remove absolute repeats
-  occurrences <- unique(occurrences)
+  if (append) {
+    occurrences_with_dupes <- occurrences
+    # List the rows of the original dataframe that correspond to each unique row
+    # Hack to include NAs as groups
+    occurrences_with_dupes[is.na(occurrences_with_dupes)] <- "thisisanNAvalue"
+    occurrences_with_dupes$rows <- seq_len(nrow(occurrences_with_dupes))
+    cols <- c(rev(higher_names), "genus")
+    if (resolution == "species") cols <- c(cols, "genus_species")
+    form <- as.formula(paste("rows ~", paste(cols, collapse = " + ")))
+    occurrences <- aggregate(form, data = occurrences_with_dupes, FUN = c)
+    # Switch hack groups back to true NAs
+    occurrences[occurrences == "thisisanNAvalue"] <- NA
+  } else {
+    occurrences <- unique(occurrences)
+  }
 
   #Create an empty dataset to collect unique occurrences in
   to_retain <- data.frame()
@@ -301,46 +300,43 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     occurrences <- occurrences[is.na(occurrences$genus_species), ]
 
     #Retain occurrences identified to genus level and not already in dataset
-    to_retain <- rbind(to_retain,
-                       occurrences[(!occurrences$genus %in% c(to_retain$genus,
-                                                              NA)), ])
+    #The merge handles cases where the same genus name occurs in multiple
+    #higher taxonomic groups
+    to_retain <- merge(subset(occurrences,
+                              subset = !is.na(genus),
+                              select = -c(genus_species)),
+                       to_retain,
+                       by = c(rev(higher_names), "genus"), all = TRUE)
+    if (append) {
+      to_retain$rows <- ifelse(is.na(to_retain$rows.y),
+                               to_retain$rows.x, to_retain$rows.y)
+      to_retain$rows.x <- to_retain$rows.y <- NULL
+    }
     occurrences <- occurrences[is.na(occurrences$genus), ]
 
   } else if (resolution == "genus") {
-    #Remove genus_species column and remove genus repeats
-    if (!is.null(binomial) || !is.null(name)) {
-    occurrences <- subset(occurrences, select = -c(genus_species))
-    } else if (!is.null(species)) {
-    occurrences <- subset(occurrences, select = -c(genus_species, species))
+    if (!append) {
+      #Remove genus_species column and remove genus repeats
+      if (!is.null(binomial) || !is.null(name)) {
+        occurrences <- subset(occurrences, select = -c(genus_species))
+      } else if (!is.null(species)) {
+        occurrences <- subset(occurrences, select = -c(genus_species, species))
       }
 
-    occurrences <- unique(occurrences)
+      occurrences <- unique(occurrences)
+    }
 
     #Retain genus identifications and remove from dataframe
     to_retain <- rbind(to_retain, occurrences[!is.na(occurrences$genus), ])
     occurrences <- occurrences[is.na(occurrences$genus), ]
   }
 
-  #Retain occurrences identified to family level and not already in dataset
-  to_retain <- rbind(to_retain,
-                     occurrences[!(occurrences$family %in% c(to_retain$family,
-                                                             NA)), ])
-  occurrences <- occurrences[is.na(occurrences$family), ]
-
-  if (!is.null(order)) {
-  #Retain occurrences identified to order level and not already in dataset
-  to_retain <- rbind(to_retain,
-                     occurrences[!(occurrences$order %in% c(to_retain$order,
-                                                            NA)), ])
-  occurrences <- occurrences[is.na(occurrences$order), ]
-  }
-
-  if (!is.null(class)) {
-  #Retain occurrences identified to class level and not already in dataset
-  to_retain <- rbind(to_retain,
-                     occurrences[!(occurrences$class %in% c(to_retain$class,
-                                                            NA)), ])
-  occurrences <- occurrences[is.na(occurrences$class), ]
+  #Retain occurrences identified to higher levels and not already in dataset
+  for (col_name in higher_names) {
+    to_retain <- rbind(to_retain,
+                       occurrences[!(occurrences[[col_name]] %in%
+                                       c(to_retain[[col_name]], NA)), ])
+    occurrences <- occurrences[is.na(occurrences[[col_name]]), ]
   }
 
   #Produce column with unique taxon names
@@ -354,53 +350,45 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     if (is.na(to_retain$unique_name[i])) {
       if (!is.na(to_retain$genus[i])) {
       to_retain$unique_name[i] <- paste(to_retain$genus[i], "sp.")
-      } else if (!is.na(to_retain$family[i])) {
-      to_retain$unique_name[i] <- paste(to_retain$family[i], "indet.")
-      } else if (!is.na(to_retain$order[i])) {
-      to_retain$unique_name[i] <- paste(to_retain$order[i], "indet.")
-      } else if (!is.na(to_retain$class[i])) {
-      to_retain$unique_name[i] <- paste(to_retain$class[i], "indet.")
+      } else {
+        for (col_name in higher_names) {
+          if (!is.na(to_retain[i, col_name])) {
+            to_retain$unique_name[i] <- paste(to_retain[i, col_name], "indet.")
+            break
+          }
+        }
       }
     }
   }
 
   #Reorder
+  rows_col <- if (append) "rows" else NULL
   if (resolution == "species") {
-    if (!is.null(class)) {
-      to_retain <- to_retain[, c("class", "order", "family", "genus",
-                               "genus_species", "unique_name")]
-    } else if (!is.null(order)) {
-      to_retain <- to_retain[, c("order", "family", "genus", "genus_species",
-                                "unique_name")]
-    } else {
-      to_retain <- to_retain[, c("family", "genus", "genus_species",
-                               "unique_name")]
-    }
+    to_retain <- to_retain[, c(rev(higher_names), "genus", "genus_species",
+                               "unique_name", rows_col)]
   }
-
   if (resolution == "genus") {
-     if (!is.null(class)) {
-      to_retain <- to_retain[, c("class", "order", "family", "genus",
-                                 "unique_name")]
-    } else if (!is.null(order)) {
-        to_retain <- to_retain[, c("order", "family", "genus", "unique_name")]
-    } else {
-        to_retain <- to_retain[, c("family", "genus", "unique_name")]
-      }
+    to_retain <- to_retain[, c(rev(higher_names), "genus", "unique_name",
+                               rows_col)]
   }
 
-  if (!is.null(class)) {
-    to_retain <- to_retain[order(to_retain$class), ]
+  for (col_name in rev(higher_names)) {
+    to_retain <- to_retain[order(to_retain[[col_name]]), ]
   }
-  if (!is.null(order)) {
-    to_retain <- to_retain[order(to_retain$order), ]
-  }
-  to_retain <- to_retain[order(to_retain$family), ]
   to_retain <- to_retain[order(to_retain$genus), ]
   if (resolution == "species") {
     to_retain <- to_retain[order(to_retain$genus_species), ]
   }
 
-  row.names(to_retain) <- NULL
-  return(to_retain)
+  if (append) {
+    # Convert back to original dataframe
+    occdf$unique_name <- NA
+    for (i in seq_len(nrow(to_retain))) {
+      occdf$unique_name[to_retain$rows[[i]]] <- to_retain$unique_name[i]
+    }
+    return(occdf)
+  } else {
+    row.names(to_retain) <- NULL
+    return(to_retain)
+  }
 }

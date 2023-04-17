@@ -16,7 +16,7 @@ tax_range_time(
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences containing
 at least three columns: names of taxa, maximum age and minimum age
-(see \code{name}, \code{lng}, and \code{lat} arguments).
+(see \code{name}, \code{min_ma}, and \code{max_ma} arguments).
 These ages should constrain the age range of the fossil occurrence
 and are assumed to be in millions of years before present.}
 
@@ -72,8 +72,8 @@ Bethany Allen & Christopher D. Dean
 # Grab internal data
 occdf <- tetrapods
 # Remove NAs
-occdf <- subset(occdf, !is.na(genus))
+occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 # Temporal range
-ex <- tax_range_time(occdf = occdf, name = "genus", plot = TRUE)
+ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
 
 }

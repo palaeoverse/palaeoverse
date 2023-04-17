@@ -14,7 +14,7 @@ tax_expand_time(
 )
 }
 \arguments{
-\item{taxdf}{\code{dataframe}. A \code{data.frame} of taxa (such as that
+\item{taxdf}{\code{dataframe}. A dataframe of taxa (such as that
 produced by \code{\link{tax_range_time}}) with columns for the maximum and
 minimum ages (FADs and LADs). Each row should represent a unique taxon.
 Additional columns may be included (e.g. taxon names, additional taxonomy,

@@ -1,5 +1,6 @@
 test_that("palaeorotate() point method works", {
   skip_if_offline(host = "gwsdoc.gplates.org")
+  skip_if_offline(host = "zenodo.org")
 
   occdf <- data.frame(lng = c(2, -103, -66),
                       lat = c(46, 35, -7),
@@ -9,37 +10,46 @@ test_that("palaeorotate() point method works", {
                                  method = "point",
                                  model = "PALEOMAP")), 3)
 
+  expect_equal(nrow(palaeorotate(occdf = occdf,
+                                 method = "point",
+                                 model = "PALEOMAP")), 3)
+
   expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
                                  round = 2)), 3)
 
-  # Expect message
-  # Model does not extend to this timeframe
-  msg <-
-    paste0("Palaeocoordinates equal to input coordinates detected.",
-           "\n",
-           "Check desired model covers the temporal range of your data."
-    )
-
-  expect_message(palaeorotate(occdf = occdf,
+  # Expect warning
+  expect_warning(palaeorotate(occdf = occdf,
                               method = "point",
-                              model = "SETON2012"),
-                 msg)
+                              model = "MULLER2022"), NULL)
 
+  # Check that multiple models are being returned
+  occdf <- palaeorotate(occdf = occdf,
+                        method = "point",
+                        model = c("PALEOMAP", "GOLONKA"),
+                        uncertainty = FALSE)
+  expect_false(any(is.na(occdf)))
+
+  # Check chunk size is working
+  occdf <- data.frame(lng = runif(1500, -180, 180),
+                      lat = runif(1500, -90, 90),
+                      age = rep(100, 1500))
+
+  expect_warning(occdf <- palaeorotate(occdf = occdf,
+                                       method = "point",
+                                       model = "PALEOMAP",
+                                       round = 3), NULL)
+  # Filter out points that can't be reconstructed
+  occdf <- occdf[-which(is.na(occdf$p_lng)), ]
+
+  expect_equal(nrow(palaeorotate(occdf = occdf,
+                                 method = "point",
+                                 model = "PALEOMAP")), nrow(occdf))
+
+
+  # Expect error
   occdf <- data.frame(lng = c(-41),
                       lat = c(37),
                       age = c(300))
-
-  # Plate polygon does not exist at time
-  msg <-
-    paste0("Palaeocoordinates could not be reconstructed for all points.",
-           "\n",
-           "Georeferenced plate does not exist at time of reconstruction."
-    )
-
-  expect_message(palaeorotate(occdf = occdf,
-                              method = "point",
-                              model = "MERDITH2021"),
-                 msg)
 
   # Model doesn't exist
   expect_error(palaeorotate(occdf = occdf, method = "point",
@@ -47,8 +57,6 @@ test_that("palaeorotate() point method works", {
 
   expect_error(palaeorotate(occdf = occdf, method = "point",
                             model = "WRIGHT2013"))
-
-
 })
 
 test_that("palaeorotate() grid method works", {
@@ -62,12 +70,18 @@ test_that("palaeorotate() grid method works", {
   expect_equal(
     ncol(
       palaeorotate(occdf = occdf,
-                   uncertainty = TRUE)[, c("range_p_lat",
+                   uncertainty = TRUE,
+                   method = "grid",
+                   model = c("MERDITH2021",
+                                   "GOLONKA",
+                                   "SETON2012"))[, c("range_p_lat",
                                            "max_dist")]), 2)
 
-  expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")), 3)
+  expect_equal(nrow(palaeorotate(occdf = occdf, method = "grid",
+                                 model = "PALEOMAP")), 3)
 
-  expect_equal(nrow(palaeorotate(occdf = occdf, model = "MERDITH2021")), 3)
+  expect_equal(nrow(palaeorotate(occdf = occdf, method = "grid",
+                                 model = "MERDITH2021")), 3)
 
 
 
@@ -75,15 +89,26 @@ test_that("palaeorotate() grid method works", {
                       lat = c(46, 35, -7),
                       age = c(88, 125, 400))
 
+  # Expect warnings
+  msg <- "Palaeocoordinates could not be reconstructed for all points."
+
+  expect_warning(palaeorotate(occdf = occdf, method = "grid",
+                              model = "SETON2012"), msg)
 
   # Wrong uncertainty input
-  expect_error(palaeorotate(occdf = occdf, uncertainty = "TRUE"))
+  expect_error(palaeorotate(occdf = occdf, method = "grid",
+                            uncertainty = c("GALONKA",
+                                                           "MIRDITH2021")))
+  expect_error(palaeorotate(occdf = occdf, method = "grid",
+                            uncertainty = c("GOLONKA")))
 
   # Wrong uncertainty input
-  expect_error(palaeorotate(occdf = occdf, uncertainty = 2))
+  expect_error(palaeorotate(occdf = occdf, method = "grid",
+                            uncertainty = 2))
 
   # Model doesn't exist
-  expect_error(palaeorotate(occdf = occdf, model = "Mirdith2021"))
+  expect_error(palaeorotate(occdf = occdf, method = "grid",
+                            model = "Mirdith2021"))
 
   # Method doesn't exist
   expect_error(palaeorotate(occdf = occdf, method = "both"))

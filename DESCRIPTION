@@ -1,12 +1,12 @@
 Package: palaeoverse
-Title: A community-driven toolkit to support palaeobiological analyses
-Version: 0.0.0.9000
+Title: Prepare and Explore Data for Palaeobiological Analyses
+Version: 1.1.1.9000
 Authors@R: c(
     person(given = "Lewis A.", family = "Jones", email = "LewisAlan.Jones@uvigo.es",
       role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3902-8986")),
     person(given = "William", family = "Gearty", email = "willgearty@gmail.com",
       role = c("aut"), comment = c(ORCID = "0000-0003-0076-3262")),
-    person(given = "Bethany", family = "Allen", email = "Bethany.Allen@bsse.ethz.ch",
+    person(given = "Bethany J.", family = "Allen", email = "Bethany.Allen@bsse.ethz.ch",
       role = c("aut"), comment = c(ORCID = "0000-0003-0282-6407")),
     person(given = "Kilian", family = "Eichenseer", email = "kilian.eichenseer@gmail.com",
       role = c("aut"), comment = c(ORCID = "0000-0002-0477-8878")),
@@ -16,30 +16,32 @@ Authors@R: c(
       role = c("ctb"), comment = c(ORCID = "0000-0002-3092-4314")),
     person(given = "Miranta", family = "Kouvari", email = "m.kouvari@ucl.ac.uk",
       role = c("ctb"), comment = c(ORCID = "0000-0002-5442-6221")),
-    person(given = "Pedro L.", family = "Godoy", email = "pedrolorenagodoy@gmail.com ",
+    person(given = "Pedro L.", family = "Godoy", email = "pedrolorenagodoy@gmail.com",
       role = c("ctb"), comment = c(ORCID = "0000-0003-4519-5094")),
     person(given = "Cecily", family = "Nicholl", email = "cecily.nicholl@ucl.ac.uk",
       role = c("ctb"), comment = c(ORCID = "0000-0003-2860-2604")),
     person(given = "Lucas", family = "Buffan", email = "lucas.l.buffan@gmail.com",
       role = c("ctb"), comment = c(ORCID = "0000-0002-2353-1432")),
-    person(given = "Joseph T.", family = "Flannery-Sutherland", email = "jf15558@bristol.ac.uk",
-      role = c("aut"), comment = c(ORCID = "0000-0001-8232-6773")),
     person(given = "Erin M.", family = "Dillon", email = "emdillon23@gmail.com",
       role = c("ctb"), comment = c(ORCID = "0000-0003-0249-027X")),
+    person(given = "Joseph T.", family = "Flannery-Sutherland", email = "jf15558@bristol.ac.uk",
+      role = c("aut"), comment = c(ORCID = "0000-0001-8232-6773")),
     person(given = "A. Alessandro", family = "Chiarenza", email = "a.chiarenza15@gmail.com",
       role = c("ctb"), comment = c(ORCID = "0000-0001-5525-6730")))
-Description: A community-driven R package to support palaeobiological analyses. 
-  The package contains a range of functions to help streamline palaeobiological analyses
-  and improve code reproducibility and accessibility. The wider aim of this R package is 
-  to bring the palaeobiological community together to establish agreed standards. The
-  package currently includes functionality for data cleaning, binning (time and space),
-  exploration, summarisation and visualisation. Reference datasets (e.g. Geological Time
-  Scales) and auxiliary functions are also provided.
+Description: Provides functionality to support data preparation and exploration for
+  palaeobiological analyses, improving code reproducibility and accessibility. The
+  wider aim of 'palaeoverse' is to bring the palaeobiological community together 
+  to establish agreed standards. The package currently includes functionality for 
+  data cleaning, binning (time and space), exploration, summarisation and 
+  visualisation. Reference datasets (i.e. Geological Time Scales <https://stratigraphy.org/chart>)
+  and auxiliary functions are also provided. Details can be found in:
+  Jones et al., (2022) <doi:10.31223/X5Z94Q>.
 License: GPL (>= 3)
+Language: en-GB
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Depends: 
     R (>= 4.0)
 Imports:
@@ -47,7 +49,7 @@ Imports:
     utils,
     graphics,
     methods,
-    deeptime (>= 0.2.1),
+    curl,
     ape,
     sf,
     stringdist,
@@ -55,16 +57,17 @@ Imports:
     h3jsr (>= 1.3.0),
     httr,
     pbapply
-Suggests: 
-    divDyn,
+Suggests:
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
     vdiffr (>= 1.0.0),
     paleotree,
+    phytools,
     covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-URL: https://palaeoverse.org,
-     https://github.com/palaeoverse-community/palaeoverse
+URL: https://palaeoverse.palaeoverse.org,
+     https://github.com/palaeoverse-community/palaeoverse,
+     https://palaeoverse.org
 BugReports: https://github.com/palaeoverse-community/palaeoverse/issues

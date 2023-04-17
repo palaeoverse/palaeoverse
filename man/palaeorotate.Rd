@@ -10,9 +10,9 @@ palaeorotate(
   lat = "lat",
   age = "age",
   model = "MERDITH2021",
-  method = "grid",
-  uncertainty = FALSE,
-  round = NULL
+  method = "point",
+  uncertainty = TRUE,
+  round = 3
 )
 }
 \arguments{
@@ -30,42 +30,43 @@ latitude (defaults to "lat").}
 \item{age}{\code{character}. The name of the column you wish to be treated as
 the age for rotation (defaults to "age").}
 
-\item{model}{\code{character}. The name of the plate rotation model to be
-used to reconstruct palaeocoordinates. See details for available models.}
+\item{model}{\code{character}. The name(s) of the plate rotation model(s)
+to be used to reconstruct palaeocoordinates. See details for available
+models.}
 
 \item{method}{\code{character}. Method used to calculate palaeocoordinates
-for fossil occurrences. Either "grid" (default) to use reconstruction files,
-or "point" to use the GPlates API service. See details section for specific
-details.}
+for fossil occurrences. Either "grid" to use reconstruction files,
+or "point" (default) to use the GPlates API service. See details section
+for specific details.}
 
 \item{uncertainty}{\code{logical}. Should the uncertainty in
-palaeogeographic reconstructions be returned? If set to TRUE, the
-palaeocoordinates from all reconstruction files (models) are returned, along
-with their respective palaeolatitudinal range and the maximum Great
-Circle Distance between palaeocoordinates (in km). This argument is only
-relevant if \code{method} is set to "grid".}
+palaeogeographic reconstructions be returned? If set to TRUE (default), the
+palaeolatitudinal range and maximum geographic distance (in km) between
+output palaeocoordinates are calculated. This argument is only relevant if
+more than one plate rotation model is specified in \code{model}.}
 
 \item{round}{\code{numeric}. Numeric value indicating the number of decimal
 places \code{lng}, \code{lat} and \code{age} should be rounded to. This functionality is
 only relevant for the "point" \code{method}. Rounding can speed up palaeorotation
-by reducing the number of unique coordinate pairs. Defaults to \code{NULL}
-(no rounding of values).}
+by reducing the number of unique coordinate pairs. Defaults to a value of
+3. If no rounding is desired, set this value to \code{NULL}.}
 }
 \value{
 A \code{dataframe} containing the original input occurrence
-dataframe, the rotation model ("rot_model"),
-age of rotation ("rot_age"), the reference coordinates rotated
-("rot_lng" and "rot_lat"), and the reconstructed coordinates
-(i.e., "p_lng" and "p_lat"). The "point" \code{method} uses the input coordinates
-and age as the reference; reference coordinates are therefore not returned.
-If uncertainty is set to \code{TRUE}, palaeocoordinates for all available models
-will be returned, along with the palaeolatitudinal range (\code{range_p_lat}) and
-the maximum Great Circle Distance (\code{max_dist}) in km (calculated via
-\code{\link[geosphere]{distHaversine}}).
+dataframe and the reconstructed coordinates (i.e. "p_lng", "p_lat"). The
+"grid" \code{method} also returns the age of rotation ("rot_age") and the
+reference coordinates rotated ("rot_lng" and "rot_lat"). If only one
+model is requested, a column containing the rotation model used
+("rot_model") is also appended. Otherwise, the name of each model is
+appended to the name of each column containing palaeocoordinates (e.g.
+"p_lng_GOLONKA"). If \code{uncertainty} is set to \code{TRUE}, the
+palaeolatitudinal range ("range_p_lat") and the maximum geographic
+distance ("max_dist") in km between palaeocoordinates will also be
+returned (the latter calculated via \code{\link[geosphere]{distGeo}}).
 }
 \description{
 A function to generate palaeocoordinates for fossil occurrence data
-(i.e., reconstruct the geographic distribution of organisms'
+(i.e. reconstruct the geographic distribution of organisms'
 remains at time of deposition). Each occurrence is assigned
 palaeocoordinates based on its current geographic position and age
 estimate.
@@ -75,21 +76,22 @@ This function can generate palaeocoordinates using two different
 approaches (\code{method}):
 \itemize{
 \item Reconstruction files: The "grid" \code{method} uses reconstruction files to
-spatiotemporally
-link present-day geographic coordinates and age estimates with a spatial
-grid (1° x 1°) rotated to the midpoint of Phanerozoic (0--540 Ma)
-stratigraphic stages (Geological Timescale, 2020). If specific ages of
-rotation are required, or fine-scale spatial analyses are being conducted,
-use of the "point" \code{method} might be preferable for the user (particularly
-if occurrences are close to plate boundaries). As implemented, points within
-the same grid cell will be assigned equivalent palaeocoordinates due to
-spatial aggregation. The reconstruction files provide pre-generated
-palaeocoordinates for a grid of 1° x 1°, allowing the past
-distribution of fossil occurrences to be estimated efficiently. Access to
-the reconstruction files and documentation is available via the
-\href{https://github.com/LewisAJones/palaeorotate}{palaeorotate} package.
+spatiotemporally link present-day geographic coordinates and age estimates
+with an equal-area hexagonal grid (spacing = 100 km) rotated to the
+midpoint of Phanerozoic (0--540 Ma) stratigraphic stages (Geological Time
+Scale, 2020). The grid was generated using the \code{\link[h3jsr]{h3jsr}} R
+package and 'h3_resolution' 3 (see \code{\link[h3jsr]{h3_info_table}}). If
+specific ages of rotation are required, or fine-scale spatial analyses are
+being conducted, use of the "point" \code{method} (see GPlates API below) is
+recommended (particularly if occurrences are close to plate boundaries). As
+implemented, when using the "grid" \code{method}, coordinates within the same
+grid cell will be assigned equivalent palaeocoordinates due to spatial
+aggregation. However, the reconstruction files provide pre-generated
+palaeocoordinates enabling efficient estimation of the past distribution of
+fossil occurrences. The reconstruction files along with additional
+documentation are deposited on \href{https://zenodo.org/record/7390065}{Zenodo}.
 Note: each reconstruction file is 5--10 MB in size.
-\item GPlates API: The "point" \code{method} uses the \href{https://gwsdoc.gplates.org}{GPlates Web Service} to reconstruct palaeorotations for point
+\item GPlates API: The "point" \code{method} uses the \href{https://gwsdoc.gplates.org}{GPlates Web Service} to reconstruct palaeocoordinates for point
 data. The use of this \code{method} is slower than the "grid" \code{method} if many
 unique time intervals exist in your dataset. However, it provides
 palaeocoordinates with higher precision.
@@ -102,18 +104,9 @@ Available models and timespan for each \code{method}:
 \item 0--540 Ma (grid)
 \item 0--1000 Ma (point)
 }
-\item "MULLER2019" (Müller et al., 2019)
-\itemize{
-\item 0--540 Ma (grid)
-\item 0--1100 Ma (point)
-}
 \item "MULLER2016" (Müller et al., 2016)
 \itemize{
 \item 0--230 Ma (grid/point)
-}
-\item "MATTHEWS2016_mantle_ref" (Matthews et al., 2016)
-\itemize{
-\item 0--410 Ma (grid/point)
 }
 \item "MATTHEWS2016_pmag_ref"  (Matthews et al., 2016)
 \itemize{
@@ -133,6 +126,25 @@ Available models and timespan for each \code{method}:
 \item 0--750 Ma (point)
 }
 }
+
+Access is also provided for the following mantle reference frame models.
+However, they are generally not recommended for reconstructing
+palaeocoordinates.
+\itemize{
+\item "MULLER2022" (Müller et al., 2022)
+\itemize{
+\item 0--540 Ma (grid)
+\item 0--1000 Ma (point)
+}
+\item "MULLER2019" (Müller et al., 2019)
+\itemize{
+\item 0--250 Ma (grid/point)
+}
+\item "MATTHEWS2016_mantle_ref" (Matthews et al., 2016)
+\itemize{
+\item 0--410 Ma (grid/point)
+}
+}
 }
 \section{References}{
 
@@ -147,15 +159,20 @@ Müller. R.D. (2021).
 Extending full-plate tectonic models into deep time: Linking the
 Neoproterozoic and the Phanerozoic.
 Earth-Science Reviews, 214(103477). \doi{10.1016/j.earscirev.2020.103477}.
+\item Müller, R. D., Flament, N., Cannon, J., Tetley, M. G., Williams,
+S. E., Cao, X., Bodur, Ö. F., Zahirovic, S., and Merdith, A. (2022).
+A tectonic-rules-based mantle reference frame since 1 billion years ago –
+implications for supercontinent cycles and plate–mantle system evolution,
+Solid Earth, 13, 1127–1159. \doi{10.5194/se-13-1127-2022}.
 \item Müller, R. D., Zahirovic, S., Williams, S. E., Cannon, J., Seton, M.,
 Bower, D. J., Tetley, M. G., Heine, C., Le Breton, E., Liu, S.,
 Russell, S. H. J., Yang, T., Leonard, J., and Gurnis, M. (2019).
 A global plate model including lithospheric deformation along major rifts
 and orogens since the Triassic.
-Tectonics, 38(6) 1884--1907. \doi{10.1029/2018TC005462}.
+Tectonics, 38(6) 1884-1907. \doi{10.1029/2018TC005462}.
 \item Müller R.D., Seton, M., Zahirovic, S., Williams, S.E., Matthews, K.J.,
 Wright, N.M., Shephard, G.E., Maloney, K.T., Barnett-Moore, N.,
-Hosseinpour, M., Bower, D.J., Cannon, J., 2016.
+Hosseinpour, M., Bower, D.J., Cannon, J. (2016).
 Ocean basin evolution and global-scale plate reorganization events since
 Pangea breakup. Annual Review of Earth and Planetary Sciences 44(1),
 107-138. \doi{10.1146/annurev-earth-060115-012211}.
@@ -185,7 +202,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Kilian Eichenseer & Lucas Buffan
+Kilian Eichenseer, Lucas Buffan & Will Gearty
 }
 
 \examples{
@@ -201,6 +218,14 @@ ex1 <- palaeorotate(occdf = occdf, method = "grid")
 #Calculate palaeocoordinates using the GPlates API
 ex2 <- palaeorotate(occdf = occdf, method = "point")
 
+#Calculate uncertainity in palaeocoordinates from models
+ex3 <- palaeorotate(occdf = occdf,
+                    method = "grid",
+                    model = c("MERDITH2021",
+                              "GOLONKA",
+                              "PALEOMAP"),
+                    uncertainty = TRUE)
+
 #Now with some real fossil occurrence data!
 
 #Grab some data from the Paleobiology Database
@@ -213,6 +238,10 @@ tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 ex3 <- palaeorotate(occdf = tetrapods)
 
 #Calculate uncertainity in palaeocoordinates from models
-ex4 <- palaeorotate(occdf = tetrapods, uncertainty = TRUE)
+ex4 <- palaeorotate(occdf = tetrapods,
+                    model = c("MERDITH2021",
+                              "GOLONKA",
+                              "PALEOMAP"),
+                    uncertainty = TRUE)
 }
 }

@@ -9,7 +9,7 @@
 #' where the row representing a taxon must be replicated for each latitudinal
 #' bin through which the taxon ranges.
 #'
-#' @param taxdf \code{dataframe}. A \code{data.frame} of taxa (such as the
+#' @param taxdf \code{dataframe}. A dataframe of taxa (such as the
 #' output of the 'lat' method in \code{\link{tax_range_space}}) with columns
 #' containing latitudinal range data (maximum and minimum latitude). Column
 #' names are assumed to be "max_lat" and "min_lat", but may be updated via the

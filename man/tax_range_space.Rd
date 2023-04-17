@@ -10,13 +10,14 @@ tax_range_space(
   lng = "lng",
   lat = "lat",
   method = "lat",
-  spacing = 100
+  spacing = 100,
+  coords = FALSE
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences.
-This dataframe should contain at least three columns: names of taxa,
-longitude and latitude (see \code{name}, \code{lng}, and \code{lat} arguments).}
+\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences. This
+dataframe should contain at least three columns: names of taxa, longitude
+and latitude (see \code{name}, \code{lng}, and \code{lat} arguments).}
 
 \item{name}{\code{character}. The name of the column you wish to be treated
 as the input names (e.g. "species" or "genus"). NA data should be removed
@@ -31,12 +32,15 @@ as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
 prior to function call.}
 
 \item{method}{\code{character}. How should geographic range be calculated
-for each taxon in \code{occdf}? Four options exist in this function:
-"con", "lat", "gcd", and "occ". See Details for a description of each.}
+for each taxon in \code{occdf}? Four options exist in this function: "con",
+"lat", "gcd", and "occ". See Details for a description of each.}
 
 \item{spacing}{\code{numeric}. The desired spacing (in km) between the
-center of adjacent grid cells. Only required if the \code{method} argument is set
-to "occ". The default is 100.}
+center of adjacent grid cells. Only required if the \code{method} argument is
+set to "occ". The default is 100.}
+
+\item{coords}{\code{logical}. Should the output coordinates be returned for
+the "con" and "gcd" \code{method}?}
 }
 \value{
 A \code{dataframe} with method-specific columns:
@@ -51,7 +55,7 @@ minimum latitude of occurrence (\code{min_lat}), and latitudinal
 range (\code{range_lat}) is returned.
 \item For the "gcd" method, a \code{dataframe} with each unique taxa (\code{taxon})
 and taxon ID (\code{taxon_id}) by coordinate combination (\code{lng} & \code{lat}) of the
-two most distant points, and the 'Great Circle Distance' (\code{gcd}) between
+two most distant points, and the Great Circle Distance (\code{gcd}) between
 these points in km is returned.
 \item For the "occ" method, a \code{dataframe} with unique taxa (\code{taxon}), taxon
 ID (\code{taxon_id}), the number of occupied cells (\code{n_cells}), proportion of
@@ -65,8 +69,8 @@ respective taxon is a singleton (i.e. represented by only one occurrence).
 }
 \description{
 A function to calculate the geographic range of fossil taxa from occurrence
-data. The function can calculate geographic range in four ways: convex hull,
-latitudinal range, maximum great circle distance, and the number of
+data. The function can calculate geographic range in four ways: convex
+hull, latitudinal range, maximum Great Circle Distance, and the number of
 occupied equal-area hexagonal grid cells.
 }
 \details{
@@ -95,10 +99,10 @@ which represents the distance between two points on a plane.
 \item Occupied cells: the "occ" method calculates the number and proportion of
 occupied equal-area grid cells. It does so using discrete hexagonal grids
 via the \code{\link[h3jsr]{h3jsr}} package. This package relies on
-\href{https://h3geo.org/docs}{Uber's H3} library, a geospatial indexing system
+\href{https://h3geo.org/docs/}{Uber's H3} library, a geospatial indexing system
 that partitions the world into hexagonal cells. In H3, 16 different
 resolutions are available
-(\href{https://h3geo.org/docs/core-library/restable}{see here}).
+(\href{https://h3geo.org/docs/core-library/restable/}{see here}).
 In the implementation of the \code{tax_range_space()} function, the resolution is
 defined by the user-input \code{spacing} which represents the distance between
 the centroid of adjacent cells. Using this distance, the function identifies
@@ -125,7 +129,7 @@ Bethany Allen & Christopher D. Dean
 
 \examples{
 # Grab internal data
-occdf <- tetrapods
+occdf <- tetrapods[1:100, ]
 # Remove NAs
 occdf <- subset(occdf, !is.na(genus))
 # Convex hull
@@ -135,5 +139,9 @@ ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
 # Great Circle Distance
 ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
 # Occupied grid cells
-ex4 <- tax_range_space(occdf = occdf, name = "genus", method = "occ")
+ex4 <- tax_range_space(occdf = occdf, name = "genus",
+                       method = "occ", spacing = 500)
+# Convex hull with coordinates
+ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
+coords = TRUE)
 }

@@ -9,49 +9,55 @@ tax_unique(
   binomial = NULL,
   species = NULL,
   genus = NULL,
-  family = NULL,
-  order = NULL,
-  class = NULL,
+  ...,
   name = NULL,
-  resolution = "species"
+  resolution = "species",
+  append = FALSE
 )
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe containing information on the
 occurrences or taxa to filter.}
 
-\item{binomial}{\code{character}. The name of the column in the dataframe
+\item{binomial}{\code{character}. The name of the column in \code{occdf}
 containing the genus and species names of the occurrences, either in the
 form "genus species" or "genus_species".}
 
-\item{species}{\code{character}. The name of the column in the dataframe
+\item{species}{\code{character}. The name of the column in \code{occdf}
 containing the species-level identifications (i.e. the specific epithet).}
 
-\item{genus}{\code{character}. The name of the column in the dataframe
+\item{genus}{\code{character}. The name of the column in \code{occdf}
 containing the genus-level identifications.}
 
-\item{family}{\code{character}. The name of the column in the dataframe
-containing the family-level identifications.}
+\item{...}{\code{character}. Other named arguments specifying columns of
+higher levels of taxonomy (e.g. subfamily, order, superclass). The names of
+the arguments will be the column names of the output, and the values of the
+arguments correspond to the columns of \code{occdf}. The given order of the
+arguments is the order in which they are filtered. Therefore, these arguments
+must be in ascending order from lowest to highest taxonomic rank (see
+examples below). At least one higher level of taxonomy must be specified.}
 
-\item{order}{\code{character}. The name of the column in the dataframe
-containing the order-level identifications.}
-
-\item{class}{\code{character}. The name of the column in the dataframe
-containing the class-level identifications.}
-
-\item{name}{\code{character}. The name of the column in the dataframe
+\item{name}{\code{character}. The name of the column in \code{occdf}
 containing the taxonomic names at mixed taxonomic levels; the data column
-"accepted_names" in a \href{https://paleobiodb.org/#/}{Paleobiology Database}
+"accepted_name" in a \href{https://paleobiodb.org/#/}{Paleobiology Database}
 occurrence dataframe is of this type.}
 
 \item{resolution}{\code{character}. The taxonomic resolution at which to
 identify unique occurrences, either "species" (the default) or "genus".}
+
+\item{append}{\code{logical}. Should the original dataframe be returned with
+the unique names appended as a new column?}
 }
 \value{
 A \code{dataframe} of taxa, with each row corresponding to a unique
 "species" or "genus" in the dataset (depending on the chosen resolution).
 The dataframe will include the taxonomic information provided into the
-function, as well as a column providing the 'unique' names of each taxon.
+function, as well as a column providing the 'unique' names of each taxon. If
+\code{append} is \code{TRUE}, the original dataframe (\code{occdf}) will be
+returned with these 'unique' names appended as a new column. Occurrences that
+are identified to a coarse taxonomic resolution and belong to a clade which
+is already represented within the dataset will have their 'unique' names
+listed as \code{NA}.
 }
 \description{
 A function to filter a list of taxonomic occurrences to unique taxa of a
@@ -62,12 +68,11 @@ further information). This has previously been described as "cryptic
 diversity" (e.g. Mannion et al. 2011).
 }
 \details{
-In many cases palaeobiologists count unique taxa by retaining only
+Palaeobiologists usually count unique taxa by retaining only
 unique occurrences identified to a given taxonomic resolution, however
-this function retain occurrences identified to a coarser taxonomic resolution
-which are not already represented within the dataset.
-
-If we take the following set of occurrences:
+this function retains occurrences identified to a coarser taxonomic
+resolution which are not already represented within the dataset. For example,
+consider the following set of occurrences:
 \itemize{
 \item \emph{Albertosaurus sarcophagus}
 \item \emph{Ankylosaurus} sp.
@@ -78,7 +83,7 @@ If we take the following set of occurrences:
 \item \emph{Tyrannosaurus rex}
 }
 
-a filter for species-level identifications would reduce the species richness
+A filter for species-level identifications would reduce the species richness
 to two. However, none of these clades are nested within one another, so each
 of the indeterminately identified occurrences represents at least one species
 not already represented in the dataset. This function is designed to deal
@@ -90,21 +95,21 @@ provide identifications at different taxonomic levels. Occurrence
 data can be filtered to retain either unique species, or unique genera. If a
 species-level filter is desired, the minimum input requires either (1)
 \code{binomial}, (2) \code{species} and \code{genus}, or (3) \code{name} and \code{genus} columns to
-be entered, as well as a \code{family} column. In a standard
-\href{https://paleobiodb.org/#/}{Paleobiology Database}
+be entered, as well as at least one column of a higher taxonomic level.
+In a standard \href{https://paleobiodb.org/#/}{Paleobiology Database}
 occurrence dataframe, species names are only
 captured in the 'accepted_name' column, so a species-level filter should use
 '\code{genus} = "genus"' and '\code{name} = "accepted_name"' arguments. If a
 genus-level filter is desired, the minimum input requires either (1)
-\code{binomial} or (2) \code{genus} columns to be entered, as well as a \code{family}
-column.
+\code{binomial} or (2) \code{genus} columns to be entered, as well as at least one
+column of a higher taxonomic level.
 
 Missing data should be indicated with NAs, although the function can handle
 common labels such as "NO_FAMILY_SPECIFIED" within Paleobiology Database
 datasets.
 
-The function matches taxonomic names at increasingly higher taxonomic levels,
-so homonyms may be falsely filtered out.
+The function matches taxonomic names at face value, so homonyms may be
+falsely filtered out.
 }
 \section{References}{
 
@@ -118,7 +123,7 @@ Biological Reviews, 86, 157-181. \doi{10.1111/j.1469-185X.2010.00139.x}.
 
 \section{Developer(s)}{
 
-Bethany Allen
+Bethany Allen & William Gearty
 }
 
 \section{Reviewer(s)}{
@@ -128,22 +133,27 @@ Lewis A. Jones & William Gearty
 
 \examples{
 #Retain unique species
-species <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+occdf <- tetrapods[1:100, ]
+species <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 order = "order", class = "class", name = "accepted_name")
 
 #Retain unique genera
-genera <- tax_unique(occdf = tetrapods, genus = "genus", family = "family",
+genera <- tax_unique(occdf = occdf, genus = "genus", family = "family",
 order = "order", class = "class", resolution = "genus")
 
+#Append unique names to the original occurrences
+genera_append <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+order = "order", class = "class", resolution = "genus", append = TRUE)
+
 #Create dataframe from lists
-occdf <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
+occdf2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
 c("Tyrannosaurus", "Spinosaurus", NA), family = c("Tyrannosauridae",
 "Spinosauridae", "Diplodocidae"))
-dinosaur_species <- tax_unique(occdf = occdf, species = "species", genus =
+dinosaur_species <- tax_unique(occdf = occdf2, species = "species", genus =
 "genus", family = "family")
 
 #Retain unique genera per collection with group_apply
-genera <- group_apply(occdf = tetrapods,
+genera <- group_apply(occdf = occdf,
                      group = c("collection_no"),
                      fun = tax_unique,
                      genus = "genus",

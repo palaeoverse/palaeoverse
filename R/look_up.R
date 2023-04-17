@@ -306,13 +306,21 @@ look_up <- function(occdf, early_interval = "early_interval",
     assigned_max_ma_gts <- vapply(assign_gts1, function(x) {
       gts$max_ma[x == gts$interval_name]
     }, FUN.VALUE = numeric(1))
-    # stage
+
+    # remove pre-Cambrian intervals as there are no stages defined
+    pre_camb <- which(assigned_max_ma_gts >
+                        gts$max_ma[which(gts$interval_name == "Fortunian")])
+    if (length(pre_camb) >= 1) {
+      assigned_max_ma_gts <- assigned_max_ma_gts[-pre_camb]
+      assign_gts1 <- assign_gts1[-pre_camb]
+    }
+
+    # assign early stages to occurrences
     for (i in seq_len(length(assign_gts1))) {
       occdf$early_stage[early == assign_gts1[i] &
                           is.na(occdf$early_stage)] <-
         gts$interval_name[gts$max_ma == assigned_max_ma_gts[i] &
                             gts$rank == "stage"]
-
     }
 
     # late stages
@@ -326,13 +334,22 @@ look_up <- function(occdf, early_interval = "early_interval",
     assigned_min_ma_gts <- vapply(assign_gts2, function(x) {
       gts$min_ma[x == gts$interval_name]
     }, FUN.VALUE = numeric(1))
+
+    # remove pre-Cambrian intervals as there are no stages defined
+    pre_camb <- which(assigned_min_ma_gts >=
+                        gts$max_ma[which(gts$interval_name == "Fortunian")])
+    if (length(pre_camb) >= 1) {
+      assigned_min_ma_gts <- assigned_min_ma_gts[-pre_camb]
+      assign_gts2 <- assign_gts2[-pre_camb]
+    }
+
+    # assign late stages to occurrences
     for (i in seq_len(length(assign_gts2))) {
       # stage
       occdf$late_stage[late == assign_gts2[i] &
                          is.na(occdf$late_stage)] <-
         gts$interval_name[gts$min_ma == assigned_min_ma_gts[i] &
                             gts$rank == "stage"]
-
     }
 
     # add max_ma and min_ma based on GTS

@@ -58,15 +58,13 @@
 #' @examples
 #' # Examples
 #' # Get tetrapods data
-#' occdf <- tetrapods
+#' occdf <- tetrapods[1:100, ]
 #' # Remove NA data
 #' occdf <- subset(occdf, !is.na(genus))
 #' # Count number of occurrences from each country
 #' ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
-#' # Temporal range of taxa per country with default arguments
-#' ex2 <- group_apply(occdf = occdf, group = "cc", fun = tax_range_time)
 #' # Unique genera per collection with group_apply and input arguments
-#' ex3 <- group_apply(occdf = tetrapods,
+#' ex2 <- group_apply(occdf = occdf,
 #'                      group = c("collection_no"),
 #'                      fun = tax_unique,
 #'                      genus = "genus",
@@ -75,16 +73,16 @@
 #'                      class = "class",
 #'                      resolution = "genus")
 #' # Use multiple variables (number of occurrences per collection and formation)
-#' ex4 <- group_apply(occdf = occdf,
+#' ex3 <- group_apply(occdf = occdf,
 #'                    group = c("collection_no", "formation"),
 #'                    fun = nrow)
 #' # Compute counts of occurrences per latitudinal bin
 #' # Set up lat bins
 #' bins <- lat_bins()
 #' # bin occurrences
-#' occdf <- bin_lat(occdf = tetrapods, bins = bins)
+#' occdf <- bin_lat(occdf = occdf, bins = bins)
 #' # Calculate number of occurrences per bin
-#' ex5 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
+#' ex4 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
 #' @export
 group_apply <- function(occdf, group, fun, ...) {
 
@@ -102,13 +100,15 @@ group_apply <- function(occdf, group, fun, ...) {
   }
 
   supp_args <- list(...)
-  indx <- which(!(names(supp_args) %in% names(formals(fun))))
-  if (length(indx) > 1) {
-    stop(paste(paste0("`", names(supp_args)[indx], "`", collapse = "/"),
-               "are not valid arguments for the specified function"))
-  } else if (length(indx) == 1) {
-    stop(paste0("`", names(supp_args)[indx], "`",
-                " is not a valid argument for the specified function"))
+  if (!("..." %in% names(formals(fun)))) {
+    indx <- which(!(names(supp_args) %in% names(formals(fun))))
+    if (length(indx) > 1) {
+      stop(paste(paste0("`", names(supp_args)[indx], "`", collapse = "/"),
+                 "are not valid arguments for the specified function"))
+    } else if (length(indx) == 1) {
+      stop(paste0("`", names(supp_args)[indx], "`",
+                  " is not a valid argument for the specified function"))
+    }
   }
   # Generate bin codes
   bin_codes <- as.formula(paste0("~ ", paste(group, collapse = " + ")))

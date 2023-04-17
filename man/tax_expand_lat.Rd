@@ -7,7 +7,7 @@
 tax_expand_lat(taxdf, bins, max_lat = "max_lat", min_lat = "min_lat")
 }
 \arguments{
-\item{taxdf}{\code{dataframe}. A \code{data.frame} of taxa (such as the
+\item{taxdf}{\code{dataframe}. A dataframe of taxa (such as the
 output of the 'lat' method in \code{\link{tax_range_space}}) with columns
 containing latitudinal range data (maximum and minimum latitude). Column
 names are assumed to be "max_lat" and "min_lat", but may be updated via the

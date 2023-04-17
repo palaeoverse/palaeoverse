@@ -54,10 +54,10 @@ bins/samples using a hexagonal equal-area grid.
 This function assigns fossil occurrence data into
 equal-area grid cells using discrete hexagonal grids via the
 \code{\link[h3jsr]{h3jsr}} package. This package relies on
-\href{https://h3geo.org/docs}{Uber's H3} library, a geospatial indexing system
+\href{https://h3geo.org/docs/}{Uber's H3} library, a geospatial indexing system
 that partitions the world into hexagonal cells. In H3, 16 different
 resolutions are available
-(\href{https://h3geo.org/docs/core-library/restable}{see here}). In the
+(\href{https://h3geo.org/docs/core-library/restable/}{see here}). In the
 implementation of the \code{bin_space()} function, the resolution is defined by
 the user-input \code{spacing} which represents the distance between the centroid
 of adjacent cells. Using this distance, the function identifies which
@@ -92,20 +92,20 @@ Bethany Allen & Kilian Eichenseer
 data("reefs")
 
 # Reduce data for plotting
-occdf <- reefs[1:500, ]
+occdf <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
-ex1 <- bin_space(occdf = occdf, spacing = 250, plot = TRUE)
+ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
 
 # Bin data using a hexagonal equal-area grid and sub-grid
-ex2 <- bin_space(occdf = occdf, spacing = 250, sub_grid = 50, plot = TRUE)
+ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
 
 # EXAMPLE: rarefy
 # Load data
-data("tetrapods")
+occdf <- tetrapods[1:250, ]
 
 # Assign to spatial bin
-occdf <- bin_space(occdf = tetrapods, spacing = 1000, sub_grid = 250)
+occdf <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
 
 # Get unique bins
 bins <- unique(occdf$cell_ID)

@@ -1,5 +1,14 @@
-test_that("time_bins() works", {
+test_that("time_bins() works with macrostrat", {
+  # Skip if offline
+  skip_if_offline(host = "macrostrat.org")
 
+  # Test macrostrat
+  expect_equal(nrow(time_bins(scale = "North american land mammal ages")), 19)
+  expect_equal(nrow(time_bins(size = 10,
+                              scale = "North american land mammal ages")), 7)
+})
+
+test_that("time_bins() works", {
   #correct format
   expect_true(is.data.frame(time_bins(interval = 10)))
   expect_true(is.list(time_bins(interval = c("Fortunian", "Meghalayan"),
@@ -37,18 +46,26 @@ test_that("time_bins() works", {
   expect_equal(colnames(time_bins()), c("bin", "interval_name",
                                         "rank",
                                        "max_ma", "mid_ma", "min_ma",
-                                       "duration_myr", "font", "colour"))
+                                       "duration_myr", "abbr", "colour",
+                                       "font"))
   expect_equal(colnames(time_bins(size = 10)), c("bin",
                                         "max_ma", "mid_ma", "min_ma",
                                         "duration_myr", "grouping_rank",
                                         "intervals"))
   expect_equal(nrow(time_bins(size = 50)), 11)
 
+  # Test edge effect resolve
+  expect_equal(nrow(time_bins(interval = c("Phanerozoic"),
+                              size = 25, rank = "stage")), 22)
 
+  # Test user-input bins
+  scale <- data.frame(interval_name = 1:5,
+                      min_ma = c(0, 18, 32, 38, 45),
+                      max_ma = c(18, 32, 38, 45, 53))
+  expect_equal(nrow(time_bins(scale = scale, size = 15)), 4)
 
   #error handling
   expect_error(time_bins(interval = c("Mastrichtian", "Danian")))
-  expect_error(time_bins(interval = c(600, 200)))
   expect_error(time_bins(interval = "Mastrichtian", scale = "GTS2012",
                          plot = TRUE))
   expect_error(time_bins(interval = "Mastrichtian", scale = "2012",
@@ -64,4 +81,11 @@ test_that("time_bins() works", {
   expect_error(time_bins(interval = "Mesozoic", size = "ten"))
   expect_error(time_bins(interval = "Mesozoic", rank = "stages"))
   expect_error(time_bins(interval = "Mesozoic", rank = c("stage", "period")))
+  expect_error(time_bins(interval = "Mesozoic", scale = 1))
+  expect_error(time_bins(interval = NULL, scale = "GTS2020"))
+  expect_error(time_bins(interval = c(10000, 100), scale = "GTS2020"))
+  scale <- data.frame(name = 1:5,
+                      min_ma = c(0, 18, 32, 38, 45),
+                      max_ma = c(18, 32, 38, 45, 53))
+  expect_error(time_bins(scale = scale, size = 15))
 })

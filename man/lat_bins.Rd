@@ -4,19 +4,24 @@
 \alias{lat_bins}
 \title{Generate latitudinal bins}
 \usage{
-lat_bins(size = 10, fit = FALSE, plot = FALSE)
+lat_bins(size = 10, max = 90, min = -90, fit = FALSE, plot = FALSE)
 }
 \arguments{
 \item{size}{\code{numeric}. A single numeric value defining the width of the
 latitudinal bins. This value must be more than 0, and less than or equal to
-90.}
+90 (defaults to 10).}
+
+\item{max}{\code{numeric}. A single numeric value defining the upper limit
+of the latitudinal range (defaults to 90).}
+
+\item{min}{\code{numeric}. A single numeric value defining the lower limit
+of the latitudinal range (defaults to -90).}
 
 \item{fit}{\code{logical}. Should bin size be checked to ensure that the
-entire latitudinal
-range is covered (90°S to 90°N)? If \code{fit = TRUE}, bin size is
-set to the nearest integer which is divisible into 180 (the entire
-latitudinal range). If \code{fit = FALSE}, and bin size is not divisible
-into 180, part of the Northern Hemisphere latitudinal range will be missing.}
+entire latitudinal range is covered? If \code{fit = TRUE}, bin size is
+set to the nearest integer which is divisible by the user-input range.
+If \code{fit = FALSE}, and bin size is not divisible into the range, the
+upper part of the latitudinal range will be missing.}
 
 \item{plot}{\code{logical}. Should a plot of the latitudinal bins be
 generated?}
@@ -25,10 +30,10 @@ generated?}
 A \code{dataframe} of latitudinal bins of user-defined size.
 }
 \description{
-A function to generate latitudinal bins of a given size. If the desired size
-of the bins is not compatible with the entire latitudinal range
-(90°S to 90°N ), bin size can be updated to the nearest integer
-which is divisible into 180 to fit the entire range.
+A function to generate latitudinal bins of a given size for a user-defined
+latitudinal range. If the desired size of the bins is not compatible with
+the defined latitudinal range, bin size can be updated to the nearest integer
+which is divisible into this range.
 }
 \section{Developer(s)}{
 
@@ -41,10 +46,12 @@ Bethany Allen
 }
 
 \examples{
-#Generate 20 degrees latitudinal bins
+# Generate 20 degrees latitudinal bins
 bins <- lat_bins(size = 20)
 
-#Generate latitudinal bins with closest fit to 13 degrees
+# Generate latitudinal bins with closest fit to 13 degrees
 bins <- lat_bins(size = 13, fit = TRUE)
 
+# Generate latitudinal bins for defined latitudinal range
+bins <- lat_bins(size = 10, max = 50, min = -50)
 }
