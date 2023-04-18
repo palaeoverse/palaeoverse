@@ -1,4 +1,4 @@
-# palaeoverse (development version)
+# palaeoverse 1.2.0
 
 * time_bins updated to enable users to call geological time scales from Macrostrat
 * Fixed minor documentation error in tax_range_time
