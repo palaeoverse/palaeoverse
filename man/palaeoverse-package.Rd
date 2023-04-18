@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Provides functionality to support data preparation and exploration for palaeobiological analyses, improving code reproducibility and accessibility. The wider aim of 'palaeoverse' is to bring the palaeobiological community together to establish agreed standards. The package currently includes functionality for data cleaning, binning (time and space), exploration, summarisation and visualisation. Reference datasets (i.e. Geological Time Scales \url{https://stratigraphy.org/chart}) and auxiliary functions are also provided. Details can be found in: Jones et al., (2022) \doi{10.31223/X5Z94Q}.
+Provides functionality to support data preparation and exploration for palaeobiological analyses, improving code reproducibility and accessibility. The wider aim of 'palaeoverse' is to bring the palaeobiological community together to establish agreed standards. The package currently includes functionality for data cleaning, binning (time and space), exploration, summarisation and visualisation. Reference datasets (i.e. Geological Time Scales \url{https://stratigraphy.org/chart}) and auxiliary functions are also provided. Details can be found in: Jones et al., (2023) \doi{ 10.1111/2041-210X.14099}.
 }
 \seealso{
 Useful links:
