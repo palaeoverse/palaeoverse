@@ -75,7 +75,7 @@ Note: prior to implementation, coordinate reference system (CRS) for input
 data is defined as EPSG:4326 (World Geodetic System
 1984). The user should transform their data accordingly if this is
 not appropriate. If you are unfamiliar with working with geographic data,
-we highly recommend checking out \href{https://geocompr.robinlovelace.net/index.html}{Geocomputation with R}.
+we highly recommend checking out \href{https://r.geocompx.org/index.html}{Geocomputation with R}.
 }
 \section{Developer(s)}{
 

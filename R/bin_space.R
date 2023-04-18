@@ -52,7 +52,7 @@
 #' 1984). The user should transform their data accordingly if this is
 #' not appropriate. If you are unfamiliar with working with geographic data,
 #' we highly recommend checking out [Geocomputation with R](
-#' https://geocompr.robinlovelace.net/index.html).
+#' https://r.geocompx.org/index.html).
 #'
 #' @section Developer(s):
 #' Lewis A. Jones
