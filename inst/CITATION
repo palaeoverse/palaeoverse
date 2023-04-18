@@ -1,7 +1,7 @@
 citHeader("To cite palaeoverse in publications, use the following citation:")
 
-bibentry(bibtype  = "Article",
-         title  = "palaeoverse: A community-driven R package to support palaeobiological analysis",
+bibentry(bibtype = "Article",
+         title = "palaeoverse: A community-driven R package to support palaeobiological analysis",
          author = c(as.person("Lewis A. Jones"),
                     as.person("William Gearty"),
                     as.person("Bethany J. Allen"),
@@ -16,13 +16,12 @@ bibentry(bibtype  = "Article",
                     as.person("Joseph T. Flannery-Sutherland"),
                     as.person("Alfio Alessandro Chiarenza")),
          year = "2023",
-         journal  = "Methods in Ecology and Evolution",
-         pages  = "1--11",
-         doi  = "10.1111/2041-210X.14099",
-         textVersion  =
-         paste("Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C.S.C., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2022.",
+         journal = "Methods in Ecology and Evolution",
+         pages = "1--11",
+         doi = "10.1111/2041-210X.14099",
+         textVersion = paste("Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C.S.C., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2022.",
          "palaeoverse: A community-driven R package to support palaeobiological analysis.",
          "Methods in Ecology and Evolution.",
          "00, 1--11.",
-         "doi:10.1111/2041-210X.14099")
+         "doi: 10.1111/2041-210X.14099")
 )
