@@ -9,7 +9,7 @@ vignette: >
 
 **Authors:** [The Palaeoverse Development Team](https://palaeoverse.org/about.html#our-team)
 
-**Last updated:** 2023-04-17
+**Last updated:** 2023-04-18
 
 
 
