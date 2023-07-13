@@ -261,12 +261,15 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <line x1='27.50' y1='137.79' x2='27.50' y2='77.72' style='stroke-width: 0.75;' />
 <line x1='27.50' y1='137.79' x2='20.30' y2='137.79' style='stroke-width: 0.75;' />
+<line x1='27.50' y1='130.28' x2='20.30' y2='130.28' style='stroke-width: 0.75;' />
 <line x1='27.50' y1='122.77' x2='20.30' y2='122.77' style='stroke-width: 0.75;' />
+<line x1='27.50' y1='115.26' x2='20.30' y2='115.26' style='stroke-width: 0.75;' />
 <line x1='27.50' y1='107.75' x2='20.30' y2='107.75' style='stroke-width: 0.75;' />
+<line x1='27.50' y1='100.25' x2='20.30' y2='100.25' style='stroke-width: 0.75;' />
 <line x1='27.50' y1='92.74' x2='20.30' y2='92.74' style='stroke-width: 0.75;' />
+<line x1='27.50' y1='85.23' x2='20.30' y2='85.23' style='stroke-width: 0.75;' />
 <line x1='27.50' y1='77.72' x2='20.30' y2='77.72' style='stroke-width: 0.75;' />
-<text transform='translate(10.22,137.79) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>80</text>
-<text transform='translate(10.22,107.75) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='20.02px' lengthAdjust='spacingAndGlyphs'>120</text>
-<text transform='translate(10.22,77.72) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='20.02px' lengthAdjust='spacingAndGlyphs'>160</text>
+<text transform='translate(10.22,137.79) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='17.34px' lengthAdjust='spacingAndGlyphs'>-80</text>
+<text transform='translate(10.22,100.25) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='24.02px' lengthAdjust='spacingAndGlyphs'>-130</text>
 </g>
 </svg>

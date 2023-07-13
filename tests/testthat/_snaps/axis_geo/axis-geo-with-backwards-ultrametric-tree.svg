@@ -307,22 +307,20 @@
 <line x1='265.36' y1='524.74' x2='666.40' y2='524.74' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<line x1='265.36' y1='524.74' x2='666.40' y2='524.74' style='stroke-width: 0.75;' />
+<line x1='265.36' y1='524.74' x2='643.48' y2='524.74' style='stroke-width: 0.75;' />
 <line x1='265.36' y1='524.74' x2='265.36' y2='531.94' style='stroke-width: 0.75;' />
-<line x1='322.65' y1='524.74' x2='322.65' y2='531.94' style='stroke-width: 0.75;' />
-<line x1='379.94' y1='524.74' x2='379.94' y2='531.94' style='stroke-width: 0.75;' />
-<line x1='437.23' y1='524.74' x2='437.23' y2='531.94' style='stroke-width: 0.75;' />
-<line x1='494.52' y1='524.74' x2='494.52' y2='531.94' style='stroke-width: 0.75;' />
-<line x1='551.82' y1='524.74' x2='551.82' y2='531.94' style='stroke-width: 0.75;' />
-<line x1='609.11' y1='524.74' x2='609.11' y2='531.94' style='stroke-width: 0.75;' />
-<line x1='666.40' y1='524.74' x2='666.40' y2='531.94' style='stroke-width: 0.75;' />
+<line x1='265.42' y1='524.74' x2='265.42' y2='531.94' style='stroke-width: 0.75;' />
+<line x1='280.14' y1='524.74' x2='280.14' y2='531.94' style='stroke-width: 0.75;' />
+<line x1='295.91' y1='524.74' x2='295.91' y2='531.94' style='stroke-width: 0.75;' />
+<line x1='397.30' y1='524.74' x2='397.30' y2='531.94' style='stroke-width: 0.75;' />
+<line x1='459.58' y1='524.74' x2='459.58' y2='531.94' style='stroke-width: 0.75;' />
+<line x1='586.19' y1='524.74' x2='586.19' y2='531.94' style='stroke-width: 0.75;' />
+<line x1='643.48' y1='524.74' x2='643.48' y2='531.94' style='stroke-width: 0.75;' />
 <text x='265.36' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>0</text>
-<text x='322.65' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>10</text>
-<text x='379.94' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>20</text>
-<text x='437.23' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>30</text>
-<text x='494.52' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>40</text>
-<text x='551.82' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>50</text>
-<text x='609.11' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>60</text>
-<text x='666.40' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>70</text>
+<text x='295.91' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.03px' lengthAdjust='spacingAndGlyphs'>5.333</text>
+<text x='397.30' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.03px' lengthAdjust='spacingAndGlyphs'>23.03</text>
+<text x='459.58' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='23.36px' lengthAdjust='spacingAndGlyphs'>33.9</text>
+<text x='586.19' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>56</text>
+<text x='643.48' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>66</text>
 </g>
 </svg>
