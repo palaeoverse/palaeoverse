@@ -221,7 +221,8 @@ to <code>TRUE</code> for you.</p></dd>
 
 <dt>exact</dt>
 <dd><p><code>logical</code>. Set this to <code>TRUE</code> if you want axis tick
-marks and numeric tick labels placed at the interval boundaries.</p></dd>
+marks and numeric tick labels placed at the interval boundaries. If
+<code>TRUE</code>, this overrides <code>tick_at</code> and <code>tick_labels</code>.</p></dd>
 
 
 <dt>round</dt>
@@ -235,16 +236,18 @@ labels with trailing zeros.</p></dd>
 <dt>tick_at</dt>
 <dd><p>A <code>numeric</code> vector specifying custom points at which tick
 marks are to be drawn on the axis. If specified, this is passed directly to
-<code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></code>. The default is to compute tick mark locations
-automatically (see <code><a href="https://rdrr.io/r/graphics/axTicks.html" class="external-link">axTicks</a></code>).</p></dd>
+<code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></code>. If <code>phylo</code> is <code>TRUE</code>, these values
+are converted as necessary for the phylogenetic axis limits. If this is set
+to <code>NULL</code> (the default) tick mark locations are computed automatically
+(see <code><a href="https://rdrr.io/r/graphics/axTicks.html" class="external-link">axTicks</a></code>).</p></dd>
 
 
 <dt>tick_labels</dt>
 <dd><p>Either a) a <code>logical</code> value specifying whether
 (numerical) annotations should be made at the tick marks specified by
-<code>at</code>, or b) a custom <code>character</code> or <code>expression</code> vector of
-labels to be placed at the tick marks. If <code>at</code> is specified, this
-argument is passed directly to <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></code>.</p></dd>
+<code>tick_at</code>, or b) a custom <code>character</code> or <code>expression</code> vector
+of labels to be placed at the tick marks. If <code>tick_at</code> is specified,
+this argument is passed directly to <code><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></code>.</p></dd>
 
 
 <dt>phylo</dt>
