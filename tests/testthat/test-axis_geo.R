@@ -75,18 +75,19 @@ test_that("axis_geo() works with phylogenies", {
   })
   expect_doppelganger("axis_geo() with backwards ultrametric tree", function() {
     plot(mammal.tree, direction = "l")
-    axis_geo_phylo(intervals = "epoch")
+    axis_geo_phylo(intervals = "epoch", exact = TRUE)
   })
   skip_if_not_installed("paleotree")
   library(paleotree)
   data(RaiaCopesRule)
   expect_doppelganger("axis_geo() with fossil tree", function() {
     plot(ceratopsianTreeRaia)
-    axis_geo_phylo(intervals = "epoch")
+    axis_geo_phylo(intervals = "epoch", tick_at = seq(80, 200, 10))
   })
   expect_doppelganger("axis_geo() with downwards fossil tree", function() {
     plot(ceratopsianTreeRaia, direction = "d")
-    axis_geo(side = 2, intervals = "epoch", phylo = TRUE)
+    axis_geo(side = 2, intervals = "epoch", phylo = TRUE,
+             tick_at = seq(80, 200, 10), tick_labels = seq(-80, -200, -10))
   })
 })
 
