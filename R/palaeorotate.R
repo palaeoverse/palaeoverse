@@ -419,7 +419,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       },
       error = function(e) {
         stop(paste("GPlates Web Service is not available.",
-                   "Either the website is down or you are not connected to the internet."),
+                   "Either the website is down or you are not",
+                   "connected to the internet."),
              call. = FALSE)
       })
 
@@ -488,14 +489,12 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
           req <- query[[m]]
           req$time <- i
           req$model <- m
-          pts <- paste(x[, lng], x[, lat], sep = ",")
-          pts <- toString(pts)
-          pts <- gsub(" ", "", pts)
+          pts <- paste(x[, lng], x[, lat], sep = ",", collapse = ",")
           req$points <- pts
           return(req)
         })
         # Call API
-        rots <- lapply(request, function(x) {
+        api_req <- lapply(request, function(x) {
           RETRY(verb = "GET",
                 url = pbase,
                 query = x,
@@ -505,10 +504,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                 pause_cap = 10)
         })
         # Extract coordinates
-        rots <- lapply(rots, function(x) {
+        rots <- lapply(api_req, function(x) {
           coords <- content(x = x, as = "parsed")$coordinates
           # Replace NULL values
-          rpl <- unlist(lapply(coords, is.null))
+          rpl <- sapply(coords, is.null)
           if (sum(rpl) != 0) {
             rpl <- which(rpl == TRUE)
             for (r in rpl) coords[[r]] <- list(NA, NA)
