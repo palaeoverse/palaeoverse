@@ -419,87 +419,40 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       },
       error = function(e) {
         stop(paste("GPlates Web Service is not available.",
-      "Either the website is down or you are not connected to the internet."),
+                   "Either the website is down or you are not",
+                   "connected to the internet."),
              call. = FALSE)
       })
+
+    # Set-up for point method -------
+    # Define root
+    pbase <- "https://gws.gplates.org/reconstruct/reconstruct_points/"
+    # Setup query structure
+    query <- list(points = NULL, time = NULL,
+                  model = NULL, anchor_plate_id = 0,
+                  return_null_points = TRUE)
+    query <- list(MULLER2022 = query,
+                  MERDITH2021 = query,
+                  MULLER2019 = query,
+                  MULLER2016 = query,
+                  PALEOMAP = query,
+                  MATTHEWS2016_pmag_ref = query,
+                  MATTHEWS2016_mantle_ref = query,
+                  GOLONKA = query,
+                  SETON2012 = query)
+    # Define GPlates model names
+    query[["MULLER2022"]]$model <- "MULLER2022"
+    query[["MERDITH2021"]]$model <- "MERDITH2021"
+    query[["MULLER2019"]]$model <- "MULLER2019"
+    query[["MULLER2016"]]$model <- "MULLER2016"
+    query[["PALEOMAP"]]$model <- "PALEOMAP"
+    query[["MATTHEWS2016_pmag_ref"]]$model <- "MATTHEWS2016_pmag_ref"
+    query[["MATTHEWS2016_mantle_ref"]]$model <- "MATTHEWS2016_mantle_ref"
+    query[["GOLONKA"]]$model <- "GOLONKA"
+    query[["SETON2012"]]$model <- "SETON2012"
     # Define maximum chunk size for API calls
     chunks <- 300
-    # Run across models
-    for (m in model) {
-      # Inform user which model is running
-      message(m)
-      # Run across unique ages
-      rotations <- pblapply(X = uni_ages, function(i) {
-        # Subset to age of interest
-        tmp <- coords[which(coords[, age] == i), ]
-        # How many rows?
-        nr <- nrow(tmp)
-        # Generate chunk bins
-        chk <- seq(from = 0, to = nr + chunks, by = chunks)
-        # Update final bin to equal nrow
-        chk[length(chk)] <- nr
-        # If ultimate chunk is the same as penultimate, drop
-        if (chk[length(chk)] == chk[length(chk) - 1]) {
-          chk <- chk[-length(chk)]
-        }
-        # Create empty df
-        rot_df <- data.frame()
-        # Run across chunks
-        for (x in 2:length(chk)) {
-          # Lower index
-          ind_l <- chk[x - 1] + 1
-          # Upper index
-          ind_u <- chk[x]
-          # Generate API
-          tmp_chunk <- tmp[ind_l:ind_u, c(lng, lat, age)]
-          tmp_string <- toString(as.vector(t(tmp_chunk[, c(lng, lat)])))
-          api <- sprintf("?points=%s&time=%f&model=%s",
-                         gsub(" ", "", tmp_string), i, m)
-          api <- paste0("https://gws.gplates.org/reconstruct/",
-                        "reconstruct_points/",
-                        api, "&return_null_points")
-          # Call API
-          rots <- RETRY(verb = "GET",
-                        url = api,
-                        times = 5,
-                        pause_min = 1,
-                        pause_base = 1,
-                        pause_cap = 10)
-          # Extract coordinates
-          rots <- content(x = rots, as = "parsed")$coordinates
-          # Replace NULL values with NA
-          rpl <- which(rots == "NULL")
-          if (length(rpl) != 0) {
-            for (r in rpl) {
-              rots[[r]] <- list(NA, NA)
-            }
-          }
-          # Bind rows
-          rots <- do.call(rbind.data.frame, rots)
-          # col names
-          colnames(rots) <- c("p_lng", "p_lat")
-          # Replace modern returned coordinates with NA as some models do not
-          # return NULL when outside of time range (e.g. SETON2012)
-          rots[which(tmp_chunk[, lng] == rots[, c("p_lng")] &
-                       tmp_chunk[, lat] == rots[, c("p_lat")]),
-               c("p_lng", "p_lat")] <- NA
-          # Update col names if more than one model requested
-          if (length(model) > 1) {
-            colnames(rots) <- c(paste0("p_lng_", m), paste0("p_lat_", m))
-          }
-          # Bind output
-          rots <- cbind.data.frame(tmp_chunk, rots)
-          rot_df <- rbind.data.frame(rot_df, rots)
-        }
-        # Return df
-        rot_df
-      })
-      # Bind data
-      model_coords <- do.call(rbind, rotations)
-      coords <- cbind(coords, model_coords[, 4:5])
-    }
-
-    # Set-up matching
+    # Set-up matching for later merge
     coords$match <- paste0(coords[, lng],
                            coords[, lat],
                            coords[, age])
@@ -507,20 +460,88 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                           occdf[, lat],
                           occdf[, age])
 
-    # Match data
-    mch <- match(x = occdf$match, table = coords$match)
+    # Prepare points query
+    # Split dataframe by age
+    coord_list <- split(x = coords, f = coords[, age])
+    # Split by chunk size
+    list_size <- lapply(coord_list, nrow)
+    subsplit <- names(which(list_size > chunks))
+    for (i in subsplit) {
+      tmp <- coord_list[[i]]
+      coord_list[[i]] <- split(x = tmp,
+                               f = ceiling(seq_len(nrow(tmp)) / chunks))
+    }
 
-    occdf[, colnames(coords)] <- coords[mch, ]
+    # Run across models
+    multi_model <- lapply(model, function(m) {
+      # Inform user which model is running
+      message(m)
+      # Run across unique ages
+      rotations <- pblapply(X = uni_ages, function(i) {
+        # Subset to age of interest
+        if (is.data.frame(coord_list[[as.character(i)]])) {
+          tmp <- coord_list[as.character(i)]
+        } else {
+          tmp <- coord_list[[as.character(i)]]
+        }
+        # Build requests
+        request <- lapply(tmp, function(x) {
+          req <- query[[m]]
+          req$time <- i
+          req$model <- m
+          pts <- paste(x[, lng], x[, lat], sep = ",", collapse = ",")
+          req$points <- pts
+          return(req)
+        })
+        # Call API
+        api_req <- lapply(request, function(x) {
+          RETRY(verb = "GET",
+                url = pbase,
+                query = x,
+                times = 5,
+                pause_min = 1,
+                pause_base = 1,
+                pause_cap = 10)
+        })
+        # Extract coordinates
+        rots <- lapply(api_req, function(x) {
+          coords <- content(x = x, as = "parsed")$coordinates
+          # Replace NULL values
+          rpl <- sapply(coords, is.null)
+          if (sum(rpl) != 0) {
+            rpl <- which(rpl == TRUE)
+            for (r in rpl) coords[[r]] <- list(NA, NA)
+          }
+          xy <- do.call(rbind.data.frame, coords)
+          colnames(xy) <- c("x", "y")
+          xy
+        })
+        # Bind data
+        rots <- do.call(rbind.data.frame, rots)
+        # Set col names if more than one model requested
+        if (length(model) > 1) {
+          colnames(rots) <- c(paste0("p_lng_", m), paste0("p_lat_", m))
+        } else {
+          colnames(rots) <- c("p_lng", "p_lat")
+        }
+        # Bind output
+        tmp <- do.call(rbind, tmp)
+        rots <- cbind.data.frame(tmp, rots)
+        return(rots)
+      })
+      # Bind data
+      do.call(rbind, rotations)
+    })
+
+    # Match data
+    for (i in seq_along(multi_model)) {
+      x <- multi_model[[i]]
+      mch <- match(x = occdf$match, table = x$match)
+      occdf[, colnames(x)] <- x[mch, ]
+    }
 
     # Drop match column
     occdf <- occdf[, -which(colnames(occdf) == "match")]
-
-    # Drop model palaeocoordinate column if only one model selected
-    if (length(model) == 1) {
-      occdf <- occdf[, -c(which(colnames(occdf) %in%
-                                  c(paste0("p_lng_", model),
-                                    paste0("p_lat_", model))))]
-    }
   }
 
   # Uncertainty calculation -------------------------------------------------
