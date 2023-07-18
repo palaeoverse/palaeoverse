@@ -1,3 +1,8 @@
+# palaeoverse (development version)
+
+* Fixed handling of multiple models in palaeorotate (#92)
+* Fixed custom ticks behavior for axis_geo_phylo
+
 # palaeoverse 1.2.0
 
 * time_bins updated to enable users to call geological time scales from Macrostrat
