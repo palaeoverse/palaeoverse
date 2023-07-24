@@ -10,7 +10,9 @@ Ubuntu-devel 22.04.2 (x86_64-pc-linux-gnu): r84741
 Ubuntu-oldrel 22.04.2 (x86_64-pc-linux-gnu): R 4.2.3 
 
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTEs.
+There were no ERRORs or WARNINGs.
+
+There is 1 NOTE for the README.md relating to ongoing changes with twitter URLs.
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.
