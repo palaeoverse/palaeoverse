@@ -19,10 +19,19 @@
 #'   as the maximum limit (FADs) of the age range (e.g. "max_ma").
 #' @param min_ma \code{character}. The name of the column you wish to be treated
 #'   as the minimum limit (LADs) of the age range (e.g. "min_ma").
-#' @param scale \code{character}. Specify the desired geological timescale to
-#'   be used, either "GTS2020" or "GTS2012".
+#' @param bins \code{dataframe}. A dataframe of the bins that you wish to
+#'   allocate pseudo-occurrences to such as that returned by
+#'   \code{\link[palaeoverse:time_bins]{time_bins()}}. This dataframe must
+#'   contain at least the following named columns: "bin", "max_ma" and
+#'   "min_ma". Columns "max_ma" and "min_ma" must be `numeric` values.
+#' @param scale \code{character}. Specify the desired geological timescale to be
+#'   used, either "GTS2020" or "GTS2012". Passed to
+#'   \code{\link[palaeoverse:time_bins]{time_bins()}} if \code{bins} is not
+#'   specified.
 #' @param rank \code{character}. Specify the desired stratigraphic rank. Choose
-#'   from: "stage", "epoch", "period", "era", and "eon".
+#'   from: "stage", "epoch", "period", "era", and "eon". Passed to
+#'   \code{\link[palaeoverse:time_bins]{time_bins()}} if \code{bins} is not
+#'   specified.
 #' @param ext_orig \code{logical}. Should two additional columns be added to
 #'   identify the intervals in which taxa originated and went extinct?
 #'
@@ -46,6 +55,7 @@ tax_expand_time <- function(
     taxdf,
     max_ma = "max_ma",
     min_ma = "min_ma",
+    bins = NULL,
     scale = "GTS2020",
     rank = "stage",
     ext_orig = TRUE) {
@@ -82,32 +92,36 @@ tax_expand_time <- function(
     stop("`ext_orig` should be logical (TRUE/FALSE)")
   }
 
-  # get the desired timescale at the desired rank
-  if (scale == "GTS2020") {
-    timescale <- palaeoverse::GTS2020
-  } else if (scale == "GTS2012") {
-    timescale <- palaeoverse::GTS2012
+  if (is.null(bins) && (is.null(scale) || is.null(rank))) {
+    stop("Either `bin` or `scale` and `rank` must be specified.")
+  }
+  if (!is.null(bins)) {
+    if (is.data.frame(bins) == FALSE) {
+      stop("`bins` should be a dataframe.")
+    }
+    if (!all(c("bin", "max_ma", "min_ma") %in% colnames(bins))) {
+      stop("bin, max_ma and/or min_ma do not exist in `bins`.")
+    }
   } else {
-    stop('`scale` should be "GTS2020" or "GTS2012"')
+    # get the desired timescale at the desired rank
+    bins <- time_bins(rank = rank, scale = scale)
   }
 
   if (any(duplicated(taxdf))) {
     stop("Not all rows in `taxdf` are unique!")
   }
 
-  intervals <- timescale[timescale$rank == rank, ]
-
   # replicate taxon rows for each interval they span
-  dat_list <- lapply(seq_len(nrow(intervals)), function(i) {
-    int_tax <- taxdf[taxdf[, min_ma] < intervals$max_ma[i] &
-                       taxdf[, max_ma] > intervals$min_ma[i], ]
+  dat_list <- lapply(seq_len(nrow(bins)), function(i) {
+    int_tax <- taxdf[taxdf[, min_ma] < bins$max_ma[i] &
+                       taxdf[, max_ma] > bins$min_ma[i], ]
     if (ext_orig) {
-      int_tax$ext <- int_tax[, min_ma] >= intervals$min_ma[i] &
+      int_tax$ext <- int_tax[, min_ma] >= bins$min_ma[i] &
                        int_tax[, min_ma] > 0
-      int_tax$orig <- int_tax[, max_ma] <= intervals$max_ma[i]
+      int_tax$orig <- int_tax[, max_ma] <= bins$max_ma[i]
     }
     if (nrow(int_tax) == 0) return(NULL)
-    cbind(int_tax, intervals[i, ])
+    cbind(int_tax, bins[i, ])
   })
   dat <- do.call(rbind, dat_list)
   rownames(dat) <- NULL

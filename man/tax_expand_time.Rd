@@ -8,6 +8,7 @@ tax_expand_time(
   taxdf,
   max_ma = "max_ma",
   min_ma = "min_ma",
+  bins = NULL,
   scale = "GTS2020",
   rank = "stage",
   ext_orig = TRUE
@@ -28,11 +29,21 @@ as the maximum limit (FADs) of the age range (e.g. "max_ma").}
 \item{min_ma}{\code{character}. The name of the column you wish to be treated
 as the minimum limit (LADs) of the age range (e.g. "min_ma").}
 
-\item{scale}{\code{character}. Specify the desired geological timescale to
-be used, either "GTS2020" or "GTS2012".}
+\item{bins}{\code{dataframe}. A dataframe of the bins that you wish to
+allocate pseudo-occurrences to such as that returned by
+\code{\link[palaeoverse:time_bins]{time_bins()}}. This dataframe must
+contain at least the following named columns: "bin", "max_ma" and
+"min_ma". Columns "max_ma" and "min_ma" must be \code{numeric} values.}
+
+\item{scale}{\code{character}. Specify the desired geological timescale to be
+used, either "GTS2020" or "GTS2012". Passed to
+\code{\link[palaeoverse:time_bins]{time_bins()}} if \code{bins} is not
+specified.}
 
 \item{rank}{\code{character}. Specify the desired stratigraphic rank. Choose
-from: "stage", "epoch", "period", "era", and "eon".}
+from: "stage", "epoch", "period", "era", and "eon". Passed to
+\code{\link[palaeoverse:time_bins]{time_bins()}} if \code{bins} is not
+specified.}
 
 \item{ext_orig}{\code{logical}. Should two additional columns be added to
 identify the intervals in which taxa originated and went extinct?}
