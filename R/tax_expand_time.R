@@ -51,6 +51,9 @@
 #'                     max_ma = c(150, 60, 30),
 #'                     min_ma = c(110, 20, 0))
 #' ex <- tax_expand_time(taxdf)
+#'
+#' bins <- time_bins(scale = "GTS2012", rank = "stage")
+#' ex2 <- tax_expand_time(taxdf, bins = bins)
 tax_expand_time <- function(
     taxdf,
     max_ma = "max_ma",

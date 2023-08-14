@@ -25,6 +25,11 @@ test_that("tax_expand_time() works", {
   expect_error(tax_expand_time(taxdf, rank = "stages"))
   expect_error(tax_expand_time(taxdf, rank = c("stage", "period")))
   expect_error(tax_expand_time(taxdf, bins = "stages"))
+  bins <- time_bins()
+  colnames(bins)[colnames(bins) == "max_ma"] <- "max_age"
+  expect_error(tax_expand_time(taxdf, bins = bins))
+  expect_error(tax_expand_time(taxdf, scale = NULL))
+  expect_error(tax_expand_time(taxdf, scale = NULL))
   expect_error(tax_expand_time(taxdf, ext_orig = "ext"))
   expect_error(tax_expand_time(c("A", "B")))
 
