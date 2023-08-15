@@ -1,4 +1,4 @@
-# palaeoverse (development version)
+# palaeoverse 1.2.1
 
 * Fixed handling of multiple models in palaeorotate (#92)
 * Fixed custom ticks behavior for axis_geo_phylo
