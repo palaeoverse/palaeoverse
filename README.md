@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/palaeoverse-community/palaeoverse/branch/main/graph/badge.svg?token=HQQO2CRIKT)](https://app.codecov.io/gh/palaeoverse-community/palaeoverse)
 [![CRAN status](https://www.r-pkg.org/badges/version/palaeoverse)](https://CRAN.R-project.org/package=palaeoverse)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/palaeoverse)](https://cran.r-project.org/package=palaeoverse)
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/ThePalaeoverse.svg?style=social&label=Follow%20%40ThePalaeoverse)](https://twitter.com/ThePalaeoverse)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/ThePalaeoverse.svg?style=social&label=Follow%20%40ThePalaeoverse)](https://x.com/ThePalaeoverse)
 <!-- badges: end -->
 
 `palaeoverse` is an R package developed by palaeobiologists, for palaeobiologists.
