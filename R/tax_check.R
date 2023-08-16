@@ -75,10 +75,7 @@
 #' # load occurrence data
 #' data("tetrapods")
 #' # Check taxon names alphabetically
-#' ex1 <- tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
-#' # Check taxon names by group
-#' ex2 <- tax_check(taxdf = tetrapods, name = "genus",
-#'                  group = "family", dis = 0.1)
+#' ex <- tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
 #'
 #' @export
 tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
