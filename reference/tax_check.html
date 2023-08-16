@@ -181,11 +181,7 @@ matching. The R Journal 6, 111-122.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># load occurrence data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"tetrapods"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Check taxon names alphabetically</span></span></span>
-<span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">tax_check</span><span class="op">(</span>taxdf <span class="op">=</span> <span class="va">tetrapods</span>, name <span class="op">=</span> <span class="st">"genus"</span>, dis <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Check taxon names by group</span></span></span>
-<span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">tax_check</span><span class="op">(</span>taxdf <span class="op">=</span> <span class="va">tetrapods</span>, name <span class="op">=</span> <span class="st">"genus"</span>,</span></span>
-<span class="r-in"><span>                 group <span class="op">=</span> <span class="st">"family"</span>, dis <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Non-letter characters present in the group names</span>
+<span class="r-in"><span><span class="va">ex</span> <span class="op">&lt;-</span> <span class="fu">tax_check</span><span class="op">(</span>taxdf <span class="op">=</span> <span class="va">tetrapods</span>, name <span class="op">=</span> <span class="st">"genus"</span>, dis <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
