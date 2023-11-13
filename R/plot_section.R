@@ -1,42 +1,62 @@
 #' Generate stratigraphic section plot
 #'
-#' A function to generate a stratigraphic section plot.
+#' A function to plot the stratigraphic range of fossil taxa from occurrence
+#' data.
 #'
-#' @param size \code{numeric}. A single numeric value defining the width of the
-#' latitudinal bins. This value must be more than 0, and less than or equal to
-#' 90 (defaults to 10).
-#' @return A \code{dataframe} of latitudinal bins of user-defined size.
-#' @importFrom graphics polygon abline title
+#' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing
+#' at least two columns: names of taxa, and their stratigraphic position
+#' (see `name` and `level` arguments).
+#' @param name \code{character}. The name of the column you wish to be treated
+#' as the input names, e.g. "genus" (default).
+#' @param level \code{character}. The name of the column you wish to be treated
+#' as the stratigraphic levels associated with each occurrence, e.g. "bed"
+#' (default) or "height".
+#' @param certainty \code{character}. The name of the column you wish to be
+#' treated as the information on whether an identification is certain ("1") or
+#' uncertain ("0"). In the plot, any occurrence labelled as certain will be
+#' plotted with a black circle, while any occurrence labelled as uncertain will
+#' be plotted with a white circle.
+#' @param by \code{character}. How should the output be sorted?
+#' Either: "FAD" (first appearance; default), "LAD" (last appearance), or
+#' "name" (alphabetically by taxon names).
+#' @param label \code{character}. The title given to the plot, e.g. "Section A"
+#' (default).
+#'
+#' @return A \code{plot} showing the stratigraphic ranges of taxa in a section,
+#' with levels at which the taxon was sampled indicated with a point.
+#'
 #' @section Developer(s):
 #' Bethany Allen & Alexander Dunhill
 #' @section Reviewer(s):
 #' William Gearty
-#' @export
+#'
 #' @examples
-#' # Generate 20 degrees latitudinal bins
-#' bins <- lat_bins(size = 20)
-tax_range_strat <- function (occdf, name = "genus", section = "Section",
-                             certainty = "certainty", height = "height",
-                             by = "FAD")
+#' # Plot stratigraphic ranges
+#' tax_range_strat()
+#'
+#' @export
+tax_range_strat <- function (occdf, name = "taxon", level = "bed",
+                             certainty = "certainty", by = "FAD",
+                             label = "Section A")
 {
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe")
   }
 
-  if (!is.numeric(occdf[, height])) {
-    stop("`height` must be of class numeric.")
+  if (!is.numeric(occdf[, level])) {
+    stop("`level` must be of class numeric.")
   }
 
-  if (any(c(name, height) %in% colnames(occdf) == FALSE)) {
-    stop("Either `name` or `height` is not a named column in\n`occdf`")
+  if (any(c(name, level) %in% colnames(occdf) == FALSE)) {
+    stop("Either `name` or `level` is not a named column in\n`occdf`")
   }
 
   if (any(is.na(occdf[, name]))) {
     stop("The `name` column contains NA values")
   }
 
-  if (any(is.na(occdf[, min_bin]))) {
-    stop("The `height` column contains NA values")
+  if (any(is.na(occdf[, level]))) {
+    stop("The `level` column contains NA values")
   }
 
   if (!by %in% c("name", "FAD", "LAD")) {
@@ -53,8 +73,8 @@ tax_range_strat <- function (occdf, name = "genus", section = "Section",
   #Populate nested list
   for (i in seq_along(unique_taxa)) {
     occ_filter <- occdf[(occdf[, name] == unique_taxa[i]),]
-    ranges[i,2] <- min(occ_filter$height)
-    ranges[i,3] <- max(occ_filter$height)
+    ranges[i,2] <- min(occ_filter[level])
+    ranges[i,3] <- max(occ_filter[level])
   }
 
   #Reorder lists
@@ -69,7 +89,7 @@ tax_range_strat <- function (occdf, name = "genus", section = "Section",
   #Add ID numbers
   ranges$ID <- c(1:length(unique_taxa))
   labels <- ranges[, c(1,4)]
-  occdf <- merge(occdf, labels, by.x = "genus", by.y = "taxon")
+  occdf <- merge(occdf, labels, by.x = name, by.y = "taxon")
 
   #Split certain and uncertain occurrences
   certain <- occdf[(occdf[, certainty] == 1), ]
@@ -80,9 +100,9 @@ tax_range_strat <- function (occdf, name = "genus", section = "Section",
        xlim = c(1, length(unique_taxa)),
        ylim = c(min(ranges$min_bin), max(ranges$max_bin)),
        axes = FALSE,
-       xlab = "Taxa",
+       xlab = "Taxon",
        ylab = "Stratigraphic height (m)",
-       main = section)
+       main = label)
   segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
            x0 = ranges$ID,
            col = "black")
@@ -96,3 +116,7 @@ tax_range_strat <- function (occdf, name = "genus", section = "Section",
 
   return()
 }
+
+# to test
+occdf <- read.csv("data/stratrange_test_data.csv")
+tax_range_strat(occdf = occdf)
