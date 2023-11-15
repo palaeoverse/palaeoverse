@@ -114,6 +114,10 @@ tax_expand_time <- function(
     stop("Not all rows in `taxdf` are unique!")
   }
 
+  # add a taxon index column (since we can't guarantee there's a "name" column)
+  # use a very unique column name so we don't clobber any existing columns
+  taxdf$this_is_a_unique_index_column_name <- seq_len(nrow(taxdf))
+
   # replicate taxon rows for each interval they span
   dat_list <- lapply(seq_len(nrow(bins)), function(i) {
     int_tax <- taxdf[taxdf[, min_ma] < bins$max_ma[i] &
@@ -128,5 +132,8 @@ tax_expand_time <- function(
   })
   dat <- do.call(rbind, dat_list)
   rownames(dat) <- NULL
+  dat <- dat[order(dat$this_is_a_unique_index_column_name), ]
+  # remove the index column
+  dat$this_is_a_unique_index_column_name <- NULL
   dat
 }
