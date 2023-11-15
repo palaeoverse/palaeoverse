@@ -1,6 +1,6 @@
 #' Generate stratigraphic section plot
 #'
-#' A function to plot the stratigraphic range of fossil taxa from occurrence
+#' A function to plot the stratigraphic ranges of fossil taxa from occurrence
 #' data.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing
@@ -13,12 +13,16 @@
 #' (default) or "height".
 #' @param certainty \code{character}. The name of the column you wish to be
 #' treated as the information on whether an identification is certain ("1") or
-#' uncertain ("0"). In the plot, any occurrence labelled as certain will be
-#' plotted with a black circle, while any occurrence labelled as uncertain will
-#' be plotted with a white circle.
+#' uncertain ("0"). By default, no column name is provided, and all occurrences
+#' are assumed to be certain. In the plot, any occurrence labelled as certain
+#' will be plotted with a black circle, while any occurrence labelled as
+#' uncertain will be plotted with a white circle.
 #' @param by \code{character}. How should the output be sorted?
 #' Either: "FAD" (first appearance; default), "LAD" (last appearance), or
 #' "name" (alphabetically by taxon names).
+#' @param units \code{character}. Should the y-axis be labelled as "height"
+#' (stratigraphic height in metres) or "beds" (beds numbered from bottom to
+#' top)?
 #' @param label \code{character}. The title given to the plot, e.g. "Section A"
 #' (default).
 #'
@@ -28,16 +32,28 @@
 #' @section Developer(s):
 #' Bethany Allen & Alexander Dunhill
 #' @section Reviewer(s):
-#' William Gearty
+#' William Gearty & Lewis A. Jones
 #'
 #' @examples
+#' # Sample tetrapod occurrences
+#' tetrapod_names <- tetrapods$accepted_name[1:50]
+#' # Simulate bed numbers
+#' beds_sampled <- sample.int(n = 10, size = 50, replace = TRUE)
+#' # Simulate certainty values
+#' certainty_sampled <- sample(x = 0:1, size = 50, replace = TRUE)
+#' #Combine into data frame
+#' occdf <- data.frame(taxon = tetrapod_names, bed = beds_sampled,
+#' certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
-#' tax_range_strat()
+#' tax_range_strat(occdf)
+#' tax_range_strat(occdf, certainty = "certainty")
+#' tax_range_strat(occdf, certainty = "certainty", by = "LAD")
+#' tax_range_strat(occdf, certainty = "certainty", by = "name")
 #'
 #' @export
 tax_range_strat <- function (occdf, name = "taxon", level = "bed",
-                             certainty = "certainty", by = "FAD",
-                             label = "Section A")
+                             certainty = FALSE, by = "FAD",
+                             units = "height", label = "Section A")
 {
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe")
@@ -51,6 +67,10 @@ tax_range_strat <- function (occdf, name = "taxon", level = "bed",
     stop("Either `name` or `level` is not a named column in\n`occdf`")
   }
 
+  if (certainty != FALSE && certainty %in% colnames(occdf) == FALSE) {
+    stop("`certainty` is not a named column in\n`occdf`")
+  }
+
   if (any(is.na(occdf[, name]))) {
     stop("The `name` column contains NA values")
   }
@@ -61,6 +81,10 @@ tax_range_strat <- function (occdf, name = "taxon", level = "bed",
 
   if (!by %in% c("name", "FAD", "LAD")) {
     stop("`by` must be either \"FAD\", \"LAD\", or \"name\"")
+  }
+
+  if (!units %in% c("height", "beds")) {
+    stop("`units` must be either \"height\" or \"beds\"")
   }
 
   #List and order unique taxa
@@ -79,10 +103,12 @@ tax_range_strat <- function (occdf, name = "taxon", level = "bed",
 
   #Reorder lists
   if (by == "LAD") {
+    ranges <- ranges[order(ranges$min_bin), ]
     ranges <- ranges[order(ranges$max_bin), ]
   }
 
   if (by == "FAD") {
+    ranges <- ranges[order(ranges$max_bin), ]
     ranges <- ranges[order(ranges$min_bin), ]
   }
 
@@ -92,31 +118,37 @@ tax_range_strat <- function (occdf, name = "taxon", level = "bed",
   occdf <- merge(occdf, labels, by.x = name, by.y = "taxon")
 
   #Split certain and uncertain occurrences
+  if (certainty == FALSE){
+  certain <- occdf
+  } else {
   certain <- occdf[(occdf[, certainty] == 1), ]
   uncertain <- occdf[(occdf[, certainty] == 0), ]
+  }
+
+  #Determine y-axis label
+  if (units == "height") {
+    y_axis <- "Stratigraphic height (m)"
+  } else
+    y_axis <- "Bed number"
 
   #Create plot
   plot(x = NA, y = NA,
        xlim = c(1, length(unique_taxa)),
        ylim = c(min(ranges$min_bin), max(ranges$max_bin)),
        axes = FALSE,
-       xlab = "Taxon",
-       ylab = "Stratigraphic height (m)",
+       xlab = " ",
+       ylab = y_axis,
        main = label)
   segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
            x0 = ranges$ID,
            col = "black")
-  points(y = certain$height, x = certain$ID, pch = 19,
+  points(y = certain$bed, x = certain$ID, pch = 19,
          col = "black")
-  points(y = uncertain$height, x = uncertain$ID, pch = 1,
-         col = "black")
-  axis(2, unique(occdf$height))
+  if (certainty != FALSE){
+    points(y = uncertain$bed, x = uncertain$ID, pch = 1,
+          col = "black")
+  }
+  axis(2, unique(occdf$bed))
   axis(1, ranges$taxon, at = c(1:max(ranges$ID)), las = 2)
   box()
-
-  return()
 }
-
-# to test
-occdf <- read.csv("data/stratrange_test_data.csv")
-tax_range_strat(occdf = occdf)
