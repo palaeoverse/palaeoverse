@@ -2,6 +2,7 @@
 
 * Fixed handling of multiple models in palaeorotate (#92)
 * Fixed custom ticks behavior for axis_geo_phylo
+* Added ability to use custom bins for tax_expand_time (#94)
 
 # palaeoverse 1.2.0
 
