@@ -20,11 +20,11 @@
 #' @param by \code{character}. How should the output be sorted?
 #' Either: "FAD" (first appearance; default), "LAD" (last appearance), or
 #' "name" (alphabetically by taxon names).
-#' @param units \code{character}. Should the y-axis be labelled as "height"
-#' (stratigraphic height in metres) or "beds" (beds numbered from bottom to
-#' top)?
-#' @param label \code{character}. The title given to the plot, e.g. "Section A"
-#' (default).
+#' @param xlab \code{character}. The x-axis label (over taxa) passed directly to
+#' \code{plot}.
+#' @param ylab \code{character}. The y-axis label (over strata) passed directly
+#' to \code{plot}.
+#' @param ... Further arguments that are passed directly to \code{plot}.
 #'
 #' @return No return value. Function is used for its side effect, which is to
 #' create a plot showing the stratigraphic ranges of taxa in a section,
@@ -47,15 +47,20 @@
 #' certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
 #' par(mar = c(12, 5, 2, 2))
-#' plot_section(occdf)
-#' plot_section(occdf, certainty = "certainty")
-#' plot_section(occdf, certainty = "certainty", by = "LAD")
-#' plot_section(occdf, certainty = "certainty", by = "name")
+#' plot_section(occdf, ylab = "Stratigraphic height (m)")
+#' plot_section(occdf, certainty = "certainty",
+#'              ylab = "Stratigraphic height (m)")
+#' plot_section(occdf, certainty = "certainty", by = "LAD",
+#'              ylab = "Bed number")
+#' plot_section(occdf, certainty = "certainty", by = "name",
+#'              ylab = "Bed number")
+#' plot_section(occdf, certainty = "certainty", ylab = "Bed number",
+#'              main = "Section A")
 #'
 #' @export
 plot_section <- function (occdf, name = "taxon", level = "bed",
-                             certainty = FALSE, by = "FAD",
-                             units = "height", label = "Section A")
+                          certainty = FALSE, by = "FAD",
+                          xlab = "", ylab = "", ...)
 {
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe")
@@ -83,10 +88,6 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
 
   if (!by %in% c("name", "FAD", "LAD")) {
     stop("`by` must be either \"FAD\", \"LAD\", or \"name\"")
-  }
-
-  if (!units %in% c("height", "beds")) {
-    stop("`units` must be either \"height\" or \"beds\"")
   }
 
   #List and order unique taxa
@@ -136,20 +137,14 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
   uncertain <- occdf[(occdf[, certainty] == 0), ]
   }
 
-  #Determine y-axis label
-  if (units == "height") {
-    y_axis <- "Stratigraphic height (m)"
-  } else
-    y_axis <- "Bed number"
-
   #Create plot
   plot(x = NA, y = NA,
        xlim = c(1, length(unique_taxa)),
        ylim = c(min(ranges$min_bin), max(ranges$max_bin)),
        axes = FALSE,
-       xlab = " ",
-       ylab = y_axis,
-       main = label)
+       xlab = xlab,
+       ylab = ylab,
+       ...)
   if (certainty == FALSE) {
     segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
             x0 = ranges$ID,
