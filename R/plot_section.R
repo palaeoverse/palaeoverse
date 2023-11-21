@@ -86,6 +86,10 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
     stop("The `level` column contains NA values")
   }
 
+  if (certainty != FALSE && any(is.na(occdf[, certainty]))) {
+    stop("The `certainty` column contains NA values")
+  }
+
   if (!by %in% c("name", "FAD", "LAD")) {
     stop("`by` must be either \"FAD\", \"LAD\", or \"name\"")
   }
@@ -108,6 +112,7 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
     occ_filter <- occdf[(occdf[, name] == unique_taxa[i]),]
     ranges[i,2] <- min(occ_filter[level])
     ranges[i,3] <- max(occ_filter[level])
+    #If uncertainty is used, create second set of columns for certain IDs
     if (certainty != FALSE) {
       occ_filter <- occ_filter[(occ_filter[, certainty] == 1),]
       if (nrow(occ_filter) == 0) {occ_filter[1,] <- NA}
