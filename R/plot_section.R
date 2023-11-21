@@ -26,7 +26,8 @@
 #' @param label \code{character}. The title given to the plot, e.g. "Section A"
 #' (default).
 #'
-#' @return A \code{plot} showing the stratigraphic ranges of taxa in a section,
+#' @return No return value. Function is used for its side effect, which is to
+#' create a plot showing the stratigraphic ranges of taxa in a section,
 #' with levels at which the taxon was sampled indicated with a point.
 #'
 #' @section Developer(s):
