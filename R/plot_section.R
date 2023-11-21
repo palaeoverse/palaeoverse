@@ -45,13 +45,14 @@
 #' occdf <- data.frame(taxon = tetrapod_names, bed = beds_sampled,
 #' certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
+#' par(mar = c(12, 5, 2, 2))
 #' tax_range_strat(occdf)
 #' tax_range_strat(occdf, certainty = "certainty")
 #' tax_range_strat(occdf, certainty = "certainty", by = "LAD")
 #' tax_range_strat(occdf, certainty = "certainty", by = "name")
 #'
 #' @export
-tax_range_strat <- function (occdf, name = "taxon", level = "bed",
+plot_section <- function (occdf, name = "taxon", level = "bed",
                              certainty = FALSE, by = "FAD",
                              units = "height", label = "Section A")
 {
