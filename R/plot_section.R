@@ -7,7 +7,7 @@
 #' at least two columns: names of taxa, and their stratigraphic position
 #' (see `name` and `level` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
-#' as the input names, e.g. "genus" (default).
+#' as the input names, e.g. "taxon" (default).
 #' @param level \code{character}. The name of the column you wish to be treated
 #' as the stratigraphic levels associated with each occurrence, e.g. "bed"
 #' (default) or "height".
@@ -47,10 +47,10 @@
 #' certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
 #' par(mar = c(12, 5, 2, 2))
-#' tax_range_strat(occdf)
-#' tax_range_strat(occdf, certainty = "certainty")
-#' tax_range_strat(occdf, certainty = "certainty", by = "LAD")
-#' tax_range_strat(occdf, certainty = "certainty", by = "name")
+#' plot_section(occdf)
+#' plot_section(occdf, certainty = "certainty")
+#' plot_section(occdf, certainty = "certainty", by = "LAD")
+#' plot_section(occdf, certainty = "certainty", by = "name")
 #'
 #' @export
 plot_section <- function (occdf, name = "taxon", level = "bed",
@@ -66,11 +66,11 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
   }
 
   if (any(c(name, level) %in% colnames(occdf) == FALSE)) {
-    stop("Either `name` or `level` is not a named column in\n`occdf`")
+    stop("Either `name` or `level` is not a named column in `occdf`")
   }
 
   if (certainty != FALSE && certainty %in% colnames(occdf) == FALSE) {
-    stop("`certainty` is not a named column in\n`occdf`")
+    stop("`certainty` is not a named column in `occdf`")
   }
 
   if (any(is.na(occdf[, name]))) {
