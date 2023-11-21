@@ -94,13 +94,25 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
   unique_taxa <- unique_taxa[order(unique_taxa)]
 
   #Create object to hold information
-  ranges <- data.frame(taxon = unique_taxa, min_bin = NA, max_bin = NA)
+  if (certainty == FALSE) {
+    ranges <- data.frame(taxon = unique_taxa, min_bin = NA, max_bin = NA)
+  } else {
+    ranges <- data.frame(taxon = unique_taxa, min_bin = NA,
+                         max_bin = NA, min_bin_certain = NA,
+                         max_bin_certain = NA)
+  }
 
   #Populate nested list
   for (i in seq_along(unique_taxa)) {
     occ_filter <- occdf[(occdf[, name] == unique_taxa[i]),]
     ranges[i,2] <- min(occ_filter[level])
     ranges[i,3] <- max(occ_filter[level])
+    if (certainty != FALSE) {
+      occ_filter <- occ_filter[(occ_filter[, certainty] == 1),]
+      if (nrow(occ_filter) == 0) {occ_filter[1,] <- NA}
+      ranges[i,4] <- min(occ_filter[level])
+      ranges[i,5] <- max(occ_filter[level])
+    }
   }
 
   #Reorder lists
@@ -116,7 +128,7 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
 
   #Add ID numbers
   ranges$ID <- c(1:length(unique_taxa))
-  labels <- ranges[, c(1,4)]
+  labels <- ranges[, c("taxon", "ID")]
   occdf <- merge(occdf, labels, by.x = name, by.y = "taxon")
 
   #Obtain uncertain occurrences
@@ -138,9 +150,18 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
        xlab = " ",
        ylab = y_axis,
        main = label)
-  segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
-           x0 = ranges$ID,
-           col = "black")
+  if (certainty == FALSE) {
+    segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
+            x0 = ranges$ID,
+            col = "black", lwd = 1.5)
+  } else {
+    segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
+             x0 = ranges$ID,
+             col = "black", lty = 2)
+    segments(y0 = ranges$min_bin_certain, y1 = ranges$max_bin_certain,
+             x0 = ranges$ID,
+             col = "black", lwd = 1.5)
+  }
   points(y = occdf$bed, x = occdf$ID, pch = 19,
          col = "black")
   if (certainty != FALSE){
