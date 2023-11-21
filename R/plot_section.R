@@ -119,11 +119,8 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
   labels <- ranges[, c(1,4)]
   occdf <- merge(occdf, labels, by.x = name, by.y = "taxon")
 
-  #Split certain and uncertain occurrences
-  if (certainty == FALSE){
-  certain <- occdf
-  } else {
-  certain <- occdf[(occdf[, certainty] == 1), ]
+  #Obtain uncertain occurrences
+  if (certainty != FALSE){
   uncertain <- occdf[(occdf[, certainty] == 0), ]
   }
 
@@ -144,11 +141,11 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
   segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
            x0 = ranges$ID,
            col = "black")
-  points(y = certain$bed, x = certain$ID, pch = 19,
+  points(y = occdf$bed, x = occdf$ID, pch = 19,
          col = "black")
   if (certainty != FALSE){
-    points(y = uncertain$bed, x = uncertain$ID, pch = 1,
-          col = "black")
+    points(y = uncertain$bed, x = uncertain$ID, pch = 16,
+          col = "white")
   }
   axis(2, unique(occdf$bed))
   axis(1, ranges$taxon, at = c(1:max(ranges$ID)), las = 2)
