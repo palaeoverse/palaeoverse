@@ -18,5 +18,5 @@ test_that("plot_section() works", {
   occdf[1,1] <- "shrimp"; occdf[1,2] <- NA
   expect_error(plot_section(occdf = occdf))
   occdf[1,2] <- 1; occdf[1,3] <- NA
-  expect_error(plot_section(occdf = occdf))
+  expect_error(plot_section(occdf = occdf, certainty = "certainty"))
 })

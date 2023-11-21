@@ -58,10 +58,10 @@
 #'              main = "Section A")
 #'
 #' @export
-plot_section <- function (occdf, name = "taxon", level = "bed",
+plot_section <- function(occdf, name = "taxon", level = "bed",
                           certainty = FALSE, by = "FAD",
-                          xlab = "", ylab = "", ...)
-{
+                          xlab = "", ylab = "", ...) {
+
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe")
   }
@@ -109,15 +109,17 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
 
   #Populate nested list
   for (i in seq_along(unique_taxa)) {
-    occ_filter <- occdf[(occdf[, name] == unique_taxa[i]),]
-    ranges[i,2] <- min(occ_filter[level])
-    ranges[i,3] <- max(occ_filter[level])
+    occ_filter <- occdf[(occdf[, name] == unique_taxa[i]), ]
+    ranges[i, 2] <- min(occ_filter[level])
+    ranges[i, 3] <- max(occ_filter[level])
     #If uncertainty is used, create second set of columns for certain IDs
     if (certainty != FALSE) {
-      occ_filter <- occ_filter[(occ_filter[, certainty] == 1),]
-      if (nrow(occ_filter) == 0) {occ_filter[1,] <- NA}
-      ranges[i,4] <- min(occ_filter[level])
-      ranges[i,5] <- max(occ_filter[level])
+      occ_filter <- occ_filter[(occ_filter[, certainty] == 1), ]
+      if (nrow(occ_filter) == 0) {
+        occ_filter[1, ] <- NA
+        }
+      ranges[i, 4] <- min(occ_filter[level])
+      ranges[i, 5] <- max(occ_filter[level])
     }
   }
 
@@ -133,13 +135,13 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
   }
 
   #Add ID numbers
-  ranges$ID <- c(1:length(unique_taxa))
+  ranges$ID <- c(1:seq_along(unique_taxa))
   labels <- ranges[, c("taxon", "ID")]
   occdf <- merge(occdf, labels, by.x = name, by.y = "taxon")
 
   #Obtain uncertain occurrences
-  if (certainty != FALSE){
-  uncertain <- occdf[(occdf[, certainty] == 0), ]
+  if (certainty != FALSE) {
+    uncertain <- occdf[(occdf[, certainty] == 0), ]
   }
 
   #Create plot
@@ -152,8 +154,8 @@ plot_section <- function (occdf, name = "taxon", level = "bed",
        ...)
   if (certainty == FALSE) {
     segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
-            x0 = ranges$ID,
-            col = "black", lwd = 1.5)
+             x0 = ranges$ID,
+             col = "black", lwd = 1.5)
   } else {
     segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
              x0 = ranges$ID,
