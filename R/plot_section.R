@@ -36,6 +36,8 @@
 #' William Gearty & Lewis A. Jones
 #'
 #' @examples
+#' #Load tetrapod dataset
+#' data(tetrapods)
 #' # Sample tetrapod occurrences
 #' tetrapod_names <- tetrapods$accepted_name[1:50]
 #' # Simulate bed numbers
