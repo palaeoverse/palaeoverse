@@ -1,8 +1,8 @@
 # palaeoverse <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/palaeoverse-community/palaeoverse/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/palaeoverse-community/palaeoverse/branch/main/graph/badge.svg?token=HQQO2CRIKT)](https://app.codecov.io/gh/palaeoverse-community/palaeoverse)
+[![R-CMD-check](https://github.com/palaeoverse/palaeoverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/palaeoverse/palaeoverse/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/gh/palaeoverse/palaeoverse/branch/main/graph/badge.svg?token=HQQO2CRIKT)](https://app.codecov.io/gh/palaeoverse/palaeoverse)
 [![CRAN status](https://www.r-pkg.org/badges/version/palaeoverse)](https://CRAN.R-project.org/package=palaeoverse)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/palaeoverse)](https://cran.r-project.org/package=palaeoverse)
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/ThePalaeoverse.svg?style=social&label=Follow%20%40ThePalaeoverse)](https://x.com/ThePalaeoverse)
@@ -38,7 +38,7 @@ The development version of `palaeoverse` can be installed via GitHub using:
 
 ```r
 # install.packages("devtools")
-devtools::install_github("palaeoverse-community/palaeoverse")
+devtools::install_github("palaeoverse/palaeoverse")
 ```
 
 # How to contribute?
