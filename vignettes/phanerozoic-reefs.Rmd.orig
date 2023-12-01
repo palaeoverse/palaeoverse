@@ -318,3 +318,9 @@ Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (Pal
 Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013). Towards community-driven paleogeographic reconstructions: integrating open-access paleogeographic and paleobiology data with plate tectonics. Biogeosciences, 10(3), 1529-1541. DOI: 10.5194/bg-10-1529-2013.
 
 </div>
+
+```{css echo = FALSE}
+p.caption {
+  display: none;
+}
+```

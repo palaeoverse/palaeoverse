@@ -398,3 +398,9 @@ Hopefully this vignette has shown you the potential uses for `palaeoverse` funct
 Dunne, E.M., Close, R.A., Button, D.J., Brocklehurst, N., Cashmore, D.D., Lloyd, G.T. and Butler, R.J., 2018. Diversity change during the rise of tetrapods and the impact of the ‘Carboniferous rainforest collapse’. Proceedings of the Royal Society B: Biological Sciences, 285(1872), 20172730.
 
 </div>
+
+```{css echo = FALSE}
+p.caption {
+  display: none;
+}
+```
