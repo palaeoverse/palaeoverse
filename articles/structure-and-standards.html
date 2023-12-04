@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Contributing to palaeoverse: structure and standards">
 <meta property="og:description" content="palaeoverse">
@@ -521,14 +521,14 @@ and standards</a> to follow for contributing to the development of
 <code>palaeoverse</code>. If you would like to contribute to the
 <code>palaeoverse</code> toolkit, we strongly advise reading this
 document first. If you plan to contribute a function to
-<code>palaeoverse</code>, you should first raise an <a href="https://github.com/palaeoverse-community/palaeoverse/issues" class="external-link">issue</a>
-via the GitHub repository (see below). This way the development team can
+<code>palaeoverse</code>, you should first raise an <a href="https://github.com/palaeoverse/palaeoverse/issues" class="external-link">issue</a> via
+the GitHub repository (see below). This way the development team can
 assess whether the function is suitable or needed in the
 <code>palaeoverse</code> toolkit prior to submission.</p>
 <div class="section level3">
 <h3 id="git-and-github">Git and GitHub<a class="anchor" aria-label="anchor" href="#git-and-github"></a>
 </h3>
-<p>We use git via Github <a href="https://github.com/palaeoverse-community" class="external-link">(<strong>palaeoverse-community</strong>)</a>
+<p>We use git via Github (under the <a href="https://github.com/palaeoverse" class="external-link">palaeoverse GitHub umbrella</a>)
 to manage our R code and data. If you are not familiar with these tools,
 there are some excellent free resources available online:</p>
 <ul>
@@ -564,26 +564,25 @@ illustrates the bug with a reproducible example.</p>
 <div class="section level4">
 <h4 id="pull-request-process">Pull request process<a class="anchor" aria-label="anchor" href="#pull-request-process"></a>
 </h4>
-<p>You (the contributor) should clone the desired repository (i.e. <a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">the
-palaeoverse R package</a>) to your personal computer. Before changes are
-made, you should switch to a new git branch (i.e., not the main branch).
-When your changes are complete, you can submit your changes for merging
-via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull
+<p>You (the contributor) should clone the desired repository (i.e. <a href="https://github.com/palaeoverse/palaeoverse" class="external-link">the palaeoverse R
+package</a>) to your personal computer. Before changes are made, you
+should switch to a new git branch (i.e., not the main branch). When your
+changes are complete, you can submit your changes for merging via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull
 request</a> (“PR”) on GitHub. Note that a complete pull request should
-include a succinct description (<a href="https://github.com/palaeoverse-community/palaeoverse/blob/main/pull_request_template.md" class="external-link">see
+include a succinct description (<a href="https://github.com/palaeoverse/palaeoverse/blob/main/pull_request_template.md" class="external-link">see
 function template</a>) of what the code changes do, proper documentation
 (via <a href="https://roxygen2.r-lib.org" class="external-link">roxygen2</a>), and unit tests
 (via <code>testthat</code>). Only the description is required for the
 initial pull request and code review (see below), but pull requests will
 not be merged until they contain complete documentation and tests.</p>
 <p>If you are not comfortable with git/GitHub, you can reach out to one
-of the core developers (<a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">see
+of the core developers (<a href="https://palaeoverse.palaeoverse.org/authors.html">see
 collaborators</a>) via email and they can make a pull request on your
 behalf. However, you will be expected to respond to any reviewer
 comments on GitHub (see below).</p>
 <p>If you don’t feel comfortable implementing changes yourself, you can
 submit a bug report or feature request as a GitHub issue in the proper
-repository (e.g. <a href="https://github.com/palaeoverse-community/palaeoverse/issues" class="external-link">palaeoverse
+repository (e.g. <a href="https://github.com/palaeoverse/palaeoverse/issues" class="external-link">palaeoverse
 issues</a>).</p>
 </div>
 </div>
@@ -591,7 +590,7 @@ issues</a>).</p>
 <h3 id="code-review">Code review<a class="anchor" aria-label="anchor" href="#code-review"></a>
 </h3>
 <p>All pull requests must be reviewed by two core developers of
-<code>palaeoverse</code> (<a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">see
+<code>palaeoverse</code> (<a href="https://palaeoverse.palaeoverse.org/authors.html">see
 collaborators</a>) before merging. The review process will ensure that
 contributions 1) meet the standards and expectations as described above,
 2) successfully perform the functions that they claim to perform, and 3)
@@ -599,11 +598,11 @@ don’t break any other parts of the codebase.</p>
 <p>Submitting a pull request to the <code>palaeoverse</code> package
 will automatically initiate an <a href="https://r-pkgs.org/check.html" class="external-link">R
 CMD check</a>, <a href="https://lintr.r-lib.org/index.html" class="external-link">lintr
-check</a>, and <a href="https://github.com/r-lib/covr" class="external-link">test coverage
-check</a> via GitHub Actions. While these checks will conduct some
-automatic review to ensure the package has not been broken by the new
-code and that the code matches the style guide (see above), a manual
-review is still required before the pull request can be merged.</p>
+check</a>, and <a href="https://covr.r-lib.org/" class="external-link">test coverage check</a>
+via GitHub Actions. While these checks will conduct some automatic
+review to ensure the package has not been broken by the new code and
+that the code matches the style guide (see above), a manual review is
+still required before the pull request can be merged.</p>
 <p>Reviewers may have questions while reviewing your pull request. You
 are expected to respond to any of these questions via GitHub. If fixes
 and/or changes are required, you are expected to make these changes. If

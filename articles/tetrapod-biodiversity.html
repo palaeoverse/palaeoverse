@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Alpha diversity and geographic range size of Carboniferous and Permian tetrapods">
 <meta property="og:description" content="palaeoverse">
@@ -91,7 +91,7 @@
     
 <p><strong>Authors:</strong> <a href="https://palaeoverse.org/about.html#our-team" class="external-link">The Palaeoverse
 Development Team</a></p>
-<p><strong>Last updated:</strong> 2023-04-18</p>
+<p><strong>Last updated:</strong> 2023-12-01</p>
 <div style="text-align: justify">
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -111,7 +111,7 @@ Carboniferous/Permian boundary.</p>
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
 <p>The <code>palaeoverse</code> package can be installed via CRAN or its
-dedicated <a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">GitHub
+dedicated <a href="https://github.com/palaeoverse/palaeoverse" class="external-link">GitHub
 repository</a> if the development version is preferred. To install via
 the CRAN, simply use:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -121,7 +121,7 @@ the CRAN, simply use:</p>
 to install <code>palaeoverse</code> directly from GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"palaeoverse-community/palaeoverse"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"palaeoverse/palaeoverse"</span><span class="op">)</span></span></code></pre></div>
 <p>You can now load <code>palaeoverse</code> using the default
 <code>library</code> function:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -170,13 +170,10 @@ using this dataset to demonstrate some of the available functionality in
 <span></span>
 <span><span class="co"># View the column names and the first five lines of the first three columns:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tetrapods</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"  </span></span>
-<span><span class="co">##  [5] "accepted_name"     "accepted_rank"     "early_interval"    "late_interval"    </span></span>
-<span><span class="co">##  [9] "max_ma"            "min_ma"            "phylum"            "class"            </span></span>
-<span><span class="co">## [13] "order"             "family"            "genus"             "abund_value"      </span></span>
-<span><span class="co">## [17] "abund_unit"        "lng"               "lat"               "collection_name"  </span></span>
-<span><span class="co">## [21] "cc"                "formation"         "stratgroup"        "member"           </span></span>
-<span><span class="co">## [25] "zone"              "lithology1"        "environment"       "pres_mode"        </span></span>
+<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"     "accepted_rank"     "early_interval"   </span></span>
+<span><span class="co">##  [8] "late_interval"     "max_ma"            "min_ma"            "phylum"            "class"             "order"             "family"           </span></span>
+<span><span class="co">## [15] "genus"             "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"   "cc"               </span></span>
+<span><span class="co">## [22] "formation"         "stratgroup"        "member"            "zone"              "lithology1"        "environment"       "pres_mode"        </span></span>
 <span><span class="co">## [29] "taxon_environment" "motility"          "life_habit"        "diet"</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></code></pre></div>
@@ -280,17 +277,12 @@ remove these occurrences.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Examine the dataset columns</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"  </span></span>
-<span><span class="co">##  [5] "accepted_name"     "accepted_rank"     "early_interval"    "late_interval"    </span></span>
-<span><span class="co">##  [9] "old_max_ma"        "old_min_ma"        "phylum"            "class"            </span></span>
-<span><span class="co">## [13] "order"             "family"            "genus"             "abund_value"      </span></span>
-<span><span class="co">## [17] "abund_unit"        "lng"               "lat"               "collection_name"  </span></span>
-<span><span class="co">## [21] "cc"                "formation"         "stratgroup"        "member"           </span></span>
-<span><span class="co">## [25] "zone"              "lithology1"        "environment"       "pres_mode"        </span></span>
-<span><span class="co">## [29] "taxon_environment" "motility"          "life_habit"        "diet"             </span></span>
-<span><span class="co">## [33] "early_stage"       "late_stage"        "max_ma"            "interval_mid_ma"  </span></span>
-<span><span class="co">## [37] "min_ma"            "id"                "n_bins"            "bin_assignment"   </span></span>
-<span><span class="co">## [41] "bin_midpoint"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"     "accepted_rank"     "early_interval"   </span></span>
+<span><span class="co">##  [8] "late_interval"     "old_max_ma"        "old_min_ma"        "phylum"            "class"             "order"             "family"           </span></span>
+<span><span class="co">## [15] "genus"             "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"   "cc"               </span></span>
+<span><span class="co">## [22] "formation"         "stratgroup"        "member"            "zone"              "lithology1"        "environment"       "pres_mode"        </span></span>
+<span><span class="co">## [29] "taxon_environment" "motility"          "life_habit"        "diet"              "early_stage"       "late_stage"        "max_ma"           </span></span>
+<span><span class="co">## [36] "interval_mid_ma"   "min_ma"            "id"                "n_bins"            "bin_assignment"    "bin_midpoint"</span></span></code></pre>
 <p>As you can see, four new columns (variables) have been added to our
 dataset. Two of these are especially important. First is the
 <code>bin_assignment</code>, which shows which number bin the occurrence
@@ -306,10 +298,8 @@ examine this further.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">$</span><span class="va">n_bins</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">)</span> <span class="co"># proportions</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">##            1            2            3            4            5            6            7 </span></span>
-<span><span class="co">## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 0.0008880995 </span></span>
-<span><span class="co">##            8            9 </span></span>
-<span><span class="co">## 0.0005920663 0.0047365305</span></span></code></pre>
+<span><span class="co">##            1            2            3            4            5            6            7            8            9 </span></span>
+<span><span class="co">## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 0.0008880995 0.0005920663 0.0047365305</span></span></code></pre>
 <p>As you can see, only ~25% of the dataset can be assigned to just one
 bin - the other occurrences can’t be confidently assigned to an
 individual time interval. This is where the other methods for the
@@ -337,13 +327,13 @@ this.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check palaeocoordinates</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">maj_tetrapods</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p_lng"</span>, <span class="st">"p_lat"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      p_lng   p_lat</span></span>
-<span><span class="co">## 1 -39.1618  2.9214</span></span>
-<span><span class="co">## 2 -16.5579 -6.0513</span></span>
-<span><span class="co">## 4 -30.2728 -4.7607</span></span>
-<span><span class="co">## 5 -36.7609 -0.3527</span></span>
-<span><span class="co">## 6 -39.1593  2.9219</span></span>
-<span><span class="co">## 7 -28.2350 -2.4355</span></span></code></pre>
+<pre><code><span><span class="co">##      p_lng    p_lat</span></span>
+<span><span class="co">## 1 -39.1618   2.9214</span></span>
+<span><span class="co">## 2 -34.0923 -59.1326</span></span>
+<span><span class="co">## 4 -29.7188  -0.1250</span></span>
+<span><span class="co">## 5 -27.9228   3.6845</span></span>
+<span><span class="co">## 6 -29.0469  -0.2730</span></span>
+<span><span class="co">## 7 -16.5579  -6.0513</span></span></code></pre>
 <p>Looks good to me! Now that we have palaeocoordinates for our
 occurrences, we can put them into spatial bins. We can do this using the
 <code>bin_space</code> function, which assigns each occurrence to one of
@@ -360,12 +350,12 @@ many discrete equal-area hexagonal grid cells (based on <a href="https://h3geo.o
 <code class="sourceCode R"><span><span class="co"># Show the first 6 rows of the new columns added using `bin_space`.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">maj_tetrapods</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cell_ID"</span>, <span class="st">"cell_centroid_lng"</span>, <span class="st">"cell_centroid_lat"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##           cell_ID cell_centroid_lng cell_centroid_lat</span></span>
-<span><span class="co">## 1 8380d4fffffffff         -38.83199         3.0411135</span></span>
-<span><span class="co">## 2 837da3fffffffff         -16.16673        -6.1542254</span></span>
-<span><span class="co">## 4 837d6afffffffff         -29.88660        -4.6603585</span></span>
-<span><span class="co">## 5 8380aafffffffff         -36.85368        -0.4980995</span></span>
-<span><span class="co">## 6 8380d4fffffffff         -38.83199         3.0411135</span></span>
-<span><span class="co">## 7 837d5dfffffffff         -27.93956        -2.3704148</span></span></code></pre>
+<span><span class="co">## 1 8380d4fffffffff         -38.83199        3.04111345</span></span>
+<span><span class="co">## 2 83dd68fffffffff         -34.66666      -59.09848198</span></span>
+<span><span class="co">## 4 837c65fffffffff         -29.87643       -0.04859754</span></span>
+<span><span class="co">## 5 837c40fffffffff         -27.94272        3.31086571</span></span>
+<span><span class="co">## 6 837c64fffffffff         -28.90531       -0.63974717</span></span>
+<span><span class="co">## 7 837da3fffffffff         -16.16673       -6.15422544</span></span></code></pre>
 <p><code>bin_space</code> adds some new columns, including one with the
 unique grid cell ID, as well as latitudinal and longitudinal coordinates
 for the centroid of that cell.</p>
@@ -507,7 +497,11 @@ simple scatterplot:</p>
 <span>     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">alpha_data</span><span class="op">$</span><span class="va">interval_mid_ma</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, <span class="co"># reverse the x-axis</span></span>
 <span>     xlab<span class="op">=</span><span class="st">"Time (Ma)"</span>, ylab<span class="op">=</span><span class="st">"No. taxa"</span>, <span class="co"># axes labels</span></span>
 <span>     pch <span class="op">=</span> <span class="fl">19</span>, col <span class="op">=</span> <span class="st">"#0e826f"</span><span class="op">)</span> <span class="co"># point style and colour</span></span></code></pre></div>
-<p><img src="alpha-div-plot-1-1.png" alt="plot of chunk alpha-div-plot-1" width="100%"></p>
+<div class="figure">
+<img src="alpha-div-plot-1-1.png" alt="plot of chunk alpha-div-plot-1" width="100%"><p class="caption">
+plot of chunk alpha-div-plot-1
+</p>
+</div>
 <p>That looks good, but it’s a bit difficult to figure out what stages
 contain which data points. <code><a href="../reference/axis_geo.html">axis_geo()</a></code> adds a geological
 timescale between the plot and the axis.</p>
@@ -527,7 +521,11 @@ timescale to the x-axis:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="co"># add a normal axis to the elft side</span></span>
 <span><span class="fu"><a href="../reference/axis_geo.html">axis_geo</a></span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"epochs"</span>, <span class="st">"periods"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>xlab <span class="op">=</span> <span class="st">"Time (Ma)"</span>, line <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p><img src="alpha-div-plot-2-1.png" alt="plot of chunk alpha-div-plot-2" width="100%"></p>
+<div class="figure">
+<img src="alpha-div-plot-2-1.png" alt="plot of chunk alpha-div-plot-2" width="100%"><p class="caption">
+plot of chunk alpha-div-plot-2
+</p>
+</div>
 <p>Amazing! Now we can clearly see that alpha diversity appears to be a
 lot higher in the Permian than the Carboniferous. But how has the
 spatial distribution of tetrapods changed across this boundary? Let’s
@@ -563,13 +561,13 @@ calculate the average for each time interval for our dataset:</p>
 <span></span>
 <span><span class="co"># Have a look at the dataset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">space_tetrapods</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##               taxon taxon_id     area bin_midpoint</span></span>
-<span><span class="co">## 1         Abdalodon        1        0       257.05</span></span>
-<span><span class="co">## 2         Acrodenta        2        0       257.05</span></span>
-<span><span class="co">## 3       Adelosaurus        3        0       257.05</span></span>
-<span><span class="co">## 4     Aelurognathus        4 55858230       257.05</span></span>
-<span><span class="co">## 9      Aelurosaurus        5  3503706       257.05</span></span>
-<span><span class="co">## 15 Aenigmastropheus        6        0       257.05</span></span></code></pre>
+<pre><code><span><span class="co">##               taxon taxon_id      area bin_midpoint</span></span>
+<span><span class="co">## 1         Abdalodon        1      0.00       257.05</span></span>
+<span><span class="co">## 2         Acrodenta        2      0.00       257.05</span></span>
+<span><span class="co">## 3       Adelosaurus        3      0.00       257.05</span></span>
+<span><span class="co">## 4     Aelurognathus        4 292392.77       257.05</span></span>
+<span><span class="co">## 9      Aelurosaurus        5  14698.41       257.05</span></span>
+<span><span class="co">## 14 Aenigmastropheus        6      0.00       257.05</span></span></code></pre>
 <p>As you can see, the combination of <code>group_apply</code> and
 <code>tax_range_space</code> produces a dataset with the area of
 geographic range for each taxon in kilometers squared for each time
@@ -592,7 +590,11 @@ Carboniferous and Permian:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/axis.html" class="external-link">axis</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="co"># add a normal axis to the left side</span></span>
 <span><span class="fu"><a href="../reference/axis_geo.html">axis_geo</a></span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"epochs"</span>, <span class="st">"periods"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>xlab <span class="op">=</span> <span class="st">"Time (Ma)"</span>, line <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p><img src="alpha-div-plot-3-1.png" alt="plot of chunk alpha-div-plot-3" width="100%"></p>
+<div class="figure">
+<img src="alpha-div-plot-3-1.png" alt="plot of chunk alpha-div-plot-3" width="100%"><p class="caption">
+plot of chunk alpha-div-plot-3
+</p>
+</div>
 <p>From this plot it seems like the average geographic range size of
 tetrapods increased during the Permian. However, we first need to be
 sure we’re not picking up on another pattern. Remember how we calculated
@@ -611,11 +613,11 @@ grid cells in each time interval:</p>
 <span><span class="co">##  Spearman's rank correlation rho</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## data:  log10(space_tetrapods_mean$mean_area) and log10(spat.cov$nrow)</span></span>
-<span><span class="co">## S = 78.758, p-value = 4.039e-05</span></span>
+<span><span class="co">## S = 226.12, p-value = 0.01898</span></span>
 <span><span class="co">## alternative hypothesis: true rho is not equal to 0</span></span>
 <span><span class="co">## sample estimates:</span></span>
-<span><span class="co">##      rho </span></span>
-<span><span class="co">## 0.859361</span></span></code></pre>
+<span><span class="co">##       rho </span></span>
+<span><span class="co">## 0.5962179</span></span></code></pre>
 <p>The high rho value and a p-value less than our cut off for
 significance (0.05) indicate a strong and statistically significant
 correlation between average geographic range size and the spatial spread
@@ -624,8 +626,9 @@ of data. Seems like this work is far from over…</p>
 <p>Hopefully this vignette has shown you the potential uses for
 <code>palaeoverse</code> functions and helped provide a workflow for
 your own analyses. If you have any questions about the package or its
-functionality, please feel free to join our Google group (<a href="https://groups.google.com/g/palaeoverse" class="external-link uri">https://groups.google.com/g/palaeoverse</a>) and leave a
-question; we’ll aim to answer it as soon as possible!</p>
+functionality, please feel free to join our <a href="https://groups.google.com/g/palaeoverse" class="external-link">Palaeoverse Google
+group</a> and leave a question; we’ll aim to answer it as soon as
+possible!</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -637,7 +640,11 @@ collapse’. Proceedings of the Royal Society B: Biological Sciences,
 285(1872), 20172730.</p>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+<style type="text/css">
+p.caption {
+  display: none;
+}
+</style></main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
 

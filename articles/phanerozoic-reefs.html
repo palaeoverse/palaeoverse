@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Latitudinal trends in Phanerozoic reefs">
 <meta property="og:description" content="palaeoverse">
@@ -91,7 +91,7 @@
     
 <p><strong>Authors:</strong> <a href="https://palaeoverse.org/about.html#our-team" class="external-link">The Palaeoverse
 Development Team</a></p>
-<p><strong>Last updated:</strong> 2023-04-18</p>
+<p><strong>Last updated:</strong> 2023-12-01</p>
 <div style="text-align: justify">
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -110,7 +110,7 @@ example looking at latitudinal trends in Phanerozoic reefs.</p>
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
 <p>The <code>palaeoverse</code> package can be installed via CRAN or its
-dedicated <a href="https://github.com/palaeoverse-community/palaeoverse" class="external-link">GitHub
+dedicated <a href="https://github.com/palaeoverse/palaeoverse" class="external-link">GitHub
 repository</a> if the development version is preferred. To install via
 the CRAN, simply use:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -120,7 +120,7 @@ the CRAN, simply use:</p>
 to install <code>palaeoverse</code> directly from GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"palaeoverse-community/palaeoverse"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"palaeoverse/palaeoverse"</span><span class="op">)</span></span></code></pre></div>
 <p>You can now load <code>palaeoverse</code> using the default
 <code>library</code> function:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -309,7 +309,11 @@ Geological Time Scale to our plot.</p>
 <span>     type <span class="op">=</span> <span class="st">"b"</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="co"># Add axis of the geological time scale</span></span>
 <span><span class="fu"><a href="../reference/axis_geo.html">axis_geo</a></span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="st">"periods"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="n-reef-1.png" alt="plot of chunk n-reef" width="100%"></p>
+<div class="figure">
+<img src="n-reef-1.png" alt="plot of chunk n-reef" width="100%"><p class="caption">
+plot of chunk n-reef
+</p>
+</div>
 <p>You would (and should) of course want to explore your data a little
 more than this. However, for the sake of brevity, let’s focus on our
 research theme: latitudinal trends in Phanerozoic reefs.</p>
@@ -323,10 +327,11 @@ their location at time of deposition. The <code>palaeorotate</code>
 function allows the user to do so using either the ‘point’ or ‘grid’
 method. The first approach makes use of the GPlates Web Service and
 allows point data to be rotated to specific ages using the available
-models (see <a href="https://gwsdoc.gplates.org" class="external-link uri">https://gwsdoc.gplates.org</a>). The second approach uses
-reconstruction files of pre-generated palaeocoordinates to
-spatiotemporally link occurrences’ modern coordinates and age estimates
-with their respective palaeocoordinates. Let’s give it a shot:</p>
+models (see the <a href="https://gwsdoc.gplates.org" class="external-link">GPlates Web Service
+documentation</a>). The second approach uses reconstruction files of
+pre-generated palaeocoordinates to spatiotemporally link occurrences’
+modern coordinates and age estimates with their respective
+palaeocoordinates. Let’s give it a shot:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Palaeorotate occurrences</span></span>
 <span><span class="va">reefs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/palaeorotate.html">palaeorotate</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, age <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
@@ -334,13 +339,13 @@ with their respective palaeocoordinates. Let’s give it a shot:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check palaeocoordinates</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">reefs</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p_lng"</span>, <span class="st">"p_lat"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      p_lng   p_lat</span></span>
-<span><span class="co">## 1  21.3630 10.0755</span></span>
-<span><span class="co">## 2  17.4435 25.5719</span></span>
-<span><span class="co">## 3 -72.6726 27.3965</span></span>
-<span><span class="co">## 4  17.9163 13.7121</span></span>
-<span><span class="co">## 5  18.0122 25.2688</span></span>
-<span><span class="co">## 6  16.5789 24.6727</span></span></code></pre>
+<pre><code><span><span class="co">##     p_lng   p_lat</span></span>
+<span><span class="co">## 1 21.3630 10.0755</span></span>
+<span><span class="co">## 2 22.1341  2.3106</span></span>
+<span><span class="co">## 3      NA      NA</span></span>
+<span><span class="co">## 4      NA      NA</span></span>
+<span><span class="co">## 5      NA      NA</span></span>
+<span><span class="co">## 6 26.3041 -0.3093</span></span></code></pre>
 <p>Now let’s plot that palaeolatitudinal distribution!</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot data</span></span>
@@ -352,7 +357,11 @@ with their respective palaeocoordinates. Let’s give it a shot:</p>
 <span>     xaxt <span class="op">=</span> <span class="st">"n"</span>,</span>
 <span>     type <span class="op">=</span> <span class="st">"p"</span>, pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/axis_geo.html">axis_geo</a></span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="st">"periods"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reefs-dist-1.png" alt="plot of chunk reefs-dist" width="100%"></p>
+<div class="figure">
+<img src="reefs-dist-1.png" alt="plot of chunk reefs-dist" width="100%"><p class="caption">
+plot of chunk reefs-dist
+</p>
+</div>
 <p>Neat! But it’s hard to draw any trends from this data (there is a lot
 of it!). We can do better… let’s summarise this information… if we
 assume that reefs are broadly limited to tropical and subtropical
@@ -381,7 +390,11 @@ conditions.</p>
 <span>     pch <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="co"># Add axis of the geological time scale</span></span>
 <span><span class="fu"><a href="../reference/axis_geo.html">axis_geo</a></span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="st">"periods"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reefs-max-1.png" alt="plot of chunk reefs-max" width="100%"></p>
+<div class="figure">
+<img src="reefs-max-1.png" alt="plot of chunk reefs-max" width="100%"><p class="caption">
+plot of chunk reefs-max
+</p>
+</div>
 <p>That’s definitely much clearer! Should we stop there? Well… how about
 one last thing… let’s consider how plate rotation model choice might
 impact these results using three different models: GOLONKA, PALEOMAP,
@@ -401,20 +414,13 @@ et al. 2021).</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">reefs</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p_lng_PALEOMAP"</span>, <span class="st">"p_lat_PALEOMAP"</span>,</span>
 <span>               <span class="st">"p_lng_GOLONKA"</span>, <span class="st">"p_lat_GOLONKA"</span>,</span>
 <span>               <span class="st">"p_lng_MERDITH2021"</span>, <span class="st">"p_lat_MERDITH2021"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   p_lng_PALEOMAP p_lat_PALEOMAP p_lng_GOLONKA p_lat_GOLONKA p_lng_MERDITH2021</span></span>
-<span><span class="co">## 1        21.3630        10.0755       35.6565        8.3384           34.4230</span></span>
-<span><span class="co">## 2        17.4435        25.5719       32.2609       19.9044           21.1582</span></span>
-<span><span class="co">## 3       -72.6726        27.3965      -47.2123       34.6578          -46.7249</span></span>
-<span><span class="co">## 4        17.9163        13.7121       29.2657        8.3957           29.2360</span></span>
-<span><span class="co">## 5        18.0122        25.2688       32.6906       19.4663           21.8226</span></span>
-<span><span class="co">## 6        16.5789        24.6727       31.1897       19.2698           27.9955</span></span>
-<span><span class="co">##   p_lat_MERDITH2021</span></span>
-<span><span class="co">## 1           12.1941</span></span>
-<span><span class="co">## 2           26.5767</span></span>
-<span><span class="co">## 3           37.2704</span></span>
-<span><span class="co">## 4           12.8023</span></span>
-<span><span class="co">## 5           26.5278</span></span>
-<span><span class="co">## 6           21.6152</span></span></code></pre>
+<pre><code><span><span class="co">##   p_lng_PALEOMAP p_lat_PALEOMAP p_lng_GOLONKA p_lat_GOLONKA p_lng_MERDITH2021 p_lat_MERDITH2021</span></span>
+<span><span class="co">## 1        21.3630        10.0755       35.6565        8.3384           34.4223           12.1964</span></span>
+<span><span class="co">## 2        22.1341         2.3106       31.0982        4.8069           30.8863            4.7404</span></span>
+<span><span class="co">## 3             NA             NA      124.2500       24.3330          124.2489           24.3367</span></span>
+<span><span class="co">## 4             NA             NA      124.2500       24.3330          124.2493           24.3352</span></span>
+<span><span class="co">## 5             NA             NA      124.2500       24.3330          124.2498           24.3337</span></span>
+<span><span class="co">## 6        26.3041        -0.3093       38.0979        4.9270           36.3998            4.5809</span></span></code></pre>
 <p>Now we’ve palaeorotated our data, let’s repeat what we did earlier
 and calculate the most poleward reef occurrence for each model.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
@@ -465,13 +471,18 @@ and calculate the most poleward reef occurrence for each model.</p>
 <span>       lty <span class="op">=</span> <span class="fl">1</span>, pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">16</span>, <span class="fl">17</span><span class="op">)</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
 <span><span class="co"># Add geological time scale axis</span></span>
 <span><span class="fu"><a href="../reference/axis_geo.html">axis_geo</a></span><span class="op">(</span>side <span class="op">=</span> <span class="fl">1</span>, intervals <span class="op">=</span> <span class="st">"periods"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reefs-max-multi-1.png" alt="plot of chunk reefs-max-multi" width="100%"></p>
+<div class="figure">
+<img src="reefs-max-multi-1.png" alt="plot of chunk reefs-max-multi" width="100%"><p class="caption">
+plot of chunk reefs-max-multi
+</p>
+</div>
 <p>We will leave you to make your own conclusions…</p>
 <p>Hopefully this vignette has shown you the potential uses for
 <code>palaeoverse</code> functions and helped provide a workflow for
 your own analyses. If you have any questions about the package or its
-functionality, please feel free to join our Google group (<a href="https://groups.google.com/g/palaeoverse" class="external-link uri">https://groups.google.com/g/palaeoverse</a>) and leave a
-question; we’ll aim to answer it as soon as possible!</p>
+functionality, please feel free to join our <a href="https://groups.google.com/g/palaeoverse" class="external-link">Palaeoverse Google
+group</a> and leave a question; we’ll aim to answer it as soon as
+possible!</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
