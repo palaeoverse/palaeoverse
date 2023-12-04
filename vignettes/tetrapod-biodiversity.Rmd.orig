@@ -27,7 +27,7 @@ load_all()
 
 ## Installation
 
-The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse-community/palaeoverse) if the development version is preferred. To install via the CRAN, simply use:
+The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse/palaeoverse) if the development version is preferred. To install via the CRAN, simply use:
 
 ```{r eval = FALSE}
 install.packages("palaeoverse")
@@ -37,7 +37,7 @@ To install the development version, first install the `devtools` package, and th
 
 ```{r eval = FALSE}
 install.packages("devtools")
-devtools::install_github("palaeoverse-community/palaeoverse")
+devtools::install_github("palaeoverse/palaeoverse")
 ```
 
 You can now load `palaeoverse` using the default `library` function:
@@ -391,10 +391,16 @@ The high rho value and a p-value less than our cut off for significance (0.05) i
 
 ...but we'll leave the rest to you!
 
-Hopefully this vignette has shown you the potential uses for `palaeoverse` functions and helped provide a workflow for your own analyses. If you have any questions about the package or its functionality, please feel free to join our Google group (https://groups.google.com/g/palaeoverse) and leave a question; we'll aim to answer it as soon as possible!
+Hopefully this vignette has shown you the potential uses for `palaeoverse` functions and helped provide a workflow for your own analyses. If you have any questions about the package or its functionality, please feel free to join our [Palaeoverse Google group](https://groups.google.com/g/palaeoverse) and leave a question; we'll aim to answer it as soon as possible!
 
 # References
 
 Dunne, E.M., Close, R.A., Button, D.J., Brocklehurst, N., Cashmore, D.D., Lloyd, G.T. and Butler, R.J., 2018. Diversity change during the rise of tetrapods and the impact of the ‘Carboniferous rainforest collapse’. Proceedings of the Royal Society B: Biological Sciences, 285(1872), 20172730.
 
 </div>
+
+```{css echo = FALSE}
+p.caption {
+  display: none;
+}
+```
