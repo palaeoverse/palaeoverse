@@ -1,3 +1,8 @@
+# palaeoverse (development version)
+
+* Added warning to bin_time (#104)
+* Improved link accessibility (#88)
+
 # palaeoverse 1.2.1
 
 * Fixed handling of multiple models in palaeorotate (#92)
