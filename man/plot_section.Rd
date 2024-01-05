@@ -12,7 +12,9 @@ plot_section(
   by = "FAD",
   xlab = "",
   ylab = "",
-  ...
+  plot_args = list(),
+  x_args = list(las = 2),
+  y_args = list()
 )
 }
 \arguments{
@@ -44,7 +46,14 @@ any occurrence labelled as uncertain will be plotted with a white circle.}
 \item{ylab}{\code{character}. The y-axis label (over strata) passed directly
 to \code{plot}.}
 
-\item{...}{Further arguments that are passed directly to \code{plot}.}
+\item{plot_args}{A list of optional arguments that are passed directly to
+\code{\link[graphics:plot.default]{graphics::plot()}}.}
+
+\item{x_args}{A list of optional arguments that are passed directly to
+\code{\link[=axis]{axis()}} when generating the x-axis.}
+
+\item{y_args}{A list of optional arguments that are passed directly to
+\code{\link[=axis]{axis()}} when generating the x-axis.}
 }
 \value{
 Invisibly returns a data.frame of the calculated taxonomic

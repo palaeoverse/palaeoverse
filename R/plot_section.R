@@ -24,7 +24,12 @@
 #'   \code{plot}.
 #' @param ylab \code{character}. The y-axis label (over strata) passed directly
 #'   to \code{plot}.
-#' @param ... Further arguments that are passed directly to \code{plot}.
+#' @param plot_args A list of optional arguments that are passed directly to
+#'   [graphics::plot()].
+#' @param x_args A list of optional arguments that are passed directly to
+#'   [axis()] when generating the x-axis.
+#' @param y_args A list of optional arguments that are passed directly to
+#'   [axis()] when generating the x-axis.
 #'
 #' @return Invisibly returns a data.frame of the calculated taxonomic
 #'   stratigraphic ranges.
@@ -35,6 +40,7 @@
 #'
 #' @section Developer(s): Bethany Allen & Alexander Dunhill
 #' @section Reviewer(s): William Gearty & Lewis A. Jones
+#' @importFrom graphics axis par segments plot points box
 #'
 #' @examples
 #' #Load tetrapod dataset
@@ -62,8 +68,9 @@
 #'
 #' @export
 plot_section <- function(occdf, name = "taxon", level = "bed",
-                          certainty = NULL, by = "FAD",
-                          xlab = "", ylab = "", ...) {
+                         certainty = NULL, by = "FAD",
+                         xlab = "", ylab = "", plot_args = list(),
+                         x_args = list(las = 2), y_args = list()) {
 
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe")
@@ -152,13 +159,18 @@ plot_section <- function(occdf, name = "taxon", level = "bed",
   }
 
   #Create plot
-  plot(x = NA, y = NA,
-       xlim = c(1, length(unique_taxa)),
-       ylim = c(min(ranges$min_bin), max(ranges$max_bin)),
-       axes = FALSE,
-       xlab = xlab,
-       ylab = ylab,
-       ...)
+  dump <- c("x", "y", "xlim", "ylim", "axes", "xlab", "ylab")
+  if (any(names(plot_args) %in% dump)) {
+    plot_args <- plot_args[-which(names(plot_args) %in% dump)]
+  }
+  do.call(plot, args =
+            c(list(x = NA, y = NA,
+                   xlim = c(1, length(unique_taxa)),
+                   ylim = c(min(ranges$min_bin), max(ranges$max_bin)),
+                   axes = FALSE,
+                   xlab = xlab,
+                   ylab = ylab),
+              plot_args))
   if (is.null(certainty)) {
     segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
              x0 = ranges$ID,
@@ -177,8 +189,19 @@ plot_section <- function(occdf, name = "taxon", level = "bed",
     points(y = uncertain$bed, x = uncertain$ID, pch = 21,
            col = "black", bg = "white")
   }
-  axis(2, unique(occdf$bed))
-  axis(1, ranges$taxon, at = ranges$ID, las = 2)
+  # plot y-axis
+  dump <- c("side", "at")
+  if (any(names(y_args) %in% dump)) {
+    y_args <- y_args[-which(names(y_args) %in% dump)]
+  }
+  do.call(axis, args = c(list(side = 2, at = unique(occdf$bed)), y_args))
+  # plot x-axis
+  dump <- c("side", "at", "labels")
+  if (any(names(x_args) %in% dump)) {
+    x_args <- x_args[-which(names(x_args) %in% dump)]
+  }
+  do.call(axis, args = c(list(side = 1, at = ranges$ID, labels = ranges$taxon),
+                         x_args))
   box()
   invisible(ranges)
 }
