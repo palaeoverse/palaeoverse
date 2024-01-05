@@ -97,6 +97,6 @@ plot_section(occdf, certainty = "certainty", by = "LAD",
 plot_section(occdf, certainty = "certainty", by = "name",
              ylab = "Bed number")
 plot_section(occdf, certainty = "certainty", ylab = "Bed number",
-             main = "Section A")
+             plot_args = list(main = "Section A"))
 
 }

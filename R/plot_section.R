@@ -64,7 +64,7 @@
 #' plot_section(occdf, certainty = "certainty", by = "name",
 #'              ylab = "Bed number")
 #' plot_section(occdf, certainty = "certainty", ylab = "Bed number",
-#'              main = "Section A")
+#'              plot_args = list(main = "Section A"))
 #'
 #' @export
 plot_section <- function(occdf, name = "taxon", level = "bed",
