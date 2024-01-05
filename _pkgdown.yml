@@ -80,6 +80,7 @@ reference:
     Functions to aid in the visualisation of data and analysis results.
   contents:
   - axis_geo
+  - plot_section
 
 - title: Auxiliary functions
   desc: >
