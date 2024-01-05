@@ -70,7 +70,7 @@
 plot_section <- function(occdf, name = "taxon", level = "bed",
                          certainty = NULL, by = "FAD",
                          xlab = "", ylab = "", plot_args = list(),
-                         x_args = list(las = 2), y_args = list()) {
+                         x_args = list(font = 3, las = 2), y_args = list()) {
 
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe")

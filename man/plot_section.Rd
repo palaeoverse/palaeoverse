@@ -13,7 +13,7 @@ plot_section(
   xlab = "",
   ylab = "",
   plot_args = list(),
-  x_args = list(las = 2),
+  x_args = list(font = 3, las = 2),
   y_args = list()
 )
 }
