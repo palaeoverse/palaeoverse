@@ -4,36 +4,37 @@
 #' data.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing
-#' at least two columns: names of taxa, and their stratigraphic position
-#' (see `name` and `level` arguments).
+#'   at least two columns: names of taxa, and their stratigraphic position (see
+#'   `name` and `level` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
-#' as the input names, e.g. "taxon" (default).
+#'   as the input names, e.g. "taxon" (default).
 #' @param level \code{character}. The name of the column you wish to be treated
-#' as the stratigraphic levels associated with each occurrence, e.g. "bed"
-#' (default) or "height".
+#'   as the stratigraphic levels associated with each occurrence, e.g. "bed"
+#'   (default) or "height".
 #' @param certainty \code{character}. The name of the column you wish to be
-#' treated as the information on whether an identification is certain ("1") or
-#' uncertain ("0"). By default, no column name is provided, and all occurrences
-#' are assumed to be certain. In the plot, any occurrence labelled as certain
-#' will be plotted with a black circle, while any occurrence labelled as
-#' uncertain will be plotted with a white circle.
-#' @param by \code{character}. How should the output be sorted?
-#' Either: "FAD" (first appearance; default), "LAD" (last appearance), or
-#' "name" (alphabetically by taxon names).
+#'   treated as the information on whether an identification is certain ("1") or
+#'   uncertain ("0"). By default (\code{certainty = NULL}), no column name is
+#'   provided, and all occurrences are assumed to be certain. In the plot, any
+#'   occurrence labelled as certain will be plotted with a black circle, while
+#'   any occurrence labelled as uncertain will be plotted with a white circle.
+#' @param by \code{character}. How should the output be sorted? Either: "FAD"
+#'   (first appearance; default), "LAD" (last appearance), or "name"
+#'   (alphabetically by taxon names).
 #' @param xlab \code{character}. The x-axis label (over taxa) passed directly to
-#' \code{plot}.
+#'   \code{plot}.
 #' @param ylab \code{character}. The y-axis label (over strata) passed directly
-#' to \code{plot}.
+#'   to \code{plot}.
 #' @param ... Further arguments that are passed directly to \code{plot}.
 #'
-#' @return No return value. Function is used for its side effect, which is to
-#' create a plot showing the stratigraphic ranges of taxa in a section,
-#' with levels at which the taxon was sampled indicated with a point.
+#' @return Invisibly returns a data.frame of the calculated taxonomic
+#'   stratigraphic ranges.
 #'
-#' @section Developer(s):
-#' Bethany Allen & Alexander Dunhill
-#' @section Reviewer(s):
-#' William Gearty & Lewis A. Jones
+#'   Function is usually used for its side effect, which is to create a plot
+#'   showing the stratigraphic ranges of taxa in a section, with levels at which
+#'   the taxon was sampled indicated with a point.
+#'
+#' @section Developer(s): Bethany Allen & Alexander Dunhill
+#' @section Reviewer(s): William Gearty & Lewis A. Jones
 #'
 #' @examples
 #' #Load tetrapod dataset
@@ -61,7 +62,7 @@
 #'
 #' @export
 plot_section <- function(occdf, name = "taxon", level = "bed",
-                          certainty = FALSE, by = "FAD",
+                          certainty = NULL, by = "FAD",
                           xlab = "", ylab = "", ...) {
 
   if (is.data.frame(occdf) == FALSE) {
@@ -76,8 +77,16 @@ plot_section <- function(occdf, name = "taxon", level = "bed",
     stop("Either `name` or `level` is not a named column in `occdf`")
   }
 
-  if (certainty != FALSE && certainty %in% colnames(occdf) == FALSE) {
-    stop("`certainty` is not a named column in `occdf`")
+  if (!is.null(certainty)) {
+    if (!is.character(certainty)) {
+      stop("`certainty` must either be of class character or NULL")
+    }
+    if (certainty %in% colnames(occdf) == FALSE) {
+      stop("`certainty` is not a named column in `occdf`")
+    }
+    if (any(is.na(occdf[, certainty]))) {
+      stop("The `certainty` column contains NA values")
+    }
   }
 
   if (any(is.na(occdf[, name]))) {
@@ -86,10 +95,6 @@ plot_section <- function(occdf, name = "taxon", level = "bed",
 
   if (any(is.na(occdf[, level]))) {
     stop("The `level` column contains NA values")
-  }
-
-  if (certainty != FALSE && any(is.na(occdf[, certainty]))) {
-    stop("The `certainty` column contains NA values")
   }
 
   if (!by %in% c("name", "FAD", "LAD")) {
@@ -101,7 +106,7 @@ plot_section <- function(occdf, name = "taxon", level = "bed",
   unique_taxa <- unique_taxa[order(unique_taxa)]
 
   #Create object to hold information
-  if (certainty == FALSE) {
+  if (is.null(certainty)) {
     ranges <- data.frame(taxon = unique_taxa, min_bin = NA, max_bin = NA)
   } else {
     ranges <- data.frame(taxon = unique_taxa, min_bin = NA,
@@ -114,12 +119,12 @@ plot_section <- function(occdf, name = "taxon", level = "bed",
     occ_filter <- occdf[(occdf[, name] == unique_taxa[i]), ]
     ranges[i, 2] <- min(occ_filter[level])
     ranges[i, 3] <- max(occ_filter[level])
-    #If uncertainty is used, create second set of columns for certain IDs
-    if (certainty != FALSE) {
+    #If uncertainty is used, fill second set of columns for certain IDs
+    if (!is.null(certainty)) {
       occ_filter <- occ_filter[(occ_filter[, certainty] == 1), ]
       if (nrow(occ_filter) == 0) {
         occ_filter[1, ] <- NA
-        }
+      }
       ranges[i, 4] <- min(occ_filter[level])
       ranges[i, 5] <- max(occ_filter[level])
     }
@@ -137,12 +142,12 @@ plot_section <- function(occdf, name = "taxon", level = "bed",
   }
 
   #Add ID numbers
-  ranges$ID <- c(1:seq_along(unique_taxa))
+  ranges$ID <- seq_along(unique_taxa)
   labels <- ranges[, c("taxon", "ID")]
   occdf <- merge(occdf, labels, by.x = name, by.y = "taxon")
 
   #Obtain uncertain occurrences
-  if (certainty != FALSE) {
+  if (!is.null(certainty)) {
     uncertain <- occdf[(occdf[, certainty] == 0), ]
   }
 
@@ -154,7 +159,7 @@ plot_section <- function(occdf, name = "taxon", level = "bed",
        xlab = xlab,
        ylab = ylab,
        ...)
-  if (certainty == FALSE) {
+  if (is.null(certainty)) {
     segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
              x0 = ranges$ID,
              col = "black", lwd = 1.5)
@@ -168,11 +173,12 @@ plot_section <- function(occdf, name = "taxon", level = "bed",
   }
   points(y = occdf$bed, x = occdf$ID, pch = 19,
          col = "black")
-  if (certainty != FALSE){
-    points(y = uncertain$bed, x = uncertain$ID, pch = 16,
-          col = "white")
+  if (!is.null(certainty)){
+    points(y = uncertain$bed, x = uncertain$ID, pch = 21,
+           col = "black", bg = "white")
   }
   axis(2, unique(occdf$bed))
-  axis(1, ranges$taxon, at = c(1:max(ranges$ID)), las = 2)
+  axis(1, ranges$taxon, at = ranges$ID, las = 2)
   box()
+  invisible(ranges)
 }
