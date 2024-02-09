@@ -7,16 +7,17 @@
 #'   at least two columns: names of taxa, and their stratigraphic position (see
 #'   `name` and `level` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
-#'   as the input names, e.g. "taxon" (default).
+#'   as the input names, e.g. "genus" (default).
 #' @param level \code{character}. The name of the column you wish to be treated
 #'   as the stratigraphic levels associated with each occurrence, e.g. "bed"
-#'   (default) or "height".
+#'   (default) or "height". Stratigraphic levels must be \code{numeric}.
 #' @param certainty \code{character}. The name of the column you wish to be
-#'   treated as the information on whether an identification is certain ("1") or
-#'   uncertain ("0"). By default (\code{certainty = NULL}), no column name is
-#'   provided, and all occurrences are assumed to be certain. In the plot, any
-#'   occurrence labelled as certain will be plotted with a black circle, while
-#'   any occurrence labelled as uncertain will be plotted with a white circle.
+#'   treated as the information on whether an identification is certain (1) or
+#'   uncertain (0). By default (\code{certainty = NULL}), no column name is
+#'   provided, and all occurrences are assumed to be certain. In the plot,
+#'   certain occurrences will be plotted with a black circle and joined with
+#'   solid lines, while uncertain occurrences will be plotted with a white
+#'   circle and joined with dashed lines.
 #' @param by \code{character}. How should the output be sorted? Either: "FAD"
 #'   (first appearance; default), "LAD" (last appearance), or "name"
 #'   (alphabetically by taxon names).
@@ -34,7 +35,7 @@
 #' @return Invisibly returns a data.frame of the calculated taxonomic
 #'   stratigraphic ranges.
 #'
-#'   Function is usually used for its side effect, which is to create a plot
+#'   The function is usually used for its side effect, which is to create a plot
 #'   showing the stratigraphic ranges of taxa in a section, with levels at which
 #'   the taxon was sampled indicated with a point.
 #'
@@ -46,28 +47,26 @@
 #' #Load tetrapod dataset
 #' data(tetrapods)
 #' # Sample tetrapod occurrences
-#' tetrapod_names <- tetrapods$accepted_name[1:50]
+#' tetrapod_names <- tetrapods$genus[1:50]
 #' # Simulate bed numbers
 #' beds_sampled <- sample.int(n = 10, size = 50, replace = TRUE)
 #' # Simulate certainty values
 #' certainty_sampled <- sample(x = 0:1, size = 50, replace = TRUE)
 #' #Combine into data frame
-#' occdf <- data.frame(taxon = tetrapod_names, bed = beds_sampled,
+#' occdf <- data.frame(genus = tetrapod_names, bed = beds_sampled,
 #' certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
 #' par(mar = c(12, 5, 2, 2))
 #' tax_range_strat(occdf, ylab = "Stratigraphic height (m)")
 #' tax_range_strat(occdf, certainty = "certainty",
 #'              ylab = "Stratigraphic height (m)")
-#' tax_range_strat(occdf, certainty = "certainty", by = "LAD",
-#'              ylab = "Bed number")
 #' tax_range_strat(occdf, certainty = "certainty", by = "name",
 #'              ylab = "Bed number")
 #' tax_range_strat(occdf, certainty = "certainty", ylab = "Bed number",
 #'              plot_args = list(main = "Section A"))
 #'
 #' @export
-tax_range_strat <- function(occdf, name = "taxon", level = "bed",
+tax_range_strat <- function(occdf, name = "genus", level = "bed",
                          certainty = NULL, by = "FAD",
                          xlab = "", ylab = "", plot_args = list(),
                          x_args = list(font = 3, las = 2), y_args = list()) {
@@ -77,7 +76,7 @@ tax_range_strat <- function(occdf, name = "taxon", level = "bed",
   }
 
   if (!is.numeric(occdf[, level])) {
-    stop("`level` must be of class numeric.")
+    stop("`level` must be of class numeric")
   }
 
   if (any(c(name, level) %in% colnames(occdf) == FALSE)) {
