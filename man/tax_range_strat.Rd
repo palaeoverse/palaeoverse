@@ -10,7 +10,7 @@ tax_range_strat(
   level = "bed",
   certainty = NULL,
   by = "FAD",
-  plot_args = list(xlab = "", ylab = ""),
+  plot_args = list(xlab = "", ylab = "Bed number"),
   x_args = list(font = 3, las = 2),
   y_args = list()
 )
@@ -41,9 +41,9 @@ circle and joined with dashed lines.}
 
 \item{plot_args}{A list of optional arguments that are passed directly to
 \code{\link[graphics:plot.default]{graphics::plot()}}. Useful arguments include \code{xlab} (the x-axis label),
-\code{ylab} (the y-axis label), \code{main} (the plot title), \code{xlim} (the x-axis
-limits), and \code{ylim} (the y-axis limits). The \code{axes} and \code{type} arguments
-are not supported and will be overridden.}
+\code{ylab} (the y-axis label, default is "Bed number"), \code{main} (the plot
+title), \code{xlim} (the x-axis limits), and \code{ylim} (the y-axis limits). The
+\code{axes} and \code{type} arguments are not supported and will be overridden.}
 
 \item{x_args}{A list of optional arguments that are passed directly to
 \code{\link[=axis]{axis()}} when generating the x-axis. Useful arguments include \code{font} (e.g.,
@@ -88,13 +88,13 @@ occdf <- data.frame(taxon = tetrapod_names,
                     certainty = certainty_sampled)
 # Plot stratigraphic ranges
 par(mar = c(12, 5, 2, 2))
-tax_range_strat(occdf, name = "taxon",
-                plot_args = list(ylab = "Stratigraphic height (m)"))
+tax_range_strat(occdf, name = "taxon")
 tax_range_strat(occdf, name = "taxon", certainty = "certainty",
                 plot_args = list(ylab = "Stratigraphic height (m)"))
 # Plot stratigraphic ranges with more labelling
 tax_range_strat(occdf, name = "taxon", certainty = "certainty", by = "name",
-                plot_args = list(main = "Section A", ylab = "Bed number"))
+                plot_args = list(main = "Section A",
+                                 ylab = "Stratigraphic height (m)"))
 eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
                           max_age = c(0.5, 3.5),
                           min_age = c(3.5, 10.5),
