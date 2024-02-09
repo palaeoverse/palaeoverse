@@ -10,6 +10,7 @@ test_that("tax_range_strat() error handling", {
   expect_error(tax_range_strat(occdf = occdf, name = "test"))
   expect_error(tax_range_strat(occdf = occdf, level = "test"))
   expect_error(tax_range_strat(occdf = occdf, level = "genus"))
+  expect_error(tax_range_strat(occdf = occdf, certainty = 0))
   expect_error(tax_range_strat(occdf = occdf, certainty = "test"))
   expect_error(tax_range_strat(occdf = occdf, by = "test"))
 

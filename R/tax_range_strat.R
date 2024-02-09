@@ -175,7 +175,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
     plot_args$xlab <- ""
   }
   if (!("ylab" %in% names(plot_args))) {
-    plot_args$ylab <- ""
+    plot_args$ylab <- "Bed number"
   }
   do.call(plot, args =
             c(list(x = c(ranges$ID, ranges$ID),
