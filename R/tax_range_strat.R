@@ -21,16 +21,17 @@
 #' @param by \code{character}. How should the output be sorted? Either: "FAD"
 #'   (first appearance; default), "LAD" (last appearance), or "name"
 #'   (alphabetically by taxon names).
-#' @param xlab \code{character}. The x-axis label (over taxa) passed directly to
-#'   \code{plot}.
-#' @param ylab \code{character}. The y-axis label (over strata) passed directly
-#'   to \code{plot}.
 #' @param plot_args A list of optional arguments that are passed directly to
-#'   [graphics::plot()].
+#'   [graphics::plot()]. Useful arguments include `xlab` (the x-axis label),
+#'   `ylab` (the y-axis label), `main` (the plot title), `xlim` (the x-axis
+#'   limits), and `ylim` (the y-axis limits). The `axes` and `type` arguments
+#'   are not supported and will be overridden.
 #' @param x_args A list of optional arguments that are passed directly to
-#'   [axis()] when generating the x-axis.
+#'   [axis()] when generating the x-axis. Useful arguments include `font` (e.g.,
+#'   `3` is italic) and `las` (label orientation).
 #' @param y_args A list of optional arguments that are passed directly to
-#'   [axis()] when generating the x-axis.
+#'   [axis()] when generating the y-axis. Useful arguments include `font` (e.g.,
+#'   `3` is italic) and `las` (label orientation).
 #'
 #' @return Invisibly returns a data.frame of the calculated taxonomic
 #'   stratigraphic ranges.
@@ -58,12 +59,13 @@
 #'                     certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
 #' par(mar = c(12, 5, 2, 2))
-#' tax_range_strat(occdf, name = "taxon", ylab = "Stratigraphic height (m)")
+#' tax_range_strat(occdf, name = "taxon",
+#'                 plot_args = list(ylab = "Stratigraphic height (m)"))
 #' tax_range_strat(occdf, name = "taxon", certainty = "certainty",
-#'                 ylab = "Stratigraphic height (m)")
+#'                 plot_args = list(ylab = "Stratigraphic height (m)"))
 #' # Plot stratigraphic ranges with more labelling
 #' tax_range_strat(occdf, name = "taxon", certainty = "certainty", by = "name",
-#'              ylab = "Bed number", plot_args = list(main = "Section A"))
+#'                 plot_args = list(main = "Section A", ylab = "Bed number"))
 #' eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
 #'                           max_age = c(0.5, 3.5),
 #'                           min_age = c(3.5, 10.5),
@@ -72,9 +74,10 @@
 #'
 #' @export
 tax_range_strat <- function(occdf, name = "genus", level = "bed",
-                         certainty = NULL, by = "FAD",
-                         xlab = "", ylab = "", plot_args = list(),
-                         x_args = list(font = 3, las = 2), y_args = list()) {
+                            certainty = NULL, by = "FAD",
+                            plot_args = list(xlab = "", ylab = ""),
+                            x_args = list(font = 3, las = 2),
+                            y_args = list()) {
 
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe")
@@ -163,17 +166,21 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
   }
 
   #Create plot
-  dump <- c("x", "y", "xlim", "ylim", "axes", "xlab", "ylab")
+  dump <- c("x", "y", "axes", "type")
   if (any(names(plot_args) %in% dump)) {
     plot_args <- plot_args[-which(names(plot_args) %in% dump)]
   }
+  # use defaults if not set
+  if (!("xlab" %in% names(plot_args))) {
+    plot_args$xlab <- ""
+  }
+  if (!("ylab" %in% names(plot_args))) {
+    plot_args$ylab <- ""
+  }
   do.call(plot, args =
-            c(list(x = NA, y = NA,
-                   xlim = c(1, length(unique_taxa)),
-                   ylim = c(min(ranges$min_bin), max(ranges$max_bin)),
-                   axes = FALSE,
-                   xlab = xlab,
-                   ylab = ylab),
+            c(list(x = c(ranges$ID, ranges$ID),
+                   y = c(ranges$min_bin, ranges$max_bin),
+                   axes = FALSE, type = "n"),
               plot_args))
   if (is.null(certainty)) {
     segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
@@ -203,6 +210,13 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
   dump <- c("side", "at", "labels")
   if (any(names(x_args) %in% dump)) {
     x_args <- x_args[-which(names(x_args) %in% dump)]
+  }
+  # use defaults if not set
+  if (!("font" %in% names(x_args))) {
+    x_args$font <- 3
+  }
+  if (!("las" %in% names(x_args))) {
+    x_args$las <- 2
   }
   do.call(axis, args = c(list(side = 1, at = ranges$ID, labels = ranges$taxon),
                          x_args))
