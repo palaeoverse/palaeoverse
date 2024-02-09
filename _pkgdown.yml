@@ -80,7 +80,7 @@ reference:
     Functions to aid in the visualisation of data and analysis results.
   contents:
   - axis_geo
-  - plot_section
+  - tax_range_strat
 
 - title: Auxiliary functions
   desc: >
