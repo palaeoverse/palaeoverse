@@ -1,4 +1,4 @@
-#' Generate stratigraphic section plot
+#' Generate a stratigraphic section plot
 #'
 #' A function to plot the stratigraphic ranges of fossil taxa from occurrence
 #' data.
@@ -56,18 +56,18 @@
 #' certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
 #' par(mar = c(12, 5, 2, 2))
-#' plot_section(occdf, ylab = "Stratigraphic height (m)")
-#' plot_section(occdf, certainty = "certainty",
+#' tax_range_strat(occdf, ylab = "Stratigraphic height (m)")
+#' tax_range_strat(occdf, certainty = "certainty",
 #'              ylab = "Stratigraphic height (m)")
-#' plot_section(occdf, certainty = "certainty", by = "LAD",
+#' tax_range_strat(occdf, certainty = "certainty", by = "LAD",
 #'              ylab = "Bed number")
-#' plot_section(occdf, certainty = "certainty", by = "name",
+#' tax_range_strat(occdf, certainty = "certainty", by = "name",
 #'              ylab = "Bed number")
-#' plot_section(occdf, certainty = "certainty", ylab = "Bed number",
+#' tax_range_strat(occdf, certainty = "certainty", ylab = "Bed number",
 #'              plot_args = list(main = "Section A"))
 #'
 #' @export
-plot_section <- function(occdf, name = "taxon", level = "bed",
+tax_range_strat <- function(occdf, name = "taxon", level = "bed",
                          certainty = NULL, by = "FAD",
                          xlab = "", ylab = "", plot_args = list(),
                          x_args = list(font = 3, las = 2), y_args = list()) {
