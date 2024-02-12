@@ -8,11 +8,18 @@
 #'   "max_ma" and "min_ma". These columns should contain `numeric` values. If
 #'   required, `numeric` ages can be generated from interval names via the
 #'   \code{\link[palaeoverse:look_up]{look_up()}} function.
+#' @param min_ma \code{character}. The name of the column you wish to be
+#'   treated as the minimum age for `occdf` and `bins`, e.g. "min_ma"
+#'   (default).
+#' @param max_ma \code{character}. The name of the column you wish to be
+#'   treated as the maximum age for `occdf` and `bins`, e.g. "max_ma"
+#'   (default).
 #' @param bins \code{dataframe}. A dataframe of the bins that you wish to
 #'   allocate fossil occurrences to such as that returned by
 #'   \code{\link[palaeoverse:time_bins]{time_bins()}}. This dataframe must
-#'   contain at least the following named columns: "bin", "max_ma" and
-#'   "min_ma". Columns "max_ma" and "min_ma" must be `numeric` values.
+#'   contain at least the following named columns: "bin" and those specified
+#'   to `max_ma` (default: "max_ma") and `min_ma` (default: "min_ma).
+#'   Columns `max_ma` and `min_ma` must be `numeric` values.
 #' @param method \code{character}. The method desired for binning fossil
 #'   occurrences. Currently, five methods exist in this function: "mid",
 #'   "majority", "all", "random", and "point". See Details for a description
@@ -105,7 +112,8 @@
 #' ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5,
 #'                 fun = dnorm, mean = 0.5, sd = 0.25)
 #' @export
-bin_time <- function(occdf, bins, method = "mid", reps = 100,
+bin_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
+                     bins, method = "mid", reps = 100,
                      fun = dunif, ...) {
     #=== Handling errors ===
     if (is.data.frame(occdf) == FALSE) {
@@ -114,8 +122,8 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
     if (is.data.frame(bins) == FALSE) {
       stop("`bins` should be a dataframe.")
     }
-    if (any(is.na(occdf$max_ma)) || any(is.na(occdf$min_ma))) {
-      stop("NA values detected in occdf$max_ma or occdf$min_ma.")
+    if (any(is.na(occdf[, max_ma])) || any(is.na(occdf[, min_ma]))) {
+      stop("NA values detected in occdf[, max_ma] or occdf[, min_ma].")
     }
 
     possible_methods <- c("all", "majority", "random", "point", "mid")
@@ -138,13 +146,13 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       stop("bin, max_ma and/or min_ma do not exist in `bins`.")
     }
 
-    if (is.numeric(occdf$max_ma) &&
-        max(occdf$max_ma) > max(bins$max_ma)) {
+    if (is.numeric(occdf[, max_ma]) &&
+        max(occdf[, max_ma]) > max(bins[, max_ma])) {
       stop("Maximum age of occurrence data surpasses maximum age of bins.")
     }
 
-    if (is.numeric(occdf$min_ma) &&
-        min(occdf$min_ma) < min(bins$min_ma)) {
+    if (is.numeric(occdf[, min_ma]) &&
+        min(occdf[, min_ma]) < min(bins[, min_ma])) {
       stop("Minimum age of occurrence data is less than minimum age of bins.")
     }
 
@@ -162,8 +170,8 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
     # add as elements to that part of the list.
     for (i in seq_len(nrow(bins))) {
       v <-
-        which(occdf$max_ma > bins$min_ma[i] &
-                occdf$min_ma < bins$max_ma[i])
+        which(occdf[, max_ma] > bins[i, min_ma] &
+                occdf[, min_ma] < bins[i, max_ma])
       for (j in v) {
         bin_list[[j]] <- append(bin_list[[j]], bins$bin[i])
       }
@@ -183,7 +191,7 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
     occdf$n_bins <- lengths(bin_list)
 
     # Generate midpoint ages of bins
-    bins$mid_ma <- (bins$max_ma + bins$min_ma) / 2
+    bins$mid_ma <- (bins[, max_ma] + bins[, min_ma]) / 2
 
     #=== Methods ===
 
@@ -193,15 +201,15 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       # new column.
       rmcol <- FALSE
       if (("mid_ma" %in% colnames(occdf)) == FALSE) {
-        occdf$mid_ma <- (occdf$max_ma + occdf$min_ma) / 2
+        occdf$mid_ma <- (occdf[, max_ma] + occdf[, min_ma]) / 2
         rmcol <- TRUE
       }
 
       # Assign bin based on midpoint age of the age range
       for (i in seq_len(nrow(bins))) {
         v <-
-          which(occdf$mid_ma > bins$min_ma[i] &
-                  occdf$mid_ma < bins$max_ma[i])
+          which(occdf$mid_ma > bins[i, min_ma] &
+                  occdf$mid_ma < bins[i, max_ma])
         occdf$bin_assignment[v] <- bins$bin[i]
         occdf$bin_midpoint[v] <- bins$mid_ma[i]
       }
@@ -279,8 +287,8 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
       for (i in 1:reps) {
         occdf$point_estimates <- do.call(rbind, occ_list)[, i]
           for (j in seq_len(nrow(bins))){
-            vec <- which(occdf$point_estimates <= bins$max_ma[j] &
-                    occdf$point_estimates >= bins$min_ma[j])
+            vec <- which(occdf$point_estimates <= bins[j, max_ma] &
+                    occdf$point_estimates >= bins[j, min_ma])
             occdf$bin_assignment[vec] <- bins$bin[j]
           }
         occ_df_list[[i]] <- occdf

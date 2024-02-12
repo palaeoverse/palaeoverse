@@ -1,3 +1,7 @@
+# palaeoverse (development version)
+
+* Added age arguments (max_ma/min_ma) to bin_time (#106)
+
 # palaeoverse 1.2.1
 
 * Fixed handling of multiple models in palaeorotate (#92)
