@@ -1,3 +1,7 @@
+# palaeoverse (development version)
+
+* Added plot customisability to tax_range_time (#99)
+
 # palaeoverse 1.2.1
 
 * Fixed handling of multiple models in palaeorotate (#92)

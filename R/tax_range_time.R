@@ -18,6 +18,17 @@
 #' Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 #' or "name" (alphabetically by taxon names).
 #' @param plot \code{logical}. Should a plot of the ranges be generated?
+#' @param plot_args \code{list}. A list of optional arguments that are used
+#'   for plotting. See Details for options.
+#' @param intervals \code{character}. The interval information to use to plot
+#'   the axis: either A) a \code{character} string indicating a rank of
+#'   intervals from the built-in \code{\link{GTS2020}}, B) a \code{character}
+#'   string indicating a \code{data.frame} hosted by
+#'   [Macrostrat](https://macrostrat.org) (see \code{\link{time_bins}}), or C)
+#'   a custom \code{data.frame} of time interval boundaries (see [axis_geo]
+#'   Details). A list of strings or data.frames can be supplied to add
+#'   multiple time scales to the same side of the plot (see [axis_geo]
+#'   Details). Defaults to "periods".
 #'
 #' @return A \code{dataframe} containing the following columns:
 #' unique taxa (`taxon`), taxon ID (`taxon_id`), first appearance of taxon
@@ -26,15 +37,25 @@
 #' returned.
 #'
 #' @details The temporal range(s) of taxa are calculated by extracting all
-#' unique taxa (`name` column) from the input `occdf`, and checking their first
-#' and last appearance. The temporal duration of each taxon is also calculated.
-#' A plot of the temporal range of each taxon is also returned if `plot = TRUE`.
-#' If the input data columns contain NAs, these should be removed prior to
-#' function call.
+#'   unique taxa (`name` column) from the input `occdf`, and checking their
+#'   first and last appearance. The temporal duration of each taxon is also
+#'   calculated. If the input data columns contain NAs, these should be
+#'   removed prior to function call. A plot of the temporal range of each
+#'   taxon is also returned if `plot = TRUE`. Customisable argument options
+#'   (i.e. [graphics::par()]) to pass to `plot_args` as a list (and their
+#'   defaults) for plotting include:
+#'   - xlab = "Time (Ma)"
+#'   - ylab = "Taxon ID"
+#'   - col = "black"
+#'   - bg = "black"
+#'   - pch = 20
+#'   - cex = 1
+#'   - lty = 1
+#'   - lwd = 1
 #'
-#' Note: this function provides output based solely on the user input data. The
-#' true duration of a taxon is likely confounded by uncertainty in dating
-#' occurrences, and incomplete sampling and preservation.
+#' Note: this function provides output based solely on the user input data.
+#' The true duration of a taxon is likely confounded by uncertainty in
+#' dating occurrences, and incomplete sampling and preservation.
 #'
 #' @section Developer(s):
 #' Lewis A. Jones
@@ -48,14 +69,21 @@
 #' occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 #' # Temporal range
 #' ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
-#'
+#' # Customise appearance
+#' ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE,
+#'                      plot_args = list(ylab = "Orders",
+#'                                       pch = 21, col = "black", bg = "blue",
+#'                                       lty = 2),
+#'                      intervals = list("periods", "eras"))
 #' @export
 tax_range_time <- function(occdf,
                            name = "genus",
                            min_ma = "min_ma",
                            max_ma = "max_ma",
                            by = "FAD",
-                           plot = FALSE) {
+                           plot = FALSE,
+                           plot_args = NULL,
+                           intervals = "periods") {
 
   #=== Handling errors ===
   if (is.data.frame(occdf) == FALSE) {
@@ -85,6 +113,10 @@ tax_range_time <- function(occdf,
 
   if (!by %in% c("name", "FAD", "LAD")) {
     stop('`by` must be either "FAD", "LAD", or "name"')
+  }
+
+  if (!is.null(plot_args) && !is.list(plot_args)) {
+    stop("`plot_args` must be either NULL, or a list")
   }
 
   #=== Set-up ===
@@ -127,31 +159,37 @@ tax_range_time <- function(occdf,
 
     # Plot data?
     if (plot == TRUE) {
-      x_range <- c(max(temp_df$max_ma), min(temp_df$min_ma))
-      y_range <- c(0, nrow(temp_df))
-      plot(x = NA,
-           y = NA,
-           xlim = x_range,
-           ylim = y_range,
-           axes = TRUE,
-           xaxt = "n",
-           xlab = NA,
-           ylab = "Taxon ID",
-           main = "Temporal range of taxa")
-      segments(x0 = temp_df$max_ma,
-               x1 = temp_df$min_ma,
+      # Default plot args
+      args <- list(main = "Temporal range of taxa",
+                   xlab = "Time (Ma)",
+                   ylab = "Taxon ID",
+                   col = "black",
+                   bg = "black",
+                   pch = 20,
+                   cex = 1,
+                   lty = 1,
+                   lwd = 1)
+      # Update any provided
+      rpl <- match(names(plot_args), names(args))
+      if (length(rpl) != 0) {
+        args[rpl] <- plot_args
+      }
+
+      xlim <- c(max(temp_df$max_ma), min(temp_df$min_ma))
+      ylim <- c(0, nrow(temp_df))
+      plot(x = NA, y = NA, xlim = xlim, ylim = ylim, axes = TRUE,
+           xaxt = "n", xlab = NA, ylab = args$ylab, main = args$main)
+      segments(x0 = temp_df$max_ma, x1 = temp_df$min_ma,
                y0 = temp_df$taxon_id,
-               col = "black")
-      points(x = temp_df$max_ma,
-             y = temp_df$taxon_id,
-             pch = 20,
-             col = "black")
-      points(x = temp_df$min_ma,
-             y = temp_df$taxon_id,
-             pch = 20,
-             col = "black")
-      axis_geo(side = 1, intervals = "periods")
-      title(xlab = "Time (Ma)", line = 4)
+               col = args$col, lty = args$lty, lwd = args$lwd)
+      points(x = temp_df$max_ma, y = temp_df$taxon_id,
+             pch = args$pch, col = args$col, bg = args$bg,
+             cex = args$cex)
+      points(x = temp_df$min_ma, y = temp_df$taxon_id,
+             pch = args$pch, col = args$col, bg = args$bg,
+             cex = args$cex)
+      axis_geo(side = 1, intervals = intervals)
+      title(xlab = args$xlab, line = 4)
     }
 
     # Return dataframe
