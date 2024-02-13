@@ -17,9 +17,10 @@ bin_time(
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you
-wish to bin. This dataframe should contain the following named columns:
-"max_ma" and "min_ma". These columns should contain \code{numeric} values. If
-required, \code{numeric} ages can be generated from interval names via the
+wish to bin. This dataframe should contain at least two columns with
+\code{numeric} values: maximum age of occurrence and minimum age of
+occurrence (see \code{max_ma}, \code{min_ma}). If required, \code{numeric} ages can be
+generated from interval names via the
 \code{\link[palaeoverse:look_up]{look_up()}} function.}
 
 \item{min_ma}{\code{character}. The name of the column you wish to be
@@ -34,7 +35,7 @@ treated as the maximum age for \code{occdf} and \code{bins}, e.g. "max_ma"
 allocate fossil occurrences to such as that returned by
 \code{\link[palaeoverse:time_bins]{time_bins()}}. This dataframe must
 contain at least the following named columns: "bin" and those specified
-to \code{max_ma} (default: "max_ma") and \code{min_ma} (default: "min_ma).
+to \code{max_ma} (default: "max_ma") and \code{min_ma} (default: "min_ma").
 Columns \code{max_ma} and \code{min_ma} must be \code{numeric} values.}
 
 \item{method}{\code{character}. The method desired for binning fossil
