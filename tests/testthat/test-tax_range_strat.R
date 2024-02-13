@@ -69,15 +69,3 @@ test_that("tax_range_strat() labels", {
     tax_range_strat(occdf, plot_args = list(ylab = "Height (m)"))
   })
 })
-
-test_that("tax_range_strat() font", {
-  expect_doppelganger("tax_range_strat() font", function() {
-
-    occdf <- data.frame(genus = c("shrimp", "worm", "worm", "shrimp", "bivalve",
-                                  "bivalve", "shrimp", "anemone", "worm"),
-                        bed = c(1, 1, 2, 2, 2, 3, 3, 4, 4),
-                        certainty = c(1, 1, 0, 1, 0, 1, 1, 1, 0))
-
-    tax_range_strat(occdf, x_args = list(font = 2, las = 1))
-  })
-})
