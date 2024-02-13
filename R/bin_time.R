@@ -196,6 +196,13 @@ bin_time <- function(occdf, bins, method = "mid", reps = 100,
         occdf$mid_ma <- (occdf$max_ma + occdf$min_ma) / 2
         rmcol <- TRUE
       }
+      # Check if mid_ma equivalent to any bin boundaries
+      if(any(occdf$mid_ma %in% bins$mid_ma)) {
+        warning(paste("One or more occurrences have a midpoint age",
+                      "equivalent to a bin boundary. Binning skipped for",
+                      "these occurrences.",
+                      "Hint: `which(is.na(occdf$bin_assignment))`."))
+      }
 
       # Assign bin based on midpoint age of the age range
       for (i in seq_len(nrow(bins))) {
