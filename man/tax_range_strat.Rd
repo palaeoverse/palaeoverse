@@ -74,7 +74,7 @@ data.
 }
 
 \examples{
-#Load tetrapod dataset
+# Load tetrapod dataset
 data(tetrapods)
 # Sample tetrapod occurrences
 tetrapod_names <- tetrapods$accepted_name[1:50]
@@ -82,7 +82,7 @@ tetrapod_names <- tetrapods$accepted_name[1:50]
 beds_sampled <- sample.int(n = 10, size = 50, replace = TRUE)
 # Simulate certainty values
 certainty_sampled <- sample(x = 0:1, size = 50, replace = TRUE)
-#Combine into data frame
+# Combine into data frame
 occdf <- data.frame(taxon = tetrapod_names,
                     bed = beds_sampled,
                     certainty = certainty_sampled)
