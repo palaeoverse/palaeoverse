@@ -25,13 +25,21 @@
 #'   [graphics::plot()]. Useful arguments include `xlab` (the x-axis label),
 #'   `ylab` (the y-axis label, default is "Bed number"), `main` (the plot
 #'   title), `xlim` (the x-axis limits), and `ylim` (the y-axis limits). The
-#'   `axes` and `type` arguments are not supported and will be overridden.
+#'   `axes` and `type` arguments are not supported and will be overridden. Note
+#'   that the default spacing for the x-axis title may cause it to overlap with
+#'   the x-axis tick labels. To avoid this, you can call [graphics::title()]
+#'   after running `tax_range_strat()` and specify both `xlab` and `line` to add
+#'   the x-axis title farther from the axis (see examples).
 #' @param x_args A list of optional arguments that are passed directly to
 #'   [axis()] when generating the x-axis. Useful arguments include `font` (e.g.,
-#'   `3` is italic) and `las` (label orientation).
+#'   `3` is italic) and `las` (label orientation). The `side` argument is not
+#'   supported and will be overridden. If the `at` and `labels` arguments are
+#'   not specified, the x-axis tick labels will be set to the taxon names.
 #' @param y_args A list of optional arguments that are passed directly to
 #'   [axis()] when generating the y-axis. Useful arguments include `font` (e.g.,
-#'   `3` is italic) and `las` (label orientation).
+#'   `3` is italic) and `las` (label orientation). The `side` argument is not
+#'   supported and will be overridden. If the `at` argument is not specified,
+#'   it will be set to a vector of the unique values from the `level` column.
 #'
 #' @return Invisibly returns a data.frame of the calculated taxonomic
 #'   stratigraphic ranges.
@@ -71,6 +79,7 @@
 #'                           min_age = c(3.5, 10.5),
 #'                           color = c("#67C5CA", "#F2F91D"))
 #' axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
+#' title(xlab = "Taxon", line = 10.5)
 #'
 #' @export
 tax_range_strat <- function(occdf, name = "genus", level = "bed",
@@ -201,15 +210,17 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
            col = "black", bg = "white")
   }
   # plot y-axis
-  dump <- c("side", "at")
-  if (any(names(y_args) %in% dump)) {
-    y_args <- y_args[-which(names(y_args) %in% dump)]
+  if ("side" %in% names(y_args)) {
+    y_args <- y_args[-which(names(y_args) == "side")]
   }
-  do.call(axis, args = c(list(side = 2, at = unique(occdf$bed)), y_args))
+  # use defaults if not set
+  if (!("at" %in% names(y_args))) {
+    y_args$at <- unique(occdf$bed)
+  }
+  do.call(axis, args = c(list(side = 2), y_args))
   # plot x-axis
-  dump <- c("side", "at", "labels")
-  if (any(names(x_args) %in% dump)) {
-    x_args <- x_args[-which(names(x_args) %in% dump)]
+  if ("side" %in% names(x_args)) {
+    x_args <- x_args[-which(names(x_args) == "side")]
   }
   # use defaults if not set
   if (!("font" %in% names(x_args))) {
@@ -218,8 +229,13 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
   if (!("las" %in% names(x_args))) {
     x_args$las <- 2
   }
-  do.call(axis, args = c(list(side = 1, at = ranges$ID, labels = ranges$taxon),
-                         x_args))
+  if (!("at" %in% names(x_args))) {
+    x_args$at <- ranges$ID
+  }
+  if (!("labels" %in% names(x_args))) {
+    x_args$labels <- ranges$taxon
+  }
+  do.call(axis, args = c(list(side = 1), x_args))
   box()
   invisible(ranges)
 }

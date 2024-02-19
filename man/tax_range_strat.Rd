@@ -43,15 +43,23 @@ circle and joined with dashed lines.}
 \code{\link[graphics:plot.default]{graphics::plot()}}. Useful arguments include \code{xlab} (the x-axis label),
 \code{ylab} (the y-axis label, default is "Bed number"), \code{main} (the plot
 title), \code{xlim} (the x-axis limits), and \code{ylim} (the y-axis limits). The
-\code{axes} and \code{type} arguments are not supported and will be overridden.}
+\code{axes} and \code{type} arguments are not supported and will be overridden. Note
+that the default spacing for the x-axis title may cause it to overlap with
+the x-axis tick labels. To avoid this, you can call \code{\link[graphics:title]{graphics::title()}}
+after running \code{tax_range_strat()} and specify both \code{xlab} and \code{line} to add
+the x-axis title farther from the axis (see examples).}
 
 \item{x_args}{A list of optional arguments that are passed directly to
 \code{\link[=axis]{axis()}} when generating the x-axis. Useful arguments include \code{font} (e.g.,
-\code{3} is italic) and \code{las} (label orientation).}
+\code{3} is italic) and \code{las} (label orientation). The \code{side} argument is not
+supported and will be overridden. If the \code{at} and \code{labels} arguments are
+not specified, the x-axis tick labels will be set to the taxon names.}
 
 \item{y_args}{A list of optional arguments that are passed directly to
 \code{\link[=axis]{axis()}} when generating the y-axis. Useful arguments include \code{font} (e.g.,
-\code{3} is italic) and \code{las} (label orientation).}
+\code{3} is italic) and \code{las} (label orientation). The \code{side} argument is not
+supported and will be overridden. If the \code{at} argument is not specified,
+it will be set to a vector of the unique values from the \code{level} column.}
 }
 \value{
 Invisibly returns a data.frame of the calculated taxonomic
@@ -100,5 +108,6 @@ eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
                           min_age = c(3.5, 10.5),
                           color = c("#67C5CA", "#F2F91D"))
 axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
+title(xlab = "Taxon", line = 10.5)
 
 }
