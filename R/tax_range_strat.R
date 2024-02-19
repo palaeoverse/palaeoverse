@@ -22,14 +22,12 @@
 #'   (first appearance; default), "LAD" (last appearance), or "name"
 #'   (alphabetically by taxon names).
 #' @param plot_args A list of optional arguments that are passed directly to
-#'   [graphics::plot()]. Useful arguments include `xlab` (the x-axis label),
-#'   `ylab` (the y-axis label, default is "Bed number"), `main` (the plot
-#'   title), `xlim` (the x-axis limits), and `ylim` (the y-axis limits). The
-#'   `axes` and `type` arguments are not supported and will be overridden. Note
-#'   that the default spacing for the x-axis title may cause it to overlap with
-#'   the x-axis tick labels. To avoid this, you can call [graphics::title()]
-#'   after running `tax_range_strat()` and specify both `xlab` and `line` to add
-#'   the x-axis title farther from the axis (see examples).
+#'   [graphics::plot()]. Subsets of these arguments are also passed to
+#'   [graphics::segments()] and [graphics::points()] (see Details). Useful
+#'   arguments include `xlab` (the x-axis label), `ylab` (the y-axis label,
+#'   default is "Bed number"), `main` (the plot title), `xlim` (the x-axis
+#'   limits), and `ylim` (the y-axis limits). The `axes` and `type` arguments
+#'   are not supported and will be overridden.
 #' @param x_args A list of optional arguments that are passed directly to
 #'   [axis()] when generating the x-axis. Useful arguments include `font` (e.g.,
 #'   `3` is italic) and `las` (label orientation). The `side` argument is not
@@ -38,8 +36,8 @@
 #' @param y_args A list of optional arguments that are passed directly to
 #'   [axis()] when generating the y-axis. Useful arguments include `font` (e.g.,
 #'   `3` is italic) and `las` (label orientation). The `side` argument is not
-#'   supported and will be overridden. If the `at` argument is not specified,
-#'   it will be set to a vector of the unique values from the `level` column.
+#'   supported and will be overridden. If the `at` argument is not specified, it
+#'   will be set to a vector of the unique values from the `level` column.
 #'
 #' @return Invisibly returns a data.frame of the calculated taxonomic
 #'   stratigraphic ranges.
@@ -47,6 +45,30 @@
 #'   The function is usually used for its side effect, which is to create a plot
 #'   showing the stratigraphic ranges of taxa in a section, with levels at which
 #'   the taxon was sampled indicated with a point.
+#'
+#' @details Note that the default spacing for the x-axis title may cause it to
+#'   overlap with the x-axis tick labels. To avoid this, you can call
+#'   [graphics::title()] after running `tax_range_strat()` and specify both
+#'   `xlab` and `line` to add the x-axis title farther from the axis (see
+#'   examples).
+#'
+#'   The styling of the points and line segments can be adjusted by supplying
+#'   named arguments to `plot_args`. `col` (segment and point color), `lwd`
+#'   (segment width), `pch` (point symbol), `bg` (background point color for
+#'   some values of `pch`), `lty` (segment line type), and `cex` (point size)
+#'   are supported. In the case of a column being supplied to the `certainty`
+#'   argument, these arguments may be vectors of length two, in which case the
+#'   first value of the vector will be used for the "certain" points and
+#'   segments, and the second value of the vector will be used for the
+#'   "uncertain" points and segments. If only a single value is supplied, it
+#'   will be used for both. The default values for these arguments are as
+#'   follows:
+#'   - `col` = `c("black", "black")`
+#'   - `lwd` = `c(1.5, 1.5)`
+#'   - `pch` = `c(19, 21)`
+#'   - `bg` = `c("black", "white")`
+#'   - `lty` = `c(1, 2)`
+#'   - `cex` = `c(1, 1)`
 #'
 #' @section Developer(s): Bethany Allen, William Gearty & Alexander Dunhill
 #' @section Reviewer(s): William Gearty & Lewis A. Jones
@@ -171,6 +193,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
 
   #Obtain uncertain occurrences
   if (!is.null(certainty)) {
+    certain <- occdf[(occdf[, certainty] != 0), ]
     uncertain <- occdf[(occdf[, certainty] == 0), ]
   }
 
@@ -186,6 +209,18 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
   if (!("ylab" %in% names(plot_args))) {
     plot_args$ylab <- "Bed number"
   }
+  cols <- plot_args$col
+  if (is.null(cols)) cols <- c("black", "black") else cols <- rep_len(cols, 2)
+  lwds <- plot_args$lwd
+  if (is.null(lwds)) lwds <- c(1.5, 1.5) else lwds <- rep_len(lwds, 2)
+  pchs <- plot_args$pch
+  if (is.null(pchs)) pchs <- c(19, 21) else pchs <- rep_len(pchs, 2)
+  bgs <- plot_args$bg
+  if (is.null(bgs)) bgs <- c("black", "white") else bgs <- rep_len(bgs, 2)
+  ltys <- plot_args$lty
+  if (is.null(ltys)) ltys <- c(1, 2) else ltys <- rep_len(ltys, 2)
+  cexs <- plot_args$cex
+  if (is.null(cexs)) cexs <- c(1, 1) else cexs <- rep_len(cexs, 2)
   do.call(plot, args =
             c(list(x = c(ranges$ID, ranges$ID),
                    y = c(ranges$min_bin, ranges$max_bin),
@@ -193,21 +228,24 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
               plot_args))
   if (is.null(certainty)) {
     segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
-             x0 = ranges$ID,
-             col = "black", lwd = 1.5)
+             x0 = ranges$ID, x1 = ranges$ID,
+             col = cols[1], lwd = lwds[1], lty = ltys[1])
   } else {
     segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
-             x0 = ranges$ID,
-             col = "black", lty = 2)
+             x0 = ranges$ID, x1 = ranges$ID,
+             col = cols[2], lty = ltys[2], lwds[2])
     segments(y0 = ranges$min_bin_certain, y1 = ranges$max_bin_certain,
-             x0 = ranges$ID,
-             col = "black", lwd = 1.5)
+             x0 = ranges$ID, x1 = ranges$ID,
+             col = cols[1], lty = ltys[1], lwd = lwds[1])
   }
-  points(y = occdf$bed, x = occdf$ID, pch = 19,
-         col = "black")
-  if (!is.null(certainty)) {
-    points(y = uncertain$bed, x = uncertain$ID, pch = 21,
-           col = "black", bg = "white")
+  if (is.null(certainty)) {
+    points(y = occdf$bed, x = occdf$ID, pch = pchs[1],
+           col = cols[1], bg = bgs[1], cex = cexs[1])
+  } else {
+    points(y = certain$bed, x = certain$ID, pch = pchs[1],
+           col = cols[1], bg = bgs[1], cex = cexs[1])
+    points(y = uncertain$bed, x = uncertain$ID, pch = pchs[2],
+           col = cols[2], bg = bgs[2], cex = cexs[2])
   }
   # plot y-axis
   if ("side" %in% names(y_args)) {
