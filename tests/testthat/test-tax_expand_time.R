@@ -6,19 +6,30 @@ test_that("tax_expand_time() works", {
   result1 <- tax_expand_time(taxdf)
   result2 <- tax_expand_time(taxdf, ext_orig = FALSE)
   result3 <- tax_expand_time(taxdf, scale = "GTS2012")
+  result4 <- tax_expand_time(taxdf, bins = time_bins(scale = "GTS2020"))
 
   # format
   expect_true(is.data.frame(result1))
   expect_equal(nrow(result1), 34)
   expect_equal(colnames(result1),
-               c(colnames(taxdf), "ext", "orig", colnames(GTS2020)))
-  expect_equal(colnames(result2), c(colnames(taxdf), colnames(GTS2020)))
+               c(colnames(taxdf), "ext", "orig",
+                 colnames(time_bins(scale = "GTS2020", rank = "stage"))))
+  expect_equal(colnames(result2),
+               c(colnames(taxdf),
+                 colnames(time_bins(scale = "GTS2020", rank = "stage"))))
   expect_equal(nrow(result3), 32)
+  expect_equal(result1, result4)
 
   # error handling
   expect_error(tax_expand_time(taxdf, scale = "GTS2067"))
   expect_error(tax_expand_time(taxdf, rank = "stages"))
   expect_error(tax_expand_time(taxdf, rank = c("stage", "period")))
+  expect_error(tax_expand_time(taxdf, bins = "stages"))
+  bins <- time_bins()
+  colnames(bins)[colnames(bins) == "max_ma"] <- "max_age"
+  expect_error(tax_expand_time(taxdf, bins = bins))
+  expect_error(tax_expand_time(taxdf, scale = NULL))
+  expect_error(tax_expand_time(taxdf, scale = NULL))
   expect_error(tax_expand_time(taxdf, ext_orig = "ext"))
   expect_error(tax_expand_time(c("A", "B")))
 

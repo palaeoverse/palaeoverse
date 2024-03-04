@@ -9,7 +9,7 @@ vignette: >
 
 **Authors:** [The Palaeoverse Development Team](https://palaeoverse.org/about.html#our-team)
 
-**Last updated:** 2023-04-18
+**Last updated:** 2023-12-01
 
 
 
@@ -21,7 +21,7 @@ vignette: >
 
 ## Installation
 
-The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse-community/palaeoverse) if the development version is preferred. To install via the CRAN, simply use:
+The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse/palaeoverse) if the development version is preferred. To install via the CRAN, simply use:
 
 
 ```r
@@ -33,7 +33,7 @@ To install the development version, first install the `devtools` package, and th
 
 ```r
 install.packages("devtools")
-devtools::install_github("palaeoverse-community/palaeoverse")
+devtools::install_github("palaeoverse/palaeoverse")
 ```
 
 You can now load `palaeoverse` using the default `library` function:
@@ -72,13 +72,10 @@ colnames(tetrapods)
 ```
 
 ```
-##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"  
-##  [5] "accepted_name"     "accepted_rank"     "early_interval"    "late_interval"    
-##  [9] "max_ma"            "min_ma"            "phylum"            "class"            
-## [13] "order"             "family"            "genus"             "abund_value"      
-## [17] "abund_unit"        "lng"               "lat"               "collection_name"  
-## [21] "cc"                "formation"         "stratgroup"        "member"           
-## [25] "zone"              "lithology1"        "environment"       "pres_mode"        
+##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"     "accepted_rank"     "early_interval"   
+##  [8] "late_interval"     "max_ma"            "min_ma"            "phylum"            "class"             "order"             "family"           
+## [15] "genus"             "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"   "cc"               
+## [22] "formation"         "stratgroup"        "member"            "zone"              "lithology1"        "environment"       "pres_mode"        
 ## [29] "taxon_environment" "motility"          "life_habit"        "diet"
 ```
 
@@ -193,17 +190,12 @@ colnames(mid_tetrapods)
 ```
 
 ```
-##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"  
-##  [5] "accepted_name"     "accepted_rank"     "early_interval"    "late_interval"    
-##  [9] "old_max_ma"        "old_min_ma"        "phylum"            "class"            
-## [13] "order"             "family"            "genus"             "abund_value"      
-## [17] "abund_unit"        "lng"               "lat"               "collection_name"  
-## [21] "cc"                "formation"         "stratgroup"        "member"           
-## [25] "zone"              "lithology1"        "environment"       "pres_mode"        
-## [29] "taxon_environment" "motility"          "life_habit"        "diet"             
-## [33] "early_stage"       "late_stage"        "max_ma"            "interval_mid_ma"  
-## [37] "min_ma"            "id"                "n_bins"            "bin_assignment"   
-## [41] "bin_midpoint"
+##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"     "accepted_rank"     "early_interval"   
+##  [8] "late_interval"     "old_max_ma"        "old_min_ma"        "phylum"            "class"             "order"             "family"           
+## [15] "genus"             "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"   "cc"               
+## [22] "formation"         "stratgroup"        "member"            "zone"              "lithology1"        "environment"       "pres_mode"        
+## [29] "taxon_environment" "motility"          "life_habit"        "diet"              "early_stage"       "late_stage"        "max_ma"           
+## [36] "interval_mid_ma"   "min_ma"            "id"                "n_bins"            "bin_assignment"    "bin_midpoint"
 ```
 
 As you can see, four new columns (variables) have been added to our dataset. Two of these are especially important. First is the `bin_assignment`, which shows which number bin the occurrence has been added to. Second is `n_bins` - this shows how many bins the occurrence could potentially have been placed within. Let's examine this further.
@@ -226,10 +218,8 @@ table(mid_tetrapods$n_bins) / nrow(mid_tetrapods) # proportions
 
 ```
 ## 
-##            1            2            3            4            5            6            7 
-## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 0.0008880995 
-##            8            9 
-## 0.0005920663 0.0047365305
+##            1            2            3            4            5            6            7            8            9 
+## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 0.0008880995 0.0005920663 0.0047365305
 ```
 
 As you can see, only ~25% of the dataset can be assigned to just one bin - the other occurrences can't be confidently assigned to an individual time interval. This is where the other methods for the `bin_time` function come in handy. They provide the user with different options when assigning occurrences to bins. Instead of the 'mid' method, let's try the 'majority' method instead, which places the occurrences in the bin which covers the majority of their potential time range.
@@ -262,13 +252,13 @@ head(maj_tetrapods[, c("p_lng", "p_lat")])
 ```
 
 ```
-##      p_lng   p_lat
-## 1 -39.1618  2.9214
-## 2 -16.5579 -6.0513
-## 4 -30.2728 -4.7607
-## 5 -36.7609 -0.3527
-## 6 -39.1593  2.9219
-## 7 -28.2350 -2.4355
+##      p_lng    p_lat
+## 1 -39.1618   2.9214
+## 2 -34.0923 -59.1326
+## 4 -29.7188  -0.1250
+## 5 -27.9228   3.6845
+## 6 -29.0469  -0.2730
+## 7 -16.5579  -6.0513
 ```
 
 Looks good to me! Now that we have palaeocoordinates for our occurrences, we can put them into spatial bins. We can do this using the `bin_space` function, which assigns each occurrence to one of many discrete equal-area hexagonal grid cells (based on [Uber's H3 system](https://h3geo.org/)).
@@ -294,12 +284,12 @@ head(maj_tetrapods[, c("cell_ID", "cell_centroid_lng", "cell_centroid_lat")])
 
 ```
 ##           cell_ID cell_centroid_lng cell_centroid_lat
-## 1 8380d4fffffffff         -38.83199         3.0411135
-## 2 837da3fffffffff         -16.16673        -6.1542254
-## 4 837d6afffffffff         -29.88660        -4.6603585
-## 5 8380aafffffffff         -36.85368        -0.4980995
-## 6 8380d4fffffffff         -38.83199         3.0411135
-## 7 837d5dfffffffff         -27.93956        -2.3704148
+## 1 8380d4fffffffff         -38.83199        3.04111345
+## 2 83dd68fffffffff         -34.66666      -59.09848198
+## 4 837c65fffffffff         -29.87643       -0.04859754
+## 5 837c40fffffffff         -27.94272        3.31086571
+## 6 837c64fffffffff         -28.90531       -0.63974717
+## 7 837da3fffffffff         -16.16673       -6.15422544
 ```
 `bin_space` adds some new columns, including one with the unique grid cell ID, as well as latitudinal and longitudinal coordinates for the centroid of that cell.
 
@@ -465,7 +455,10 @@ plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
      pch = 19, col = "#0e826f") # point style and colour
 ```
 
+<div class="figure">
 <img src="alpha-div-plot-1-1.png" alt="plot of chunk alpha-div-plot-1" width="100%" />
+<p class="caption">plot of chunk alpha-div-plot-1</p>
+</div>
 
 That looks good, but it's a bit difficult to figure out what stages contain which data points. `axis_geo()` adds a geological timescale between the plot and the axis.
 
@@ -488,7 +481,10 @@ axis_geo(side = 1, intervals = list("epochs", "periods"))
 title(xlab = "Time (Ma)", line = 4)
 ```
 
+<div class="figure">
 <img src="alpha-div-plot-2-1.png" alt="plot of chunk alpha-div-plot-2" width="100%" />
+<p class="caption">plot of chunk alpha-div-plot-2</p>
+</div>
 
 Amazing! Now we can clearly see that alpha diversity appears to be a lot higher in the Permian than the Carboniferous. But how has the spatial distribution of tetrapods changed across this boundary? Let's use some of the other `palaeoverse` functions to find out!
 
@@ -517,13 +513,13 @@ head(space_tetrapods)
 ```
 
 ```
-##               taxon taxon_id     area bin_midpoint
-## 1         Abdalodon        1        0       257.05
-## 2         Acrodenta        2        0       257.05
-## 3       Adelosaurus        3        0       257.05
-## 4     Aelurognathus        4 55858230       257.05
-## 9      Aelurosaurus        5  3503706       257.05
-## 15 Aenigmastropheus        6        0       257.05
+##               taxon taxon_id      area bin_midpoint
+## 1         Abdalodon        1      0.00       257.05
+## 2         Acrodenta        2      0.00       257.05
+## 3       Adelosaurus        3      0.00       257.05
+## 4     Aelurognathus        4 292392.77       257.05
+## 9      Aelurosaurus        5  14698.41       257.05
+## 14 Aenigmastropheus        6      0.00       257.05
 ```
 As you can see, the combination of `group_apply` and `tax_range_space` produces a dataset with the area of geographic range for each taxon in kilometers squared for each time interval. Note that an area of zero here means that there is only one occurrence of that taxon in that time bin. From this information we can now plot how the average range size of tetrapods changed throughout the Carboniferous and Permian:
 
@@ -545,7 +541,10 @@ axis_geo(side = 1, intervals = list("epochs", "periods"))
 title(xlab = "Time (Ma)", line = 4)
 ```
 
+<div class="figure">
 <img src="alpha-div-plot-3-1.png" alt="plot of chunk alpha-div-plot-3" width="100%" />
+<p class="caption">plot of chunk alpha-div-plot-3</p>
+</div>
 
 From this plot it seems like the average geographic range size of tetrapods increased during the Permian. However, we first need to be sure we're not picking up on another pattern. Remember how we calculated the number of unique geographic cells in each time interval earlier? This provides a measure of the spatial spread of the fossil record. It might be that we're not picking up on an increased range size but just a larger geographic spread of fossil bearing rocks within the Permian. To see if this is the case, we can run a simple correlation test between the average geographic range size of tetrapods and the number of unique grid cells in each time interval:
 
@@ -561,20 +560,26 @@ cor.test(log10(space_tetrapods_mean$mean_area), log10(spat.cov$nrow), method = "
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  log10(space_tetrapods_mean$mean_area) and log10(spat.cov$nrow)
-## S = 78.758, p-value = 4.039e-05
+## S = 226.12, p-value = 0.01898
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
-##      rho 
-## 0.859361
+##       rho 
+## 0.5962179
 ```
 The high rho value and a p-value less than our cut off for significance (0.05) indicate a strong and statistically significant correlation between average geographic range size and the spatial spread of data. Seems like this work is far from over...
 
 ...but we'll leave the rest to you!
 
-Hopefully this vignette has shown you the potential uses for `palaeoverse` functions and helped provide a workflow for your own analyses. If you have any questions about the package or its functionality, please feel free to join our Google group (https://groups.google.com/g/palaeoverse) and leave a question; we'll aim to answer it as soon as possible!
+Hopefully this vignette has shown you the potential uses for `palaeoverse` functions and helped provide a workflow for your own analyses. If you have any questions about the package or its functionality, please feel free to join our [Palaeoverse Google group](https://groups.google.com/g/palaeoverse) and leave a question; we'll aim to answer it as soon as possible!
 
 # References
 
 Dunne, E.M., Close, R.A., Button, D.J., Brocklehurst, N., Cashmore, D.D., Lloyd, G.T. and Butler, R.J., 2018. Diversity change during the rise of tetrapods and the impact of the ‘Carboniferous rainforest collapse’. Proceedings of the Royal Society B: Biological Sciences, 285(1872), 20172730.
 
 </div>
+
+<style type="text/css">
+p.caption {
+  display: none;
+}
+</style>

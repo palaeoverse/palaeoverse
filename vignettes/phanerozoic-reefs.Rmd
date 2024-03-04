@@ -9,7 +9,7 @@ vignette: >
 
 **Authors:** [The Palaeoverse Development Team](https://palaeoverse.org/about.html#our-team)
 
-**Last updated:** 2023-04-18
+**Last updated:** 2023-12-01
 
 
 
@@ -21,7 +21,7 @@ vignette: >
 
 ## Installation
 
-The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse-community/palaeoverse) if the development version is preferred. To install via the CRAN, simply use:
+The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse/palaeoverse) if the development version is preferred. To install via the CRAN, simply use:
 
 
 ```r
@@ -33,7 +33,7 @@ To install the development version, first install the `devtools` package, and th
 
 ```r
 install.packages("devtools")
-devtools::install_github("palaeoverse-community/palaeoverse")
+devtools::install_github("palaeoverse/palaeoverse")
 ```
 
 You can now load `palaeoverse` using the default `library` function:
@@ -228,11 +228,14 @@ plot(x = reefs_time$interval_mid_ma,
 axis_geo(side = 1, intervals = "periods")
 ```
 
+<div class="figure">
 <img src="n-reef-1.png" alt="plot of chunk n-reef" width="100%" />
+<p class="caption">plot of chunk n-reef</p>
+</div>
 
 You would (and should) of course want to explore your data a little more than this. However, for the sake of brevity, let's focus on our research theme: latitudinal trends in Phanerozoic reefs.
 
-When studying modern latitudinal trends (e.g. in biodiversity), researchers can use the geographic coordinates of their samples to conduct analyses. However, as the continents shift through time, palaeobiologists must reconstruct the palaeogeographic coordinates of fossil localities. To do so, plate rotation models are used (e.g. the PALEOMAP model) to rotate the modern coordinates of fossil localities to their location at time of deposition. The `palaeorotate` function allows the user to do so using either the 'point' or 'grid' method. The first approach makes use of the GPlates Web Service and allows point data to be rotated to specific ages using the available models (see <https://gwsdoc.gplates.org>). The second approach uses reconstruction files of pre-generated palaeocoordinates to spatiotemporally link occurrences' modern coordinates and age estimates with their respective palaeocoordinates. Let's give it a shot:
+When studying modern latitudinal trends (e.g. in biodiversity), researchers can use the geographic coordinates of their samples to conduct analyses. However, as the continents shift through time, palaeobiologists must reconstruct the palaeogeographic coordinates of fossil localities. To do so, plate rotation models are used (e.g. the PALEOMAP model) to rotate the modern coordinates of fossil localities to their location at time of deposition. The `palaeorotate` function allows the user to do so using either the 'point' or 'grid' method. The first approach makes use of the GPlates Web Service and allows point data to be rotated to specific ages using the available models (see the [GPlates Web Service documentation](https://gwsdoc.gplates.org)). The second approach uses reconstruction files of pre-generated palaeocoordinates to spatiotemporally link occurrences' modern coordinates and age estimates with their respective palaeocoordinates. Let's give it a shot:
 
 
 ```r
@@ -248,13 +251,13 @@ head(reefs[, c("p_lng", "p_lat")])
 ```
 
 ```
-##      p_lng   p_lat
-## 1  21.3630 10.0755
-## 2  17.4435 25.5719
-## 3 -72.6726 27.3965
-## 4  17.9163 13.7121
-## 5  18.0122 25.2688
-## 6  16.5789 24.6727
+##     p_lng   p_lat
+## 1 21.3630 10.0755
+## 2 22.1341  2.3106
+## 3      NA      NA
+## 4      NA      NA
+## 5      NA      NA
+## 6 26.3041 -0.3093
 ```
 
 Now let's plot that palaeolatitudinal distribution!
@@ -272,7 +275,10 @@ plot(x = reefs$bin_midpoint,
 axis_geo(side = 1, intervals = "periods")
 ```
 
+<div class="figure">
 <img src="reefs-dist-1.png" alt="plot of chunk reefs-dist" width="100%" />
+<p class="caption">plot of chunk reefs-dist</p>
+</div>
 
 Neat! But it's hard to draw any trends from this data (there is a lot of it!). We can do better... let's summarise this information... if we assume that reefs are broadly limited to tropical and subtropical climatic conditions, the most poleward reef in each time bin should give us an estimate of the palaeolatitudinal extent of these climatic conditions.
 
@@ -301,7 +307,10 @@ plot(x = midpoints,
 axis_geo(side = 1, intervals = "periods")
 ```
 
+<div class="figure">
 <img src="reefs-max-1.png" alt="plot of chunk reefs-max" width="100%" />
+<p class="caption">plot of chunk reefs-max</p>
+</div>
 
 That's definitely much clearer! Should we stop there? Well... how about one last thing... let's consider how plate rotation model choice might impact these results using three different models: GOLONKA, PALEOMAP, and MERDITH2021 (Wright et al. 2013; Scotese & Wright, 2018; Merdith et al. 2021).
 
@@ -326,20 +335,13 @@ head(reefs[, c("p_lng_PALEOMAP", "p_lat_PALEOMAP",
 ```
 
 ```
-##   p_lng_PALEOMAP p_lat_PALEOMAP p_lng_GOLONKA p_lat_GOLONKA p_lng_MERDITH2021
-## 1        21.3630        10.0755       35.6565        8.3384           34.4230
-## 2        17.4435        25.5719       32.2609       19.9044           21.1582
-## 3       -72.6726        27.3965      -47.2123       34.6578          -46.7249
-## 4        17.9163        13.7121       29.2657        8.3957           29.2360
-## 5        18.0122        25.2688       32.6906       19.4663           21.8226
-## 6        16.5789        24.6727       31.1897       19.2698           27.9955
-##   p_lat_MERDITH2021
-## 1           12.1941
-## 2           26.5767
-## 3           37.2704
-## 4           12.8023
-## 5           26.5278
-## 6           21.6152
+##   p_lng_PALEOMAP p_lat_PALEOMAP p_lng_GOLONKA p_lat_GOLONKA p_lng_MERDITH2021 p_lat_MERDITH2021
+## 1        21.3630        10.0755       35.6565        8.3384           34.4223           12.1964
+## 2        22.1341         2.3106       31.0982        4.8069           30.8863            4.7404
+## 3             NA             NA      124.2500       24.3330          124.2489           24.3367
+## 4             NA             NA      124.2500       24.3330          124.2493           24.3352
+## 5             NA             NA      124.2500       24.3330          124.2498           24.3337
+## 6        26.3041        -0.3093       38.0979        4.9270           36.3998            4.5809
 ```
 
 Now we've palaeorotated our data, let's repeat what we did earlier and calculate the most poleward reef occurrence for each model.
@@ -395,11 +397,14 @@ legend(530, 15, legend=c("PALEOMAP", "GOLONKA", "MERDITH2021"),
 axis_geo(side = 1, intervals = "periods")
 ```
 
+<div class="figure">
 <img src="reefs-max-multi-1.png" alt="plot of chunk reefs-max-multi" width="100%" />
+<p class="caption">plot of chunk reefs-max-multi</p>
+</div>
 
 We will leave you to make your own conclusions...
 
-Hopefully this vignette has shown you the potential uses for `palaeoverse` functions and helped provide a workflow for your own analyses. If you have any questions about the package or its functionality, please feel free to join our Google group (https://groups.google.com/g/palaeoverse) and leave a question; we'll aim to answer it as soon as possible!
+Hopefully this vignette has shown you the potential uses for `palaeoverse` functions and helped provide a workflow for your own analyses. If you have any questions about the package or its functionality, please feel free to join our [Palaeoverse Google group](https://groups.google.com/g/palaeoverse) and leave a question; we'll aim to answer it as soon as possible!
 
 # References
 
@@ -416,3 +421,5 @@ Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (Pal
 Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013). Towards community-driven paleogeographic reconstructions: integrating open-access paleogeographic and paleobiology data with plate tectonics. Biogeosciences, 10(3), 1529-1541. DOI: 10.5194/bg-10-1529-2013.
 
 </div>
+
+
