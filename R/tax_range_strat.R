@@ -105,10 +105,8 @@
 #'
 #' @export
 tax_range_strat <- function(occdf, name = "genus", level = "bed",
-                            certainty = NULL, by = "FAD",
-                            plot_args = list(xlab = "", ylab = "Bed number"),
-                            x_args = list(font = 3, las = 2),
-                            y_args = list()) {
+                            certainty = NULL, by = "FAD", plot_args = NULL,
+                            x_args = NULL, y_args = NULL) {
 
   if (is.data.frame(occdf) == FALSE) {
     stop("`occdf` should be a dataframe")

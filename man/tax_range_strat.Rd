@@ -10,9 +10,9 @@ tax_range_strat(
   level = "bed",
   certainty = NULL,
   by = "FAD",
-  plot_args = list(xlab = "", ylab = "Bed number"),
-  x_args = list(font = 3, las = 2),
-  y_args = list()
+  plot_args = NULL,
+  x_args = NULL,
+  y_args = NULL
 )
 }
 \arguments{
