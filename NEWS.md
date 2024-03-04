@@ -1,3 +1,7 @@
+# palaeoverse (development version)
+
+* New function to create stratigraphic range plots, tax_range_strat (#97)
+
 # palaeoverse 1.2.1
 
 * Fixed handling of multiple models in palaeorotate (#92)
