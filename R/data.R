@@ -128,7 +128,8 @@
 #'   taxon, collated within the Paleobiology Database}
 #' }
 #' @section References:
-#' Uhen MD et al. (in prep). Paleobiology Database User Guide.
+#' Uhen MD et al. (2023). Paleobiology Database User Guide Version 1.0.
+#' PaleoBios, 40 (11). \doi{10.5070/P9401160531}.
 #' \cr
 #' @source Compiled by Bethany Allen, current version downloaded on 14th July
 #' 2022. See item descriptions for details.

@@ -1,11 +1,16 @@
 # palaeoverse (development version)
 
 * New function to create stratigraphic range plots, tax_range_strat (#97)
+* Added age arguments (max_ma/min_ma) to bin_time (#106)
+* Added warning to bin_time (#104)
+* Improved link accessibility (#88)
+
 
 # palaeoverse 1.2.1
 
 * Fixed handling of multiple models in palaeorotate (#92)
 * Fixed custom ticks behavior for axis_geo_phylo
+* Added ability to use custom bins for tax_expand_time (#94)
 
 # palaeoverse 1.2.0
 
