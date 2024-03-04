@@ -70,7 +70,7 @@ test_that("tax_range_strat() labels", {
   })
 })
 
-test_that("tax_range_strat() takes plot_args", {
+test_that("tax_range_strat() stops some plot_args", {
   expect_doppelganger("tax_range_strat() labels", function() {
 
     occdf <- data.frame(genus = c("shrimp", "worm", "worm", "shrimp", "bivalve",
@@ -79,9 +79,7 @@ test_that("tax_range_strat() takes plot_args", {
                         certainty = c(1, 1, 0, 1, 0, 1, 1, 1, 0))
 
     tax_range_strat(occdf,
-                    plot_args = list(type = "line", col = NULL, lwd = NULL,
-                                     pch = NULL, bg = NULL, lty = NULL,
-                                     cex = NULL, ylab = "Height (m)"),
+                    plot_args = list(type = "line", ylab = "Height (m)"),
                     x_args = list(side = 1), y_args = list(side = 2))
   })
 })
