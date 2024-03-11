@@ -593,6 +593,9 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Add warning
   if (length(model) == 1) {
     cnames <- c("p_lng", "p_lat")
+    if (method == "point") {
+      occdf <- occdf[, -which(colnames(occdf) %in% paste0(cnames, "_", model))]
+    }
   }
   if (any(is.na(occdf[, unlist(cnames)]))) {
     warning(

@@ -4,6 +4,7 @@
 * Added age arguments (max_ma/min_ma) to bin_time (#106)
 * Added warning to bin_time (#104)
 * Improved link accessibility (#88)
+* Fix superfluous columns in palaeorotate (#110)
 
 
 # palaeoverse 1.2.1
