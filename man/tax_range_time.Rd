@@ -17,7 +17,7 @@ tax_range_time(
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences containing
-at least three columns: names of taxa, maximum age and minimum age
+at least three columns: names of taxa, minimum age and maximum age
 (see \code{name}, \code{min_ma}, and \code{max_ma} arguments).
 These ages should constrain the age range of the fossil occurrence
 and are assumed to be in millions of years before present.}
@@ -37,11 +37,11 @@ or "name" (alphabetically by taxon names).}
 
 \item{plot}{\code{logical}. Should a plot of the ranges be generated?}
 
-\item{plot_args}{\code{list}. A list of optional arguments that are used
-for plotting. See Details for options.}
+\item{plot_args}{\code{list}. A list of optional arguments relevant to
+plotting. See Details for options.}
 
-\item{intervals}{\code{character}. The interval information to use to plot
-the axis: either A) a \code{character} string indicating a rank of
+\item{intervals}{\code{character}. The time interval information used to
+plot the x-axis: either A) a \code{character} string indicating a rank of
 intervals from the built-in \code{\link{GTS2020}}, B) a \code{character}
 string indicating a \code{data.frame} hosted by
 \href{https://macrostrat.org}{Macrostrat} (see \code{\link{time_bins}}), or C)
@@ -65,7 +65,7 @@ data.
 The temporal range(s) of taxa are calculated by extracting all
 unique taxa (\code{name} column) from the input \code{occdf}, and checking their
 first and last appearance. The temporal duration of each taxon is also
-calculated. If the input data columns contain NAs, these should be
+calculated. If the input data columns contain NAs, these must be
 removed prior to function call. A plot of the temporal range of each
 taxon is also returned if \code{plot = TRUE}. Customisable argument options
 (i.e. \code{\link[graphics:par]{graphics::par()}}) to pass to \code{plot_args} as a list (and their
