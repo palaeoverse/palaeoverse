@@ -163,7 +163,7 @@
 #' @importFrom sf st_as_sf
 #' @importFrom utils download.file
 #' @importFrom pbapply pblapply
-#' @importFrom httr RETRY GET content
+#' @importFrom httr GET content
 #' @importFrom curl nslookup
 #' @importFrom stats na.omit
 #' @examples
@@ -428,7 +428,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Define root
     pbase <- "https://gws.gplates.org/reconstruct/reconstruct_points/"
     # Setup query structure
-    query <- list(points = NULL, time = NULL,
+    query <- list(time = NULL, lons = NULL, lats = NULL,
                   model = NULL, anchor_plate_id = 0,
                   return_null_points = TRUE)
     query <- list(MULLER2022 = query,
@@ -489,23 +489,19 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
           req <- query[[m]]
           req$time <- i
           req$model <- m
-          pts <- paste(x[, lng], x[, lat], sep = ",", collapse = ",")
-          req$points <- pts
+          req$lats <- paste(x[, lat], sep = ",", collapse = ",")
+          req$lons <- paste(x[, lng], sep = ",", collapse = ",")
           return(req)
         })
-        # Call API
-        api_req <- lapply(request, function(x) {
-          RETRY(verb = "GET",
-                url = pbase,
-                query = x,
-                times = 5,
-                pause_min = 1,
-                pause_base = 1,
-                pause_cap = 10)
-        })
-        # Extract coordinates
-        rots <- lapply(api_req, function(x) {
-          coords <- content(x = x, as = "parsed")$coordinates
+        # Call API and extract coordinates
+        rots <- lapply(request, function(x) {
+          coords <- GET(url = pbase, query = x)
+          # If occurrences exceeds age of model
+          if (coords$status_code == 400) {
+            coords <- vector("list", nrow(tmp[[1]]))
+          } else {
+            coords <- content(x = coords, as = "parsed")$coordinates
+          }
           # Replace NULL values
           rpl <- sapply(coords, is.null)
           if (sum(rpl) != 0) {
