@@ -44,6 +44,29 @@ test_that("palaeorotate() point method works", {
                                  method = "point",
                                  model = "PALEOMAP")), nrow(occdf))
 
+  # Check handling of temporal range
+  occdf <- data.frame(lng = runif(10, -180, 180),
+                      lat = runif(10, -90, 90),
+                      age = rep(500, 10))
+  expect_true(
+    all(
+      is.na(
+        palaeorotate(occdf = occdf,
+                     method = "point",
+                     model = "SETON2012")$p_lng
+        ))
+  )
+
+  expect_true(
+    all(
+      is.na(
+        palaeorotate(occdf = occdf,
+                     method = "point",
+                     model = c("SETON2012", "MULLER2016"),
+                     uncertainty = TRUE)$max_dist
+      )
+    )
+  )
 
   # Expect error
   occdf <- data.frame(lng = c(-41),
