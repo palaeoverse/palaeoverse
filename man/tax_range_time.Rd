@@ -92,7 +92,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-Bethany Allen & Christopher D. Dean
+Bethany Allen, Christopher D. Dean & Kilian Eichenseer
 }
 
 \examples{

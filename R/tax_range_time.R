@@ -60,7 +60,7 @@
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
-#' Bethany Allen & Christopher D. Dean
+#' Bethany Allen, Christopher D. Dean & Kilian Eichenseer
 #' @importFrom graphics points
 #' @examples
 #' # Grab internal data
