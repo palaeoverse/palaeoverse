@@ -1,5 +1,6 @@
 # palaeoverse (development version)
 
+* Added plot customisability to tax_range_time (#99)
 * Update palaeorotate to handle updates with GPlates API (#112)
 * New function to create stratigraphic range plots, tax_range_strat (#97)
 * Added age arguments (max_ma/min_ma) to bin_time (#106)
