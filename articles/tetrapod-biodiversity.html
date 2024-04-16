@@ -29,11 +29,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary" data-bs-theme="dark"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">palaeoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,7 @@
     
 <p><strong>Authors:</strong> <a href="https://palaeoverse.org/about.html#our-team" class="external-link">The Palaeoverse
 Development Team</a></p>
-<p><strong>Last updated:</strong> 2023-12-01</p>
+<p><strong>Last updated:</strong> 2024-04-16</p>
 <div style="text-align: justify">
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -170,10 +170,13 @@ using this dataset to demonstrate some of the available functionality in
 <span></span>
 <span><span class="co"># View the column names and the first five lines of the first three columns:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tetrapods</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"     "accepted_rank"     "early_interval"   </span></span>
-<span><span class="co">##  [8] "late_interval"     "max_ma"            "min_ma"            "phylum"            "class"             "order"             "family"           </span></span>
-<span><span class="co">## [15] "genus"             "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"   "cc"               </span></span>
-<span><span class="co">## [22] "formation"         "stratgroup"        "member"            "zone"              "lithology1"        "environment"       "pres_mode"        </span></span>
+<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"  </span></span>
+<span><span class="co">##  [5] "accepted_name"     "accepted_rank"     "early_interval"    "late_interval"    </span></span>
+<span><span class="co">##  [9] "max_ma"            "min_ma"            "phylum"            "class"            </span></span>
+<span><span class="co">## [13] "order"             "family"            "genus"             "abund_value"      </span></span>
+<span><span class="co">## [17] "abund_unit"        "lng"               "lat"               "collection_name"  </span></span>
+<span><span class="co">## [21] "cc"                "formation"         "stratgroup"        "member"           </span></span>
+<span><span class="co">## [25] "zone"              "lithology1"        "environment"       "pres_mode"        </span></span>
 <span><span class="co">## [29] "taxon_environment" "motility"          "life_habit"        "diet"</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></code></pre></div>
@@ -273,33 +276,43 @@ remove these occurrences.</p>
 <span><span class="va">mid_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">cp_tetrapods</span>,</span>
 <span>                          bins <span class="op">=</span> <span class="va">bins</span>,</span>
 <span>                          method <span class="op">=</span> <span class="st">'mid'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more</span></span>
+<span><span class="co">## occurrences have a midpoint age equivalent to a bin boundary. Binning skipped for these</span></span>
+<span><span class="co">## occurrences. Hint: `which(is.na(occdf$bin_assignment))`.</span></span></code></pre>
 <p>That’s better! Let’s see how our dataset has changed.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Examine the dataset columns</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"     "accepted_rank"     "early_interval"   </span></span>
-<span><span class="co">##  [8] "late_interval"     "old_max_ma"        "old_min_ma"        "phylum"            "class"             "order"             "family"           </span></span>
-<span><span class="co">## [15] "genus"             "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"   "cc"               </span></span>
-<span><span class="co">## [22] "formation"         "stratgroup"        "member"            "zone"              "lithology1"        "environment"       "pres_mode"        </span></span>
-<span><span class="co">## [29] "taxon_environment" "motility"          "life_habit"        "diet"              "early_stage"       "late_stage"        "max_ma"           </span></span>
-<span><span class="co">## [36] "interval_mid_ma"   "min_ma"            "id"                "n_bins"            "bin_assignment"    "bin_midpoint"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"  </span></span>
+<span><span class="co">##  [5] "accepted_name"     "accepted_rank"     "early_interval"    "late_interval"    </span></span>
+<span><span class="co">##  [9] "old_max_ma"        "old_min_ma"        "phylum"            "class"            </span></span>
+<span><span class="co">## [13] "order"             "family"            "genus"             "abund_value"      </span></span>
+<span><span class="co">## [17] "abund_unit"        "lng"               "lat"               "collection_name"  </span></span>
+<span><span class="co">## [21] "cc"                "formation"         "stratgroup"        "member"           </span></span>
+<span><span class="co">## [25] "zone"              "lithology1"        "environment"       "pres_mode"        </span></span>
+<span><span class="co">## [29] "taxon_environment" "motility"          "life_habit"        "diet"             </span></span>
+<span><span class="co">## [33] "early_stage"       "late_stage"        "max_ma"            "interval_mid_ma"  </span></span>
+<span><span class="co">## [37] "min_ma"            "id"                "n_bins"            "bin_assignment"   </span></span>
+<span><span class="co">## [41] "bin_midpoint"</span></span></code></pre>
 <p>As you can see, four new columns (variables) have been added to our
 dataset. Two of these are especially important. First is the
 <code>bin_assignment</code>, which shows which number bin the occurrence
 has been added to. Second is <code>n_bins</code> - this shows how many
 bins the occurrence could potentially have been placed within. Let’s
 examine this further.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Make a table of potential number of bins</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">$</span><span class="va">n_bins</span><span class="op">)</span> <span class="co"># raw counts</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">##    1    2    3    4    5    6    7    8    9 </span></span>
 <span><span class="co">##  843 1754  425  268   33   34    3    2   16</span></span></code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">$</span><span class="va">n_bins</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">)</span> <span class="co"># proportions</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">##            1            2            3            4            5            6            7            8            9 </span></span>
-<span><span class="co">## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 0.0008880995 0.0005920663 0.0047365305</span></span></code></pre>
+<span><span class="co">##            1            2            3            4            5            6            7 </span></span>
+<span><span class="co">## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 0.0008880995 </span></span>
+<span><span class="co">##            8            9 </span></span>
+<span><span class="co">## 0.0005920663 0.0047365305</span></span></code></pre>
 <p>As you can see, only ~25% of the dataset can be assigned to just one
 bin - the other occurrences can’t be confidently assigned to an
 individual time interval. This is where the other methods for the
@@ -308,7 +321,7 @@ different options when assigning occurrences to bins. Instead of the
 ‘mid’ method, let’s try the ‘majority’ method instead, which places the
 occurrences in the bin which covers the majority of their potential time
 range.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Bin occurrences into chosen time bins</span></span>
 <span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">cp_tetrapods</span>,</span>
 <span>                          bins <span class="op">=</span> <span class="va">bins</span>,</span>
@@ -319,12 +332,12 @@ how they impact your results!</p>
 functions to do this. Firstly, we need to add palaeocoordinates to our
 dataset. We can use the <code>palaeorotate</code> function to do
 this.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Palaeorotate occurrences</span></span>
 <span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/palaeorotate.html">palaeorotate</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">maj_tetrapods</span>, age <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
 <span>                              method <span class="op">=</span> <span class="st">"point"</span>, model <span class="op">=</span> <span class="st">"PALEOMAP"</span><span class="op">)</span></span></code></pre></div>
 <p>Now let’s check that it’s worked…</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check palaeocoordinates</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">maj_tetrapods</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p_lng"</span>, <span class="st">"p_lat"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      p_lng    p_lat</span></span>
@@ -338,7 +351,7 @@ this.</p>
 occurrences, we can put them into spatial bins. We can do this using the
 <code>bin_space</code> function, which assigns each occurrence to one of
 many discrete equal-area hexagonal grid cells (based on <a href="https://h3geo.org/" class="external-link">Uber’s H3 system</a>).</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Make a table of potential number of bins</span></span>
 <span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_space.html">bin_space</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">maj_tetrapods</span>,</span>
 <span>                           lng <span class="op">=</span> <span class="st">'p_lng'</span>,</span>
@@ -346,7 +359,7 @@ many discrete equal-area hexagonal grid cells (based on <a href="https://h3geo.o
 <span>                           spacing <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Average spacing between adjacent cells in the primary grid was set to 103.6 km. </span></span>
 <span><span class="co">## H3 resolution: 3</span></span></code></pre>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Show the first 6 rows of the new columns added using `bin_space`.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">maj_tetrapods</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cell_ID"</span>, <span class="st">"cell_centroid_lng"</span>, <span class="st">"cell_centroid_lat"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##           cell_ID cell_centroid_lng cell_centroid_lat</span></span>
@@ -362,7 +375,7 @@ for the centroid of that cell.</p>
 <p>Now that we have both temporal and spatial bins, we can use these
 data to see how the spatial coverage of tetrapod fossils in our dataset
 varies through time.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Extract unique interval midpoints</span></span>
 <span><span class="va">midpoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">maj_tetrapods</span><span class="op">$</span><span class="va">bin_midpoint</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -402,17 +415,17 @@ is designed to deal with such taxonomic data and would retain all seven
 <p>This function can be especially useful for when looking at alpha
 diversity (local richness). Let’s apply it to our dataset by filtering
 it to genus-level.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Filter to genus-level:</span></span>
 <span><span class="va">tet_genera</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tax_unique.html">tax_unique</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">maj_tetrapods</span>, genus <span class="op">=</span> <span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span>,</span>
 <span>                         order <span class="op">=</span> <span class="st">"order"</span>, class <span class="op">=</span> <span class="st">"class"</span>, resolution <span class="op">=</span> <span class="st">"genus"</span><span class="op">)</span></span></code></pre></div>
 <p>We can compare this to the genera from the original dataset to see
 how many genera were added by using <code><a href="../reference/tax_unique.html">tax_unique()</a></code>:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># How many unique genera before:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">maj_tetrapods</span><span class="op">$</span><span class="va">genus</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 717</span></span></code></pre>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># How many unique genera after:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">tet_genera</span><span class="op">$</span><span class="va">unique_name</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 719</span></span></code></pre>
@@ -421,14 +434,14 @@ ignored! To see more specifically how the function has performed, take a
 look at row 718, which records an indeterminate occurrence of the family
 <em>Dicynodontidae</em>. This occurrence now has a unique name of
 ‘Dicynodontidae indet.’</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># See just row 718</span></span>
 <span><span class="va">tet_genera</span><span class="op">[</span><span class="fl">718</span>, <span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##            class        order         family genus           unique_name</span></span>
 <span><span class="co">## 718 Osteichthyes Dicynodontia Dicynodontidae  &lt;NA&gt; Dicynodontidae indet.</span></span></code></pre>
 <p>Now, let’s use this function to extract the unique genera for each
 collection (=locality) with <code>group_apply</code>:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Use group_apply along with tax_unique:</span></span>
 <span><span class="va">coll_genera</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">maj_tetrapods</span>,</span>
 <span>                           group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"collection_no"</span><span class="op">)</span>,</span>
@@ -449,7 +462,7 @@ collection (=locality) with <code>group_apply</code>:</p>
 <span><span class="co">##  $ unique_name  : chr  "Osteichthyes indet." "Parioxys sp." "Archeria sp." "Bolosaurus sp." ...</span></span>
 <span><span class="co">##  $ collection_no: chr  "11149" "11152" "11165" "11165" ...</span></span></code></pre>
 <p>Next, let’s count the number of unique genera per collection:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get the names of unique genera per collection</span></span>
 <span><span class="va">unique_genera</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">coll_genera</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"unique_name"</span>, <span class="st">"collection_no"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
@@ -470,7 +483,7 @@ collection (=locality) with <code>group_apply</code>:</p>
 <span><span class="co">## 6      1         11149</span></span></code></pre>
 <p>To plot an alpha diversity (local richness) plot, we will need to add
 interval age data to these collections:</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Take the columns pertaining to collections and their ages in millions of years:</span></span>
 <span><span class="va">coll_info</span> <span class="op">&lt;-</span> <span class="va">maj_tetrapods</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"collection_no"</span>, <span class="st">"max_ma"</span>, <span class="st">"interval_mid_ma"</span>, <span class="st">"min_ma"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
@@ -491,7 +504,7 @@ interval age data to these collections:</p>
 <span><span class="co">## 6         12976 283.50          275.80 272.95      7</span></span></code></pre>
 <p>Done. Now to plot alpha diversity through time! Let’s start with a
 simple scatterplot:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Make a plot for alpha diversity in the Carboniferous and Permian</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">alpha_data</span><span class="op">$</span><span class="va">interval_mid_ma</span>, <span class="va">alpha_data</span><span class="op">$</span><span class="va">n_taxa</span>, <span class="co"># add the points</span></span>
 <span>     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">alpha_data</span><span class="op">$</span><span class="va">interval_mid_ma</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, <span class="co"># reverse the x-axis</span></span>
@@ -507,7 +520,7 @@ contain which data points. <code><a href="../reference/axis_geo.html">axis_geo()
 timescale between the plot and the axis.</p>
 <p>Taking our plot from above, let’s use this function to add a
 timescale to the x-axis:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set margins</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7.1</span>, <span class="fl">4.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span><span class="op">)</span><span class="op">)</span> <span class="co"># expand at bottom if adding more interval categories</span></span>
 <span></span>
@@ -546,7 +559,7 @@ documentation which can be accessed via
 <code><a href="../reference/tax_range_space.html">?tax_range_space</a></code>.</p>
 <p>We can use this in combination with <code>group_apply</code> to
 calculate the average for each time interval for our dataset:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># First, remove any occurrences without a genus</span></span>
 <span><span class="va">space_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">maj_tetrapods</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">genus</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -575,7 +588,7 @@ interval. Note that an area of zero here means that there is only one
 occurrence of that taxon in that time bin. From this information we can
 now plot how the average range size of tetrapods changed throughout the
 Carboniferous and Permian:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Find the average geographic range size for each time interval</span></span>
 <span><span class="va">space_tetrapods_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span><span class="va">space_tetrapods</span>, <span class="st">"bin_midpoint"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">area</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">space_tetrapods_mean</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean_area"</span>, <span class="st">"bin_midpoint"</span><span class="op">)</span></span>
@@ -605,7 +618,7 @@ larger geographic spread of fossil bearing rocks within the Permian. To
 see if this is the case, we can run a simple correlation test between
 the average geographic range size of tetrapods and the number of unique
 grid cells in each time interval:</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run a correlation test between mean range size and the spatial spread of cells</span></span>
 <span><span class="co"># through time</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">space_tetrapods_mean</span><span class="op">$</span><span class="va">mean_area</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">spat.cov</span><span class="op">$</span><span class="va">nrow</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></span></code></pre></div>
@@ -657,7 +670,7 @@ p.caption {
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
 </div>
 
     </footer>
