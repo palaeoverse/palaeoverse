@@ -1,4 +1,4 @@
-# palaeoverse (development version)
+# palaeoverse 1.3.0
 
 * Added plot customisability to tax_range_time (#99)
 * Update palaeorotate to handle updates with GPlates API (#112)

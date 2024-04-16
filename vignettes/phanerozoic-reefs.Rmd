@@ -9,7 +9,7 @@ vignette: >
 
 **Authors:** [The Palaeoverse Development Team](https://palaeoverse.org/about.html#our-team)
 
-**Last updated:** 2023-12-01
+**Last updated:** 2024-04-16
 
 
 
@@ -335,13 +335,20 @@ head(reefs[, c("p_lng_PALEOMAP", "p_lat_PALEOMAP",
 ```
 
 ```
-##   p_lng_PALEOMAP p_lat_PALEOMAP p_lng_GOLONKA p_lat_GOLONKA p_lng_MERDITH2021 p_lat_MERDITH2021
-## 1        21.3630        10.0755       35.6565        8.3384           34.4223           12.1964
-## 2        22.1341         2.3106       31.0982        4.8069           30.8863            4.7404
-## 3             NA             NA      124.2500       24.3330          124.2489           24.3367
-## 4             NA             NA      124.2500       24.3330          124.2493           24.3352
-## 5             NA             NA      124.2500       24.3330          124.2498           24.3337
-## 6        26.3041        -0.3093       38.0979        4.9270           36.3998            4.5809
+##   p_lng_PALEOMAP p_lat_PALEOMAP p_lng_GOLONKA p_lat_GOLONKA p_lng_MERDITH2021
+## 1        21.3630        10.0755       35.6565        8.3384           34.4223
+## 2        22.1341         2.3106       31.0982        4.8069           30.8863
+## 3             NA             NA      124.2500       24.3330          124.2489
+## 4             NA             NA      124.2500       24.3330          124.2493
+## 5             NA             NA      124.2500       24.3330          124.2498
+## 6        26.3041        -0.3093       38.0979        4.9270           36.3998
+##   p_lat_MERDITH2021
+## 1           12.1964
+## 2            4.7404
+## 3           24.3367
+## 4           24.3352
+## 5           24.3337
+## 6            4.5809
 ```
 
 Now we've palaeorotated our data, let's repeat what we did earlier and calculate the most poleward reef occurrence for each model.
