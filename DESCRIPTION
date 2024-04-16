@@ -68,6 +68,6 @@ Suggests:
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 URL: https://palaeoverse.palaeoverse.org,
-     https://github.com/palaeoverse-community/palaeoverse,
+     https://github.com/palaeoverse/palaeoverse,
      https://palaeoverse.org
-BugReports: https://github.com/palaeoverse-community/palaeoverse/issues
+BugReports: https://github.com/palaeoverse/palaeoverse/issues
