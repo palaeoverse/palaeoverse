@@ -1,3 +1,7 @@
+# palaeoverse 1.3.1
+
+* Fixed point plotting bug in tax_range_strat
+
 # palaeoverse 1.3.0
 
 * Added plot customisability to tax_range_time (#99)
