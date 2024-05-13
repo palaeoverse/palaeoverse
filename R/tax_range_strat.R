@@ -237,12 +237,12 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
              col = cols[1], lty = ltys[1], lwd = lwds[1])
   }
   if (is.null(certainty)) {
-    points(y = occdf$bed, x = occdf$ID, pch = pchs[1],
+    points(y = occdf[, level], x = occdf$ID, pch = pchs[1],
            col = cols[1], bg = bgs[1], cex = cexs[1])
   } else {
-    points(y = certain$bed, x = certain$ID, pch = pchs[1],
+    points(y = certain[, level], x = certain$ID, pch = pchs[1],
            col = cols[1], bg = bgs[1], cex = cexs[1])
-    points(y = uncertain$bed, x = uncertain$ID, pch = pchs[2],
+    points(y = uncertain[, level], x = uncertain$ID, pch = pchs[2],
            col = cols[2], bg = bgs[2], cex = cexs[2])
   }
   # plot y-axis
