@@ -52,7 +52,7 @@ As with any community project, society, or meeting we feel it is important to es
 
 If you use the palaeoverse R package in your work, please cite as:
 
-Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2023. palaeoverse: A community-driven R package to support palaeobiological analysis. *Methods in Ecology and Evolution*. doi: [10.1111/2041-210X.14099](https://doi.org/10.1111/2041-210X.14099).
+Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2023. palaeoverse: A community-driven R package to support palaeobiological analysis. *Methods in Ecology and Evolution* 14(09), 2205--2215. doi: [10.1111/2041-210X.14099](https://doi.org/10.1111/2041-210X.14099).
 
 <p align="left">
 
