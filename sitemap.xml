@@ -1,111 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/404.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/FUNDING.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/articles/phanerozoic-reefs.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/articles/structure-and-standards.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/articles/tetrapod-biodiversity.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/index.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/GTS2012.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/GTS2020.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/axis_geo.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/bin_lat.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/bin_space.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/bin_time.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/group_apply.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/interval_key.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/lat_bins.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/look_up.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/palaeorotate.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/palaeoverse-package.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/phylo_check.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/reefs.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/tax_check.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/tax_expand_lat.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/tax_expand_time.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/tax_range_space.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/tax_range_strat.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/tax_range_time.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/tax_unique.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/tetrapods.html</loc>
-  </url>
-  <url>
-    <loc>https://palaeoverse.palaeoverse.org/reference/time_bins.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://palaeoverse.palaeoverse.org/404.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/CONTRIBUTING.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/FUNDING.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/LICENSE.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/articles/index.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/articles/phanerozoic-reefs.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/articles/structure-and-standards.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/articles/tetrapod-biodiversity.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/authors.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/index.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/news/index.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/GTS2012.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/GTS2020.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/axis_geo.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/bin_lat.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/bin_space.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/bin_time.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/group_apply.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/index.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/interval_key.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/lat_bins.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/look_up.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/palaeorotate.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/palaeoverse-package.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/phylo_check.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/reefs.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/tax_check.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/tax_expand_lat.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/tax_expand_time.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/tax_range_space.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/tax_range_strat.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/tax_range_time.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/tax_unique.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/tetrapods.html</loc></url>
+<url><loc>https://palaeoverse.palaeoverse.org/reference/time_bins.html</loc></url>
 </urlset>
+
