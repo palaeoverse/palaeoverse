@@ -112,7 +112,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
     stop("`occdf` should be a dataframe")
   }
 
-  if (!is.numeric(occdf[, level])) {
+  if (!is.numeric(occdf[, level, drop = TRUE])) {
     stop("`level` must be of class numeric")
   }
 
@@ -127,16 +127,16 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
     if (certainty %in% colnames(occdf) == FALSE) {
       stop("`certainty` is not a named column in `occdf`")
     }
-    if (any(is.na(occdf[, certainty]))) {
+    if (any(is.na(occdf[, certainty, drop = TRUE]))) {
       stop("The `certainty` column contains NA values")
     }
   }
 
-  if (any(is.na(occdf[, name]))) {
+  if (any(is.na(occdf[, name, drop = TRUE]))) {
     stop("The `name` column contains NA values")
   }
 
-  if (any(is.na(occdf[, level]))) {
+  if (any(is.na(occdf[, level, drop = TRUE]))) {
     stop("The `level` column contains NA values")
   }
 
@@ -145,7 +145,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
   }
 
   #List and order unique taxa
-  unique_taxa <- unique(occdf[, name])
+  unique_taxa <- unique(occdf[, name, drop = TRUE])
   unique_taxa <- unique_taxa[order(unique_taxa)]
 
   #Create object to hold information
@@ -159,7 +159,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
 
   #Populate nested list
   for (i in seq_along(unique_taxa)) {
-    occ_filter <- occdf[(occdf[, name] == unique_taxa[i]), ]
+    occ_filter <- occdf[(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
     ranges[i, 2] <- min(occ_filter[level])
     ranges[i, 3] <- max(occ_filter[level])
     #If uncertainty is used, fill second set of columns for certain IDs
@@ -191,8 +191,8 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
 
   #Obtain uncertain occurrences
   if (!is.null(certainty)) {
-    certain <- occdf[(occdf[, certainty] != 0), ]
-    uncertain <- occdf[(occdf[, certainty] == 0), ]
+    certain <- occdf[(occdf[, certainty, drop = TRUE] != 0), ]
+    uncertain <- occdf[(occdf[, certainty, drop = TRUE] == 0), ]
   }
 
   #Create plot
@@ -237,7 +237,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
              col = cols[1], lty = ltys[1], lwd = lwds[1])
   }
   if (is.null(certainty)) {
-    points(y = occdf[, level], x = occdf$ID, pch = pchs[1],
+    points(y = occdf[, level, drop = TRUE], x = occdf$ID, pch = pchs[1],
            col = cols[1], bg = bgs[1], cex = cexs[1])
   } else {
     points(y = certain[, level], x = certain$ID, pch = pchs[1],

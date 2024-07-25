@@ -71,10 +71,10 @@ tax_expand_time <- function(
     stop("Either `min_ma` or `max_ma` is not a named column in `taxdf`")
   }
 
-  if (!is.numeric(taxdf[, max_ma])) {
+  if (!is.numeric(taxdf[, max_ma, drop = TRUE])) {
     stop("The class of the max_ma column must be numeric.")
   }
-  if (!is.numeric(taxdf[, min_ma])) {
+  if (!is.numeric(taxdf[, min_ma, drop = TRUE])) {
     stop("The class of the min_ma column must be numeric.")
   }
 
@@ -82,7 +82,7 @@ tax_expand_time <- function(
     stop("Maximum and minimum ages must be positive.")
   }
 
-  if (any(taxdf[, max_ma] < taxdf[, min_ma])) {
+  if (any(taxdf[, max_ma, drop = TRUE] < taxdf[, min_ma, drop = TRUE])) {
     stop("Maximum ages must be larger than or equal to minimum ages.")
   }
 
@@ -120,8 +120,8 @@ tax_expand_time <- function(
 
   # replicate taxon rows for each interval they span
   dat_list <- lapply(seq_len(nrow(bins)), function(i) {
-    int_tax <- taxdf[taxdf[, min_ma] < bins$max_ma[i] &
-                       taxdf[, max_ma] > bins$min_ma[i], ]
+    int_tax <- taxdf[taxdf[, min_ma, drop = TRUE] < bins$max_ma[i] &
+                       taxdf[, max_ma, drop = TRUE] > bins$min_ma[i], ]
     if (ext_orig) {
       int_tax$ext <- int_tax[, min_ma] >= bins$min_ma[i] &
                        int_tax[, min_ma] > 0

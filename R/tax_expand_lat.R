@@ -65,11 +65,11 @@ tax_expand_lat <- function(taxdf,
     stop("Either `max_lat` or `min_lat` is not a named column in `taxdf`")
   }
 
-  if (!is.numeric(taxdf[, max_lat])) {
+  if (!is.numeric(taxdf[, max_lat, drop = TRUE])) {
     stop("The class of the max_lat column must be numeric.")
   }
 
-  if (!is.numeric(taxdf[, min_lat])) {
+  if (!is.numeric(taxdf[, min_lat, drop = TRUE])) {
     stop("The class of the min_lat column must be numeric.")
   }
 
@@ -81,7 +81,7 @@ tax_expand_lat <- function(taxdf,
     stop("Maximum and minimum latitudes must be less than or equal to 90")
   }
 
-  if (any(taxdf[, max_lat] < taxdf[, min_lat])) {
+  if (any(taxdf[, max_lat, drop = TRUE] < taxdf[, min_lat, drop = TRUE])) {
     stop("Maximum latitude must be larger than or equal to minimum latitude")
   }
 
@@ -91,8 +91,8 @@ tax_expand_lat <- function(taxdf,
 
   # Replicate taxon rows for each lat bin they span
   dat_list <- lapply(seq_len(nrow(bins)), function(i) {
-    int_tax <- taxdf[taxdf[, min_lat] < bins$max[i] &
-                       taxdf[, max_lat] > bins$min[i], ]
+    int_tax <- taxdf[taxdf[, min_lat, drop = TRUE] < bins$max[i] &
+                       taxdf[, max_lat, drop = TRUE] > bins$min[i], ]
     if (nrow(int_tax) == 0) {
       return(NULL)
     }

@@ -218,21 +218,24 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     stop("defined `lng`, `lat`, or `age` not found in `occdf`")
   }
 
-  if (any(!is.numeric(occdf[, lat]), is.na(occdf[, lat]),
-          !is.numeric(occdf[, lng]), is.na(occdf[, lng]),
-          !is.numeric(occdf[, age]), is.na(occdf[, age]))) {
+  if (any(!is.numeric(occdf[, lat, drop = TRUE]),
+          is.na(occdf[, lat, drop = TRUE]),
+          !is.numeric(occdf[, lng, drop = TRUE]),
+          is.na(occdf[, lng, drop = TRUE]),
+          !is.numeric(occdf[, age, drop = TRUE]),
+          is.na(occdf[, age, drop = TRUE]))) {
     stop("`lng`, `lat` and `age` should be of class numeric")
   }
 
-  if (any(occdf[, age] < 0)) {
+  if (any(occdf[, age, drop = TRUE] < 0)) {
     stop("`age` contains negative values. Input ages should be positive.")
   }
 
-  if (sum(abs(occdf[, lat]) > 90) != 0) {
+  if (sum(abs(occdf[, lat, drop = TRUE]) > 90) != 0) {
     stop("`lat` values should be >= -90\u00B0 and <= 90\u00B0")
   }
 
-  if (sum(abs(occdf[, lng]) > 180) != 0) {
+  if (sum(abs(occdf[, lng, drop = TRUE]) > 180) != 0) {
     stop("`lng` values should be >= -180\u00B0 and <= 180\u00B0")
   }
 
@@ -453,12 +456,12 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Define maximum chunk size for API calls
     chunks <- 300
     # Set-up matching for later merge
-    coords$match <- paste0(coords[, lng],
-                           coords[, lat],
-                           coords[, age])
-    occdf$match <- paste0(occdf[, lng],
-                          occdf[, lat],
-                          occdf[, age])
+    coords$match <- paste0(coords[, lng, drop = TRUE],
+                           coords[, lat, drop = TRUE],
+                           coords[, age, drop = TRUE])
+    occdf$match <- paste0(occdf[, lng, drop = TRUE],
+                          occdf[, lat, drop = TRUE],
+                          occdf[, age, drop = TRUE])
 
     # Prepare points query
     # Split dataframe by age
@@ -537,7 +540,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
 
     # Drop match column
-    occdf <- occdf[, -which(colnames(occdf) == "match")]
+    occdf <- occdf[, -which(colnames(occdf) == "match"), drop = TRUE]
   }
 
   # Uncertainty calculation -------------------------------------------------
@@ -545,8 +548,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Calculate uncertainty (range)
     lng_nme <- paste0("p_lng_", model)
     lat_nme <- paste0("p_lat_", model)
-    uncertain_lng <- occdf[, lng_nme]
-    uncertain_lat <- occdf[, lat_nme]
+    uncertain_lng <- occdf[, lng_nme, drop = TRUE]
+    uncertain_lat <- occdf[, lat_nme, drop = TRUE]
 
     # Calculate palaeolatitudinal range
     range_p_lat <- vector("numeric")
@@ -590,7 +593,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   if (length(model) == 1) {
     cnames <- c("p_lng", "p_lat")
     if (method == "point") {
-      occdf <- occdf[, -which(colnames(occdf) %in% paste0(cnames, "_", model))]
+      occdf <- occdf[, -which(colnames(occdf) %in%
+                                paste0(cnames, "_", model))]
     }
   }
   if (any(is.na(occdf[, unlist(cnames)]))) {
@@ -599,7 +603,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       "Palaeocoordinates could not be reconstructed for all points.",
         "\n",
         "Either assigned plate does not exist at time of ",
-        "reconstruction or the plate rotation model(s) does not cover ",
+        "reconstruction or the Global Plate Model(s) does not cover ",
         "the age of reconstruction."
       )
     )
