@@ -164,7 +164,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
     ranges[i, 3] <- max(occ_filter[level])
     #If uncertainty is used, fill second set of columns for certain IDs
     if (!is.null(certainty)) {
-      occ_filter <- occ_filter[(occ_filter[, certainty] == 1), ]
+      occ_filter <- occ_filter[(occ_filter[, certainty, drop = TRUE] == 1), ]
       if (nrow(occ_filter) == 0) {
         occ_filter[1, ] <- NA
       }
@@ -240,9 +240,9 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
     points(y = occdf[, level, drop = TRUE], x = occdf$ID, pch = pchs[1],
            col = cols[1], bg = bgs[1], cex = cexs[1])
   } else {
-    points(y = certain[, level], x = certain$ID, pch = pchs[1],
+    points(y = certain[, level, drop = TRUE], x = certain$ID, pch = pchs[1],
            col = cols[1], bg = bgs[1], cex = cexs[1])
-    points(y = uncertain[, level], x = uncertain$ID, pch = pchs[2],
+    points(y = uncertain[, level, drop = TRUE], x = uncertain$ID, pch = pchs[2],
            col = cols[2], bg = bgs[2], cex = cexs[2])
   }
   # plot y-axis

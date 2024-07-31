@@ -77,7 +77,8 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
     tmp <- occdf[which(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min)), ]
     # Reverse direction to ensure alternative bin is assigned
     for (i in rev(seq_len(nrow(bins)))) {
-      vec <- which(tmp[, lat] <= bins$max[i] & tmp[, lat] >= bins$min[i])
+      vec <- which(tmp[, lat, drop = TRUE] <= bins$max[i] &
+                     tmp[, lat, drop = TRUE] >= bins$min[i])
       tmp$lat_bin[vec] <- bins$bin[i]
       tmp$lat_max[vec] <- bins$max[i]
       tmp$lat_mid[vec] <- bins$mid[i]

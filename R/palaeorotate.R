@@ -305,7 +305,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Unique localities for rotating
   coords <- unique(occdf[, c(lng, lat, age)])
   # Add columns for populating
-  uni_ages <- unique(coords[, c(age)])
+  uni_ages <- unique(coords[, age, drop = TRUE])
 
   # Grid rotations ----------------------------------------------------------
   if (method == "grid") {
@@ -465,7 +465,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
 
     # Prepare points query
     # Split dataframe by age
-    coord_list <- split(x = coords, f = coords[, age])
+    coord_list <- split(x = coords, f = coords[, age, drop = TRUE])
     # Split by chunk size
     list_size <- lapply(coord_list, nrow)
     subsplit <- names(which(list_size > chunks))

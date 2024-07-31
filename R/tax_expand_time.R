@@ -123,9 +123,9 @@ tax_expand_time <- function(
     int_tax <- taxdf[taxdf[, min_ma, drop = TRUE] < bins$max_ma[i] &
                        taxdf[, max_ma, drop = TRUE] > bins$min_ma[i], ]
     if (ext_orig) {
-      int_tax$ext <- int_tax[, min_ma] >= bins$min_ma[i] &
-                       int_tax[, min_ma] > 0
-      int_tax$orig <- int_tax[, max_ma] <= bins$max_ma[i]
+      int_tax$ext <- int_tax[, min_ma, drop = TRUE] >= bins$min_ma[i] &
+                       int_tax[, min_ma, drop = TRUE] > 0
+      int_tax$orig <- int_tax[, max_ma, drop = TRUE] <= bins$max_ma[i]
     }
     if (nrow(int_tax) == 0) return(NULL)
     cbind(int_tax, bins[i, ])

@@ -178,7 +178,8 @@ in `occdf`")
       # Subset taxa
       tmp <- occdf[which(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
       # Calculate convex hull
-      tmp <- tmp[chull(x = tmp[, lng], y = tmp[, lat]), c(lng, lat)]
+      tmp <- tmp[chull(x = tmp[, lng, drop = TRUE],
+                       y = tmp[, lat, drop = TRUE]), c(lng, lat)]
       # Calculate area of convex hull and convert to km^2
       area <- geosphere::areaPolygon(tmp) / 1e+6
       # Round to three decimal places
