@@ -14,7 +14,7 @@ look_up(
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences or other
+\item{occdf}{\code{data.frame}. A dataframe of fossil occurrences or other
 geological data, with columns of class \code{character} specifying the
 earliest and the latest possible interval associated with each occurrence.}
 
@@ -26,7 +26,7 @@ to "early_interval".}
 contains the latest interval from which the occurrences are from. Defaults
 to "late_interval".}
 
-\item{int_key}{\code{dataframe}. A dataframe linking interval names to
+\item{int_key}{\code{data.frame}. A dataframe linking interval names to
 international geological stage names from the ICS, or other, user-defined
 intervals.
 This dataframe should contain the following named columns containing
