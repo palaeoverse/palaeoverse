@@ -21,7 +21,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Lewis A. Jones \email{LewisAlan.Jones@uvigo.es} (\href{https://orcid.org/0000-0003-3902-8986}{ORCID})
+\strong{Maintainer}: Lewis A. Jones \email{LewisA.Jones@outlook.com} (\href{https://orcid.org/0000-0003-3902-8986}{ORCID})
 
 Authors:
 \itemize{

@@ -1,6 +1,7 @@
 # palaeoverse 1.3.1
 
 * Fixed point plotting bug in tax_range_strat
+* Made all functions tibble-friendly (#118)
 
 # palaeoverse 1.3.0
 

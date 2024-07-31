@@ -6,7 +6,7 @@
 #' and numeric ages from the International Commission on Stratigraphy (ICS), or
 #' user-defined intervals, to fossil occurrences.
 #'
-#' @param occdf \code{dataframe}. A dataframe of fossil occurrences or other
+#' @param occdf \code{data.frame}. A dataframe of fossil occurrences or other
 #' geological data, with columns of class \code{character} specifying the
 #' earliest and the latest possible interval associated with each occurrence.
 #' @param early_interval \code{character}. Name of the column in `occdf` that
@@ -15,7 +15,7 @@
 #' @param late_interval \code{character}. Name of the column in `occdf` that
 #' contains the latest interval from which the occurrences are from. Defaults
 #'  to "late_interval".
-#' @param int_key \code{dataframe}. A dataframe linking interval names to
+#' @param int_key \code{data.frame}. A dataframe linking interval names to
 #' international geological stage names from the ICS, or other, user-defined
 #' intervals.
 #' This dataframe should contain the following named columns containing
@@ -189,8 +189,8 @@ look_up <- function(occdf, early_interval = "early_interval",
   #=== Preparation ===
 
   # save early and late int columns for easier handling
-  early <- occdf[, early_interval]
-  late <- occdf[, late_interval]
+  early <- occdf[, early_interval, drop = TRUE]
+  late <- occdf[, late_interval, drop = TRUE]
 
   # if there are missing values in `late`, fill them in from `early`
   replace_pattern <- c("", " ")

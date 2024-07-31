@@ -14,7 +14,7 @@ tax_check(
 )
 }
 \arguments{
-\item{taxdf}{\code{dataframe}. A dataframe with named columns containing
+\item{taxdf}{\code{data.frame}. A dataframe with named columns containing
 taxon names (e.g. "species", "genus"). An optional column
 containing the groups (e.g. "family", "order") which taxon names
 belong to may also be provided (see \code{group} for details).
