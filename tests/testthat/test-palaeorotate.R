@@ -51,19 +51,24 @@ test_that("palaeorotate() point method works", {
   expect_true(
     all(
       is.na(
-        palaeorotate(occdf = occdf,
-                     method = "point",
-                     model = "SETON2012")$p_lng
-        ))
+        suppressWarnings(
+          palaeorotate(occdf = occdf,
+                       method = "point",
+                       model = "SETON2012")$p_lng
+        )
+      )
+    )
   )
 
   expect_true(
     all(
       is.na(
-        palaeorotate(occdf = occdf,
-                     method = "point",
-                     model = c("SETON2012", "MULLER2016"),
-                     uncertainty = TRUE)$max_dist
+        suppressWarnings(
+          palaeorotate(occdf = occdf,
+                       method = "point",
+                       model = c("SETON2012", "MULLER2016"),
+                       uncertainty = TRUE)$max_dist
+        )
       )
     )
   )
