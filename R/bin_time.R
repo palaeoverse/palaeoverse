@@ -228,7 +228,7 @@ bin_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
 
       # Remove mid_ma for fossil occurrences (if not already present as input)
       if (rmcol == TRUE) {
-        occdf <- occdf[, -which(colnames(occdf) == "mid_ma"), drop = TRUE]
+        occdf <- occdf[, -which(colnames(occdf) == "mid_ma")]
       }
 
       # Return the dataframe and end the function.
@@ -285,7 +285,7 @@ bin_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
 
       occdf$point_estimates <- NA
       #drop cols that are not needed
-      occdf <- occdf[, -which(colnames(occdf) == "bin_midpoint"), drop = TRUE]
+      occdf <- occdf[, -which(colnames(occdf) == "bin_midpoint")]
 
       occ_df_list <- list()
       occ_df_list <- sapply(seq_len(reps), function(x) NULL)
