@@ -19,9 +19,9 @@ test_that("tax_range_strat() error handling", {
 
   occdf[1,1] <- NA;
   expect_error(tax_range_strat(occdf = occdf))
-  occdf[1,1] <- "shrimp"; occdf[1,2] <- NA
+  occdf[1,1] <- "shrimp"; occdf[1,3] <- NA
   expect_error(tax_range_strat(occdf = occdf))
-  occdf[1,2] <- 1; occdf[1,3] <- NA
+  occdf[1,3] <- 1; occdf[1,4] <- NA
   expect_error(tax_range_strat(occdf = occdf, certainty = "certainty"))
 })
 
