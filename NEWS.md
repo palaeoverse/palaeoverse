@@ -1,6 +1,7 @@
-# palaeoverse 1.3.1
+# palaeoverse 1.4.0
 
 * Fixed point plotting bug in tax_range_strat
+* Added lat_bins_equal (#114)
 
 # palaeoverse 1.3.0
 
