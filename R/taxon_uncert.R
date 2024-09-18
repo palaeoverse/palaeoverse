@@ -1,26 +1,34 @@
-#' taxon_uncert
+#' Check if a taxon is certain or uncertain.
 #'
-#' Check whether each taxon in a vector is certain or uncertain.
+#' Check whether a given taxon in a vector is certain or uncertain.
+#' Binomial names (genus and species) are considered "certain",
+#' whereas names containing only the genus,
+#' or genus and not determined species is considered "uncertain".
 #'
 #' @param taxon_names Character vector containing the species names to be checked.
-#' @return Return a character vector classifying each species as certain ("1") or uncertain ("0")
+#' It allows taxon names separated by underscore or space.
+#' @return Character vector classifying each species as certain ("1") or uncertain ("0").
 #' @examples
 #' sirenia_sp <- c("Metaxytherium indet.", "Felsinotherium_serresii", "Felsinotherium gervaisi",
 #'                 "Potamosiren indet.", "Potamosiren", "Metaxytherium sp.")
 #'
-#'  certainty <- taxon_uncert(sirenia_sp)
+#' certainty <- taxon_uncert(sirenia_sp)
 #'
 #' @export
 taxon_uncert <- function(taxon_names) {
 
   if (!is.character(taxon_names)) {
-    return ("Input should be a chracter vector")
+    stop("'taxon_names' should be a chracter vector")
   }
   if (length(taxon_names) == 0) {
-    return("Input is empty")
+    stop("'taxon_names' is empty")
+
+  if (is.null(taxon_names)) {
+    stop("'taxon_names' is NULL")
+  }
   }
   if (any(is.na(taxon_names))) {
-    return("Input should not contain NAs")
+    stop("'taxon_names' should not contain NA values")
   }
 
   match_patterns <- c("cf.", "aff.", "\\?", "^[A-Za-z]*$", "indet.", "sp.")
@@ -31,3 +39,4 @@ taxon_uncert <- function(taxon_names) {
 
   return(certainty)
 }
+
