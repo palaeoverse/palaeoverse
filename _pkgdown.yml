@@ -1,13 +1,15 @@
 url: https://palaeoverse.palaeoverse.org
 template:
   bootstrap: 5
-  bootswatch: sandstone
+  bootswatch: flatly
+  bslib:
+    navbar-padding-y: 8px
 
 authors:
-  William Gearty:
-    href: https://williamgearty.com
   Lewis A. Jones:
     href: https://www.lewisajones.com
+  William Gearty:
+    href: https://williamgearty.com
   Bethany J. Allen:
     href: https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484
   Kilian Eichenseer:
@@ -80,6 +82,7 @@ reference:
     Functions to aid in the visualisation of data and analysis results.
   contents:
   - axis_geo
+  - tax_range_strat
 
 - title: Auxiliary functions
   desc: >
