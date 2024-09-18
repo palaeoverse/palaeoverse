@@ -153,9 +153,11 @@ tax_range_time <- function(occdf,
       vec <- which(occdf[, name] == unique_taxa[i])
       temp_df$max_ma[i] <- max(occdf[vec, max_ma])
       temp_df$min_ma[i] <- min(occdf[vec, min_ma])
-      temp_df$group[i] <- occdf[vec[1], group]
       temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]
       temp_df$n_occ[i] <- length(vec)
+      if (by == "group") {
+        temp_df$group[i] <- occdf[vec[1], group]
+      }
     }
     # Remove row names
     row.names(temp_df) <- NULL

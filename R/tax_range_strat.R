@@ -171,9 +171,11 @@ tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
   #Populate nested list
   for (i in seq_along(unique_taxa)) {
     occ_filter <- occdf[(occdf[, name] == unique_taxa[i]), ]
-    ranges[i, 2] <- occ_filter[1, group]
     ranges[i, 3] <- min(occ_filter[level])
     ranges[i, 4] <- max(occ_filter[level])
+    if (by == "group") {
+      ranges[i, 2] <- occ_filter[1, group]
+    }
     #If uncertainty is used, fill second set of columns for certain IDs
     if (!is.null(certainty)) {
       occ_filter <- occ_filter[(occ_filter[, certainty] == 1), ]
