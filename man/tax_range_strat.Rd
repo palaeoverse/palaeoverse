@@ -7,6 +7,7 @@
 tax_range_strat(
   occdf,
   name = "genus",
+  group = NULL,
   level = "bed",
   certainty = NULL,
   by = "FAD",
@@ -23,6 +24,9 @@ at least two columns: names of taxa, and their stratigraphic position (see
 \item{name}{\code{character}. The name of the column you wish to be treated
 as the input names, e.g. "genus" (default).}
 
+\item{group}{\code{character}. In the case of using "by = "group"", the name
+of the column you wish to be treated as the grouping variable, e.g. "family".}
+
 \item{level}{\code{character}. The name of the column you wish to be treated
 as the stratigraphic levels associated with each occurrence, e.g. "bed"
 (default) or "height". Stratigraphic levels must be \code{numeric}.}
@@ -36,8 +40,8 @@ solid lines, while uncertain occurrences will be plotted with a white
 circle and joined with dashed lines.}
 
 \item{by}{\code{character}. How should the output be sorted? Either: "FAD"
-(first appearance; default), "LAD" (last appearance), or "name"
-(alphabetically by taxon names).}
+(first appearance; default), "LAD" (last appearance), "name"
+(alphabetically by taxon names), or "group"(an additional variable).}
 
 \item{plot_args}{A list of optional arguments that are passed directly to
 \code{\link[graphics:plot.default]{graphics::plot()}}. Subsets of these arguments are also passed to
