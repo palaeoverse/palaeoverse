@@ -2,6 +2,7 @@ test_that("tax_range_strat() error handling", {
 
   occdf <- data.frame(genus = c("shrimp", "worm", "worm", "shrimp", "bivalve",
                                 "bivalve", "shrimp", "anemone", "worm"),
+                      group = c(A, B, B, A, A, A, A, B, B),
                       bed = c(1, 1, 2, 2, 2, 3, 3, 4, 4),
                       certainty = c(1, 1, 0, 1, 0, 1, 1, 1, 0))
 
@@ -13,6 +14,8 @@ test_that("tax_range_strat() error handling", {
   expect_error(tax_range_strat(occdf = occdf, certainty = 0))
   expect_error(tax_range_strat(occdf = occdf, certainty = "test"))
   expect_error(tax_range_strat(occdf = occdf, by = "test"))
+  expect_error(tax_range_strat(occdf = occdf, by = "group"))
+  expect_error(tax_range_strat(occdf = occdf, by = "group", group = "test"))
 
   occdf[1,1] <- NA;
   expect_error(tax_range_strat(occdf = occdf))

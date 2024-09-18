@@ -8,6 +8,8 @@
 #'   `name` and `level` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
 #'   as the input names, e.g. "genus" (default).
+#' @param group \code{character}. In the case of using "by = "group"", the name
+#' of the column you wish to be treated as the grouping variable, e.g. "family".
 #' @param level \code{character}. The name of the column you wish to be treated
 #'   as the stratigraphic levels associated with each occurrence, e.g. "bed"
 #'   (default) or "height". Stratigraphic levels must be \code{numeric}.
@@ -19,8 +21,8 @@
 #'   solid lines, while uncertain occurrences will be plotted with a white
 #'   circle and joined with dashed lines.
 #' @param by \code{character}. How should the output be sorted? Either: "FAD"
-#'   (first appearance; default), "LAD" (last appearance), or "name"
-#'   (alphabetically by taxon names).
+#'   (first appearance; default), "LAD" (last appearance), "name"
+#'   (alphabetically by taxon names), or "group"(an additional variable).
 #' @param plot_args A list of optional arguments that are passed directly to
 #'   [graphics::plot()]. Subsets of these arguments are also passed to
 #'   [graphics::segments()] and [graphics::points()] (see Details). Useful
@@ -104,7 +106,7 @@
 #' title(xlab = "Taxon", line = 10.5)
 #'
 #' @export
-tax_range_strat <- function(occdf, name = "genus", level = "bed",
+tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
                             certainty = NULL, by = "FAD", plot_args = NULL,
                             x_args = NULL, y_args = NULL) {
 
@@ -140,8 +142,16 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
     stop("The `level` column contains NA values")
   }
 
-  if (!by %in% c("name", "FAD", "LAD")) {
-    stop("`by` must be either \"FAD\", \"LAD\", or \"name\"")
+  if (!by %in% c("name", "FAD", "LAD", "group")) {
+    stop("`by` must be either \"FAD\", \"LAD\", \"name\" or \"group\"")
+  }
+
+  if (by == "group" && is.null(group)) {
+    stop('`group` variable must be provided to enable filtering by group')
+  }
+
+  if (by == "group" && (group %in% colnames(occdf) == FALSE)) {
+    stop('`group` is not a named column in `occdf`')
   }
 
   #List and order unique taxa
@@ -150,9 +160,10 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
 
   #Create object to hold information
   if (is.null(certainty)) {
-    ranges <- data.frame(taxon = unique_taxa, min_bin = NA, max_bin = NA)
+    ranges <- data.frame(taxon = unique_taxa, group = NA, min_bin = NA,
+                         max_bin = NA)
   } else {
-    ranges <- data.frame(taxon = unique_taxa, min_bin = NA,
+    ranges <- data.frame(taxon = unique_taxa, group = NA, min_bin = NA,
                          max_bin = NA, min_bin_certain = NA,
                          max_bin_certain = NA)
   }
@@ -160,16 +171,17 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
   #Populate nested list
   for (i in seq_along(unique_taxa)) {
     occ_filter <- occdf[(occdf[, name] == unique_taxa[i]), ]
-    ranges[i, 2] <- min(occ_filter[level])
-    ranges[i, 3] <- max(occ_filter[level])
+    ranges[i, 2] <- occ_filter[1, group]
+    ranges[i, 3] <- min(occ_filter[level])
+    ranges[i, 4] <- max(occ_filter[level])
     #If uncertainty is used, fill second set of columns for certain IDs
     if (!is.null(certainty)) {
       occ_filter <- occ_filter[(occ_filter[, certainty] == 1), ]
       if (nrow(occ_filter) == 0) {
         occ_filter[1, ] <- NA
       }
-      ranges[i, 4] <- min(occ_filter[level])
-      ranges[i, 5] <- max(occ_filter[level])
+      ranges[i, 5] <- min(occ_filter[level])
+      ranges[i, 6] <- max(occ_filter[level])
     }
   }
 
@@ -182,6 +194,10 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed",
   if (by == "FAD") {
     ranges <- ranges[order(ranges$max_bin), ]
     ranges <- ranges[order(ranges$min_bin), ]
+  }
+
+  if (by == "group") {
+    ranges <- ranges[order(ranges$group), ]
   }
 
   #Add ID numbers
