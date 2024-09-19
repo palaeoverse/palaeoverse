@@ -6,7 +6,7 @@ At `palaeoverse` we have adopted a set of [structures and standards](https://pal
 
 ### Issues
 
-Tasks that need working on are logged as [issues](https://github.com/palaeoverse/palaeoverse/issues) on our repository. If you want to get involved with contributing to `palaeoverse` but don't know where to start, this is a great place to identify what tasks need working on. You can also contribute by logging [issues](https://github.com/palaeoverse/palaeoverse/issues) that you have encountered such as typos, bugs, feature requests, etc. We aim to maintain a list of 'Good First Issues' specifically for new contributors to `palaeoverse`. Feel free to find one of the unclaimed 'Good First Issues' that interests you, claim it by adding a comment to it and jump in!
+Tasks that need working on are logged as [issues](https://github.com/palaeoverse/palaeoverse/issues) on our repository. If you want to get involved with contributing to `palaeoverse` but don't know where to start, this is a great place to identify what tasks need working on. You can also contribute by logging [issues](https://github.com/palaeoverse/palaeoverse/issues) that you have encountered such as typos, bugs, feature requests, etc. We aim to maintain a list of 'Good First Issues' specifically for new contributors to `palaeoverse`. Feel free to find one of the unclaimed 'Good First Issues' that interests you, claim it by adding a comment to it, and jump in!
 
 ### Minor changes
 
@@ -42,7 +42,7 @@ Reviewers may have questions while reviewing your pull request. You are expected
 
 ## Community space
 
-We appreciate that GitHub is not a platform for everyone and have set up a [Google Group](https://groups.google.com/g/palaeoverse) where the `palaeoverse` can also be discussed and issues raised.
+We appreciate that GitHub is not a platform for everyone and have set up a [Google Group](https://groups.google.com/g/palaeoverse) where the `palaeoverse` R package can also be discussed and issues raised.
 
 ## Code of Conduct
 
