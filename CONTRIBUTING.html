@@ -43,6 +43,10 @@
 <div class="section level2">
 <h2 id="how-to-contribute">How to contribute<a class="anchor" aria-label="anchor" href="#how-to-contribute"></a></h2>
 <div class="section level3">
+<h3 id="issues">Issues<a class="anchor" aria-label="anchor" href="#issues"></a></h3>
+<p>Tasks that need working on are logged as <a href="https://github.com/palaeoverse/palaeoverse/issues" class="external-link">issues</a> on our repository. If you want to get involved with contributing to <code>palaeoverse</code> but don’t know where to start, this is a great place to identify what tasks need working on. You can also contribute by logging <a href="https://github.com/palaeoverse/palaeoverse/issues" class="external-link">issues</a> that you have encountered such as typos, bugs, feature requests, etc. We aim to maintain a list of ‘Good First Issues’ specifically for new contributors to <code>palaeoverse</code>. Feel free to find one of the unclaimed ‘Good First Issues’ that interests you, claim it by adding a comment to it, and jump in!</p>
+</div>
+<div class="section level3">
 <h3 id="minor-changes">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes"></a></h3>
 <p>You can fix typos, spelling mistakes, or grammatical errors in the documentation directly on GitHub, provided it is done so in the source file. This means you’ll need to edit <code>roxygen2</code> comments in the <code>.R</code> file, not the <code>.Rd</code> file.</p>
 </div>
@@ -51,8 +55,15 @@
 <p>If you would like to make a substantial change, you should first file an issue and make sure someone from the development team agrees that it’s needed. If you’ve found a bug, please file an issue that illustrates the bug with a reproducible example.</p>
 </div>
 <div class="section level3">
-<h3 id="pull-request-process">Pull request process<a class="anchor" aria-label="anchor" href="#pull-request-process"></a></h3>
-<p>You (the contributor) should clone the desired repository (i.e. <a href="https://github.com/palaeoverse/palaeoverse" class="external-link">the palaeoverse R package</a>) to your personal computer. Before changes are made, you should switch to a new git branch (i.e., not the main branch). When your changes are complete, you can submit your changes for merging via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull request</a> (“PR”) on GitHub. Note that a complete pull request should include a succinct description (<a href="https://github.com/palaeoverse/palaeoverse/blob/main/pull_request_template.md" class="external-link">see function template</a>) of what the code changes do, proper documentation (via <a href="https://roxygen2.r-lib.org" class="external-link">roxygen2</a>), and unit tests (via <code>testthat</code>). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.</p>
+<h3 id="contribution-workflow-pull-request-process">Contribution workflow (pull request process)<a class="anchor" aria-label="anchor" href="#contribution-workflow-pull-request-process"></a></h3>
+<ol style="list-style-type: decimal"><li>You (the contributor) should fork the repository (i.e. <a href="https://github.com/palaeoverse/palaeoverse" class="external-link">the palaeoverse R package</a>)</li>
+<li>Clone the desired repository to your personal computer</li>
+<li>Before changes are made, you should create a new git branch (i.e. not the main branch)</li>
+<li>Keep your branch in sync</li>
+<li>Commit your changes (make sure your commit message is concise)</li>
+<li>Push your commits to your forked repository</li>
+<li>When your changes are complete, you should submit your changes for merging via a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests" class="external-link">pull request</a> (“PR”) on GitHub</li>
+</ol><p>Note that a complete pull request should include a succinct description (<a href="https://github.com/palaeoverse/palaeoverse/blob/main/pull_request_template.md" class="external-link">see function template</a>) of what the code changes do, proper documentation (via <a href="https://roxygen2.r-lib.org" class="external-link">roxygen2</a>), and unit tests (via <code>testthat</code>). Only the description is required for the initial pull request and code review (see below), but pull requests will not be merged until they contain complete documentation and tests.</p>
 <p>If you are not comfortable with git/GitHub, you can reach out to one of the core developers (<a href="https://palaeoverse.palaeoverse.org/authors.html">see collaborators</a>) via email and they can make a pull request on your behalf. However, you will be expected to respond to any reviewer comments on GitHub (see below).</p>
 <p>If you don’t feel comfortable implementing changes yourself, you can submit a bug report or feature request as a GitHub issue in the proper repository (e.g. <a href="https://github.com/palaeoverse/palaeoverse/issues" class="external-link">palaeoverse issues</a>).</p>
 </div>
@@ -62,6 +73,10 @@
 <p>All pull requests must be reviewed by two core developers of palaeoverse (<a href="https://palaeoverse.palaeoverse.org/authors.html">see collaborators</a>) before merging. The review process will ensure that contributions 1) meet the standards and expectations as described above, 2) successfully perform the functions that they claim to perform, and 3) don’t break any other parts of the codebase.</p>
 <p>Submitting a pull request for one of the palaeoverse R packages will automatically initiate an <a href="https://r-pkgs.org/check.html" class="external-link">R CMD check</a>, <a href="https://lintr.r-lib.org/index.html" class="external-link">lintr check</a>, and <a href="https://covr.r-lib.org/" class="external-link">test coverage check</a> via GitHub Actions. While these checks will conduct some automatic review to ensure the package has not been broken by the new code and that the code matches the style guide (see above), a manual review is still required before the pull request can be merged.</p>
 <p>Reviewers may have questions while reviewing your pull request. You are expected to respond to any of these questions via GitHub. If fixes and/or changes are required, you are expected to make these changes. If the required changes are minor enough, reviewers may make them for you, but this should not be expected. If you have any questions or lack the background to make the required changes, you should work with the reviewer to determine a plan of attack.</p>
+</div>
+<div class="section level2">
+<h2 id="community-space">Community space<a class="anchor" aria-label="anchor" href="#community-space"></a></h2>
+<p>We appreciate that GitHub is not a platform for everyone and have set up a <a href="https://groups.google.com/g/palaeoverse" class="external-link">Google Group</a> where the <code>palaeoverse</code> R package can also be discussed and issues raised.</p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a></h2>
@@ -78,7 +93,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
