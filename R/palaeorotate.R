@@ -293,8 +293,6 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
     # Calculate rotation ages for data
     occdf$rot_age <- round(occdf[, age], digits = 0)
-    # Set 0 to 1
-    occdf$rot_age[which(occdf$rot_age == 0)] <- 1
 
     # Set-up
     # Convert to sf object and add CRS
@@ -317,6 +315,9 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     for (m in model) {
       # Load reconstruction files
       assign("prm", readRDS(paste0(files, "/", m, ".RDS")))
+      # Update lng/lat columns names for indexing
+      colnames(prm)[which(colnames(prm) %in% c("lng", "lat"))] <-
+        c("lng_0", "lat_0")
       # Extract coordinates
       row_match <- match(x = occdf$h3, table = prm$h3)
 
@@ -423,6 +424,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         })
         # Call API and extract coordinates
         rots <- lapply(request, function(x) {
+          # Avoid overwhelming server (a recent issue?)
+          Sys.sleep(1)
           coords <- GET(url = pbase, query = x)
           # If occurrences exceeds age of model
           if (coords$status_code == 400) {
