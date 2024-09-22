@@ -4,18 +4,18 @@
 \alias{lat_bins_equal}
 \title{Generate equal-area latitudinal bins}
 \usage{
-lat_bins_equal(n = 12, max = 90, min = -90, r = 6371008.7714, plot = FALSE)
+lat_bins_equal(n = 12, min = -90, max = 90, r = 6371008.7714, plot = FALSE)
 }
 \arguments{
 \item{n}{\code{numeric}. A single numeric value defining the number of
 approximately equal-area latitudinal bins to split the latitudinal
 range by (as defined by \code{min} and \code{max}).}
 
-\item{max}{\code{numeric}. A single numeric value defining the upper limit
-of the latitudinal range (defaults to 90).}
-
 \item{min}{\code{numeric}. A single numeric value defining the lower limit
 of the latitudinal range (defaults to -90).}
+
+\item{max}{\code{numeric}. A single numeric value defining the upper limit
+of the latitudinal range (defaults to 90).}
 
 \item{r}{\code{numeric}. The radius of the Earth in metres. Defaults to the
 the mean radius of the Earth (6371008.7714).}
@@ -39,7 +39,7 @@ Lewis A. Jones
 
 \section{Reviewer(s)}{
 
-TBC
+Kilian Eichenseer
 }
 
 \examples{
@@ -49,4 +49,7 @@ bins <- lat_bins_equal(n = 12)
 bins <- lat_bins_equal(n = 6, min = -30, max = 30)
 # Generate latitudinal bins and a plot
 bins <- lat_bins_equal(n = 24, plot = TRUE)
+}
+\seealso{
+For bins with unequal area, but equal latitudinal range, see \link{lat_bins}.
 }

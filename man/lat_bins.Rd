@@ -55,3 +55,6 @@ bins <- lat_bins(size = 13, fit = TRUE)
 # Generate latitudinal bins for defined latitudinal range
 bins <- lat_bins(size = 10, max = 50, min = -50)
 }
+\seealso{
+For equal-area latitudinal bins, see \link{lat_bins_equal}.
+}

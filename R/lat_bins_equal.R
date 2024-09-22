@@ -17,6 +17,8 @@
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be
 #'   generated?
 #' @return A \code{data.frame} of user-defined number of latitudinal bins.
+#' @seealso
+#' For bins with unequal area, but equal latitudinal range, see \link{lat_bins}.
 #' @importFrom graphics polygon abline title
 #' @section Developer(s):
 #'   Lewis A. Jones

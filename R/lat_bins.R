@@ -20,6 +20,8 @@
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be
 #' generated?
 #' @return A \code{dataframe} of latitudinal bins of user-defined size.
+#' @seealso
+#' For equal-area latitudinal bins, see \link{lat_bins_equal}.
 #' @importFrom graphics polygon abline title
 #' @section Developer(s):
 #' Lewis A. Jones
