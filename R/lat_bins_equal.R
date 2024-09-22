@@ -31,7 +31,7 @@
 #' # Generate latitudinal bins and a plot
 #' bins <- lat_bins_equal(n = 24, plot = TRUE)
 lat_bins_equal <- function(n = 12,
-                           max = 90, min = -90, r = 6371008.7714,
+                           min = -90, max = 90, r = 6371008.7714,
                            plot = FALSE) {
   # Error handling
   if (!is.numeric(n)) {
