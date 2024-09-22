@@ -8,10 +8,10 @@
 #' @param size \code{numeric}. A single numeric value defining the width of the
 #' latitudinal bins. This value must be more than 0, and less than or equal to
 #' 90 (defaults to 10).
-#' @param max \code{numeric}. A single numeric value defining the upper limit
-#' of the latitudinal range (defaults to 90).
 #' @param min \code{numeric}. A single numeric value defining the lower limit
 #' of the latitudinal range (defaults to -90).
+#' @param max \code{numeric}. A single numeric value defining the upper limit
+#' of the latitudinal range (defaults to 90).
 #' @param fit \code{logical}. Should bin size be checked to ensure that the
 #' entire latitudinal range is covered? If \code{fit = TRUE}, bin size is
 #' set to the nearest integer which is divisible by the user-input range.
@@ -36,8 +36,8 @@
 #' bins <- lat_bins(size = 13, fit = TRUE)
 #'
 #' # Generate latitudinal bins for defined latitudinal range
-#' bins <- lat_bins(size = 10, max = 50, min = -50)
-lat_bins <- function(size = 10, max = 90, min = -90,
+#' bins <- lat_bins(size = 10, min = -50, max = 50)
+lat_bins <- function(size = 10, min = -90, max = 90,
                      fit = FALSE, plot = FALSE) {
   #error handling
   if (is.numeric(size) == FALSE) {
@@ -87,7 +87,7 @@ lat_bins <- function(size = 10, max = 90, min = -90,
   max <- df[1:bins] + size
   mid <- (max + min) / 2
   bin <- 1:bins
-  df <- cbind(max, mid, min)
+  df <- cbind(min, mid, max)
   df <- df[order(-max), ]
   df <- cbind.data.frame(bin, df)
   #plot latitudinal bins
