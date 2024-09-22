@@ -21,7 +21,7 @@
 #' @section Developer(s):
 #'   Lewis A. Jones
 #' @section Reviewer(s):
-#'   TBC
+#'   Kilian Eichenseer
 #' @export
 #' @examples
 #' # Generate 12 latitudinal bins
@@ -58,63 +58,39 @@ lat_bins_equal <- function(n = 12,
     stop("`r` should be a numeric.")
   }
 
-  # Internal function for calculating area between two disks
-  bounded_surface_area <- function(x, r = r) {
-    min <- min(x) * (pi / 180)
-    max <- max(x) * (pi / 180)
-    a <- (2 * pi) * (r^2) * abs(sin(max) - sin(min))
-    return(a)
-  }
-  # Calculate Earth area
-  #earth_area <- bounded_surface_area(x = c(-90, 90), r = r)
-  # Calculate area between parallel disks (min/max limits)
-  limits_area <- bounded_surface_area(x = c(min, max), r = r)
-  # What is the area of each bin?
-  bin_area <- limits_area / n
-  # Specify number of steps (higher number of steps, increased equality)
-  vals <- seq(min, max, by = 0.1)
-  # Set starting index
-  indx <- 1
-  # Create empty df for populating
-  bins <- data.frame(bin = 1:n, max = rep(NA, n), mid = rep(NA, n),
-                     min = rep(NA, n), area = rep(NA, n))
-  # Run across desired number of bins
-  for (i in seq_len(n)) {
-    # Set area value to 0
-    a <- 0
-    # Record starting index
-    start_indx <- indx
-    while (a < bin_area) {
-      # Increase index
-      indx <- indx + 1
-      # Extract latitudes
-      lat <- c(vals[indx-1], vals[indx])
-      # If NAs are present, index has gone beyond vals length
-      if (indx > length(vals)) {
-        indx <- indx - 1
-        break
-      }
-      # Calculate area
-      a <- a + bounded_surface_area(x = lat, r = r)
-    }
-    # Record final index
-    end_indx <- indx
-    # Assign breaks
-    bins$max[i] <- vals[end_indx]
-    bins$min[i] <- vals[start_indx]
-    # Assign area value
-    bins$area[i] <- a
-  }
-  # Order bins
-  bins <- bins[order(bins$min, decreasing = TRUE), ]
-  # Update bin numbers
-  bins$bin <- 1:nrow(bins)
-  # Drop row names
-  row.names(bins) <- NULL
-  # Add area proportions
-  bins$area_prop <- bins$area / sum(bins$area)
-  # Add mid bin
-  bins$mid <- (bins$max + bins$min) / 2
+  # sine of the min and max latitudes (using radians)
+  sin_min_lat <- sin(min * pi / 180)
+  sin_max_lat <- sin(max * pi / 180)
+
+  # indices to divide the area into n parts
+  indices <- n:0
+
+  # latitudes of bin boundaries in radians
+  latitudes_rad <- asin(sin_min_lat + indices / n * (sin_max_lat - sin_min_lat))
+
+  # latitudes of bin boundaries in degrees
+  latitudes <- latitudes_rad * 180 / pi
+
+  # vertical sine span of the bands on the surface of the sphere
+  sine_spans <- sin(latitudes_rad[-(n + 1)]) - sin(latitudes_rad[-1])
+
+  # absolute surface area for each band
+  band_areas <- 2 * pi * r^2 * sine_spans
+
+  # surface area proportion for each band
+  band_areas_prop <- sine_spans / (sin_max_lat - sin_min_lat)
+
+  # midpoint for each band
+  mid_points <- (latitudes[-(n + 1)] + latitudes[-1]) / 2
+
+  # populate data frame
+  bins <- data.frame(bin = 1:n,
+                     min = latitudes[-1],
+                     mid = mid_points,
+                     max = latitudes[-(n + 1)],
+                     area = band_areas,
+                     area_prop = band_areas_prop)
+
   #plot latitudinal bins
   if (plot == TRUE) {
     plot(1, type = "n", xlim = c(-180, 180),
