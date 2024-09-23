@@ -4,18 +4,18 @@
 \alias{lat_bins}
 \title{Generate latitudinal bins}
 \usage{
-lat_bins(size = 10, max = 90, min = -90, fit = FALSE, plot = FALSE)
+lat_bins(size = 10, min = -90, max = 90, fit = FALSE, plot = FALSE)
 }
 \arguments{
 \item{size}{\code{numeric}. A single numeric value defining the width of the
 latitudinal bins. This value must be more than 0, and less than or equal to
 90 (defaults to 10).}
 
-\item{max}{\code{numeric}. A single numeric value defining the upper limit
-of the latitudinal range (defaults to 90).}
-
 \item{min}{\code{numeric}. A single numeric value defining the lower limit
 of the latitudinal range (defaults to -90).}
+
+\item{max}{\code{numeric}. A single numeric value defining the upper limit
+of the latitudinal range (defaults to 90).}
 
 \item{fit}{\code{logical}. Should bin size be checked to ensure that the
 entire latitudinal range is covered? If \code{fit = TRUE}, bin size is
@@ -53,7 +53,7 @@ bins <- lat_bins(size = 20)
 bins <- lat_bins(size = 13, fit = TRUE)
 
 # Generate latitudinal bins for defined latitudinal range
-bins <- lat_bins(size = 10, max = 50, min = -50)
+bins <- lat_bins(size = 10, min = -50, max = 50)
 }
 \seealso{
 For equal-area latitudinal bins, see \link{lat_bins_equal}.

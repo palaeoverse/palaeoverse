@@ -1,19 +1,19 @@
 #' Generate equal-area latitudinal bins
 #'
 #' A function to generate approximately equal-area latitudinal bins for a
-#' user-specified given number of bins and latitudinal range. This approach
-#' is based on calculating the curved surface area of spherical segments
-#' bounded by two parallel disks.
+#' user-specified given number of bins and latitudinal range. This approach is
+#' based on calculating the curved surface area of spherical segments bounded
+#' by two parallel disks.
 #'
 #' @param n \code{numeric}. A single numeric value defining the number of
-#'   approximately equal-area latitudinal bins to split the latitudinal
-#'   range by (as defined by `min` and `max`).
+#'   equal-area latitudinal bins to split the latitudinal range by (as defined
+#'   by `min` and `max`).
 #' @param min \code{numeric}. A single numeric value defining the lower limit
 #'   of the latitudinal range (defaults to -90).
 #' @param max \code{numeric}. A single numeric value defining the upper limit
 #'   of the latitudinal range (defaults to 90).
-#' @param r \code{numeric}. The radius of the Earth in metres. Defaults to the
-#'  the mean radius of the Earth (6371008.7714).
+#' @param r \code{numeric}. The radius of the Earth in kilometres. Defaults to
+#'   the the mean radius of the Earth (6371 km).
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be
 #'   generated?
 #' @return A \code{data.frame} of user-defined number of latitudinal bins.
@@ -21,7 +21,7 @@
 #' For bins with unequal area, but equal latitudinal range, see \link{lat_bins}.
 #' @importFrom graphics polygon abline title
 #' @section Developer(s):
-#'   Lewis A. Jones
+#'   Lewis A. Jones & Kilian Eichenseer
 #' @section Reviewer(s):
 #'   Kilian Eichenseer
 #' @export
@@ -33,7 +33,7 @@
 #' # Generate latitudinal bins and a plot
 #' bins <- lat_bins_equal(n = 24, plot = TRUE)
 lat_bins_equal <- function(n = 12,
-                           min = -90, max = 90, r = 6371008.7714,
+                           min = -90, max = 90, r = 6371,
                            plot = FALSE) {
   # Error handling
   if (!is.numeric(n)) {
@@ -59,6 +59,9 @@ lat_bins_equal <- function(n = 12,
   if (!is.numeric(r)) {
     stop("`r` should be a numeric.")
   }
+
+  # Convert r to metres
+  r <- r * 1000
 
   # sine of the min and max latitudes (using radians)
   sin_min_lat <- sin(min * pi / 180)
@@ -93,7 +96,7 @@ lat_bins_equal <- function(n = 12,
                      area = band_areas,
                      area_prop = band_areas_prop)
 
-  #plot latitudinal bins
+  # plot latitudinal bins
   if (plot == TRUE) {
     plot(1, type = "n", xlim = c(-180, 180),
          ylim = c(min(bins$min), max(bins$max)),

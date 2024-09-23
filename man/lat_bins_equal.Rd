@@ -4,12 +4,12 @@
 \alias{lat_bins_equal}
 \title{Generate equal-area latitudinal bins}
 \usage{
-lat_bins_equal(n = 12, min = -90, max = 90, r = 6371008.7714, plot = FALSE)
+lat_bins_equal(n = 12, min = -90, max = 90, r = 6371, plot = FALSE)
 }
 \arguments{
 \item{n}{\code{numeric}. A single numeric value defining the number of
-approximately equal-area latitudinal bins to split the latitudinal
-range by (as defined by \code{min} and \code{max}).}
+equal-area latitudinal bins to split the latitudinal range by (as defined
+by \code{min} and \code{max}).}
 
 \item{min}{\code{numeric}. A single numeric value defining the lower limit
 of the latitudinal range (defaults to -90).}
@@ -17,8 +17,8 @@ of the latitudinal range (defaults to -90).}
 \item{max}{\code{numeric}. A single numeric value defining the upper limit
 of the latitudinal range (defaults to 90).}
 
-\item{r}{\code{numeric}. The radius of the Earth in metres. Defaults to the
-the mean radius of the Earth (6371008.7714).}
+\item{r}{\code{numeric}. The radius of the Earth in kilometres. Defaults to
+the the mean radius of the Earth (6371 km).}
 
 \item{plot}{\code{logical}. Should a plot of the latitudinal bins be
 generated?}
@@ -28,13 +28,13 @@ A \code{data.frame} of user-defined number of latitudinal bins.
 }
 \description{
 A function to generate approximately equal-area latitudinal bins for a
-user-specified given number of bins and latitudinal range. This approach
-is based on calculating the curved surface area of spherical segments
-bounded by two parallel disks.
+user-specified given number of bins and latitudinal range. This approach is
+based on calculating the curved surface area of spherical segments bounded
+by two parallel disks.
 }
 \section{Developer(s)}{
 
-Lewis A. Jones
+Lewis A. Jones & Kilian Eichenseer
 }
 
 \section{Reviewer(s)}{
