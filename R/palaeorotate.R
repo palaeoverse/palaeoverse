@@ -211,10 +211,13 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   }
 
   # Add stop for removed models
-  if (any(model %in% c("MULLER2022", "MULLER2019", "MULLER2016",
-                       "MATTHEWS2016_mantle_ref", "SETON2012"))) {
-    stop(paste0("Selected model(s) have recently been removed as they are not",
-    " in a palaeomagnetic reference frame. See details for available models."))
+  removed <- c("MULLER2022", "MULLER2019", "MULLER2016",
+               "MATTHEWS2016_mantle_ref", "SETON2012")
+  m <- removed %in% model
+  if (any(m)) {
+    stop(paste0("Selected model(s) (", toString(removed[m]), ") have recently",
+                " been removed as they are not in a palaeomagnetic reference",
+                " frame. See details for available models."))
   }
 
   # Model available?
