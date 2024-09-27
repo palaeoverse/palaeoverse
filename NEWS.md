@@ -1,5 +1,9 @@
-# palaeoverse 1.4.0
+# Development version
 
+* Several updates to palaeorotate
+  * Mantle reference frame models removed
+  * TorsvikCocks2017 model added
+  * Added updated reconstruction files (1 myr resolution)
 * Fixed point plotting bug in tax_range_strat
 * Added lat_bins_equal (#114)
 
