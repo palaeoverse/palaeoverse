@@ -1,84 +1,74 @@
+test_that("palaeorotate() error handling works", {
+  # No occdf provided
+  expect_error(palaeorotate(occdf = 10))
+  # Missing occdf column
+  expect_error(palaeorotate(occdf = data.frame(lng = 10, lat = 5)))
+  # Wrong data format
+  expect_error(palaeorotate(occdf = data.frame(lng = 10, lat = 5, age = TRUE)))
+  # Negative age values
+  expect_error(palaeorotate(occdf = data.frame(lng = 10, lat = 5, age = -5)))
+  # Incorrect latitudinal value
+  expect_error(palaeorotate(occdf = data.frame(lng = 10, lat = 95, age = 25)))
+  # Incorrect longitudinal value
+  expect_error(palaeorotate(occdf = data.frame(lng = 210, lat = 40, age = 25)))
+  # Wrong method
+  expect_error(palaeorotate(occdf = data.frame(lng = 10, lat = 40, age = 25),
+                            method = "API"))
+  # Wrong `round` class
+  expect_error(palaeorotate(occdf = data.frame(lng = 110, lat = 40, age = 25),
+                            round = TRUE))
+  # Wrong `uncertainty` class
+  expect_error(palaeorotate(occdf = data.frame(lng = 110, lat = 40, age = 25),
+                            uncertainty = "GOONTHEN"))
+})
+
 test_that("palaeorotate() point method works", {
-  skip_if_offline(host = "gwsdoc.gplates.org")
+  skip_if_offline(host = "gws.gplates.org")
 
   occdf <- data.frame(lng = c(2, -103, -66),
                       lat = c(46, 35, -7),
                       age = c(88, 125, 300))
 
-  expect_equal(nrow(palaeorotate(occdf = occdf,
-                                 method = "point",
-                                 model = "PALEOMAP")), 3)
-
-  expect_equal(nrow(palaeorotate(occdf = occdf,
-                                 method = "point",
-                                 model = "PALEOMAP")), 3)
-
-  expect_equal(nrow(palaeorotate(occdf = occdf, method = "point",
-                                 round = 2)), 3)
-
-  # Expect warning
-  expect_warning(palaeorotate(occdf = occdf,
-                              method = "point",
-                              model = "MULLER2022"), NULL)
+  # Same number of rows returned
+  expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")), 3)
 
   # Check that multiple models are being returned
   occdf <- palaeorotate(occdf = occdf,
-                        method = "point",
-                        model = c("PALEOMAP", "GOLONKA"),
-                        uncertainty = FALSE)
-  expect_false(any(is.na(occdf)))
+                        model = c("PALEOMAP", "GOLONKA"))
+  expect_true(all(c("p_lng_PALEOMAP", "p_lat_PALEOMAP",
+                    "p_lng_GOLONKA", "p_lat_GOLONKA") %in%
+                    colnames(occdf)))
 
   # Check chunk size is working
   occdf <- data.frame(lng = runif(1500, -180, 180),
                       lat = runif(1500, -90, 90),
                       age = rep(100, 1500))
+  expect_true(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")) == 1500)
 
-  expect_warning(occdf <- palaeorotate(occdf = occdf,
-                                       method = "point",
-                                       model = "PALEOMAP",
-                                       round = 3), NULL)
-  # Filter out points that can't be reconstructed
-  occdf <- occdf[-which(is.na(occdf$p_lng)), ]
-
-  expect_equal(nrow(palaeorotate(occdf = occdf,
-                                 method = "point",
-                                 model = "PALEOMAP")), nrow(occdf))
-
-  # Check handling of temporal range
+  # Check handling of temporal range (NAs should be returned)
   occdf <- data.frame(lng = runif(10, -180, 180),
                       lat = runif(10, -90, 90),
-                      age = rep(500, 10))
-  expect_true(
-    all(
-      is.na(
-        palaeorotate(occdf = occdf,
-                     method = "point",
-                     model = "SETON2012")$p_lng
-        ))
-  )
+                      age = rep(700, 10))
+  expect_true(all(is.na(palaeorotate(occdf = occdf, model = "GOLONKA")$p_lng)))
+  # Check all NA for uncertainty when one model is outside range
+  expect_true(all(is.na(palaeorotate(occdf = occdf,
+                                     model = c("PALEOMAP", "GOLONKA"),
+                                     uncertainty = TRUE)$max_dist)))
 
-  expect_true(
-    all(
-      is.na(
-        palaeorotate(occdf = occdf,
-                     method = "point",
-                     model = c("SETON2012", "MULLER2016"),
-                     uncertainty = TRUE)$max_dist
-      )
-    )
-  )
-
-  # Expect error
-  occdf <- data.frame(lng = c(-41),
-                      lat = c(37),
-                      age = c(300))
-
-  # Model doesn't exist
+  ## Previously available models removed
   expect_error(palaeorotate(occdf = occdf, method = "point",
-                            model = "Mirdith2021"))
-
+                            model = "MULLER2022"))
+  ## Not a model
   expect_error(palaeorotate(occdf = occdf, method = "point",
-                            model = "WRIGHT2013"))
+                            model = "GPlates"))
+
+  occdf <- data.frame(lng = c(2, -103, -66),
+                      lat = c(46, 35, -7),
+                      age = c(88, 125, 700))
+
+  # Expect warnings
+  expect_warning(palaeorotate(occdf = occdf, method = "point",
+                              model = c("GOLONKA", "PALEOMAP")))
 })
 
 test_that("palaeorotate() grid method works", {
@@ -86,93 +76,29 @@ test_that("palaeorotate() grid method works", {
 
   occdf <- data.frame(lng = c(2, -103, -66),
                       lat = c(46, 35, -7),
-                      age = c(88, 125, 200))
+                      age = c(88, 125, 300))
 
-  expect_equal(nrow(palaeorotate(occdf = occdf)), 3)
+  # Same number of rows returned
+  expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP",
+                                 method = "grid")), 3)
 
-  expect_equal(
-    ncol(
-      palaeorotate(occdf = occdf,
-                   uncertainty = TRUE,
-                   method = "grid",
-                   model = c("MERDITH2021",
-                                   "GOLONKA",
-                                   "SETON2012"))[, c("range_p_lat",
-                                           "max_dist")]), 2)
+  # Check that multiple models are being returned
+  occdf <- palaeorotate(occdf = occdf,
+                        method = "grid",
+                        model = c("PALEOMAP", "GOLONKA"))
+  expect_true(all(c("p_lng_PALEOMAP", "p_lat_PALEOMAP",
+                    "p_lng_GOLONKA", "p_lat_GOLONKA") %in%
+                    colnames(occdf)))
 
-  expect_equal(nrow(palaeorotate(occdf = occdf, method = "grid",
-                                 model = "PALEOMAP")), 3)
-
-  expect_equal(nrow(palaeorotate(occdf = occdf, method = "grid",
-                                 model = "MERDITH2021")), 3)
-
-
-
-  occdf <- data.frame(lng = c(2, -103, -66),
-                      lat = c(46, 35, -7),
-                      age = c(88, 125, 400))
-
-  # Expect warnings
-  msg <- "Palaeocoordinates could not be reconstructed for all points."
-
-  expect_warning(palaeorotate(occdf = occdf, method = "grid",
-                              model = "SETON2012"), msg)
-
-  # Wrong uncertainty input
-  expect_error(palaeorotate(occdf = occdf, method = "grid",
-                            uncertainty = c("GALONKA",
-                                                           "MIRDITH2021")))
-  expect_error(palaeorotate(occdf = occdf, method = "grid",
-                            uncertainty = c("GOLONKA")))
-
-  # Wrong uncertainty input
-  expect_error(palaeorotate(occdf = occdf, method = "grid",
-                            uncertainty = 2))
-
-  # Model doesn't exist
-  expect_error(palaeorotate(occdf = occdf, method = "grid",
-                            model = "Mirdith2021"))
-
-  # Method doesn't exist
-  expect_error(palaeorotate(occdf = occdf, method = "both"))
-
-  expect_error(palaeorotate(occdf = occdf, lng = 1))
-
-  expect_error(palaeorotate(occdf = c(55, 46, 88)))
-
-  # Column names not correct
-  occdf <- data.frame(x = c(2, 95, 12), y = c(46, 12, -65),
-                      age = c(88, 203, 467))
-  expect_error(palaeorotate(x = occdf))
-
-  # Values not numeric
-  occdf <- data.frame(lng = c(2, 95, "12"),
-                      lat = c(46, 12, -65),
-                      age = c(88, 203, 467))
-  expect_error(palaeorotate(occdf = occdf))
-
-  # Longitude too small
-  occdf <- data.frame(lng = c(2, 95, -183),
-                      lat = c(46, 12, -65),
-                      age = c(88, 203, 467))
-  expect_error(palaeorotate(occdf = occdf))
-
-  # Latitude too great
-  occdf <- data.frame(lng = c(2, 95, -178),
-                      lat = c(46, 95, -65),
-                      age = c(88, 203, 467))
-  expect_error(palaeorotate(occdf = occdf))
-
-  # Negative values
-  occdf <- data.frame(lng = c(2, 95, -178),
-                      lat = c(46, 95, -65),
-                      age = c(-88, 203, 467))
-  expect_error(palaeorotate(occdf = occdf))
-
-  # Incorrect round values
-  occdf <- data.frame(lng = c(2, 95, -178),
-                      lat = c(46, 50, -65),
-                      age = c(88, 203, 467))
-  expect_error(palaeorotate(occdf = occdf, round = "TEST"))
-
+  # Check handling of temporal range (NAs should be returned)
+  occdf <- data.frame(lng = runif(10, -180, 180),
+                      lat = runif(10, -90, 90),
+                      age = rep(700, 10))
+  expect_true(all(is.na(palaeorotate(occdf = occdf, model = "GOLONKA",
+                                     method = "grid")$p_lng)))
+  # Check all NA for uncertainty when one model is outside range
+  expect_true(all(is.na(palaeorotate(occdf = occdf,
+                                     model = c("PALEOMAP", "GOLONKA"),
+                                     method = "grid",
+                                     uncertainty = TRUE)$max_dist)))
 })
