@@ -174,8 +174,8 @@ bin_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
     # For each occurrence, find all the bins that it is present within, and
     # add as elements to that part of the list.
     for (i in seq_len(nrow(bins))) {
-      v <- which(occdf[, max_ma, drop = TRUE] > bins[i, min_ma] &
-                 occdf[, min_ma, drop = TRUE] < bins[i, max_ma])
+      v <- which(occdf[, max_ma, drop = TRUE] > bins[i, min_ma, drop = TRUE] &
+                 occdf[, min_ma, drop = TRUE] < bins[i, max_ma, drop = TRUE])
       for (j in v) {
         bin_list[[j]] <- append(bin_list[[j]], bins$bin[i])
       }
@@ -220,8 +220,8 @@ bin_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
 
       # Assign bin based on midpoint age of the age range
       for (i in seq_len(nrow(bins))) {
-        v <- which(occdf$mid_ma > bins[i, min_ma] &
-                   occdf$mid_ma < bins[i, max_ma])
+        v <- which(occdf$mid_ma > bins[i, min_ma, drop = TRUE] &
+                   occdf$mid_ma < bins[i, max_ma, drop = TRUE])
         occdf$bin_assignment[v] <- bins$bin[i]
         occdf$bin_midpoint[v] <- bins$mid_ma[i]
       }
@@ -265,8 +265,8 @@ bin_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
       # sample from it. Record that with each occurrence.
       for (i in seq_len(nrow(occdf))) {
         #generate occurrence sequence for sampling
-        occ_seq <- seq(from = occdf[i, min_ma],
-                       to = occdf[i, max_ma],
+        occ_seq <- seq(from = occdf[i, min_ma, drop = TRUE],
+                       to = occdf[i, max_ma, drop = TRUE],
                        by = 0.001)
         #generate x for input probability function
         x_prob <- seq(from = 0, to = 1, length.out = length(occ_seq))
@@ -294,8 +294,8 @@ bin_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
       for (i in seq_len(reps)) {
         occdf$point_estimates <- do.call(rbind, occ_list)[, i]
           for (j in seq_len(nrow(bins))){
-            vec <- which(occdf$point_estimates <= bins[j, max_ma] &
-                    occdf$point_estimates >= bins[j, min_ma])
+            vec <- which(occdf$point_estimates <= bins[j, max_ma, drop = TRUE] &
+                    occdf$point_estimates >= bins[j, min_ma, drop = TRUE])
             occdf$bin_assignment[vec] <- bins$bin[j]
           }
         occ_df_list[[i]] <- occdf
@@ -321,7 +321,7 @@ bin_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
         occdf$bin_midpoint[vec] <- bins$mid_ma[i]
       }
 
-      rownames(occdf) <- seq_len(nrow(occdf))
+      if (!inherits(occdf, "tbl")) rownames(occdf) <- seq_len(nrow(occdf))
 
       # Return the dataframe and end the function.
       return(occdf)
@@ -338,7 +338,8 @@ bin_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
         tmpbin <- bins[bins$bin %in% bin_list[[i]], ]
 
         # Generate sequence of length 10000 for percentage calculations
-        occ_seq <- seq(occdf[i, min_ma], occdf[i, max_ma], length.out = 10000)
+        occ_seq <- seq(occdf[i, min_ma, drop = TRUE],
+                       occdf[i, max_ma, drop = TRUE], length.out = 10000)
 
         # Calculate overlap across known bins
         percentage <- vector()
