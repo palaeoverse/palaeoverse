@@ -402,9 +402,10 @@ look_up <- function(occdf, early_interval = "early_interval",
 
   #=== get names of intervals which could not be assigned ===
 
-  unassigned <- sort(unique(c(occdf$early_interval[which(
-    is.na(occdf$early_stage))],
-    occdf$late_interval[which(is.na(occdf$late_stage))])))
+  unassigned <- sort(unique(c(occdf[which(
+    is.na(occdf$early_stage)), early_interval, drop = TRUE],
+    occdf[which(
+      is.na(occdf$late_stage)), late_interval, drop = TRUE])))
 
   #=== Ouput ===
 
