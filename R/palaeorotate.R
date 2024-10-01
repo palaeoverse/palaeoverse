@@ -298,7 +298,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       }
     }
     # Calculate rotation ages for data
-    occdf$rot_age <- round(occdf[, age], digits = 0)
+    occdf$rot_age <- round(occdf[, age, drop = TRUE], digits = 0)
 
     # Set-up
     # Convert to sf object and add CRS
