@@ -5,6 +5,7 @@
   * TorsvikCocks2017 model added
   * Added updated reconstruction files (1 myr resolution)
 * Fixed point plotting bug in tax_range_strat
+* Made all functions tibble-friendly (#118)
 
 # palaeoverse 1.3.0
 

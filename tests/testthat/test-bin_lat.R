@@ -8,7 +8,7 @@ test_that("bin_lat works", {
                nrow(occdf))
 
   # Boundary occurrences
-  bo <- length(which(occdf[, "lat"] %in% c(bins$max, bins$min)))
+  bo <- length(which(occdf[, "lat", drop = TRUE] %in% c(bins$max, bins$min)))
   expect_equal(nrow(bin_lat(occdf = occdf, bins = bins, lat = "lat",
                             boundary = TRUE)),
                nrow(occdf) + bo)
