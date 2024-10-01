@@ -96,7 +96,7 @@ tax_expand_lat <- function(taxdf,
     if (nrow(int_tax) == 0) {
       return(NULL)
     }
-    cbind(int_tax, bins[i, ])
+    suppressWarnings(cbind(int_tax, bins[i, ]))
   })
   dat <- do.call(rbind, dat_list)
   rownames(dat) <- NULL

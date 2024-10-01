@@ -128,7 +128,7 @@ tax_expand_time <- function(
       int_tax$orig <- int_tax[, max_ma, drop = TRUE] <= bins$max_ma[i]
     }
     if (nrow(int_tax) == 0) return(NULL)
-    cbind(int_tax, bins[i, ])
+    suppressWarnings(cbind(int_tax, bins[i, ]))
   })
   dat <- do.call(rbind, dat_list)
   rownames(dat) <- NULL
