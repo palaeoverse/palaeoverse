@@ -135,15 +135,17 @@ in `occdf`")
     stop("`method` is not of character class")
   }
 
-  if (!is.numeric(occdf[, lat]) || !is.numeric(occdf[, lng])) {
+  if (!is.numeric(occdf[, lat, drop = TRUE]) ||
+      !is.numeric(occdf[, lng, drop = TRUE])) {
     stop("`lng` and/or `lat` columns are not of numeric class")
   }
 
-  if (any(is.na(occdf[, name]))) {
+  if (any(is.na(occdf[, name, drop = TRUE]))) {
     stop("The `name` column contains NA values")
   }
 
-  if (any(is.na(occdf[, lat])) || any(is.na(occdf[, lng]))) {
+  if (any(is.na(occdf[, lat, drop = TRUE])) ||
+      any(is.na(occdf[, lng, drop = TRUE]))) {
     stop("`lng` and/or `lat` columns contain NA values")
   }
 
@@ -161,7 +163,7 @@ in `occdf`")
   }
 
   #=== Set-up ===
-  unique_taxa <- unique(occdf[, name])
+  unique_taxa <- unique(occdf[, name, drop = TRUE])
   # Order taxa
   unique_taxa <- unique_taxa[order(unique_taxa)]
 
@@ -174,9 +176,10 @@ in `occdf`")
       taxon <- unique_taxa[i]
       taxon_id <- i
       # Subset taxa
-      tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
+      tmp <- occdf[which(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
       # Calculate convex hull
-      tmp <- tmp[chull(x = tmp[, lng], y = tmp[, lat]), c(lng, lat)]
+      tmp <- tmp[chull(x = tmp[, lng, drop = TRUE],
+                       y = tmp[, lat, drop = TRUE]), c(lng, lat)]
       # Calculate area of convex hull and convert to km^2
       area <- geosphere::areaPolygon(tmp) / 1e+6
       # Round to three decimal places
@@ -206,7 +209,7 @@ in `occdf`")
                          range_lat = rep(NA, length(unique_taxa)))
     # Run for loop across unique taxa
     for (i in seq_along(unique_taxa)) {
-      vec <- which(occdf[, name] == unique_taxa[i])
+      vec <- which(occdf[, name, drop = TRUE] == unique_taxa[i])
       lat_df$max_lat[i] <- max(occdf[vec, lat])
       lat_df$min_lat[i] <- min(occdf[vec, lat])
       lat_df$range_lat[i] <- lat_df$max_lat[i] - lat_df$min_lat[i]
@@ -233,7 +236,7 @@ in `occdf`")
       # taxon id
       taxon_id <- i
       # Subset df
-      tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
+      tmp <- occdf[which(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
       # Calculate GCD matrix using the Haversine method
       vals <- geosphere::distm(x = tmp[, c(lng, lat)],
                                fun = geosphere::distHaversine)
@@ -286,7 +289,7 @@ in `occdf`")
     # Run for loop over all unique taxa
     for (i in seq_along(unique_taxa)) {
       # Subset df
-      tmp <- occdf[which(occdf[, name] == unique_taxa[i]), ]
+      tmp <- occdf[which(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
       # Extract cell ID
       n_cells <- suppressMessages(
         h3jsr::point_to_cell(tmp[, c(lng, lat)], res = grid$h3_resolution)

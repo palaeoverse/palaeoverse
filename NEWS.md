@@ -6,6 +6,7 @@
   * Added updated reconstruction files (1 myr resolution)
 * Fixed point plotting bug in tax_range_strat
 * Added lat_bins_equal (#114)
+* Made all functions tibble-friendly (#118)
 
 # palaeoverse 1.3.0
 

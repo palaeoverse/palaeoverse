@@ -180,21 +180,24 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     stop("Defined `lng`, `lat`, or `age` not found in `occdf`.")
   }
 
-  if (any(!is.numeric(occdf[, lat]), is.na(occdf[, lat]),
-          !is.numeric(occdf[, lng]), is.na(occdf[, lng]),
-          !is.numeric(occdf[, age]), is.na(occdf[, age]))) {
+  if (any(!is.numeric(occdf[, lat, drop = TRUE]),
+          is.na(occdf[, lat, drop = TRUE]),
+          !is.numeric(occdf[, lng, drop = TRUE]),
+          is.na(occdf[, lng, drop = TRUE]),
+          !is.numeric(occdf[, age, drop = TRUE]),
+          is.na(occdf[, age, drop = TRUE]))) {
     stop("`lng`, `lat` and `age` should be of class numeric.")
   }
 
-  if (any(occdf[, age] < 0)) {
+  if (any(occdf[, age, drop = TRUE] < 0)) {
     stop("`age` contains negative values. Input ages should be positive.")
   }
 
-  if (sum(abs(occdf[, lat]) > 90) != 0) {
+  if (sum(abs(occdf[, lat, drop = TRUE]) > 90) != 0) {
     stop("`lat` values should be >= -90\u00B0 and <= 90\u00B0.")
   }
 
-  if (sum(abs(occdf[, lng]) > 180) != 0) {
+  if (sum(abs(occdf[, lng, drop = TRUE]) > 180) != 0) {
     stop("`lng` values should be >= -180\u00B0 and <= 180\u00B0.")
   }
 
@@ -247,7 +250,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Unique localities for rotating
   coords <- unique(occdf[, c(lng, lat, age)])
   # Add columns for populating
-  uni_ages <- unique(coords[, c(age)])
+  uni_ages <- unique(coords[, age, drop = TRUE])
 
   # Grid rotations ----------------------------------------------------------
   if (method == "grid") {
@@ -258,8 +261,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       },
       error = function(e) {
         stop(paste0("Zenodo is not available.",
-        " Either the website is down or you are not connected ",
-        "to the internet."),
+                    " Either the website is down or you are not connected ",
+                    "to the internet."),
              call. = FALSE)
       })
     # Get temp directory and download files
@@ -292,10 +295,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         download.file(url = dl,
                       destfile = paste0(files, "/", f, ".RDS"),
                       mode = dl_mode)
-        }
+      }
     }
     # Calculate rotation ages for data
-    occdf$rot_age <- round(occdf[, age], digits = 0)
+    occdf$rot_age <- round(occdf[, age, drop = TRUE], digits = 0)
 
     # Set-up
     # Convert to sf object and add CRS
@@ -387,15 +390,15 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Define maximum chunk size for API calls
     chunks <- 300
     # Set-up matching for later merge
-    coords$match <- paste0(coords[, lng], "_",
-                           coords[, lat], "_",
-                           coords[, age])
-    occdf$match <- paste0(occdf[, lng], "_",
-                          occdf[, lat], "_",
-                          occdf[, age])
+    coords$match <- paste0(coords[, lng, drop = TRUE], "_",
+                           coords[, lat, drop = TRUE], "_",
+                           coords[, age, drop = TRUE])
+    occdf$match <- paste0(occdf[, lng, drop = TRUE], "_",
+                          occdf[, lat, drop = TRUE], "_",
+                          occdf[, age, drop = TRUE])
     # Prepare points query
     # Split dataframe by age
-    coord_list <- split(x = coords, f = coords[, age])
+    coord_list <- split(x = coords, f = coords[, age, drop = TRUE])
     # Split by chunk size
     list_size <- lapply(coord_list, nrow)
     subsplit <- names(which(list_size > chunks))
@@ -471,7 +474,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
 
     # Drop match column
-    occdf <- occdf[, -which(colnames(occdf) == "match")]
+    occdf <- occdf[, -which(colnames(occdf) == "match"), drop = TRUE]
   }
 
   # Uncertainty calculation -------------------------------------------------
@@ -479,8 +482,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Calculate uncertainty (range)
     lng_nme <- paste0("p_lng_", model)
     lat_nme <- paste0("p_lat_", model)
-    uncertain_lng <- occdf[, lng_nme]
-    uncertain_lat <- occdf[, lat_nme]
+    uncertain_lng <- occdf[, lng_nme, drop = TRUE]
+    uncertain_lat <- occdf[, lat_nme, drop = TRUE]
 
     # Calculate palaeolatitudinal range
     range_p_lat <- vector("numeric")
@@ -513,10 +516,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         dist <- dist / 10^3
         # Get maximum GCD in km
         max_dist[i] <- round(as.numeric(max(dist)), digits = round)
-        }
       }
-      # Bind data
-      occdf <- cbind.data.frame(occdf, range_p_lat, max_dist)
+    }
+    # Bind data
+    occdf <- cbind.data.frame(occdf, range_p_lat, max_dist)
   }
 
   # Wrap up -----------------------------------------------------------------
@@ -528,7 +531,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   if (any(is.na(occdf[, cnames]))) {
     warning(
       paste0(
-      "Palaeocoordinates could not be reconstructed for all points.",
+        "Palaeocoordinates could not be reconstructed for all points.",
         "\n",
         "Either assigned plate does not exist at time of ",
         "reconstruction or the Global Plate Model(s) does not cover ",

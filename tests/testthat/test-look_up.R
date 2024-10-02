@@ -30,11 +30,12 @@ test_that("look_up() works", {
   # check that no error is produced when pre-Phanerozoic intervals are included
   occdf <- reefs
   occdf$interval[1] <- "Meso-archean"
-  expect_equal((look_up(occdf[which(occdf$interval == "Ediacaran" |
+  expect_warning(expect_equal(look_up(occdf[which(occdf$interval == "Ediacaran" |
                                       occdf$interval == "Meso-archean"),],
                         early_interval = "interval",
                         late_interval = "interval", assign_with_GTS = "GTS2012",
-                        int_key = FALSE))$early_stage, rep(NA_character_,3))
+                        int_key = FALSE)$early_stage, rep(NA_character_,3)),
+                 regexp = "Ediacaran")
 
   # check whether unassigned intervals are returned, if required
   occdf <- tetrapods
