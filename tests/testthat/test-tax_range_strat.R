@@ -8,14 +8,13 @@ test_that("tax_range_strat() error handling", {
 
   # Expect error
   expect_error(tax_range_strat(occdf = NA))
+  expect_error(tax_range_strat(occdf = occdf, group = "test"))
   expect_error(tax_range_strat(occdf = occdf, name = "test"))
   expect_error(tax_range_strat(occdf = occdf, level = "test"))
   expect_error(tax_range_strat(occdf = occdf, level = "genus"))
   expect_error(tax_range_strat(occdf = occdf, certainty = 0))
   expect_error(tax_range_strat(occdf = occdf, certainty = "test"))
   expect_error(tax_range_strat(occdf = occdf, by = "test"))
-  expect_error(tax_range_strat(occdf = occdf, by = "group"))
-  expect_error(tax_range_strat(occdf = occdf, by = "group", group = "test"))
 
   occdf[1,1] <- NA;
   expect_error(tax_range_strat(occdf = occdf))

@@ -8,8 +8,9 @@
 #'   `name` and `level` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
 #'   as the input names, e.g. "genus" (default).
-#' @param group \code{character}. In the case of using "by = "group"", the name
-#' of the column you wish to be treated as the grouping variable, e.g. "family".
+#' @param group \code{character}. The name of the column you wish to be treated
+#'   as the grouping variable, e.g. "family". If not supplied, all taxa are
+#'   treated as a single group.
 #' @param level \code{character}. The name of the column you wish to be treated
 #'   as the stratigraphic levels associated with each occurrence, e.g. "bed"
 #'   (default) or "height". Stratigraphic levels must be \code{numeric}.
@@ -21,8 +22,8 @@
 #'   solid lines, while uncertain occurrences will be plotted with a white
 #'   circle and joined with dashed lines.
 #' @param by \code{character}. How should the output be sorted? Either: "FAD"
-#'   (first appearance; default), "LAD" (last appearance), "name"
-#'   (alphabetically by taxon names), or "group"(an additional variable).
+#'   (first appearance; default), "LAD" (last appearance), or "name"
+#'   (alphabetically by taxon names).
 #' @param plot_args A list of optional arguments that are passed directly to
 #'   [graphics::plot()]. Subsets of these arguments are also passed to
 #'   [graphics::segments()] and [graphics::points()] (see Details). Useful
@@ -114,6 +115,10 @@ tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
     stop("`occdf` should be a dataframe")
   }
 
+  if (!is.null(group) && (group %in% colnames(occdf) == FALSE)) {
+    stop('`group` is not a named column in `occdf`')
+  }
+
   if (!is.numeric(occdf[, level])) {
     stop("`level` must be of class numeric")
   }
@@ -142,16 +147,8 @@ tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
     stop("The `level` column contains NA values")
   }
 
-  if (!by %in% c("name", "FAD", "LAD", "group")) {
-    stop("`by` must be either \"FAD\", \"LAD\", \"name\" or \"group\"")
-  }
-
-  if (by == "group" && is.null(group)) {
-    stop('`group` variable must be provided to enable filtering by group')
-  }
-
-  if (by == "group" && (group %in% colnames(occdf) == FALSE)) {
-    stop('`group` is not a named column in `occdf`')
+  if (!by %in% c("name", "FAD", "LAD")) {
+    stop("`by` must be either \"FAD\", \"LAD\", or \"name\"")
   }
 
   #List and order unique taxa
@@ -173,7 +170,7 @@ tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
     occ_filter <- occdf[(occdf[, name] == unique_taxa[i]), ]
     ranges[i, 3] <- min(occ_filter[level])
     ranges[i, 4] <- max(occ_filter[level])
-    if (by == "group") {
+    if (!is.null(group)) {
       ranges[i, 2] <- occ_filter[1, group]
     }
     #If uncertainty is used, fill second set of columns for certain IDs
@@ -198,7 +195,7 @@ tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
     ranges <- ranges[order(ranges$min_bin), ]
   }
 
-  if (by == "group") {
+  if (!is.null(group)) {
     ranges <- ranges[order(ranges$group), ]
   }
 

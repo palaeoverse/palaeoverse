@@ -10,8 +10,7 @@ test_that("tax_range_time() works", {
   expect_true(is.data.frame(tax_range_time(occdf = occdf)))
   expect_true(is.data.frame(tax_range_time(occdf = occdf, by = "LAD")))
   expect_true(is.data.frame(tax_range_time(occdf = occdf, by = "name")))
-  expect_true(is.data.frame(tax_range_time(occdf = occdf, by = "group",
-                                           group = "class")))
+  expect_true(is.data.frame(tax_range_time(occdf = occdf, group = "class")))
 
   # Expect equal
   expect_equal(
@@ -26,8 +25,7 @@ test_that("tax_range_time() works", {
   expect_error(tax_range_time(occdf = occdf, max_ma = "test"))
   expect_error(tax_range_time(occdf = occdf, min_ma = "test"))
   expect_error(tax_range_time(occdf = occdf, by = "test"))
-  expect_error(tax_range_time(occdf = occdf, by = "group"))
-  expect_error(tax_range_time(occdf = occdf, by = "group", group = "test"))
+  expect_error(tax_range_time(occdf = occdf, group = "test"))
   expect_error(tax_range_time(occdf = occdf, plot = "test"))
   expect_error(tax_range_time(occdf = occdf, name = "test"))
   expect_error(tax_range_time(occdf = occdf, plot_args = "test"))

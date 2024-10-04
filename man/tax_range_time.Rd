@@ -32,12 +32,13 @@ as the minimum limit of the age range, e.g. "min_ma" (default).}
 \item{max_ma}{\code{character}. The name of the column you wish to be treated
 as the maximum limit of the age range, e.g. "max_ma" (default).}
 
-\item{group}{\code{character}. In the case of using "by = "group"", the name
-of the column you wish to be treated as the grouping variable, e.g. "family".}
+\item{group}{\code{character}. The name of the column you wish to be treated
+as the grouping variable, e.g. "family". If not supplied, all taxa are
+treated as a single group.}
 
 \item{by}{\code{character}. How should the output be sorted?
 Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
-"name" (alphabetically by taxon names), or "group"(an additional variable).}
+or "name" (alphabetically by taxon names).}
 
 \item{plot}{\code{logical}. Should a plot of the ranges be generated?}
 
@@ -108,10 +109,10 @@ occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
 # Temporal range ordered by class
 ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-                     by = "group", plot = TRUE)
+                     plot = TRUE)
 # Customise appearance
 ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-                     by = "group", plot = TRUE,
+                     plot = TRUE,
                      plot_args = list(ylab = "Orders",
                                       pch = 21, col = "black", bg = "blue",
                                       lty = 2),

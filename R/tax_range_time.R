@@ -14,11 +14,12 @@
 #' as the minimum limit of the age range, e.g. "min_ma" (default).
 #' @param max_ma \code{character}. The name of the column you wish to be treated
 #' as the maximum limit of the age range, e.g. "max_ma" (default).
-#' @param group \code{character}. In the case of using "by = "group"", the name
-#' of the column you wish to be treated as the grouping variable, e.g. "family".
+#' @param group \code{character}. The name of the column you wish to be treated
+#' as the grouping variable, e.g. "family". If not supplied, all taxa are
+#'   treated as a single group.
 #' @param by \code{character}. How should the output be sorted?
 #' Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
-#' "name" (alphabetically by taxon names), or "group"(an additional variable).
+#' or "name" (alphabetically by taxon names).
 #' @param plot \code{logical}. Should a plot of the ranges be generated?
 #' @param plot_args \code{list}. A list of optional arguments relevant to
 #'   plotting. See Details for options.
@@ -73,10 +74,10 @@
 #' ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
 #' # Temporal range ordered by class
 #' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-#'                      by = "group", plot = TRUE)
+#'                      plot = TRUE)
 #' # Customise appearance
 #' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-#'                      by = "group", plot = TRUE,
+#'                      plot = TRUE,
 #'                      plot_args = list(ylab = "Orders",
 #'                                       pch = 21, col = "black", bg = "blue",
 #'                                       lty = 2),
@@ -118,16 +119,12 @@ tax_range_time <- function(occdf,
     stop("`min_ma` and/or `max_ma` columns contain NA values")
   }
 
-  if (!by %in% c("name", "FAD", "LAD", "group")) {
-    stop('`by` must be either "FAD", "LAD", "name" or "group"')
-  }
-
-  if (by == "group" && is.null(group)) {
-    stop('`group` variable must be provided to enable filtering by group')
-  }
-
-  if (by == "group" && (group %in% colnames(occdf) == FALSE)) {
+  if (!is.null(group) && (group %in% colnames(occdf) == FALSE)) {
     stop('`group` is not a named column in `occdf`')
+  }
+
+  if (!by %in% c("name", "FAD", "LAD")) {
+    stop('`by` must be either "FAD", "LAD", or "name"')
   }
 
   if (!is.null(plot_args) && !is.list(plot_args)) {
@@ -155,7 +152,7 @@ tax_range_time <- function(occdf,
       temp_df$min_ma[i] <- min(occdf[vec, min_ma])
       temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]
       temp_df$n_occ[i] <- length(vec)
-      if (by == "group") {
+      if (!is.null(group)) {
         temp_df$group[i] <- occdf[vec[1], group]
       }
     }
@@ -165,7 +162,7 @@ tax_range_time <- function(occdf,
     temp_df[, c("max_ma", "min_ma", "range_myr")] <- round(
       x = temp_df[, c("max_ma", "min_ma", "range_myr")], digits = 3)
 
-    # Should data be ordered by FAD or LAD or group?
+    # Should data be ordered by FAD or LAD?
     if (by == "FAD") {
       temp_df <- temp_df[order(temp_df$max_ma), ]
       temp_df$taxon_id <- seq_len(nrow(temp_df))
@@ -176,7 +173,7 @@ tax_range_time <- function(occdf,
       temp_df$taxon_id <- seq_len(nrow(temp_df))
     }
 
-    if (by == "group") {
+    if (is.null(group)) {
       temp_df <- temp_df[order(temp_df$group), ]
       temp_df$taxon_id <- seq_len(nrow(temp_df))
     }
