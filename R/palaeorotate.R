@@ -1,41 +1,43 @@
 #' Palaeorotate fossil occurrences
 #'
-#' A function to generate palaeocoordinates for fossil occurrence data
+#' A function to estimate palaeocoordinates for fossil occurrence data
 #' (i.e. reconstruct the geographic distribution of organisms'
 #' remains at time of deposition). Each occurrence is assigned
 #' palaeocoordinates based on its current geographic position and age
 #' estimate.
 #'
-#' @param occdf \code{dataframe}. Fossil occurrences to be palaeogeographically
-#' reconstructed. \code{occdf} should contain columns with longitudinal and
-#' latitudinal values, as well as age estimates. The age of rotation should be
-#' supplied in millions of years before present.
-#' @param lng \code{character}. The name of the column you wish to be treated as
-#' longitude (defaults to "lng").
-#' @param lat \code{character}. The name of the column you wish to be treated as
-#' latitude (defaults to "lat").
-#' @param age \code{character}. The name of the column you wish to be treated as
-#' the age for rotation (defaults to "age").
-#' @param model \code{character}. The name(s) of the plate rotation model(s)
-#' to be used to reconstruct palaeocoordinates. See details for available
-#' models.
+#' @param occdf \code{data.frame}. Fossil occurrences to be
+#'   palaeogeographically reconstructed. \code{occdf} should contain columns
+#'   with longitudinal and latitudinal coordinates, as well as age estimates.
+#'   The age of rotation should be supplied in millions of years before
+#'   present.
+#' @param lng \code{character}. The name of the column you wish to be treated
+#'   as longitude (defaults to "lng").
+#' @param lat \code{character}. The name of the column you wish to be treated
+#'   as latitude (defaults to "lat").
+#' @param age \code{character}. The name of the column you wish to be treated
+#'   as the age for rotation (defaults to "age").
+#' @param model \code{character}. The name(s) of the Global Plate Model(s)
+#'   to be used to reconstruct palaeocoordinates. See details for available
+#'   models.
 #' @param method \code{character}. Method used to calculate palaeocoordinates
-#' for fossil occurrences. Either "grid" to use reconstruction files,
-#' or "point" (default) to use the GPlates API service. See details section
-#' for specific details.
+#'   for fossil occurrences. Either "grid" to use reconstruction files, or
+#'   "point" (default) to use the GPlates API service. See details section for
+#'   specific details.
 #' @param uncertainty \code{logical}. Should the uncertainty in
-#' palaeogeographic reconstructions be returned? If set to TRUE (default), the
-#' palaeolatitudinal range and maximum geographic distance (in km) between
-#' output palaeocoordinates are calculated. This argument is only relevant if
-#' more than one plate rotation model is specified in `model`.
+#'   palaeogeographic reconstructions be returned? If set to TRUE (default),
+#'   the palaeolatitudinal range and maximum geographic distance (in km)
+#'   between output palaeocoordinates are calculated. This argument is only
+#'   relevant if more than one Global Plate Model is specified in `model`.
 #' @param round \code{numeric}. Numeric value indicating the number of decimal
-#' places `lng`, `lat` and `age` should be rounded to. This functionality is
-#' only relevant for the "point" `method`. Rounding can speed up palaeorotation
-#' by reducing the number of unique coordinate pairs. Defaults to a value of
-#' 3. If no rounding is desired, set this value to `NULL`.
+#'   places `lng`, `lat` and `age` should be rounded to. This functionality is
+#'   only relevant for the "point" `method`. Rounding can speed up
+#'   palaeorotation by reducing the number of unique coordinate pairs.
+#'   Defaults to a value of 3. If no rounding is desired, set this value to
+#'   `NULL`.
 #'
-#' @return A \code{dataframe} containing the original input occurrence
-#'   dataframe and the reconstructed coordinates (i.e. "p_lng", "p_lat"). The
+#' @return A \code{data.frame} containing the original input occurrence
+#'   `data.frame` and the reconstructed coordinates (i.e. "p_lng", "p_lat"). The
 #'   "grid" `method` also returns the age of rotation ("rot_age") and the
 #'   reference coordinates rotated ("rot_lng" and "rot_lat"). If only one
 #'   model is requested, a column containing the rotation model used
@@ -46,121 +48,81 @@
 #'   distance ("max_dist") in km between palaeocoordinates will also be
 #'   returned (the latter calculated via \code{\link[geosphere]{distGeo}}).
 #'
-#' @details This function can generate palaeocoordinates using two different
+#' @details This function can estimate palaeocoordinates using two different
 #'   approaches (`method`):
 #'
-#' - Reconstruction files: The "grid" `method` uses reconstruction files to
-#' spatiotemporally link present-day geographic coordinates and age estimates
-#' with an equal-area hexagonal grid (spacing = 100 km) rotated to the
-#' midpoint of Phanerozoic (0--540 Ma) stratigraphic stages (Geological Time
-#' Scale, 2020). The grid was generated using the \code{\link[h3jsr]{h3jsr}} R
-#' package and 'h3_resolution' 3 (see \code{\link[h3jsr]{h3_info_table}}). If
-#' specific ages of rotation are required, or fine-scale spatial analyses are
-#' being conducted, use of the "point" `method` (see GPlates API below) is
-#' recommended (particularly if occurrences are close to plate boundaries). As
-#' implemented, when using the "grid" `method`, coordinates within the same
-#' grid cell will be assigned equivalent palaeocoordinates due to spatial
-#' aggregation. However, the reconstruction files provide pre-generated
-#' palaeocoordinates enabling efficient estimation of the past distribution of
-#' fossil occurrences. The reconstruction files along with additional
-#' documentation are deposited on [Zenodo](https://zenodo.org/record/7390065).
-#' Note: each reconstruction file is 5--10 MB in size.
+#' - Reconstruction files: The "grid" `method` uses reconstruction files from
+#' Jones & Domeier (2024) to spatiotemporally link present-day geographic
+#' coordinates and age estimates with a discrete global grid rotated at one
+#' million-year time steps throughout the Phanerozoic (540--0 Ma). Here,
+#' resolution 3 (~119 km spacing) of the reconstruction files is used. All
+#' files, and the process used to generate them, are available and documented
+#' in Jones & Domeier (2024). If fine-scale spatial analyses are being
+#' conducted, use of the "point" `method` (see GPlates API below) may be
+#' preferred (particularly if occurrences are close to plate boundaries). When
+#' using the "grid" `method`, coordinates within the same grid cell will be
+#' assigned equivalent palaeocoordinates due to spatial aggregation. However,
+#' this approach enables efficient estimation of the past distribution of
+#' fossil occurrences. Note: each reconstruction file is ~45 MB in size.
 #'
 #' - GPlates API: The "point" `method` uses the [GPlates Web Service](
-#'   https://gwsdoc.gplates.org) to reconstruct palaeocoordinates for point
-#'   data. The use of this `method` is slower than the "grid" `method` if many
-#'   unique time intervals exist in your dataset. However, it provides
-#'   palaeocoordinates with higher precision.
+#' https://gwsdoc.gplates.org) to reconstruct palaeocoordinates for point
+#' data. The use of this `method` is slower than the "grid" `method` if many
+#' unique time intervals exist in your dataset. However, it provides
+#' palaeocoordinates with higher precision.
 #'
 #' Available models and timespan for each `method`:
 #' - "MERDITH2021" (Merdith et al., 2021)
-#'   - 0--540 Ma (grid)
 #'   - 0--1000 Ma (point)
-#' - "MULLER2016" (Müller et al., 2016)
-#'   - 0--230 Ma (grid/point)
+#'   - 0--540 Ma (grid)
+#' - "TorsvikCocks2017" (Torsvik and Cocks, 2016)
+#'   - 0--540 Ma (point/grid)
+#' - "PALEOMAP" (Scotese, 2016)
+#'   - 0--1100 Ma (point)
+#'   - 0--540 Ma (grid)
 #' - "MATTHEWS2016_pmag_ref"  (Matthews et al., 2016)
 #'   - 0--410 Ma (grid/point)
-#' - "SETON2012" (Seton et al., 2012)
-#'   - 0--200 Ma (grid/point)
 #' - "GOLONKA" (Wright et al., 2013)
 #'   - 0--540 Ma (grid/point)
-#' - "PALEOMAP" (Scotese & Wright, 2018)
-#'   - 0--540 Ma (grid)
-#'   - 0--750 Ma (point)
-#'
-#' Access is also provided for the following mantle reference frame models.
-#' However, they are generally not recommended for reconstructing
-#' palaeocoordinates.
-#'
-#' - "MULLER2022" (Müller et al., 2022)
-#'   - 0--540 Ma (grid)
-#'   - 0--1000 Ma (point)
-#' - "MULLER2019" (Müller et al., 2019)
-#'   - 0--250 Ma (grid/point)
-#' - "MATTHEWS2016_mantle_ref" (Matthews et al., 2016)
-#'   - 0--410 Ma (grid/point)
 #'
 #' @section References:
 #'
+#'- Jones, L.A., Domeier, M. A Phanerozoic gridded dataset for palaeogeographic
+#'  reconstructions. Sci Data 11, 710 (2024). \doi{10.1038/s41597-024-03468-w}.
+#'
 #' - Matthews, K.J., Maloney, K.T., Zahirovic, S., Williams, S.E., Seton, M.,
-#' and Müller, R.D. (2016). Global plate boundary evolution and kinematics
-#' since the late Paleozoic. Global and Planetary Change, 146, 226-250.
-#' \doi{10.1016/j.gloplacha.2016.10.002}.
+#'   and Müller, R.D. (2016). Global plate boundary evolution and kinematics
+#'   since the late Paleozoic. Global and Planetary Change, 146, 226-250.
+#'   \doi{10.1016/j.gloplacha.2016.10.002}.
 #'
 #' - Merdith, A., Williams, S.E., Collins, A.S., Tetley, M.G., Mulder, J.A.,
-#' Blades, M.L., Young, A., Armistead, S.E., Cannon, J., Zahirovic, S.,
-#' Müller. R.D. (2021).
-#' Extending full-plate tectonic models into deep time: Linking the
-#' Neoproterozoic and the Phanerozoic.
-#' Earth-Science Reviews, 214(103477). \doi{10.1016/j.earscirev.2020.103477}.
-#'
-#' - Müller, R. D., Flament, N., Cannon, J., Tetley, M. G., Williams,
-#' S. E., Cao, X., Bodur, Ö. F., Zahirovic, S., and Merdith, A. (2022).
-#' A tectonic-rules-based mantle reference frame since 1 billion years ago –
-#' implications for supercontinent cycles and plate–mantle system evolution,
-#' Solid Earth, 13, 1127–1159. \doi{10.5194/se-13-1127-2022}.
-#'
-#' - Müller, R. D., Zahirovic, S., Williams, S. E., Cannon, J., Seton, M.,
-#' Bower, D. J., Tetley, M. G., Heine, C., Le Breton, E., Liu, S.,
-#' Russell, S. H. J., Yang, T., Leonard, J., and Gurnis, M. (2019).
-#' A global plate model including lithospheric deformation along major rifts
-#' and orogens since the Triassic.
-#' Tectonics, 38(6) 1884-1907. \doi{10.1029/2018TC005462}.
-#'
-#' - Müller R.D., Seton, M., Zahirovic, S., Williams, S.E., Matthews, K.J.,
-#' Wright, N.M., Shephard, G.E., Maloney, K.T., Barnett-Moore, N.,
-#' Hosseinpour, M., Bower, D.J., Cannon, J. (2016).
-#' Ocean basin evolution and global-scale plate reorganization events since
-#' Pangea breakup. Annual Review of Earth and Planetary Sciences 44(1),
-#' 107-138. \doi{10.1146/annurev-earth-060115-012211}.
+#'   Blades, M.L., Young, A., Armistead, S.E., Cannon, J., Zahirovic, S.,
+#'   Müller. R.D. (2021). Extending full-plate tectonic models into deep time:
+#'   Linking the Neoproterozoic and the Phanerozoic. Earth-Science Reviews,
+#'   214(103477). \doi{10.1016/j.earscirev.2020.103477}.
 #'
 #' - Scotese, C., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models
-#' (PaleoDEMs) for the
-#' Phanerozoic. [PALEOMAP Project](
-#' https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/).
+#'   (PaleoDEMs) for the Phanerozoic. [PALEOMAP Project](
+#'   https://www.earthbyte.org/paleodem-resource-scotese-and-wright-2018/).
 #'
-#' - Seton, M., Müller, R.D., Zahirovic, S., Gaina, C., Torsvik, T.H.,
-#' Shephard, G., Talsma, A., Gurnis, M., Turner, M., Maus, S., Chandler, M.
-#' (2012). Global continental and ocean basin reconstructions since 200 Ma.
-#' Earth-Science Reviews, 113(3-4), 212-270.
-#' \doi{10.1016/j.earscirev.2012.03.002}.
+#' - Torsvik, T. H. & Cocks, L. R. M. Earth History and Palaeogeography.
+#'   Cambridge University Press, 2016.
 #'
 #' - Wright, N., Zahirovic, S., Müller, R. D., & Seton, M. (2013). Towards
-#' community-driven paleogeographic
-#' reconstructions: integrating open-access paleogeographic and paleobiology
-#' data with plate tectonics.
-#' Biogeosciences, 10(3), 1529-1541. \doi{10.5194/bg-10-1529-2013}.
+#'   community-driven paleogeographic reconstructions: integrating open-access
+#'   paleogeographic and paleobiology data with plate tectonics. Biogeosciences,
+#'   10(3), 1529-1541. \doi{10.5194/bg-10-1529-2013}.
 #'
 #' See [GPlates documentation](https://gwsdoc.gplates.org/reconstruction)
 #' for additional information and details.
 #'
 #' @section Developer(s):
-#' Lewis A. Jones
+#'   Lewis A. Jones
 #' @section Reviewer(s):
-#' Kilian Eichenseer, Lucas Buffan & Will Gearty
+#'   Kilian Eichenseer, Lucas Buffan & Will Gearty
 #' @importFrom geosphere distm distGeo
-#' @importFrom h3jsr point_to_cell
-#' @importFrom sf st_as_sf
+#' @importFrom h3jsr point_to_cell cell_to_point
+#' @importFrom sf st_as_sf st_coordinates
 #' @importFrom utils download.file
 #' @importFrom pbapply pblapply
 #' @importFrom httr GET content
@@ -211,60 +173,59 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                          uncertainty = TRUE, round = 3) {
   # Error-handling ----------------------------------------------------------
   if (!exists("occdf") || !is.data.frame(occdf)) {
-    stop("Please supply occdf as a dataframe")
+    stop("Please supply `occdf` as a data.frame.")
   }
 
   if (any(c(lng, lat, age) %in% colnames(occdf) == FALSE)) {
-    stop("defined `lng`, `lat`, or `age` not found in `occdf`")
+    stop("Defined `lng`, `lat`, or `age` not found in `occdf`.")
   }
 
-  if (any(!is.numeric(occdf[, lat]), is.na(occdf[, lat]),
-          !is.numeric(occdf[, lng]), is.na(occdf[, lng]),
-          !is.numeric(occdf[, age]), is.na(occdf[, age]))) {
-    stop("`lng`, `lat` and `age` should be of class numeric")
+  if (any(!is.numeric(occdf[, lat, drop = TRUE]),
+          is.na(occdf[, lat, drop = TRUE]),
+          !is.numeric(occdf[, lng, drop = TRUE]),
+          is.na(occdf[, lng, drop = TRUE]),
+          !is.numeric(occdf[, age, drop = TRUE]),
+          is.na(occdf[, age, drop = TRUE]))) {
+    stop("`lng`, `lat` and `age` should be of class numeric.")
   }
 
-  if (any(occdf[, age] < 0)) {
+  if (any(occdf[, age, drop = TRUE] < 0)) {
     stop("`age` contains negative values. Input ages should be positive.")
   }
 
-  if (sum(abs(occdf[, lat]) > 90) != 0) {
-    stop("`lat` values should be >= -90\u00B0 and <= 90\u00B0")
+  if (sum(abs(occdf[, lat, drop = TRUE]) > 90) != 0) {
+    stop("`lat` values should be >= -90\u00B0 and <= 90\u00B0.")
   }
 
-  if (sum(abs(occdf[, lng]) > 180) != 0) {
-    stop("`lng` values should be >= -180\u00B0 and <= 180\u00B0")
+  if (sum(abs(occdf[, lng, drop = TRUE]) > 180) != 0) {
+    stop("`lng` values should be >= -180\u00B0 and <= 180\u00B0.")
   }
 
   if (method %in% c("grid", "point") == FALSE) {
-    stop("`method` should be grid or point")
+    stop("`method` should be either 'grid' or 'point'.")
   }
 
   if (!is.null(round) && !is.numeric(round)) {
-    stop("`round` should be NULL or of class numeric")
+    stop("`round` should be NULL or of class numeric.")
   }
 
   if (!is.logical(uncertainty)) {
-    stop("`uncertainty` should be of class logical (TRUE/FALSE)")
+    stop("`uncertainty` should be of class logical (TRUE/FALSE).")
   }
 
-  # Add warnings for use of mantle reference frame models
-  if (any(model %in% c("MULLER2022", "MULLER2019",
-                   "MATTHEWS2016_mantle_ref"))) {
-    warning(paste0("Selected model(s) use a mantle reference frame and are ",
-    "not recommended for reconstructing palaeocoordinates. See details."))
+  # Add stop for removed models
+  removed <- c("MULLER2022", "MULLER2019", "MULLER2016",
+               "MATTHEWS2016_mantle_ref", "SETON2012")
+  m <- removed %in% model
+  if (any(m)) {
+    stop(paste0("Selected model(s) (", toString(removed[m]), ") have recently",
+                " been removed as they are not in a palaeomagnetic reference",
+                " frame. See details for available models."))
   }
 
   # Model available?
-  available <- c("MULLER2022",
-                 "MERDITH2021",
-                 "MULLER2019",
-                 "MULLER2016",
-                 "MATTHEWS2016_mantle_ref",
-                 "MATTHEWS2016_pmag_ref",
-                 "SETON2012",
-                 "GOLONKA",
-                 "PALEOMAP")
+  available <- c("MERDITH2021", "MATTHEWS2016_pmag_ref", "TorsvikCocks2017",
+                 "GOLONKA", "PALEOMAP")
   # Match input
   model <- available[charmatch(x = model, table = available)]
   # Invalid model input?
@@ -281,19 +242,6 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     uncertainty <- FALSE
   }
 
-  # Create info columns for "grid" method
-  if (method == "grid") {
-    occdf$rot_age <- NA
-    occdf$rot_lng <- NA
-    occdf$rot_lat <- NA
-  }
-
-  # Create columns for coordinates
-  mdls <- data.frame(matrix(nrow = nrow(occdf), ncol = length(model) * 2))
-  cnames <- paste(paste0("p_lng_", model), paste0("p_lat_", model))
-  cnames <- strsplit(x = cnames, split = " ")
-  colnames(mdls) <- unlist(cnames)
-  occdf <- cbind.data.frame(occdf, mdls)
   # Should coordinates be rounded off?
   if (!is.null(round)) {
     occdf[, c(lng, lat, age)] <- round(occdf[, c(lng, lat, age)],
@@ -302,7 +250,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Unique localities for rotating
   coords <- unique(occdf[, c(lng, lat, age)])
   # Add columns for populating
-  uni_ages <- unique(coords[, c(age)])
+  uni_ages <- unique(coords[, age, drop = TRUE])
 
   # Grid rotations ----------------------------------------------------------
   if (method == "grid") {
@@ -313,8 +261,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       },
       error = function(e) {
         stop(paste0("Zenodo is not available.",
-        " Either the website is down or you are not connected ",
-        "to the internet."),
+                    " Either the website is down or you are not connected ",
+                    "to the internet."),
              call. = FALSE)
       })
     # Get temp directory and download files
@@ -329,15 +277,11 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     rot_files <- list(
       BASE = paste0(GET("https://zenodo.org/record/7390065")$url,
                     "/files/"),
-      MULLER2022 = "MULLER2022.RDS",
       MERDITH2021 = "MERDITH2021.RDS",
       PALEOMAP = "PALEOMAP.RDS",
+      TorsvikCocks2017 = "TorsvikCocks2017.RDS",
       GOLONKA = "GOLONKA.RDS",
-      MULLER2019 = "MULLER2019.RDS",
-      MULLER2016 = "MULLER2016.RDS",
-      SETON2012 = "SETON2012.RDS",
-      MATTHEWS2016_pmag_ref = "MATTHEWS2016_pmag_ref.RDS",
-      MATTHEWS2016_mantle_ref = "MATTHEWS2016_mantle_ref.RDS"
+      MATTHEWS2016_pmag_ref = "MATTHEWS2016_pmag_ref.RDS"
     )
     # Rotations files to download
     nme <- names(rot_files[model])
@@ -351,19 +295,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         download.file(url = dl,
                       destfile = paste0(files, "/", f, ".RDS"),
                       mode = dl_mode)
-        }
+      }
     }
-    # Generate reference object for linking
-    assign("ref_model", readRDS(paste0(files, "/", model[1], ".RDS")))
-
-    # Get available rotation ages
-    rot_age <- colnames(ref_model)[4:ncol(ref_model)]
-    rot_age <- unique(as.numeric(sub(".*_", "", rot_age)))
-
     # Calculate rotation ages for data
-    occdf$rot_age <- rot_age[sapply(seq_len(nrow(occdf)), function(i) {
-        which.min(abs(occdf[i, age] - rot_age))
-      })]
+    occdf$rot_age <- round(occdf[, age, drop = TRUE], digits = 0)
 
     # Set-up
     # Convert to sf object and add CRS
@@ -373,40 +308,50 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                          crs = "EPSG:4326")
 
     # Match points with cells
-    occ_cell <- point_to_cell(input = occdf_sf,
-                              res = 3, # Grid resolution
-                              simple = TRUE)
-
-    # Generate row index
-    pc_ind <- match(x = occ_cell, table = ref_model$cell)
-
-    # Assign rotation coordinates
-    occdf$rot_lng <- ref_model[pc_ind, c("lng")]
-    occdf$rot_lat <- ref_model[pc_ind, c("lat")]
-
+    h3 <- point_to_cell(input = occdf_sf,
+                        res = 3, # Grid resolution
+                        simple = TRUE)
+    # Get coordinates for h3 cell
+    xy <- st_coordinates(cell_to_point(h3_address = h3, simple = TRUE))
+    # Create df
+    xy <- data.frame(h3 = h3, rot_lng = xy[, 1], rot_lat = xy[, 2])
+    # Bind rotation coordinates
+    occdf <- cbind.data.frame(occdf, xy)
+    # Assign model coordinates
     for (m in model) {
       # Load reconstruction files
       assign("prm", readRDS(paste0(files, "/", m, ".RDS")))
+      # Update lng/lat columns names for indexing
+      colnames(prm)[which(colnames(prm) %in% c("lng", "lat"))] <-
+        c("lng_0", "lat_0")
       # Extract coordinates
-      tmp <- data.frame(
-        t(
-          sapply(seq_len(nrow(occdf)), function(i) {
-            as.numeric(prm[pc_ind[i],
-                                 c(paste0("lng_", occdf$rot_age[i]),
-                                   paste0("lat_", occdf$rot_age[i]))])
-          })))
-      colnames(tmp) <- c("p_lng", "p_lat")
+      row_match <- match(x = occdf$h3, table = prm$h3)
+
+      p_lng <- sapply(seq_len(nrow(occdf)), function(i) {
+        prm[row_match[i], c(paste0("lng_", occdf$rot_age[i]))]
+      })
+
+      p_lat <- sapply(seq_len(nrow(occdf)), function(i) {
+        prm[row_match[i], c(paste0("lat_", occdf$rot_age[i]))]
+      })
+
+      # Replace NULL values
+      rpl <- which(unlist(lapply(p_lng, is.null)) == TRUE)
+      if (length(rpl) != 0) {
+        p_lng[rpl] <- NA
+        p_lat[rpl] <- NA
+      }
       # Assign to columns
-      occdf[, paste0("p_lng_", m)] <- tmp$p_lng
-      occdf[, paste0("p_lat_", m)] <- tmp$p_lat
+      if (length(model) > 1) {
+        occdf[, paste0("p_lng_", m)] <- unlist(p_lng)
+        occdf[, paste0("p_lat_", m)] <- unlist(p_lat)
+      } else {
+        occdf$p_lng <- unlist(p_lng)
+        occdf$p_lat <- unlist(p_lat)
+      }
     }
-    # If only one model, update column name
-    if (length(model) == 1) {
-      colnames(occdf)[which(
-        colnames(occdf) == paste0("p_lng_", m))] <- c("p_lng")
-      colnames(occdf)[which(
-        colnames(occdf) == paste0("p_lat_", m))] <- c("p_lat")
-    }
+    # Drop h3 column
+    occdf <- occdf[, -which(colnames(occdf) == "h3")]
   }
 
   # Point rotations ---------------------------------------------------------
@@ -423,46 +368,37 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
                    "connected to the internet."),
              call. = FALSE)
       })
-
-    # Set-up for point method -------
     # Define root
     pbase <- "https://gws.gplates.org/reconstruct/reconstruct_points/"
     # Setup query structure
     query <- list(time = NULL, lons = NULL, lats = NULL,
                   model = NULL, anchor_plate_id = 0,
                   return_null_points = TRUE)
-    query <- list(MULLER2022 = query,
-                  MERDITH2021 = query,
-                  MULLER2019 = query,
-                  MULLER2016 = query,
+    query <- list(MERDITH2021 = query,
                   PALEOMAP = query,
+                  TorsvikCocks2017 = query,
                   MATTHEWS2016_pmag_ref = query,
-                  MATTHEWS2016_mantle_ref = query,
-                  GOLONKA = query,
-                  SETON2012 = query)
+                  GOLONKA = query)
     # Define GPlates model names
-    query[["MULLER2022"]]$model <- "MULLER2022"
     query[["MERDITH2021"]]$model <- "MERDITH2021"
-    query[["MULLER2019"]]$model <- "MULLER2019"
-    query[["MULLER2016"]]$model <- "MULLER2016"
     query[["PALEOMAP"]]$model <- "PALEOMAP"
+    query[["TorsvikCocks2017"]]$model <- "TorsvikCocks2017"
+    # anchor plate id 1 required for palaeomagnetic reference frame
+    query$TorsvikCocks2017$anchor_plate_id <- 1
     query[["MATTHEWS2016_pmag_ref"]]$model <- "MATTHEWS2016_pmag_ref"
-    query[["MATTHEWS2016_mantle_ref"]]$model <- "MATTHEWS2016_mantle_ref"
     query[["GOLONKA"]]$model <- "GOLONKA"
-    query[["SETON2012"]]$model <- "SETON2012"
     # Define maximum chunk size for API calls
     chunks <- 300
     # Set-up matching for later merge
-    coords$match <- paste0(coords[, lng],
-                           coords[, lat],
-                           coords[, age])
-    occdf$match <- paste0(occdf[, lng],
-                          occdf[, lat],
-                          occdf[, age])
-
+    coords$match <- paste0(coords[, lng, drop = TRUE], "_",
+                           coords[, lat, drop = TRUE], "_",
+                           coords[, age, drop = TRUE])
+    occdf$match <- paste0(occdf[, lng, drop = TRUE], "_",
+                          occdf[, lat, drop = TRUE], "_",
+                          occdf[, age, drop = TRUE])
     # Prepare points query
     # Split dataframe by age
-    coord_list <- split(x = coords, f = coords[, age])
+    coord_list <- split(x = coords, f = coords[, age, drop = TRUE])
     # Split by chunk size
     list_size <- lapply(coord_list, nrow)
     subsplit <- names(which(list_size > chunks))
@@ -471,7 +407,6 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       coord_list[[i]] <- split(x = tmp,
                                f = ceiling(seq_len(nrow(tmp)) / chunks))
     }
-
     # Run across models
     multi_model <- lapply(model, function(m) {
       # Inform user which model is running
@@ -495,6 +430,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         })
         # Call API and extract coordinates
         rots <- lapply(request, function(x) {
+          # Avoid overwhelming server (a recent issue?)
+          Sys.sleep(1)
           coords <- GET(url = pbase, query = x)
           # If occurrences exceeds age of model
           if (coords$status_code == 400) {
@@ -504,7 +441,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
           }
           # Replace NULL values
           rpl <- sapply(coords, is.null)
-          if (sum(rpl) != 0) {
+          if (any(rpl)) {
             rpl <- which(rpl == TRUE)
             for (r in rpl) coords[[r]] <- list(NA, NA)
           }
@@ -537,7 +474,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     }
 
     # Drop match column
-    occdf <- occdf[, -which(colnames(occdf) == "match")]
+    occdf <- occdf[, -which(colnames(occdf) == "match"), drop = TRUE]
   }
 
   # Uncertainty calculation -------------------------------------------------
@@ -545,8 +482,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Calculate uncertainty (range)
     lng_nme <- paste0("p_lng_", model)
     lat_nme <- paste0("p_lat_", model)
-    uncertain_lng <- occdf[, lng_nme]
-    uncertain_lat <- occdf[, lat_nme]
+    uncertain_lng <- occdf[, lng_nme, drop = TRUE]
+    uncertain_lat <- occdf[, lat_nme, drop = TRUE]
 
     # Calculate palaeolatitudinal range
     range_p_lat <- vector("numeric")
@@ -556,7 +493,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         range_p_lat[i] <- NA
         next
       } else {
-        range_p_lat[i] <- max(as.numeric(tmp_lat)) - min(as.numeric(tmp_lat))
+        range_p_lat[i] <- max(tmp_lat) - min(tmp_lat)
       }
     }
 
@@ -570,8 +507,8 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       tmpdf <- na.omit(tmpdf)
       # Allocate NA if only one or less models are available
       if (nrow(tmpdf) <= 1) {
-          max_dist[i] <- NA
-          next
+        max_dist[i] <- NA
+        next
       } else {
         # Calculate GCD matrix
         dist <- distm(x = tmpdf, fun = distGeo)
@@ -579,27 +516,25 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         dist <- dist / 10^3
         # Get maximum GCD in km
         max_dist[i] <- round(as.numeric(max(dist)), digits = round)
-        }
       }
-      # Bind data
-      occdf <- cbind.data.frame(occdf, range_p_lat, max_dist)
+    }
+    # Bind data
+    occdf <- cbind.data.frame(occdf, range_p_lat, max_dist)
   }
 
   # Wrap up -----------------------------------------------------------------
-  # Add warning
-  if (length(model) == 1) {
+  if (length(model) > 1) {
+    cnames <- c(paste0("p_lng_", model), paste0("p_lat_", model))
+  } else {
     cnames <- c("p_lng", "p_lat")
-    if (method == "point") {
-      occdf <- occdf[, -which(colnames(occdf) %in% paste0(cnames, "_", model))]
-    }
   }
-  if (any(is.na(occdf[, unlist(cnames)]))) {
+  if (any(is.na(occdf[, cnames]))) {
     warning(
       paste0(
-      "Palaeocoordinates could not be reconstructed for all points.",
+        "Palaeocoordinates could not be reconstructed for all points.",
         "\n",
         "Either assigned plate does not exist at time of ",
-        "reconstruction or the plate rotation model(s) does not cover ",
+        "reconstruction or the Global Plate Model(s) does not cover ",
         "the age of reconstruction."
       )
     )
