@@ -30,7 +30,7 @@
 #' # Load occurrence data
 #' occdf <- tetrapods
 #' # Generate latitudinal bins
-#' bins <- lat_bins(size = 10)
+#' bins <- lat_bins_degrees(size = 10)
 #' # Bin data
 #' occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
 #'

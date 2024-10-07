@@ -117,3 +117,18 @@ lat_bins_degrees <- function(size = 10, min = -90, max = 90,
 
   return(df)
 }
+#' Generate equal-width latitudinal bins
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `lat_bins()` was renamed to `lat_bins_degrees()` to be consistent
+#' with `lat_bins_area().`
+#' @inheritParams lat_bins_degrees
+#' @export
+lat_bins <- function(size = 10, min = -90, max = 90,
+                     fit = FALSE, plot = FALSE) {
+  lifecycle::deprecate_warn("1.4.0", "lat_bins()", "lat_bins_degrees()")
+  argg <- as.list(environment())
+  do.call(lat_bins_degrees, argg)
+}
