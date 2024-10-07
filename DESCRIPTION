@@ -56,7 +56,8 @@ Imports:
     geosphere,
     h3jsr (>= 1.3.0),
     httr,
-    pbapply
+    pbapply,
+    lifecycle
 Suggests:
     rmarkdown,
     knitr,

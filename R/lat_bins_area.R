@@ -1,13 +1,13 @@
 #' Generate equal-area latitudinal bins
 #'
 #' A function to generate approximately equal-area latitudinal bins for a
-#' user-specified given number of bins and latitudinal range. This approach is
+#' user-specified number of bins and latitudinal range. This approach is
 #' based on calculating the curved surface area of spherical segments bounded
-#' by two parallel disks.
+#' by two parallel discs.
 #'
 #' @param n \code{numeric}. A single numeric value defining the number of
-#'   equal-area latitudinal bins to split the latitudinal range by (as defined
-#'   by `min` and `max`).
+#'   equal-area latitudinal bins to split the latitudinal range into (as
+#'   defined by `min` and `max`).
 #' @param min \code{numeric}. A single numeric value defining the lower limit
 #'   of the latitudinal range (defaults to -90).
 #' @param max \code{numeric}. A single numeric value defining the upper limit
@@ -15,26 +15,32 @@
 #' @param r \code{numeric}. The radius of the Earth in kilometres. Defaults to
 #'   the the mean radius of the Earth (6371 km).
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be
-#'   generated?
-#' @return A \code{data.frame} of user-defined number of latitudinal bins.
+#'   generated? If `TRUE`, a plot is generated. Defaults to `FALSE`.
+#' @return A \code{data.frame} of user-defined number of latitudinal bins. The
+#'   \code{data.frame} contains the following columns: bin (bin number), min
+#'   (minimum latitudinal coordinate of the bin), mid (midpoint latitudinal
+#'   coordinate of the bin), max (maximum latitudinal coordinate of the bin),
+#'   area (the area of the latitudinal bin in
+#'   km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}), area_prop (the
+#'   proportional area of the latitudinal bin across all latitudinal bins).
 #' @seealso
 #' For bins with unequal area, but equal latitudinal range, see \link{lat_bins}.
 #' @importFrom graphics polygon abline title
 #' @section Developer(s):
 #'   Lewis A. Jones & Kilian Eichenseer
 #' @section Reviewer(s):
-#'   Kilian Eichenseer
+#'   Kilian Eichenseer & Bethany Allen
 #' @export
 #' @examples
 #' # Generate 12 latitudinal bins
-#' bins <- lat_bins_equal(n = 12)
+#' bins <- lat_bins_area(n = 12)
 #' # Generate latitudinal bins for just the (sub-)tropics
-#' bins <- lat_bins_equal(n = 6, min = -30, max = 30)
+#' bins <- lat_bins_area(n = 6, min = -30, max = 30)
 #' # Generate latitudinal bins and a plot
-#' bins <- lat_bins_equal(n = 24, plot = TRUE)
-lat_bins_equal <- function(n = 12,
-                           min = -90, max = 90, r = 6371,
-                           plot = FALSE) {
+#' bins <- lat_bins_area(n = 24, plot = TRUE)
+lat_bins_area <- function(n = 12,
+                          min = -90, max = 90, r = 6371,
+                          plot = FALSE) {
   # Error handling
   if (!is.numeric(n)) {
     stop("`n` should be a numeric.")

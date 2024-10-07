@@ -2,9 +2,12 @@
 % Please edit documentation in R/lat_bins.R
 \name{lat_bins}
 \alias{lat_bins}
+\alias{lat_bins_degrees}
 \title{Generate latitudinal bins}
 \usage{
 lat_bins(size = 10, min = -90, max = 90, fit = FALSE, plot = FALSE)
+
+lat_bins_degrees(size = 10, min = -90, max = 90, fit = FALSE, plot = FALSE)
 }
 \arguments{
 \item{size}{\code{numeric}. A single numeric value defining the width of the
@@ -24,16 +27,22 @@ If \code{fit = FALSE}, and bin size is not divisible into the range, the
 upper part of the latitudinal range will be missing.}
 
 \item{plot}{\code{logical}. Should a plot of the latitudinal bins be
-generated?}
+generated? If \code{TRUE}, a plot is generated. Defaults to \code{FALSE}.}
 }
 \value{
-A \code{dataframe} of latitudinal bins of user-defined size.
+A \code{dataframe} of latitudinal bins of user-defined size. The
+\code{data.frame} contains the following columns: bin (bin number), min
+(minimum latitudinal coordinate of the bin), mid (midpoint latitudinal
+coordinate of the bin), max (maximum latitudinal coordinate of the bin)
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 A function to generate latitudinal bins of a given size for a user-defined
 latitudinal range. If the desired size of the bins is not compatible with
 the defined latitudinal range, bin size can be updated to the nearest integer
-which is divisible into this range.
+which is divisible into this range.\link{lat_bins} and \link{lat_bins_degrees}
+are equivalent functions with different aliases. \link{lat_bins} will be
+deprecated in the future.
 }
 \section{Developer(s)}{
 
@@ -56,5 +65,5 @@ bins <- lat_bins(size = 13, fit = TRUE)
 bins <- lat_bins(size = 10, min = -50, max = 50)
 }
 \seealso{
-For equal-area latitudinal bins, see \link{lat_bins_equal}.
+For equal-area latitudinal bins, see \link{lat_bins_area}.
 }
