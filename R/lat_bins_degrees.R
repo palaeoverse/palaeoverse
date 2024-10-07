@@ -1,12 +1,9 @@
 #' Generate latitudinal bins
 #'
-#' `r lifecycle::badge("deprecated")`
 #' A function to generate latitudinal bins of a given size for a user-defined
 #' latitudinal range. If the desired size of the bins is not compatible with
 #' the defined latitudinal range, bin size can be updated to the nearest integer
-#' which is divisible into this range. \link{lat_bins} and \link{lat_bins_degrees}
-#' are equivalent functions with different aliases. \link{lat_bins} will be
-#' deprecated in the future.
+#' which is divisible into this range.
 #'
 #' @param size \code{numeric}. A single numeric value defining the width of the
 #' latitudinal bins. This value must be more than 0, and less than or equal to
@@ -24,8 +21,8 @@
 #'   generated? If `TRUE`, a plot is generated. Defaults to `FALSE`.
 #' @return A \code{dataframe} of latitudinal bins of user-defined size. The
 #'   \code{data.frame} contains the following columns: bin (bin number), min
-#'   (minimum latitudinal coordinate of the bin), mid (midpoint latitudinal
-#'   coordinate of the bin), max (maximum latitudinal coordinate of the bin)
+#'   (minimum latitude of the bin), mid (midpoint latitude of
+#'   the bin), max (maximum latitude of the bin).
 #' @seealso
 #' For equal-area latitudinal bins, see \link{lat_bins_area}.
 #' @importFrom graphics polygon abline title
@@ -36,16 +33,15 @@
 #' @export
 #' @examples
 #' # Generate 20 degrees latitudinal bins
-#' bins <- lat_bins(size = 20)
+#' bins <- lat_bins_degrees(size = 20)
 #'
 #' # Generate latitudinal bins with closest fit to 13 degrees
-#' bins <- lat_bins(size = 13, fit = TRUE)
+#' bins <- lat_bins_degrees(size = 13, fit = TRUE)
 #'
 #' # Generate latitudinal bins for defined latitudinal range
-#' bins <- lat_bins(size = 10, min = -50, max = 50)
-lat_bins <- function(size = 10, min = -90, max = 90,
+#' bins <- lat_bins_degrees(size = 10, min = -50, max = 50)
+lat_bins_degrees <- function(size = 10, min = -90, max = 90,
                      fit = FALSE, plot = FALSE) {
-  lifecycle::deprecate_warn("1.4.0", "lat_bins()", "lat_bins_degrees()")
   #error handling
   if (is.numeric(size) == FALSE) {
     stop("`size` should be a numeric")

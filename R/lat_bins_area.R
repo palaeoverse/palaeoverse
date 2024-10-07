@@ -18,13 +18,13 @@
 #'   generated? If `TRUE`, a plot is generated. Defaults to `FALSE`.
 #' @return A \code{data.frame} of user-defined number of latitudinal bins. The
 #'   \code{data.frame} contains the following columns: bin (bin number), min
-#'   (minimum latitudinal coordinate of the bin), mid (midpoint latitudinal
-#'   coordinate of the bin), max (maximum latitudinal coordinate of the bin),
-#'   area (the area of the latitudinal bin in
+#'   (minimum latitude of the bin), mid (midpoint latitude of the bin),
+#'   max (maximum latitude of the bin), area (the area of the bin in
 #'   km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}), area_prop (the
-#'   proportional area of the latitudinal bin across all latitudinal bins).
+#'   proportional area of the bin across all bins).
 #' @seealso
-#' For bins with unequal area, but equal latitudinal range, see \link{lat_bins}.
+#' For bins with unequal area, but equal latitudinal range, see
+#'   \link{lat_bins_degrees}.
 #' @importFrom graphics polygon abline title
 #' @section Developer(s):
 #'   Lewis A. Jones & Kilian Eichenseer

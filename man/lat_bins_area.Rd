@@ -26,11 +26,10 @@ generated? If \code{TRUE}, a plot is generated. Defaults to \code{FALSE}.}
 \value{
 A \code{data.frame} of user-defined number of latitudinal bins. The
 \code{data.frame} contains the following columns: bin (bin number), min
-(minimum latitudinal coordinate of the bin), mid (midpoint latitudinal
-coordinate of the bin), max (maximum latitudinal coordinate of the bin),
-area (the area of the latitudinal bin in
+(minimum latitude of the bin), mid (midpoint latitude of the bin),
+max (maximum latitude of the bin), area (the area of the bin in
 km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}), area_prop (the
-proportional area of the latitudinal bin across all latitudinal bins).
+proportional area of the bin across all bins).
 }
 \description{
 A function to generate approximately equal-area latitudinal bins for a
@@ -57,5 +56,6 @@ bins <- lat_bins_area(n = 6, min = -30, max = 30)
 bins <- lat_bins_area(n = 24, plot = TRUE)
 }
 \seealso{
-For bins with unequal area, but equal latitudinal range, see \link{lat_bins}.
+For bins with unequal area, but equal latitudinal range, see
+\link{lat_bins_degrees}.
 }

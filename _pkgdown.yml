@@ -89,7 +89,8 @@ reference:
     Functions to support further functionality.
   contents:
   - lat_bins
-  - lat_bins_equal
+  - lat_bins_area
+  - lat_bins_degrees
   - time_bins
   - group_apply
 
