@@ -1,4 +1,4 @@
-#' Generate latitudinal bins
+#' Generate equal-width latitudinal bins
 #'
 #' A function to generate latitudinal bins of a given size for a user-defined
 #' latitudinal range. If the desired size of the bins is not compatible with

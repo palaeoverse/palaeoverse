@@ -11,6 +11,7 @@ test_that("lat_bins_area works", {
   expect_error(lat_bins_area(min = 100))
   expect_error(lat_bins_area(plot = "TRUE"))
   expect_error(lat_bins_area(r = "Earth"))
+  expect_error(lat_bins_area(n = 3.5))
 })
 
 test_that("lat_bins_area plotting works", {

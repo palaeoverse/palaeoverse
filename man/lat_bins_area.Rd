@@ -18,7 +18,8 @@ of the latitudinal range (defaults to -90).}
 of the latitudinal range (defaults to 90).}
 
 \item{r}{\code{numeric}. The radius of the Earth in kilometres. Defaults to
-the the mean radius of the Earth (6371 km).}
+the volumetric mean radius of the Earth (6371 km). Other user-specified
+\code{r} values are accepted (e.g. equatorial radius 6378 km).}
 
 \item{plot}{\code{logical}. Should a plot of the latitudinal bins be
 generated? If \code{TRUE}, a plot is generated. Defaults to \code{FALSE}.}

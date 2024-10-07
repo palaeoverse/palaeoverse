@@ -13,7 +13,8 @@
 #' @param max \code{numeric}. A single numeric value defining the upper limit
 #'   of the latitudinal range (defaults to 90).
 #' @param r \code{numeric}. The radius of the Earth in kilometres. Defaults to
-#'   the the mean radius of the Earth (6371 km).
+#'   the volumetric mean radius of the Earth (6371 km). Other user-specified
+#'   `r` values are accepted (e.g. equatorial radius 6378 km).
 #' @param plot \code{logical}. Should a plot of the latitudinal bins be
 #'   generated? If `TRUE`, a plot is generated. Defaults to `FALSE`.
 #' @return A \code{data.frame} of user-defined number of latitudinal bins. The
@@ -64,6 +65,10 @@ lat_bins_area <- function(n = 12,
 
   if (!is.numeric(r)) {
     stop("`r` should be a numeric.")
+  }
+
+  if (n %% 1 != 0) {
+    stop("`n` should be an integer (whole number).")
   }
 
   # Convert r to metres

@@ -2,7 +2,7 @@
 % Please edit documentation in R/lat_bins_degrees.R
 \name{lat_bins_degrees}
 \alias{lat_bins_degrees}
-\title{Generate latitudinal bins}
+\title{Generate equal-width latitudinal bins}
 \usage{
 lat_bins_degrees(size = 10, min = -90, max = 90, fit = FALSE, plot = FALSE)
 }
