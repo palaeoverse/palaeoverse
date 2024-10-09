@@ -101,7 +101,7 @@ columns containing respective latitudinal bin information.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load occurrence data</span></span></span>
 <span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span></span></span>
 <span class="r-in"><span><span class="co"># Generate latitudinal bins</span></span></span>
-<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="lat_bins.html">lat_bins</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="lat_bins_degrees.html">lat_bins_degrees</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Bin data</span></span></span>
 <span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu">bin_lat</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, lat <span class="op">=</span> <span class="st">"lat"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Presence of occurrences falling on boundaries detected. </span>
