@@ -5,6 +5,8 @@
   * TorsvikCocks2017 model added
   * Added updated reconstruction files (1 myr resolution)
 * Fixed point plotting bug in tax_range_strat
+* Added lat_bins_area (#114)
+* Replaced lat_bins with lat_bins_degrees
 * Made all functions tibble-friendly (#118)
 
 # palaeoverse 1.3.0
