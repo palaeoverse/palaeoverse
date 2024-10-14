@@ -1,4 +1,4 @@
-# Development version
+# palaeoverse 1.4.0
 
 * Several updates to palaeorotate
   * Mantle reference frame models removed
