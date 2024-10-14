@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">palaeoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@
     
 <p><strong>Authors:</strong> <a href="https://palaeoverse.org/#about-us" class="external-link">The Palaeoverse Development
 Team</a></p>
-<p><strong>Last updated:</strong> 2024-10-10</p>
+<p><strong>Last updated:</strong> 2024-10-14</p>
 <div style="text-align: justify">
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -153,11 +153,12 @@ using this dataset to demonstrate some of the available functionality in
 <span></span>
 <span><span class="co"># View the column names and the first five lines of the first three columns:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tetrapods</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"     "accepted_rank"    </span></span>
-<span><span class="co">##  [7] "early_interval"    "late_interval"     "max_ma"            "min_ma"            "phylum"            "class"            </span></span>
-<span><span class="co">## [13] "order"             "family"            "genus"             "abund_value"       "abund_unit"        "lng"              </span></span>
-<span><span class="co">## [19] "lat"               "collection_name"   "cc"                "formation"         "stratgroup"        "member"           </span></span>
-<span><span class="co">## [25] "zone"              "lithology1"        "environment"       "pres_mode"         "taxon_environment" "motility"         </span></span>
+<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"    </span></span>
+<span><span class="co">##  [6] "accepted_rank"     "early_interval"    "late_interval"     "max_ma"            "min_ma"           </span></span>
+<span><span class="co">## [11] "phylum"            "class"             "order"             "family"            "genus"            </span></span>
+<span><span class="co">## [16] "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"  </span></span>
+<span><span class="co">## [21] "cc"                "formation"         "stratgroup"        "member"            "zone"             </span></span>
+<span><span class="co">## [26] "lithology1"        "environment"       "pres_mode"         "taxon_environment" "motility"         </span></span>
 <span><span class="co">## [31] "life_habit"        "diet"</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></code></pre></div>
@@ -257,19 +258,21 @@ remove these occurrences.</p>
 <span><span class="va">mid_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">cp_tetrapods</span>,</span>
 <span>                          bins <span class="op">=</span> <span class="va">bins</span>,</span>
 <span>                          method <span class="op">=</span> <span class="st">'mid'</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more occurrences have a midpoint age equivalent to a</span></span>
-<span><span class="co">## bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more occurrences have a midpoint age</span></span>
+<span><span class="co">## equivalent to a bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.</span></span></code></pre>
 <p>That’s better! Let’s see how our dataset has changed.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Examine the dataset columns</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"     "accepted_rank"    </span></span>
-<span><span class="co">##  [7] "early_interval"    "late_interval"     "old_max_ma"        "old_min_ma"        "phylum"            "class"            </span></span>
-<span><span class="co">## [13] "order"             "family"            "genus"             "abund_value"       "abund_unit"        "lng"              </span></span>
-<span><span class="co">## [19] "lat"               "collection_name"   "cc"                "formation"         "stratgroup"        "member"           </span></span>
-<span><span class="co">## [25] "zone"              "lithology1"        "environment"       "pres_mode"         "taxon_environment" "motility"         </span></span>
-<span><span class="co">## [31] "life_habit"        "diet"              "early_stage"       "late_stage"        "max_ma"            "interval_mid_ma"  </span></span>
-<span><span class="co">## [37] "min_ma"            "id"                "n_bins"            "bin_assignment"    "bin_midpoint"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"    </span></span>
+<span><span class="co">##  [6] "accepted_rank"     "early_interval"    "late_interval"     "old_max_ma"        "old_min_ma"       </span></span>
+<span><span class="co">## [11] "phylum"            "class"             "order"             "family"            "genus"            </span></span>
+<span><span class="co">## [16] "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"  </span></span>
+<span><span class="co">## [21] "cc"                "formation"         "stratgroup"        "member"            "zone"             </span></span>
+<span><span class="co">## [26] "lithology1"        "environment"       "pres_mode"         "taxon_environment" "motility"         </span></span>
+<span><span class="co">## [31] "life_habit"        "diet"              "early_stage"       "late_stage"        "max_ma"           </span></span>
+<span><span class="co">## [36] "interval_mid_ma"   "min_ma"            "id"                "n_bins"            "bin_assignment"   </span></span>
+<span><span class="co">## [41] "bin_midpoint"</span></span></code></pre>
 <p>As you can see, four new columns (variables) have been added to our
 dataset. Two of these are especially important. First is the
 <code>bin_assignment</code>, which shows which number bin the occurrence
@@ -285,8 +288,10 @@ examine this further.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">$</span><span class="va">n_bins</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mid_tetrapods</span><span class="op">)</span> <span class="co"># proportions</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">##            1            2            3            4            5            6            7            8            9 </span></span>
-<span><span class="co">## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 0.0008880995 0.0005920663 0.0047365305</span></span></code></pre>
+<span><span class="co">##            1            2            3            4            5            6            7            8 </span></span>
+<span><span class="co">## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 0.0008880995 0.0005920663 </span></span>
+<span><span class="co">##            9 </span></span>
+<span><span class="co">## 0.0047365305</span></span></code></pre>
 <p>As you can see, only ~25% of the dataset can be assigned to just one
 bin - the other occurrences can’t be confidently assigned to an
 individual time interval. This is where the other methods for the
