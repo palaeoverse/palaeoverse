@@ -7,6 +7,7 @@
 tax_range_strat(
   occdf,
   name = "genus",
+  group = NULL,
   level = "bed",
   certainty = NULL,
   by = "FAD",
@@ -22,6 +23,10 @@ at least two columns: names of taxa, and their stratigraphic position (see
 
 \item{name}{\code{character}. The name of the column you wish to be treated
 as the input names, e.g. "genus" (default).}
+
+\item{group}{\code{character}. The name of the column you wish to be treated
+as the grouping variable, e.g. "family". If not supplied, all taxa are
+treated as a single group.}
 
 \item{level}{\code{character}. The name of the column you wish to be treated
 as the stratigraphic levels associated with each occurrence, e.g. "bed"
