@@ -116,8 +116,8 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
                       plot = FALSE) {
   # Error handling -------------------------------------------------------
   if (!is.character(interval) &&
-      !is.numeric(interval) &&
-      !is.null(interval)) {
+        !is.numeric(interval) &&
+        !is.null(interval)) {
     stop("`interval` must be NULL or of class 'character' or 'numeric'")
   }
 
@@ -146,7 +146,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
   }
 
   if (is.data.frame(scale) &&
-      any(!c("interval_name", "max_ma", "min_ma") %in% colnames(scale))) {
+        any(!c("interval_name", "max_ma", "min_ma") %in% colnames(scale))) {
     stop(paste("`scale` does not contain named columns:",
                "'interval_name', 'max_ma', and 'min_ma'."))
   }
@@ -207,8 +207,9 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       # Check interval names
       int_index <- charmatch(interval, df$interval_name)
       if (any(is.na(int_index))) {
-        stop(paste("Check spelling of specified intervals.",
-                   "Available intervals are accessible via GTS2020 and GTS2012."))
+        stop(
+          paste("Check spelling of specified intervals.",
+                "Available intervals are accessible via GTS2020 and GTS2012."))
       }
       # Subset df for intervals
       if (length(int_index) > 1) {
@@ -266,14 +267,13 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     url <- url(paste0("https://macrostrat.org/api/v2/defs/intervals",
                       "?format=csv&timescale=",
                       gsub(" ", "%20", scale)))
-    df <- tryCatch(
-      {
-        read.csv(url, header = TRUE, stringsAsFactors = FALSE)
+    df <- tryCatch({
+      read.csv(url, header = TRUE, stringsAsFactors = FALSE)
       },
       error = function(e) {
         stop("`name` does not match a built-in or Macrostrat time scale.",
              call. = FALSE)
-      })
+        })
     df <- df[, c("name", "b_age", "t_age", "abbrev", "color")]
     colnames(df) <- c("interval_name", "max_ma", "min_ma", "abbr", "colour")
     # Add mid_ma
@@ -314,7 +314,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       n_bins <- round(total_duration / size)
       # Set n_bins to interval number if size results in too large n_bins
       if (n_bins > nrow(df)) {
-          n_bins <- nrow(df)
+        n_bins <- nrow(df)
         }
     } else {
       # Throw error if n_bins is too large
@@ -332,15 +332,16 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       cumulative_durations <- c(0, cumsum(interval_durations))
       #
       # Initialise dynamic programming table and partition table
-      # M[i, k]: Min total cost for first i intervals partitioned into k bins
-      M <- matrix(Inf, nrow = n_intervals + 1, ncol = n_bins)
+      # cost_mat[i, k]: Min total cost for first i intervals partitioned into k
+      # bins
+      cost_mat <- matrix(Inf, nrow = n_intervals + 1, ncol = n_bins)
       partition <- matrix(NA, nrow = n_intervals + 1, ncol = n_bins)
       # Base case: Cost of partitioning 0 intervals into 0 bins is 0
-      M[1, 1] <- 0
+      cost_mat[1, 1] <- 0
       # Initialise base cases for k = 1 (partitioning into one bin)
       for (i in 1:n_intervals) {
         bin_duration <- cumulative_durations[i + 1] - cumulative_durations[1]
-        M[i + 1, 1] <- (bin_duration - target_bin_size)^2
+        cost_mat[i + 1, 1] <- (bin_duration - target_bin_size)^2
         partition[i + 1, 1] <- 0
       }
       #
@@ -350,9 +351,9 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
           for (j in (k - 1):(i - 1)) {  # Possible partition points
             bin_duration <-
               cumulative_durations[i + 1] - cumulative_durations[j + 1]
-            cost <- M[j + 1, k - 1] + (bin_duration - target_bin_size)^2
-            if (cost < M[i + 1, k]) {
-              M[i + 1, k] <- cost
+            cost <- cost_mat[j + 1, k - 1] + (bin_duration - target_bin_size)^2
+            if (cost < cost_mat[i + 1, k]) {
+              cost_mat[i + 1, k] <- cost
               partition[i + 1, k] <- j
             }
           }
@@ -376,26 +377,26 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     #
     # Assemble bins and compute bin statistics
     # Initialise an empty list to store the rows for bin_data
-    binDataList <- vector("list", length(bins))
+    bin_data_list <- vector("list", length(bins))
     # Iterate over bins
     for (i in seq_along(bins)) {
-      binIntervals <- bins[[i]]
-      binMaxMa <- max(df[binIntervals, "max_ma"])
-      binMinMa <- min(df[binIntervals, "min_ma"])
+      bin_intervals <- bins[[i]]
+      bin_max_ma <- max(df[bin_intervals, "max_ma"])
+      bin_min_ma <- min(df[bin_intervals, "min_ma"])
       # Collect data for each bin in a list
-      binDataList[[i]] <- data.frame(
+      bin_data_list[[i]] <- data.frame(
         bin = as.integer(i),
-        max_ma = as.numeric(binMaxMa),
-        mid_ma = as.numeric((binMinMa + binMaxMa) / 2),
-        min_ma = as.numeric(binMinMa),
-        duration_myr = as.numeric(sum(df[binIntervals, "duration_myr"])),
+        max_ma = as.numeric(bin_max_ma),
+        mid_ma = as.numeric((bin_min_ma + bin_max_ma) / 2),
+        min_ma = as.numeric(bin_min_ma),
+        duration_myr = as.numeric(sum(df[bin_intervals, "duration_myr"])),
         grouping_rank = rank,
-        intervals = toString(df[binIntervals, "interval_name"]),
+        intervals = toString(df[bin_intervals, "interval_name"]),
         stringsAsFactors = FALSE
       )
     }
     # List to dataframe
-    df <- do.call(rbind, binDataList)
+    df <- do.call(rbind, bin_data_list)
     #
     # Calculate mean and standard deviation of bin durations
     mean_duration <- mean(df$duration_myr)
@@ -403,20 +404,21 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     #
     # Message user
     if (is.numeric(size)) {
-      message_head <- paste("Target duration of equal length time bins was set to",
-                            round(size, digits = 2),  "Myr.\n")
+      message_head <- paste(
+        "Target duration of equal length time bins was set to",
+        round(size, digits = 2),  "Myr.\n")
     } else {
       message_head <- paste0("Number of equal length time bins was set to ",
                              n_bins, ".\n")
     }
     message(
       paste0(message_head,
-            n_bins,
-            "time bins were generated with a mean length of ",
-            round(mean_duration, digits = 2),
-            " Myr and a standard deviation of ",
-            round(sd_duration, digits = 2),
-            " Myr."
+             n_bins,
+             " time bins were generated with a mean length of ",
+             round(mean_duration, digits = 2),
+             " Myr and a standard deviation of ",
+             round(sd_duration, digits = 2),
+             " Myr."
       )
     )
   }
