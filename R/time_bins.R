@@ -55,9 +55,9 @@
 #'   if `assign` is specified. By default, the time bins \code{data.frame}
 #'   contains the following columns: bin, interval_name, rank, max_ma, mid_ma,
 #'   min_ma, duration_myr, abbr (interval abbreviation), colour and font
-#'   (colour). If `size` or `n_bins` is specified, the time bins \code{data.frame}
-#'   contains the following columns: bin, max_ma, mid_ma, min_ma,
-#'   duration_myr, grouping_rank, intervals, colour and font.
+#'   (colour). If `size` or `n_bins` is specified, the time bins
+#'   \code{data.frame} contains the following columns: bin, max_ma, mid_ma,
+#'   min_ma, duration_myr, grouping_rank, intervals, colour and font.
 #'
 #' @details This function uses either the Geological Time Scale 2020,
 #'   Geological Time Scale 2012, a valid timescale from
@@ -319,55 +319,56 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     } else {
       # Throw error if n_bins is too large
       if (n_bins > nrow(df)) {
-        stop("`n_bins` can't be greater than the number intervals.")
+        stop("`n_bins` can't be greater than the number of intervals.")
       }
     }
     if (n_bins > 1) {
-    # updated bin size based on determined number of bins
-    target_bin_size <- total_duration / n_bins
-    # Extract interval durations and number of intervals
-    interval_durations <- df$duration_myr
-    n_intervals <- length(interval_durations)
-    # Calculate cumulative durations (leading zero for easier indexing)
-    cumulative_durations <- c(0, cumsum(interval_durations))
-    #
-    # Initialise dynamic programming table and partition table
-    # M[i, k]: Min total cost for first i intervals partitioned into k bins
-    M <- matrix(Inf, nrow = n_intervals + 1, ncol = n_bins)
-    partition <- matrix(NA, nrow = n_intervals + 1, ncol = n_bins)
-    # Base case: Cost of partitioning 0 intervals into 0 bins is 0
-    M[1, 1] <- 0
-    # Initialise base cases for k = 1 (partitioning into one bin)
-    for (i in 1:n_intervals) {
-      bin_duration <- cumulative_durations[i + 1] - cumulative_durations[1]
-      M[i + 1, 1] <- (bin_duration - target_bin_size)^2
-      partition[i + 1, 1] <- 0
-    }
-    #
-    # Fill the dynamic programming table
-    for (k in 2:n_bins) {  # Bins from 2 to n_bins
-      for (i in k:n_intervals) {  # Intervals from k to n_intervals
-        for (j in (k - 1):(i - 1)) {  # Possible partition points
-          bin_duration <- cumulative_durations[i + 1] - cumulative_durations[j + 1]
-          cost <- M[j + 1, k - 1] + (bin_duration - target_bin_size)^2
-          if (cost < M[i + 1, k]) {
-            M[i + 1, k] <- cost
-            partition[i + 1, k] <- j
+      # updated bin size based on determined number of bins
+      target_bin_size <- total_duration / n_bins
+      # Extract interval durations and number of intervals
+      interval_durations <- df$duration_myr
+      n_intervals <- length(interval_durations)
+      # Calculate cumulative durations (leading zero for easier indexing)
+      cumulative_durations <- c(0, cumsum(interval_durations))
+      #
+      # Initialise dynamic programming table and partition table
+      # M[i, k]: Min total cost for first i intervals partitioned into k bins
+      M <- matrix(Inf, nrow = n_intervals + 1, ncol = n_bins)
+      partition <- matrix(NA, nrow = n_intervals + 1, ncol = n_bins)
+      # Base case: Cost of partitioning 0 intervals into 0 bins is 0
+      M[1, 1] <- 0
+      # Initialise base cases for k = 1 (partitioning into one bin)
+      for (i in 1:n_intervals) {
+        bin_duration <- cumulative_durations[i + 1] - cumulative_durations[1]
+        M[i + 1, 1] <- (bin_duration - target_bin_size)^2
+        partition[i + 1, 1] <- 0
+      }
+      #
+      # Fill the dynamic programming table
+      for (k in 2:n_bins) {  # Bins from 2 to n_bins
+        for (i in k:n_intervals) {  # Intervals from k to n_intervals
+          for (j in (k - 1):(i - 1)) {  # Possible partition points
+            bin_duration <-
+              cumulative_durations[i + 1] - cumulative_durations[j + 1]
+            cost <- M[j + 1, k - 1] + (bin_duration - target_bin_size)^2
+            if (cost < M[i + 1, k]) {
+              M[i + 1, k] <- cost
+              partition[i + 1, k] <- j
+            }
           }
         }
       }
-    }
-    #
-    # Backtracking to find the optimal partitioning
-    bins <- vector("list", n_bins) # empty list for bins
-    i <- n_intervals
-    k <- n_bins
-    while (k > 0) {
-      j <- partition[i + 1, k]
-      bins[[k]] <- (j + 1):i
-      i <- j
-      k <- k - 1
-    }
+      #
+      # Backtracking to find the optimal partitioning
+      bins <- vector("list", n_bins) # empty list for bins
+      i <- n_intervals
+      k <- n_bins
+      while (k > 0) {
+        j <- partition[i + 1, k]
+        bins[[k]] <- (j + 1):i
+        i <- j
+        k <- k - 1
+      }
     } else {
       # if only 1 bin
       bins <- list(seq_len(nrow(df)))
@@ -406,16 +407,16 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
                             round(size, digits = 2),  "Myr.\n")
     } else {
       message_head <- paste0("Number of equal length time bins was set to ",
-                            n_bins, ".\n")
+                             n_bins, ".\n")
     }
     message(
-      paste(message_head,
+      paste0(message_head,
             n_bins,
-            "time bins were generated with a mean length of",
+            "time bins were generated with a mean length of ",
             round(mean_duration, digits = 2),
-            "Myr and a standard deviation of",
+            " Myr and a standard deviation of ",
             round(sd_duration, digits = 2),
-            "Myr."
+            " Myr."
       )
     )
   }
@@ -439,10 +440,10 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       )
     }
     if (is.numeric(size) || is.numeric(n_bins)) {
-      title(paste(
-        "Mean bin length =",
+      title(paste0(
+        "Mean bin length = ",
         round(mean_duration, digits = 2),
-        "(standard deviation =",
+        " (standard deviation = ",
         round(sd_duration, digits = 2),
         ")"
       ))
