@@ -55,7 +55,7 @@
 #'   if `assign` is specified. By default, the time bins \code{data.frame}
 #'   contains the following columns: bin, interval_name, rank, max_ma, mid_ma,
 #'   min_ma, duration_myr, abbr (interval abbreviation), colour and font
-#'   (colour). If `size` or `n` is specified, the time bins \code{data.frame}
+#'   (colour). If `size` or `n_bins` is specified, the time bins \code{data.frame}
 #'   contains the following columns: bin, max_ma, mid_ma, min_ma,
 #'   duration_myr, grouping_rank, intervals, colour and font.
 #'
@@ -109,7 +109,7 @@
 #'
 #' #Use North American land mammal ages from Macrostrat and specify a desired
 #' #number of bins
-#' ex7 <- time_bins(scale = "North American land mammal ages", n = 7)
+#' ex7 <- time_bins(scale = "North American land mammal ages", n_bins = 7)
 #'
 time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
                       n_bins = NULL, assign = NULL, scale = "GTS2020",
@@ -405,7 +405,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       message_head <- paste("Target duration of equal length time bins was set to",
                             round(size, digits = 2),  "Myr.\n")
     } else {
-      message_head <- paste("Number of equal length time bins was set to",
+      message_head <- paste0("Number of equal length time bins was set to ",
                             n_bins, ".\n")
     }
     message(
