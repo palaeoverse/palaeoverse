@@ -388,6 +388,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
         mid_ma = as.numeric((binMinMa + binMaxMa) / 2),
         min_ma = as.numeric(binMinMa),
         duration_myr = as.numeric(sum(df[binIntervals, "duration_myr"])),
+        grouping_rank = rank,
         intervals = toString(df[binIntervals, "interval_name"]),
         stringsAsFactors = FALSE
       )
@@ -437,12 +438,12 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
         col = df$colour[i]
       )
     }
-    if (is.numeric(size)) {
+    if (is.numeric(size) || is.numeric(n_bins)) {
       title(paste(
         "Mean bin length =",
-        round(mean(df$duration_myr), digits = 2),
+        round(mean_duration, digits = 2),
         "(standard deviation =",
-        round(sd(df$duration_myr), digits = 2),
+        round(sd_duration, digits = 2),
         ")"
       ))
     }
