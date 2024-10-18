@@ -112,6 +112,7 @@ test_that("time_bins() works", {
   expect_error(time_bins(interval = "Mesozoic", assign = -40))
   expect_error(time_bins(interval = "Mesozoic", assign = "30"))
   expect_error(time_bins(interval = "Mesozoic", size = "ten"))
+  expect_error(time_bins(interval = "Mesozoic", n_bins = "eleven"))
   expect_error(time_bins(interval = "Mesozoic", rank = "stages"))
   expect_error(time_bins(interval = "Mesozoic", rank = c("stage", "period")))
   expect_error(time_bins(interval = "Mesozoic", scale = 1))
