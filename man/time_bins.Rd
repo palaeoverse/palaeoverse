@@ -59,9 +59,9 @@ vector (bin number) of binned age estimates (midpoint of specified bins)
 if \code{assign} is specified. By default, the time bins \code{data.frame}
 contains the following columns: bin, interval_name, rank, max_ma, mid_ma,
 min_ma, duration_myr, abbr (interval abbreviation), colour and font
-(colour). If \code{size} or \code{n_bins} is specified, the time bins \code{data.frame}
-contains the following columns: bin, max_ma, mid_ma, min_ma,
-duration_myr, grouping_rank, intervals, colour and font.
+(colour). If \code{size} or \code{n_bins} is specified, the time bins
+\code{data.frame} contains the following columns: bin, max_ma, mid_ma,
+min_ma, duration_myr, grouping_rank, intervals, colour and font.
 }
 \description{
 A function to generate time bins for a given study interval and geological
