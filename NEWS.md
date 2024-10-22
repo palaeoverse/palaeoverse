@@ -8,6 +8,7 @@
 * Added lat_bins_area (#114)
 * Replaced lat_bins with lat_bins_degrees
 * Made all functions tibble-friendly (#118)
+* Made bin durations more even and added n_bins option in time_bins (#131)
 
 # palaeoverse 1.3.0
 
