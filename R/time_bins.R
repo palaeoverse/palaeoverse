@@ -116,8 +116,8 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
                       plot = FALSE) {
   # Error handling -------------------------------------------------------
   if (!is.character(interval) &&
-        !is.numeric(interval) &&
-        !is.null(interval)) {
+      !is.numeric(interval) &&
+      !is.null(interval)) {
     stop("`interval` must be NULL or of class 'character' or 'numeric'")
   }
 
@@ -146,7 +146,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
   }
 
   if (is.data.frame(scale) &&
-        any(!c("interval_name", "max_ma", "min_ma") %in% colnames(scale))) {
+      any(!c("interval_name", "max_ma", "min_ma") %in% colnames(scale))) {
     stop(paste("`scale` does not contain named columns:",
                "'interval_name', 'max_ma', and 'min_ma'."))
   }
@@ -269,11 +269,11 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
                       gsub(" ", "%20", scale)))
     df <- tryCatch({
       read.csv(url, header = TRUE, stringsAsFactors = FALSE)
-      },
-      error = function(e) {
-        stop("`name` does not match a built-in or Macrostrat time scale.",
-             call. = FALSE)
-        })
+    },
+    error = function(e) {
+      stop("`name` does not match a built-in or Macrostrat time scale.",
+           call. = FALSE)
+    })
     df <- df[, c("name", "b_age", "t_age", "abbrev", "color")]
     colnames(df) <- c("interval_name", "max_ma", "min_ma", "abbr", "colour")
     # Add mid_ma
@@ -315,7 +315,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       # Set n_bins to interval number if size results in too large n_bins
       if (n_bins > nrow(df)) {
         n_bins <- nrow(df)
-        }
+      }
     } else {
       # Throw error if n_bins is too large
       if (n_bins > nrow(df)) {
