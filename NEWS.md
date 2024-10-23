@@ -1,3 +1,7 @@
+# Development version
+
+* Made bin durations more even and added n_bins option in time_bins (#131)
+
 # palaeoverse 1.4.0
 
 * Several updates to palaeorotate
