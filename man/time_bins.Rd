@@ -82,6 +82,9 @@ This function uses either the Geological Time Scale 2020,
 Geological Time Scale 2012, a valid timescale from
 \href{https://macrostrat.org/api/defs/timescales?all}{Macrostrat}, or a
 user-input \code{data.frame} (see \code{scale} argument) to generate time bins.
+Note, timescales from
+\href{https://macrostrat.org/api/defs/timescales?all}{Macrostrat} tend to
+contain the most up-to-date information (e.g. the Geological Time Scale).
 Additional information on included Geological Time Scales and source can
 be accessed via:
 \itemize{

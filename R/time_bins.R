@@ -63,6 +63,9 @@
 #'   Geological Time Scale 2012, a valid timescale from
 #'   [Macrostrat](https://macrostrat.org/api/defs/timescales?all), or a
 #'   user-input `data.frame` (see `scale` argument) to generate time bins.
+#'   Note, timescales from
+#'   [Macrostrat](https://macrostrat.org/api/defs/timescales?all) tend to
+#'   contain the most up-to-date information (e.g. the Geological Time Scale).
 #'   Additional information on included Geological Time Scales and source can
 #'   be accessed via:
 #'   - \code{\link{GTS2020}}
