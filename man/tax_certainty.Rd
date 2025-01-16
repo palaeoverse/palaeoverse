@@ -2,30 +2,64 @@
 % Please edit documentation in R/tax_certainty.R
 \name{tax_certainty}
 \alias{tax_certainty}
-\title{Check if a taxon is certain or uncertain.}
+\title{Classify the certainty of taxonomic identifications
+Check whether a given taxon in a vector is certain or uncertain.
+The function screens for 'cf.', 'aff.', '?', 'indet.', 'sp.', 'ex gr.',
+'incertae sedis', 'problematica', 'informal', and NA.}
 \usage{
-tax_certainty(taxon_names)
+tax_certainty(
+  taxa_df = NULL,
+  name = NULL,
+  rank = NULL,
+  certainty = c("certain", "uncertain"),
+  add_df = TRUE
+)
 }
 \arguments{
-\item{taxon_names}{Character vector containing the species names to be
-checked.
-It allows taxon names separated by underscore or space.}
+\item{taxa_df}{\code{data.frame}. A dataframe containing the taxa names
+to be checked. It allows taxon names separated by underscore or space}
+
+\item{name}{\code{character}. The column name of the taxon names
+you wish to check}
+
+\item{rank}{\code{character}. Taxonomic rank to be considered when screening
+for certainty (species, genus, family, order, class).}
+
+\item{certainty}{\code{character}. Vector of how to represent certainty and
+uncertainty. Options are 'TRUE' (uncertain)/'FALSE' (certain),
+'0' (certain)/'1' (uncertain), or 'certain'/'uncertain' (default)}
+
+\item{add_df}{\code{logical}. If TRUE (default), it adds a 'certainty' column
+to the input dataframe}
 }
 \value{
-Numeric vector classifying each species as certain (1) or uncertain
-(0).
+A character vector classifying each species as 'certain' or
+'uncertain', or a new column added to the input dataframe (default).
 }
 \description{
+Classify the certainty of taxonomic identifications
 Check whether a given taxon in a vector is certain or uncertain.
-Binomial names (genus and species) are considered "certain",
-whereas names containing only the genus,
-or genus and not determined species is considered "uncertain".
+The function screens for 'cf.', 'aff.', '?', 'indet.', 'sp.', 'ex gr.',
+'incertae sedis', 'problematica', 'informal', and NA.
 }
-\examples{
-sirenia_sp <- c("Metaxytherium indet.", "Felsinotherium_serresii",
-                 "Felsinotherium gervaisi", "Potamosiren indet.",
-                 "Potamosiren", "Metaxytherium sp.")
+\section{Developer(s)}{
 
-certainty <- tax_certainty(sirenia_sp)
+Bruna M. Farina
+}
+
+\section{Reviewer(s)}{
+
+Lewis A. Jones
+Bethany J. Allen
+}
+
+\examples{
+data(tetrapods)
+
+tetrapods_sp <- tetrapods[which(tetrapods$identified_rank == "species"),]
+
+certainty <- tax_certainty(taxa_df = tetrapods_sp, name = "identified_name",
+                          certainty = c("certain", "uncertain"),
+                          rank = "species", add_df = TRUE)
 
 }

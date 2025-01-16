@@ -65,7 +65,7 @@ tax_certainty <- function(taxa_df = NULL, name = NULL, rank = NULL,
   }
 
   rank <- ifelse(rank %in% c("genus", "family", "order", "class"), "other",
-                 rank)
+                 "species")
 
   taxa_df[[name]] <- gsub("^$|^\\s+$", NA, taxa_df[[name]])
 
@@ -77,8 +77,8 @@ tax_certainty <- function(taxa_df = NULL, name = NULL, rank = NULL,
                                         "indet\\.","incertae sedis",
                                         "problematica"),
 
-                          "other" = c("cf\\.\\s*\\S+", "aff\\.\\s*\\S+",
-                                      "\\?\\s*\\S+", "incertae sedis",
+                          "other" = c("^\\cf\\.\\s*\\S+", "^\\aff\\.\\s*\\S+",
+                                      "^\\?\\S*", "incertae sedis",
                                       "problematica"))
 
 
@@ -120,7 +120,7 @@ tax_certainty <- function(taxa_df = NULL, name = NULL, rank = NULL,
     taxa_df$certainty <- classif
     return(taxa_df)
   } else {
-    return(certainty)
+    return(classif)
   }
 
 }
