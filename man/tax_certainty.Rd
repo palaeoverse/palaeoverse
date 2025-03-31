@@ -2,45 +2,64 @@
 % Please edit documentation in R/tax_certainty.R
 \name{tax_certainty}
 \alias{tax_certainty}
-\title{Classify the certainty of taxonomic identifications
-Check whether a given taxon in a vector is certain or uncertain.
-The function screens for 'cf.', 'aff.', '?', 'indet.', 'sp.', 'ex gr.',
-'incertae sedis', 'problematica', 'informal', and NA.}
+\title{Classify the certainty of taxonomic identifications}
 \usage{
 tax_certainty(
-  taxa_df = NULL,
+  taxdf = NULL,
   name = NULL,
   rank = NULL,
-  certainty = c("certain", "uncertain"),
+  certainty = c(1, 0),
   add_df = TRUE
 )
 }
 \arguments{
-\item{taxa_df}{\code{data.frame}. A dataframe containing the taxa names
-to be checked. It allows taxon names separated by underscore or space}
+\item{taxdf}{\code{data.frame}. A dataframe with named columns
+containing taxonomic names to be checked (e.g. "species"). Names
+separated by underscores or spaces are allowed.}
 
-\item{name}{\code{character}. The column name of the taxon names
-you wish to check}
+\item{name}{\code{character}. The column name of the taxonomic names you
+wish to check (e.g. "genus").}
 
-\item{rank}{\code{character}. Taxonomic rank to be considered when screening
-for certainty (species, genus, family, order, class).}
+\item{rank}{\code{character}. Taxonomic rank to be considered when
+screening for certainty in taxonomic assignment (e.g. "species", "genus",
+"family", "order", "class").}
 
-\item{certainty}{\code{character}. Vector of how to represent certainty and
-uncertainty. Options are 'TRUE' (uncertain)/'FALSE' (certain),
-'0' (certain)/'1' (uncertain), or 'certain'/'uncertain' (default)}
+\item{certainty}{\code{character}. A vector of length two denoting
+how certainty should be coded. The first element of the vector denotes
+"certain" status (default: 1), while the second denotes "uncertain"
+status (default: 0).}
 
-\item{add_df}{\code{logical}. If TRUE (default), it adds a 'certainty' column
-to the input dataframe}
+\item{add_df}{\code{logical}. If \code{TRUE} (default), a 'certainty'
+column is appended to the input \code{taxdf}. Otherwise, a vector of
+taxonomic identification certainty status is returned.}
 }
 \value{
-A character vector classifying each species as 'certain' or
-'uncertain', or a new column added to the input dataframe (default).
+The input \code{taxdf} with an appended 'certainty' column
+classifying each taxon (default), or a vector if \code{add_df} is
+\code{FALSE}.
 }
 \description{
-Classify the certainty of taxonomic identifications
-Check whether a given taxon in a vector is certain or uncertain.
-The function screens for 'cf.', 'aff.', '?', 'indet.', 'sp.', 'ex gr.',
-'incertae sedis', 'problematica', 'informal', and NA.
+Check whether a given taxonomic name is certain or uncertain by screening
+for common substitutes, abbreviations, qualifiers, and notations for
+denoting the certainty of taxonomic identifications (see Details for
+screening values).
+}
+\details{
+This function screens for common substitutes, abbreviations,
+qualifiers, and notations for denoting the certainty of taxonomic
+identifications.
+
+Screened values when \code{rank} is "species":
+\itemize{
+\item "cf.", "aff.", "?", "indet.", "sp.", "ex gr.", "incertae sedis",
+"problematica", "informal", and "NA"/NA.
+}
+
+Screened values when \code{rank} is any higher taxonomic rank (e.g. "genus"):
+\itemize{
+\item "cf.", "aff.", "?", "incertae sedis", "problematica", "informal",
+and "NA"/NA.
+}
 }
 \section{Developer(s)}{
 
@@ -49,17 +68,14 @@ Bruna M. Farina
 
 \section{Reviewer(s)}{
 
-Lewis A. Jones
-Bethany J. Allen
+Lewis A. Jones, Bethany J. Allen, & William Gearty
 }
 
 \examples{
+# Get internal data
 data(tetrapods)
-
-tetrapods_sp <- tetrapods[which(tetrapods$identified_rank == "species"),]
-
-certainty <- tax_certainty(taxa_df = tetrapods_sp, name = "identified_name",
-                          certainty = c("certain", "uncertain"),
-                          rank = "species", add_df = TRUE)
-
+# Summarise taxonomic certainty
+certainty <- tax_certainty(taxdf = tetrapods, name = "accepted_name",
+                           certainty = c("certain", "uncertain"),
+                           rank = "species", add_df = TRUE)
 }
