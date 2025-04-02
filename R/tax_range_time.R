@@ -64,7 +64,7 @@
 #' Lewis A. Jones
 #' @section Reviewer(s):
 #' Bethany Allen, Christopher D. Dean & Kilian Eichenseer
-#' @importFrom graphics points
+#' @importFrom graphics points strwidth
 #' @examples
 #' # Grab internal data
 #' occdf <- tetrapods
@@ -82,6 +82,11 @@
 #'                                       pch = 21, col = "black", bg = "blue",
 #'                                       lty = 2),
 #'                      intervals = list("periods", "eras"))
+#' # Control plotting order of groups
+#' occdf$class <- factor(x = occdf$class,
+#'                       levels = c("Reptilia", "Osteichthyes"))
+#' ex <- tax_range_time(occdf = occdf, name = "order",
+#'                      group = "class", plot = TRUE)
 #' @export
 tax_range_time <- function(occdf,
                            name = "genus",
@@ -133,19 +138,18 @@ tax_range_time <- function(occdf,
     stop("`plot_args` must be either NULL, or a list")
   }
 
-  # Grouping var
+  # Create pseudo-group if not provided (enable group_apply with no groups)
   if (is.null(group)) {
     occdf$tmp_group <- 1
-    group <- "tmp_group"
-    g <- NULL
+    g <- "tmp_group"
   } else {
     g <- group
   }
-
-  temp_df <- group_apply(occdf, group, function(occdf, name, min_ma, max_ma) {
+  # Calculate ranges
+  temp_df <- group_apply(occdf, g, function(occdf, name, min_ma, max_ma) {
     #=== Set-up ===
     unique_taxa <- unique(occdf[, name, drop = TRUE])
-    # Order taxa
+    # Order taxa by name
     unique_taxa <- unique_taxa[order(unique_taxa)]
 
     #=== Temporal range ===
@@ -164,61 +168,74 @@ tax_range_time <- function(occdf,
       temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]
       temp_df$n_occ[i] <- length(vec)
     }
-    # Should data be ordered by FAD or LAD?
+    # Should data be ordered by FAD, LAD, or name?
     if (by == "FAD") {
       temp_df <- temp_df[order(temp_df$max_ma), ]
-      temp_df$taxon_id <- seq_len(nrow(temp_df))
-    }
-    if (by == "LAD") {
+    } else if (by == "LAD") {
       temp_df <- temp_df[order(temp_df$min_ma), ]
-      temp_df$taxon_id <- seq_len(nrow(temp_df))
     }
+    # Return dataframe
     temp_df
   }, name = name, min_ma = min_ma, max_ma = max_ma)
-
   # Assign taxon_ids
   temp_df$taxon_id <- 1:nrow(temp_df)
-
   # Round off values
   temp_df[, c("max_ma", "min_ma", "range_myr")] <- round(
     x = temp_df[, c("max_ma", "min_ma", "range_myr")], digits = 3)
+  # Remove row names
+  row.names(temp_df) <- NULL
 
-  # Plot data?
+  #=== Plotting ===
   if (plot == TRUE) {
     # Default plot args
     args <- list(main = "Temporal range of taxa",
-                 xlab = "Time (Ma)",
-                 ylab = "Taxon ID",
-                 col = "black",
-                 bg = "black",
-                 pch = 20,
-                 cex = 1,
-                 lty = 1,
-                 lwd = 1)
+                 xlab = "Time (Ma)", ylab = "Taxon",
+                 col = "black", bg = "black",
+                 pch = 20, cex = 1, lty = 1, lwd = 1)
     # Update any provided
     rpl <- match(names(plot_args), names(args))
     if (length(rpl) != 0) {
       args[rpl] <- plot_args
     }
-    # Define lims
+    # Collect usr par for resetting
+    usrpar <- par(no.readonly = TRUE)
+    # Estimate max label width
+    max_label_width <- max(strwidth(temp_df$taxon, units = "inches"))
+    # Convert inches to lines (approximate conversion factor: 0.2)
+    extra_margin <- max_label_width / 0.2
+    # Set left margin (add extra space, default is 4)
+    par(mar = c(5, 4 + extra_margin, 4, 2))
+    # Define plot lims
     xlim <- c(max(temp_df$max_ma), min(temp_df$min_ma))
     ylim <- c(0.5, nrow(temp_df) + 0.5)
     # Base plot
-    plot(x = NA, y = NA, xlim = xlim, ylim = ylim, axes = TRUE,
-         xaxt = "n", yaxt = "n", xlab = NA, yaxs = "i", ylab = args$ylab, main = args$main)
-    axis(2, at = 1:nrow(temp_df), labels = temp_df$taxon_id)
-    # Add groupings
-    if (!is.null(g)) {
+    plot(x = NA, y = NA, xlim = xlim, ylim = ylim,
+         xlab = NA, ylab = NA, main = args$main,
+         xaxt = "n", yaxt = "n", yaxs = "i", axes = TRUE)
+    # Add ylabels
+    axis(2, at = 1:nrow(temp_df), labels = temp_df$taxon, las = 2)
+    # Add yaxis title
+    title(ylab = args$ylab, line = 2 + extra_margin)
+    # Groups provided?
+    if (!is.null(group)) {
+      # Calculate plotting values for groups
       s <- split(x = temp_df, f = temp_df[, group])
-      vals_rect <- lapply(s, function(x) cbind(min(x$taxon_id), max(x$taxon_id)))
-      cols_rect <- rep(c("grey70", "grey90"), times = length(vals_rect))
+      vals_rect <- lapply(s, function(x) cbind(min(x$taxon_id),
+                                               max(x$taxon_id)))
+      # Define colours
+      cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
+      # Run across number of groups
       lapply(1:length(vals_rect), function(x) {
+        # Add background rectangles
         rect(xleft = xlim[1] * 2, xright = 0,
              ybottom = vals_rect[[x]][1] - 0.5,
              ytop = vals_rect[[x]][2] + 0.5,
              col = cols_rect[x])
-        text(x = par("usr")[2] - 1.5, y = (vals_rect[[x]][1] + vals_rect[[x]][2]) / 2,
-             labels = names(vals_rect)[x], srt = 270, xpd = TRUE)
+        # Add group labels
+        text(x = par("usr")[2],
+             y = (vals_rect[[x]][1] + vals_rect[[x]][2]) / 2,
+             labels = names(vals_rect)[x],
+             srt = 270, adj = c(0.5, -1), xpd = TRUE)
       })
     }
     # Add ranges
@@ -232,14 +249,19 @@ tax_range_time <- function(occdf,
            pch = args$pch, col = args$col, bg = args$bg,
            cex = args$cex)
     axis_geo(side = 1, intervals = intervals)
-    title(xlab = args$xlab, line = 4)
+    # Add xaxis title
+    #title(xlab = args$xlab, line = 2 + length(intervals))
+    # Calculate relative y position of xlab
+    ypos <- min(ylim) - (abs(diff(ylim)) * (0.05 * length(intervals)))
+    text(x = (min(xlim) + max(xlim)) / 2, y = ypos, labels = args$xlab,
+         adj = c(0.5, 5), xpd = TRUE)
+    # Reset par
+    par(usrpar)
   }
   # Tidy up
-  if (is.null(g)) {
+  if (is.null(group)) {
     temp_df <- temp_df[, -which(colnames(temp_df) == "tmp_group")]
   }
- # Remove row names
-  row.names(temp_df) <- NULL
   # Return dataframe
   return(temp_df)
 }

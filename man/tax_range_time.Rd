@@ -117,4 +117,9 @@ ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
                                       pch = 21, col = "black", bg = "blue",
                                       lty = 2),
                      intervals = list("periods", "eras"))
+# Control plotting order of groups
+occdf$class <- factor(x = occdf$class,
+                      levels = c("Reptilia", "Osteichthyes"))
+ex <- tax_range_time(occdf = occdf, name = "order",
+                     group = "class", plot = TRUE)
 }
