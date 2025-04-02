@@ -203,8 +203,8 @@ tax_range_time <- function(occdf,
     max_label_width <- max(strwidth(temp_df$taxon, units = "inches"))
     # Convert inches to lines (approximate conversion factor: 0.2)
     extra_margin <- max_label_width / 0.2
-    # Set left margin (add extra space, default is 4)
-    par(mar = c(5, 4 + extra_margin, 4, 2))
+    # Update left margin (add extra space, default is 4)
+    par(mar = usrpar$mar + c(0, extra_margin, 0, 0))
     # Define plot lims
     xlim <- c(max(temp_df$max_ma), min(temp_df$min_ma))
     ylim <- c(0.5, nrow(temp_df) + 0.5)
