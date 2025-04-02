@@ -11,8 +11,33 @@ test_that("axis_geo() works", {
   })
 })
 
+test_that("axis_geo() works with autofit", {
+  expect_doppelganger("axis_geo() with autofit", function() {
+    plot(x = reef_df$interval_mid_ma, y = reef_df$lat,
+         axes = FALSE, type = "p", pch = 20,
+         xlim = c(542, 0), xlab = NA, ylab = "Paleolatitude")
+    box()
+
+    axis(side = 2)
+    axis_geo(side = 1, intervals = "periods", lab_size = 4, autofit = TRUE)
+    title(xlab = "Time (Ma)", line = 4)
+  })
+  expect_doppelganger("axis_geo() with autofit2", function() {
+    par(mar = c(5.1, 6.1, 4.1, 2.1))
+    plot(y = reef_df$interval_mid_ma, x = reef_df$lat,
+         axes = FALSE, type = "p", pch = 20,
+         ylim = c(542, 0), ylab = NA, xlab = "Paleolatitude")
+    box()
+
+    axis(side = 1)
+    axis_geo(side = 2, intervals = "periods", lab_size = 4, autofit = TRUE)
+    title(ylab = "Time (Ma)", line = 4.5)
+  })
+})
+
 test_that("axis_geo() works with time_bins()", {
   expect_doppelganger("axis_geo() with time_bins() scale", function() {
+    par(mar = c(5.1, 4.1, 4.1, 2.1))
     plot(x = reef_df$interval_mid_ma, y = reef_df$lat,
          axes = FALSE, type = "p", pch = 20,
          xlim = c(542, 0), xlab = NA, ylab = "Paleolatitude")
@@ -101,6 +126,7 @@ test_that("axis_geo() error handling", {
   expect_error(axis_geo(abbr = c("true", 1)))
   expect_error(axis_geo(skip = c(1, 2, 3)))
   expect_error(axis_geo(center_end_labels = c(FALSE, TRUE)))
+  expect_error(axis_geo(autofit = c(FALSE, TRUE)))
   expect_error(axis_geo(bord_color = TRUE))
   expect_error(axis_geo(lty = 7))
   expect_error(axis_geo(lwd = "thin"))

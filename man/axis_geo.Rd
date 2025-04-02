@@ -16,6 +16,7 @@ axis_geo(
   rot = 0,
   abbr = TRUE,
   center_end_labels = TRUE,
+  autofit = FALSE,
   skip = c("Quaternary", "Holocene", "Late Pleistocene"),
   bord_col = "black",
   lty = par("lty"),
@@ -81,6 +82,10 @@ will be used regardless of this setting.}
 
 \item{center_end_labels}{\code{logical}. Should labels be centered within the
 visible range of intervals at the ends of the axis?}
+
+\item{autofit}{\code{logical}. Should labels be automatically resized to fit
+their interval boxes? If \code{TRUE}, \code{lab_size} will be used as the
+maximum possible size of the labels.}
 
 \item{skip}{A \code{character} vector of interval names indicating which
 intervals should not be labeled. If \code{abbr} is \code{TRUE}, this can

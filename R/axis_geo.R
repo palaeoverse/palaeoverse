@@ -92,6 +92,9 @@
 #'   will be used regardless of this setting.
 #' @param center_end_labels \code{logical}. Should labels be centered within the
 #'   visible range of intervals at the ends of the axis?
+#' @param autofit \code{logical}. Should labels be automatically resized to fit
+#'   their interval boxes? If \code{TRUE}, \code{lab_size} will be used as the
+#'   maximum possible size of the labels.
 #' @param skip A \code{character} vector of interval names indicating which
 #'   intervals should not be labeled. If \code{abbr} is \code{TRUE}, this can
 #'   also include interval abbreviations. Quaternary, Holocene, and Late
@@ -218,7 +221,7 @@ axis_geo <- function(
     fill = NULL,
     # label arguments:
     lab = TRUE, lab_col = NULL, lab_size = 1, rot = 0, abbr = TRUE,
-    center_end_labels = TRUE,
+    center_end_labels = TRUE, autofit = FALSE,
     skip = c("Quaternary", "Holocene", "Late Pleistocene"),
     # rect border arguments:
     bord_col = "black", lty = par("lty"), lwd = par("lwd"),
@@ -288,6 +291,12 @@ axis_geo <- function(
                   function(x) is.logical(x) && length(x) == 1))) {
     stop("Invalid value supplied for center_end_labels, must be a single logical
          value per scale", call. = FALSE)
+  }
+  autofit <- rep(make_list(autofit), length.out = n_scales)
+  if (!all(sapply(autofit,
+                  function(x) is.logical(x) && length(x) == 1))) {
+    stop("Invalid value supplied for autofit, must be a single logical value
+         per scale", call. = FALSE)
   }
   bord_col <- rep(make_list(bord_col), length.out = n_scales)
   if (!all(sapply(bord_col, is_type_or_null, "character"))) {
@@ -444,6 +453,23 @@ axis_geo <- function(
     scale_intervals$mid_ma <-
       (scale_intervals$max_ma + scale_intervals$min_ma) / 2
 
+    # get axis limits
+    if (side %in% c(1, 3)) {
+      lims <- c(scale_lims[1], scale_lims[2])
+    } else {
+      lims <- c(scale_lims[3], scale_lims[4])
+    }
+    # filter data to only those that are within the plot limits
+    if (neg) {
+      scale_intervals <- subset(scale_intervals,
+                                min_ma < max(lims) & min_ma > min(lims) |
+                                  max_age < max(lims) & max_age > min(lims))
+    } else {
+      scale_intervals <- subset(scale_intervals,
+                                min_ma > min(lims) & min_ma < max(lims) |
+                                  max_ma > min(lims) & max_ma < max(lims))
+    }
+
     scale_fill <- fill[[scale]]
     if (!is.null(scale_fill)) {
       scale_intervals$colour <- rep(scale_fill,
@@ -492,33 +518,44 @@ axis_geo <- function(
     if (lab[[scale]]) {
       # add the desired text in the unclipped margin
       if (center_end_labels[[scale]]) {
-        #center the labels for the time periods at the ends of the axis
-        if (side %in% c(1, 3)) {
-          lims <- c(scale_lims[1], scale_lims[2])
-        } else {
-          lims <- c(scale_lims[3], scale_lims[4])
-        }
-        max_end <- (scale_intervals$max_ma > max(lims) &
-                      scale_intervals$min_ma < max(lims)) |
-                   (scale_intervals$max_ma < max(lims) &
-                      scale_intervals$min_ma > max(lims))
-        min_end <- (scale_intervals$max_ma > min(lims) &
-                      scale_intervals$min_ma < min(lims)) |
-                   (scale_intervals$max_ma < min(lims) &
-                      scale_intervals$min_ma > min(lims))
-        if (any(max_end)) {
-          ends <- scale_intervals[max_end, c("min_ma", "max_ma")]
-          scale_intervals$mid_ma[max_end] <-
-            (ends[ends < max(lims) & ends > min(lims)] + max(lims)) / 2
-        }
-        if (any(min_end)) {
-          ends <- scale_intervals[min_end, c("min_ma", "max_ma")]
-          scale_intervals$mid_ma[min_end] <-
-            (ends[ends < max(lims) & ends > min(lims)] + min(lims)) / 2
-        }
+        # center the labels for the time periods at the ends of the axis
+        max_end_pos <- (scale_intervals$max_ma > max(lims) &
+                          scale_intervals$min_ma < max(lims))
+        max_end_neg <- (scale_intervals$max_ma < max(lims) &
+                          scale_intervals$min_ma > max(lims))
+        min_end_pos <- (scale_intervals$max_ma > min(lims) &
+                          scale_intervals$min_ma < min(lims))
+        min_end_neg <- (scale_intervals$max_ma < min(lims) &
+                          scale_intervals$min_ma > min(lims))
+        # replace the max/min ages with the scale limits
+        scale_intervals$max_ma[max_end_pos] <- max(lims)
+        scale_intervals$min_ma[max_end_neg] <- max(lims)
+        scale_intervals$min_ma[min_end_pos] <- min(lims)
+        scale_intervals$max_ma[min_end_neg] <- min(lims)
+        # recalculate the mid ages
+        scale_intervals$mid_ma <- (scale_intervals$max_ma +
+                                     scale_intervals$min_ma) / 2
       }
       scale_lab_size <- lab_size[[scale]]
       scale_rot <- rot[[scale]]
+
+      # autofit labels if requested
+      if (autofit[[scale]]) {
+        y1 <- if (side %in% c(1, 3)) scale_lims[3] else scale_lims[1]
+        y2 <- if (side %in% c(1, 3)) scale_lims[4] else scale_lims[2]
+        scale_lab_size <- mapply(autofit_text,
+                                 text = scale_intervals$label,
+                                 x1 = scale_intervals$min_ma,
+                                 x2 = scale_intervals$max_ma,
+                                 max_size = scale_lab_size,
+                                 MoreArgs = list(y1 = y1, y2 = y2,
+                                                 rot = side %in% c(2, 4))
+        )
+      }
+      # Remove any labels with zero size
+      scale_intervals$label[scale_lab_size < 0.1] <- ""
+
+      # add labels
       if (side %in% c(1, 3)) {
         text(x = scale_intervals$mid_ma,
              y = (scale_lims[3] + scale_lims[4]) / 2,
@@ -635,4 +672,36 @@ make_list <- function(x) {
 
 is_type_or_null <- function(x, type) {
   is(x, type) || is.null(x)
+}
+
+#' Fit text to a specified box
+#'
+#' @param text \code{character}. The text to fit.
+#' @param x1, x2, y1, y2 \code{numeric}. The coordinates of the box in which to
+#'   fit the text.
+#' @param max_size \code{numeric}. The maximum size of the text.
+#' @param rot \code{logical}. Should the text be rotated ninety degrees?
+#' @noRd
+#' @importFrom graphics strwidth strheight
+autofit_text <- function(text, x1, x2, y1, y2, max_size, rot = FALSE) {
+  # Find the largest size that fits in the box
+  text_size <- max_size
+  while (text_size > 0) {
+    # add breathing room
+    text_width <- 1.25 * abs(strwidth(text, cex = text_size))
+    # add breathing room and account for descenders (e.g., g, j, p, q, y)
+    text_height <- 1.75 * abs(strheight(text, cex = text_size))
+    if (rot) {
+      usr <- par("usr")
+      ar <- par("pin")[2]/par("pin")[1]
+      text_height <- text_height / (usr[4] - usr[3]) * ar * (usr[2] - usr[1])
+      text_width <- text_width / (usr[2] - usr[1]) / ar * (usr[4] - usr[3])
+    }
+
+    # if the text fits, break out of the loop
+    if (abs(text_width) < abs(x2 - x1) && abs(text_height) < abs(y2 - y1)) break
+    # otherwise, reduce the size and try again
+    text_size <- text_size - 0.1
+  }
+  text_size
 }
