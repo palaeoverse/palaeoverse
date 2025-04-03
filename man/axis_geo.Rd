@@ -25,6 +25,7 @@ axis_geo(
   neg = FALSE,
   exact = FALSE,
   round = FALSE,
+  title = NULL,
   tick_at = NULL,
   tick_labels = TRUE,
   phylo = FALSE,
@@ -141,7 +142,7 @@ time assigned to the root node of the tree. By default, this is taken from
 the \code{root.time} element of the plotted tree.}
 
 \item{...}{Further arguments that are passed directly to
-\code{\link[graphics]{axis}}.}
+\code{\link[graphics]{axis}} and \code{\link[graphics]{title}}.}
 }
 \value{
 No return value. Function is used for its side effect, which is to
@@ -188,13 +189,20 @@ also optional and lists a colour for the label for each time interval
 \code{intervals} may also be a list if multiple time scales should be added
 to a single side of the plot. In this case, \code{height}, \code{fill},
 \code{lab}, \code{lab_col}, \code{lab_size}, \code{rot}, \code{abbr},
-\code{center_end_labels}, \code{skip}, \code{bord_col}, \code{lty}, and
-\code{lwd} can also be lists. If these lists are not as long as
-\code{intervals}, the elements will be recycled. If individual values
+\code{center_end_labels}, \code{skip}, \code{bord_col}, \code{lty},
+\code{lwd}, and \code{autofit} can also be lists. If these lists are not as
+long as \code{intervals}, the elements will be recycled. If individual values
 (or vectors, e.g. for \code{skip}) are used for these parameters, they will
 be applied to all time scales (and recycled as necessary). If multiple scales
 are requested they will be added sequentially outwards starting from the plot
-border. The axis will always be placed on the outside of the last scale.
+border. An axis will always be placed on the outside of the last scale using
+\code{\link[graphics]{axis}}. If the \code{title} argument is supplied, a
+title will be added outside of this using \code{\link[graphics]{title}}.
+Additional arguments, including various
+\code{\link[graphics:par]{graphics parameters}}, that are supplied to
+\code{axis_geo} will be passed to both of these functions (e.g., \code{mgp}
+to control the length of the tick marks, \code{mgp} to control the title and
+tick label locations, and \code{col.lab} to control the title color, etc.).
 
 If you would like to use intervals from the Geological Time Scale 2012
 (\code{\link{GTS2012}}), you can use \code{\link{time_bins}} and supply the
