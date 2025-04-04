@@ -23,6 +23,18 @@ test_that("axis_geo() works with title", {
   })
 })
 
+test_that("axis_geo() works with negative axis", {
+  expect_doppelganger("axis_geo() with negative axis", function() {
+    plot(x = -reef_df$interval_mid_ma, y = reef_df$lat,
+         axes = FALSE, type = "p", pch = 20,
+         xlim = c(-542, 0), xlab = NA, ylab = "Paleolatitude")
+    box()
+
+    axis(side = 2)
+    axis_geo(side = 1, intervals = "periods", neg = TRUE, title = "Time (Ma)")
+  })
+})
+
 test_that("axis_geo() works with autofit", {
   expect_doppelganger("axis_geo() with autofit", function() {
     plot(x = reef_df$interval_mid_ma, y = reef_df$lat,
