@@ -155,7 +155,7 @@ test_that("axis_geo() error handling", {
   expect_error(axis_geo(skip = c(1, 2, 3)))
   expect_error(axis_geo(center_end_labels = c(FALSE, TRUE)))
   expect_error(axis_geo(autofit = c(FALSE, TRUE)))
-  expect_error(axis_geo(bord_color = TRUE))
+  expect_error(axis_geo(bord_col = TRUE))
   expect_error(axis_geo(lty = 7))
   expect_error(axis_geo(lwd = "thin"))
   expect_error(axis_geo(side = 5))
