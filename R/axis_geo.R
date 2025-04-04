@@ -472,13 +472,15 @@ axis_geo <- function(
     }
     # filter data to only those that are within the plot limits
     if (neg) {
-      scale_intervals <- subset(scale_intervals,
-                                min_ma < max(lims) & min_ma > min(lims) |
-                                  max_age < max(lims) & max_age > min(lims))
+      scale_intervals <- scale_intervals[scale_intervals$min_ma < max(lims) &
+                                           scale_intervals$min_ma > min(lims) |
+                                           scale_intervals$max_ma < max(lims) &
+                                           scale_intervals$max_ma > min(lims), ]
     } else {
-      scale_intervals <- subset(scale_intervals,
-                                min_ma > min(lims) & min_ma < max(lims) |
-                                  max_ma > min(lims) & max_ma < max(lims))
+      scale_intervals <- scale_intervals[scale_intervals$min_ma > min(lims) &
+                                           scale_intervals$min_ma < max(lims) |
+                                           scale_intervals$max_ma > min(lims) &
+                                           scale_intervals$max_ma < max(lims), ]
     }
 
     scale_fill <- fill[[scale]]
