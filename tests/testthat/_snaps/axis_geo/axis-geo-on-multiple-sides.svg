@@ -180,6 +180,7 @@
 <text x='360.00' y='531.07' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>50</text>
 <text x='480.00' y='531.07' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>25</text>
 <text x='600.00' y='531.07' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='360.00' y='559.87' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.67px' lengthAdjust='spacingAndGlyphs'>Time (Ma)</text>
 </g>
 <defs>
   <clipPath id='cpNTkuMzN8MTAwLjgwfDEwMC44MHw0NzUuMjA='>
@@ -228,6 +229,7 @@
 <text transform='translate(42.05,355.51) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>66</text>
 <text transform='translate(42.05,198.71) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.03px' lengthAdjust='spacingAndGlyphs'>23.03</text>
 <text transform='translate(42.05,124.08) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='23.36px' lengthAdjust='spacingAndGlyphs'>2.58</text>
+<text transform='translate(13.25,288.00) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.67px' lengthAdjust='spacingAndGlyphs'>Time (Ma)</text>
 </g>
 <defs>
   <clipPath id='cpMTAwLjgwfDYxOS4yMHw3MC44NXwxMDAuODA='>
@@ -278,6 +280,7 @@
 <text x='408.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>40</text>
 <text x='504.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>20</text>
 <text x='600.00' y='53.57' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='360.00' y='24.77' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.67px' lengthAdjust='spacingAndGlyphs'>Time (Ma)</text>
 </g>
 <defs>
   <clipPath id='cpNjE5LjIwfDY1NS40OXwxMDAuODB8NDc1LjIw'>
@@ -374,5 +377,6 @@
 <text transform='translate(681.41,252.28) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='23.36px' lengthAdjust='spacingAndGlyphs'>37.7</text>
 <text transform='translate(681.41,182.54) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='23.36px' lengthAdjust='spacingAndGlyphs'>18.6</text>
 <text transform='translate(681.41,132.55) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>4.9</text>
+<text transform='translate(710.21,288.00) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.67px' lengthAdjust='spacingAndGlyphs'>Time (Ma)</text>
 </g>
 </svg>
