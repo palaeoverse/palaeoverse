@@ -46,13 +46,14 @@
 #' be applied to all time scales (and recycled as necessary). If multiple scales
 #' are requested they will be added sequentially outwards starting from the plot
 #' border. An axis will always be placed on the outside of the last scale using
-#' \code{\link[graphics]{axis}}. If the \code{title} argument is supplied, a
-#' title will be added outside of this using \code{\link[graphics]{title}}.
+#' \code{\link[graphics]{axis}}. If the \code{title} argument is supplied, an
+#' axis title will be added outside of this using \code{\link[graphics]{mtext}}.
 #' Additional arguments, including various
 #' \code{\link[graphics:par]{graphics parameters}}, that are supplied to
-#' \code{axis_geo} will be passed to both of these functions (e.g., \code{mgp}
+#' \code{axis_geo} will be passed to both of these functions (e.g., \code{tck}
 #' to control the length of the tick marks, \code{mgp} to control the title and
-#' tick label locations, and \code{col.lab} to control the title color, etc.).
+#' tick label locations, and \code{col} to control the axis and title color,
+#' etc.).
 #'
 #' If you would like to use intervals from the Geological Time Scale 2012
 #' (\code{\link{GTS2012}}), you can use \code{\link{time_bins}} and supply the
@@ -144,7 +145,7 @@
 #'   time assigned to the root node of the tree. By default, this is taken from
 #'   the \code{root.time} element of the plotted tree.
 #' @param ... Further arguments that are passed directly to
-#'   \code{\link[graphics]{axis}} and \code{\link[graphics]{title}}.
+#'   \code{\link[graphics]{axis}} and \code{\link[graphics]{mtext}}.
 #'
 #' @return No return value. Function is used for its side effect, which is to
 #' add an axis of the geological timescale to an already existing plot.
@@ -154,6 +155,7 @@
 #' @section Reviewer:
 #'   Lewis A. Jones
 #' @importFrom graphics rect text clip axis par segments grconvertX grconvertY
+#' @importFrom graphics mtext
 #' @importFrom methods is
 #' @importFrom ape .PlotPhyloEnv
 #' @examples
@@ -661,7 +663,7 @@ axis_geo <- function(
       title_line <- sum(grconvertY(plot_lims[3], to = "lines") -
                           grconvertY(clip_lims[3], to = "lines"),
                         mgp[1])
-      title(xlab = title, line = title_line, ...)
+      mtext(title, side = 1, line = title_line, ...)
     }
   } else if (side == 2) {
     axis(side = side, pos = clip_lims[1], at = tick_at, labels = tick_labels,
@@ -673,7 +675,7 @@ axis_geo <- function(
       title_line <- sum(grconvertX(plot_lims[1], to = "lines") -
                           grconvertX(clip_lims[1], to = "lines"),
                         mgp[1])
-      title(xlab = title, line = title_line, ...)
+      mtext(title, side = 2, line = title_line, ...)
     }
   } else if (side == 3) {
     axis(side = side, pos = clip_lims[4], at = tick_at, labels = tick_labels,
@@ -682,10 +684,10 @@ axis_geo <- function(
       args <- list(...)
       if ("mgp" %in% names(args)) mgp <- args$mgp else mgp <- par("mgp")
       # add the thickness of the scale to the margin line for the title
-      title_line <- sum(grconvertY(plot_lims[4], to = "lines") -
-                          grconvertY(clip_lims[4], to = "lines"),
+      title_line <- sum(grconvertY(clip_lims[4], to = "lines") -
+                          grconvertY(plot_lims[4], to = "lines"),
                         mgp[1])
-      title(xlab = title, line = title_line, ...)
+      mtext(title, side = 3, line = title_line, ...)
     }
   } else if (side == 4) {
     axis(side = side, pos = clip_lims[2], at = tick_at, labels = tick_labels,
@@ -694,10 +696,10 @@ axis_geo <- function(
       args <- list(...)
       if ("mgp" %in% names(args)) mgp <- args$mgp else mgp <- par("mgp")
       # add the thickness of the scale to the margin line for the title
-      title_line <- sum(grconvertX(plot_lims[2], to = "lines") -
-                          grconvertX(clip_lims[2], to = "lines"),
+      title_line <- sum(grconvertX(clip_lims[2], to = "lines") -
+                          grconvertX(plot_lims[2], to = "lines"),
                         mgp[1])
-      title(xlab = title, line = title_line, ...)
+      mtext(title, side = 4, line = title_line, ...)
     }
   }
 }

@@ -142,7 +142,7 @@ time assigned to the root node of the tree. By default, this is taken from
 the \code{root.time} element of the plotted tree.}
 
 \item{...}{Further arguments that are passed directly to
-\code{\link[graphics]{axis}} and \code{\link[graphics]{title}}.}
+\code{\link[graphics]{axis}} and \code{\link[graphics]{mtext}}.}
 }
 \value{
 No return value. Function is used for its side effect, which is to
@@ -196,13 +196,14 @@ long as \code{intervals}, the elements will be recycled. If individual values
 be applied to all time scales (and recycled as necessary). If multiple scales
 are requested they will be added sequentially outwards starting from the plot
 border. An axis will always be placed on the outside of the last scale using
-\code{\link[graphics]{axis}}. If the \code{title} argument is supplied, a
-title will be added outside of this using \code{\link[graphics]{title}}.
+\code{\link[graphics]{axis}}. If the \code{title} argument is supplied, an
+axis title will be added outside of this using \code{\link[graphics]{mtext}}.
 Additional arguments, including various
 \code{\link[graphics:par]{graphics parameters}}, that are supplied to
-\code{axis_geo} will be passed to both of these functions (e.g., \code{mgp}
+\code{axis_geo} will be passed to both of these functions (e.g., \code{tck}
 to control the length of the tick marks, \code{mgp} to control the title and
-tick label locations, and \code{col.lab} to control the title color, etc.).
+tick label locations, and \code{col} to control the axis and title color,
+etc.).
 
 If you would like to use intervals from the Geological Time Scale 2012
 (\code{\link{GTS2012}}), you can use \code{\link{time_bins}} and supply the
