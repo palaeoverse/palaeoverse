@@ -50,7 +50,7 @@
 #' axis title will be added outside of this using \code{\link[graphics]{mtext}}.
 #' Additional arguments, including various
 #' \code{\link[graphics:par]{graphics parameters}}, that are supplied to
-#' \code{axis_geo} will be passed to both of these functions (e.g., \code{tck}
+#' \code{axis_geo} will be passed to both of these functions (e.g. \code{tck}
 #' to control the length of the tick marks, \code{mgp} to control the title and
 #' tick label locations, and \code{col} to control the axis and title color,
 #' etc.).
