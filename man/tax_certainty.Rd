@@ -52,13 +52,13 @@ identifications.
 Screened values when \code{rank} is "species":
 \itemize{
 \item "cf.", "aff.", "?", "indet.", "sp.", "ex gr.", "incertae sedis",
-"problematica", "informal", and "NA"/NA.
+"problematica", "informal", "NO_SPECIES_SPECIFIED", and "NA"/NA.
 }
 
 Screened values when \code{rank} is any higher taxonomic rank (e.g. "genus"):
 \itemize{
 \item "cf.", "aff.", "?", "incertae sedis", "problematica", "informal",
-and "NA"/NA.
+"NO_\code{rank}_SPECIFIED", and "NA"/NA.
 }
 }
 \section{Developer(s)}{

@@ -31,11 +31,11 @@
 #'
 #'   Screened values when `rank` is "species":
 #'   - "cf.", "aff.", "?", "indet.", "sp.", "ex gr.", "incertae sedis",
-#'   "problematica", "informal", and "NA"/NA.
+#'   "problematica", "informal", "NO_SPECIES_SPECIFIED", and "NA"/NA.
 #'
 #'   Screened values when `rank` is any higher taxonomic rank (e.g. "genus"):
 #'   - "cf.", "aff.", "?", "incertae sedis", "problematica", "informal",
-#'   and "NA"/NA.
+#'   "NO_`rank`_SPECIFIED", and "NA"/NA.
 #'
 #' @section Developer(s):
 #'     Bruna M. Farina
@@ -70,6 +70,8 @@ tax_certainty <- function(taxdf = NULL, name = NULL, rank = NULL,
     stop("Invalid `rank`. It must be either: 'species', 'genus', 'family',
          'order', or 'class'")
   }
+  # Common PBDB entry (NO_RANK_SPECIFIED)
+  not_specified <- paste0("NO_", toupper(rank), "_SPECIFIED")
   # Assign rank for handling
   rank <- ifelse(rank == "species", "species", "other")
   # Create temporary taxdf to not replace original values
@@ -86,14 +88,18 @@ tax_certainty <- function(taxdf = NULL, name = NULL, rank = NULL,
                                         "\\S+\\s*\\?\\s*\\S+", "sp\\.$",
                                         "informal","\\S+\\s+ex gr\\.\\s+\\S+",
                                         "indet\\.","incertae sedis",
-                                        "problematica", "NA"),
+                                        "problematica", "^NA$", not_specified),
                           "other" = c("^\\cf\\.\\s*\\S+", "^\\aff\\.\\s*\\S+",
                                       "^\\?\\S*", "incertae sedis",
-                                      "problematica", "NA"))
+                                      "problematica", "^NA$", not_specified))
   # Identify taxonomic certainty
   matches <- sapply(match_patterns, grepl, tmpdf[[name]], ignore.case = TRUE)
   # Calculate row sums (1 = match/uncertain, 0 = no match/certain)
-  matches <- rowSums(matches)
+  if (is.null(nrow(matches))) {
+    matches <- sum(matches)
+  } else {
+    matches <- rowSums(as.matrix.data.frame(matches))
+  }
   # Match user definitions
   # first element of `certainty` is certain (0 + 1), second uncertain (1 + 1)
   matches <- matches + 1
