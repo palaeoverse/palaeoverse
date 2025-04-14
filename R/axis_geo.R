@@ -45,15 +45,20 @@
 #' (or vectors, e.g. for \code{skip}) are used for these parameters, they will
 #' be applied to all time scales (and recycled as necessary). If multiple scales
 #' are requested they will be added sequentially outwards starting from the plot
-#' border. An axis will always be placed on the outside of the last scale using
+#' border.
+#'
+#' An axis will always be placed on the outside of the last scale using
 #' \code{\link[graphics]{axis}}. If the \code{title} argument is supplied, an
 #' axis title will be added outside of this using \code{\link[graphics]{mtext}}.
 #' Additional arguments, including various
 #' \code{\link[graphics:par]{graphics parameters}}, that are supplied to
-#' \code{axis_geo} will be passed to both of these functions (e.g. \code{tck}
-#' to control the length of the tick marks, \code{mgp} to control the title and
+#' \code{axis_geo} will be passed to both of these functions (e.g. \code{tck} to
+#' control the length of the tick marks, \code{mgp} to control the title and
 #' tick label locations, and \code{col} to control the axis and title color,
-#' etc.).
+#' etc.). Note that the title is always placed at the middle of the axis. This
+#' may not be desirable for phylogenetic trees, where the title may be better if
+#' offset on the axis. In these and other cases, users should manually add the
+#' title using \code{\link[graphics]{mtext}}.
 #'
 #' If you would like to use intervals from the Geological Time Scale 2012
 #' (\code{\link{GTS2012}}), you can use \code{\link{time_bins}} and supply the
@@ -102,7 +107,8 @@
 #'   visible range of intervals at the ends of the axis?
 #' @param autofit \code{logical}. Should labels be automatically resized to fit
 #'   their interval boxes? If \code{TRUE}, \code{lab_size} will be used as the
-#'   maximum possible size of the labels.
+#'   maximum possible size of the labels. If \code{FALSE} (the default),
+#'   \code{lab_size} will be used as the size for all labels.
 #' @param skip A \code{character} vector of interval names indicating which
 #'   intervals should not be labeled. If \code{abbr} is \code{TRUE}, this can
 #'   also include interval abbreviations. Quaternary, Holocene, and Late
@@ -170,9 +176,7 @@
 #'      xlab = NA, ylab = "Depth (m)")
 #' box()
 #' axis(2)
-#' axis_geo(side = 1, intervals = "period")
-#' # the line argument here depends on the absolute size of the plot
-#' title(xlab = "Time (Ma)", line = 4)
+#' axis_geo(side = 1, intervals = "period", title = "Time (Ma)")
 #'
 #' # stack multiple scales, abbreviate only one set of labels
 #' par(mar = c(7.1, 4.1, 4.1, 2.1)) # further expand bottom margin
@@ -181,9 +185,7 @@
 #' box()
 #' axis(2)
 #' axis_geo(side = 1, intervals = list("epoch", "period"),
-#'     abbr = list(TRUE, FALSE))
-#' # the line argument here depends on the absolute size of the plot
-#' title(xlab = "Time (Ma)", line = 6)
+#'          abbr = list(TRUE, FALSE), title = "Time (Ma)")
 #'
 #' # scale with Macrostrat intervals
 #' par(mar = c(6.1, 4.1, 4.1, 2.1)) # modify margin
@@ -211,16 +213,14 @@
 #' library(phytools)
 #' data(mammal.tree)
 #' plot(mammal.tree)
-#' axis_geo_phylo()
-#' title(xlab = "Time (Ma)", line = 4)
+#' axis_geo_phylo(title = "Time (Ma)")
 #'
 #' @examplesIf require(paleotree)
 #' # scale with fossil phylogeny
 #' library(paleotree)
 #' data(RaiaCopesRule)
 #' plot(ceratopsianTreeRaia)
-#' axis_geo_phylo()
-#' title(xlab = "Time (Ma)", line = 4)
+#' axis_geo_phylo(title = "Time (Ma)")
 #'
 #' # reset user par
 #' par(oldpar)
