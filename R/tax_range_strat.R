@@ -8,12 +8,12 @@
 #'   `name` and `level` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
 #'   as the input names, e.g. "genus" (default).
-#' @param group \code{character}. The name of the column you wish to be treated
-#'   as the grouping variable, e.g. "family". If not supplied, all taxa are
-#'   treated as a single group.
 #' @param level \code{character}. The name of the column you wish to be treated
 #'   as the stratigraphic levels associated with each occurrence, e.g. "bed"
 #'   (default) or "height". Stratigraphic levels must be \code{numeric}.
+#' @param group \code{character}. The name of the column you wish to be treated
+#'   as the grouping variable, e.g. "family". If not supplied, all taxa are
+#'   treated as a single group.
 #' @param certainty \code{character}. The name of the column you wish to be
 #'   treated as the information on whether an identification is certain (1) or
 #'   uncertain (0). By default (\code{certainty = NULL}), no column name is
@@ -42,7 +42,7 @@
 #'   supported and will be overridden. If the `at` argument is not specified, it
 #'   will be set to a vector of the unique values from the `level` column.
 #'
-#' @return Invisibly returns a data.frame of the calculated taxonomic
+#' @return Invisibly returns a dataframe of the calculated taxonomic
 #'   stratigraphic ranges.
 #'
 #'   The function is usually used for its side effect, which is to create a plot
@@ -105,9 +105,16 @@
 #'                           color = c("#67C5CA", "#F2F91D"))
 #' axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
 #' title(xlab = "Taxon", line = 10.5)
+#' # Pull class data
+#' occdf$class <- tetrapods$class[1:50]
+#' # Group stratigraphic ranges by class
+#' tax_range_strat(occdf, name = "taxon", group = "class",
+#'                 certainty = "certainty", by = "name",
+#'                 plot_args = list(main = "Section A",
+#'                                  ylab = "Stratigraphic height (m)"))
 #'
 #' @export
-tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
+tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
                             certainty = NULL, by = "FAD", plot_args = NULL,
                             x_args = NULL, y_args = NULL) {
 
@@ -115,12 +122,12 @@ tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
     stop("`occdf` should be a dataframe")
   }
 
-  if (!is.null(group) && (group %in% colnames(occdf) == FALSE)) {
-    stop('`group` is not a named column in `occdf`')
-  }
-
   if (!is.numeric(occdf[, level, drop = TRUE])) {
     stop("`level` must be of class numeric")
+  }
+
+  if (!is.null(group) && (group %in% colnames(occdf) == FALSE)) {
+    stop('`group` is not a named column in `occdf`')
   }
 
   if (any(c(name, level) %in% colnames(occdf) == FALSE)) {
@@ -167,14 +174,13 @@ tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
 
   #Populate nested list
   for (i in seq_along(unique_taxa)) {
-
     occ_filter <- occdf[(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
     ranges[i, 3] <- min(occ_filter[level])
     ranges[i, 4] <- max(occ_filter[level])
     if (!is.null(group)) {
       ranges[i, 2] <- occ_filter[1, group]
     }
-    
+
     #If uncertainty is used, fill second set of columns for certain IDs
     if (!is.null(certainty)) {
       occ_filter <- occ_filter[(occ_filter[, certainty, drop = TRUE] == 1), ]
@@ -290,5 +296,11 @@ tax_range_strat <- function(occdf, name = "genus", group = NULL, level = "bed",
   }
   do.call(axis, args = c(list(side = 1), x_args))
   box()
+
+  #Remove empty column if no group is given
+  if (!is.null(group)) {
+    ranges$group <- NULL
+  }
+
   invisible(ranges)
 }
