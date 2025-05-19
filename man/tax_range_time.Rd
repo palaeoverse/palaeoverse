@@ -56,7 +56,7 @@ multiple time scales to the same side of the plot (see \link{axis_geo}
 Details). Defaults to "periods".}
 }
 \value{
-A \code{dataframe} containing the following columns:
+A \code{data.frame} containing the following columns:
 unique taxa (\code{taxon}), taxon ID (\code{taxon_id}), first appearance of taxon
 (\code{max_ma}), last appearance of taxon (\code{min_ma}), duration of temporal
 range (\code{range_myr}), and number of occurrences per taxon (\code{n_occ}) is

@@ -33,7 +33,7 @@
 #'   multiple time scales to the same side of the plot (see [axis_geo]
 #'   Details). Defaults to "periods".
 #'
-#' @return A \code{dataframe} containing the following columns:
+#' @return A \code{data.frame} containing the following columns:
 #' unique taxa (`taxon`), taxon ID (`taxon_id`), first appearance of taxon
 #' (`max_ma`), last appearance of taxon (`min_ma`), duration of temporal
 #' range (`range_myr`), and number of occurrences per taxon (`n_occ`) is
@@ -248,13 +248,7 @@ tax_range_time <- function(occdf,
     points(x = temp_df$min_ma, y = temp_df$taxon_id,
            pch = args$pch, col = args$col, bg = args$bg,
            cex = args$cex)
-    axis_geo(side = 1, intervals = intervals)
-    # Add xaxis title
-    #title(xlab = args$xlab, line = 2 + length(intervals))
-    # Calculate relative y position of xlab
-    ypos <- min(ylim) - (abs(diff(ylim)) * (0.05 * length(intervals)))
-    text(x = (min(xlim) + max(xlim)) / 2, y = ypos, labels = args$xlab,
-         adj = c(0.5, 5), xpd = TRUE)
+    axis_geo(side = 1, intervals = intervals, title = args$xlab)
     # Reset par
     par(usrpar)
   }

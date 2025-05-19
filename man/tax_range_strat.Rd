@@ -7,8 +7,8 @@
 tax_range_strat(
   occdf,
   name = "genus",
-  group = NULL,
   level = "bed",
+  group = NULL,
   certainty = NULL,
   by = "FAD",
   plot_args = NULL,
@@ -24,13 +24,13 @@ at least two columns: names of taxa, and their stratigraphic position (see
 \item{name}{\code{character}. The name of the column you wish to be treated
 as the input names, e.g. "genus" (default).}
 
-\item{group}{\code{character}. The name of the column you wish to be treated
-as the grouping variable, e.g. "family". If not supplied, all taxa are
-treated as a single group.}
-
 \item{level}{\code{character}. The name of the column you wish to be treated
 as the stratigraphic levels associated with each occurrence, e.g. "bed"
 (default) or "height". Stratigraphic levels must be \code{numeric}.}
+
+\item{group}{\code{character}. The name of the column you wish to be treated
+as the grouping variable, e.g. "family". If not supplied, all taxa are
+treated as a single group.}
 
 \item{certainty}{\code{character}. The name of the column you wish to be
 treated as the information on whether an identification is certain (1) or
@@ -65,7 +65,7 @@ supported and will be overridden. If the \code{at} argument is not specified, it
 will be set to a vector of the unique values from the \code{level} column.}
 }
 \value{
-Invisibly returns a data.frame of the calculated taxonomic
+Invisibly returns a dataframe of the calculated taxonomic
 stratigraphic ranges.
 
 The function is usually used for its side effect, which is to create a plot
@@ -139,5 +139,12 @@ eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
                           color = c("#67C5CA", "#F2F91D"))
 axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
 title(xlab = "Taxon", line = 10.5)
+# Pull class data
+occdf$class <- tetrapods$class[1:50]
+# Group stratigraphic ranges by class
+tax_range_strat(occdf, name = "taxon", group = "class",
+                certainty = "certainty", by = "name",
+                plot_args = list(main = "Section A",
+                                 ylab = "Stratigraphic height (m)"))
 
 }
