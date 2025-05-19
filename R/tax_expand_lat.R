@@ -36,7 +36,7 @@
 #' Christopher D. Dean
 #' @export
 #' @examples
-#' bins <- lat_bins()
+#' bins <- lat_bins_degrees()
 #' taxdf <- data.frame(name = c("A", "B", "C"),
 #'                     max_lat = c(60, 20, -10),
 #'                     min_lat = c(20, -40, -60))

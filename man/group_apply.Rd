@@ -97,7 +97,7 @@ ex3 <- group_apply(occdf = occdf,
                    fun = nrow)
 # Compute counts of occurrences per latitudinal bin
 # Set up lat bins
-bins <- lat_bins()
+bins <- lat_bins_degrees()
 # bin occurrences
 occdf <- bin_lat(occdf = occdf, bins = bins)
 # Calculate number of occurrences per bin
