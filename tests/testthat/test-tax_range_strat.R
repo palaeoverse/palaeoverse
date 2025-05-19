@@ -36,6 +36,21 @@ test_that("tax_range_strat() plots", {
   })
 })
 
+test_that("tax_range_strat() plots groups", {
+  expect_doppelganger("tax_range_strat() plots groups", function() {
+
+    occdf <- data.frame(genus = c("shrimp", "worm", "worm", "shrimp", "bivalve",
+                                  "bivalve", "shrimp", "anemone", "worm"),
+                        taste = c("tasty", "not tasty", "not tasty", "not tasty",
+                                  "tasty", "tasty", "tasty", "not tasty",
+                                  "not tasty"),
+                        bed = c(1, 1, 2, 2, 2, 3, 3, 4, 4),
+                        certainty = c(1, 1, 0, 1, 0, 1, 1, 1, 0))
+
+    tax_range_strat(occdf, group = "taste")
+  })
+})
+
 test_that("tax_range_strat() does uncertainty", {
   expect_doppelganger("tax_range_strat() does uncertainty", function() {
 

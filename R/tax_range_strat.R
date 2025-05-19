@@ -42,7 +42,7 @@
 #'   supported and will be overridden. If the `at` argument is not specified, it
 #'   will be set to a vector of the unique values from the `level` column.
 #'
-#' @return Invisibly returns a dataframe of the calculated taxonomic
+#' @return Invisibly returns a \code{data.frame} of the calculated taxonomic
 #'   stratigraphic ranges.
 #'
 #'   The function is usually used for its side effect, which is to create a plot
@@ -73,7 +73,8 @@
 #'   - `lty` = `c(1, 2)`
 #'   - `cex` = `c(1, 1)`
 #'
-#' @section Developer(s): Bethany Allen, William Gearty & Alexander Dunhill
+#' @section Developer(s): Bethany Allen, William Gearty, Lewis A. Jones &
+#'   Alexander Dunhill
 #' @section Reviewer(s): William Gearty & Lewis A. Jones
 #' @importFrom graphics axis par segments plot points box
 #'
@@ -119,7 +120,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
                             x_args = NULL, y_args = NULL) {
 
   if (is.data.frame(occdf) == FALSE) {
-    stop("`occdf` should be a dataframe")
+    stop("`occdf` should be a data.frame")
   }
 
   if (!is.numeric(occdf[, level, drop = TRUE])) {
@@ -158,66 +159,78 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     stop("`by` must be either \"FAD\", \"LAD\", or \"name\"")
   }
 
-  #List and order unique taxa
-  unique_taxa <- unique(occdf[, name, drop = TRUE])
-  unique_taxa <- unique_taxa[order(unique_taxa)]
-
-  #Create object to hold information
-  if (is.null(certainty)) {
-    ranges <- data.frame(taxon = unique_taxa, group = NA, min_bin = NA,
-                         max_bin = NA)
+  # Create pseudo-group if not provided (enable group_apply with no groups)
+  if (is.null(group)) {
+    occdf$tmp_group <- 1
+    g <- "tmp_group"
   } else {
-    ranges <- data.frame(taxon = unique_taxa, group = NA, min_bin = NA,
-                         max_bin = NA, min_bin_certain = NA,
-                         max_bin_certain = NA)
+    g <- group
   }
+  # Calculate ranges
+  ranges <- group_apply(occdf, g, function(occdf, name, level) {
+    #=== Set-up ===
+    unique_taxa <- unique(occdf[, name, drop = TRUE])
+    # Order taxa by name
+    unique_taxa <- unique_taxa[order(unique_taxa)]
 
-  #Populate nested list
-  for (i in seq_along(unique_taxa)) {
-    occ_filter <- occdf[(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
-    ranges[i, 3] <- min(occ_filter[level])
-    ranges[i, 4] <- max(occ_filter[level])
-    if (!is.null(group)) {
-      ranges[i, 2] <- occ_filter[1, group]
+    #=== Temporal range ===
+    # Generate dataframe for population
+    if (is.null(certainty)) {
+      ranges <- data.frame(taxon = unique_taxa, group = NA, min_bin = NA,
+                           max_bin = NA)
+    } else {
+      ranges <- data.frame(taxon = unique_taxa, group = NA, min_bin = NA,
+                           max_bin = NA, min_bin_certain = NA,
+                           max_bin_certain = NA)
     }
-
-    #If uncertainty is used, fill second set of columns for certain IDs
-    if (!is.null(certainty)) {
-      occ_filter <- occ_filter[(occ_filter[, certainty, drop = TRUE] == 1), ]
-      if (nrow(occ_filter) == 0) {
-        occ_filter[1, ] <- NA
+    # Run for loop across unique taxa
+    for (i in seq_along(unique_taxa)) {
+      occ_filter <- occdf[(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
+      ranges[i, 3] <- min(occ_filter[level])
+      ranges[i, 4] <- max(occ_filter[level])
+      if (!is.null(group)) {
+        ranges[i, 2] <- occ_filter[1, group]
       }
-      ranges[i, 5] <- min(occ_filter[level])
-      ranges[i, 6] <- max(occ_filter[level])
+
+      # If uncertainty is used, fill second set of columns for certain IDs
+      if (!is.null(certainty)) {
+        occ_filter <- occ_filter[(occ_filter[, certainty, drop = TRUE] == 1), ]
+        if (nrow(occ_filter) == 0) {
+          occ_filter[1, ] <- NA
+        }
+        ranges[i, 5] <- min(occ_filter[level])
+        ranges[i, 6] <- max(occ_filter[level])
+      }
     }
-  }
+    # Should data be ordered by FAD or LAD (already sorted by name)?
+    if (by == "FAD") {
+      ranges <- ranges[order(ranges$max_bin), ]
+      ranges <- ranges[order(ranges$min_bin), ]
+    } else if (by == "LAD") {
+      ranges <- ranges[order(ranges$min_bin), ]
+      ranges <- ranges[order(ranges$max_bin), ]
+    }
+    # Return dataframe
+    ranges
+  }, name = name, level = level)
 
-  #Reorder lists
-  if (by == "LAD") {
-    ranges <- ranges[order(ranges$min_bin), ]
-    ranges <- ranges[order(ranges$max_bin), ]
-  }
-
-  if (by == "FAD") {
-    ranges <- ranges[order(ranges$max_bin), ]
-    ranges <- ranges[order(ranges$min_bin), ]
-  }
-
-  if (!is.null(group)) {
-    ranges <- ranges[order(ranges$group), ]
-  }
-
-  #Add ID numbers
-  ranges$ID <- seq_along(unique_taxa)
+  # IDs
+  ID <- seq_along(1:nrow(ranges))
+  ranges <- cbind.data.frame(ID, ranges)
+  # Remove row names
+  row.names(ranges) <- NULL
+  # Get labels
   labels <- ranges[, c("taxon", "ID")]
+  # Join to occdf
   occdf <- merge(occdf, labels, by.x = name, by.y = "taxon")
 
-  #Obtain uncertain occurrences
+  # Obtain uncertain occurrences
   if (!is.null(certainty)) {
     certain <- occdf[(occdf[, certainty, drop = TRUE] != 0), ]
     uncertain <- occdf[(occdf[, certainty, drop = TRUE] == 0), ]
   }
 
+  #=== Plotting ===
   #Create plot
   dump <- c("x", "y", "axes", "type")
   if (any(names(plot_args) %in% dump)) {
@@ -243,10 +256,36 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
   cexs <- plot_args$cex
   if (is.null(cexs)) cexs <- c(1, 1) else cexs <- rep_len(cexs, 2)
   do.call(plot, args =
-            c(list(x = c(ranges$ID, ranges$ID),
-                   y = c(ranges$min_bin, ranges$max_bin),
-                   axes = FALSE, type = "n"),
+            c(list(x = c(min(ranges$ID) - 0.5,
+                         max(ranges$ID + 0.5)),
+                   y = c(min(ranges$min_bin),
+                         max(ranges$max_bin)),
+                   axes = FALSE, type = "n", xaxs = "i"),
               plot_args))
+  # Groups provided?
+  if (!is.null(group)) {
+    # Calculate plotting values for groups
+    s <- split(x = ranges, f = ranges[, group])
+    vals_rect <- lapply(s, function(x) cbind(min(x$ID),
+                                             max(x$ID)))
+    # Define colours
+    cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
+    # Run across number of groups
+    lapply(1:length(vals_rect), function(x) {
+      # Add background rectangles
+      rect(xleft = vals_rect[[x]][1] - 0.5,
+           xright = vals_rect[[x]][2] + 0.5,
+           ybottom = 0,
+           ytop = max(ranges$max_bin) * 2,
+           col = cols_rect[x])
+      # Add group labels
+      text(x = min(vals_rect[[x]]) - 0.5,
+           y = max(ranges$max_bin) + 0.1,
+           labels = names(vals_rect)[x],
+           srt = 0, adj = c(0, -1), xpd = TRUE)
+    })
+  }
+  # Add segments
   if (is.null(certainty)) {
     segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
              x0 = ranges$ID, x1 = ranges$ID,
@@ -259,29 +298,30 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
              x0 = ranges$ID, x1 = ranges$ID,
              col = cols[1], lty = ltys[1], lwd = lwds[1])
   }
+  # Add points
   if (is.null(certainty)) {
     points(y = occdf[, level, drop = TRUE], x = occdf$ID, pch = pchs[1],
            col = cols[1], bg = bgs[1], cex = cexs[1])
   } else {
-    points(y = certain[, level, drop = TRUE], x = certain$ID, pch = pchs[1],
-           col = cols[1], bg = bgs[1], cex = cexs[1])
-    points(y = uncertain[, level, drop = TRUE], x = uncertain$ID, pch = pchs[2],
-           col = cols[2], bg = bgs[2], cex = cexs[2])
+    points(y = certain[, level, drop = TRUE], x = certain$ID,
+           pch = pchs[1], col = cols[1], bg = bgs[1], cex = cexs[1])
+    points(y = uncertain[, level, drop = TRUE], x = uncertain$ID,
+           pch = pchs[2], col = cols[2], bg = bgs[2], cex = cexs[2])
   }
-  # plot y-axis
+  # Plot y-axis
   if ("side" %in% names(y_args)) {
     y_args <- y_args[-which(names(y_args) == "side")]
   }
-  # use defaults if not set
+  # Use defaults if not set
   if (!("at" %in% names(y_args))) {
     y_args$at <- unique(occdf$bed)
   }
   do.call(axis, args = c(list(side = 2), y_args))
-  # plot x-axis
+  # Plot x-axis
   if ("side" %in% names(x_args)) {
     x_args <- x_args[-which(names(x_args) == "side")]
   }
-  # use defaults if not set
+  # Use defaults if not set
   if (!("font" %in% names(x_args))) {
     x_args$font <- 3
   }
@@ -294,13 +334,14 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
   if (!("labels" %in% names(x_args))) {
     x_args$labels <- ranges$taxon
   }
+  # Add names
   do.call(axis, args = c(list(side = 1), x_args))
+  # Add frame
   box()
-
-  #Remove empty column if no group is given
+  # Tidy up
   if (!is.null(group)) {
     ranges$group <- NULL
   }
-
+  # Return invisibly (still unsure about this)
   invisible(ranges)
 }

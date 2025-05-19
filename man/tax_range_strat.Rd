@@ -65,7 +65,7 @@ supported and will be overridden. If the \code{at} argument is not specified, it
 will be set to a vector of the unique values from the \code{level} column.}
 }
 \value{
-Invisibly returns a dataframe of the calculated taxonomic
+Invisibly returns a \code{data.frame} of the calculated taxonomic
 stratigraphic ranges.
 
 The function is usually used for its side effect, which is to create a plot
@@ -104,7 +104,8 @@ follows:
 }
 }
 \section{Developer(s)}{
- Bethany Allen, William Gearty & Alexander Dunhill
+ Bethany Allen, William Gearty, Lewis A. Jones &
+Alexander Dunhill
 }
 
 \section{Reviewer(s)}{

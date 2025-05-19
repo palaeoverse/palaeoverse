@@ -26,19 +26,19 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
-<line x1='82.40' y1='486.13' x2='82.40' y2='212.36' style='stroke-width: 1.12;' />
-<line x1='277.07' y1='349.24' x2='277.07' y2='212.36' style='stroke-width: 1.12;' />
-<line x1='471.73' y1='486.13' x2='471.73' y2='75.47' style='stroke-width: 1.12;' />
-<line x1='666.40' y1='75.47' x2='666.40' y2='75.47' style='stroke-width: 1.12;' />
-<circle cx='666.40' cy='75.47' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='277.07' cy='212.36' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='277.07' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='82.40' cy='486.13' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='82.40' cy='212.36' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='82.40' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='471.73' cy='486.13' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='471.73' cy='75.47' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='471.73' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<line x1='137.88' y1='486.13' x2='137.88' y2='212.36' style='stroke-width: 1.12;' />
+<line x1='295.56' y1='349.24' x2='295.56' y2='212.36' style='stroke-width: 1.12;' />
+<line x1='453.24' y1='486.13' x2='453.24' y2='75.47' style='stroke-width: 1.12;' />
+<line x1='610.92' y1='75.47' x2='610.92' y2='75.47' style='stroke-width: 1.12;' />
+<circle cx='610.92' cy='75.47' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='295.56' cy='212.36' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='295.56' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='137.88' cy='486.13' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='137.88' cy='212.36' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='137.88' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='453.24' cy='486.13' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='453.24' cy='75.47' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='453.24' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <line x1='59.04' y1='486.13' x2='59.04' y2='75.47' style='stroke-width: 0.75;' />
@@ -50,15 +50,15 @@
 <text transform='translate(41.76,349.24) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>2</text>
 <text transform='translate(41.76,212.36) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>3</text>
 <text transform='translate(41.76,75.47) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>4</text>
-<line x1='82.40' y1='502.56' x2='666.40' y2='502.56' style='stroke-width: 0.75;' />
-<line x1='82.40' y1='502.56' x2='82.40' y2='509.76' style='stroke-width: 0.75;' />
-<line x1='277.07' y1='502.56' x2='277.07' y2='509.76' style='stroke-width: 0.75;' />
-<line x1='471.73' y1='502.56' x2='471.73' y2='509.76' style='stroke-width: 0.75;' />
-<line x1='666.40' y1='502.56' x2='666.40' y2='509.76' style='stroke-width: 0.75;' />
-<text transform='translate(86.53,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='36.01px' lengthAdjust='spacingAndGlyphs'>shrimp</text>
-<text transform='translate(281.20,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='37.36px' lengthAdjust='spacingAndGlyphs'>bivalve</text>
-<text transform='translate(475.86,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='29.34px' lengthAdjust='spacingAndGlyphs'>worm</text>
-<text transform='translate(670.53,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='50.05px' lengthAdjust='spacingAndGlyphs'>anemone</text>
+<line x1='137.88' y1='502.56' x2='610.92' y2='502.56' style='stroke-width: 0.75;' />
+<line x1='137.88' y1='502.56' x2='137.88' y2='509.76' style='stroke-width: 0.75;' />
+<line x1='295.56' y1='502.56' x2='295.56' y2='509.76' style='stroke-width: 0.75;' />
+<line x1='453.24' y1='502.56' x2='453.24' y2='509.76' style='stroke-width: 0.75;' />
+<line x1='610.92' y1='502.56' x2='610.92' y2='509.76' style='stroke-width: 0.75;' />
+<text transform='translate(142.01,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='36.01px' lengthAdjust='spacingAndGlyphs'>shrimp</text>
+<text transform='translate(299.69,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='37.36px' lengthAdjust='spacingAndGlyphs'>bivalve</text>
+<text transform='translate(457.37,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='29.34px' lengthAdjust='spacingAndGlyphs'>worm</text>
+<text transform='translate(615.05,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='50.05px' lengthAdjust='spacingAndGlyphs'>anemone</text>
 <polygon points='59.04,502.56 689.76,502.56 689.76,59.04 59.04,59.04 ' style='stroke-width: 0.75; fill: none;' />
 </g>
 </svg>
