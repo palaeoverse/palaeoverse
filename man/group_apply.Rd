@@ -84,7 +84,7 @@ occdf <- subset(occdf, !is.na(genus))
 ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
 # Unique genera per collection with group_apply and input arguments
 ex2 <- group_apply(occdf = occdf,
-                   group = c("collection_no"),
+                   group = "collection_no",
                    fun = tax_unique,
                    genus = "genus",
                    family = "family",
