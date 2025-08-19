@@ -114,29 +114,34 @@ group_apply <- function(occdf, group, fun, ...) {
 
   # by is a wrapper of tapply, but it ends up being MUCH faster than tapply
   # because of some data wrangling it does
-  output_lst <- by(occdf, form, fun, ...)
+  output_lst <- by(data = occdf, INDICES = form, FUN = fun, ...)
 
   if (is.list(output_lst)) {
     # modified from array2DF() to handle when functions return empty dfs
-    keys <- do.call(expand.grid, c(dimnames(provideDimnames(output_lst)),
-                                   KEEP.OUT.ATTRS = FALSE,
-                                   stringsAsFactors = FALSE))
+    keys <- do.call(what = expand.grid,
+                    args = list(dimnames(provideDimnames(output_lst)),
+                                KEEP.OUT.ATTRS = FALSE,
+                                stringsAsFactors = FALSE))
     # filter out NULLs
-    output_lst_keep <- vapply(output_lst, Negate(is.null), FALSE)
+    output_lst_keep <- vapply(X = output_lst, FUN = Negate(is.null),
+                              FUN.VALUE = FALSE)
     output_lst <- output_lst[output_lst_keep]
-    dfrows <- vapply(output_lst, nrow, 1L)
+    dfrows <- vapply(X = output_lst, FUN = nrow, FUN.VALUE = 1L)
     keys <- keys[output_lst_keep, , drop = FALSE]
     output_df <- cbind(keys[rep(seq_along(dfrows), dfrows), , drop = FALSE],
-                       do.call(rbind, output_lst))
+                       do.call(what = rbind, args = output_lst))
   } else {
     fun_name <- deparse(substitute(fun))
-    output_df <- array2DF(output_lst, responseName = fun_name)
+    output_df <- array2DF(x = output_lst, responseName = fun_name)
     output_df <- output_df[!is.na(output_df[, fun_name]), ]
   }
 
   # Update output if none returned
   if (nrow(output_df) == 0) {
     output_df <- NULL
+  } else {
+    # Remove row numbers
+    rownames(output_df) <- NULL
   }
 
   # Return output
