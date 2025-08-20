@@ -61,6 +61,7 @@ reference:
   - look_up
   - tax_expand_lat
   - tax_expand_time
+  - tax_certainty
 
 - title: Data binning
   desc: >
