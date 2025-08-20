@@ -123,7 +123,6 @@
 #' @importFrom geosphere distm distGeo
 #' @importFrom h3jsr point_to_cell cell_to_point
 #' @importFrom sf st_as_sf st_coordinates
-#' @importFrom utils download.file
 #' @importFrom pbapply pblapply
 #' @importFrom httr RETRY content stop_for_status write_disk
 #' @importFrom curl nslookup
