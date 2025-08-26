@@ -1,4 +1,4 @@
-#' filter_occs_time
+#' Filter fossil occurrences by time
 #'
 #' @description
 #' A function to trim fossil occurrences to within a specified temporal
@@ -32,11 +32,12 @@
 #' @param max_age `numeric`. The maximum absolute occurrence age to trim to.
 #' Ignored if `oldest_bin` is supplied.
 #' @param uncertainty A numeric value denoting the maximum tolerable temporal
-#' uncertainty for retaining occurrences. Alternatively, if this argument is set
-#' to "bin", then only occurrences which span no more than `nbin` intervals in
-#' `bins` will be retained.
-#' @param nbin `numeric` The maximum tolerable bin-wise uncertainty above which occurrences
-#' will be discarded if `uncertainty = "bin"` (defaults to `1`).
+#' uncertainty for retaining occurrences. Alternatively, if this argument is
+#' set to "bins", then only occurrences which span no more than `n_bins`
+#' intervals in `bins` will be retained.
+#' @param n_bins `numeric` The maximum tolerable bin-wise uncertainty above
+#' which occurrences will be discarded if `uncertainty = "bins"` (defaults
+#' to `1`).
 #' @param retain.taxa `logical`. Complete loss of some taxa may occur if all
 #' their occurrences exceed the temporal uncertainty criterion set by the user.
 #' If this is undesirable, occurrences for these taxa will be retained as
@@ -58,11 +59,11 @@
 #' @details
 #' When trimming by stratigraphic interval names, the boundary ages of
 #' `youngest_bin` and `oldest_bin` are taken from their entries in `bins`.
-#' Occurrences with maximum ages younger than or equal to the upper boundary
-#' age of `youngest_bin` or minimum ages older than or equal to the lower
-#' boundary age of `oldest_bin` will be discarded.
+#' Occurrences with maximum ages younger than the upper boundary age of
+#' `youngest_bin` or minimum ages older than the lower boundary age of
+#' `oldest_bin` will be trimmed.
 #'
-#' When filtering by temporal precision, if `uncertainty = "bin"`, the
+#' When filtering by temporal precision, if `uncertainty = "bins"`, the
 #' function uses [bin_time()] to assign occurrences to the
 #' stratigraphic intervals present in `bins` and discards any which span more
 #' than one interval, a common procedure in many computational palaeobiology
@@ -75,9 +76,12 @@
 #' filter to occurrences with age uncertainties lower than or equal to this
 #' duration.
 #'
-#' It is crucial that the occurrences ages in your data and your trimming and
-#' filtering parameters conform to the same stratigraphic timescale (e.g., GTS
-#' 2020) to avoid incorrect exclusion of occurrences:
+#' It is worth keeping in mind that occurrences which might overlap with your
+#' specified time range but with either a minimum or maximum age outside of
+#' this range will be excluded. Similarly, it is crucial that the
+#' occurrence ages in your data and your trimming and filtering parameters
+#' conform to the same stratigraphic timescale (e.g., GTS 2020) to avoid
+#' incorrect exclusion of occurrences:
 #'
 #' * If interval boundary ages or absolute ages do not align precisely with
 #' occurrence ages, this could result in substantial data loss towards the
@@ -121,34 +125,34 @@
 #' stages <- time_bins(rank = "stage")
 #'
 #' # trim to Kungurian occurrences
-#' filtered1 <- filter_occs_time(occdf, min_age = 272.3, max_age = 279.3)
+#' filtered1 <- filter_time(occdf, min_age = 272.3, max_age = 279.3)
 #'
 #' # trim to occurrences within the stages of the Permian
-#' filtered2 <- filter_occs_time(occdf, bins = stages,
+#' filtered2 <- filter_time(occdf, bins = stages,
 #'                          youngest_bin = "Wuchiapingian", oldest_bin = "Asselian")
 #'
 #' # filter to only occurrences which fall into single stages
-#' filtered3 <- filter_occs_time(occdf, bins = stages, uncertainty = "bin", nbin = 1)
+#' filtered3 <- filter_time(occdf, bins = stages, uncertainty = "bins", n_bins = 1)
 #'
 #' # filter to only Permian occurrences with age uncertainties less than or equal to 15 million years
-#' filtered4 <- filter_occs_time(occdf, bins = stages,
+#' filtered4 <- filter_time(occdf, bins = stages,
 #'                          youngest_bin = "Wuchiapingian", oldest_bin = "Asselian",
 #'                          uncertainty = 15)
 #'
 #' # trim to occurrences within the stages of the Permian, and filter to those
 #' # with age uncertainties less than or equal to 15 million years, but allow
 #' # some less precise occurrences to remain to prevent loss of any taxa.
-#' filtered5 <- filter_occs_time(occdf, bins = stages,
+#' filtered5 <- filter_time(occdf, bins = stages,
 #'                          youngest_bin = "Wuchiapingian", oldest_bin = "Asselian",
 #'                          uncertainty = 20, retain.taxa = TRUE, taxa = "genus")
 #'
 #' @export
 
-filter_occs_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
-                             bins = NULL, interval_name = "interval_name",
-                             youngest_bin = NULL, oldest_bin = NULL, min_age = NULL, max_age = NULL,
-                             uncertainty = NULL, nbin = 1,
-                             retain.taxa = FALSE, taxa = NULL) {
+filter_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
+                        bins = NULL, interval_name = "interval_name",
+                        youngest_bin = NULL, oldest_bin = NULL, min_age = NULL, max_age = NULL,
+                        uncertainty = NULL, n_bins = 1,
+                        retain.taxa = FALSE, taxa = NULL) {
 
   # check occurrence data
   if (is.data.frame(occdf) == FALSE) {
@@ -189,9 +193,8 @@ filter_occs_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
     }
   }
 
-  # shallow copy for subsequent filtering, plus a variable binding to avoid compilation errors
+  # shallow copy for subsequent filtering
   occdf2 <- occdf
-  n_bins <- NULL
 
   # apply range filtering, if specified
   if (sum(c(is.null(youngest_bin), is.null(oldest_bin))) == 1) {
@@ -212,36 +215,37 @@ filter_occs_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
     if (min_age >= max_age) {
       stop("The minimum filtering age/interval is older than the maximum filtering age/interval.")
     }
-    occdf2 <- subset(occdf2, max_ma <= max_age)
-    occdf2 <- subset(occdf2, min_ma >= min_age)
+    occdf2 <- occdf2[which(occdf2[,max_ma] <= max_age),]
+    occdf2 <- occdf2[which(occdf2[,min_ma] >= min_age),]
+
   }
 
   # apply uncertainty filtering, if specified
   if (!is.null(uncertainty)) {
     if (!is.atomic(uncertainty) || length(uncertainty) != 1) {
-      stop("If not NULL, then `uncertainty` should be set as 'bin' or a single positive numeric value.")
+      stop("If not NULL, then `uncertainty` should be set as 'bins' or a single positive numeric value.")
     }
-    if (uncertainty != "bin" && !is.numeric(uncertainty)) {
-      stop("If not NULL, then `uncertainty` should be set as 'bin' or a single positive numeric value.")
+    if (uncertainty != "bins" && !is.numeric(uncertainty)) {
+      stop("If not NULL, then `uncertainty` should be set as 'bins' or a single positive numeric value.")
     }
 
-    if(uncertainty == "bin") {
-      if(!is.numeric(nbin) | !is.atomic(nbin) | length(nbin) != 1) {
-        stop("`nbin` should be a single positive integer value.")
+    if(uncertainty == "bins") {
+      if(!is.numeric(n_bins) | !is.atomic(n_bins) | length(n_bins) != 1) {
+        stop("`n_bins` should be a single positive integer value.")
       }
-      if(nbin %% 1 != 0 | nbin <= 0) {
-        stop("`nbin` should be a single positive integer value.")
+      if(n_bins %% 1 != 0 | n_bins <= 0) {
+        stop("`n_bins` should be a single positive integer value.")
       }
       occdf2 <- palaeoverse::bin_time(occdf = occdf2, min_ma = min_ma, max_ma = max_ma, bins = bins, method = "all")
-      occdf2 <- subset(occdf2, n_bins == nbin)[,colnames(occdf)]
+      occdf2 <- occdf2[which(occdf2$n_bins == n_bins), colnames(occdf)]
 
     # filter by a single absolute stratigraphic duration
     } else {
       if(uncertainty <= 0) {
-        stop("If not NULL, then `uncertainty` should be set as 'bin' or a single positive numeric value.")
+        stop("If not NULL, then `uncertainty` should be set as 'bins' or a single positive numeric value.")
       }
       rng <- occdf2[, max_ma] - occdf2[, min_ma]
-      occdf2 <- subset(occdf2, rng <= uncertainty)
+      occdf2 <- occdf2[which(rng <= uncertainty),]
     }
   }
 
@@ -274,4 +278,3 @@ filter_occs_time <- function(occdf, min_ma = "min_ma", max_ma = "max_ma",
   rownames(occdf2) <- NULL
   return(occdf2)
 }
-

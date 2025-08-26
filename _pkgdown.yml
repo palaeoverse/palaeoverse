@@ -61,7 +61,7 @@ reference:
   - look_up
   - tax_expand_lat
   - tax_expand_time
-  - filter_occs_time
+  - filter_time
 
 - title: Data binning
   desc: >
