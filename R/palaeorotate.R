@@ -123,9 +123,8 @@
 #' @importFrom geosphere distm distGeo
 #' @importFrom h3jsr point_to_cell cell_to_point
 #' @importFrom sf st_as_sf st_coordinates
-#' @importFrom utils download.file
 #' @importFrom pbapply pblapply
-#' @importFrom httr GET content
+#' @importFrom httr RETRY content stop_for_status write_disk
 #' @importFrom curl nslookup
 #' @importFrom stats na.omit
 #' @examples
@@ -267,15 +266,9 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       })
     # Get temp directory and download files
     files <- tempdir()
-    # OS-specific mode for downloading
-    if (.Platform$OS.type == "windows") {
-      dl_mode <- "wb"
-    } else {
-      dl_mode <- "w"
-    }
     # Reconstruction files
     rot_files <- list(
-      BASE = paste0(GET("https://zenodo.org/record/7390065")$url,
+      BASE = paste0(RETRY("HEAD", "https://zenodo.org/record/7390065")$url,
                     "/files/"),
       MERDITH2021 = "MERDITH2021.RDS",
       PALEOMAP = "PALEOMAP.RDS",
@@ -292,9 +285,9 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         # Generate download link
         dl <- paste0(rot_files$BASE, rot_files[f], sep = "")
         # Download file
-        download.file(url = dl,
-                      destfile = paste0(files, "/", f, ".RDS"),
-                      mode = dl_mode)
+        stat <- RETRY("GET", url = dl,
+                      write_disk(paste0(files, "/", f, ".RDS")))
+        stop_for_status(stat, task = "download rotation file")
       }
     }
     # Calculate rotation ages for data
@@ -432,7 +425,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         rots <- lapply(request, function(x) {
           # Avoid overwhelming server (a recent issue?)
           Sys.sleep(1)
-          coords <- GET(url = pbase, query = x)
+          coords <- RETRY("GET", url = pbase, query = x, terminate_on = c(400))
           # If occurrences exceeds age of model
           if (coords$status_code == 400) {
             coords <- vector("list", nrow(tmp[[1]]))
