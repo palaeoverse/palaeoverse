@@ -126,15 +126,18 @@ bin_space <- function(occdf,
     stop("input column names do not exist in `occdf`")
   }
 
-  if (!is.numeric(occdf[, lng]) || !is.numeric(occdf[, lat])) {
+  if (!is.numeric(occdf[, lng, drop = TRUE]) ||
+      !is.numeric(occdf[, lat, drop = TRUE])) {
     stop("input coordinates are not of class numeric")
   }
 
-  if (any(occdf[, lat] > 90) || any(occdf[, lat] < -90)) {
+  if (any(occdf[, lat, drop = TRUE] > 90) ||
+      any(occdf[, lat, drop = TRUE] < -90)) {
     stop("Latitudinal coordinates should be more than -90 and less than 90")
   }
 
-  if (any(occdf[, lng] > 180) || any(occdf[, lng] < -180)) {
+  if (any(occdf[, lng, drop = TRUE] > 180) ||
+      any(occdf[, lng, drop = TRUE] < -180)) {
     stop("Longitudinal coordinates should be more than -180 and less than 180")
   }
 

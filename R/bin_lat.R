@@ -30,7 +30,7 @@
 #' # Load occurrence data
 #' occdf <- tetrapods
 #' # Generate latitudinal bins
-#' bins <- lat_bins(size = 10)
+#' bins <- lat_bins_degrees(size = 10)
 #' # Bin data
 #' occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
 #'
@@ -45,10 +45,10 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   if (lat %in% colnames(occdf) == FALSE) {
     stop("`lat` column name does not exist in `occdf`")
   }
-  if (any(is.na(occdf[, lat]))) {
+  if (any(is.na(occdf[, lat, drop = TRUE]))) {
     stop("`lat` contains NA values")
   }
-  if (any(occdf[, lat] > 90 | occdf[, lat] < -90)) {
+  if (any(occdf[, lat, drop = TRUE] > 90 | occdf[, lat, drop = TRUE] < -90)) {
     stop("Latitudes should be more than -90 and less than 90")
   }
   if (sum(c("max", "min", "bin") %in% colnames(bins)) != 3) {
@@ -63,7 +63,8 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   occdf$lat_min <- NA
   #=== Assign data ===
   for (i in seq_len(nrow(bins))) {
-    vec <- which(occdf[, lat] <= bins$max[i] & occdf[, lat] >= bins$min[i])
+    vec <- which(occdf[, lat, drop = TRUE] <= bins$max[i] &
+                 occdf[, lat, drop = TRUE] >= bins$min[i])
     occdf$lat_bin[vec] <- bins$bin[i]
     occdf$lat_max[vec] <- bins$max[i]
     occdf$lat_mid[vec] <- bins$mid[i]
@@ -71,12 +72,13 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   }
   #=== Boundary bins ===
   if (boundary == TRUE &&
-      any(occdf[, lat] %in% c(bins$max, bins$min))) {
+      any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))) {
     # Which occurrences fall on boundaries?
-    tmp <- occdf[which(occdf[, lat] %in% c(bins$max, bins$min)), ]
+    tmp <- occdf[which(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min)), ]
     # Reverse direction to ensure alternative bin is assigned
     for (i in rev(seq_len(nrow(bins)))) {
-      vec <- which(tmp[, lat] <= bins$max[i] & tmp[, lat] >= bins$min[i])
+      vec <- which(tmp[, lat, drop = TRUE] <= bins$max[i] &
+                     tmp[, lat, drop = TRUE] >= bins$min[i])
       tmp$lat_bin[vec] <- bins$bin[i]
       tmp$lat_max[vec] <- bins$max[i]
       tmp$lat_mid[vec] <- bins$mid[i]
@@ -86,7 +88,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   }
   #=== Add warning ===
   if (boundary == FALSE &&
-      any(occdf[, lat] %in% c(bins$max, bins$min))) {
+      any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))) {
     message(paste("Presence of occurrences falling on boundaries detected.",
                    "\nOccurrences assigned to upper bin."))
   }

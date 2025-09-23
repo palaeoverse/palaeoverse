@@ -20,6 +20,9 @@
 # RStudio files
 .Rproj.user/
 
+# revdep folder
+revdep/
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf

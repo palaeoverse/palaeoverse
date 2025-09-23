@@ -40,20 +40,27 @@ test_that("palaeorotate() point method works", {
                     colnames(occdf)))
 
   # Check chunk size is working
+  set.seed(0)
   occdf <- data.frame(lng = runif(1500, -180, 180),
                       lat = runif(1500, -90, 90),
                       age = rep(100, 1500))
-  expect_true(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")) == 1500)
+  expect_warning(
+  expect_true(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")) == 1500),
+  regexp = "Palaeocoordinates")
 
   # Check handling of temporal range (NAs should be returned)
   occdf <- data.frame(lng = runif(10, -180, 180),
                       lat = runif(10, -90, 90),
                       age = rep(700, 10))
-  expect_true(all(is.na(palaeorotate(occdf = occdf, model = "GOLONKA")$p_lng)))
+  expect_warning(
+  expect_true(all(is.na(palaeorotate(occdf = occdf, model = "GOLONKA")$p_lng))),
+    regexp = "Palaeocoordinates")
   # Check all NA for uncertainty when one model is outside range
+  expect_warning(
   expect_true(all(is.na(palaeorotate(occdf = occdf,
                                      model = c("PALEOMAP", "GOLONKA"),
-                                     uncertainty = TRUE)$max_dist)))
+                                     uncertainty = TRUE)$max_dist))),
+    regexp = "Palaeocoordinates")
 
   ## Previously available models removed
   expect_error(palaeorotate(occdf = occdf, method = "point",
@@ -94,11 +101,15 @@ test_that("palaeorotate() grid method works", {
   occdf <- data.frame(lng = runif(10, -180, 180),
                       lat = runif(10, -90, 90),
                       age = rep(700, 10))
+  expect_warning(
   expect_true(all(is.na(palaeorotate(occdf = occdf, model = "GOLONKA",
-                                     method = "grid")$p_lng)))
+                                     method = "grid")$p_lng))),
+  regexp = "Palaeocoordinates")
   # Check all NA for uncertainty when one model is outside range
+  expect_warning(
   expect_true(all(is.na(palaeorotate(occdf = occdf,
                                      model = c("PALEOMAP", "GOLONKA"),
                                      method = "grid",
-                                     uncertainty = TRUE)$max_dist)))
+                                     uncertainty = TRUE)$max_dist))),
+  regexp = "Palaeocoordinates")
 })

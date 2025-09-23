@@ -2,13 +2,13 @@ test_that("bin_lat works", {
   # Load occurrence data
   occdf <- tetrapods
   # Generate latitudinal bins
-  bins <- lat_bins(size = 10)
+  bins <- lat_bins_degrees(size = 10)
   # Bin data
   expect_equal(nrow(bin_lat(occdf = occdf, bins = bins, lat = "lat")),
                nrow(occdf))
 
   # Boundary occurrences
-  bo <- length(which(occdf[, "lat"] %in% c(bins$max, bins$min)))
+  bo <- length(which(occdf[, "lat", drop = TRUE] %in% c(bins$max, bins$min)))
   expect_equal(nrow(bin_lat(occdf = occdf, bins = bins, lat = "lat",
                             boundary = TRUE)),
                nrow(occdf) + bo)

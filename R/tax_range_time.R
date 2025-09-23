@@ -94,7 +94,8 @@ tax_range_time <- function(occdf,
     stop("`plot` should be logical (TRUE/FALSE)")
   }
 
-  if (!is.numeric(occdf[, max_ma]) || !is.numeric(occdf[, min_ma])) {
+  if (!is.numeric(occdf[, max_ma, drop = TRUE]) ||
+      !is.numeric(occdf[, min_ma, drop = TRUE])) {
     stop("`max_ma` and `min_ma` must be of class numeric.")
   }
 
@@ -103,11 +104,12 @@ tax_range_time <- function(occdf,
 `occdf`")
   }
 
-  if (any(is.na(occdf[, name]))) {
+  if (any(is.na(occdf[, name, drop = TRUE]))) {
     stop("The `name` column contains NA values")
   }
 
-  if (any(is.na(occdf[, min_ma])) || any(is.na(occdf[, max_ma]))) {
+  if (any(is.na(occdf[, min_ma, drop = TRUE])) ||
+      any(is.na(occdf[, max_ma, drop = TRUE]))) {
     stop("`min_ma` and/or `max_ma` columns contain NA values")
   }
 
@@ -120,7 +122,7 @@ tax_range_time <- function(occdf,
   }
 
   #=== Set-up ===
-  unique_taxa <- unique(occdf[, name])
+  unique_taxa <- unique(occdf[, name, drop = TRUE])
   # Order taxa
   unique_taxa <- unique_taxa[order(unique_taxa)]
 
@@ -134,7 +136,7 @@ tax_range_time <- function(occdf,
                         n_occ = rep(NA, length(unique_taxa)))
     # Run for loop across unique taxa
     for (i in seq_along(unique_taxa)) {
-      vec <- which(occdf[, name] == unique_taxa[i])
+      vec <- which(occdf[, name, drop = TRUE] == unique_taxa[i])
       temp_df$max_ma[i] <- max(occdf[vec, max_ma])
       temp_df$min_ma[i] <- min(occdf[vec, min_ma])
       temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]

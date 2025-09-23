@@ -22,7 +22,7 @@
 #' value (see examples).
 #'
 #' @return A \code{data.frame} of the outputs from the selected function, with
-#' appended column(s) indicating the user-defined groups. If a single vector
+#' prepended column(s) indicating the user-defined groups. If a single vector
 #' is returned via the called function, it will be transformed to a
 #' \code{data.frame} with the column name equal to the input function.
 #'
@@ -65,27 +65,26 @@
 #' ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
 #' # Unique genera per collection with group_apply and input arguments
 #' ex2 <- group_apply(occdf = occdf,
-#'                      group = c("collection_no"),
-#'                      fun = tax_unique,
-#'                      genus = "genus",
-#'                      family = "family",
-#'                      order = "order",
-#'                      class = "class",
-#'                      resolution = "genus")
+#'                    group = "collection_no",
+#'                    fun = tax_unique,
+#'                    genus = "genus",
+#'                    family = "family",
+#'                    order = "order",
+#'                    class = "class",
+#'                    resolution = "genus")
 #' # Use multiple variables (number of occurrences per collection and formation)
 #' ex3 <- group_apply(occdf = occdf,
 #'                    group = c("collection_no", "formation"),
 #'                    fun = nrow)
 #' # Compute counts of occurrences per latitudinal bin
 #' # Set up lat bins
-#' bins <- lat_bins()
+#' bins <- lat_bins_degrees()
 #' # bin occurrences
 #' occdf <- bin_lat(occdf = occdf, bins = bins)
 #' # Calculate number of occurrences per bin
 #' ex4 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
 #' @export
 group_apply <- function(occdf, group, fun, ...) {
-
   # Handle errors
   if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe")
@@ -110,39 +109,41 @@ group_apply <- function(occdf, group, fun, ...) {
                   " is not a valid argument for the specified function"))
     }
   }
-  # Generate bin codes
-  bin_codes <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
-  # Split dataframe
-  lst <- split(occdf, f = bin_codes, drop = TRUE, sep = "&1*^$0%")
-  # Group names
-  nme <- names(lst)
-  # Split into individual columns
-  nme_df <- do.call(rbind.data.frame, strsplit(nme, "&1*^$0%", fixed = TRUE))
-  colnames(nme_df) <- group
-  # Apply function
-  output_lst <- lapply(lst, fun, ...)
-  # Function name
-  fun_name <- deparse(substitute(fun))
-  # Add groupings to output
-  output_df <- do.call(rbind.data.frame,
-                       lapply(seq_along(output_lst), FUN = function(i) {
-    df <- output_lst[[i]]
-    if (is.null(df)) return(df)
-    if (!is.data.frame(df)) {
-      df <- as.data.frame(df)
-      colnames(df) <- fun_name
-    }
-    if (!is.null(nrow(df)) && nrow(df) > 0) {
-      nms <- c(colnames(df), colnames(nme_df))
-      df <- cbind.data.frame(df, nme_df[i, , drop = TRUE])
-      colnames(df) <- nms
-      df
-    }
-  }))
+  # Generate formula
+  form <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
+
+  # by is a wrapper of tapply, but it ends up being MUCH faster than tapply
+  # because of some data wrangling it does
+  output_lst <- by(data = occdf, INDICES = form, FUN = fun, ...)
+
+  if (is.list(output_lst)) {
+    # modified from array2DF() to handle when functions return empty dfs
+    keys <- do.call(what = expand.grid,
+                    args = list(dimnames(provideDimnames(output_lst)),
+                                KEEP.OUT.ATTRS = FALSE,
+                                stringsAsFactors = FALSE))
+    # filter out NULLs
+    output_lst_keep <- vapply(X = output_lst, FUN = Negate(is.null),
+                              FUN.VALUE = FALSE)
+    output_lst <- output_lst[output_lst_keep]
+    dfrows <- vapply(X = output_lst, FUN = nrow, FUN.VALUE = 1L)
+    keys <- keys[output_lst_keep, , drop = FALSE]
+    output_df <- cbind(keys[rep(seq_along(dfrows), dfrows), , drop = FALSE],
+                       do.call(what = rbind, args = output_lst))
+  } else {
+    fun_name <- deparse(substitute(fun))
+    output_df <- array2DF(x = output_lst, responseName = fun_name)
+    output_df <- output_df[!is.na(output_df[, fun_name]), ]
+  }
+
   # Update output if none returned
   if (nrow(output_df) == 0) {
     output_df <- NULL
+  } else {
+    # Remove row numbers
+    rownames(output_df) <- NULL
   }
+
   # Return output
   return(output_df)
 }

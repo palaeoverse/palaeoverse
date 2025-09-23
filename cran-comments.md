@@ -1,16 +1,18 @@
 # Test environments (with Github Actions)
-Windows 10.0.20348 (x86_64-w64-mingw32): R 4.3.3
+Windows Server 2022 x64 (x86_64-w64-mingw32): R 4.4.1
 
-Mac OS X 12.7.4 (x86_64-apple-darwin20.0): R 4.3.3
+macOS Sonoma 14.7 (aarch64-apple-darwin20): R 4.4.1
 
-Ubuntu-release 22.04.4 (x86_64-pc-linux-gnu): R 4.3.3
+Ubuntu-release 22.04.5 (x86_64-pc-linux-gnu): R 4.4.1
 
-Ubuntu-devel 22.04.4 (x86_64-pc-linux-gnu): r86350
+Ubuntu-devel 22.04.5 (x86_64-pc-linux-gnu): r87215
 
-Ubuntu-oldrel 22.04.4 (x86_64-pc-linux-gnu): R 4.2.3 
+Ubuntu-oldrel 22.04.5 (x86_64-pc-linux-gnu): R 4.3.3
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs.
 
 ## Downstream dependencies
-There are currently no downstream dependencies for this package.
+We checked 3 reverse dependencies (all from CRAN), comparing R CMD check results across CRAN and dev versions of this package.
+
+We saw 0 problems.
