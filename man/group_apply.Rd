@@ -28,7 +28,7 @@ value (see examples).}
 }
 \value{
 A \code{data.frame} of the outputs from the selected function, with
-appended column(s) indicating the user-defined groups. If a single vector
+prepended column(s) indicating the user-defined groups. If a single vector
 is returned via the called function, it will be transformed to a
 \code{data.frame} with the column name equal to the input function.
 }
@@ -84,13 +84,13 @@ occdf <- subset(occdf, !is.na(genus))
 ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
 # Unique genera per collection with group_apply and input arguments
 ex2 <- group_apply(occdf = occdf,
-                     group = c("collection_no"),
-                     fun = tax_unique,
-                     genus = "genus",
-                     family = "family",
-                     order = "order",
-                     class = "class",
-                     resolution = "genus")
+                   group = "collection_no",
+                   fun = tax_unique,
+                   genus = "genus",
+                   family = "family",
+                   order = "order",
+                   class = "class",
+                   resolution = "genus")
 # Use multiple variables (number of occurrences per collection and formation)
 ex3 <- group_apply(occdf = occdf,
                    group = c("collection_no", "formation"),
