@@ -126,6 +126,10 @@ tax_range_time <- function(occdf,
     stop("`min_ma` and/or `max_ma` columns contain NA values")
   }
 
+  if (length(group) > 1) {
+    stop('`group` length is >1, only a single grouping variable is accepted.')
+  }
+
   if (!is.null(group) && (group %in% colnames(occdf) == FALSE)) {
     stop('`group` is not a named column in `occdf`')
   }
@@ -232,10 +236,12 @@ tax_range_time <- function(occdf,
              ytop = vals_rect[[x]][2] + 0.5,
              col = cols_rect[x])
         # Add group labels
-        text(x = par("usr")[2],
-             y = (vals_rect[[x]][1] + vals_rect[[x]][2]) / 2,
+        axis(4,
+             at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
              labels = names(vals_rect)[x],
-             srt = 270, adj = c(0.5, -1), xpd = TRUE)
+             tick = TRUE,
+             hadj = 0.5, gap.axis = 10,
+             line = 0, las = 3)
       })
     }
     # Add ranges

@@ -92,6 +92,7 @@
 #'                     bed = beds_sampled,
 #'                     certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
+#' # Update margins for plotting
 #' par(mar = c(12, 5, 2, 2))
 #' tax_range_strat(occdf, name = "taxon")
 #' tax_range_strat(occdf, name = "taxon", certainty = "certainty",
@@ -106,6 +107,8 @@
 #'                           color = c("#67C5CA", "#F2F91D"))
 #' axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
 #' title(xlab = "Taxon", line = 10.5)
+#' # Update margins for plotting
+#' par(mar = c(12, 5, 6, 2))
 #' # Pull class data
 #' occdf$class <- tetrapods$class[1:50]
 #' # Group stratigraphic ranges by class
@@ -127,7 +130,11 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     stop("`level` must be of class numeric")
   }
 
-  if (!is.null(group) && (group %in% colnames(occdf) == FALSE)) {
+  if (length(group) > 1) {
+    stop('`group` length is >1, only a single grouping variable is accepted.')
+  }
+
+  if (!is.null(group) && !group %in% colnames(occdf)) {
     stop('`group` is not a named column in `occdf`')
   }
 
@@ -231,7 +238,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
   }
 
   #=== Plotting ===
-  #Create plot
+  # Create plot
   dump <- c("x", "y", "axes", "type")
   if (any(names(plot_args) %in% dump)) {
     plot_args <- plot_args[-which(names(plot_args) %in% dump)]
@@ -279,10 +286,12 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
            ytop = max(ranges$max_bin) * 2,
            col = cols_rect[x])
       # Add group labels
-      text(x = min(vals_rect[[x]]) - 0.5,
-           y = max(ranges$max_bin) + 0.1,
+      axis(3,
+           at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
            labels = names(vals_rect)[x],
-           srt = 0, adj = c(0, -1), xpd = TRUE)
+           tick = TRUE,
+           hadj = 0.5, gap.axis = 50,
+           line = 0, las = 1)
     })
   }
   # Add segments

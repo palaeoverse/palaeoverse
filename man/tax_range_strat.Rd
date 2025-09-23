@@ -126,6 +126,7 @@ occdf <- data.frame(taxon = tetrapod_names,
                     bed = beds_sampled,
                     certainty = certainty_sampled)
 # Plot stratigraphic ranges
+# Update margins for plotting
 par(mar = c(12, 5, 2, 2))
 tax_range_strat(occdf, name = "taxon")
 tax_range_strat(occdf, name = "taxon", certainty = "certainty",
@@ -140,6 +141,8 @@ eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
                           color = c("#67C5CA", "#F2F91D"))
 axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
 title(xlab = "Taxon", line = 10.5)
+# Update margins for plotting
+par(mar = c(12, 5, 6, 2))
 # Pull class data
 occdf$class <- tetrapods$class[1:50]
 # Group stratigraphic ranges by class

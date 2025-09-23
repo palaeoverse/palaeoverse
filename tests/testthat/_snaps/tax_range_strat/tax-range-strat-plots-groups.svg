@@ -29,13 +29,17 @@
 <rect x='59.04' y='-472.09' width='378.43' height='1095.11' style='stroke-width: 0.75; fill: #D9D9D9;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<text x='59.04' y='53.52' style='font-size: 12.00px; font-family: sans;' textLength='45.37px' lengthAdjust='spacingAndGlyphs'>not tasty</text>
+<line x1='248.26' y1='59.04' x2='248.26' y2='59.04' style='stroke-width: 0.75;' />
+<line x1='248.26' y1='59.04' x2='248.26' y2='51.84' style='stroke-width: 0.75;' />
+<text x='248.26' y='41.76' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='45.37px' lengthAdjust='spacingAndGlyphs'>not tasty</text>
 </g>
 <g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
 <rect x='437.47' y='-472.09' width='252.29' height='1095.11' style='stroke-width: 0.75; fill: #F2F2F2;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<text x='437.47' y='53.52' style='font-size: 12.00px; font-family: sans;' textLength='25.35px' lengthAdjust='spacingAndGlyphs'>tasty</text>
+<line x1='563.62' y1='59.04' x2='563.62' y2='59.04' style='stroke-width: 0.75;' />
+<line x1='563.62' y1='59.04' x2='563.62' y2='51.84' style='stroke-width: 0.75;' />
+<text x='563.62' y='41.76' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='25.35px' lengthAdjust='spacingAndGlyphs'>tasty</text>
 </g>
 <g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
 <line x1='122.11' y1='486.13' x2='122.11' y2='75.47' style='stroke-width: 1.12;' />
