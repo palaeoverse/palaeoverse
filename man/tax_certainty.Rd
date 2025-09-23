@@ -9,34 +9,35 @@ tax_certainty(
   name = NULL,
   rank = NULL,
   certainty = c(1, 0),
-  add_df = TRUE
+  append = TRUE
 )
 }
 \arguments{
-\item{taxdf}{\code{data.frame}. A dataframe with named columns
-containing taxonomic names to be checked (e.g. "species"). Names
-separated by underscores or spaces are allowed.}
+\item{taxdf}{\code{data.frame}. A dataframe with a named column
+containing the taxonomic names to be checked.}
 
 \item{name}{\code{character}. The column name of the taxonomic names you
-wish to check (e.g. "genus").}
+wish to check (e.g. "genus"). Taxonomic names separated by underscores or
+spaces are allowed.}
 
 \item{rank}{\code{character}. Taxonomic rank to be considered when
 screening for certainty in taxonomic assignment (e.g. "species", "genus",
-"family", "order", "class").}
+"family", "order", "class"). See details.}
 
 \item{certainty}{\code{character}. A vector of length two denoting
 how certainty should be coded. The first element of the vector denotes
 "certain" status (default: 1), while the second denotes "uncertain"
 status (default: 0).}
 
-\item{add_df}{\code{logical}. If \code{TRUE} (default), a 'certainty'
-column is appended to the input \code{taxdf}. Otherwise, a vector of
-taxonomic identification certainty status is returned.}
+\item{append}{\code{logical}. If \code{TRUE} (default), the returned object
+is a \code{data.frame} consisting of the input \code{taxdf} with a column
+denoting the taxonomic 'certainty' appended. If \code{FALSE}, a vector
+containing the taxonomic identification certainty status is returned.}
 }
 \value{
-The input \code{taxdf} with an appended 'certainty' column
-classifying each taxon (default), or a vector if \code{add_df} is
-\code{FALSE}.
+When \code{append} is \code{TRUE}, the input \code{taxdf} with an
+appended 'certainty' column classifying each taxon (default), or a vector
+if \code{append} is \code{FALSE}.
 }
 \description{
 Check whether a given taxonomic name is certain or uncertain by screening
@@ -45,25 +46,30 @@ denoting the certainty of taxonomic identifications (see Details for
 screening values).
 }
 \details{
-This function screens for common substitutes, abbreviations,
-qualifiers, and notations for denoting the certainty of taxonomic
-identifications.
+This function screens \code{name} for common substitutes,
+abbreviations, qualifiers, and notations expressing uncertainty in
+taxonomic identifications. When \strong{any} of these notations are present,
+the taxonomic name is considered uncertain, while in their absence, the
+taxonomic name is considered certain. Screened values differ between
+\code{rank} to prevent any undesired side effects. For example, if seeking
+genus-level certainty, screening for "sp." would result in incorrect
+classification depending on the structure of input data (i.e. genus sp.).
 
 Screened values when \code{rank} is "species":
 \itemize{
 \item "cf.", "aff.", "?", "indet.", "sp.", "ex gr.", "incertae sedis",
-"problematica", "informal", "NO_SPECIES_SPECIFIED", and "NA"/NA.
+"problematica", "informal", "NO_.*_SPECIFIED", and "NA"/NA.
 }
 
 Screened values when \code{rank} is any higher taxonomic rank (e.g. "genus"):
 \itemize{
 \item "cf.", "aff.", "?", "incertae sedis", "problematica", "informal",
-"NO_\code{rank}_SPECIFIED", and "NA"/NA.
+"NO_.*_SPECIFIED", and "NA"/NA.
 }
 }
 \section{Developer(s)}{
 
-Bruna M. Farina
+Bruna M. Farina, Lewis A. Jones
 }
 
 \section{Reviewer(s)}{
@@ -74,8 +80,12 @@ Lewis A. Jones, Bethany J. Allen, & William Gearty
 \examples{
 # Get internal data
 data(tetrapods)
+occdf <- tetrapods[1:100, ]
 # Summarise taxonomic certainty
-certainty <- tax_certainty(taxdf = tetrapods, name = "accepted_name",
+certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
                            certainty = c("certain", "uncertain"),
-                           rank = "species", add_df = TRUE)
+                           rank = "species", append = TRUE)
+certainty <- tax_certainty(taxdf = occdf, name = "genus",
+                           certainty = c("certain", "uncertain"),
+                           rank = "species", append = FALSE)
 }

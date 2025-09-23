@@ -1,5 +1,6 @@
 # Development version
 
+* Added tax_certainty function
 * Several updates to palaeorotate
   * Mantle reference frame models removed
   * TorsvikCocks2017 model added
