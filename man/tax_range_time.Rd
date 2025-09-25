@@ -9,6 +9,7 @@ tax_range_time(
   name = "genus",
   min_ma = "min_ma",
   max_ma = "max_ma",
+  group = NULL,
   by = "FAD",
   plot = FALSE,
   plot_args = NULL,
@@ -31,6 +32,10 @@ as the minimum limit of the age range, e.g. "min_ma" (default).}
 \item{max_ma}{\code{character}. The name of the column you wish to be treated
 as the maximum limit of the age range, e.g. "max_ma" (default).}
 
+\item{group}{\code{character}. The name of the column you wish to be treated
+as the grouping variable, e.g. "family". If not supplied, all taxa are
+treated as a single group.}
+
 \item{by}{\code{character}. How should the output be sorted?
 Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 or "name" (alphabetically by taxon names).}
@@ -51,7 +56,7 @@ multiple time scales to the same side of the plot (see \link{axis_geo}
 Details). Defaults to "periods".}
 }
 \value{
-A \code{dataframe} containing the following columns:
+A \code{data.frame} containing the following columns:
 unique taxa (\code{taxon}), taxon ID (\code{taxon_id}), first appearance of taxon
 (\code{max_ma}), last appearance of taxon (\code{min_ma}), duration of temporal
 range (\code{range_myr}), and number of occurrences per taxon (\code{n_occ}) is
@@ -102,10 +107,21 @@ occdf <- tetrapods
 occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 # Temporal range
 ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
+# Temporal range ordered by class
+# Update margins for plotting
+par(mar = c(8, 5, 6, 6))
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
+                     plot = TRUE)
 # Customise appearance
-ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE,
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
+                     plot = TRUE,
                      plot_args = list(ylab = "Orders",
                                       pch = 21, col = "black", bg = "blue",
                                       lty = 2),
                      intervals = list("periods", "eras"))
+# Control plotting order of groups
+occdf$class <- factor(x = occdf$class,
+                      levels = c("Reptilia", "Osteichthyes"))
+ex <- tax_range_time(occdf = occdf, name = "order",
+                     group = "class", plot = TRUE)
 }
