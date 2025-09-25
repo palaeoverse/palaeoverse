@@ -73,6 +73,8 @@
 #' # Temporal range
 #' ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
 #' # Temporal range ordered by class
+#' # Update margins for plotting
+#' par(mar = c(8, 5, 6, 6))
 #' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
 #'                      plot = TRUE)
 #' # Customise appearance
