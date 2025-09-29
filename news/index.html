@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">palaeoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,15 @@
       <small>Source: <a href="https://github.com/palaeoverse/palaeoverse/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="palaeoverse-development-version">palaeoverse (development version)<a class="anchor" aria-label="anchor" href="#palaeoverse-development-version"></a></h2>
+<ul><li>Added group argument to tax_range_time/strat and improved plotting (<a href="https://github.com/palaeoverse/palaeoverse/issues/120" class="external-link">#120</a>)</li>
+<li>Made bin durations more even and added n_bins option in time_bins (<a href="https://github.com/palaeoverse/palaeoverse/issues/131" class="external-link">#131</a>)</li>
+<li>Added <code>autofit</code> argument to <code>axis_geo</code> which, when enabled, automatically adjusts the sizes of individual interval labels to fit within the interval boxes (<a href="https://github.com/palaeoverse/palaeoverse/issues/21" class="external-link">#21</a>)</li>
+<li>Added <code>title</code> argument to <code>axis_geo</code> which can be used to add a title to the axis with the timescale (<a href="https://github.com/palaeoverse/palaeoverse/issues/133" class="external-link">#133</a>)</li>
+<li>Increased efficiency and reduced hackiness of <code>group_apply</code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/135" class="external-link">#135</a>)</li>
+<li>Downloads related to the palaeorotate function are now retried if they fail (<a href="https://github.com/palaeoverse/palaeoverse/issues/137" class="external-link">#137</a>)</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.0" id="palaeoverse-140">palaeoverse 1.4.0<a class="anchor" aria-label="anchor" href="#palaeoverse-140"></a></h2><p class="text-muted">CRAN release: 2024-10-14</p>
 <ul><li>Several updates to palaeorotate
