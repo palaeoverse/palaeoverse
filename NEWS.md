@@ -1,4 +1,4 @@
-# Development version
+# palaeoverse (development version)
 
 * Added group argument to tax_range_time/strat and improved plotting (#120)
 * Made bin durations more even and added n_bins option in time_bins (#131)
