@@ -8,6 +8,7 @@ tax_range_strat(
   occdf,
   name = "genus",
   level = "bed",
+  group = NULL,
   certainty = NULL,
   by = "FAD",
   plot_args = NULL,
@@ -26,6 +27,10 @@ as the input names, e.g. "genus" (default).}
 \item{level}{\code{character}. The name of the column you wish to be treated
 as the stratigraphic levels associated with each occurrence, e.g. "bed"
 (default) or "height". Stratigraphic levels must be \code{numeric}.}
+
+\item{group}{\code{character}. The name of the column you wish to be treated
+as the grouping variable, e.g. "family". If not supplied, all taxa are
+treated as a single group.}
 
 \item{certainty}{\code{character}. The name of the column you wish to be
 treated as the information on whether an identification is certain (1) or
@@ -60,7 +65,7 @@ supported and will be overridden. If the \code{at} argument is not specified, it
 will be set to a vector of the unique values from the \code{level} column.}
 }
 \value{
-Invisibly returns a data.frame of the calculated taxonomic
+Invisibly returns a \code{data.frame} of the calculated taxonomic
 stratigraphic ranges.
 
 The function is usually used for its side effect, which is to create a plot
@@ -99,7 +104,8 @@ follows:
 }
 }
 \section{Developer(s)}{
- Bethany Allen, William Gearty & Alexander Dunhill
+ Bethany Allen, William Gearty, Lewis A. Jones &
+Alexander Dunhill
 }
 
 \section{Reviewer(s)}{
@@ -120,6 +126,7 @@ occdf <- data.frame(taxon = tetrapod_names,
                     bed = beds_sampled,
                     certainty = certainty_sampled)
 # Plot stratigraphic ranges
+# Update margins for plotting
 par(mar = c(12, 5, 2, 2))
 tax_range_strat(occdf, name = "taxon")
 tax_range_strat(occdf, name = "taxon", certainty = "certainty",
@@ -134,5 +141,14 @@ eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
                           color = c("#67C5CA", "#F2F91D"))
 axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
 title(xlab = "Taxon", line = 10.5)
+# Update margins for plotting
+par(mar = c(12, 5, 6, 2))
+# Pull class data
+occdf$class <- tetrapods$class[1:50]
+# Group stratigraphic ranges by class
+tax_range_strat(occdf, name = "taxon", group = "class",
+                certainty = "certainty", by = "name",
+                plot_args = list(main = "Section A",
+                                 ylab = "Stratigraphic height (m)"))
 
 }
