@@ -88,7 +88,7 @@ test_that("tax_range_strat() labels", {
 })
 
 test_that("tax_range_strat() stops some plot_args", {
-  expect_doppelganger("tax_range_strat() labels", function() {
+  expect_doppelganger("tax_range_strat() stops some plot_args", function() {
 
     occdf <- data.frame(genus = c("shrimp", "worm", "worm", "shrimp", "bivalve",
                                   "bivalve", "shrimp", "anemone", "worm"),
