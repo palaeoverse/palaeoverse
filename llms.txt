@@ -1,0 +1,180 @@
+# palaeoverse
+
+`palaeoverse` is an R package developed by palaeobiologists, for
+palaeobiologists.
+
+The aim of `palaeoverse` is to generate a community-driven software
+package of generic functions for the palaeobiological community. The
+package does not provide implementations of statistical analyses, rather
+it provides auxiliary functions to help streamline analyses and improve
+code readability and reproducibility.
+
+# Development team
+
+- [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), Universidade de
+  Vigo
+- [William Gearty](mailto:willgearty@gmail.com), American Museum of
+  Natural History
+- [Bethany J. Allen](mailto:Bethany.Allen@bsse.ethz.ch), ETH Zürich
+- [Kilian Eichenseer](mailto:kilian.eichenseer@gmail.com), Durham
+  University
+- [Christopher D. Dean](mailto:christopherdaviddean@gmail.com),
+  University College London
+- [Sofía Galván](mailto:sofia.galvan@uvigo.es), Universidade de Vigo
+- [Miranta Kouvari](mailto:kouvari.miranta@gmail.com), University
+  College London/Natural History Museum
+- [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), University of São
+  Paulo/Stony Brook University
+- [Cecily Nicholl](mailto:cecily.nicholl@ucl.ac.uk), University College
+  London
+- [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), École Normale
+  Supérieure de Lyon
+- [Erin M. Dillon](mailto:erinmdillon@ucsb.edu), Smithsonian Tropical
+  Research Institute/University of California
+- [A. Alessandro Chiarenza](mailto:a.chiarenza15@gmail.com),
+  Universidade de Vigo
+
+# Installation
+
+The stable version of `palaeoverse` can be installed from CRAN using:
+
+``` r
+install.packages("palaeoverse")
+```
+
+The development version of `palaeoverse` can be installed via GitHub
+using:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("palaeoverse/palaeoverse")
+```
+
+# How to contribute?
+
+If you are interested in contributing to the `palaeoverse` R package,
+you can do so by following these
+[guidelines](https://palaeoverse.palaeoverse.org/CONTRIBUTING.html). We
+have also adopted a set of [standards and
+structure](https://palaeoverse.palaeoverse.org/articles/structure-and-standards.html)
+to follow for contributing to the project. If you would like to
+contribute to `palaeoverse`, we strongly advise reading this document.
+
+# Code of Conduct
+
+As with any community project, society, or meeting we feel it is
+important to established some expectations of behaviour in the
+`palaeoverse` community. Please read our [code of
+conduct](https://palaeoverse.palaeoverse.org/CODE_OF_CONDUCT.html), and
+reach out if you ever face any issues. Everyone has the right to live
+and work in a harassment-free environment.
+
+# Citation
+
+If you use the palaeoverse R package in your work, please cite as:
+
+Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván
+S., Kouvari, M., Godoy, P.L., Nicholl, C., Dillon, E.M.,
+Flannery-Sutherland, J.T., Chiarenza, A.A. 2023. palaeoverse: A
+community-driven R package to support palaeobiological analysis.
+*Methods in Ecology and Evolution* 14(09), 2205–2215. doi:
+[10.1111/2041-210X.14099](https://doi.org/10.1111/2041-210X.14099).
+
+![](reference/figures/logo.png)
+
+Hexlogo by Miranta Kouvari and Cecily Nicholl
+
+# Package index
+
+## Data cleaning and preparing
+
+Functions for cleaning and preparing occurrence or taxonomic data for
+downstream analyses.
+
+- [`tax_check()`](https://palaeoverse.palaeoverse.org/reference/tax_check.md)
+  : Taxonomic spell check
+- [`phylo_check()`](https://palaeoverse.palaeoverse.org/reference/phylo_check.md)
+  : Check phylogeny tip names
+- [`tax_unique()`](https://palaeoverse.palaeoverse.org/reference/tax_unique.md)
+  : Filter occurrences to unique taxa
+- [`palaeorotate()`](https://palaeoverse.palaeoverse.org/reference/palaeorotate.md)
+  : Palaeorotate fossil occurrences
+- [`look_up()`](https://palaeoverse.palaeoverse.org/reference/look_up.md)
+  : Look up geological intervals and assign geological stages
+- [`tax_expand_lat()`](https://palaeoverse.palaeoverse.org/reference/tax_expand_lat.md)
+  : Generate pseudo-occurrences from latitudinal range data
+- [`tax_expand_time()`](https://palaeoverse.palaeoverse.org/reference/tax_expand_time.md)
+  : Generate pseudo-occurrences from temporal range data
+
+## Data binning
+
+Functions for binning occurrence data.
+
+- [`bin_lat()`](https://palaeoverse.palaeoverse.org/reference/bin_lat.md)
+  : Assign fossil occurrences to latitudinal bins
+- [`bin_space()`](https://palaeoverse.palaeoverse.org/reference/bin_space.md)
+  : Assign fossil occurrences to spatial bins
+- [`bin_time()`](https://palaeoverse.palaeoverse.org/reference/bin_time.md)
+  : Assign fossil occurrences to time bins
+
+## Data summarisation
+
+Functions to summarise occurrence-level data.
+
+- [`tax_range_space()`](https://palaeoverse.palaeoverse.org/reference/tax_range_space.md)
+  : Calculate the geographic range of fossil taxa
+- [`tax_range_time()`](https://palaeoverse.palaeoverse.org/reference/tax_range_time.md)
+  : Calculate the temporal range of fossil taxa
+
+## Data visualization
+
+Functions to aid in the visualisation of data and analysis results.
+
+- [`axis_geo()`](https://palaeoverse.palaeoverse.org/reference/axis_geo.md)
+  [`axis_geo_phylo()`](https://palaeoverse.palaeoverse.org/reference/axis_geo.md)
+  : Add an axis with a geological timescale
+- [`tax_range_strat()`](https://palaeoverse.palaeoverse.org/reference/tax_range_strat.md)
+  : Generate a stratigraphic section plot
+
+## Auxiliary functions
+
+Functions to support further functionality.
+
+- [`lat_bins()`](https://palaeoverse.palaeoverse.org/reference/lat_bins.md)
+  **\[deprecated\]** : Generate equal-width latitudinal bins
+- [`lat_bins_area()`](https://palaeoverse.palaeoverse.org/reference/lat_bins_area.md)
+  : Generate equal-area latitudinal bins
+- [`lat_bins_degrees()`](https://palaeoverse.palaeoverse.org/reference/lat_bins_degrees.md)
+  : Generate equal-width latitudinal bins
+- [`time_bins()`](https://palaeoverse.palaeoverse.org/reference/time_bins.md)
+  : Generate time bins
+- [`group_apply()`](https://palaeoverse.palaeoverse.org/reference/group_apply.md)
+  : Apply a function over grouping(s) of data
+
+## Built-in data
+
+palaeoverse comes with a selection of built-in datasets that are used in
+examples to illustrate various use cases.
+
+- [`GTS2012`](https://palaeoverse.palaeoverse.org/reference/GTS2012.md)
+  : Geological Timescale 2012
+- [`GTS2020`](https://palaeoverse.palaeoverse.org/reference/GTS2020.md)
+  : Geological Timescale 2020
+- [`interval_key`](https://palaeoverse.palaeoverse.org/reference/interval_key.md)
+  : Example dataset: Interval key for the look_up function
+- [`reefs`](https://palaeoverse.palaeoverse.org/reference/reefs.md) :
+  Example dataset: Phanerozoic reefs from the PaleoReefs Database
+- [`tetrapods`](https://palaeoverse.palaeoverse.org/reference/tetrapods.md)
+  : Example dataset: Early tetrapod data from the Paleobiology Database
+
+# Articles
+
+### Articles
+
+- [Latitudinal trends in Phanerozoic
+  reefs](https://palaeoverse.palaeoverse.org/articles/phanerozoic-reefs.md):
+- [Alpha diversity and geographic range size of Carboniferous and
+  Permian
+  tetrapods](https://palaeoverse.palaeoverse.org/articles/tetrapod-biodiversity.md):
+- [Contributing to palaeoverse: structure and
+  standards](https://palaeoverse.palaeoverse.org/articles/structure-and-standards.md):
