@@ -1,5 +1,6 @@
 # palaeoverse (development version)
 
+* Added tax_certainty function (#109)
 * Added group argument to tax_range_time/strat and improved plotting (#120)
 * Made bin durations more even and added n_bins option in time_bins (#131)
 * Added `autofit` argument to `axis_geo` which, when enabled, automatically adjusts the sizes of individual interval labels to fit within the interval boxes (#21)
