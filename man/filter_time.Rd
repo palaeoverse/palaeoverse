@@ -6,55 +6,54 @@
 \usage{
 filter_time(
   occdf,
+  bins = NULL,
   min_ma = "min_ma",
   max_ma = "max_ma",
-  bins = NULL,
   interval_name = "interval_name",
-  youngest_bin = NULL,
-  oldest_bin = NULL,
   min_age = NULL,
   max_age = NULL,
+  overlap = FALSE,
   uncertainty = NULL,
   n_bins = 1,
   retain.taxa = FALSE,
-  taxa = NULL
+  taxa = NULL,
+  verbose = T
 )
 }
 \arguments{
-\item{occdf}{\code{data.frame}. A \code{data.frame} of the fossil occurrences you wish
-to filter. This \code{data.frame} must contain at least two columns, maximum
-occurrence age and minimum occurrence age (see \code{max_ma}, \code{min_ma}), both of
-which should be numeric.}
+\item{occdf}{\code{data.frame}. The fossil occurrences you wish to filter. This
+must contain minimum and maximum occurrence age columns, or a column of
+point ages. All must be numeric and cannot contain missing values.}
+
+\item{bins}{This may be left as \code{NULL} if filtering by numeric values only.
+Otherwise, a \code{data.frame} of time bins used to look up numeric ages for
+filtering fossil occurrences, such as that returned by \code{\link[=time_bins]{time_bins()}}. This
+must contain at least three columns as named by \code{max_ma}, \code{min_ma} and
+\code{interval_name}. No column can contain missing values and columns \code{max_ma}
+and \code{min_ma} must additionally be numeric.}
 
 \item{min_ma}{\code{character}. The name of the column you wish to be treated as
-the minimum ages in \code{occdf} and \code{bins} (defaults to "min_ma").}
+minimum ages in \code{occdf} and \code{bins}. \code{min_ma} in \code{occdf} can instead be
+treated as point ages.}
 
 \item{max_ma}{\code{character}. The name of the column you wish to be treated as
-the maximum ages in \code{occdf} and \code{bins} (defaults to "max_ma").}
-
-\item{bins}{\code{data.frame}. A \code{data.frame} of time bins used to look up
-absolute stratigraphic ages for filtering fossil occurrences, such as that
-returned by \code{\link[=time_bins]{time_bins()}}. This \code{data.frame} must contain at least
-three columns as named by \code{interval_name} (defaults to "interval_name"),
-\code{max_ma} (defaults to "max_ma") and \code{min_ma} (defaults to "min_ma"). Columns
-\code{max_ma} and \code{min_ma} must be numeric.}
+the maximum ages in \code{occdf} and \code{bins}. \code{max_ma} in \code{occdf} can instead be
+treated as point ages (i.e. the same column name as for \code{min_ma}).}
 
 \item{interval_name}{\code{character} The name of the column in \code{bins} that
 contains the interval names.}
 
-\item{youngest_bin}{\code{character}. The name of the youngest stratigraphic
-interval to trim to. Only one interval name should be supplied, which should
-be present in column \code{interval_name} in \code{bins}.}
+\item{min_age}{The minimum desired occurrence age. This can be either a
+numeric value or an interval name, which then must be present in column
+\code{interval_name} in \code{bins}.}
 
-\item{oldest_bin}{\code{character}. The name of the oldest stratigraphic interval
-to trim to. Only one interval name should be supplied, which should be
-present in column \code{interval_name} in \code{bins}.}
+\item{max_age}{The maximum desired occurrence age. This can be either a
+numeric value or an interval name, which then must be present in column
+\code{interval_name} in \code{bins}.}
 
-\item{min_age}{\code{numeric}. The minimum absolute occurrence age to trim to.
-Ignored if \code{youngest_bin} is supplied.}
-
-\item{max_age}{\code{numeric}. The maximum absolute occurrence age to trim to.
-Ignored if \code{oldest_bin} is supplied.}
+\item{overlap}{\code{logical}. Occurrences which partially overlap with the set
+filtering duration are discarded by default, so that the returned data falls
+strictly within these bounds. Set to \code{TRUE} to retain overlaps instead.}
 
 \item{uncertainty}{A numeric value denoting the maximum tolerable temporal
 uncertainty for retaining occurrences. Alternatively, if this argument is
@@ -62,59 +61,56 @@ set to "bins", then only occurrences which span no more than \code{n_bins}
 intervals in \code{bins} will be retained.}
 
 \item{n_bins}{\code{numeric} The maximum tolerable bin-wise uncertainty above
-which occurrences will be discarded if \code{uncertainty = "bins"} (defaults
-to \code{1}).}
+which occurrences will be discarded if \code{uncertainty = "bins"}.}
 
 \item{retain.taxa}{\code{logical}. Complete loss of some taxa may occur if all
-their occurrences exceed the temporal uncertainty criterion set by the user.
-If this is undesirable, occurrences for these taxa will be retained as
-exceptions to the filtering parameters (defaults to \code{FALSE}).}
+their occurrences exceed the temporal uncertainty criterion. If this is
+undesirable, occurrences for these taxa will be retained as exceptions to
+the this filtering criterion.}
 
-\item{taxa}{\code{character}. The name of the column in \code{occdf} you wish to be
-treated as the taxon names in \code{occdf} if \code{retain.taxa = TRUE} (defaults to
-\code{NULL}).}
+\item{taxa}{\code{character}. The name of the column you wish to be treated as
+taxon names in \code{occdf} if \code{retain.taxa = TRUE}.}
+
+\item{verbose}{\code{logical}. Sets if the impact of time filtering is reported
+to the console or not.}
 }
 \value{
-The \code{data.frame} containing the original input \code{occdf}, minus any
-occurrences discarded under the chosen trimming and filtering parameters. If
-\code{retain.taxa = TRUE}, there will be an additional column called \code{retained},
-consisting of \code{0} for occurrences which met the filtering criteria and \code{1}
-for occurrences which were retained for taxonomic completeness. Depending on
-the filtering parameters used, it is possible that all or no occurrences
-will be discarded, resulting in an empty \code{data.frame} or an unchanged data
-set respectively.
+The input \code{data.frame}, \code{occdf}, minus any occurrences discarded under the
+chosen trimming and filtering parameters. If \code{retain.taxa = TRUE}, there
+will be an additional column called \code{retained}, consisting of \code{0} for
+occurrences which met all filtering criteria and \code{1} for occurrences which
+were retained for taxonomic completeness. Depending on the filtering
+parameters used, all or no occurrences may be discarded.
 }
 \description{
-A function to trim fossil occurrences to within a specified temporal
-duration and/or level of precision. Filtering can be performed using
-stratigraphic interval names or absolute ages.
+A function to trim fossil occurrences to within specified stratigraphic
+bounds and/or degree of precision. Filtering can be performed on
+occurrences with point or uncertainty-bounded ages using stratigraphic
+interval names or absolute numeric ages.
 }
 \details{
-When trimming by stratigraphic interval names, the boundary ages of
-\code{youngest_bin} and \code{oldest_bin} are taken from their entries in \code{bins}.
-Occurrences with maximum ages younger than the upper boundary age of
-\code{youngest_bin} or minimum ages older than the lower boundary age of
-\code{oldest_bin} will be trimmed.
+When filtering by stratigraphic bounds, minimum or maximum ages can be used
+individually, or at the same time. By default occurrences which do not fall
+fully within the bounds set by \code{min_age} and/or \code{max_age} are discarded.
+This behaviour can be toggled by setting \code{strict = FALSE} to retain
+occurrences which partially overlap with the bounds set. If using
+stratigraphic interval names, \code{min_age} is internally set to its interval
+upper boundary age and \code{max_age} to its interval lower boundary age using
+the interval durations in \code{bins}. Otherwise, the numeric minimum and maximum
+values are used directly.
 
-When filtering by temporal precision, if \code{uncertainty = "bins"}, the
-function uses \code{\link[=bin_time]{bin_time()}} to assign occurrences to the
-stratigraphic intervals present in \code{bins} and discards any which span more
-than one interval, a common procedure in many computational palaeobiology
-workflows.
+When filtering by stratigraphic precision, if \code{uncertainty = "bins"}, the
+function uses \code{\link[=bin_time]{bin_time()}} to assign occurrences to the stratigraphic
+intervals present in \code{bins} and discards any which span more than one
+interval, a common procedure in many computational palaeobiology workflows.
+Alternatively, an absolute stratigraphic duration (e.g., \code{uncertainty = 12})
+can be used to discard occurrences with age uncertainties greater than this
+duration. Filtering by temporal precision has no effect for occurrences with
+point ages.
 
-Alternatively, trimming can be performed with absolute minimum and maximum
-age ranges specified in \code{min_age} and \code{max_age}. Occurrences are then
-discarded as for interval-derived upper and lower boundary ages. Similarly,
-an absolute stratigraphic duration (e.g., \code{uncertainty = 12}) can be used to
-filter to occurrences with age uncertainties lower than or equal to this
-duration.
-
-It is worth keeping in mind that occurrences which might overlap with your
-specified time range but with either a minimum or maximum age outside of
-this range will be excluded. Similarly, it is crucial that the
-occurrence ages in your data and your trimming and filtering parameters
-conform to the same stratigraphic timescale (e.g., GTS 2020) to avoid
-incorrect exclusion of occurrences:
+It is crucial that the occurrence ages in your data and your trimming and
+filtering parameters conform to the same stratigraphic timescale (e.g., GTS
+2020) to avoid incorrect exclusion of occurrences:
 \itemize{
 \item If interval boundary ages or absolute ages do not align precisely with
 occurrence ages, this could result in substantial data loss towards the
@@ -132,13 +128,13 @@ a value no shorter than the longest interval duration present in your data
 
 Finally, the function can retain occurrences (\code{retain.taxa = TRUE})
 initially discarded when filtering by temporal uncertainty to ensure that
-the taxonomic composition of the total data set is unchanged, whilst still
-reducing temporal uncertainty elsewhere in the data:
+the taxonomic composition of data set within temporal bounds is unchanged,
+whilst still reducing temporal uncertainty elsewhere in the data:
 \itemize{
 \item Taxonomic retention is achieved by checking for any taxa that are lost
 completely when filtering by temporal uncertainty, then reintroducing all
-occurrences for those taxa. Such occurrences are marked within a column
-appended to the returned data set.
+occurrences for those taxa. These occurrences are marked in the "retained"
+column appended to the returned data set with values of 1.
 \item Taxa lost during trimming to a particular stratigraphic duration are
 not reintroduced in this way, nor are occurrences with missing entries in
 the column specified by \code{taxa} (i.e., those with \code{NA} values).
@@ -153,7 +149,7 @@ or reasonable to use poorer quality data analytically.
 }
 
 \section{Reviewer(s)}{
- William Gearty
+ William Gearty, Bethany Allen, Lewis Jones
 }
 
 \examples{
@@ -162,25 +158,31 @@ occdf <- tetrapods[1:100, ]
 stages <- time_bins(rank = "stage")
 
 # trim to Kungurian occurrences
-filtered1 <- filter_time(occdf, min_age = 272.3, max_age = 279.3)
+trimmed1 <- filter_time(occdf, min_age = 272.3, max_age = 279.3)
+
+# trim occurrences older than the Kungurian
+trimmed2 <- filter_time(occdf, max_age = 279.3)
+
+# trim occurrences younger than the Roadian
+trimmed3 <- filter_time(occdf, bins = stages, min_age = "Roadian")
 
 # trim to occurrences within the stages of the Permian
-filtered2 <- filter_time(occdf, bins = stages,
-                         youngest_bin = "Wuchiapingian", oldest_bin = "Asselian")
+trimmed4 <- filter_time(occdf, bins = stages,
+                        min_age = "Wuchiapingian", max_age = "Asselian")
 
-# filter to only occurrences which fall into single stages
-filtered3 <- filter_time(occdf, bins = stages, uncertainty = "bins", n_bins = 1)
+# trim to only occurrences which fall into single stages
+trimmed5 <- filter_time(occdf, bins = stages, uncertainty = "bins", n_bins = 1)
 
-# filter to only Permian occurrences with age uncertainties less than or equal to 15 million years
-filtered4 <- filter_time(occdf, bins = stages,
-                         youngest_bin = "Wuchiapingian", oldest_bin = "Asselian",
-                         uncertainty = 15)
+# trim to only Permian occurrences with age uncertainties less than or equal to 15 million years
+trimmed6 <- filter_time(occdf, bins = stages,
+                        min_age = "Wuchiapingian", max_age = "Asselian",
+                        uncertainty = 15)
 
 # trim to occurrences within the stages of the Permian, and filter to those
 # with age uncertainties less than or equal to 15 million years, but allow
 # some less precise occurrences to remain to prevent loss of any taxa.
-filtered5 <- filter_time(occdf, bins = stages,
-                         youngest_bin = "Wuchiapingian", oldest_bin = "Asselian",
-                         uncertainty = 20, retain.taxa = TRUE, taxa = "genus")
+trimmed7 <- filter_time(occdf, bins = stages,
+                        min_age = "Wuchiapingian", max_age = "Asselian",
+                        uncertainty = 20, retain.taxa = TRUE, taxa = "genus")
 
 }
