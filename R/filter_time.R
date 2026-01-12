@@ -19,7 +19,7 @@
 #' minimum ages in `occdf` and `bins`. `min_ma` in `occdf` can instead be
 #' treated as point ages.
 #' @param max_ma `character`. The name of the column you wish to be treated as
-#' the maximum ages in `occdf` and `bins`. `max_ma` in `occdf` can instead be
+#' maximum ages in `occdf` and `bins`. `max_ma` in `occdf` can instead be
 #' treated as point ages (i.e. the same column name as for `min_ma`).
 #' @param interval_name `character` The name of the column in `bins` that
 #' contains the interval names.
