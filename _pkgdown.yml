@@ -74,6 +74,7 @@ reference:
   desc: >
     Functions to summarise occurrence-level data.
   contents:
+  - tax_abund
   - tax_range_space
   - tax_range_time
 
