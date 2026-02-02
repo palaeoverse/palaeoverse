@@ -7,22 +7,24 @@
 tax_certainty(
   taxdf = NULL,
   name = NULL,
-  rank = NULL,
+  terms = NULL,
   certainty = c(1, 0),
   append = TRUE
 )
 }
 \arguments{
-\item{taxdf}{\code{data.frame}. A dataframe with a named column
-containing the taxonomic names to be checked.}
+\item{taxdf}{\code{data.frame}. A dataframe with a named column containing
+the taxonomic names to be checked.}
 
 \item{name}{\code{character}. The column name of the taxonomic names you
-wish to check (e.g. "genus"). Taxonomic names separated by underscores or
-spaces are allowed.}
+wish to check (e.g. "identified_name"). Taxonomic names separated by
+underscores or spaces are allowed.}
 
-\item{rank}{\code{character}. Taxonomic rank to be considered when
-screening for certainty in taxonomic assignment (e.g. "species", "genus",
-"family", "order", "class"). See details.}
+\item{terms}{\code{list}. A named list of uncertainty terms to screen
+\code{name} for. Matched values will be classified as "uncertain". A
+pre-defined named list of terms is screened for by default (see Details).
+These terms can be ignored, or replaced through this argument (e.g.
+\code{terms = list(species = "")}).}
 
 \item{certainty}{\code{character}. A vector of length two denoting
 how certainty should be coded. The first element of the vector denotes
@@ -50,26 +52,46 @@ This function screens \code{name} for common substitutes,
 abbreviations, qualifiers, and notations expressing uncertainty in
 taxonomic identifications. When \strong{any} of these notations are present,
 the taxonomic name is considered uncertain, while in their absence, the
-taxonomic name is considered certain. Screened values differ between
-\code{rank} to prevent any undesired side effects. For example, if seeking
-genus-level certainty, screening for "sp." would result in incorrect
-classification depending on the structure of input data (i.e. genus sp.).
+taxonomic name is considered certain. A pre-defined named list of terms
+is screened for by default:
 
-Screened values when \code{rank} is "species":
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ list(subspecies = c("ssp\\\\.", "subsp\\\\."),
+      species = c("sp\\\\.", "spp\\\\."),
+      genus = c("gen\\\\."),
+      family = c("fam\\\\."),
+      indeterminable = c("indeterminabilis", "indeterminata",
+                         "indet\\\\.", "ind\\\\."),
+      uncertain = c("incerta", "?", "inc\\\\.",
+                    "\\\\\\"\\\\\\"", "\\\\\\'\\\\\\'"),
+      confer = c("confer$", "cf\\\\.", "cfr\\\\.", "conf\\\\."),
+      dubia = c("dubia$","sp\\\\. dub\\\\.", "nomen dubium"),
+      incertae = c("incertae sedis", "inc\\\\. sed\\\\."),
+      problematic = c("problematica"),
+      informal = c("informal"),
+      unavailable = c("^NA$"),
+      trace = c("ex\\\\.", "exuvia", "exuviae"),
+      not_specified = c("NO_.*_SPECIFIED"))
+}\if{html}{\out{</div>}}
+
+Additional terms to screen for can be provided via the \code{terms} argument
+via a named list (e.g. \code{terms = list(custom = "species1")}). In addition,
+the pre-defined named list can be modified to omit, or update certain
+terms (e.g. \code{terms = list(species = "")} or
+\code{terms = list(genus = "gen\\\\.", "genus")}).
+
+The pre-defined list is intended to be comprehensive, and is informed by:
 \itemize{
-\item "cf.", "aff.", "?", "indet.", "sp.", "ex gr.", "incertae sedis",
-"problematica", "informal", "NO_.*_SPECIFIED", and "NA"/NA.
+\item Sigovini, M., Keppel, E., & Tagliapietra, D. (2016). Open Nomenclature in
+the biodiversity era. \emph{Methods in Ecology and Evolution}, 7(10), 1217-1225.
+\doi{10.1111/2041-210X.12594}.
 }
 
-Screened values when \code{rank} is any higher taxonomic rank (e.g. "genus"):
-\itemize{
-\item "cf.", "aff.", "?", "incertae sedis", "problematica", "informal",
-"NO_.*_SPECIFIED", and "NA"/NA.
-}
+If you wish additional terms to be screened for by default, please
+raise a \href{https://github.com/palaeoverse/palaeoverse/issues}{GitHub Issue}.
 }
 \section{Developer(s)}{
 
-Bruna M. Farina, Lewis A. Jones
+Lewis A. Jones, Bruna M. Farina
 }
 
 \section{Reviewer(s)}{
@@ -84,8 +106,9 @@ occdf <- tetrapods[1:100, ]
 # Summarise taxonomic certainty
 certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
                            certainty = c("certain", "uncertain"),
-                           rank = "species", append = TRUE)
+                           append = TRUE)
 certainty <- tax_certainty(taxdf = occdf, name = "genus",
+                           terms = list(subspecies = "", species = ""),
                            certainty = c("certain", "uncertain"),
-                           rank = "species", append = FALSE)
+                           append = FALSE)
 }

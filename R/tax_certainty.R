@@ -5,14 +5,16 @@
 #' denoting the certainty of taxonomic identifications (see Details for
 #' screening values).
 #'
-#' @param taxdf \code{data.frame}. A dataframe with a named column
-#'   containing the taxonomic names to be checked.
+#' @param taxdf \code{data.frame}. A dataframe with a named column containing
+#'   the taxonomic names to be checked.
 #' @param name \code{character}. The column name of the taxonomic names you
-#'   wish to check (e.g. "genus"). Taxonomic names separated by underscores or
-#'   spaces are allowed.
-#' @param rank \code{character}. Taxonomic rank to be considered when
-#'   screening for certainty in taxonomic assignment (e.g. "species", "genus",
-#'   "family", "order", "class"). See details.
+#'   wish to check (e.g. "identified_name"). Taxonomic names separated by
+#'   underscores or spaces are allowed.
+#' @param terms \code{list}. A named list of uncertainty terms to screen
+#'   `name` for. Matched values will be classified as "uncertain". A
+#'   pre-defined named list of terms is screened for by default (see Details).
+#'   These terms can be ignored, or replaced through this argument (e.g.
+#'   `terms = list(species = "")`).
 #' @param certainty \code{character}. A vector of length two denoting
 #'   how certainty should be coded. The first element of the vector denotes
 #'   "certain" status (default: 1), while the second denotes "uncertain"
@@ -30,21 +32,45 @@
 #'   abbreviations, qualifiers, and notations expressing uncertainty in
 #'   taxonomic identifications. When **any** of these notations are present,
 #'   the taxonomic name is considered uncertain, while in their absence, the
-#'   taxonomic name is considered certain. Screened values differ between
-#'   `rank` to prevent any undesired side effects. For example, if seeking
-#'   genus-level certainty, screening for "sp." would result in incorrect
-#'   classification depending on the structure of input data (i.e. genus sp.).
+#'   taxonomic name is considered certain. A pre-defined named list of terms
+#'   is screened for by default:
 #'
-#'   Screened values when `rank` is "species":
-#'   - "cf.", "aff.", "?", "indet.", "sp.", "ex gr.", "incertae sedis",
-#'   "problematica", "informal", "NO_.*_SPECIFIED", and "NA"/NA.
+#'   ```r
+#'    list(subspecies = c("ssp\\.", "subsp\\."),
+#'         species = c("sp\\.", "spp\\."),
+#'         genus = c("gen\\."),
+#'         family = c("fam\\."),
+#'         indeterminable = c("indeterminabilis", "indeterminata",
+#'                            "indet\\.", "ind\\."),
+#'         uncertain = c("incerta", "?", "inc\\.",
+#'                       "\\\"\\\"", "\\\'\\\'"),
+#'         confer = c("confer$", "cf\\.", "cfr\\.", "conf\\."),
+#'         dubia = c("dubia$","sp\\. dub\\.", "nomen dubium"),
+#'         incertae = c("incertae sedis", "inc\\. sed\\."),
+#'         problematic = c("problematica"),
+#'         informal = c("informal"),
+#'         unavailable = c("^NA$"),
+#'         trace = c("ex\\.", "exuvia", "exuviae"),
+#'         not_specified = c("NO_.*_SPECIFIED"))
+#'   ```
 #'
-#'   Screened values when `rank` is any higher taxonomic rank (e.g. "genus"):
-#'   - "cf.", "aff.", "?", "incertae sedis", "problematica", "informal",
-#'   "NO_.*_SPECIFIED", and "NA"/NA.
+#'   Additional terms to screen for can be provided via the `terms` argument
+#'   via a named list (e.g. `terms = list(custom = "species1")`). In addition,
+#'   the pre-defined named list can be modified to omit, or update certain
+#'   terms (e.g. `terms = list(species = "")` or
+#'   `terms = list(genus = "gen\\.", "genus")`).
+#'
+#'   The pre-defined list is intended to be comprehensive, and is informed by:
+#'
+#'   - Sigovini, M., Keppel, E., & Tagliapietra, D. (2016). Open Nomenclature in
+#'   the biodiversity era. *Methods in Ecology and Evolution*, 7(10), 1217-1225.
+#'   \doi{10.1111/2041-210X.12594}.
+#'
+#'   If you wish additional terms to be screened for by default, please
+#'   raise a [GitHub Issue](https://github.com/palaeoverse/palaeoverse/issues).
 #'
 #' @section Developer(s):
-#'     Bruna M. Farina, Lewis A. Jones
+#'     Lewis A. Jones, Bruna M. Farina
 #' @section Reviewer(s):
 #'     Lewis A. Jones, Bethany J. Allen, & William Gearty
 #'
@@ -55,14 +81,14 @@
 #' # Summarise taxonomic certainty
 #' certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
 #'                            certainty = c("certain", "uncertain"),
-#'                            rank = "species", append = TRUE)
+#'                            append = TRUE)
 #' certainty <- tax_certainty(taxdf = occdf, name = "genus",
+#'                            terms = list(subspecies = "", species = ""),
 #'                            certainty = c("certain", "uncertain"),
-#'                            rank = "species", append = FALSE)
+#'                            append = FALSE)
 #' @export
-tax_certainty <- function(taxdf = NULL, name = NULL, rank = NULL,
-                          certainty = c(1, 0),
-                          append = TRUE) {
+tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
+                          certainty = c(1, 0), append = TRUE) {
   # Error handling
   # Check taxdf is dataframe
   if (!is.data.frame(taxdf)) {
@@ -72,57 +98,54 @@ tax_certainty <- function(taxdf = NULL, name = NULL, rank = NULL,
   if (is.null(taxdf[[name]])) {
     stop("`names` is not a named column in `taxdf`.")
   }
-  if (length(taxdf[[name]]) == 0) {
-    stop("`names` is of length 0.")
-  }
   if (!is.character(taxdf[[name]])) {
     stop("`names` must be of class character.")
   }
-  # Check for valid rank input
-  if (is.null(rank) ||
-      !rank %in% c("species", "genus", "family", "order", "class")) {
-    stop("Invalid `rank`. It must be either: 'species', 'genus', 'family',
-         'order', or 'class'.")
+  # Check for valid list input
+  if (!is.list(terms) & !is.null(terms)) {
+    stop("`terms` must be of class list or NULL.")
   }
   # Check for valid append input
   if (!is.logical(append)) {
     stop("`append` must be of class logical (TRUE/FALSE).")
   }
-  # Common PBDB entry (NO_X_SPECIFIED)
-  not_specified <- paste0("NO_.*_SPECIFIED")
-  # Assign rank for handling
-  rank <- ifelse(rank == "species", "species", "other")
   # Create temporary taxdf to not replace original values
   taxdf$certainty <- taxdf[[name]]
   # Replace empty rows with NA
-  taxdf$certainty <- gsub(pattern = "^$|^\\s+$", replacement = "NA",
+  taxdf$certainty <- gsub(pattern = "^$|^\\s+$",
+                          replacement = NA_character_,
                           x = taxdf$certainty)
-  # Change NA to character
-  taxdf$certainty[which(is.na(taxdf$certainty))] <- "NA"
-  # Define match patterns
-  match_patterns <- switch(rank,
-                          "species" = c("\\S+\\s+cf\\.\\s+\\S+",
-                                        "\\S+\\s+aff\\.\\s+\\S+",
-                                        "\\S+\\s*\\?\\s*\\S+", "sp\\.$",
-                                        "informal","\\S+\\s+ex gr\\.\\s+\\S+",
-                                        "indet\\.","incertae sedis",
-                                        "problematica", "^NA$", not_specified),
-                          "other" = c("^\\cf\\.\\s*\\S+", "^\\aff\\.\\s*\\S+",
-                                      "^\\?\\S*", "incertae sedis",
-                                      "problematica", "^NA$", not_specified))
+  # Terms to screen for
+  screen <- list(subspecies = c("ssp\\.", "subsp\\."),
+                 species = c("sp\\.", "spp\\."),
+                 genus = c("gen\\."),
+                 family = c("fam\\."),
+                 indeterminable = c("indeterminabilis", "indeterminata",
+                                    "indet\\.", "ind\\."),
+                 uncertain = c("incerta", "?", "inc\\.",
+                               "\\\"\\\"", "\\\'\\\'"),
+                 confer = c("confer$", "cf\\.", "cfr\\.", "conf\\."),
+                 dubia = c("dubia$","sp\\. dub\\.", "nomen dubium"),
+                 incertae = c("incertae sedis", "inc\\. sed\\."),
+                 problematic = c("problematica"),
+                 informal = c("informal"),
+                 unavailable = c("^NA$"),
+                 trace = c("ex\\.", "exuvia", "exuviae"),
+                 not_specified = c("NO_.*_SPECIFIED"))
+  # Update pre-defined terms and/or include custom terms
+  screen[names(terms)] <- terms
   # Identify taxonomic certainty
-  matches <- sapply(match_patterns, grepl, taxdf$certainty, ignore.case = TRUE)
-  # Calculate row sums (1 = match/uncertain, 0 = no match/certain)
-  if (!is.matrix(matches)) {
-    matches <- sum(matches)
-  } else {
-    matches <- rowSums(as.matrix.data.frame(matches))
-  }
+  matches <- lapply(screen, function(x) {
+    sapply(x, grepl, taxdf$certainty, ignore.case = TRUE)
+  })
+  matches <- do.call(cbind, matches)
+  # Calculate row sums (1 (or more) = match/uncertain, 0 = no match/certain)
+  matches <- rowSums(matches)
   # Match user definitions
-  # first element of `certainty` is certain (0 + 1), second uncertain (1 + 1)
+  # first element of `certainty` is certain (0 + 1), second uncertain (>1 + 1)
   matches <- matches + 1
   # Update values with more than 1 uncertainty match
-  matches[matches > 2] <- 2
+  matches[matches >= 2] <- 2
   # Extract certainty
   classif <- certainty[matches]
   # Add to dataframe?

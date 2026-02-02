@@ -4,42 +4,43 @@ test_that("tax_certainty() works", {
   expect_error(tax_certainty(vector()))
   expect_error(tax_certainty(NULL))
   expect_error(tax_certainty(taxdf = tetrapods$identified_name,
-               certainty = c("certain", "uncertain"), rank = "species",
+               certainty = c("certain", "uncertain"),
                append = FALSE))
   expect_error(tax_certainty(taxdf = tetrapods,
                              name = "accepted_name",
-                             rank = "subspecies",
+                             terms = "subspecies",
                              append = FALSE))
   expect_error(tax_certainty(taxdf = tetrapods,
-                             name = "subspecies",
-                             rank = "species",
+                             name = "test",
                              append = FALSE))
+  expect_error(tax_certainty(taxdf = tetrapods,
+                             name = 1,
+                             append = FALSE))
+  expect_error(tax_certainty(taxdf = tetrapods,
+                             name = "accepted_name",
+                             append = 99))
   # Expect true
   ## Vector returned
   expect_true(is.vector(tax_certainty(taxdf = tetrapods,
                                       name = "accepted_name",
-                                      rank = "species",
                                       append = FALSE)))
   ## Dataframe returned
   expect_true(is.data.frame(tax_certainty(taxdf = tetrapods,
                                           name = "accepted_name",
-                                          rank = "species",
                                           append = TRUE)))
   ## Custom certainty
   expect_true(is.logical(tax_certainty(taxdf = tetrapods,
                                        name = "accepted_name",
-                                       rank = "species",
                                        certainty = c(TRUE, FALSE),
                                        append = FALSE)))
   ## Certainty appended correctly
   expect_true("certainty" %in% colnames(tax_certainty(taxdf = tetrapods,
                                                       name = "accepted_name",
-                                                      rank = "species",
                                                       append = TRUE)))
-  ## Genus level working?
+  ## Custom terms
   expect_true(is.vector(tax_certainty(taxdf = tetrapods,
                                       name = "genus",
-                                      rank = "genus",
+                                      terms = list(custom = "test"),
                                       append = FALSE)))
 })
 
