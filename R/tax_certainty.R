@@ -8,8 +8,7 @@
 #' @param taxdf \code{data.frame}. A dataframe with a named column containing
 #'   the taxonomic names to be checked.
 #' @param name \code{character}. The column name of the taxonomic names you
-#'   wish to check (e.g. "identified_name"). Taxonomic names separated by
-#'   underscores or spaces are allowed.
+#'   wish to check (e.g. "identified_name").
 #' @param terms \code{list}. A named list of uncertainty terms to screen
 #'   `name` for. Matched values will be classified as "uncertain". A
 #'   pre-defined named list of terms is screened for by default (see Details).
@@ -33,26 +32,22 @@
 #'   taxonomic identifications. When **any** of these notations are present,
 #'   the taxonomic name is considered uncertain, while in their absence, the
 #'   taxonomic name is considered certain. A pre-defined named list of terms
-#'   is screened for by default:
+#'   is screened for by default, with the follow names and values:
 #'
-#'   ```r
-#'    list(subspecies = c("ssp\\.", "subsp\\."),
-#'         species = c("sp\\.", "spp\\."),
-#'         genus = c("gen\\."),
-#'         family = c("fam\\."),
-#'         indeterminable = c("indeterminabilis", "indeterminata",
-#'                            "indet\\.", "ind\\."),
-#'         uncertain = c("incerta", "?", "inc\\.",
-#'                       "\\\"\\\"", "\\\'\\\'"),
-#'         confer = c("confer$", "cf\\.", "cfr\\.", "conf\\."),
-#'         dubia = c("dubia$","sp\\. dub\\.", "nomen dubium"),
-#'         incertae = c("incertae sedis", "inc\\. sed\\."),
-#'         problematic = c("problematica"),
-#'         informal = c("informal"),
-#'         unavailable = c("^NA$"),
-#'         trace = c("ex\\.", "exuvia", "exuviae"),
-#'         not_specified = c("NO_.*_SPECIFIED"))
-#'   ```
+#'   - subspecies: ssp., subsp.
+#'   - species: sp., spp.
+#'   - genus: gen.
+#'   - family: fam.
+#'   - indeterminable: indeterminabilis, indeterminata, indet., ind.
+#'   - uncertain: incerta, ind., "", ''
+#'   - confer: confer, cf., cfr., conf.
+#'   - dubia: dubia, sp. dub., nomen dubium
+#'   - incertae: incertae sedis, inc. sed.
+#'   - problematica: problematica
+#'   - informal: informal
+#'   - unavailable: NA
+#'   - trace: ex., exuvia, exuviae
+#'   - not_specified: NO_X_SPECIFIED, where X is any character string
 #'
 #'   Additional terms to screen for can be provided via the `terms` argument
 #'   via a named list (e.g. `terms = list(custom = "species1")`). In addition,
@@ -127,7 +122,7 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
                  confer = c("confer$", "cf\\.", "cfr\\.", "conf\\."),
                  dubia = c("dubia$","sp\\. dub\\.", "nomen dubium"),
                  incertae = c("incertae sedis", "inc\\. sed\\."),
-                 problematic = c("problematica"),
+                 problematica = c("problematica"),
                  informal = c("informal"),
                  unavailable = c("^NA$"),
                  trace = c("ex\\.", "exuvia", "exuviae"),

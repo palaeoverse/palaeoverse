@@ -17,8 +17,7 @@ tax_certainty(
 the taxonomic names to be checked.}
 
 \item{name}{\code{character}. The column name of the taxonomic names you
-wish to check (e.g. "identified_name"). Taxonomic names separated by
-underscores or spaces are allowed.}
+wish to check (e.g. "identified_name").}
 
 \item{terms}{\code{list}. A named list of uncertainty terms to screen
 \code{name} for. Matched values will be classified as "uncertain". A
@@ -53,25 +52,23 @@ abbreviations, qualifiers, and notations expressing uncertainty in
 taxonomic identifications. When \strong{any} of these notations are present,
 the taxonomic name is considered uncertain, while in their absence, the
 taxonomic name is considered certain. A pre-defined named list of terms
-is screened for by default:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{ list(subspecies = c("ssp\\\\.", "subsp\\\\."),
-      species = c("sp\\\\.", "spp\\\\."),
-      genus = c("gen\\\\."),
-      family = c("fam\\\\."),
-      indeterminable = c("indeterminabilis", "indeterminata",
-                         "indet\\\\.", "ind\\\\."),
-      uncertain = c("incerta", "?", "inc\\\\.",
-                    "\\\\\\"\\\\\\"", "\\\\\\'\\\\\\'"),
-      confer = c("confer$", "cf\\\\.", "cfr\\\\.", "conf\\\\."),
-      dubia = c("dubia$","sp\\\\. dub\\\\.", "nomen dubium"),
-      incertae = c("incertae sedis", "inc\\\\. sed\\\\."),
-      problematic = c("problematica"),
-      informal = c("informal"),
-      unavailable = c("^NA$"),
-      trace = c("ex\\\\.", "exuvia", "exuviae"),
-      not_specified = c("NO_.*_SPECIFIED"))
-}\if{html}{\out{</div>}}
+is screened for by default, with the follow names and values:
+\itemize{
+\item subspecies: ssp., subsp.
+\item species: sp., spp.
+\item genus: gen.
+\item family: fam.
+\item indeterminable: indeterminabilis, indeterminata, indet., ind.
+\item uncertain: incerta, ind., "", ''
+\item confer: confer, cf., cfr., conf.
+\item dubia: dubia, sp. dub., nomen dubium
+\item incertae: incertae sedis, inc. sed.
+\item problematica: problematica
+\item informal: informal
+\item unavailable: NA
+\item trace: ex., exuvia, exuviae
+\item not_specified: NO_X_SPECIFIED, where X is any character string
+}
 
 Additional terms to screen for can be provided via the \code{terms} argument
 via a named list (e.g. \code{terms = list(custom = "species1")}). In addition,

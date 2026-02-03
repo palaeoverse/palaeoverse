@@ -42,6 +42,11 @@ test_that("tax_certainty() works", {
                                       name = "genus",
                                       terms = list(custom = "test"),
                                       append = FALSE)))
+
+  ## Correct number of certain/uncertainty values returned
+  expect_equal(463,
+    sum(tax_certainty(taxdf = tetrapods, name = "family", append = FALSE)))
+
 })
 
 
