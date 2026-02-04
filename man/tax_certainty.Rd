@@ -25,7 +25,7 @@ pre-defined named list of terms is screened for by default (see Details).
 These terms can be ignored, or replaced through this argument (e.g.
 \code{terms = list(species = "")}).}
 
-\item{certainty}{\code{character}. A vector of length two denoting
+\item{certainty}{\code{vector}. A vector of length two denoting
 how certainty should be coded. The first element of the vector denotes
 "certain" status (default: 1), while the second denotes "uncertain"
 status (default: 0).}
