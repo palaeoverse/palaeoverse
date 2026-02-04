@@ -30,11 +30,13 @@ generated in addition to the dataframe of results?}
 plotting. See Details for options.}
 }
 \value{
-A \code{data.frame} containing the following columns: Taxon ID
-(\code{Taxon}), absolute abundance of each fossil taxon (\code{Abundance}), Relative
-abundance of each fossil taxon (\code{Rel_abundance}), natural logarithm of
-relative abundance of each fossil taxon (\code{Log_rel_abundance}), abundance
-rank within dataset (\code{Abundance_rank}).
+A \code{data.frame} containing the following columns:
+\code{Taxon} = taxon ID (from \code{name} column)
+\code{Abundance} = absolute abundance of each fossil taxon
+\code{Rel_abundance} = relative abundance of each fossil taxon
+\code{Log_rel_abundance} = natural logarithm of relative abundance
+of each fossil taxon
+\code{Abundance_rank} = abundance rank of each taxon within dataset
 }
 \description{
 A function to calculate the absolute and relative abundance of fossil
@@ -42,14 +44,15 @@ occurrences in a dataset and optionally plot the rank abundance distribution
 of taxa
 }
 \details{
-The (absolute and relative) abundance of each taxon is calculated by
-tabulating all rowwise counts of unique taxon occurrences (\code{Taxon} column)
+The (absolute and relative) abundance of each taxon is calculated
+either from a given column of abundance values per taxon or collection or by
+tabulating all rowwise counts of unique taxon occurrences (\code{name} column)
 from the input \code{occdf}. Absolute abundance is calculated by counting the
 number of occurrences, while relative abundance is calculated relative to
-the community in the dataset. A plot of the rank abundance distribution
-is also returned if \code{plot = TRUE}. Customisable argument
-options to pass to \code{plot_args} as a list (and
-their defaults) for plotting include:
+the total community abundance in the dataset. A plot of the rank abundance
+distribution is also returned if \code{plot = TRUE}. Customisable argument
+options to pass to \code{plot_args} as a list (and their defaults)
+for plotting include:
 \itemize{
 \item main = "Rank abundance"
 \item xlab = "Abundance rank"
@@ -72,10 +75,13 @@ to be under-counted. Use \code{\link[=tax_check]{tax_check()}} to check for and 
  # Grab internal data and remove NAs
  occdf <- subset(tetrapods, !is.na(family))
  # Summarise family abundance
- ex <- tax_rel_abun(occdf = occdf, name = "family", plot = TRUE)
- # Customise appearance
- ex <- tax_rel_abun(occdf = occdf, name = "family", plot = TRUE,
+ ex1 <- tax_abund(occdf = occdf, name = "family", plot = TRUE)
+ # Customise plot appearance
+ ex2 <- tax_abund(occdf = occdf, name = "family", plot = TRUE,
                      plot_args = list(log = TRUE, col = "pink", brks = 100))
+ # Summarise family abundance from a column of abundance values
+ ex3 <- tax_abund(occdf = occdf, name = "family",
+                     abund_vals = "abund_value", plot = TRUE)
 
 
 }
