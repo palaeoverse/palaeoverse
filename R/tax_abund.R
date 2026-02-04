@@ -103,9 +103,9 @@ tax_abund <- function(occdf,
     # Calculate abundances from abundance column if provided
     occdf[[abund_vals]][is.na(occdf[[abund_vals]])] <- 1
     occ_table <- group_apply(occdf = occdf, group = name,
-                             fun = function(x) sum(as.numeric(x[[abund_vals]])))
+                             fun = function(x) sum(x[[abund_vals]]))
     colnames(occ_table) <- c("abundance", "taxon")
-    occ_table$abundance <- as.numeric(occ_table$abundance)
+    occ_table <- occ_table[,c(2,1)]
   }
 
   # Calculate relative abundance for raw and log data
