@@ -14,7 +14,7 @@
 #'   pre-defined named list of terms is screened for by default (see Details).
 #'   These terms can be ignored, or replaced through this argument (e.g.
 #'   `terms = list(species = "")`).
-#' @param certainty \code{character}. A vector of length two denoting
+#' @param certainty \code{vector}. A vector of length two denoting
 #'   how certainty should be coded. The first element of the vector denotes
 #'   "certain" status (default: 1), while the second denotes "uncertain"
 #'   status (default: 0).
