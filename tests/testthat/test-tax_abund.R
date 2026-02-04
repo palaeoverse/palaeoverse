@@ -20,16 +20,14 @@ test_that("tax_abund() works", {
 
   expect_true(is.data.frame(tax_abund(occdf)))
 
-  expect_equal(sort(as.character(tax_abund(occdf)$taxon)),
-               sort(unique(occdf$genus)))
-  expect_equal(sort(as.character(tax_abund(occdf, abund_vals = "abund_value")$taxon)),
+  expect_equal(sort(tax_abund(occdf, abund_vals = "abund_value")$taxon),
                sort(unique(occdf$genus)))
 
   occdf <- subset(tetrapods, !is.na(family))
   expect_equal(nrow(tax_abund(occdf = occdf, name = "family")),
                length(unique(occdf$family)))
-  expect_equal(sort(as.character(tax_abund(occdf, name = "family",
-                              abund_vals = "abund_value")$taxon)),
+  expect_equal(sort(tax_abund(occdf, name = "family",
+                              abund_vals = "abund_value")$taxon),
                sort(unique(occdf$family)))
 
 })
