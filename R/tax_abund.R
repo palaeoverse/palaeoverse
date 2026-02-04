@@ -50,15 +50,15 @@
 #'   to be under-counted. Use [tax_check()] to check for and clean synonyms.
 #'
 #' @examples
-#'  # Grab internal data and remove NAs
-#'  occdf <- subset(tetrapods, !is.na(family))
-#'  # Summarise family abundance
-#'  ex1 <- tax_abund(occdf = occdf, name = "family", plot = TRUE)
-#'  # Customise plot appearance
-#'  ex2 <- tax_abund(occdf = occdf, name = "family", plot = TRUE,
-#'                      plot_args = list(log = TRUE, col = "pink", brks = 100))
-#'  # Summarise family abundance from a column of abundance values
-#'  ex3 <- tax_abund(occdf = occdf, name = "family",
+#'   # Grab internal data and remove NAs
+#'   occdf <- subset(tetrapods, !is.na(family))
+#'   # Summarise family abundance
+#'   ex1 <- tax_abund(occdf = occdf, name = "family", plot = TRUE)
+#'   # Customise plot appearance
+#'   ex2 <- tax_abund(occdf = occdf, name = "family", plot = TRUE,
+#'                    plot_args = list(log = TRUE, col = "pink", brks = 100))
+#'   # Summarise family abundance from a column of abundance values
+#'   ex3 <- tax_abund(occdf = occdf, name = "family",
 #'                      abund_vals = "abund_value", plot = TRUE)
 #'
 #'
