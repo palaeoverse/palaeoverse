@@ -13,7 +13,7 @@ test_that("tax_abund() works", {
                                               brks = 50)))
   expect_error(tax_abund(occdf, plot_args = list(log = TRUE, col = pink)))
   expect_error(tax_abund(occdf = occdf, name = "Genus", plot = TRUE))
-  expect_error(tax_abund(occdf = occdf, abund_vals = c(1, 20, 1001)))
+  expect_error(tax_abund(occdf = occdf, abund_vals = c(1, 20, 1002)))
   expect_error(tax_abund(occdf = occdf, abund_vals = "abundance"))
 
   #tests
