@@ -16,20 +16,23 @@
 #' @param plot_args \code{list}. A list of optional arguments relevant to
 #'   plotting. See Details for options.
 #'
-#' @return A \code{data.frame} containing the following columns: Taxon ID
-#'   (`Taxon`), absolute abundance of each fossil taxon (`Abundance`), Relative
-#'   abundance of each fossil taxon (`Rel_abundance`), natural logarithm of
-#'   relative abundance of each fossil taxon (`Log_rel_abundance`), abundance
-#'   rank within dataset (`Abundance_rank`).
+#' @return A \code{data.frame} containing the following columns:
+#'   `Taxon` = taxon ID (from `name` column)
+#'   `Abundance` = absolute abundance of each fossil taxon
+#'   `Rel_abundance` = relative abundance of each fossil taxon
+#'   `Log_rel_abundance` = natural logarithm of relative abundance
+#'                           of each fossil taxon
+#'   `Abundance_rank` = abundance rank of each taxon within dataset
 #'
-#' @details The (absolute and relative) abundance of each taxon is calculated by
-#'   tabulating all rowwise counts of unique taxon occurrences (`Taxon` column)
+#' @details The (absolute and relative) abundance of each taxon is calculated
+#'   either from a given column of abundance values per taxon or collection or by
+#'   tabulating all rowwise counts of unique taxon occurrences (`name` column)
 #'   from the input `occdf`. Absolute abundance is calculated by counting the
 #'   number of occurrences, while relative abundance is calculated relative to
-#'   the community in the dataset. A plot of the rank abundance distribution
-#'   is also returned if `plot = TRUE`. Customisable argument
-#'   options to pass to `plot_args` as a list (and
-#'   their defaults) for plotting include:
+#'   the total community abundance in the dataset. A plot of the rank abundance
+#'   distribution is also returned if `plot = TRUE`. Customisable argument
+#'   options to pass to `plot_args` as a list (and their defaults)
+#'   for plotting include:
 #'   - main = "Rank abundance"
 #'   - xlab = "Abundance rank"
 #'   - ylab = "Relative abundance"
@@ -50,10 +53,13 @@
 #'  # Grab internal data and remove NAs
 #'  occdf <- subset(tetrapods, !is.na(family))
 #'  # Summarise family abundance
-#'  ex <- tax_rel_abun(occdf = occdf, name = "family", plot = TRUE)
-#'  # Customise appearance
-#'  ex <- tax_rel_abun(occdf = occdf, name = "family", plot = TRUE,
+#'  ex1 <- tax_abund(occdf = occdf, name = "family", plot = TRUE)
+#'  # Customise plot appearance
+#'  ex2 <- tax_abund(occdf = occdf, name = "family", plot = TRUE,
 #'                      plot_args = list(log = TRUE, col = "pink", brks = 100))
+#'  # Summarise family abundance from a column of abundance values
+#'  ex3 <- tax_abund(occdf = occdf, name = "family",
+#'                      abund_vals = "abund_value", plot = TRUE)
 #'
 #'
 #' @export
@@ -95,23 +101,17 @@ tax_abund <- function(occdf,
     colnames(occ_table) <- c("taxon", "abundance")
   } else {
     # Calculate abundances from abundance column if provided
-    taxon_names <- unique(occdf[[name]])
-    occ_table <- matrix(nrow = length(taxon_names), ncol = 2)
     occdf[[abund_vals]][is.na(occdf[[abund_vals]])] <- 1
-
-    for (i in 1:length(taxon_names)) {
-      occ_table[i, 1] <- taxon_names[i]
-      occ_table[i, 2] <- sum(occdf[[abund_vals]][which(occdf[[name]] == taxon_names[i])])
-    }
-
-    occ_table <- data.frame(occ_table)
-    colnames(occ_table) <- c("taxon", "abundance")
-    occ_table$abundance <- as.numeric(occ_table$abundance)
+    occ_table <- group_apply(occdf = occdf, group = name,
+                             fun = function(x) sum(x[[abund_vals]]))
+    colnames(occ_table) <- c("abundance", "taxon")
   }
 
   # Calculate relative abundance for raw and log data
-  occ_table$rel_abundance <- occ_table$abundance / sum(occ_table$abundance)
-  occ_table$log_rel_abundance <- log(occ_table$abundance) / sum(log(occ_table$abundance))
+  occ_table$rel_abundance <- occ_table$abundance /
+                             sum(occ_table$abundance)
+  occ_table$log_rel_abundance <- log(occ_table$abundance) /
+                                 sum(log(occ_table$abundance))
 
   # Order by rank abundance
   occ_table <- occ_table[order(-occ_table$rel_abundance), ]
@@ -132,9 +132,8 @@ tax_abund <- function(occdf,
                  abs = FALSE)
 
     # Update any provided
-    rpl <- match(names(plot_args), names(args))
-    if (length(rpl) != 0) {
-      args[rpl] <- plot_args
+    if (!is.null(plot_args)) {
+      args <- utils::modifyList(args, plot_args)
     }
 
     if (args$log == TRUE) {
