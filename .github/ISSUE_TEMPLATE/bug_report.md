@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: ''
 labels: bug
-assignees: bethany-j-allen, ChristopherDavidDean, KEichenseer, LewisAJones, willgearty
+assignees: bethany-j-allen, LewisAJones, willgearty
 
 ---
 
