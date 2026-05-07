@@ -25,6 +25,7 @@ The `palaeoverse` package can be installed via CRAN or its dedicated
 development version is preferred. To install via the CRAN, simply use:
 
 ``` r
+
 install.packages("palaeoverse")
 ```
 
@@ -33,6 +34,7 @@ package, and then use `install_github` to install `palaeoverse` directly
 from GitHub.
 
 ``` r
+
 install.packages("devtools")
 devtools::install_github("palaeoverse/palaeoverse")
 ```
@@ -40,6 +42,7 @@ devtools::install_github("palaeoverse/palaeoverse")
 You can now load `palaeoverse` using the default `library` function:
 
 ``` r
+
 library(palaeoverse)
 ```
 
@@ -49,6 +52,7 @@ associated publication. This will help us to continue our work in
 supporting you to do yours. You can access the appropriate citation via:
 
 ``` r
+
 citation("palaeoverse")
 ```
 
@@ -65,6 +69,7 @@ Database](https://www.paleo-reefs.pal.uni-erlangen.de) (Kiessling &
 Krause, 2022).
 
 ``` r
+
 # Load the dataset
 data(reefs)
 # View the first five rows & columns of reefs
@@ -101,6 +106,7 @@ working with. Details related to the example datasets can be accessed
 via the usual documentation call:
 
 ``` r
+
 # Call documentation for dataset
 ?reefs
 # You can also use
@@ -110,6 +116,7 @@ help(reefs)
 Let’s start by exploring the data a little:
 
 ``` r
+
 # How many reefs are there in the dataset?
 # Each row represents an individual reef.
 nrow(reefs)
@@ -124,6 +131,7 @@ time? We can make use of the `group_apply` wrapper function to run a
 function across subsets of data.
 
 ``` r
+
 # How many reefs per interval?
 # Let's group by the interval column to test
 reef_counts <- group_apply(occdf = reefs, group = "interval", fun = nrow)
@@ -156,6 +164,7 @@ we will use the example `interval_key` available in `palaeoverse` to
 assign international geological stage names and numeric ages.
 
 ``` r
+
 # Load the interval key
 data("interval_key")
 # Assign a common time scale based on an interval key
@@ -186,6 +195,7 @@ just by the early or late stage. Our data still need to be binned. Let’s
 check out the `time_bins` and `bin_time` functions.
 
 ``` r
+
 # Now we have numeric ages for our data, we can easily
 # remove pre-Phanerozoic data to focus our study
 reefs <- subset(reefs, interval_max_ma <= 541)
@@ -199,6 +209,7 @@ colnames(reefs)[which(colnames(reefs) == "interval_min_ma")] <- "min_ma"
 ```
 
 ``` r
+
 # Five methods exist in bin_time for binning occurrence data
 # You can see details on each via ?bin_time
 # Bin by midpoint age
@@ -214,6 +225,7 @@ bin_time(occdf = reefs, bins = bins, method = "point", reps = 10)
 ```
 
 ``` r
+
 # Let's go with "all" for this example!
 reefs <- bin_time(occdf = reefs, bins = bins, method = "all")
 ```
@@ -225,6 +237,7 @@ every bin the age range overlaps with.
 Let’s check those reef numbers through time again using our binned data:
 
 ``` r
+
 # Count number of occurrences per interval
 reefs_time <- group_apply(occdf = reefs, group = "interval_mid_ma", fun = nrow)
 # Check output
@@ -245,6 +258,7 @@ We can even make use of the `axis_geo` function to add the Geological
 Time Scale to our plot.
 
 ``` r
+
 # Plot data
 plot(x = reefs_time$interval_mid_ma,
      y = reefs_time$nrow,
@@ -281,12 +295,14 @@ spatiotemporally link occurrences’ modern coordinates and age estimates
 with their respective palaeocoordinates. Let’s give it a shot:
 
 ``` r
+
 # Palaeorotate occurrences
 reefs <- palaeorotate(occdf = reefs, age = "bin_midpoint",
                       method = "point", model = "PALEOMAP")
 ```
 
 ``` r
+
 # Check palaeocoordinates
 head(reefs[, c("p_lng", "p_lat")])
 ```
@@ -302,6 +318,7 @@ head(reefs[, c("p_lng", "p_lat")])
 Now let’s plot that palaeolatitudinal distribution!
 
 ``` r
+
 # Plot data
 plot(x = reefs$bin_midpoint,
      y = reefs$p_lat,
@@ -324,6 +341,7 @@ conditions, the most poleward reef in each time bin should give us an
 estimate of the palaeolatitudinal extent of these climatic conditions.
 
 ``` r
+
 # Let's first assume hemispheric symmetry and convert
 # palaeolatitudes to absolute palaeolatitudes
 reefs$p_lat <- abs(reefs$p_lat)
@@ -358,6 +376,7 @@ and MERDITH2021 (Wright et al. 2013; Scotese & Wright, 2018; Merdith et
 al. 2021).
 
 ``` r
+
 # We can call multiple models at once with palaeorotate
 # First, let's define the models...
 models <- c("GOLONKA", "PALEOMAP", "MERDITH2021")
@@ -367,6 +386,7 @@ reefs <- palaeorotate(occdf = reefs, age = "bin_midpoint",
 ```
 
 ``` r
+
 # Check palaeocoordinates
 # When multiple models are called, the name of the model
 # is added as a suffix to p_lng and p_lat
@@ -387,6 +407,7 @@ Now we’ve palaeorotated our data, let’s repeat what we did earlier and
 calculate the most poleward reef occurrence for each model.
 
 ``` r
+
 # Let's code a little helper function to begin with.
 # This is generally useful when repeating code several times!
 p_lat_max <- function(occdf, midpoint, p_lat) {

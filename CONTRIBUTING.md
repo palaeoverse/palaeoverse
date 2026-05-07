@@ -1,7 +1,7 @@
 # Contributing to palaeoverse
 
 At `palaeoverse` we have adopted a set of [structures and
-standards](https://palaeoverse.org/articles/structure-and-standards.html)
+standards](https://palaeoverse.palaeoverse.org/articles/structure-and-standards.html)
 to follow for contributing to the development of `palaeoverse`. If you
 would like to contribute to the `palaeoverse` toolkit, we strongly
 advise reading this document first. If you plan to contribute a function
@@ -111,4 +111,4 @@ a [Google Group](https://groups.google.com/g/palaeoverse) where the
 ## Code of Conduct
 
 Please note that by contributing to `palaeoverse` you agree to our [Code
-of Conduct](https://palaeoverse.org/CODE_OF_CONDUCT.html).
+of Conduct](https://palaeoverse.org/conduct.html).

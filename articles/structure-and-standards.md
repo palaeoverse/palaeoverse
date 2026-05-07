@@ -35,6 +35,7 @@ for developing functions (more on that later!).
   
 
 ``` r
+
 # Nein!
 Sup3rAw3sumFuncti0n.r
 
@@ -86,6 +87,7 @@ line should be longer than ~75–80 characters.
 required) for your code and documentation.
 
 ``` r
+
 # Nope!
 x = 1
 y<-x+1
@@ -172,6 +174,7 @@ please get in touch with one of the palaeoverse developers, and we can
 discuss what might be the best solution.
 
 ``` r
+
 #generate temp directory
 files <- tempdir()
 #download files
@@ -190,6 +193,7 @@ the documentation block used to document GTS2020 is saved as `R/data.R`
 and is similar to the following (simplified here):
 
 ``` r
+
 #' Geological Time Scale 2020
 #'
 #' A dataset of the Geological Time Scale 2020. Age data from:
@@ -267,6 +271,7 @@ class and default input) and the output of the function need to be
 documented in `roxygen2` style, for example:
 
 ``` r
+
 #' An exemplary function
 #' This function is used to demonstrate the documentation of functions.
 #' @param example \code{character}. Arguments are the function inputs.
@@ -340,6 +345,7 @@ To implement error messages in R, the
 [`stop()`](https://rdrr.io/r/base/stop.html) function can be used:
 
 ``` r
+
 # Generate error message
 if (!is.numeric(x)) {
   stop("Error: 'x' must be a numeric vector.")
@@ -366,6 +372,7 @@ To implement warning messages in R, the
 [`warning()`](https://rdrr.io/r/base/warning.html) function can be used:
 
 ``` r
+
 # Generate warning message
 if (!is.numeric(x)) {
   warning("Warning: 'x' must be a numeric vector.")
@@ -421,6 +428,7 @@ least one test. Pushing code to GitHub will trigger a code coverage
 check, which will alert you as to whether you need to write more tests.
 
 ``` r
+
 # Test expected outcome is equal to actual outcome
 test_that("time_bins() works", {
   expect_equal(nrow(time_bins(interval = c("Maastrichtian"))), 1)

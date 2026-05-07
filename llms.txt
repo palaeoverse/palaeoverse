@@ -39,6 +39,7 @@ code readability and reproducibility.
 The stable version of `palaeoverse` can be installed from CRAN using:
 
 ``` r
+
 install.packages("palaeoverse")
 ```
 
@@ -46,6 +47,7 @@ The development version of `palaeoverse` can be installed via GitHub
 using:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("palaeoverse/palaeoverse")
 ```
