@@ -19,14 +19,14 @@ jobs:
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v2
-        # Those three cases need to be handled:
-        # - exclude the redirection from DOI to BES journal, which always fails in lychee but works 
-        #   fine "by hand"
-        # - the FSF link always generates a "Network error: received fatal alert: HandshakeFailure" 
-        #   but there isn't any related error in lychee's repo
-        # - the gnu.org link may generate a 429 (too many requests)
-        #
-        # This is not ideal but at least we can catch failures in other links.
         with:
-          args: ". --exclude "(^https://doi\.org/10\.1111/2041-210X\.14099$)|(fsf\.org)" --accept 200,429"
+          # Those three cases need to be handled:
+          # - exclude the redirection from DOI to BES journal, which always fails in lychee but works 
+          #   fine "by hand"
+          # - the FSF link always generates a "Network error: received fatal alert: HandshakeFailure" 
+          #   but there isn't any related error in lychee's repo
+          # - the gnu.org link may generate a 429 (too many requests)
+          #
+          # This is not ideal but at least we can catch failures in other links.
+          args: ". --exclude '(^https://doi\.org/10\.1111/2041-210X\.14099$)|(fsf\.org)' --accept 200,429"
           fail: true
