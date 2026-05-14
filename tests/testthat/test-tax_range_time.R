@@ -1,5 +1,4 @@
 test_that("tax_range_time() works", {
-
   occdf <- tetrapods
 
   occdf <- subset(occdf, !is.na(genus))
@@ -10,16 +9,21 @@ test_that("tax_range_time() works", {
   expect_true(is.data.frame(tax_range_time(occdf = occdf)))
   expect_true(is.data.frame(tax_range_time(occdf = occdf, by = "LAD")))
   expect_true(is.data.frame(tax_range_time(occdf = occdf, by = "name")))
-  expect_true(is.data.frame(tax_range_time(occdf = occdf, group = "class",
-                                           plot = TRUE)))
+  expect_true(is.data.frame(tax_range_time(
+    occdf = occdf,
+    group = "class",
+    plot = TRUE
+  )))
 
   # Expect equal
   expect_equal(
     nrow(tax_range_time(occdf = occdf, plot = TRUE)),
-    unique_taxa)
+    unique_taxa
+  )
   expect_equal(
     nrow(tax_range_time(occdf = occdf, plot = FALSE)),
-    unique_taxa)
+    unique_taxa
+  )
 
   # Expect error
   expect_error(tax_range_time(occdf = NA))
@@ -34,5 +38,4 @@ test_that("tax_range_time() works", {
   expect_error(tax_range_time(occdf = occdf))
   occdf$max_ma[1] <- "test"
   expect_error(tax_range_time(occdf = occdf))
-
 })
