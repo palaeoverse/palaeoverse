@@ -1,12 +1,32 @@
-testdf <- data.frame(family = c("Examplidae", "Examplidae", "Taxonidae",
-                                NA, "Taxonidae", "Examplidae", "Examplidae",
-                                "Examplidae", "Examplidae", "Taxonidae",
-                                "Taxonidae"),
-                     genus = c("Joebloggsia", "Joebloggia", "Facsimilus",
-                               "Imperfectella", "Automaton", NA, "Joebloggsia",
-                               "Shangrilaria", "Shangirlaria", "Kunlungoides",
-                               "Kunlungoides.sp"),
-                     age = c(1:11))
+testdf <- data.frame(
+  family = c(
+    "Examplidae",
+    "Examplidae",
+    "Taxonidae",
+    NA,
+    "Taxonidae",
+    "Examplidae",
+    "Examplidae",
+    "Examplidae",
+    "Examplidae",
+    "Taxonidae",
+    "Taxonidae"
+  ),
+  genus = c(
+    "Joebloggsia",
+    "Joebloggia",
+    "Facsimilus",
+    "Imperfectella",
+    "Automaton",
+    NA,
+    "Joebloggsia",
+    "Shangrilaria",
+    "Shangirlaria",
+    "Kunlungoides",
+    "Kunlungoides.sp"
+  ),
+  age = c(1:11)
+)
 
 # test errors from incorrectly supplied arguments, and warnings
 test_that("tax_check() accepts taxon names, no groups", {
@@ -27,7 +47,7 @@ test_that("tax_check() accepts taxon names, no groups", {
   expect_error(tax_check(testdf, "genus", dis = "max"))
   expect_error(tax_check(testdf, "genus", dis = 0))
   expect_error(tax_check(testdf, "genus", dis = FALSE))
-   # start/end letter matches incorrectly supplied
+  # start/end letter matches incorrectly supplied
   expect_error(tax_check(testdf, "genus", start = "1"))
   expect_error(tax_check(testdf, "genus", start = c(1, 3)))
   expect_error(tax_check(testdf, "genus", start = TRUE))

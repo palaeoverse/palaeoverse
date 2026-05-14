@@ -39,9 +39,7 @@
 #' bins <- lat_bins_area(n = 6, min = -30, max = 30)
 #' # Generate latitudinal bins and a plot
 #' bins <- lat_bins_area(n = 24, plot = TRUE)
-lat_bins_area <- function(n = 12,
-                          min = -90, max = 90, r = 6371,
-                          plot = FALSE) {
+lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
   # Error handling
   if (!is.numeric(n)) {
     stop("`n` should be a numeric.")
@@ -100,24 +98,33 @@ lat_bins_area <- function(n = 12,
   mid_points <- (latitudes[-(n + 1)] + latitudes[-1]) / 2
 
   # populate data frame
-  bins <- data.frame(bin = 1:n,
-                     min = latitudes[-1],
-                     mid = mid_points,
-                     max = latitudes[-(n + 1)],
-                     area = band_areas,
-                     area_prop = band_areas_prop)
+  bins <- data.frame(
+    bin = 1:n,
+    min = latitudes[-1],
+    mid = mid_points,
+    max = latitudes[-(n + 1)],
+    area = band_areas,
+    area_prop = band_areas_prop
+  )
 
   # plot latitudinal bins
   if (plot == TRUE) {
-    plot(1, type = "n", xlim = c(-180, 180),
-         ylim = c(min(bins$min), max(bins$max)),
-         xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
+    plot(
+      1,
+      type = "n",
+      xlim = c(-180, 180),
+      ylim = c(min(bins$min), max(bins$max)),
+      xlab = "Longitude (\u00B0)",
+      ylab = "Latitude (\u00B0)"
+    )
     cols <- rep(c("#01665e", "#80cdc1"), nrow(bins))
-    for (i in seq_len(nrow(bins))){
-      polygon(x = c(-180, -180, 180, 180),
-              y = c(bins$min[i], bins$max[i], bins$max[i], bins$min[i]),
-              col = cols[i],
-              border = "black")
+    for (i in seq_len(nrow(bins))) {
+      polygon(
+        x = c(-180, -180, 180, 180),
+        y = c(bins$min[i], bins$max[i], bins$max[i], bins$min[i]),
+        col = cols[i],
+        border = "black"
+      )
     }
   }
   # Return bins

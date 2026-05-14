@@ -1,8 +1,10 @@
 test_that("tax_expand_lat works", {
   bins <- lat_bins_degrees()
-  taxdf <- data.frame(name = c("A", "B", "C"),
-                      max_lat = c(60, 20, -10),
-                      min_lat = c(20, -40, -60))
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c(60, 20, -10),
+    min_lat = c(20, -40, -60)
+  )
 
   result <- tax_expand_lat(taxdf = taxdf, bins = bins)
 
@@ -18,39 +20,53 @@ test_that("tax_expand_lat works", {
   expect_error(tax_expand_lat(taxdf, bins = bins, max_lat = "lat"))
   expect_error(tax_expand_lat(taxdf, bins = bins, min_lat = "lat"))
 
-  taxdf <- data.frame(name = c("A", "B", "C"),
-                      max_lat = c(92, 20, -10),
-                      min_lat = c(20, -40, -60))
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c(92, 20, -10),
+    min_lat = c(20, -40, -60)
+  )
   expect_error(tax_expand_lat(taxdf = taxdf, bins = bins))
 
-  taxdf <- data.frame(name = c("A", "B", "C"),
-                      max_lat = c(60, 20, -10),
-                      min_lat = c(-92, -40, -60))
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c(60, 20, -10),
+    min_lat = c(-92, -40, -60)
+  )
   expect_error(tax_expand_lat(taxdf = taxdf, bins = bins))
 
-  taxdf <- data.frame(name = c("A", "B", "C"),
-                      max_lat = c("60", "20", "-10"),
-                      min_lat = c(-92, -40, -60))
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c("60", "20", "-10"),
+    min_lat = c(-92, -40, -60)
+  )
   expect_error(tax_expand_lat(taxdf = taxdf, bins = bins))
 
-  taxdf <- data.frame(name = c("A", "B", "C"),
-                      max_lat = c(60, 20, -10),
-                      min_lat = c("20", -40, -60))
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c(60, 20, -10),
+    min_lat = c("20", -40, -60)
+  )
   expect_error(tax_expand_lat(taxdf = taxdf, bins = bins))
 
-  taxdf <- data.frame(name = c("A", "B", "C"),
-                      max_lat = c(60, 20, -10),
-                      min_lat = c(72, -40, -60))
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c(60, 20, -10),
+    min_lat = c(72, -40, -60)
+  )
   expect_error(tax_expand_lat(taxdf = taxdf, bins = bins))
 
-  taxdf <- data.frame(name = c("A", "A", "C"),
-                      max_lat = c(60, 60, -10),
-                      min_lat = c(20, 20, -60))
+  taxdf <- data.frame(
+    name = c("A", "A", "C"),
+    max_lat = c(60, 60, -10),
+    min_lat = c(20, 20, -60)
+  )
   expect_error(tax_expand_lat(taxdf = taxdf, bins = bins))
 
-  taxdf <- data.frame(name = c("A", "B", "C"),
-                      max_lat = c(60, 20, -10),
-                      min_lat = c(20, -40, -60))
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c(60, 20, -10),
+    min_lat = c(20, -40, -60)
+  )
   bins <- bins[, -1]
   expect_error(tax_expand_lat(taxdf = taxdf, bins = bins))
 })
