@@ -122,7 +122,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
                             certainty = NULL, by = "FAD", plot_args = NULL,
                             x_args = NULL, y_args = NULL) {
 
-  if (is.data.frame(occdf) == FALSE) {
+  if (!is.data.frame(occdf)) {
     stop("`occdf` should be a data.frame")
   }
 
@@ -138,7 +138,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     stop('`group` is not a named column in `occdf`')
   }
 
-  if (any(c(name, level) %in% colnames(occdf) == FALSE)) {
+  if (!all(c(name, level) %in% colnames(occdf))) {
     stop("Either `name` or `level` is not a named column in `occdf`")
   }
 
@@ -146,19 +146,19 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     if (!is.character(certainty)) {
       stop("`certainty` must either be of class character or NULL")
     }
-    if (certainty %in% colnames(occdf) == FALSE) {
+    if (!certainty %in% colnames(occdf)) {
       stop("`certainty` is not a named column in `occdf`")
     }
-    if (any(is.na(occdf[, certainty, drop = TRUE]))) {
+    if (anyNA(occdf[, certainty, drop = TRUE])) {
       stop("The `certainty` column contains NA values")
     }
   }
 
-  if (any(is.na(occdf[, name, drop = TRUE]))) {
+  if (anyNA(occdf[, name, drop = TRUE])) {
     stop("The `name` column contains NA values")
   }
 
-  if (any(is.na(occdf[, level, drop = TRUE]))) {
+  if (anyNA(occdf[, level, drop = TRUE])) {
     stop("The `level` column contains NA values")
   }
 
@@ -178,7 +178,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     #=== Set-up ===
     unique_taxa <- unique(occdf[, name, drop = TRUE])
     # Order taxa by name
-    unique_taxa <- unique_taxa[order(unique_taxa)]
+    unique_taxa <- sort(unique_taxa)
 
     #=== Temporal range ===
     # Generate dataframe for population
@@ -222,7 +222,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
   }, name = name, level = level)
 
   # IDs
-  ID <- seq_along(1:nrow(ranges))
+  ID <- seq_along(seq_len(nrow(ranges)))
   ranges <- cbind.data.frame(ID, ranges)
   # Remove row names
   row.names(ranges) <- NULL
@@ -278,7 +278,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     # Define colours
     cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
     # Run across number of groups
-    lapply(1:length(vals_rect), function(x) {
+    lapply(seq_along(vals_rect), function(x) {
       # Add background rectangles
       rect(xleft = vals_rect[[x]][1] - 0.5,
            xright = vals_rect[[x]][2] + 0.5,

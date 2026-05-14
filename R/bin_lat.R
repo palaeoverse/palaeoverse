@@ -36,16 +36,16 @@
 #'
 bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   #=== Handling errors ===
-  if (is.data.frame(occdf) == FALSE) {
+  if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe.")
   }
-  if (is.data.frame(bins) == FALSE) {
+  if (!is.data.frame(bins)) {
     stop("`bins` should be a dataframe.")
   }
-  if (lat %in% colnames(occdf) == FALSE) {
+  if (!lat %in% colnames(occdf)) {
     stop("`lat` column name does not exist in `occdf`")
   }
-  if (any(is.na(occdf[, lat, drop = TRUE]))) {
+  if (anyNA(occdf[, lat, drop = TRUE])) {
     stop("`lat` contains NA values")
   }
   if (any(occdf[, lat, drop = TRUE] > 90 | occdf[, lat, drop = TRUE] < -90)) {
@@ -71,7 +71,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
     occdf$lat_min[vec] <- bins$min[i]
   }
   #=== Boundary bins ===
-  if (boundary == TRUE &&
+  if (boundary &&
       any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))) {
     # Which occurrences fall on boundaries?
     tmp <- occdf[which(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min)), ]
@@ -87,7 +87,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
     occdf <- rbind.data.frame(occdf, tmp)
   }
   #=== Add warning ===
-  if (boundary == FALSE &&
+  if (!boundary &&
       any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))) {
     message(paste("Presence of occurrences falling on boundaries detected.",
                    "\nOccurrences assigned to upper bin."))

@@ -221,7 +221,7 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
         flag <- cbind(ob[flag[, 1]], ob[flag[, 2]], y)
         # drop equivalent rows (xy, yx pairs)
         eq <- duplicated(t(apply(flag, 1, function(z) {
-          paste0(z[order(z)])
+          paste0(sort(z))
           })))
         flag <- flag[!eq, , drop = FALSE]
 

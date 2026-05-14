@@ -63,7 +63,7 @@ tax_expand_time <- function(
     rank = "stage",
     ext_orig = TRUE) {
   # Handle errors
-  if (is.data.frame(taxdf) == FALSE) {
+  if (!is.data.frame(taxdf)) {
     stop("`taxdf` should be a dataframe")
   }
 
@@ -99,7 +99,7 @@ tax_expand_time <- function(
     stop("Either `bin` or `scale` and `rank` must be specified.")
   }
   if (!is.null(bins)) {
-    if (is.data.frame(bins) == FALSE) {
+    if (!is.data.frame(bins)) {
       stop("`bins` should be a dataframe.")
     }
     if (!all(c("bin", "max_ma", "min_ma") %in% colnames(bins))) {
@@ -110,7 +110,7 @@ tax_expand_time <- function(
     bins <- time_bins(rank = rank, scale = scale)
   }
 
-  if (any(duplicated(taxdf))) {
+  if (anyDuplicated(taxdf) > 0) {
     stop("Not all rows in `taxdf` are unique!")
   }
 

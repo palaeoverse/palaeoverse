@@ -99,18 +99,18 @@ test_that("axis_geo() can be used on multiple sides", {
     box()
 
     axis_geo(side = 1, intervals = list("epochs", "periods"),
-             height = list(.05, .03), tick_at = seq(0, 100, 25),
+             height = list(0.05, 0.03), tick_at = seq(0, 100, 25),
              title = "Time (Ma)")
-    axis_geo(side = 2, height = list(.03, .05),
+    axis_geo(side = 2, height = list(0.03, 0.05),
              intervals = list("epoch", "period"), bord_col = "purple",
              center_end_labels = list(FALSE, TRUE), exact = TRUE,
              title = "Time (Ma)")
-    axis_geo(side = 3, height = list(.03, .05),
+    axis_geo(side = 3, height = list(0.03, 0.05),
              intervals = list(epochs, periods_sub), abbr = FALSE,
              skip = c("Paleogene", "Holocene", "Pleistocene", "Pliocene",
                       "Quaternary"), lab_col = list("blue", NULL),
              title = "Time (Ma)")
-    axis_geo(side = 4, height = list(.04, .03),
+    axis_geo(side = 4, height = list(0.04, 0.03),
              intervals = list("epoch", "North American land mammal ages"),
              fill = list("lightblue", "yellow"),
              lty = list("solid", "dashed"), exact = TRUE, round = 1,

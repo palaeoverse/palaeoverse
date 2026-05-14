@@ -175,7 +175,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     stop("Please supply `occdf` as a data.frame.")
   }
 
-  if (any(c(lng, lat, age) %in% colnames(occdf) == FALSE)) {
+  if (!all(c(lng, lat, age) %in% colnames(occdf))) {
     stop("Defined `lng`, `lat`, or `age` not found in `occdf`.")
   }
 
@@ -200,7 +200,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     stop("`lng` values should be >= -180\u00B0 and <= 180\u00B0.")
   }
 
-  if (method %in% c("grid", "point") == FALSE) {
+  if (!method %in% c("grid", "point")) {
     stop("`method` should be either 'grid' or 'point'.")
   }
 
@@ -228,7 +228,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   # Match input
   model <- available[charmatch(x = model, table = available)]
   # Invalid model input?
-  if (any(is.na(model))) {
+  if (anyNA(model)) {
     stop("Unavailable model(s). Choose one from the following: \n",
          toString(available))
   }
@@ -279,7 +279,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Rotations files to download
     nme <- names(rot_files[model])
     # Already downloaded check
-    nme <- nme[which(file.exists(paste0(files, "/", nme, ".RDS")) == FALSE)]
+    nme <- nme[which(!file.exists(paste0(files, "/", nme, ".RDS")))]
     if (length(nme) != 0) {
       for (f in nme) {
         # Generate download link
@@ -329,7 +329,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       })
 
       # Replace NULL values
-      rpl <- which(unlist(lapply(p_lng, is.null)) == TRUE)
+      rpl <- which(unlist(lapply(p_lng, is.null)))
       if (length(rpl) != 0) {
         p_lng[rpl] <- NA
         p_lat[rpl] <- NA
@@ -435,7 +435,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
           # Replace NULL values
           rpl <- sapply(coords, is.null)
           if (any(rpl)) {
-            rpl <- which(rpl == TRUE)
+            rpl <- which(rpl)
             for (r in rpl) coords[[r]] <- list(NA, NA)
           }
           xy <- do.call(rbind.data.frame, coords)
@@ -521,7 +521,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   } else {
     cnames <- c("p_lng", "p_lat")
   }
-  if (any(is.na(occdf[, cnames]))) {
+  if (anyNA(occdf[, cnames])) {
     warning(
       paste0(
         "Palaeocoordinates could not be reconstructed for all points.",

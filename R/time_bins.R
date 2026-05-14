@@ -149,7 +149,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
   }
 
   if (is.data.frame(scale) &&
-      any(!c("interval_name", "max_ma", "min_ma") %in% colnames(scale))) {
+      !all(c("interval_name", "max_ma", "min_ma") %in% colnames(scale))) {
     stop(paste("`scale` does not contain named columns:",
                "'interval_name', 'max_ma', and 'min_ma'."))
   }
@@ -209,7 +209,7 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     if (is.character(interval)) {
       # Check interval names
       int_index <- charmatch(interval, df$interval_name)
-      if (any(is.na(int_index))) {
+      if (anyNA(int_index)) {
         stop(
           paste("Check spelling of specified intervals.",
                 "Available intervals are accessible via GTS2020 and GTS2012."))
@@ -296,11 +296,11 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     luminance <- apply(rgbs, 2, function(x) {
       (0.299 * x[1] + 0.587 * x[2] + 0.114 * x[3]) / 255
     })
-    df$font <- ifelse(luminance > .5, "black", "white")
+    df$font <- ifelse(luminance > 0.5, "black", "white")
   }
   # Tidy dataframe -------------------------------------------------------
   # Abbreviate names if required
-  if (any(is.na(df$abbr))) {
+  if (anyNA(df$abbr)) {
     df$abbr <- abbreviate(df$interval_name, minlength = 1,
                           use.classes = FALSE, named = FALSE)
   }

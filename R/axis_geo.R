@@ -626,7 +626,7 @@ axis_geo <- function(
 
   # after placing the scales, add an axis with ticks and labels
   # use interval boundaries if `exact` is TRUE
-  if (exact == TRUE) {
+  if (exact) {
     # Use the interval breaks from the outer-most scale
     tick_at <- unique(c(scale_intervals$min_ma, scale_intervals$max_ma))
     if (phylo) {

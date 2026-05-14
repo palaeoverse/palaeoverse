@@ -129,7 +129,7 @@ look_up <- function(occdf, early_interval = "early_interval",
 
   #=== Handling errors ===
 
-  if (is.data.frame(occdf) == FALSE) {
+  if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe.")
   }
 
@@ -148,8 +148,8 @@ look_up <- function(occdf, early_interval = "early_interval",
   }
 
   # int_key checks
-  if (is.data.frame(int_key) == FALSE) {
-    if (int_key != FALSE) {
+  if (!is.data.frame(int_key)) {
+    if (int_key) {
       stop("`int_key` should be a dataframe.")
     } else {
       if (!(assign_with_GTS %in% c("GTS2020", "GTS2012"))) {
@@ -280,7 +280,7 @@ look_up <- function(occdf, early_interval = "early_interval",
                   palaeoverse::GTS2012
                 },
                 {
-                  if (assign_with_GTS == FALSE) {
+                  if (!assign_with_GTS) {
                     NULL
                   } else {
                     stop("`assign_with_GTS` needs to be `FALSE`, `GTS2012` or
@@ -296,7 +296,7 @@ look_up <- function(occdf, early_interval = "early_interval",
     gts <- gts[-which(gts$interval_name == "Pridoli" & gts$rank == "epoch"), ]
 
     # early stages
-    early_unique_gts <- early_unique[assign_ind1 == FALSE]
+    early_unique_gts <- early_unique[!assign_ind1]
     assign_ind_gts <- vapply(early_unique_gts, function(x) {
       x %in% gts$interval_name
     }, FUN.VALUE = logical(1L))
@@ -324,7 +324,7 @@ look_up <- function(occdf, early_interval = "early_interval",
     }
 
     # late stages
-    late_unique_gts <- late_unique[assign_ind2 == FALSE]
+    late_unique_gts <- late_unique[!assign_ind2]
     assign_ind_gts <- vapply(late_unique_gts, function(x) {
       x %in% gts$interval_name
     }, FUN.VALUE = logical(1L))
@@ -411,7 +411,7 @@ look_up <- function(occdf, early_interval = "early_interval",
 
   # optional: return interval names which could not be assigned stages
 
-    if (return_unassigned == FALSE && length(unassigned) >= 1) {
+    if (!return_unassigned && length(unassigned) >= 1) {
       warning(
     c("The following intervals could not be matched with intervals from int_key
       or GTS: ", paste(unassigned, collapse = ", "))
@@ -419,7 +419,7 @@ look_up <- function(occdf, early_interval = "early_interval",
     }
 
   # return output
-  if (return_unassigned && length(unassigned >= 1)) {
+  if (return_unassigned && length(unassigned) >= 1) {
     return(unassigned)
   } else {
     if (return_unassigned && length(unassigned) == 0) {

@@ -43,7 +43,7 @@
 lat_bins_degrees <- function(size = 10, min = -90, max = 90,
                      fit = FALSE, plot = FALSE) {
   #error handling
-  if (is.numeric(size) == FALSE) {
+  if (!is.numeric(size)) {
     stop("`size` should be a numeric")
   }
 
@@ -63,11 +63,11 @@ lat_bins_degrees <- function(size = 10, min = -90, max = 90,
     stop("`size` should be more than 0 and less than or equal to 90")
   }
 
-  if (is.logical(fit) == FALSE) {
+  if (!is.logical(fit)) {
     stop("`fit` should be logical (TRUE/FALSE)")
   }
 
-  if (is.logical(plot) == FALSE) {
+  if (!is.logical(plot)) {
     stop("`plot` should be logical (TRUE/FALSE)")
   }
 
@@ -76,8 +76,8 @@ lat_bins_degrees <- function(size = 10, min = -90, max = 90,
   # Divide latitudinal range by size of bins
   bins <- lat_range / size
   # If fit is set true, generate equal size bins to fit range
-  if (fit == TRUE) {
-    if (is.integer(bins) == FALSE) {
+  if (fit) {
+    if (!is.integer(bins)) {
       int <- lat_range / seq(from = 1, to = 90, by = 1)
       int <- which(int %% 1 == 0)
       size <- int[which.min(abs(int - size))]
@@ -94,7 +94,7 @@ lat_bins_degrees <- function(size = 10, min = -90, max = 90,
   df <- df[order(-max), ]
   df <- cbind.data.frame(bin, df)
   #plot latitudinal bins
-  if (plot == TRUE) {
+  if (plot) {
     plot(1, type = "n", xlim = c(-180, 180),
          ylim = c(min(df$min), max(df$max)),
          xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
@@ -105,12 +105,12 @@ lat_bins_degrees <- function(size = 10, min = -90, max = 90,
               col = cols[i],
               border = "black")
     }
-    if (fit == TRUE) {
+    if (fit) {
       title(paste0("Bin size set to ", size))
     }
   }
 
-  if (fit == TRUE) {
+  if (fit) {
     message(paste0(
       "Bin size set to ", size, " degrees to fit latitudinal range."))
   }

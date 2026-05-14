@@ -121,8 +121,8 @@ bin_space <- function(occdf,
     stop("occdf should be of class dataframe")
   }
 
-  if (lng %in% colnames(occdf) == FALSE ||
-      lat %in% colnames(occdf) == FALSE) {
+  if (!lng %in% colnames(occdf) ||
+      !lat %in% colnames(occdf)) {
     stop("input column names do not exist in `occdf`")
   }
 
@@ -149,7 +149,7 @@ bin_space <- function(occdf,
     stop("`sub_grid` should be of class numeric or NULL")
   }
 
-  if (is.logical(return) == FALSE) {
+  if (!is.logical(return)) {
     stop("`return` should be logical (TRUE/FALSE)")
   }
 
@@ -215,7 +215,7 @@ bin_space <- function(occdf,
   primary <- h3jsr::cell_to_polygon(input = occdf$cell_ID, simple = TRUE)
 
   # Plot data?
-  if (plot == TRUE) {
+  if (plot) {
 
     plot(base_grid,
          setParUsrBB = TRUE,
@@ -235,7 +235,7 @@ bin_space <- function(occdf,
     }
   }
   # Should the grid be returned?
-  if (return == TRUE) {
+  if (return) {
     if (!is.null(sub_grid)) {
       grid <- rbind.data.frame(grid, s_grid)
       occdf <- list(occdf, grid, base_grid, primary, secondary)

@@ -108,7 +108,7 @@ lat_bins_area <- function(n = 12,
                      area_prop = band_areas_prop)
 
   # plot latitudinal bins
-  if (plot == TRUE) {
+  if (plot) {
     plot(1, type = "n", xlim = c(-180, 180),
          ylim = c(min(bins$min), max(bins$max)),
          xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
