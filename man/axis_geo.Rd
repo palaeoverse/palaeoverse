@@ -273,14 +273,14 @@ box()
 axis(2)
 axis_geo(side = 1, intervals = intervals, title = "Time (Ma)")
 
-\dontshow{if (require(phytools)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (require(phytools)) withAutoprint(\{ # examplesIf}
 # scale with phylogeny
 library(phytools)
 data(mammal.tree)
 plot(mammal.tree)
 axis_geo_phylo(title = "Time (Ma)")
 \dontshow{\}) # examplesIf}
-\dontshow{if (require(paleotree)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (require(paleotree)) withAutoprint(\{ # examplesIf}
 # scale with fossil phylogeny
 library(paleotree)
 data(RaiaCopesRule)
