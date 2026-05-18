@@ -6,16 +6,18 @@ test_that("bin_lat works", {
   expect_message(
     expect_equal(
       nrow(bin_lat(occdf = tetrapods, bins = bins, lat = "lat")),
-      nrow(occdf)
+      nrow(tetrapods)
     ),
     "Occurrences assigned to upper bin"
   )
 
   # argument "boundary" works
-  bo <- length(which(occdf[, "lat", drop = TRUE] %in% c(bins$max, bins$min)))
+  bo <- length(which(
+    tetrapods[, "lat", drop = TRUE] %in% c(bins$max, bins$min)
+  ))
   expect_equal(
     nrow(bin_lat(occdf = tetrapods, bins = bins, lat = "lat", boundary = TRUE)),
-    nrow(occdf) + bo
+    nrow(tetrapods) + bo
   )
 })
 
