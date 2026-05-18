@@ -24,10 +24,10 @@ test_that("group_apply works", {
               group = c("collection_no", "cc"),
               fun = tax_range_time)), 4017)
 
-  expect_equal(nrow(group_apply(occdf = occdf,
+  expect_null(nrow(group_apply(occdf = occdf,
                                 group = c("collection_no"),
                                 fun = tax_check,
-                                verbose = FALSE)), NULL)
+                                verbose = FALSE)))
 
   # Errors
   expect_error(group_apply(occdf = 1,

@@ -47,18 +47,18 @@ test_that("bin_time() works", {
   expect_equal(class(bin_time(occdf = occdf, bins = bins,
                                   method = "mid")$bin_assignment), "integer")
 
-  expect_equal(length(bin_time(occdf = occdf, bins = bins,
-                                 method = "random")), 100)
+  expect_length(bin_time(occdf = occdf, bins = bins,
+                                 method = "random"), 100)
 
-  expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
+  expect_type(bin_time(occdf = occdf, bins = bins,
                                     method = "point", reps = 5,
-                                fun = dnorm, mean = 0.5, sd = 0.25)), TRUE)
+                                fun = dnorm, mean = 0.5, sd = 0.25), "list")
 
   occdf$min_ma[1] <- occdf$max_ma[1]
 
-  expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
+  expect_type(bin_time(occdf = occdf, bins = bins,
                                 method = "point", reps = 5,
-                                fun = dnorm, mean = 0.5, sd = 0.25)), TRUE)
+                                fun = dnorm, mean = 0.5, sd = 0.25), "list")
 
   drm <- 1
 
@@ -66,22 +66,21 @@ test_that("bin_time() works", {
                         method = "point", reps = 5,
                         fun = drm, mean = 0.5, sd = 0.25))
 
-  expect_equal(is.list(bin_time(occdf = occdf, bins = bins,
+  expect_false(is.list(bin_time(occdf = occdf, bins = bins,
                                     reps = 1,
-                                    method = "random")$bin_midpoint), FALSE)
+                                    method = "random")$bin_midpoint))
 
-  expect_equal(length(bin_time(occdf = occdf,
+  expect_length(bin_time(occdf = occdf,
                                    bins = bins,
-                                   method = "random")),
-               100)
+                                   method = "random"), 100)
 
-  expect_equal(any(colnames(bin_time(
+  expect_true(any(colnames(bin_time(
     occdf = occdf,
-    bins = bins, method = "majority")) == "overlap_percentage"), TRUE)
+    bins = bins, method = "majority")) == "overlap_percentage"))
 
-  expect_equal(nrow(bin_time(occdf = occdf,
+  expect_true(nrow(bin_time(occdf = occdf,
                                  bins = bins,
-                                 method = "all")) > nrow(occdf), TRUE)
+                                 method = "all")) > nrow(occdf))
 
   occdf$min_ma[1] <- -5000
   expect_error(length(bin_time(occdf = occdf,
