@@ -45,7 +45,7 @@ circle and joined with dashed lines.}
 (alphabetically by taxon names).}
 
 \item{plot_args}{A list of optional arguments that are passed directly to
-\code{\link[graphics:plot.default]{graphics::plot()}}. Subsets of these arguments are also passed to
+\code{\link[graphics:plot]{graphics::plot()}}. Subsets of these arguments are also passed to
 \code{\link[graphics:segments]{graphics::segments()}} and \code{\link[graphics:points]{graphics::points()}} (see Details). Useful
 arguments include \code{xlab} (the x-axis label), \code{ylab} (the y-axis label,
 default is "Bed number"), \code{main} (the plot title), \code{xlim} (the x-axis
