@@ -17,14 +17,26 @@ test_that("bin_lat works", {
   )
 
   # Expect error
-  expect_error(bin_lat(occdf = 2, bins = bins, lat = "lat"))
-  expect_error(bin_lat(occdf = occdf, bins = 2, lat = "lat"))
-  expect_error(bin_lat(occdf = occdf, bins = 2, lat = "plat"))
+  expect_snapshot(bin_lat(occdf = 2, bins = bins, lat = "lat"), error = TRUE)
+  expect_snapshot(bin_lat(occdf = occdf, bins = 2, lat = "lat"), error = TRUE)
+  expect_snapshot(bin_lat(occdf = occdf, bins = 2, lat = "plat"), error = TRUE)
   bins <- bins[, -c(1)]
-  expect_error(bin_lat(occdf = occdf, bins = bins, lat = "lat"))
+  expect_snapshot(
+    bin_lat(occdf = occdf, bins = bins, lat = "lat"),
+    error = TRUE
+  )
   occdf$lat[1] <- NA
-  expect_error(bin_lat(occdf = occdf, bins = bins, lat = "lat"))
+  expect_snapshot(
+    bin_lat(occdf = occdf, bins = bins, lat = "lat"),
+    error = TRUE
+  )
   occdf$lat[1] <- 91
-  expect_error(bin_lat(occdf = occdf, bins = bins, lat = "lat"))
-  expect_error(bin_lat(occdf = occdf, bins = bins, lat = "latitude"))
+  expect_snapshot(
+    bin_lat(occdf = occdf, bins = bins, lat = "lat"),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_lat(occdf = occdf, bins = bins, lat = "latitude"),
+    error = TRUE
+  )
 })
