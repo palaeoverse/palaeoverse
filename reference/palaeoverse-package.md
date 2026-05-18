@@ -30,6 +30,9 @@ Useful links:
 
 Authors:
 
+- Lewis A. Jones <LewisA.Jones@outlook.com>
+  ([ORCID](https://orcid.org/0000-0003-3902-8986))
+
 - William Gearty <willgearty@gmail.com>
   ([ORCID](https://orcid.org/0000-0003-0076-3262))
 
