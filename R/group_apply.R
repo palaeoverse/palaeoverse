@@ -119,22 +119,19 @@ group_apply <- function(occdf, group, fun, ...) {
   # `by()` is a wrapper of `tapply()`, but it ends up being MUCH faster than `tapply()`
   # because of some data wrangling it does.
   #
-  # `by.data.frame()` started accepting formulas in R 4.3 only. From R 4.3 news:
+  # Note: this used to use a formula in the INDICES param, but `by.data.frame()` started
+  # accepting formulas in R 4.3 only. From R 4.3 news:
   #    "The tapply() function now accepts a data frame as its X argument, and allows INDEX
   #    to be a formula in that case. by.data.frame() similarly allows INDICES to be a
   #    formula."
-  if (getRversion() >= "4.3.0") {
-    # Generate formula
-    form <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
-    output_lst <- by(data = occdf, INDICES = form, FUN = fun, ...)
-  } else {
-    output_lst <- by(
-      data = occdf,
-      INDICES = occdf[, group, drop = FALSE],
-      FUN = fun,
-      ...
-    )
-  }
+  #
+  # -> since we support R >= 4.1, we cannot use a formula,
+  output_lst <- by(
+    data = occdf,
+    INDICES = occdf[, group, drop = FALSE],
+    FUN = fun,
+    ...
+  )
 
   if (is.list(output_lst)) {
     # modified from array2DF() to handle when functions return empty dfs
