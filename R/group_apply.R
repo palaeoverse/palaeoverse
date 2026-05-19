@@ -115,8 +115,6 @@ group_apply <- function(occdf, group, fun, ...) {
       ))
     }
   }
-  # Generate formula
-  form <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
 
   # `by()` is a wrapper of `tapply()`, but it ends up being MUCH faster than `tapply()`
   # because of some data wrangling it does.
@@ -126,9 +124,16 @@ group_apply <- function(occdf, group, fun, ...) {
   #    to be a formula in that case. by.data.frame() similarly allows INDICES to be a
   #    formula."
   if (getRversion() >= "4.3.0") {
+    # Generate formula
+    form <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
     output_lst <- by(data = occdf, INDICES = form, FUN = fun, ...)
   } else {
-    output_lst <- by(data = occdf, INDICES = occdf$cc, FUN = fun, ...)
+    output_lst <- by(
+      data = occdf,
+      INDICES = occdf[, group, drop = FALSE],
+      FUN = fun,
+      ...
+    )
   }
 
   if (is.list(output_lst)) {
