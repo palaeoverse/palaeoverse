@@ -150,12 +150,10 @@ group_apply <- function(occdf, group, fun, ...) {
     output_lst <- output_lst[output_lst_keep]
     dfrows <- vapply(X = output_lst, FUN = nrow, FUN.VALUE = 1L)
     keys <- keys[output_lst_keep, , drop = FALSE]
-    print("here")
     output_df <- cbind(
       keys[rep(seq_along(dfrows), dfrows), , drop = FALSE],
       do.call(what = rbind, args = output_lst)
     )
-    print("here 2")
   } else {
     fun_name <- deparse(substitute(fun))
     output_df <- array2DF(x = output_lst, responseName = fun_name)
