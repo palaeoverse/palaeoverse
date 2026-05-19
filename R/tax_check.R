@@ -82,44 +82,68 @@
 #'                  group = "family", dis = 0.1)
 #' }
 #' @export
-tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
-                      start = 1, verbose = TRUE) {
-
+tax_check <- function(
+  taxdf,
+  name = "genus",
+  group = NULL,
+  dis = 0.05,
+  start = 1,
+  verbose = TRUE
+) {
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
   # taxdf: a data.frame with column names and at least one row
   if (!exists("taxdf")) {
     taxdf <- NULL
-    }
+  }
 
-  if (any(c(!is.data.frame(taxdf),
-            nrow(taxdf) == 0,
-            is.null(colnames(taxdf))))) {
-    stop("Please supply `taxdf` as a data.frame with named columns, containing
-         taxon names, and optionally their higher classification")
+  if (
+    any(c(
+      !is.data.frame(taxdf),
+      nrow(taxdf) == 0,
+      is.null(colnames(taxdf))
+    ))
+  ) {
+    stop(
+      "Please supply `taxdf` as a data.frame with named columns, containing
+         taxon names, and optionally their higher classification"
+    )
   }
 
   # names: a 1L character vector denoting a character column in taxdf
-  if (any(c(!is.atomic(name),
-            length(name) != 1,
-            !name %in% colnames(taxdf)))) {
+  if (
+    any(c(
+      !is.atomic(name),
+      length(name) != 1,
+      !name %in% colnames(taxdf)
+    ))
+  ) {
     stop("Please specify `name` as a single column name in `taxdf`")
   }
 
   # Replace missing values with NA
   taxdf[grep("^$|^\\s+$", taxdf[, name, drop = TRUE]), name] <- NA
 
-  if (!is.character(taxdf[, name, drop = TRUE]) ||
-      all(is.na(taxdf[, name, drop = TRUE]))) {
-    stop("The `name` column in `taxdf` must contain data of class character and
-         at least one entry that is not NA or empty")
+  if (
+    !is.character(taxdf[, name, drop = TRUE]) ||
+      all(is.na(taxdf[, name, drop = TRUE]))
+  ) {
+    stop(
+      "The `name` column in `taxdf` must contain data of class character and
+         at least one entry that is not NA or empty"
+    )
   }
 
   # groups: If not NULL, a 1L character vector denoting a character column
   # in taxdf
   if (!is.null(group)) {
-    if (any(c(!is.atomic(group), length(group) != 1,
-             !group %in% colnames(taxdf)))) {
+    if (
+      any(c(
+        !is.atomic(group),
+        length(group) != 1,
+        !group %in% colnames(taxdf)
+      ))
+    ) {
       stop("Please specify `group` as a single column name in `taxdf`")
     }
     if (!is.character(taxdf[, group, drop = TRUE])) {
@@ -131,7 +155,13 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
   }
 
   # dis: a 1L numeric > 0 and < 1
-  if (any(c(!is.numeric(dis), length(dis) != 1, !is.atomic(dis)))) {
+  if (
+    any(c(
+      !is.numeric(dis),
+      length(dis) != 1,
+      !is.atomic(dis)
+    ))
+  ) {
     stop("`dis` must be a single numeric, greater than 0 and less than 1")
   }
   if (dis >= 1 || dis <= 0) {
@@ -140,22 +170,35 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
 
   # start: a 1L integer >= 0
   if (!is.null(start)) {
-    if (any(c(!is.numeric(start),
-              length(start) != 1,
-              !is.atomic(start)))) {
+    if (
+      any(c(
+        !is.numeric(start),
+        length(start) != 1,
+        !is.atomic(start)
+      ))
+    ) {
       stop("`start` must be a single positive integer, or zero")
     }
-    if (any(c(start < 0, start %% 1 != 0,
-              is.nan(start),
-              is.infinite(start)))) {
+    if (
+      any(c(
+        start < 0,
+        start %% 1 != 0,
+        is.nan(start),
+        is.infinite(start)
+      ))
+    ) {
       stop("`start` must be a single positive integer, or zero")
     }
   }
 
   # verbose: a 1L logical vector
-  if (any(c(!is.atomic(c(verbose)),
-           !is.logical(verbose),
-           length(verbose) != 1))) {
+  if (
+    any(c(
+      !is.atomic(c(verbose)),
+      !is.logical(verbose),
+      length(verbose) != 1
+    ))
+  ) {
     stop("`verbose` must be a single logical value")
   }
 
@@ -167,8 +210,7 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
     gp <- NULL
   }
 
-  nm <- unique(grep("[^[:alpha:] ]", taxdf[, name, drop = TRUE],
-                    value = TRUE))
+  nm <- unique(grep("[^[:alpha:] ]", taxdf[, name, drop = TRUE], value = TRUE))
   if (length(nm) != 0) {
     warning("Non-letter characters present in the taxon names")
   } else {
@@ -178,8 +220,10 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
   # FORMAT INPUT DATA ------------------------------------------------------- #
 
   # names data.frame, drop missing names, fill missing groups alphabetically
-  taxdf <- taxdf2 <- data.frame(group = group,
-                                name = taxdf[, name, drop = TRUE])
+  taxdf <- taxdf2 <- data.frame(
+    group = group,
+    name = taxdf[, name, drop = TRUE]
+  )
   taxdf <- taxdf[!duplicated(taxdf), , drop = FALSE]
   taxdf <- taxdf[!is.na(taxdf[, "name", drop = TRUE]), , drop = FALSE]
   no_group <- which(is.na(taxdf[, "group", drop = TRUE]))
@@ -189,7 +233,6 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
 
   # apply the comparison procedure group wise
   sp <- lapply(unique(taxdf[, "group", drop = TRUE]), function(y) {
-
     # all taxon names which belong to group y
     ob <- taxdf[taxdf[, "group", drop = TRUE] == y, "name"]
 
@@ -197,9 +240,8 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
     if (length(ob) < 2) {
       flag <- NULL
 
-    # otherwise perform group wise comparisons
+      # otherwise perform group wise comparisons
     } else {
-
       # else get the Jaro distance matrix for the elements in the group
       test <- stringdist::stringdistmatrix(a = ob, b = ob, method = "jw")
       colnames(test) <- rownames(test) <- ob
@@ -214,15 +256,14 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
       if (length(flag) == 0) {
         flag <- NULL
 
-      # otherwise additionally filter using shared starting/ending letters
+        # otherwise additionally filter using shared starting/ending letters
       } else {
-
         # retrieve names
         flag <- cbind(ob[flag[, 1]], ob[flag[, 2]], y)
         # drop equivalent rows (xy, yx pairs)
         eq <- duplicated(t(apply(flag, 1, function(z) {
           paste0(z[order(z)])
-          })))
+        })))
         flag <- flag[!eq, , drop = FALSE]
 
         # cull by first y letter non-matches
@@ -235,7 +276,6 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
         # if there are no remaining flagged names, return NULL
         if (length(flag) == 0) {
           flag <- NULL
-
         }
       }
     }
@@ -247,29 +287,38 @@ tax_check <- function(taxdf, name = "genus", group = NULL, dis = 0.05,
   # format initial results data.frame from list
   err <- sp[!unlist(lapply(sp, is.null))]
   err <- as.data.frame(do.call(rbind, err))
-  err$f1 <- as.vector(table(taxdf2[, "name"])[match(err$V1,
-                                                       names(table(
-                                                         taxdf2[, "name"])))])
-  err$f2 <- as.vector(table(taxdf2[, "name"])[match(err$V2,
-                                                       names(table(
-                                                         taxdf2[, "name"])))])
+  err$f1 <- as.vector(table(taxdf2[, "name"])[match(
+    err$V1,
+    names(table(
+      taxdf2[, "name"]
+    ))
+  )])
+  err$f2 <- as.vector(table(taxdf2[, "name"])[match(
+    err$V2,
+    names(table(
+      taxdf2[, "name"]
+    ))
+  )])
 
   # NULL if no matches present
   if (nrow(err) == 0) {
     err <- NULL
 
-  # else reorder rows so the more frequent synonym is in the first column
+    # else reorder rows so the more frequent synonym is in the first column
   } else {
-
     mins <- apply(err[, 4:5], 1, which.min) - 1
     maxs <- abs(mins - 1)
     fq1 <- unlist(err[, 4:5])[seq_along(maxs) + (maxs * length(maxs))]
     fq2 <- unlist(err[, 4:5])[seq_along(mins) + (mins * length(mins))]
     mins <- unlist(err[, 1:2])[seq_along(mins) + (mins * length(mins))]
     maxs <- unlist(err[, 1:2])[seq_along(maxs) + (maxs * length(maxs))]
-    err <- data.frame(group = err$y, greater = as.vector(maxs),
-                      lesser = as.vector(mins), count_greater = fq1,
-                      count_lesser = fq2)
+    err <- data.frame(
+      group = err$y,
+      greater = as.vector(maxs),
+      lesser = as.vector(mins),
+      count_greater = fq1,
+      count_lesser = fq2
+    )
     err <- err[order(err[, "group"], err[, "greater"], method = "radix"), ]
     row.names(err) <- NULL
   }

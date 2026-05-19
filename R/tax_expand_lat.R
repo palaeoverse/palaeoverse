@@ -44,10 +44,12 @@
 #'                      bins = bins,
 #'                      max_lat = "max_lat",
 #'                      min_lat = "min_lat")
-tax_expand_lat <- function(taxdf,
-                           bins,
-                           max_lat = "max_lat",
-                           min_lat = "min_lat") {
+tax_expand_lat <- function(
+  taxdf,
+  bins,
+  max_lat = "max_lat",
+  min_lat = "min_lat"
+) {
   # Handle errors
   if (is.data.frame(taxdf) == FALSE) {
     stop("`taxdf` should be a dataframe")
@@ -91,8 +93,10 @@ tax_expand_lat <- function(taxdf,
 
   # Replicate taxon rows for each lat bin they span
   dat_list <- lapply(seq_len(nrow(bins)), function(i) {
-    int_tax <- taxdf[taxdf[, min_lat, drop = TRUE] < bins$max[i] &
-                       taxdf[, max_lat, drop = TRUE] > bins$min[i], ]
+    int_tax <- taxdf[
+      taxdf[, min_lat, drop = TRUE] < bins$max[i] &
+        taxdf[, max_lat, drop = TRUE] > bins$min[i],
+    ]
     if (nrow(int_tax) == 0) {
       return(NULL)
     }

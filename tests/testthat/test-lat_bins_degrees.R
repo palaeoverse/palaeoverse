@@ -1,5 +1,4 @@
 test_that("lat_bins_degrees() works", {
-
   #expect equal
   expect_equal(nrow(lat_bins_degrees()), 18)
   expect_equal(nrow(lat_bins_degrees(size = 13)), 13)
@@ -14,5 +13,4 @@ test_that("lat_bins_degrees() works", {
   expect_error(lat_bins_degrees(fit = 1))
   expect_error(lat_bins_degrees(size = "10"))
   expect_error(lat_bins_degrees(plot = "TRUE"))
-
 })
