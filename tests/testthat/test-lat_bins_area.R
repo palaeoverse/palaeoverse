@@ -1,5 +1,4 @@
 test_that("lat_bins_area works", {
-
   # Expect equal
   expect_equal(nrow(lat_bins_area(n = 12)), 12)
   expect_equal(nrow(lat_bins_area(n = 6, min = 0, max = 90)), 6)
@@ -15,10 +14,8 @@ test_that("lat_bins_area works", {
 })
 
 test_that("lat_bins_area plotting works", {
-
   # Expect plot
   expect_doppelganger("lat_bins_area", function() {
     lat_bins_area(n = 12, plot = TRUE)
   })
-
 })

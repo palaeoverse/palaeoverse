@@ -90,16 +90,17 @@
 #' ex <- tax_range_time(occdf = occdf, name = "order",
 #'                      group = "class", plot = TRUE)
 #' @export
-tax_range_time <- function(occdf,
-                           name = "genus",
-                           min_ma = "min_ma",
-                           max_ma = "max_ma",
-                           group = NULL,
-                           by = "FAD",
-                           plot = FALSE,
-                           plot_args = NULL,
-                           intervals = "periods") {
-
+tax_range_time <- function(
+  occdf,
+  name = "genus",
+  min_ma = "min_ma",
+  max_ma = "max_ma",
+  group = NULL,
+  by = "FAD",
+  plot = FALSE,
+  plot_args = NULL,
+  intervals = "periods"
+) {
   #=== Handling errors ===
   if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe")
@@ -109,22 +110,28 @@ tax_range_time <- function(occdf,
     stop("`plot` should be logical (TRUE/FALSE)")
   }
 
-  if (!is.numeric(occdf[, max_ma, drop = TRUE]) ||
-      !is.numeric(occdf[, min_ma, drop = TRUE])) {
+  if (
+    !is.numeric(occdf[, max_ma, drop = TRUE]) ||
+      !is.numeric(occdf[, min_ma, drop = TRUE])
+  ) {
     stop("`max_ma` and `min_ma` must be of class numeric.")
   }
 
   if (!all(c(name, min_ma, max_ma) %in% colnames(occdf))) {
-    stop("Either `name`, `min_ma`, or `max_ma`, is not a named column in
-         `occdf`")
+    stop(
+      "Either `name`, `min_ma`, or `max_ma`, is not a named column in
+         `occdf`"
+    )
   }
 
   if (anyNA(occdf[, name, drop = TRUE])) {
     stop("The `name` column contains NA values")
   }
 
-  if (anyNA(occdf[, min_ma, drop = TRUE]) ||
-      anyNA(occdf[, max_ma, drop = TRUE])) {
+  if (
+    anyNA(occdf[, min_ma, drop = TRUE]) ||
+      anyNA(occdf[, max_ma, drop = TRUE])
+  ) {
     stop("`min_ma` and/or `max_ma` columns contain NA values")
   }
 
@@ -152,52 +159,70 @@ tax_range_time <- function(occdf,
     g <- group
   }
   # Calculate ranges
-  temp_df <- group_apply(occdf, g, function(occdf, name, min_ma, max_ma) {
-    #=== Set-up ===
-    unique_taxa <- unique(occdf[, name, drop = TRUE])
-    # Order taxa by name
-    unique_taxa <- sort(unique_taxa)
+  temp_df <- group_apply(
+    occdf,
+    g,
+    function(occdf, name, min_ma, max_ma) {
+      #=== Set-up ===
+      unique_taxa <- unique(occdf[, name, drop = TRUE])
+      # Order taxa by name
+      unique_taxa <- sort(unique_taxa)
 
-    #=== Temporal range ===
-    # Generate dataframe for population
-    temp_df <- data.frame(taxon = unique_taxa,
-                          taxon_id = seq(1, length(unique_taxa), 1),
-                          max_ma = rep(NA, length(unique_taxa)),
-                          min_ma = rep(NA, length(unique_taxa)),
-                          range_myr = rep(NA, length(unique_taxa)),
-                          n_occ = rep(NA, length(unique_taxa)))
-    # Run for loop across unique taxa
-    for (i in seq_along(unique_taxa)) {
-      vec <- which(occdf[, name, drop = TRUE] == unique_taxa[i])
-      temp_df$max_ma[i] <- max(occdf[vec, max_ma])
-      temp_df$min_ma[i] <- min(occdf[vec, min_ma])
-      temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]
-      temp_df$n_occ[i] <- length(vec)
-    }
-    # Should data be ordered by FAD, LAD, or name?
-    if (by == "FAD") {
-      temp_df <- temp_df[order(temp_df$max_ma), ]
-    } else if (by == "LAD") {
-      temp_df <- temp_df[order(temp_df$min_ma), ]
-    }
-    # Return dataframe
-    temp_df
-  }, name = name, min_ma = min_ma, max_ma = max_ma)
+      #=== Temporal range ===
+      # Generate dataframe for population
+      temp_df <- data.frame(
+        taxon = unique_taxa,
+        taxon_id = seq(1, length(unique_taxa), 1),
+        max_ma = rep(NA, length(unique_taxa)),
+        min_ma = rep(NA, length(unique_taxa)),
+        range_myr = rep(NA, length(unique_taxa)),
+        n_occ = rep(NA, length(unique_taxa))
+      )
+      # Run for loop across unique taxa
+      for (i in seq_along(unique_taxa)) {
+        vec <- which(occdf[, name, drop = TRUE] == unique_taxa[i])
+        temp_df$max_ma[i] <- max(occdf[vec, max_ma])
+        temp_df$min_ma[i] <- min(occdf[vec, min_ma])
+        temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]
+        temp_df$n_occ[i] <- length(vec)
+      }
+      # Should data be ordered by FAD, LAD, or name?
+      if (by == "FAD") {
+        temp_df <- temp_df[order(temp_df$max_ma), ]
+      } else if (by == "LAD") {
+        temp_df <- temp_df[order(temp_df$min_ma), ]
+      }
+      # Return dataframe
+      temp_df
+    },
+    name = name,
+    min_ma = min_ma,
+    max_ma = max_ma
+  )
   # Assign taxon_ids
   temp_df$taxon_id <- seq_len(nrow(temp_df))
   # Round off values
   temp_df[, c("max_ma", "min_ma", "range_myr")] <- round(
-    x = temp_df[, c("max_ma", "min_ma", "range_myr")], digits = 3)
+    x = temp_df[, c("max_ma", "min_ma", "range_myr")],
+    digits = 3
+  )
   # Remove row names
   row.names(temp_df) <- NULL
 
   #=== Plotting ===
   if (plot) {
     # Default plot args
-    args <- list(main = "Temporal range of taxa",
-                 xlab = "Time (Ma)", ylab = "Taxon",
-                 col = "black", bg = "black",
-                 pch = 20, cex = 1, lty = 1, lwd = 1)
+    args <- list(
+      main = "Temporal range of taxa",
+      xlab = "Time (Ma)",
+      ylab = "Taxon",
+      col = "black",
+      bg = "black",
+      pch = 20,
+      cex = 1,
+      lty = 1,
+      lwd = 1
+    )
     # Update any provided
     rpl <- match(names(plot_args), names(args))
     if (length(rpl) != 0) {
@@ -215,9 +240,19 @@ tax_range_time <- function(occdf,
     xlim <- c(max(temp_df$max_ma), min(temp_df$min_ma))
     ylim <- c(0.5, nrow(temp_df) + 0.5)
     # Base plot
-    plot(x = NA, y = NA, xlim = xlim, ylim = ylim,
-         xlab = NA, ylab = NA, main = args$main,
-         xaxt = "n", yaxt = "n", yaxs = "i", axes = TRUE)
+    plot(
+      x = NA,
+      y = NA,
+      xlim = xlim,
+      ylim = ylim,
+      xlab = NA,
+      ylab = NA,
+      main = args$main,
+      xaxt = "n",
+      yaxt = "n",
+      yaxs = "i",
+      axes = TRUE
+    )
     # Add ylabels
     axis(2, at = seq_len(nrow(temp_df)), labels = temp_df$taxon, las = 2)
     # Add yaxis title
@@ -226,36 +261,59 @@ tax_range_time <- function(occdf,
     if (!is.null(group)) {
       # Calculate plotting values for groups
       s <- split(x = temp_df, f = temp_df[, group])
-      vals_rect <- lapply(s, function(x) cbind(min(x$taxon_id),
-                                               max(x$taxon_id)))
+      vals_rect <- lapply(s, function(x) {
+        cbind(min(x$taxon_id), max(x$taxon_id))
+      })
       # Define colours
       cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
       # Run across number of groups
       lapply(seq_along(vals_rect), function(x) {
         # Add background rectangles
-        rect(xleft = xlim[1] * 2, xright = 0,
-             ybottom = vals_rect[[x]][1] - 0.5,
-             ytop = vals_rect[[x]][2] + 0.5,
-             col = cols_rect[x])
+        rect(
+          xleft = xlim[1] * 2,
+          xright = 0,
+          ybottom = vals_rect[[x]][1] - 0.5,
+          ytop = vals_rect[[x]][2] + 0.5,
+          col = cols_rect[x]
+        )
         # Add group labels
-        axis(4,
-             at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
-             labels = names(vals_rect)[x],
-             tick = TRUE,
-             hadj = 0.5, gap.axis = 10,
-             line = 0, las = 3)
+        axis(
+          4,
+          at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
+          labels = names(vals_rect)[x],
+          tick = TRUE,
+          hadj = 0.5,
+          gap.axis = 10,
+          line = 0,
+          las = 3
+        )
       })
     }
     # Add ranges
-    segments(x0 = temp_df$max_ma, x1 = temp_df$min_ma,
-             y0 = temp_df$taxon_id,
-             col = args$col, lty = args$lty, lwd = args$lwd)
-    points(x = temp_df$max_ma, y = temp_df$taxon_id,
-           pch = args$pch, col = args$col, bg = args$bg,
-           cex = args$cex)
-    points(x = temp_df$min_ma, y = temp_df$taxon_id,
-           pch = args$pch, col = args$col, bg = args$bg,
-           cex = args$cex)
+    segments(
+      x0 = temp_df$max_ma,
+      x1 = temp_df$min_ma,
+      y0 = temp_df$taxon_id,
+      col = args$col,
+      lty = args$lty,
+      lwd = args$lwd
+    )
+    points(
+      x = temp_df$max_ma,
+      y = temp_df$taxon_id,
+      pch = args$pch,
+      col = args$col,
+      bg = args$bg,
+      cex = args$cex
+    )
+    points(
+      x = temp_df$min_ma,
+      y = temp_df$taxon_id,
+      pch = args$pch,
+      col = args$col,
+      bg = args$bg,
+      cex = args$cex
+    )
     axis_geo(side = 1, intervals = intervals, title = args$xlab)
     # Reset par
     par(usrpar)

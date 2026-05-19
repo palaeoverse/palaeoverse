@@ -9,22 +9,40 @@ test_that("bin_space() works", {
 
   # Expect equal
   expect_equal(
-    nrow(bin_space(occdf = tetrapods, spacing = 250,
-                     plot = TRUE)),
-      nrow(tetrapods))
+    nrow(bin_space(occdf = tetrapods, spacing = 250, plot = TRUE)),
+    nrow(tetrapods)
+  )
   expect_equal(
-    nrow(bin_space(occdf = tetrapods, spacing = 1000, sub_grid = 250,
-                     plot = TRUE)),
-    nrow(tetrapods))
+    nrow(bin_space(
+      occdf = tetrapods,
+      spacing = 1000,
+      sub_grid = 250,
+      plot = TRUE
+    )),
+    nrow(tetrapods)
+  )
 
   # Expect true
-  expect_type(bin_space(
-        occdf = tetrapods, spacing = 250, return = TRUE,
-        plot = TRUE), "list")
+  expect_type(
+    bin_space(
+      occdf = tetrapods,
+      spacing = 250,
+      return = TRUE,
+      plot = TRUE
+    ),
+    "list"
+  )
 
-  expect_type(bin_space(
-        occdf = tetrapods, spacing = 500, sub_grid = 200, return = TRUE,
-        plot = TRUE), "list")
+  expect_type(
+    bin_space(
+      occdf = tetrapods,
+      spacing = 500,
+      sub_grid = 200,
+      return = TRUE,
+      plot = TRUE
+    ),
+    "list"
+  )
 
   # Error handling
   expect_error(bin_space(occdf = matrix(tetrapods)))

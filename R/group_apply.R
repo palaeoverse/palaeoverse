@@ -102,11 +102,17 @@ group_apply <- function(occdf, group, fun, ...) {
   if (!("..." %in% names(formals(fun)))) {
     indx <- which(!(names(supp_args) %in% names(formals(fun))))
     if (length(indx) > 1) {
-      stop(paste(paste0("`", names(supp_args)[indx], "`", collapse = "/"),
-                 "are not valid arguments for the specified function"))
+      stop(paste(
+        paste0("`", names(supp_args)[indx], "`", collapse = "/"),
+        "are not valid arguments for the specified function"
+      ))
     } else if (length(indx) == 1) {
-      stop(paste0("`", names(supp_args)[indx], "`",
-                  " is not a valid argument for the specified function"))
+      stop(paste0(
+        "`",
+        names(supp_args)[indx],
+        "`",
+        " is not a valid argument for the specified function"
+      ))
     }
   }
   # Generate formula
@@ -118,18 +124,27 @@ group_apply <- function(occdf, group, fun, ...) {
 
   if (is.list(output_lst)) {
     # modified from array2DF() to handle when functions return empty dfs
-    keys <- do.call(what = expand.grid,
-                    args = list(dimnames(provideDimnames(output_lst)),
-                                KEEP.OUT.ATTRS = FALSE,
-                                stringsAsFactors = FALSE))
+    keys <- do.call(
+      what = expand.grid,
+      args = list(
+        dimnames(provideDimnames(output_lst)),
+        KEEP.OUT.ATTRS = FALSE,
+        stringsAsFactors = FALSE
+      )
+    )
     # filter out NULLs
-    output_lst_keep <- vapply(X = output_lst, FUN = Negate(is.null),
-                              FUN.VALUE = FALSE)
+    output_lst_keep <- vapply(
+      X = output_lst,
+      FUN = Negate(is.null),
+      FUN.VALUE = FALSE
+    )
     output_lst <- output_lst[output_lst_keep]
     dfrows <- vapply(X = output_lst, FUN = nrow, FUN.VALUE = 1L)
     keys <- keys[output_lst_keep, , drop = FALSE]
-    output_df <- cbind(keys[rep(seq_along(dfrows), dfrows), , drop = FALSE],
-                       do.call(what = rbind, args = output_lst))
+    output_df <- cbind(
+      keys[rep(seq_along(dfrows), dfrows), , drop = FALSE],
+      do.call(what = rbind, args = output_lst)
+    )
   } else {
     fun_name <- deparse(substitute(fun))
     output_df <- array2DF(x = output_lst, responseName = fun_name)

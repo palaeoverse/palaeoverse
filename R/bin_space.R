@@ -108,36 +108,45 @@
 #'   mean(counts)
 #' })
 #' @export
-bin_space <- function(occdf,
-                        lng = "lng",
-                        lat = "lat",
-                        spacing = 100,
-                        sub_grid = NULL,
-                        return = FALSE,
-                        plot = FALSE) {
-
+bin_space <- function(
+  occdf,
+  lng = "lng",
+  lat = "lat",
+  spacing = 100,
+  sub_grid = NULL,
+  return = FALSE,
+  plot = FALSE
+) {
   #=== Error handling ===
   if (!is.data.frame(occdf)) {
     stop("occdf should be of class dataframe")
   }
 
-  if (!lng %in% colnames(occdf) ||
-      !lat %in% colnames(occdf)) {
+  if (
+    !lng %in% colnames(occdf) ||
+      !lat %in% colnames(occdf)
+  ) {
     stop("input column names do not exist in `occdf`")
   }
 
-  if (!is.numeric(occdf[, lng, drop = TRUE]) ||
-      !is.numeric(occdf[, lat, drop = TRUE])) {
+  if (
+    !is.numeric(occdf[, lng, drop = TRUE]) ||
+      !is.numeric(occdf[, lat, drop = TRUE])
+  ) {
     stop("input coordinates are not of class numeric")
   }
 
-  if (any(occdf[, lat, drop = TRUE] > 90) ||
-      any(occdf[, lat, drop = TRUE] < -90)) {
+  if (
+    any(occdf[, lat, drop = TRUE] > 90) ||
+      any(occdf[, lat, drop = TRUE] < -90)
+  ) {
     stop("Latitudinal coordinates should be more than -90 and less than 90")
   }
 
-  if (any(occdf[, lng, drop = TRUE] > 180) ||
-      any(occdf[, lng, drop = TRUE] < -180)) {
+  if (
+    any(occdf[, lng, drop = TRUE] > 180) ||
+      any(occdf[, lng, drop = TRUE] < -180)
+  ) {
     stop("Longitudinal coordinates should be more than -180 and less than 180")
   }
 
@@ -155,16 +164,20 @@ bin_space <- function(occdf,
 
   #=== Set-up ===
   # Convert to sf object and add CRS
-  occdf <- sf::st_as_sf(occdf, coords = c(lng, lat),
-                        remove = FALSE,
-                        crs = "EPSG:4326")
+  occdf <- sf::st_as_sf(
+    occdf,
+    coords = c(lng, lat),
+    remove = FALSE,
+    crs = "EPSG:4326"
+  )
 
   #=== Grid binning  ===
   # Generate equal area hexagonal grid
   # Which resolution should be used based on input distance/spacing?
   # Use the h3jsr::h3_info_table to calculate resolution
   grid <- h3jsr::h3_info_table[
-    which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)), ]
+    which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)),
+  ]
   # Add column grid specification
   grid$grid <- c("primary")
 
@@ -173,18 +186,23 @@ bin_space <- function(occdf,
 
   # Extract cell centroids
   occdf$cell_centroid_lng <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID))[, c("X")]
+    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
+  )[, c("X")]
   occdf$cell_centroid_lat <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID))[, c("Y")]
+    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
+  )[, c("Y")]
 
   # Sub-grid desired?
   if (!is.null(sub_grid)) {
     s_grid <- h3jsr::h3_info_table[
-      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - sub_grid)), ]
+      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - sub_grid)),
+    ]
     # Throw error if grids are the same
     if (grid$h3_resolution == s_grid$h3_resolution) {
-      stop("`spacing` and `sub_grid` values result in the same resolution.
-    Update `spacing` and/or `sub_grid` accordingly.")
+      stop(
+        "`spacing` and `sub_grid` values result in the same resolution.
+    Update `spacing` and/or `sub_grid` accordingly."
+      )
     }
 
     # Add column grid specification
@@ -194,9 +212,11 @@ bin_space <- function(occdf,
 
     # Extract cell centroids
     occdf$cell_centroid_lng_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub))[, c("X")]
+      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
+    )[, c("X")]
     occdf$cell_centroid_lat_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub))[, c("Y")]
+      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
+    )[, c("Y")]
   }
 
   # Drop geometries column
@@ -207,7 +227,10 @@ bin_space <- function(occdf,
   all_cells <- h3jsr::get_res0()
   # Get children at desired resolution
   children <- h3jsr::get_children(
-    h3_address = all_cells, res = grid$h3_resolution, simple = TRUE)
+    h3_address = all_cells,
+    res = grid$h3_resolution,
+    simple = TRUE
+  )
   # Get base cells
   base_grid <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
 
@@ -216,22 +239,27 @@ bin_space <- function(occdf,
 
   # Plot data?
   if (plot) {
-
-    plot(base_grid,
-         setParUsrBB = TRUE,
-         xlab = "Longitude",
-         ylab = "Latitude",
-         axes = TRUE)
-    plot(primary, col = "#feb24c",
-         axes = TRUE,
-         ylab = "Latitude",
-         xlab = "Longitude",
-         add = TRUE)
+    plot(
+      base_grid,
+      setParUsrBB = TRUE,
+      xlab = "Longitude",
+      ylab = "Latitude",
+      axes = TRUE
+    )
+    plot(
+      primary,
+      col = "#feb24c",
+      axes = TRUE,
+      ylab = "Latitude",
+      xlab = "Longitude",
+      add = TRUE
+    )
     if (!is.null(sub_grid)) {
-      secondary <- h3jsr::cell_to_polygon(input = occdf$cell_ID_sub,
-                                        simple = TRUE)
-      plot(secondary, col = "#1d91c0",
-           add = TRUE)
+      secondary <- h3jsr::cell_to_polygon(
+        input = occdf$cell_ID_sub,
+        simple = TRUE
+      )
+      plot(secondary, col = "#1d91c0", add = TRUE)
     }
   }
   # Should the grid be returned?
@@ -247,7 +275,10 @@ bin_space <- function(occdf,
   }
   message(
     "Average spacing between adjacent cells in the primary grid was set to ",
-      round(grid$avg_cendist_km[1], digits = 2), " km. ", "\nH3 resolution: ",
-    grid$h3_resolution[1])
+    round(grid$avg_cendist_km[1], digits = 2),
+    " km. ",
+    "\nH3 resolution: ",
+    grid$h3_resolution[1]
+  )
   return(occdf)
 }

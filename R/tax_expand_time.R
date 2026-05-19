@@ -55,13 +55,14 @@
 #' bins <- time_bins(scale = "GTS2012", rank = "stage")
 #' ex2 <- tax_expand_time(taxdf, bins = bins)
 tax_expand_time <- function(
-    taxdf,
-    max_ma = "max_ma",
-    min_ma = "min_ma",
-    bins = NULL,
-    scale = "GTS2020",
-    rank = "stage",
-    ext_orig = TRUE) {
+  taxdf,
+  max_ma = "max_ma",
+  min_ma = "min_ma",
+  bins = NULL,
+  scale = "GTS2020",
+  rank = "stage",
+  ext_orig = TRUE
+) {
   # Handle errors
   if (!is.data.frame(taxdf)) {
     stop("`taxdf` should be a dataframe")
@@ -86,8 +87,10 @@ tax_expand_time <- function(
     stop("Maximum ages must be larger than or equal to minimum ages.")
   }
 
-  if (length(rank) > 1 ||
-      !(rank %in% c("stage", "epoch", "period", "era", "eon"))) {
+  if (
+    length(rank) > 1 ||
+      !(rank %in% c("stage", "epoch", "period", "era", "eon"))
+  ) {
     stop("`rank` must be either: stage, epoch, period, era, or eon")
   }
 
@@ -120,14 +123,18 @@ tax_expand_time <- function(
 
   # replicate taxon rows for each interval they span
   dat_list <- lapply(seq_len(nrow(bins)), function(i) {
-    int_tax <- taxdf[taxdf[, min_ma, drop = TRUE] < bins$max_ma[i] &
-                       taxdf[, max_ma, drop = TRUE] > bins$min_ma[i], ]
+    int_tax <- taxdf[
+      taxdf[, min_ma, drop = TRUE] < bins$max_ma[i] &
+        taxdf[, max_ma, drop = TRUE] > bins$min_ma[i],
+    ]
     if (ext_orig) {
       int_tax$ext <- int_tax[, min_ma, drop = TRUE] >= bins$min_ma[i] &
-                       int_tax[, min_ma, drop = TRUE] > 0
+        int_tax[, min_ma, drop = TRUE] > 0
       int_tax$orig <- int_tax[, max_ma, drop = TRUE] <= bins$max_ma[i]
     }
-    if (nrow(int_tax) == 0) return(NULL)
+    if (nrow(int_tax) == 0) {
+      return(NULL)
+    }
     suppressWarnings(cbind(int_tax, bins[i, ]))
   })
   dat <- do.call(rbind, dat_list)
