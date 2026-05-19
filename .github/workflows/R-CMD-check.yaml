@@ -18,19 +18,15 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          # - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
-          # - {os: macOS-latest,   r: 'release'}
-          # - {os: windows-latest, r: 'release'}
-          # - {os: ubuntu-latest,  r: 'release'}
-          # - {os: ubuntu-latest,  r: 'oldrel-1'}
-          # - {os: ubuntu-latest,  r: 'oldrel-2'}
-          # - {os: ubuntu-latest,  r: 'oldrel-3'}
+          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
+          - {os: macOS-latest,   r: 'release'}
+          - {os: windows-latest, r: 'release'}
+          - {os: ubuntu-latest,  r: 'release'}
+          - {os: ubuntu-latest,  r: 'oldrel-1'}
+          - {os: ubuntu-latest,  r: 'oldrel-2'}
+          - {os: ubuntu-latest,  r: 'oldrel-3'}
           - {os: ubuntu-latest,  r: 'oldrel-4'}
           - {os: ubuntu-latest,  r: 'oldrel-5'}
-          - {os: windows-latest,  r: 'oldrel-4'}
-          - {os: windows-latest,  r: 'oldrel-5'}
-          - {os: macOS-latest,  r: 'oldrel-4'}
-          - {os: macOS-latest,  r: 'oldrel-5'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -47,6 +43,9 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      # Some packages (e.g. geosphere) have compile errors on R 4.1 and 4.2 because by default they
+      # use C++14 while they require C++17. We manually set this required C++ version for those R 
+      # versions only.
       - name: Set C++17 compiler for older R versions
         if: ${{ matrix.config.r == 'oldrel-4' || matrix.config.r == 'oldrel-5' }}
         run: |
