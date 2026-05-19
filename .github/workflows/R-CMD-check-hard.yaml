@@ -1,0 +1,52 @@
+# This is very similar to R-CMD-check but it doesn't install any dependencies in 
+# 'Suggests'. The objective is to ensure that our package will not be threatened to
+# be removed from CRAN if one of those 'Suggests' package is removed.
+#
+# In other words, all tests, vignettes, and examples must gracefully handle the 
+# absence of one of those packages.
+
+name: R-CMD-check-hard
+
+on:
+  workflow_call:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  R-CMD-check-hard:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+        with:
+          pandoc-version: "latest"
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: '"hard"'
+          cache: false
+          extra-packages: |
+            any::rcmdcheck
+            any::curl
+            any::testthat
+            any::vdiffr
+            any::knitr
+            any::rmarkdown
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
