@@ -118,9 +118,18 @@ group_apply <- function(occdf, group, fun, ...) {
   # Generate formula
   form <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
 
-  # by is a wrapper of tapply, but it ends up being MUCH faster than tapply
-  # because of some data wrangling it does
-  output_lst <- by(data = occdf, INDICES = form, FUN = fun, ...)
+  # `by()` is a wrapper of `tapply()`, but it ends up being MUCH faster than `tapply()`
+  # because of some data wrangling it does.
+  #
+  # `by.data.frame()` started accepting formulas in R 4.3 only. From R 4.3 news:
+  #    "The tapply() function now accepts a data frame as its X argument, and allows INDEX
+  #    to be a formula in that case. by.data.frame() similarly allows INDICES to be a
+  #    formula."
+  if (getRversion() >= "4.3.0") {
+    output_lst <- by(data = occdf, INDICES = form, FUN = fun, ...)
+  } else {
+    output_lst <- by(data = occdf, INDICES = occdf$cc, FUN = fun, ...)
+  }
 
   if (is.list(output_lst)) {
     # modified from array2DF() to handle when functions return empty dfs
@@ -141,10 +150,12 @@ group_apply <- function(occdf, group, fun, ...) {
     output_lst <- output_lst[output_lst_keep]
     dfrows <- vapply(X = output_lst, FUN = nrow, FUN.VALUE = 1L)
     keys <- keys[output_lst_keep, , drop = FALSE]
+    print("here")
     output_df <- cbind(
       keys[rep(seq_along(dfrows), dfrows), , drop = FALSE],
       do.call(what = rbind, args = output_lst)
     )
+    print("here 2")
   } else {
     fun_name <- deparse(substitute(fun))
     output_df <- array2DF(x = output_lst, responseName = fun_name)
