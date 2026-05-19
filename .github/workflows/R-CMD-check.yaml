@@ -47,6 +47,13 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Set C++17 compiler for older R versions
+        if: ${{ matrix.config.r == 'oldrel-4' || matrix.config.r == 'oldrel-5' }}
+        run: |
+          mkdir -p ~/.R
+          echo "CXX = g++ -std=gnu++17" >> ~/.R/Makevars
+        shell: bash
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
