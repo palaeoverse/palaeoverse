@@ -41,7 +41,6 @@ Language: en-GB
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.0)
 Imports:
@@ -72,3 +71,4 @@ URL: https://palaeoverse.palaeoverse.org,
      https://github.com/palaeoverse/palaeoverse,
      https://palaeoverse.org
 BugReports: https://github.com/palaeoverse/palaeoverse/issues
+Config/roxygen2/version: 8.0.0
