@@ -43,7 +43,7 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      # Some packages (e.g. geosphere) have compile errors on R 4.1 and 4.2 because by default they
+      # Some packages (e.g. geosphere) have compilation errors on R 4.1 and 4.2 because by default they
       # use C++14 while they require C++17. We manually set this required C++ version for those R 
       # versions only.
       - name: Set C++17 compiler for older R versions
