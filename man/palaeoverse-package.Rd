@@ -25,6 +25,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Lewis A. Jones \email{LewisA.Jones@outlook.com} (\href{https://orcid.org/0000-0003-3902-8986}{ORCID})
   \item William Gearty \email{willgearty@gmail.com} (\href{https://orcid.org/0000-0003-0076-3262}{ORCID})
   \item Bethany J. Allen \email{Bethany.Allen@bsse.ethz.ch} (\href{https://orcid.org/0000-0003-0282-6407}{ORCID})
   \item Kilian Eichenseer \email{kilian.eichenseer@gmail.com} (\href{https://orcid.org/0000-0002-0477-8878}{ORCID})
