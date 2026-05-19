@@ -28,7 +28,7 @@ jobs:
       - name: Lint
         run: |
           # Air takes care of all formatting so we deactivate all formatting-related rules
-          lint_package(linters = linters_with_defaults(
+          lintr::lint_package(linters = lintr::linters_with_defaults(
             absolute_path_linter = NULL,
             brace_linter = NULL,
             commas_linter = NULL,
