@@ -131,9 +131,16 @@
 #'
 #' @export
 #'
-tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
-                       genus = NULL, ..., name = NULL,
-                       resolution = "species", append = FALSE) {
+tax_unique <- function(
+  occdf = NULL,
+  binomial = NULL,
+  species = NULL,
+  genus = NULL,
+  ...,
+  name = NULL,
+  resolution = "species",
+  append = FALSE
+) {
   #Give errors for incorrect input
   if (is.null(occdf)) {
     stop("Must enter an `occdf` of occurrences or taxon names")
@@ -165,13 +172,19 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   for (level_label in higher_names) {
     col_name <- higher_args[[level_label]]
     if (!(col_name %in% colnames(occdf))) {
-      stop(paste0("`occdf` does not contain column name provided to `",
-                  level_label, "`"))
+      stop(paste0(
+        "`occdf` does not contain column name provided to `",
+        level_label,
+        "`"
+      ))
     }
     #Substitute labels used in PBDB downloads
     occdf[[col_name]] <-
-      gsub("NO_FAMILY_SPECIFIED|NO_ORDER_SPECIFIED|NO_CLASS_SPECIFIED", NA,
-           occdf[[col_name]])
+      gsub(
+        "NO_FAMILY_SPECIFIED|NO_ORDER_SPECIFIED|NO_CLASS_SPECIFIED",
+        NA,
+        occdf[[col_name]]
+      )
     if (any(grepl("[[:punct:]]", occdf[[col_name]]))) {
       stop(paste0("`", level_label, "` column should not contain punctuation"))
     }
@@ -189,27 +202,40 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     stop("`species` column should not contain punctuation")
   }
 
-  if (!is.null(binomial) && any(grepl("[^[:alnum:][:space:]]",
-                                       occdf[[binomial]]))) {
-    stop("`binomial` column should not contain punctuation except spaces or
-         underscores")
+  if (
+    !is.null(binomial) && any(grepl("[^[:alnum:][:space:]]", occdf[[binomial]]))
+  ) {
+    stop(
+      "`binomial` column should not contain punctuation except spaces or
+         underscores"
+    )
   }
 
   if (!is.null(name) && any(grepl("[^[:alnum:][:space:]]", occdf[[name]]))) {
-    stop("`name` column should not contain punctuation except spaces or
-         underscores")
+    stop(
+      "`name` column should not contain punctuation except spaces or
+         underscores"
+    )
   }
 
-  if ((resolution == "species") && (is.null(binomial)) && (is.null(species))
-      && (is.null(name))) {
-    stop("Species names must be supplied by specifying `binomial`, `genus` and
+  if (
+    (resolution == "species") &&
+      (is.null(binomial)) &&
+      (is.null(species)) &&
+      (is.null(name))
+  ) {
+    stop(
+      "Species names must be supplied by specifying `binomial`, `genus` and
     `species`, or `genus` and `name` columns to estimate richness at species
-    level")
+    level"
+    )
   }
 
   if ((resolution == "genus") && (is.null(binomial)) && (is.null(genus))) {
-    stop("Genus names must be supplied by specifying `binomial` or `genus`
-    columns to estimate richness at genus level")
+    stop(
+      "Genus names must be supplied by specifying `binomial` or `genus`
+    columns to estimate richness at genus level"
+    )
   }
 
   if ((resolution != "species") && (resolution != "genus")) {
@@ -281,7 +307,9 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
     occurrences_with_dupes[is.na(occurrences_with_dupes)] <- "thisisanNAvalue"
     occurrences_with_dupes$rows <- seq_len(nrow(occurrences_with_dupes))
     cols <- c(rev(higher_names), "genus")
-    if (resolution == "species") cols <- c(cols, "genus_species")
+    if (resolution == "species") {
+      cols <- c(cols, "genus_species")
+    }
     form <- as.formula(paste("rows ~", paste(cols, collapse = " + ")))
     occurrences <- aggregate(form, data = occurrences_with_dupes, FUN = c)
     # Switch hack groups back to true NAs
@@ -295,25 +323,30 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
 
   if (resolution == "species") {
     #Retain occurrences identified to species level and remove from dataframe
-    to_retain <- rbind(to_retain, occurrences[!is.na(occurrences$genus_species),
-                                              ])
+    to_retain <- rbind(
+      to_retain,
+      occurrences[!is.na(occurrences$genus_species), ]
+    )
     occurrences <- occurrences[is.na(occurrences$genus_species), ]
 
     #Retain occurrences identified to genus level and not already in dataset
     #The merge handles cases where the same genus name occurs in multiple
     #higher taxonomic groups
-    to_retain <- merge(subset(occurrences,
-                              subset = !is.na(genus),
-                              select = -c(genus_species)),
-                       to_retain,
-                       by = c(rev(higher_names), "genus"), all = TRUE)
+    to_retain <- merge(
+      subset(occurrences, subset = !is.na(genus), select = -c(genus_species)),
+      to_retain,
+      by = c(rev(higher_names), "genus"),
+      all = TRUE
+    )
     if (append) {
-      to_retain$rows <- ifelse(is.na(to_retain$rows.y),
-                               to_retain$rows.x, to_retain$rows.y)
+      to_retain$rows <- ifelse(
+        is.na(to_retain$rows.y),
+        to_retain$rows.x,
+        to_retain$rows.y
+      )
       to_retain$rows.x <- to_retain$rows.y <- NULL
     }
     occurrences <- occurrences[is.na(occurrences$genus), ]
-
   } else if (resolution == "genus") {
     if (!append) {
       #Remove genus_species column and remove genus repeats
@@ -333,9 +366,13 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
 
   #Retain occurrences identified to higher levels and not already in dataset
   for (col_name in higher_names) {
-    to_retain <- rbind(to_retain,
-                       occurrences[!(occurrences[[col_name]] %in%
-                                       c(to_retain[[col_name]], NA)), ])
+    to_retain <- rbind(
+      to_retain,
+      occurrences[
+        !(occurrences[[col_name]] %in%
+          c(to_retain[[col_name]], NA)),
+      ]
+    )
     occurrences <- occurrences[is.na(occurrences[[col_name]]), ]
   }
 
@@ -349,7 +386,7 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   for (i in seq_len(nrow(to_retain))) {
     if (is.na(to_retain$unique_name[i])) {
       if (!is.na(to_retain$genus[i])) {
-      to_retain$unique_name[i] <- paste(to_retain$genus[i], "sp.")
+        to_retain$unique_name[i] <- paste(to_retain$genus[i], "sp.")
       } else {
         for (col_name in higher_names) {
           if (!is.na(to_retain[i, col_name])) {
@@ -364,12 +401,21 @@ tax_unique <- function(occdf = NULL, binomial = NULL, species = NULL,
   #Reorder
   rows_col <- if (append) "rows" else NULL
   if (resolution == "species") {
-    to_retain <- to_retain[, c(rev(higher_names), "genus", "genus_species",
-                               "unique_name", rows_col)]
+    to_retain <- to_retain[, c(
+      rev(higher_names),
+      "genus",
+      "genus_species",
+      "unique_name",
+      rows_col
+    )]
   }
   if (resolution == "genus") {
-    to_retain <- to_retain[, c(rev(higher_names), "genus", "unique_name",
-                               rows_col)]
+    to_retain <- to_retain[, c(
+      rev(higher_names),
+      "genus",
+      "unique_name",
+      rows_col
+    )]
   }
 
   for (col_name in rev(higher_names)) {

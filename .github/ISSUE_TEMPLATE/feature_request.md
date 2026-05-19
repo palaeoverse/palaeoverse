@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: ''
 labels: enhancement
-assignees: bethany-j-allen, ChristopherDavidDean, KEichenseer, LewisAJones, willgearty
+assignees: bethany-j-allen, LewisAJones, willgearty
 
 ---
 
