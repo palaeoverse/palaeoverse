@@ -23,7 +23,7 @@
 #'   colour column.}
 #'   \item{colour}{Colours of stages based on the [ICS timescale](
 #'   https://stratigraphy.org/timescale/).}
-#'   \item{abbr}{Standard abbreviations of interval names where appropiate.}
+#'   \item{abbr}{Standard abbreviations of interval names where appropriate.}
 #' }
 #' @section References:
 #' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2020).
@@ -58,7 +58,7 @@
 #'   colour column.}
 #'   \item{colour}{Colours of stages based on the [ICS timescale](
 #'   https://stratigraphy.org/timescale/).}
-#'   \item{abbr}{Standard abbreviations of interval names where appropiate.}
+#'   \item{abbr}{Standard abbreviations of interval names where appropriate.}
 #' }
 #' @section References:
 #' Gradstein, F.M., Ogg, J.G., Schmitz, M.D. and Ogg, G.M. eds. (2012).
@@ -201,7 +201,7 @@
 #'   the interval}
 #' }
 #' @source Compiled by Kilian Eichenseer and Lewis Jones for assigning
-#' geological stages to ccurrences from the
+#' geological stages to occurrences from the
 #' [Paleobiology Database](https://paleobiodb.org)
 #' and the [PaleoReefs Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
 "interval_key"
