@@ -12,7 +12,7 @@ test_that("look_up() works", {
 
   # check correct format and output
   expect_true(is.data.frame(look_up(occdf[1:10, ])))
-  expect_type((look_up(occdf[1:10, ]))$early_stage, "character")
+  expect_true(is.character((look_up(occdf[1:10, ]))$early_stage))
   expect_true(is.numeric((look_up(occdf[1:10, ]))$interval_min_ma))
 
   # check correct amount of data returned

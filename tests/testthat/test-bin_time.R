@@ -79,8 +79,8 @@ test_that("bin_time() works", {
 
   expect_length(bin_time(occdf = occdf, bins = bins, method = "random"), 100)
 
-  expect_type(
-    bin_time(
+  expect_true(
+    is.list(bin_time(
       occdf = occdf,
       bins = bins,
       method = "point",
@@ -88,14 +88,13 @@ test_that("bin_time() works", {
       fun = dnorm,
       mean = 0.5,
       sd = 0.25
-    ),
-    "list"
+    ))
   )
 
   occdf$min_ma[1] <- occdf$max_ma[1]
 
-  expect_type(
-    bin_time(
+  expect_true(
+    is.list(bin_time(
       occdf = occdf,
       bins = bins,
       method = "point",
@@ -103,8 +102,7 @@ test_that("bin_time() works", {
       fun = dnorm,
       mean = 0.5,
       sd = 0.25
-    ),
-    "list"
+    ))
   )
 
   drm <- 1

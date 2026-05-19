@@ -23,25 +23,27 @@ test_that("bin_space() works", {
   )
 
   # Expect true
-  expect_type(
-    bin_space(
-      occdf = tetrapods,
-      spacing = 250,
-      return = TRUE,
-      plot = TRUE
-    ),
-    "list"
+  expect_true(
+    is.list(
+      bin_space(
+        occdf = tetrapods,
+        spacing = 250,
+        return = TRUE,
+        plot = TRUE
+      )
+    )
   )
 
-  expect_type(
-    bin_space(
-      occdf = tetrapods,
-      spacing = 500,
-      sub_grid = 200,
-      return = TRUE,
-      plot = TRUE
-    ),
-    "list"
+  expect_true(
+    is.list(
+      bin_space(
+        occdf = tetrapods,
+        spacing = 500,
+        sub_grid = 200,
+        return = TRUE,
+        plot = TRUE
+      )
+    )
   )
 
   # Error handling

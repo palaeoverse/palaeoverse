@@ -1,6 +1,7 @@
 [lint]
 # Use the default set of rules + the testthat-specific rules
 extend-select = ["TESTTHAT"]
+ignore = ["expect_type"]
 fixable = ["ALL"]
 fix-roxygen = true
 
