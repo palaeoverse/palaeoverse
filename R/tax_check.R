@@ -98,7 +98,11 @@ tax_check <- function(
   }
 
   if (
-    any(c(!is.data.frame(taxdf), nrow(taxdf) == 0, is.null(colnames(taxdf))))
+    any(c(
+      !is.data.frame(taxdf),
+      nrow(taxdf) == 0,
+      is.null(colnames(taxdf))
+    ))
   ) {
     stop(
       "Please supply `taxdf` as a data.frame with named columns, containing
@@ -107,7 +111,13 @@ tax_check <- function(
   }
 
   # names: a 1L character vector denoting a character column in taxdf
-  if (any(c(!is.atomic(name), length(name) != 1, !name %in% colnames(taxdf)))) {
+  if (
+    any(c(
+      !is.atomic(name),
+      length(name) != 1,
+      !name %in% colnames(taxdf)
+    ))
+  ) {
     stop("Please specify `name` as a single column name in `taxdf`")
   }
 
@@ -128,7 +138,11 @@ tax_check <- function(
   # in taxdf
   if (!is.null(group)) {
     if (
-      any(c(!is.atomic(group), length(group) != 1, !group %in% colnames(taxdf)))
+      any(c(
+        !is.atomic(group),
+        length(group) != 1,
+        !group %in% colnames(taxdf)
+      ))
     ) {
       stop("Please specify `group` as a single column name in `taxdf`")
     }
@@ -141,7 +155,13 @@ tax_check <- function(
   }
 
   # dis: a 1L numeric > 0 and < 1
-  if (any(c(!is.numeric(dis), length(dis) != 1, !is.atomic(dis)))) {
+  if (
+    any(c(
+      !is.numeric(dis),
+      length(dis) != 1,
+      !is.atomic(dis)
+    ))
+  ) {
     stop("`dis` must be a single numeric, greater than 0 and less than 1")
   }
   if (dis >= 1 || dis <= 0) {
@@ -150,17 +170,34 @@ tax_check <- function(
 
   # start: a 1L integer >= 0
   if (!is.null(start)) {
-    if (any(c(!is.numeric(start), length(start) != 1, !is.atomic(start)))) {
+    if (
+      any(c(
+        !is.numeric(start),
+        length(start) != 1,
+        !is.atomic(start)
+      ))
+    ) {
       stop("`start` must be a single positive integer, or zero")
     }
-    if (any(c(start < 0, start %% 1 != 0, is.nan(start), is.infinite(start)))) {
+    if (
+      any(c(
+        start < 0,
+        start %% 1 != 0,
+        is.nan(start),
+        is.infinite(start)
+      ))
+    ) {
       stop("`start` must be a single positive integer, or zero")
     }
   }
 
   # verbose: a 1L logical vector
   if (
-    any(c(!is.atomic(c(verbose)), !is.logical(verbose), length(verbose) != 1))
+    any(c(
+      !is.atomic(c(verbose)),
+      !is.logical(verbose),
+      length(verbose) != 1
+    ))
   ) {
     stop("`verbose` must be a single logical value")
   }
