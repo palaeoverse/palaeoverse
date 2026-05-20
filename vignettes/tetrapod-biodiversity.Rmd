@@ -550,7 +550,8 @@ plot(space_tetrapods_mean$bin_midpoint, space_tetrapods_mean$mean_area, # add th
      pch = 19, col = "#0e826f") # point style and colour
 box()
 axis(2) # add a normal axis to the left side
-axis_geo(side = 1, intervals = list("epochs", "periods"), title = "Time (Ma)")
+axis_geo(side = 1, intervals = list("epochs", "periods"))
+title(xlab = "Time (Ma)", line = 4)
 ```
 
 <div class="figure">
