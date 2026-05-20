@@ -57,6 +57,8 @@ test_that("axis_geo() works with negative axis", {
 
 test_that("axis_geo() works with autofit", {
   expect_doppelganger("axis_geo() with autofit", function() {
+    # Slightly increase space on bottom margin
+    par(mar = c(6.1, 4.1, 4.1, 2.1))
     plot(
       x = reef_df$interval_mid_ma,
       y = reef_df$lat,
@@ -79,6 +81,7 @@ test_that("axis_geo() works with autofit", {
     )
   })
   expect_doppelganger("axis_geo() with autofit2", function() {
+    # Slightly increase space on left margin
     par(mar = c(5.1, 6.1, 4.1, 2.1))
     plot(
       y = reef_df$interval_mid_ma,
