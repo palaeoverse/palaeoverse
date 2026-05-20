@@ -12,9 +12,16 @@ vignette: >
 **Last updated:** `r Sys.Date()`
 
 ```{r setup, include = FALSE, eval = TRUE}
-knitr::opts_chunk$set(echo = TRUE, include = TRUE, eval = TRUE,
-                      out.width = "100%", fig.width = 7.2, fig.height = 6, dpi = 200,
-                      fig.path = "")
+knitr::opts_chunk$set(
+  echo = TRUE,
+  include = TRUE,
+  eval = TRUE,
+  out.width = "100%",
+  fig.width = 7.2,
+  fig.height = 6,
+  dpi = 200,
+  fig.path = ""
+)
 library(devtools)
 load_all()
 ```
@@ -71,7 +78,6 @@ data(tetrapods)
 # View the column names and the first five lines of the first three columns:
 colnames(tetrapods)
 tetrapods[1:5, 1:3]
-
 ```
 
 As you can see, we have a variety of variables to play around with! For this vignette we'll mostly be focusing on some of the spatial information, such as latitude and longitude. But first, we need to do some data prep...
@@ -84,13 +90,14 @@ There are two `palaeoverse` functions that help us to assign occurrences to diff
 
 ```{r}
 # Generate time bins
-bins <- time_bins(interval = c("Carboniferous", "Permian"),
-                  rank = "stage",
-                  scale = "GTS2012",
-                  plot = FALSE)
+bins <- time_bins(
+  interval = c("Carboniferous", "Permian"),
+  rank = "stage",
+  scale = "GTS2012",
+  plot = FALSE
+)
 
 head(bins)
-
 ```
 Before we can bin our occurrences into these time bins, we will need the ages of the occurrences in millions of years. Since the numeric ages may have changed since we downloaded the data from the PBDB, we'll use `look_up` to get the numeric ages for the occurrences within `tetrapods` dataset based on their assigned interval names:
 
@@ -99,17 +106,20 @@ Before we can bin our occurrences into these time bins, we will need the ages of
 tetrapods <- look_up(tetrapods, int_key = interval_key)
 
 # Make sure that any values which could not be matched contain their original values
-tetrapods$interval_max_ma <- ifelse(is.na(tetrapods$interval_max_ma),
-                                    tetrapods$max_ma,
-                                    tetrapods$interval_max_ma)
-tetrapods$interval_min_ma <- ifelse(is.na(tetrapods$interval_min_ma),
-                                    tetrapods$min_ma,
-                                    tetrapods$interval_min_ma)
-tetrapods$interval_mid_ma <- (tetrapods$min_ma + tetrapods$max_ma)/2
+tetrapods$interval_max_ma <- ifelse(
+  is.na(tetrapods$interval_max_ma),
+  tetrapods$max_ma,
+  tetrapods$interval_max_ma
+)
+tetrapods$interval_min_ma <- ifelse(
+  is.na(tetrapods$interval_min_ma),
+  tetrapods$min_ma,
+  tetrapods$interval_min_ma
+)
+tetrapods$interval_mid_ma <- (tetrapods$min_ma + tetrapods$max_ma) / 2
 
 # Look at the updated dataset
 tetrapods[1:5, 35:37]
-
 ```
 As you can see we've got some new columns with updated interval ages. Handy!
 
@@ -121,10 +131,7 @@ colnames(tetrapods)[9:10] <- c("old_max_ma", "old_min_ma")
 colnames(tetrapods)[c(35, 37)] <- c("max_ma", "min_ma")
 
 # Generate time bins
-tetrapods <- bin_time(occdf = tetrapods,
-                      bins = bins,
-                      method = 'mid')
-
+tetrapods <- bin_time(occdf = tetrapods, bins = bins, method = 'mid')
 ```
 
 Oh no! We've hit an error. This is because there's some occurrences that sit outside of the time intervals we're interested in. `bin_time` can't bin occurrences which sit outside of the time intervals you've chosen, so for it to work, we'll first have to remove these occurrences.
@@ -134,10 +141,7 @@ Oh no! We've hit an error. This is because there's some occurrences that sit out
 cp_tetrapods <- subset(tetrapods, min_ma > min(bins$min_ma))
 
 # Bin occurrences into chosen time bins
-mid_tetrapods <- bin_time(occdf = cp_tetrapods,
-                          bins = bins,
-                          method = 'mid')
-
+mid_tetrapods <- bin_time(occdf = cp_tetrapods, bins = bins, method = 'mid')
 ```
 
 That's better! Let's see how our dataset has changed.
@@ -145,7 +149,6 @@ That's better! Let's see how our dataset has changed.
 ```{r}
 # Examine the dataset columns
 colnames(mid_tetrapods)
-
 ```
 
 As you can see, four new columns (variables) have been added to our dataset. Two of these are especially important. First is the `bin_assignment`, which shows which number bin the occurrence has been added to. Second is `n_bins` - this shows how many bins the occurrence could potentially have been placed within. Let's examine this further.
@@ -154,17 +157,17 @@ As you can see, four new columns (variables) have been added to our dataset. Two
 # Make a table of potential number of bins
 table(mid_tetrapods$n_bins) # raw counts
 table(mid_tetrapods$n_bins) / nrow(mid_tetrapods) # proportions
-
 ```
 
 As you can see, only ~25% of the dataset can be assigned to just one bin - the other occurrences can't be confidently assigned to an individual time interval. This is where the other methods for the `bin_time` function come in handy. They provide the user with different options when assigning occurrences to bins. Instead of the 'mid' method, let's try the 'majority' method instead, which places the occurrences in the bin which covers the majority of their potential time range.
 
 ```{r}
 # Bin occurrences into chosen time bins
-maj_tetrapods <- bin_time(occdf = cp_tetrapods,
-                          bins = bins,
-                          method = 'majority')
-
+maj_tetrapods <- bin_time(
+  occdf = cp_tetrapods,
+  bins = bins,
+  method = 'majority'
+)
 ```
 
 We'd recommend playing around with these different options and seeing how they impact your results!
@@ -173,8 +176,12 @@ Next, we'll also bin our occurrences spatially. We need a couple of functions to
 
 ```{r warning = FALSE, message = FALSE}
 # Palaeorotate occurrences
-maj_tetrapods <- palaeorotate(occdf = maj_tetrapods, age = "bin_midpoint",
-                              method = "point", model = "PALEOMAP")
+maj_tetrapods <- palaeorotate(
+  occdf = maj_tetrapods,
+  age = "bin_midpoint",
+  method = "point",
+  model = "PALEOMAP"
+)
 ```
 
 Now let's check that it's worked...
@@ -188,14 +195,15 @@ Looks good to me! Now that we have palaeocoordinates for our occurrences, we can
 
 ```{r}
 # Make a table of potential number of bins
-maj_tetrapods <- bin_space(occdf = maj_tetrapods,
-                           lng = 'p_lng',
-                           lat = 'p_lat',
-                           spacing = 100)
+maj_tetrapods <- bin_space(
+  occdf = maj_tetrapods,
+  lng = 'p_lng',
+  lat = 'p_lat',
+  spacing = 100
+)
 
 # Show the first 6 rows of the new columns added using `bin_space`.
 head(maj_tetrapods[, c("cell_ID", "cell_centroid_lng", "cell_centroid_lat")])
-
 ```
 `bin_space` adds some new columns, including one with the unique grid cell ID, as well as latitudinal and longitudinal coordinates for the centroid of that cell.
 
@@ -208,7 +216,6 @@ midpoints <- sort(unique(maj_tetrapods$bin_midpoint))
 # Calculate the number of unique cells in each time bin
 unique_cells <- unique(maj_tetrapods[, c("bin_midpoint", "cell_ID")])
 spat.cov <- group_apply(unique_cells, group = "bin_midpoint", fun = nrow)
-
 ```
 Let's save that for now and move on to some of our analyses!
 
@@ -228,8 +235,14 @@ This function can be especially useful for when looking at alpha diversity (loca
 
 ```{r}
 # Filter to genus-level:
-tet_genera <- tax_unique(occdf = maj_tetrapods, genus = "genus", family = "family",
-                         order = "order", class = "class", resolution = "genus")
+tet_genera <- tax_unique(
+  occdf = maj_tetrapods,
+  genus = "genus",
+  family = "family",
+  order = "order",
+  class = "class",
+  resolution = "genus"
+)
 ```
 
 We can compare this to the genera from the original dataset to see how many genera were added by using `tax_unique()`:
@@ -240,7 +253,6 @@ length(unique(maj_tetrapods$genus))
 
 # How many unique genera after:
 length(unique(tet_genera$unique_name))
-
 ```
 
 As you can see we've added two taxa that otherwise would have been ignored! To see more specifically how the function has performed, take a look at row 718, which records an indeterminate occurrence of the family *Dicynodontidae*. This occurrence now has a unique name of 'Dicynodontidae indet.'
@@ -248,25 +260,25 @@ As you can see we've added two taxa that otherwise would have been ignored! To s
 ```{r}
 # See just row 718
 tet_genera[718, ]
-
 ```
 
 Now, let's use this function to extract the unique genera for each collection (=locality) with `group_apply`:
 
 ```{r}
 # Use group_apply along with tax_unique:
-coll_genera <- group_apply(occdf = maj_tetrapods,
-                           group = c("collection_no"),
-                           fun = tax_unique,
-                           genus = "genus",
-                           family = "family",
-                           order = "order",
-                           class = "class",
-                           resolution = "genus")
+coll_genera <- group_apply(
+  occdf = maj_tetrapods,
+  group = c("collection_no"),
+  fun = tax_unique,
+  genus = "genus",
+  family = "family",
+  order = "order",
+  class = "class",
+  resolution = "genus"
+)
 
 # See structure of the new dataframe:
 str(coll_genera)
-
 ```
 
 Next, let's count the number of unique genera per collection:
@@ -290,28 +302,36 @@ To plot an alpha diversity (local richness) plot, we will need to add interval a
 
 ```{r}
 # Take the columns pertaining to collections and their ages in millions of years:
-coll_info <- maj_tetrapods[, c("collection_no", "max_ma", "interval_mid_ma", "min_ma")]
+coll_info <- maj_tetrapods[, c(
+  "collection_no",
+  "max_ma",
+  "interval_mid_ma",
+  "min_ma"
+)]
 
 # Remove duplicated collections based on the collection number (column 1)
-coll_info <- coll_info[!duplicated(coll_info[1]),]
+coll_info <- coll_info[!duplicated(coll_info[1]), ]
 
 # Combine this dataframe with the dataframe from above
 alpha_data <- merge(coll_info, coll_taxa, by = "collection_no")
 
 # Take a look:
 head(alpha_data)
-
 ```
 
 Done. Now to plot alpha diversity through time! Let's start with a simple scatterplot:
 
 ```{r alpha-div-plot-1}
 # Make a plot for alpha diversity in the Carboniferous and Permian
-plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
-     xlim = rev(range(alpha_data$interval_mid_ma, na.rm = TRUE)), # reverse the x-axis
-     xlab="Time (Ma)", ylab="No. taxa", # axes labels
-     pch = 19, col = "#0e826f") # point style and colour
-
+plot(
+  alpha_data$interval_mid_ma,
+  alpha_data$n_taxa, # add the points
+  xlim = rev(range(alpha_data$interval_mid_ma, na.rm = TRUE)), # reverse the x-axis
+  xlab = "Time (Ma)",
+  ylab = "No. taxa", # axes labels
+  pch = 19,
+  col = "#0e826f"
+) # point style and colour
 ```
 
 That looks good, but it's a bit difficult to figure out what stages contain which data points. `axis_geo()` adds a geological timescale between the plot and the axis.
@@ -323,16 +343,19 @@ Taking our plot from above, let's use this function to add a timescale to the x-
 par(mar = c(7.1, 4.1, 4.1, 2.1)) # expand at bottom if adding more interval categories
 
 # Make the final alpha diversity plot
-plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
-     axes = FALSE,
-     xlim = rev(range(alpha_data$interval_mid_ma, na.rm = TRUE)), # reverse the x-axis
-     xlab = " ", ylab = "No. taxa", # axes labels
-     pch = 19, col = "#0e826f") # point style and colour
+plot(
+  alpha_data$interval_mid_ma,
+  alpha_data$n_taxa, # add the points
+  axes = FALSE,
+  xlim = rev(range(alpha_data$interval_mid_ma, na.rm = TRUE)), # reverse the x-axis
+  xlab = " ",
+  ylab = "No. taxa", # axes labels
+  pch = 19,
+  col = "#0e826f"
+) # point style and colour
 box()
 axis(2) # add a normal axis to the elft side
-axis_geo(side = 1, intervals = list("epochs", "periods"))
-title(xlab = "Time (Ma)", line = 4)
-
+axis_geo(side = 1, intervals = list("epochs", "periods"), title = "Time (Ma)")
 ```
 
 Amazing! Now we can clearly see that alpha diversity appears to be a lot higher in the Permian than the Carboniferous. But how has the spatial distribution of tetrapods changed across this boundary? Let's use some of the other `palaeoverse` functions to find out!
@@ -348,35 +371,47 @@ We can use this in combination with `group_apply` to calculate the average for e
 space_tetrapods <- subset(maj_tetrapods, !is.na(genus))
 
 # Find temporal range of all genera
-space_tetrapods <- group_apply(occdf = space_tetrapods,
-                               group = c("bin_midpoint"),
-                               fun = tax_range_space,
-                               name = "genus",
-                               lng = "p_lng",
-                               lat = "p_lat",
-                               method = "con")
+space_tetrapods <- group_apply(
+  occdf = space_tetrapods,
+  group = c("bin_midpoint"),
+  fun = tax_range_space,
+  name = "genus",
+  lng = "p_lng",
+  lat = "p_lat",
+  method = "con"
+)
 
 # Have a look at the dataset
 head(space_tetrapods)
-
 ```
 As you can see, the combination of `group_apply` and `tax_range_space` produces a dataset with the area of geographic range for each taxon in kilometers squared for each time interval. Note that an area of zero here means that there is only one occurrence of that taxon in that time bin. From this information we can now plot how the average range size of tetrapods changed throughout the Carboniferous and Permian:
 
 ```{r alpha-div-plot-3}
 # Find the average geographic range size for each time interval
-space_tetrapods_mean <- group_apply(space_tetrapods, "bin_midpoint", function(df) mean(df$area))
+space_tetrapods_mean <- group_apply(
+  space_tetrapods,
+  "bin_midpoint",
+  function(df) mean(df$area)
+)
 colnames(space_tetrapods_mean) <- c("mean_area", "bin_midpoint")
 
 # Create a plot of average range size through time
-plot(space_tetrapods_mean$bin_midpoint, space_tetrapods_mean$mean_area, # add the points
-     axes = FALSE,
-     xlim = rev(range(as.numeric(space_tetrapods_mean$bin_midpoint), na.rm = TRUE)), # reverse the x-axis
-     xlab = " ", ylab = expression("Average range size of tetrapod genera (km"^2~")"), # axes labels
-     pch = 19, col = "#0e826f") # point style and colour
+plot(
+  space_tetrapods_mean$bin_midpoint,
+  space_tetrapods_mean$mean_area, # add the points
+  axes = FALSE,
+  xlim = rev(range(
+    as.numeric(space_tetrapods_mean$bin_midpoint),
+    na.rm = TRUE
+  )), # reverse the x-axis
+  xlab = " ",
+  ylab = expression("Average range size of tetrapod genera (km"^2 ~ ")"), # axes labels
+  pch = 19,
+  col = "#0e826f"
+) # point style and colour
 box()
 axis(2) # add a normal axis to the left side
-axis_geo(side = 1, intervals = list("epochs", "periods"))
-title(xlab = "Time (Ma)", line = 4)
+axis_geo(side = 1, intervals = list("epochs", "periods"), title = "Time (Ma)")
 ```
 
 From this plot it seems like the average geographic range size of tetrapods increased during the Permian. However, we first need to be sure we're not picking up on another pattern. Remember how we calculated the number of unique geographic cells in each time interval earlier? This provides a measure of the spatial spread of the fossil record. It might be that we're not picking up on an increased range size but just a larger geographic spread of fossil bearing rocks within the Permian. To see if this is the case, we can run a simple correlation test between the average geographic range size of tetrapods and the number of unique grid cells in each time interval:
@@ -384,8 +419,11 @@ From this plot it seems like the average geographic range size of tetrapods incr
 ```{r warning = FALSE}
 # Run a correlation test between mean range size and the spatial spread of cells
 # through time
-cor.test(log10(space_tetrapods_mean$mean_area), log10(spat.cov$nrow), method = "spearman")
-
+cor.test(
+  log10(space_tetrapods_mean$mean_area),
+  log10(spat.cov$nrow),
+  method = "spearman"
+)
 ```
 The high rho value and a p-value less than our cut off for significance (0.05) indicate a strong and statistically significant correlation between average geographic range size and the spatial spread of data. Seems like this work is far from over...
 

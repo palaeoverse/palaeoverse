@@ -491,8 +491,7 @@ plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
      pch = 19, col = "#0e826f") # point style and colour
 box()
 axis(2) # add a normal axis to the elft side
-axis_geo(side = 1, intervals = list("epochs", "periods"))
-title(xlab = "Time (Ma)", line = 4)
+axis_geo(side = 1, intervals = list("epochs", "periods"), title = "Time (Ma)")
 ```
 
 <div class="figure">
@@ -551,8 +550,7 @@ plot(space_tetrapods_mean$bin_midpoint, space_tetrapods_mean$mean_area, # add th
      pch = 19, col = "#0e826f") # point style and colour
 box()
 axis(2) # add a normal axis to the left side
-axis_geo(side = 1, intervals = list("epochs", "periods"))
-title(xlab = "Time (Ma)", line = 4)
+axis_geo(side = 1, intervals = list("epochs", "periods"), title = "Time (Ma)")
 ```
 
 <div class="figure">

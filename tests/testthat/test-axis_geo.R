@@ -13,8 +13,7 @@ test_that("axis_geo() works", {
     box()
 
     axis(side = 2)
-    axis_geo(side = 1, intervals = "periods")
-    title(xlab = "Time (Ma)", line = 4)
+    axis_geo(side = 1, intervals = "periods", title = "Time (Ma)")
   })
 })
 
@@ -71,8 +70,13 @@ test_that("axis_geo() works with autofit", {
     box()
 
     axis(side = 2)
-    axis_geo(side = 1, intervals = "periods", lab_size = 4, autofit = TRUE)
-    title(xlab = "Time (Ma)", line = 4)
+    axis_geo(
+      side = 1,
+      intervals = "periods",
+      lab_size = 4,
+      autofit = TRUE,
+      title = "Time (Ma)"
+    )
   })
   expect_doppelganger("axis_geo() with autofit2", function() {
     par(mar = c(5.1, 6.1, 4.1, 2.1))
@@ -89,8 +93,13 @@ test_that("axis_geo() works with autofit", {
     box()
 
     axis(side = 1)
-    axis_geo(side = 2, intervals = "periods", lab_size = 4, autofit = TRUE)
-    title(ylab = "Time (Ma)", line = 4.5)
+    axis_geo(
+      side = 2,
+      intervals = "periods",
+      lab_size = 4,
+      autofit = TRUE,
+      title = "Time (Ma)"
+    )
   })
 })
 
@@ -112,9 +121,9 @@ test_that("axis_geo() works with time_bins()", {
     axis(side = 2)
     axis_geo(
       side = 1,
-      intervals = time_bins(rank = "period", scale = "GTS2020")
+      intervals = time_bins(rank = "period", scale = "GTS2020"),
+      title = "Time (Ma)"
     )
-    title(xlab = "Time (Ma)", line = 4)
   })
 })
 
@@ -139,9 +148,9 @@ test_that("axis_geo() works with multiple scales", {
       intervals = list("stages", "periods"),
       tick_at = seq(0, 500, 50),
       lab = list(FALSE, TRUE),
-      abbr = FALSE
+      abbr = FALSE,
+      title = "Time (Ma)"
     )
-    title(xlab = "Time (Ma)", line = 6)
   })
 })
 
