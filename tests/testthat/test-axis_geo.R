@@ -108,7 +108,8 @@ test_that("axis_geo() works with autofit", {
 
 test_that("axis_geo() works with time_bins()", {
   expect_doppelganger("axis_geo() with time_bins() scale", function() {
-    par(mar = c(5.1, 4.1, 4.1, 2.1))
+    # Slightly increase space on bottom margin
+    par(mar = c(6.1, 4.1, 4.1, 2.1))
     plot(
       x = reef_df$interval_mid_ma,
       y = reef_df$lat,
