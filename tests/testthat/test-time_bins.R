@@ -15,17 +15,21 @@ test_that("time_bins() works with macrostrat", {
 test_that("time_bins() works", {
   #correct format
   expect_true(is.data.frame(time_bins(interval = 10)))
-  expect_true(is.list(time_bins(
-    interval = c("Fortunian", "Meghalayan"),
-    assign = c(232, 167, 33),
-    plot = TRUE
-  )))
-  expect_true(is.list(time_bins(
-    interval = c("Fortunian", "Holocene"),
-    scale = "GTS2012",
-    assign = c(232, 167, 33),
-    plot = TRUE
-  )))
+  expect_true(
+    is.list(time_bins(
+      interval = c("Fortunian", "Meghalayan"),
+      assign = c(232, 167, 33),
+      plot = TRUE
+    ))
+  )
+  expect_true(
+    is.list(time_bins(
+      interval = c("Fortunian", "Holocene"),
+      scale = "GTS2012",
+      assign = c(232, 167, 33),
+      plot = TRUE
+    ))
+  )
   expect_true(is.vector(
     time_bins(
       interval = c("Fortunian", "Meghalayan"),

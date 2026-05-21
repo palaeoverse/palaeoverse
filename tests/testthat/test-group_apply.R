@@ -40,15 +40,12 @@ test_that("group_apply works", {
     4017
   )
 
-  expect_equal(
-    nrow(group_apply(
-      occdf = occdf,
-      group = c("collection_no"),
-      fun = tax_check,
-      verbose = FALSE
-    )),
-    NULL
-  )
+  expect_null(nrow(group_apply(
+    occdf = occdf,
+    group = c("collection_no"),
+    fun = tax_check,
+    verbose = FALSE
+  )))
 
   # Errors
   expect_snapshot(
