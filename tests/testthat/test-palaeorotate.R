@@ -1,31 +1,55 @@
 test_that("palaeorotate() error handling works", {
   # No occdf provided
-  expect_error(palaeorotate(occdf = 10))
+  expect_snapshot(palaeorotate(occdf = 10), error = TRUE)
   # Missing occdf column
-  expect_error(palaeorotate(occdf = data.frame(lng = 10, lat = 5)))
+  expect_snapshot(
+    palaeorotate(occdf = data.frame(lng = 10, lat = 5)),
+    error = TRUE
+  )
   # Wrong data format
-  expect_error(palaeorotate(occdf = data.frame(lng = 10, lat = 5, age = TRUE)))
+  expect_snapshot(
+    palaeorotate(occdf = data.frame(lng = 10, lat = 5, age = TRUE)),
+    error = TRUE
+  )
   # Negative age values
-  expect_error(palaeorotate(occdf = data.frame(lng = 10, lat = 5, age = -5)))
+  expect_snapshot(
+    palaeorotate(occdf = data.frame(lng = 10, lat = 5, age = -5)),
+    error = TRUE
+  )
   # Incorrect latitudinal value
-  expect_error(palaeorotate(occdf = data.frame(lng = 10, lat = 95, age = 25)))
+  expect_snapshot(
+    palaeorotate(occdf = data.frame(lng = 10, lat = 95, age = 25)),
+    error = TRUE
+  )
   # Incorrect longitudinal value
-  expect_error(palaeorotate(occdf = data.frame(lng = 210, lat = 40, age = 25)))
+  expect_snapshot(
+    palaeorotate(occdf = data.frame(lng = 210, lat = 40, age = 25)),
+    error = TRUE
+  )
   # Wrong method
-  expect_error(palaeorotate(
-    occdf = data.frame(lng = 10, lat = 40, age = 25),
-    method = "API"
-  ))
+  expect_snapshot(
+    palaeorotate(
+      occdf = data.frame(lng = 10, lat = 40, age = 25),
+      method = "API"
+    ),
+    error = TRUE
+  )
   # Wrong `round` class
-  expect_error(palaeorotate(
-    occdf = data.frame(lng = 110, lat = 40, age = 25),
-    round = TRUE
-  ))
+  expect_snapshot(
+    palaeorotate(
+      occdf = data.frame(lng = 110, lat = 40, age = 25),
+      round = TRUE
+    ),
+    error = TRUE
+  )
   # Wrong `uncertainty` class
-  expect_error(palaeorotate(
-    occdf = data.frame(lng = 110, lat = 40, age = 25),
-    uncertainty = "GOONTHEN"
-  ))
+  expect_snapshot(
+    palaeorotate(
+      occdf = data.frame(lng = 110, lat = 40, age = 25),
+      uncertainty = "GOONTHEN"
+    ),
+    error = TRUE
+  )
 })
 
 test_that("palaeorotate() point method works", {
@@ -84,13 +108,19 @@ test_that("palaeorotate() point method works", {
   )
 
   ## Previously available models removed
-  expect_error(palaeorotate(
-    occdf = occdf,
-    method = "point",
-    model = "MULLER2022"
-  ))
+  expect_snapshot(
+    palaeorotate(
+      occdf = occdf,
+      method = "point",
+      model = "MULLER2022"
+    ),
+    error = TRUE
+  )
   ## Not a model
-  expect_error(palaeorotate(occdf = occdf, method = "point", model = "GPlates"))
+  expect_snapshot(
+    palaeorotate(occdf = occdf, method = "point", model = "GPlates"),
+    error = TRUE
+  )
 
   occdf <- data.frame(
     lng = c(2, -103, -66),

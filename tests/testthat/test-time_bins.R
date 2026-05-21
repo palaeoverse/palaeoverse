@@ -177,37 +177,64 @@ test_that("time_bins() works", {
   )
 
   #error handling
-  expect_error(time_bins(interval = c("Mastrichtian", "Danian")))
-  expect_error(time_bins(
-    interval = "Mastrichtian",
-    scale = "GTS2012",
-    plot = TRUE
-  ))
-  expect_error(time_bins(
-    interval = "Mastrichtian",
-    scale = "2012",
-    plot = TRUE
-  ))
-  expect_error(time_bins(interval = 700, scale = "GTS2020", plot = TRUE))
-  expect_error(time_bins(interval = -1, plot = TRUE))
-  expect_error(time_bins(interval = data.frame()))
-  expect_error(time_bins(interval = c(50, 10, 20), plot = TRUE))
-  expect_error(time_bins(interval = "Mesozoic", plot = "TRUE"))
-  expect_error(time_bins(interval = "Mesozoic", assign = 40))
-  expect_error(time_bins(interval = "Mesozoic", assign = -40))
-  expect_error(time_bins(interval = "Mesozoic", assign = "30"))
-  expect_error(time_bins(interval = "Mesozoic", size = "ten"))
-  expect_error(time_bins(interval = "Mesozoic", n_bins = "eleven"))
-  expect_error(time_bins(interval = "Mesozoic", rank = "stages"))
-  expect_error(time_bins(interval = "Mesozoic", rank = c("stage", "period")))
-  expect_error(time_bins(interval = "Mesozoic", scale = 1))
-  expect_error(time_bins(interval = NULL, scale = "GTS2020"))
-  expect_error(time_bins(interval = c(10000, 100), scale = "GTS2020"))
-  expect_error(time_bins(n_bins = 200))
+  expect_snapshot(
+    time_bins(interval = c("Mastrichtian", "Danian")),
+    error = TRUE
+  )
+  expect_snapshot(
+    time_bins(
+      interval = "Mastrichtian",
+      scale = "GTS2012",
+      plot = TRUE
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    time_bins(
+      interval = "Mastrichtian",
+      scale = "2012",
+      plot = TRUE
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    time_bins(interval = 700, scale = "GTS2020", plot = TRUE),
+    error = TRUE
+  )
+  expect_snapshot(time_bins(interval = -1, plot = TRUE), error = TRUE)
+  expect_snapshot(time_bins(interval = data.frame()), error = TRUE)
+  expect_snapshot(
+    time_bins(interval = c(50, 10, 20), plot = TRUE),
+    error = TRUE
+  )
+  expect_snapshot(time_bins(interval = "Mesozoic", plot = "TRUE"), error = TRUE)
+  expect_snapshot(time_bins(interval = "Mesozoic", assign = 40), error = TRUE)
+  expect_snapshot(time_bins(interval = "Mesozoic", assign = -40), error = TRUE)
+  expect_snapshot(time_bins(interval = "Mesozoic", assign = "30"), error = TRUE)
+  expect_snapshot(time_bins(interval = "Mesozoic", size = "ten"), error = TRUE)
+  expect_snapshot(
+    time_bins(interval = "Mesozoic", n_bins = "eleven"),
+    error = TRUE
+  )
+  expect_snapshot(
+    time_bins(interval = "Mesozoic", rank = "stages"),
+    error = TRUE
+  )
+  expect_snapshot(
+    time_bins(interval = "Mesozoic", rank = c("stage", "period")),
+    error = TRUE
+  )
+  expect_snapshot(time_bins(interval = "Mesozoic", scale = 1), error = TRUE)
+  expect_snapshot(time_bins(interval = NULL, scale = "GTS2020"), error = TRUE)
+  expect_snapshot(
+    time_bins(interval = c(10000, 100), scale = "GTS2020"),
+    error = TRUE
+  )
+  expect_snapshot(time_bins(n_bins = 200), error = TRUE)
   scale <- data.frame(
     name = 1:5,
     min_ma = c(0, 18, 32, 38, 45),
     max_ma = c(18, 32, 38, 45, 53)
   )
-  expect_error(time_bins(scale = scale, size = 15))
+  expect_snapshot(time_bins(scale = scale, size = 15), error = TRUE)
 })
