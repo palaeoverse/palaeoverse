@@ -127,7 +127,7 @@ tax_range_space <- function(
     stop("`occdf` should be a dataframe")
   }
 
-  if (any(c(name, lng, lat) %in% colnames(occdf) == FALSE)) {
+  if (!all(c(name, lng, lat) %in% colnames(occdf))) {
     stop(
       "Either `name`, `lng`, or `lat`, is not a named column
 in `occdf`"
@@ -145,13 +145,13 @@ in `occdf`"
     stop("`lng` and/or `lat` columns are not of numeric class")
   }
 
-  if (any(is.na(occdf[, name, drop = TRUE]))) {
+  if (anyNA(occdf[, name, drop = TRUE])) {
     stop("The `name` column contains NA values")
   }
 
   if (
-    any(is.na(occdf[, lat, drop = TRUE])) ||
-      any(is.na(occdf[, lng, drop = TRUE]))
+    anyNA(occdf[, lat, drop = TRUE]) ||
+      anyNA(occdf[, lng, drop = TRUE])
   ) {
     stop("`lng` and/or `lat` columns contain NA values")
   }
@@ -160,7 +160,7 @@ in `occdf`"
   possible_methods <- c("con", "lat", "gcd", "occ")
   method_match <- charmatch(method, possible_methods)
 
-  if (is.na(method_match) == TRUE) {
+  if (is.na(method_match)) {
     # If the user has entered a non-valid term for the "method" argument,
     # generate an error and warn the user.
     stop(
@@ -174,7 +174,7 @@ in `occdf`"
   #=== Set-up ===
   unique_taxa <- unique(occdf[, name, drop = TRUE])
   # Order taxa
-  unique_taxa <- unique_taxa[order(unique_taxa)]
+  unique_taxa <- sort(unique_taxa)
 
   #=== convex hull  ===
   if (method == "con") {
@@ -202,7 +202,7 @@ in `occdf`"
     row.names(spat_df) <- NULL
 
     # simplify output?
-    if (coords == FALSE) {
+    if (!coords) {
       spat_df <- spat_df[, -which(colnames(spat_df) %in% c(lng, lat))]
       spat_df <- unique(spat_df)
     }
@@ -280,7 +280,7 @@ in `occdf`"
     )
 
     # simplify output?
-    if (coords == FALSE) {
+    if (!coords) {
       gcd_df <- gcd_df[, -which(colnames(gcd_df) %in% c("lng", "lat"))]
       gcd_df <- unique(gcd_df)
     }
