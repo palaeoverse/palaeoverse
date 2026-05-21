@@ -39,6 +39,6 @@ A data frame with 1323 rows and 3 variables:
 ## Source
 
 Compiled by Kilian Eichenseer and Lewis Jones for assigning geological
-stages to ccurrences from the [Paleobiology
+stages to occurrences from the [Paleobiology
 Database](https://paleobiodb.org) and the [PaleoReefs
 Database](https://www.paleo-reefs.pal.uni-erlangen.de/).
