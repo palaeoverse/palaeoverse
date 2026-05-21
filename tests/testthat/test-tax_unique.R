@@ -189,107 +189,158 @@ test_that("tax_unique() works", {
   )))
 
   #expect error
-  expect_error(tax_unique(species = "species", genus = "genus"))
-  expect_error(tax_unique(occdf = 100))
-  expect_error(tax_unique(occdf = tetrapods, binomial = "test"))
-  expect_error(tax_unique(occdf = tetrapods, species = "test"))
-  expect_error(tax_unique(occdf = tetrapods, genus = "test"))
-  expect_error(tax_unique(
-    occdf = dinosaurs,
-    species = "species",
-    genus = "genus"
-  ))
-  expect_error(tax_unique(
-    occdf = dinosaurs,
-    species = "species",
-    genus = "genus",
-    family = "test"
-  ))
-  expect_error(tax_unique(
-    occdf = dinosaurs,
-    species = "species",
-    genus = "genus",
-    family = "family",
-    order = "test"
-  ))
-  expect_error(tax_unique(
-    occdf = dinosaurs,
-    species = "species",
-    genus = "genus",
-    family = "family",
-    order = "order",
-    class = "test"
-  ))
-  expect_error(tax_unique(
-    occdf = dinosaurs,
-    genus = "genus",
-    family = "family",
-    order = "order",
-    class = "class",
-    name = "test"
-  ))
-  expect_error(tax_unique(
-    occdf = dinosaurs,
-    genus = "genus",
-    family = "family"
-  ))
-  expect_error(tax_unique(
-    occdf = dinosaurs,
-    species = "species",
-    family = "family",
-    resolution = "genus"
-  ))
-  expect_error(tax_unique(
-    occdf = tetrapods,
-    genus = "genus",
-    family = "family",
-    class = "identified_name",
-    resolution = "genus"
-  ))
-  expect_error(tax_unique(
-    occdf = tetrapods,
-    genus = "genus",
-    family = "family",
-    order = "identified_name",
-    resolution = "genus"
-  ))
-  expect_error(tax_unique(
-    occdf = tetrapods,
-    genus = "genus",
-    family = "identified_name",
-    resolution = "genus"
-  ))
-  expect_error(tax_unique(
-    occdf = tetrapods,
-    genus = "identified_name",
-    family = "family",
-    resolution = "genus"
-  ))
-  expect_error(tax_unique(
-    occdf = tetrapods,
-    species = "identified_name",
-    genus = "genus",
-    family = "family",
-    resolution = "genus"
-  ))
-  expect_error(tax_unique(
-    occdf = tetrapods,
-    genus = "genus",
-    family = "family",
-    binomial = "identified_name",
-    resolution = "genus"
-  ))
-  expect_error(tax_unique(
-    occdf = tetrapods,
-    genus = "genus",
-    family = "family",
-    name = "identified_name"
-  ))
-  expect_error(tax_unique(
-    occdf = dinosaurs,
-    species = "species",
-    genus = "genus",
-    family = "family",
-    resolution = "test"
-  ))
+  expect_snapshot(
+    tax_unique(species = "species", genus = "genus"),
+    error = TRUE
+  )
+  expect_snapshot(tax_unique(occdf = 100), error = TRUE)
+  expect_snapshot(
+    tax_unique(occdf = tetrapods, binomial = "test"),
+    error = TRUE
+  )
+  expect_snapshot(tax_unique(occdf = tetrapods, species = "test"), error = TRUE)
+  expect_snapshot(tax_unique(occdf = tetrapods, genus = "test"), error = TRUE)
+  expect_snapshot(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "test"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      order = "test"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "test"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = dinosaurs,
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class",
+      name = "test"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = dinosaurs,
+      genus = "genus",
+      family = "family"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      family = "family",
+      resolution = "genus"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = tetrapods,
+      genus = "genus",
+      family = "family",
+      class = "identified_name",
+      resolution = "genus"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = tetrapods,
+      genus = "genus",
+      family = "family",
+      order = "identified_name",
+      resolution = "genus"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = tetrapods,
+      genus = "genus",
+      family = "identified_name",
+      resolution = "genus"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = tetrapods,
+      genus = "identified_name",
+      family = "family",
+      resolution = "genus"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = tetrapods,
+      species = "identified_name",
+      genus = "genus",
+      family = "family",
+      resolution = "genus"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = tetrapods,
+      genus = "genus",
+      family = "family",
+      binomial = "identified_name",
+      resolution = "genus"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = tetrapods,
+      genus = "genus",
+      family = "family",
+      name = "identified_name"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      resolution = "test"
+    ),
+    error = TRUE
+  )
 })
