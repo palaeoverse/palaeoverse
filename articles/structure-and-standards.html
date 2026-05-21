@@ -244,7 +244,11 @@ solution.</p>
 <code class="sourceCode R"><span><span class="co">#generate temp directory</span></span>
 <span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#download files</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span>url <span class="op">=</span> <span class="st">"www.goo.com"</span>, destfile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">files</span>, <span class="st">"/mgoo.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span></span>
+<span>  url <span class="op">=</span> <span class="st">"www.goo.com"</span>,</span>
+<span>  destfile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">files</span>, <span class="st">"/mgoo.csv"</span><span class="op">)</span>,</span>
+<span>  mode <span class="op">=</span> <span class="st">"wb"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#run some kind function using the download</span></span>
 <span><span class="co">#REMEMBER: remove downloaded files</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">files</span>, <span class="st">"/"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>

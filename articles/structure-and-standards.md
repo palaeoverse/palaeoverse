@@ -178,7 +178,11 @@ discuss what might be the best solution.
 #generate temp directory
 files <- tempdir()
 #download files
-download.file(url = "www.goo.com", destfile = paste0(files, "/mgoo.csv"))
+download.file(
+  url = "www.goo.com",
+  destfile = paste0(files, "/mgoo.csv"),
+  mode = "wb"
+)
 #run some kind function using the download
 #REMEMBER: remove downloaded files
 unlink(x = paste0(files, "/", list.files(files)))
