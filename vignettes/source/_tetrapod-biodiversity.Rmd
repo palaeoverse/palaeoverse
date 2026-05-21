@@ -330,9 +330,7 @@ plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
      pch = 19, col = "#0e826f") # point style and colour
 box()
 axis(2) # add a normal axis to the elft side
-axis_geo(side = 1, intervals = list("epochs", "periods"))
-title(xlab = "Time (Ma)", line = 4)
-
+axis_geo(side = 1, intervals = list("epochs", "periods"), title = "Time (Ma)")
 ```
 
 Amazing! Now we can clearly see that alpha diversity appears to be a lot higher in the Permian than the Carboniferous. But how has the spatial distribution of tetrapods changed across this boundary? Let's use some of the other `palaeoverse` functions to find out!

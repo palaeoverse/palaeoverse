@@ -13,8 +13,7 @@ test_that("axis_geo() works", {
     box()
 
     axis(side = 2)
-    axis_geo(side = 1, intervals = "periods")
-    title(xlab = "Time (Ma)", line = 4)
+    axis_geo(side = 1, intervals = "periods", title = "Time (Ma)")
   })
 })
 
@@ -58,45 +57,8 @@ test_that("axis_geo() works with negative axis", {
 
 test_that("axis_geo() works with autofit", {
   expect_doppelganger("axis_geo() with autofit", function() {
-    plot(
-      x = reef_df$interval_mid_ma,
-      y = reef_df$lat,
-      axes = FALSE,
-      type = "p",
-      pch = 20,
-      xlim = c(542, 0),
-      xlab = NA,
-      ylab = "Paleolatitude"
-    )
-    box()
-
-    axis(side = 2)
-    axis_geo(side = 1, intervals = "periods", lab_size = 4, autofit = TRUE)
-    title(xlab = "Time (Ma)", line = 4)
-  })
-  expect_doppelganger("axis_geo() with autofit2", function() {
-    par(mar = c(5.1, 6.1, 4.1, 2.1))
-    plot(
-      y = reef_df$interval_mid_ma,
-      x = reef_df$lat,
-      axes = FALSE,
-      type = "p",
-      pch = 20,
-      ylim = c(542, 0),
-      ylab = NA,
-      xlab = "Paleolatitude"
-    )
-    box()
-
-    axis(side = 1)
-    axis_geo(side = 2, intervals = "periods", lab_size = 4, autofit = TRUE)
-    title(ylab = "Time (Ma)", line = 4.5)
-  })
-})
-
-test_that("axis_geo() works with time_bins()", {
-  expect_doppelganger("axis_geo() with time_bins() scale", function() {
-    par(mar = c(5.1, 4.1, 4.1, 2.1))
+    # Slightly increase space on bottom margin
+    par(mar = c(6.1, 4.1, 4.1, 2.1))
     plot(
       x = reef_df$interval_mid_ma,
       y = reef_df$lat,
@@ -112,9 +74,60 @@ test_that("axis_geo() works with time_bins()", {
     axis(side = 2)
     axis_geo(
       side = 1,
-      intervals = time_bins(rank = "period", scale = "GTS2020")
+      intervals = "periods",
+      lab_size = 4,
+      autofit = TRUE,
+      title = "Time (Ma)"
     )
-    title(xlab = "Time (Ma)", line = 4)
+  })
+  expect_doppelganger("axis_geo() with autofit2", function() {
+    # Slightly increase space on left margin
+    par(mar = c(5.1, 6.1, 4.1, 2.1))
+    plot(
+      y = reef_df$interval_mid_ma,
+      x = reef_df$lat,
+      axes = FALSE,
+      type = "p",
+      pch = 20,
+      ylim = c(542, 0),
+      ylab = NA,
+      xlab = "Paleolatitude"
+    )
+    box()
+
+    axis(side = 1)
+    axis_geo(
+      side = 2,
+      intervals = "periods",
+      lab_size = 4,
+      autofit = TRUE,
+      title = "Time (Ma)"
+    )
+  })
+})
+
+test_that("axis_geo() works with time_bins()", {
+  expect_doppelganger("axis_geo() with time_bins() scale", function() {
+    # Slightly increase space on bottom margin
+    par(mar = c(6.1, 4.1, 4.1, 2.1))
+    plot(
+      x = reef_df$interval_mid_ma,
+      y = reef_df$lat,
+      axes = FALSE,
+      type = "p",
+      pch = 20,
+      xlim = c(542, 0),
+      xlab = NA,
+      ylab = "Paleolatitude"
+    )
+    box()
+
+    axis(side = 2)
+    axis_geo(
+      side = 1,
+      intervals = time_bins(rank = "period", scale = "GTS2020"),
+      title = "Time (Ma)"
+    )
   })
 })
 
@@ -139,9 +152,9 @@ test_that("axis_geo() works with multiple scales", {
       intervals = list("stages", "periods"),
       tick_at = seq(0, 500, 50),
       lab = list(FALSE, TRUE),
-      abbr = FALSE
+      abbr = FALSE,
+      title = "Time (Ma)"
     )
-    title(xlab = "Time (Ma)", line = 6)
   })
 })
 
