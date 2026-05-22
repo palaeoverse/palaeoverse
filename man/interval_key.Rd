@@ -16,7 +16,7 @@ the interval}
 }
 \source{
 Compiled by Kilian Eichenseer and Lewis Jones for assigning
-geological stages to ccurrences from the
+geological stages to occurrences from the
 \href{https://paleobiodb.org}{Paleobiology Database}
 and the \href{https://www.paleo-reefs.pal.uni-erlangen.de/}{PaleoReefs Database}.
 }

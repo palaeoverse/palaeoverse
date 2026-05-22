@@ -167,24 +167,35 @@
 #'                     uncertainty = TRUE)
 #' }
 #' @export
-palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
-                         model = "MERDITH2021", method = "point",
-                         uncertainty = TRUE, round = 3) {
+palaeorotate <- function(
+  occdf,
+  lng = "lng",
+  lat = "lat",
+  age = "age",
+  model = "MERDITH2021",
+  method = "point",
+  uncertainty = TRUE,
+  round = 3
+) {
   # Error-handling ----------------------------------------------------------
   if (!exists("occdf") || !is.data.frame(occdf)) {
     stop("Please supply `occdf` as a data.frame.")
   }
 
-  if (any(c(lng, lat, age) %in% colnames(occdf) == FALSE)) {
+  if (!all(c(lng, lat, age) %in% colnames(occdf))) {
     stop("Defined `lng`, `lat`, or `age` not found in `occdf`.")
   }
 
-  if (any(!is.numeric(occdf[, lat, drop = TRUE]),
-          is.na(occdf[, lat, drop = TRUE]),
-          !is.numeric(occdf[, lng, drop = TRUE]),
-          is.na(occdf[, lng, drop = TRUE]),
-          !is.numeric(occdf[, age, drop = TRUE]),
-          is.na(occdf[, age, drop = TRUE]))) {
+  if (
+    any(
+      !is.numeric(occdf[, lat, drop = TRUE]),
+      is.na(occdf[, lat, drop = TRUE]),
+      !is.numeric(occdf[, lng, drop = TRUE]),
+      is.na(occdf[, lng, drop = TRUE]),
+      !is.numeric(occdf[, age, drop = TRUE]),
+      is.na(occdf[, age, drop = TRUE])
+    )
+  ) {
     stop("`lng`, `lat` and `age` should be of class numeric.")
   }
 
@@ -200,7 +211,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     stop("`lng` values should be >= -180\u00B0 and <= 180\u00B0.")
   }
 
-  if (method %in% c("grid", "point") == FALSE) {
+  if (!method %in% c("grid", "point")) {
     stop("`method` should be either 'grid' or 'point'.")
   }
 
@@ -213,24 +224,40 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   }
 
   # Add stop for removed models
-  removed <- c("MULLER2022", "MULLER2019", "MULLER2016",
-               "MATTHEWS2016_mantle_ref", "SETON2012")
+  removed <- c(
+    "MULLER2022",
+    "MULLER2019",
+    "MULLER2016",
+    "MATTHEWS2016_mantle_ref",
+    "SETON2012"
+  )
   m <- removed %in% model
   if (any(m)) {
-    stop(paste0("Selected model(s) (", toString(removed[m]), ") have recently",
-                " been removed as they are not in a palaeomagnetic reference",
-                " frame. See details for available models."))
+    stop(paste0(
+      "Selected model(s) (",
+      toString(removed[m]),
+      ") have recently",
+      " been removed as they are not in a palaeomagnetic reference",
+      " frame. See details for available models."
+    ))
   }
 
   # Model available?
-  available <- c("MERDITH2021", "MATTHEWS2016_pmag_ref", "TorsvikCocks2017",
-                 "GOLONKA", "PALEOMAP")
+  available <- c(
+    "MERDITH2021",
+    "MATTHEWS2016_pmag_ref",
+    "TorsvikCocks2017",
+    "GOLONKA",
+    "PALEOMAP"
+  )
   # Match input
   model <- available[charmatch(x = model, table = available)]
   # Invalid model input?
-  if (any(is.na(model))) {
-    stop("Unavailable model(s). Choose one from the following: \n",
-         toString(available))
+  if (anyNA(model)) {
+    stop(
+      "Unavailable model(s). Choose one from the following: \n",
+      toString(available)
+    )
   }
 
   # Set-up ------------------------------------------------------------------
@@ -243,8 +270,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
 
   # Should coordinates be rounded off?
   if (!is.null(round)) {
-    occdf[, c(lng, lat, age)] <- round(occdf[, c(lng, lat, age)],
-                                       digits = round)
+    occdf[, c(lng, lat, age)] <- round(
+      occdf[, c(lng, lat, age)],
+      digits = round
+    )
   }
   # Unique localities for rotating
   coords <- unique(occdf[, c(lng, lat, age)])
@@ -259,17 +288,24 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         nslookup("zenodo.org")
       },
       error = function(e) {
-        stop(paste0("Zenodo is not available.",
-                    " Either the website is down or you are not connected ",
-                    "to the internet."),
-             call. = FALSE)
-      })
+        stop(
+          paste0(
+            "Zenodo is not available.",
+            " Either the website is down or you are not connected ",
+            "to the internet."
+          ),
+          call. = FALSE
+        )
+      }
+    )
     # Get temp directory and download files
     files <- tempdir()
     # Reconstruction files
     rot_files <- list(
-      BASE = paste0(RETRY("HEAD", "https://zenodo.org/record/7390065")$url,
-                    "/files/"),
+      BASE = paste0(
+        RETRY("HEAD", "https://zenodo.org/record/7390065")$url,
+        "/files/"
+      ),
       MERDITH2021 = "MERDITH2021.RDS",
       PALEOMAP = "PALEOMAP.RDS",
       TorsvikCocks2017 = "TorsvikCocks2017.RDS",
@@ -279,14 +315,17 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Rotations files to download
     nme <- names(rot_files[model])
     # Already downloaded check
-    nme <- nme[which(file.exists(paste0(files, "/", nme, ".RDS")) == FALSE)]
+    nme <- nme[which(!file.exists(paste0(files, "/", nme, ".RDS")))]
     if (length(nme) != 0) {
       for (f in nme) {
         # Generate download link
         dl <- paste0(rot_files$BASE, rot_files[f], sep = "")
         # Download file
-        stat <- RETRY("GET", url = dl,
-                      write_disk(paste0(files, "/", f, ".RDS")))
+        stat <- RETRY(
+          "GET",
+          url = dl,
+          write_disk(paste0(files, "/", f, ".RDS"))
+        )
         stop_for_status(stat, task = "download rotation file")
       }
     }
@@ -295,15 +334,19 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
 
     # Set-up
     # Convert to sf object and add CRS
-    occdf_sf <- st_as_sf(x = occdf,
-                         coords = c(lng, lat),
-                         remove = FALSE,
-                         crs = "EPSG:4326")
+    occdf_sf <- st_as_sf(
+      x = occdf,
+      coords = c(lng, lat),
+      remove = FALSE,
+      crs = "EPSG:4326"
+    )
 
     # Match points with cells
-    h3 <- point_to_cell(input = occdf_sf,
-                        res = 3, # Grid resolution
-                        simple = TRUE)
+    h3 <- point_to_cell(
+      input = occdf_sf,
+      res = 3, # Grid resolution
+      simple = TRUE
+    )
     # Get coordinates for h3 cell
     xy <- st_coordinates(cell_to_point(h3_address = h3, simple = TRUE))
     # Create df
@@ -329,7 +372,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
       })
 
       # Replace NULL values
-      rpl <- which(unlist(lapply(p_lng, is.null)) == TRUE)
+      rpl <- which(unlist(lapply(p_lng, is.null)))
       if (length(rpl) != 0) {
         p_lng[rpl] <- NA
         p_lat[rpl] <- NA
@@ -356,22 +399,34 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
         nslookup("gws.gplates.org")
       },
       error = function(e) {
-        stop(paste("GPlates Web Service is not available.",
-                   "Either the website is down or you are not",
-                   "connected to the internet."),
-             call. = FALSE)
-      })
+        stop(
+          paste(
+            "GPlates Web Service is not available.",
+            "Either the website is down or you are not",
+            "connected to the internet."
+          ),
+          call. = FALSE
+        )
+      }
+    )
     # Define root
     pbase <- "https://gws.gplates.org/reconstruct/reconstruct_points/"
     # Setup query structure
-    query <- list(time = NULL, lons = NULL, lats = NULL,
-                  model = NULL, anchor_plate_id = 0,
-                  return_null_points = TRUE)
-    query <- list(MERDITH2021 = query,
-                  PALEOMAP = query,
-                  TorsvikCocks2017 = query,
-                  MATTHEWS2016_pmag_ref = query,
-                  GOLONKA = query)
+    query <- list(
+      time = NULL,
+      lons = NULL,
+      lats = NULL,
+      model = NULL,
+      anchor_plate_id = 0,
+      return_null_points = TRUE
+    )
+    query <- list(
+      MERDITH2021 = query,
+      PALEOMAP = query,
+      TorsvikCocks2017 = query,
+      MATTHEWS2016_pmag_ref = query,
+      GOLONKA = query
+    )
     # Define GPlates model names
     query[["MERDITH2021"]]$model <- "MERDITH2021"
     query[["PALEOMAP"]]$model <- "PALEOMAP"
@@ -383,12 +438,20 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     # Define maximum chunk size for API calls
     chunks <- 300
     # Set-up matching for later merge
-    coords$match <- paste0(coords[, lng, drop = TRUE], "_",
-                           coords[, lat, drop = TRUE], "_",
-                           coords[, age, drop = TRUE])
-    occdf$match <- paste0(occdf[, lng, drop = TRUE], "_",
-                          occdf[, lat, drop = TRUE], "_",
-                          occdf[, age, drop = TRUE])
+    coords$match <- paste0(
+      coords[, lng, drop = TRUE],
+      "_",
+      coords[, lat, drop = TRUE],
+      "_",
+      coords[, age, drop = TRUE]
+    )
+    occdf$match <- paste0(
+      occdf[, lng, drop = TRUE],
+      "_",
+      occdf[, lat, drop = TRUE],
+      "_",
+      occdf[, age, drop = TRUE]
+    )
     # Prepare points query
     # Split dataframe by age
     coord_list <- split(x = coords, f = coords[, age, drop = TRUE])
@@ -397,8 +460,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     subsplit <- names(which(list_size > chunks))
     for (i in subsplit) {
       tmp <- coord_list[[i]]
-      coord_list[[i]] <- split(x = tmp,
-                               f = ceiling(seq_len(nrow(tmp)) / chunks))
+      coord_list[[i]] <- split(
+        x = tmp,
+        f = ceiling(seq_len(nrow(tmp)) / chunks)
+      )
     }
     # Run across models
     multi_model <- lapply(model, function(m) {
@@ -435,8 +500,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
           # Replace NULL values
           rpl <- sapply(coords, is.null)
           if (any(rpl)) {
-            rpl <- which(rpl == TRUE)
-            for (r in rpl) coords[[r]] <- list(NA, NA)
+            rpl <- which(rpl)
+            for (r in rpl) {
+              coords[[r]] <- list(NA, NA)
+            }
           }
           xy <- do.call(rbind.data.frame, coords)
           colnames(xy) <- c("x", "y")
@@ -494,8 +561,10 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
     max_dist <- vector("numeric")
     for (i in seq_len(nrow(uncertain_lat))) {
       # Get combination of coordinates for all models
-      tmpdf <- cbind(p_lng = as.numeric(uncertain_lng[i, ]),
-                     p_lat = as.numeric(uncertain_lat[i, ]))
+      tmpdf <- cbind(
+        p_lng = as.numeric(uncertain_lng[i, ]),
+        p_lat = as.numeric(uncertain_lat[i, ])
+      )
       # Exclude NAs
       tmpdf <- na.omit(tmpdf)
       # Allocate NA if only one or less models are available
@@ -521,7 +590,7 @@ palaeorotate <- function(occdf, lng = "lng", lat = "lat", age = "age",
   } else {
     cnames <- c("p_lng", "p_lat")
   }
-  if (any(is.na(occdf[, cnames]))) {
+  if (anyNA(occdf[, cnames])) {
     warning(
       paste0(
         "Palaeocoordinates could not be reconstructed for all points.",

@@ -226,23 +226,37 @@
 #' par(oldpar)
 #' @export
 axis_geo <- function(
-  side = 1, intervals = "epoch", height = 0.05,
+  side = 1,
+  intervals = "epoch",
+  height = 0.05,
   # fill arguments:
   fill = NULL,
   # label arguments:
-  lab = TRUE, lab_col = NULL, lab_size = 1, rot = 0, abbr = TRUE,
-  center_end_labels = TRUE, autofit = FALSE,
+  lab = TRUE,
+  lab_col = NULL,
+  lab_size = 1,
+  rot = 0,
+  abbr = TRUE,
+  center_end_labels = TRUE,
+  autofit = FALSE,
   skip = c("Quaternary", "Holocene", "Late Pleistocene"),
   # rect border arguments:
-  bord_col = "black", lty = par("lty"), lwd = par("lwd"),
+  bord_col = "black",
+  lty = par("lty"),
+  lwd = par("lwd"),
   # applied to the entire axis:
-  bkgd = "grey90", neg = FALSE, exact = FALSE, round = FALSE,
+  bkgd = "grey90",
+  neg = FALSE,
+  exact = FALSE,
+  round = FALSE,
   # passed to axis():
-  tick_at = NULL, tick_labels = TRUE,
+  tick_at = NULL,
+  tick_labels = TRUE,
   # title label, passed to mtext():
   title = NULL,
   # phylogeny-related arguments:
-  phylo = FALSE, root.time = NULL,
+  phylo = FALSE,
+  root.time = NULL,
   # passed to axis() and mtext():
   ...
 ) {
@@ -254,33 +268,47 @@ axis_geo <- function(
     lastPP <- get("last_plot.phylo", envir = .PlotPhyloEnv)
     type <- lastPP$type
     backward <- lastPP$direction %in% c("leftwards", "downwards")
-    if (type == "unrooted")
-      stop("axis_geo() not available for unrooted plots;
-           try ape::add.scale.bar()")
-    if (type %in% c("radial", "fan"))
+    if (type == "unrooted") {
+      stop(
+        "axis_geo() not available for unrooted plots;
+           try ape::add.scale.bar()"
+      )
+    }
+    if (type %in% c("radial", "fan")) {
       stop("axis_geo() not meaningful for radial or fan plots")
+    }
     if (is.null(root.time)) root.time <- lastPP$root.time
   }
 
   height <- rep(make_list(height), length.out = n_scales)
   if (!all(sapply(height, function(x) is.numeric(x) && length(x) == 1))) {
-    stop("Invalid value supplied for height, must be a single numeric value
-         per scale", call. = FALSE)
+    stop(
+      "Invalid value supplied for height, must be a single numeric value
+         per scale",
+      call. = FALSE
+    )
   }
   fill <- rep(make_list(fill), length.out = n_scales)
   if (!all(sapply(fill, is_type_or_null, "character"))) {
-    stop("Invalid value supplied for fill, must be character (or NULL)",
-         call. = FALSE)
+    stop(
+      "Invalid value supplied for fill, must be character (or NULL)",
+      call. = FALSE
+    )
   }
   lab <- rep(make_list(lab), length.out = n_scales)
   if (!all(sapply(lab, function(x) is.logical(x) && length(x) == 1))) {
-    stop("Invalid value supplied for lab, must be a single logical value per
-         scale", call. = FALSE)
+    stop(
+      "Invalid value supplied for lab, must be a single logical value per
+         scale",
+      call. = FALSE
+    )
   }
   lab_col <- rep(make_list(lab_col), length.out = n_scales)
   if (!all(sapply(lab_col, is_type_or_null, "character"))) {
-    stop("Invalid value supplied for lab_col, must be character (or NULL)",
-         call. = FALSE)
+    stop(
+      "Invalid value supplied for lab_col, must be character (or NULL)",
+      call. = FALSE
+    )
   }
   lab_size <- rep(make_list(lab_size), length.out = n_scales)
   if (!all(sapply(lab_size, is.numeric))) {
@@ -288,45 +316,65 @@ axis_geo <- function(
   }
   rot <- rep(make_list(rot), length.out = n_scales)
   if (!all(sapply(rot, function(x) is.numeric(x) && length(x) == 1))) {
-    stop("Invalid value supplied for rot, must be a single numeric value per
-         scale", call. = FALSE)
+    stop(
+      "Invalid value supplied for rot, must be a single numeric value per
+         scale",
+      call. = FALSE
+    )
   }
   abbr <- rep(make_list(abbr), length.out = n_scales)
   if (!all(sapply(abbr, function(x) is.logical(x) && length(x) == 1))) {
-    stop("Invalid value supplied for abbr, must be a single numeric value per
-         scale", call. = FALSE)
+    stop(
+      "Invalid value supplied for abbr, must be a single numeric value per
+         scale",
+      call. = FALSE
+    )
   }
   skip <- rep(make_list(skip), length.out = n_scales)
   if (!all(sapply(skip, is_type_or_null, "character"))) {
-    stop("Invalid value supplied for skip, must be character (or NULL)",
-         call. = FALSE)
+    stop(
+      "Invalid value supplied for skip, must be character (or NULL)",
+      call. = FALSE
+    )
   }
   center_end_labels <- rep(make_list(center_end_labels), length.out = n_scales)
-  if (!all(sapply(center_end_labels,
-                  function(x) is.logical(x) && length(x) == 1))) {
-    stop("Invalid value supplied for center_end_labels, must be a single logical
-         value per scale", call. = FALSE)
+  if (
+    !all(sapply(center_end_labels, function(x) is.logical(x) && length(x) == 1))
+  ) {
+    stop(
+      "Invalid value supplied for center_end_labels, must be a single logical
+         value per scale",
+      call. = FALSE
+    )
   }
   autofit <- rep(make_list(autofit), length.out = n_scales)
-  if (!all(sapply(autofit,
-                  function(x) is.logical(x) && length(x) == 1))) {
-    stop("Invalid value supplied for autofit, must be a single logical value
-         per scale", call. = FALSE)
+  if (!all(sapply(autofit, function(x) is.logical(x) && length(x) == 1))) {
+    stop(
+      "Invalid value supplied for autofit, must be a single logical value
+         per scale",
+      call. = FALSE
+    )
   }
   bord_col <- rep(make_list(bord_col), length.out = n_scales)
   if (!all(sapply(bord_col, is_type_or_null, "character"))) {
-    stop("Invalid value supplied for bord_col, must be character (or NULL)",
-         call. = FALSE)
+    stop(
+      "Invalid value supplied for bord_col, must be character (or NULL)",
+      call. = FALSE
+    )
   }
   lty <- rep(make_list(lty), length.out = n_scales)
   if (!all(sapply(lty, is_type_or_null, "character"))) {
-    stop("Invalid value supplied for lty, must be character (or NULL)",
-         call. = FALSE)
+    stop(
+      "Invalid value supplied for lty, must be character (or NULL)",
+      call. = FALSE
+    )
   }
   lwd <- rep(make_list(lwd), length.out = n_scales)
   if (!all(sapply(lwd, is_type_or_null, "numeric"))) {
-    stop("Invalid value supplied for lwd, must be numeric (or NULL)",
-         call. = FALSE)
+    stop(
+      "Invalid value supplied for lwd, must be numeric (or NULL)",
+      call. = FALSE
+    )
   }
 
   # get the limits of the plot
@@ -336,8 +384,10 @@ axis_geo <- function(
   if (side %in% c(1, 3)) {
     if (phylo) {
       x_range <- range(lastPP$xx)
-      phylo_lims <- c(max(lastPP$x.lim[1], x_range[1]),
-                      min(lastPP$x.lim[2], x_range[2]))
+      phylo_lims <- c(
+        max(lastPP$x.lim[1], x_range[1]),
+        min(lastPP$x.lim[2], x_range[2])
+      )
       clip_lims[1:2] <- plot_lims[1:2] <- phylo_lims
     }
     height <- lapply(height, function(ht) {
@@ -347,8 +397,10 @@ axis_geo <- function(
   } else if (side %in% c(2, 4)) {
     if (phylo) {
       y_range <- range(lastPP$yy)
-      phylo_lims <- c(max(lastPP$y.lim[1], y_range[1]),
-                      min(lastPP$y.lim[2], y_range[2]))
+      phylo_lims <- c(
+        max(lastPP$y.lim[1], y_range[1]),
+        min(lastPP$y.lim[2], y_range[2])
+      )
       clip_lims[3:4] <- plot_lims[3:4] <- phylo_lims
     }
     height <- lapply(height, function(ht) {
@@ -356,13 +408,17 @@ axis_geo <- function(
       abs_ht * c(-1, 1)[(plot_lims[1] < plot_lims[2]) + 1]
     })
   } else {
-    stop("Invalid value supplied for side, must be 1, 2, 3, or 4",
-         call. = FALSE)
+    stop(
+      "Invalid value supplied for side, must be 1, 2, 3, or 4",
+      call. = FALSE
+    )
   }
   if (phylo) {
     # adapted (and fixed) from ape
     phylo_scale <- c(0, phylo_lims[2] - phylo_lims[1])
-    if (!backward) phylo_scale <- phylo_scale[2:1]
+    if (!backward) {
+      phylo_scale <- phylo_scale[2:1]
+    }
     if (!is.null(root.time)) {
       if (backward) {
         phylo_scale <- phylo_scale + root.time - phylo_scale[2]
@@ -393,36 +449,82 @@ axis_geo <- function(
 
   # set up the limits of the first scale
   if (side == 1) {
-    scale_lims <- c(plot_lims[1], plot_lims[2],
-                    plot_lims[3] - height[[1]], plot_lims[3])
+    scale_lims <- c(
+      plot_lims[1],
+      plot_lims[2],
+      plot_lims[3] - height[[1]],
+      plot_lims[3]
+    )
   } else if (side == 2) {
-    scale_lims <- c(plot_lims[1] - height[[1]], plot_lims[1],
-                    plot_lims[3], plot_lims[4])
+    scale_lims <- c(
+      plot_lims[1] - height[[1]],
+      plot_lims[1],
+      plot_lims[3],
+      plot_lims[4]
+    )
   } else if (side == 3) {
-    scale_lims <- c(plot_lims[1], plot_lims[2],
-                    plot_lims[4], plot_lims[4] + height[[1]])
+    scale_lims <- c(
+      plot_lims[1],
+      plot_lims[2],
+      plot_lims[4],
+      plot_lims[4] + height[[1]]
+    )
   } else if (side == 4) {
-    scale_lims <- c(plot_lims[2], plot_lims[2] + height[[1]],
-                    plot_lims[3], plot_lims[4])
+    scale_lims <- c(
+      plot_lims[2],
+      plot_lims[2] + height[[1]],
+      plot_lims[3],
+      plot_lims[4]
+    )
   }
 
   # add a neutral background color in case scales don't span entire axis
-  rect(xleft = clip_lims[1], xright = clip_lims[2],
-       ytop = clip_lims[3], ybottom = clip_lims[4], col = bkgd, border = NA)
+  rect(
+    xleft = clip_lims[1],
+    xright = clip_lims[2],
+    ytop = clip_lims[3],
+    ybottom = clip_lims[4],
+    col = bkgd,
+    border = NA
+  )
 
   # add segments to inner side of scale
   if (side == 1) {
-    segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[4],
-             col = bord_col[[1]], lty = lty[[1]], lwd = lwd[[1]])
+    segments(
+      x0 = scale_lims[1],
+      x1 = scale_lims[2],
+      y0 = scale_lims[4],
+      col = bord_col[[1]],
+      lty = lty[[1]],
+      lwd = lwd[[1]]
+    )
   } else if (side == 2) {
-    segments(x0 = scale_lims[2], y0 = scale_lims[3], y1 = scale_lims[4],
-             col = bord_col[[1]], lty = lty[[1]], lwd = lwd[[1]])
+    segments(
+      x0 = scale_lims[2],
+      y0 = scale_lims[3],
+      y1 = scale_lims[4],
+      col = bord_col[[1]],
+      lty = lty[[1]],
+      lwd = lwd[[1]]
+    )
   } else if (side == 3) {
-    segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[3],
-             col = bord_col[[1]], lty = lty[[1]], lwd = lwd[[1]])
+    segments(
+      x0 = scale_lims[1],
+      x1 = scale_lims[2],
+      y0 = scale_lims[3],
+      col = bord_col[[1]],
+      lty = lty[[1]],
+      lwd = lwd[[1]]
+    )
   } else if (side == 4) {
-    segments(x0 = scale_lims[1], y0 = scale_lims[3], y1 = scale_lims[4],
-             col = bord_col[[1]], lty = lty[[1]], lwd = lwd[[1]])
+    segments(
+      x0 = scale_lims[1],
+      y0 = scale_lims[3],
+      y1 = scale_lims[4],
+      col = bord_col[[1]],
+      lty = lty[[1]],
+      lwd = lwd[[1]]
+    )
   }
 
   for (scale in 1:n_scales) {
@@ -430,10 +532,14 @@ axis_geo <- function(
     scale_intervals <- intervals[[scale]]
     if (!is(scale_intervals, "data.frame")) {
       # remove trailing s for backwards compatibility
-      if (sub("s+$", "", scale_intervals) %in% c("period", "epoch", "era",
-                                                 "stage", "eon")) {
-        scale_intervals <- time_bins(interval = c("Hadean", "Phanerozoic"),
-                                     rank = sub("s+$", "", scale_intervals))
+      if (
+        sub("s+$", "", scale_intervals) %in%
+          c("period", "epoch", "era", "stage", "eon")
+      ) {
+        scale_intervals <- time_bins(
+          interval = c("Hadean", "Phanerozoic"),
+          rank = sub("s+$", "", scale_intervals)
+        )
       } else {
         scale_intervals <- time_bins(scale = scale_intervals)
       }
@@ -451,8 +557,12 @@ axis_geo <- function(
       "font"
 
     # set `neg` to TRUE if both limits are negative
-    if (side %in% c(1, 3) && all(plot_lims[1:2] <= 0)) neg <- TRUE
-    if (side %in% c(2, 4) && all(plot_lims[3:4] <= 0)) neg <- TRUE
+    if (side %in% c(1, 3) && all(plot_lims[1:2] <= 0)) {
+      neg <- TRUE
+    }
+    if (side %in% c(2, 4) && all(plot_lims[3:4] <= 0)) {
+      neg <- TRUE
+    }
 
     # make the min and max values negative if requested
     if (neg) {
@@ -460,10 +570,12 @@ axis_geo <- function(
       scale_intervals$min_ma <- -1 * (scale_intervals$min_ma)
     }
     if (phylo) {
-      scale_intervals$max_ma <- phylo_beta * scale_intervals$max_ma +
-                                   phylo_alpha
-      scale_intervals$min_ma <- phylo_beta * scale_intervals$min_ma +
-                                   phylo_alpha
+      scale_intervals$max_ma <- phylo_beta *
+        scale_intervals$max_ma +
+        phylo_alpha
+      scale_intervals$min_ma <- phylo_beta *
+        scale_intervals$min_ma +
+        phylo_alpha
     }
     scale_intervals$mid_ma <-
       (scale_intervals$max_ma + scale_intervals$min_ma) / 2
@@ -476,29 +588,39 @@ axis_geo <- function(
     }
     # filter data to only those that are within the plot limits
     if (neg) {
-      scale_intervals <- scale_intervals[scale_intervals$min_ma < max(lims) &
-                                           scale_intervals$min_ma > min(lims) |
-                                           scale_intervals$max_ma < max(lims) &
-                                           scale_intervals$max_ma > min(lims), ]
+      scale_intervals <- scale_intervals[
+        scale_intervals$min_ma < max(lims) &
+          scale_intervals$min_ma > min(lims) |
+          scale_intervals$max_ma < max(lims) &
+            scale_intervals$max_ma > min(lims),
+      ]
     } else {
-      scale_intervals <- scale_intervals[scale_intervals$min_ma > min(lims) &
-                                           scale_intervals$min_ma < max(lims) |
-                                           scale_intervals$max_ma > min(lims) &
-                                           scale_intervals$max_ma < max(lims), ]
+      scale_intervals <- scale_intervals[
+        scale_intervals$min_ma > min(lims) &
+          scale_intervals$min_ma < max(lims) |
+          scale_intervals$max_ma > min(lims) &
+            scale_intervals$max_ma < max(lims),
+      ]
     }
 
     scale_fill <- fill[[scale]]
     if (!is.null(scale_fill)) {
-      scale_intervals$colour <- rep(scale_fill,
-                                   length.out = nrow(scale_intervals))
+      scale_intervals$colour <- rep(
+        scale_fill,
+        length.out = nrow(scale_intervals)
+      )
     } else if (!("colour" %in% colnames(scale_intervals))) {
-      scale_intervals$colour <- rep(c("grey60", "grey80"),
-                                   length.out = nrow(scale_intervals))
+      scale_intervals$colour <- rep(
+        c("grey60", "grey80"),
+        length.out = nrow(scale_intervals)
+      )
     }
     scale_lab_color <- lab_col[[scale]]
     if (!is.null(scale_lab_color)) {
-      scale_intervals$font <- rep(scale_lab_color,
-                                       length.out = nrow(scale_intervals))
+      scale_intervals$font <- rep(
+        scale_lab_color,
+        length.out = nrow(scale_intervals)
+      )
     } else if (!("font" %in% colnames(scale_intervals))) {
       scale_intervals$font <- "black"
     }
@@ -508,8 +630,10 @@ axis_geo <- function(
     } else {
       scale_intervals$label <- scale_intervals$interval_name
     }
-    scale_intervals$label[scale_intervals$interval_name %in%
-                            skip[[scale]]] <- ""
+    scale_intervals$label[
+      scale_intervals$interval_name %in%
+        skip[[scale]]
+    ] <- ""
 
     # plot the desired polygons in the unclipped margin
     # also add line segments at the ends in case intervals extend beyond axis
@@ -517,19 +641,43 @@ axis_geo <- function(
     scale_lwd <- lwd[[scale]]
     scale_bord_color <- bord_col[[scale]]
     if (side %in% c(1, 3)) {
-      rect(xleft = scale_intervals$min_ma, xright = scale_intervals$max_ma,
-           ybottom = scale_lims[3], ytop = scale_lims[4],
-           col = scale_intervals$colour, border = scale_bord_color,
-           lty = scale_lty, lwd = scale_lwd)
-      segments(x0 = scale_lims[1:2], y0 = scale_lims[3], y1 = scale_lims[4],
-               col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+      rect(
+        xleft = scale_intervals$min_ma,
+        xright = scale_intervals$max_ma,
+        ybottom = scale_lims[3],
+        ytop = scale_lims[4],
+        col = scale_intervals$colour,
+        border = scale_bord_color,
+        lty = scale_lty,
+        lwd = scale_lwd
+      )
+      segments(
+        x0 = scale_lims[1:2],
+        y0 = scale_lims[3],
+        y1 = scale_lims[4],
+        col = scale_bord_color,
+        lty = scale_lty,
+        lwd = scale_lwd
+      )
     } else {
-      rect(ybottom = scale_intervals$min_ma, ytop = scale_intervals$max_ma,
-           xleft = scale_lims[1], xright = scale_lims[2],
-           col = scale_intervals$colour, border = scale_bord_color,
-           lty = scale_lty, lwd = scale_lwd)
-      segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[3:4],
-               col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+      rect(
+        ybottom = scale_intervals$min_ma,
+        ytop = scale_intervals$max_ma,
+        xleft = scale_lims[1],
+        xright = scale_lims[2],
+        col = scale_intervals$colour,
+        border = scale_bord_color,
+        lty = scale_lty,
+        lwd = scale_lwd
+      )
+      segments(
+        x0 = scale_lims[1],
+        x1 = scale_lims[2],
+        y0 = scale_lims[3:4],
+        col = scale_bord_color,
+        lty = scale_lty,
+        lwd = scale_lwd
+      )
     }
 
     if (lab[[scale]]) {
@@ -537,13 +685,13 @@ axis_geo <- function(
       if (center_end_labels[[scale]]) {
         # center the labels for the time periods at the ends of the axis
         max_end_pos <- (scale_intervals$max_ma > max(lims) &
-                          scale_intervals$min_ma < max(lims))
+          scale_intervals$min_ma < max(lims))
         max_end_neg <- (scale_intervals$max_ma < max(lims) &
-                          scale_intervals$min_ma > max(lims))
+          scale_intervals$min_ma > max(lims))
         min_end_pos <- (scale_intervals$max_ma > min(lims) &
-                          scale_intervals$min_ma < min(lims))
+          scale_intervals$min_ma < min(lims))
         min_end_neg <- (scale_intervals$max_ma < min(lims) &
-                          scale_intervals$min_ma > min(lims))
+          scale_intervals$min_ma > min(lims))
         # replace the max/min ages with the scale limits
         scale_intervals$max_ma[max_end_pos] <- max(lims)
         scale_intervals$min_ma[max_end_neg] <- max(lims)
@@ -551,7 +699,8 @@ axis_geo <- function(
         scale_intervals$max_ma[min_end_neg] <- min(lims)
         # recalculate the mid ages
         scale_intervals$mid_ma <- (scale_intervals$max_ma +
-                                     scale_intervals$min_ma) / 2
+          scale_intervals$min_ma) /
+          2
       }
       scale_lab_size <- lab_size[[scale]]
       scale_rot <- rot[[scale]]
@@ -560,13 +709,13 @@ axis_geo <- function(
       if (autofit[[scale]]) {
         y1 <- if (side %in% c(1, 3)) scale_lims[3] else scale_lims[1]
         y2 <- if (side %in% c(1, 3)) scale_lims[4] else scale_lims[2]
-        scale_lab_size <- mapply(autofit_text,
-                                 text = scale_intervals$label,
-                                 x1 = scale_intervals$min_ma,
-                                 x2 = scale_intervals$max_ma,
-                                 max_size = scale_lab_size,
-                                 MoreArgs = list(y1 = y1, y2 = y2,
-                                                 rot = side %in% c(2, 4))
+        scale_lab_size <- mapply(
+          autofit_text,
+          text = scale_intervals$label,
+          x1 = scale_intervals$min_ma,
+          x2 = scale_intervals$max_ma,
+          max_size = scale_lab_size,
+          MoreArgs = list(y1 = y1, y2 = y2, rot = side %in% c(2, 4))
         )
       }
       # Remove any labels with zero size
@@ -574,59 +723,103 @@ axis_geo <- function(
 
       # add labels
       if (side %in% c(1, 3)) {
-        text(x = scale_intervals$mid_ma,
-             y = (scale_lims[3] + scale_lims[4]) / 2,
-             adj = c(0.5, 0.5), labels = scale_intervals$label,
-             col = scale_intervals$font, srt = scale_rot,
-             cex = scale_lab_size)
+        text(
+          x = scale_intervals$mid_ma,
+          y = (scale_lims[3] + scale_lims[4]) / 2,
+          adj = c(0.5, 0.5),
+          labels = scale_intervals$label,
+          col = scale_intervals$font,
+          srt = scale_rot,
+          cex = scale_lab_size
+        )
       } else {
-        text(y = scale_intervals$mid_ma,
-             x = (scale_lims[1] + scale_lims[2]) / 2,
-             adj = c(0.5, 0.5), labels = scale_intervals$label,
-             col = scale_intervals$font, srt = 90 + scale_rot,
-             cex = scale_lab_size)
+        text(
+          y = scale_intervals$mid_ma,
+          x = (scale_lims[1] + scale_lims[2]) / 2,
+          adj = c(0.5, 0.5),
+          labels = scale_intervals$label,
+          col = scale_intervals$font,
+          srt = 90 + scale_rot,
+          cex = scale_lab_size
+        )
       }
     }
 
     if (scale < n_scales) {
       # set up scale limits for the next scale
       if (side == 1) {
-        scale_lims <- c(scale_lims[1], scale_lims[2],
-                        scale_lims[3] - height[[scale + 1]],
-                        scale_lims[4] - height[[scale]])
+        scale_lims <- c(
+          scale_lims[1],
+          scale_lims[2],
+          scale_lims[3] - height[[scale + 1]],
+          scale_lims[4] - height[[scale]]
+        )
       } else if (side == 2) {
-        scale_lims <- c(scale_lims[1] - height[[scale + 1]],
-                        scale_lims[2] - height[[scale]],
-                        scale_lims[3], scale_lims[4])
+        scale_lims <- c(
+          scale_lims[1] - height[[scale + 1]],
+          scale_lims[2] - height[[scale]],
+          scale_lims[3],
+          scale_lims[4]
+        )
       } else if (side == 3) {
-        scale_lims <- c(scale_lims[1], scale_lims[2],
-                        scale_lims[3] + height[[scale]],
-                        scale_lims[4] + height[[scale + 1]])
+        scale_lims <- c(
+          scale_lims[1],
+          scale_lims[2],
+          scale_lims[3] + height[[scale]],
+          scale_lims[4] + height[[scale + 1]]
+        )
       } else if (side == 4) {
-        scale_lims <- c(scale_lims[1] + height[[scale]],
-                        scale_lims[2] + height[[scale + 1]],
-                        scale_lims[3], scale_lims[4])
+        scale_lims <- c(
+          scale_lims[1] + height[[scale]],
+          scale_lims[2] + height[[scale + 1]],
+          scale_lims[3],
+          scale_lims[4]
+        )
       }
     }
   }
   # add segments to outer side of scale
   if (side == 1) {
-    segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[3],
-             col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+    segments(
+      x0 = scale_lims[1],
+      x1 = scale_lims[2],
+      y0 = scale_lims[3],
+      col = scale_bord_color,
+      lty = scale_lty,
+      lwd = scale_lwd
+    )
   } else if (side == 2) {
-    segments(x0 = scale_lims[1], y0 = scale_lims[3], y1 = scale_lims[4],
-             col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+    segments(
+      x0 = scale_lims[1],
+      y0 = scale_lims[3],
+      y1 = scale_lims[4],
+      col = scale_bord_color,
+      lty = scale_lty,
+      lwd = scale_lwd
+    )
   } else if (side == 3) {
-    segments(x0 = scale_lims[1], x1 = scale_lims[2], y0 = scale_lims[4],
-             col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+    segments(
+      x0 = scale_lims[1],
+      x1 = scale_lims[2],
+      y0 = scale_lims[4],
+      col = scale_bord_color,
+      lty = scale_lty,
+      lwd = scale_lwd
+    )
   } else if (side == 4) {
-    segments(x0 = scale_lims[2], y0 = scale_lims[3], y1 = scale_lims[4],
-             col = scale_bord_color, lty = scale_lty, lwd = scale_lwd)
+    segments(
+      x0 = scale_lims[2],
+      y0 = scale_lims[3],
+      y1 = scale_lims[4],
+      col = scale_bord_color,
+      lty = scale_lty,
+      lwd = scale_lwd
+    )
   }
 
   # after placing the scales, add an axis with ticks and labels
   # use interval boundaries if `exact` is TRUE
-  if (exact == TRUE) {
+  if (exact) {
     # Use the interval breaks from the outer-most scale
     tick_at <- unique(c(scale_intervals$min_ma, scale_intervals$max_ma))
     if (phylo) {
@@ -660,51 +853,99 @@ axis_geo <- function(
 
   # Add axis with ticks
   if (side == 1) {
-    axis(side = side, pos = clip_lims[3], at = tick_at, labels = tick_labels,
-         lty = lty[[scale]], ...)
+    axis(
+      side = side,
+      pos = clip_lims[3],
+      at = tick_at,
+      labels = tick_labels,
+      lty = lty[[scale]],
+      ...
+    )
     if (!is.null(title)) {
       args <- list(...)
-      if ("mgp" %in% names(args)) mgp <- args$mgp else mgp <- par("mgp")
+      if ("mgp" %in% names(args)) {
+        mgp <- args$mgp
+      } else {
+        mgp <- par("mgp")
+      }
       # add the thickness of the scale to the margin line for the title
-      title_line <- sum(grconvertY(plot_lims[3], to = "lines") -
-                          grconvertY(clip_lims[3], to = "lines"),
-                        mgp[1])
+      title_line <- sum(
+        grconvertY(plot_lims[3], to = "lines") -
+          grconvertY(clip_lims[3], to = "lines"),
+        mgp[1]
+      )
       mtext(title, side = 1, line = title_line, ...)
     }
   } else if (side == 2) {
-    axis(side = side, pos = clip_lims[1], at = tick_at, labels = tick_labels,
-         lty = lty[[scale]], ...)
+    axis(
+      side = side,
+      pos = clip_lims[1],
+      at = tick_at,
+      labels = tick_labels,
+      lty = lty[[scale]],
+      ...
+    )
     if (!is.null(title)) {
       args <- list(...)
-      if ("mgp" %in% names(args)) mgp <- args$mgp else mgp <- par("mgp")
+      if ("mgp" %in% names(args)) {
+        mgp <- args$mgp
+      } else {
+        mgp <- par("mgp")
+      }
       # add the thickness of the scale to the margin line for the title
-      title_line <- sum(grconvertX(plot_lims[1], to = "lines") -
-                          grconvertX(clip_lims[1], to = "lines"),
-                        mgp[1])
+      title_line <- sum(
+        grconvertX(plot_lims[1], to = "lines") -
+          grconvertX(clip_lims[1], to = "lines"),
+        mgp[1]
+      )
       mtext(title, side = 2, line = title_line, ...)
     }
   } else if (side == 3) {
-    axis(side = side, pos = clip_lims[4], at = tick_at, labels = tick_labels,
-         lty = lty[[scale]], ...)
+    axis(
+      side = side,
+      pos = clip_lims[4],
+      at = tick_at,
+      labels = tick_labels,
+      lty = lty[[scale]],
+      ...
+    )
     if (!is.null(title)) {
       args <- list(...)
-      if ("mgp" %in% names(args)) mgp <- args$mgp else mgp <- par("mgp")
+      if ("mgp" %in% names(args)) {
+        mgp <- args$mgp
+      } else {
+        mgp <- par("mgp")
+      }
       # add the thickness of the scale to the margin line for the title
-      title_line <- sum(grconvertY(clip_lims[4], to = "lines") -
-                          grconvertY(plot_lims[4], to = "lines"),
-                        mgp[1])
+      title_line <- sum(
+        grconvertY(clip_lims[4], to = "lines") -
+          grconvertY(plot_lims[4], to = "lines"),
+        mgp[1]
+      )
       mtext(title, side = 3, line = title_line, ...)
     }
   } else if (side == 4) {
-    axis(side = side, pos = clip_lims[2], at = tick_at, labels = tick_labels,
-         lty = lty[[scale]], ...)
+    axis(
+      side = side,
+      pos = clip_lims[2],
+      at = tick_at,
+      labels = tick_labels,
+      lty = lty[[scale]],
+      ...
+    )
     if (!is.null(title)) {
       args <- list(...)
-      if ("mgp" %in% names(args)) mgp <- args$mgp else mgp <- par("mgp")
+      if ("mgp" %in% names(args)) {
+        mgp <- args$mgp
+      } else {
+        mgp <- par("mgp")
+      }
       # add the thickness of the scale to the margin line for the title
-      title_line <- sum(grconvertX(clip_lims[2], to = "lines") -
-                          grconvertX(plot_lims[2], to = "lines"),
-                        mgp[1])
+      title_line <- sum(
+        grconvertX(clip_lims[2], to = "lines") -
+          grconvertX(plot_lims[2], to = "lines"),
+        mgp[1]
+      )
       mtext(title, side = 4, line = title_line, ...)
     }
   }
@@ -743,13 +984,15 @@ autofit_text <- function(text, x1, x2, y1, y2, max_size, rot = FALSE) {
     text_height <- 1.75 * abs(strheight(text, cex = text_size))
     if (rot) {
       usr <- par("usr")
-      ar <- par("pin")[2]/par("pin")[1]
+      ar <- par("pin")[2] / par("pin")[1]
       text_height <- text_height / (usr[4] - usr[3]) * ar * (usr[2] - usr[1])
       text_width <- text_width / (usr[2] - usr[1]) / ar * (usr[4] - usr[3])
     }
 
     # if the text fits, break out of the loop
-    if (abs(text_width) < abs(x2 - x1) && abs(text_height) < abs(y2 - y1)) break
+    if (abs(text_width) < abs(x2 - x1) && abs(text_height) < abs(y2 - y1)) {
+      break
+    }
     # otherwise, reduce the size and try again
     text_size <- text_size - 0.1
   }

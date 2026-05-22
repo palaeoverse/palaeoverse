@@ -118,11 +118,18 @@
 #'                                  ylab = "Stratigraphic height (m)"))
 #'
 #' @export
-tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
-                            certainty = NULL, by = "FAD", plot_args = NULL,
-                            x_args = NULL, y_args = NULL) {
-
-  if (is.data.frame(occdf) == FALSE) {
+tax_range_strat <- function(
+  occdf,
+  name = "genus",
+  level = "bed",
+  group = NULL,
+  certainty = NULL,
+  by = "FAD",
+  plot_args = NULL,
+  x_args = NULL,
+  y_args = NULL
+) {
+  if (!is.data.frame(occdf)) {
     stop("`occdf` should be a data.frame")
   }
 
@@ -138,7 +145,7 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     stop('`group` is not a named column in `occdf`')
   }
 
-  if (any(c(name, level) %in% colnames(occdf) == FALSE)) {
+  if (!all(c(name, level) %in% colnames(occdf))) {
     stop("Either `name` or `level` is not a named column in `occdf`")
   }
 
@@ -146,19 +153,19 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     if (!is.character(certainty)) {
       stop("`certainty` must either be of class character or NULL")
     }
-    if (certainty %in% colnames(occdf) == FALSE) {
+    if (!certainty %in% colnames(occdf)) {
       stop("`certainty` is not a named column in `occdf`")
     }
-    if (any(is.na(occdf[, certainty, drop = TRUE]))) {
+    if (anyNA(occdf[, certainty, drop = TRUE])) {
       stop("The `certainty` column contains NA values")
     }
   }
 
-  if (any(is.na(occdf[, name, drop = TRUE]))) {
+  if (anyNA(occdf[, name, drop = TRUE])) {
     stop("The `name` column contains NA values")
   }
 
-  if (any(is.na(occdf[, level, drop = TRUE]))) {
+  if (anyNA(occdf[, level, drop = TRUE])) {
     stop("The `level` column contains NA values")
   }
 
@@ -174,55 +181,72 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     g <- group
   }
   # Calculate ranges
-  ranges <- group_apply(occdf, g, function(occdf, name, level) {
-    #=== Set-up ===
-    unique_taxa <- unique(occdf[, name, drop = TRUE])
-    # Order taxa by name
-    unique_taxa <- unique_taxa[order(unique_taxa)]
+  ranges <- group_apply(
+    occdf,
+    g,
+    function(occdf, name, level) {
+      #=== Set-up ===
+      unique_taxa <- unique(occdf[, name, drop = TRUE])
+      # Order taxa by name
+      unique_taxa <- sort(unique_taxa)
 
-    #=== Temporal range ===
-    # Generate dataframe for population
-    if (is.null(certainty)) {
-      ranges <- data.frame(taxon = unique_taxa, group = NA, min_bin = NA,
-                           max_bin = NA)
-    } else {
-      ranges <- data.frame(taxon = unique_taxa, group = NA, min_bin = NA,
-                           max_bin = NA, min_bin_certain = NA,
-                           max_bin_certain = NA)
-    }
-    # Run for loop across unique taxa
-    for (i in seq_along(unique_taxa)) {
-      occ_filter <- occdf[(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
-      ranges[i, 3] <- min(occ_filter[level])
-      ranges[i, 4] <- max(occ_filter[level])
-      if (!is.null(group)) {
-        ranges[i, 2] <- occ_filter[1, group]
+      #=== Temporal range ===
+      # Generate dataframe for population
+      if (is.null(certainty)) {
+        ranges <- data.frame(
+          taxon = unique_taxa,
+          group = NA,
+          min_bin = NA,
+          max_bin = NA
+        )
+      } else {
+        ranges <- data.frame(
+          taxon = unique_taxa,
+          group = NA,
+          min_bin = NA,
+          max_bin = NA,
+          min_bin_certain = NA,
+          max_bin_certain = NA
+        )
       }
-
-      # If uncertainty is used, fill second set of columns for certain IDs
-      if (!is.null(certainty)) {
-        occ_filter <- occ_filter[(occ_filter[, certainty, drop = TRUE] == 1), ]
-        if (nrow(occ_filter) == 0) {
-          occ_filter[1, ] <- NA
+      # Run for loop across unique taxa
+      for (i in seq_along(unique_taxa)) {
+        occ_filter <- occdf[(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
+        ranges[i, 3] <- min(occ_filter[level])
+        ranges[i, 4] <- max(occ_filter[level])
+        if (!is.null(group)) {
+          ranges[i, 2] <- occ_filter[1, group]
         }
-        ranges[i, 5] <- min(occ_filter[level])
-        ranges[i, 6] <- max(occ_filter[level])
+
+        # If uncertainty is used, fill second set of columns for certain IDs
+        if (!is.null(certainty)) {
+          occ_filter <- occ_filter[
+            (occ_filter[, certainty, drop = TRUE] == 1),
+          ]
+          if (nrow(occ_filter) == 0) {
+            occ_filter[1, ] <- NA
+          }
+          ranges[i, 5] <- min(occ_filter[level])
+          ranges[i, 6] <- max(occ_filter[level])
+        }
       }
-    }
-    # Should data be ordered by FAD or LAD (already sorted by name)?
-    if (by == "FAD") {
-      ranges <- ranges[order(ranges$max_bin), ]
-      ranges <- ranges[order(ranges$min_bin), ]
-    } else if (by == "LAD") {
-      ranges <- ranges[order(ranges$min_bin), ]
-      ranges <- ranges[order(ranges$max_bin), ]
-    }
-    # Return dataframe
-    ranges
-  }, name = name, level = level)
+      # Should data be ordered by FAD or LAD (already sorted by name)?
+      if (by == "FAD") {
+        ranges <- ranges[order(ranges$max_bin), ]
+        ranges <- ranges[order(ranges$min_bin), ]
+      } else if (by == "LAD") {
+        ranges <- ranges[order(ranges$min_bin), ]
+        ranges <- ranges[order(ranges$max_bin), ]
+      }
+      # Return dataframe
+      ranges
+    },
+    name = name,
+    level = level
+  )
 
   # IDs
-  ID <- seq_along(1:nrow(ranges))
+  ID <- seq_along(seq_len(nrow(ranges)))
   ranges <- cbind.data.frame(ID, ranges)
   # Remove row names
   row.names(ranges) <- NULL
@@ -251,71 +275,142 @@ tax_range_strat <- function(occdf, name = "genus", level = "bed", group = NULL,
     plot_args$ylab <- "Bed number"
   }
   cols <- plot_args$col
-  if (is.null(cols)) cols <- c("black", "black") else cols <- rep_len(cols, 2)
+  if (is.null(cols)) {
+    cols <- c("black", "black")
+  } else {
+    cols <- rep_len(cols, 2)
+  }
   lwds <- plot_args$lwd
-  if (is.null(lwds)) lwds <- c(1.5, 1.5) else lwds <- rep_len(lwds, 2)
+  if (is.null(lwds)) {
+    lwds <- c(1.5, 1.5)
+  } else {
+    lwds <- rep_len(lwds, 2)
+  }
   pchs <- plot_args$pch
-  if (is.null(pchs)) pchs <- c(19, 21) else pchs <- rep_len(pchs, 2)
+  if (is.null(pchs)) {
+    pchs <- c(19, 21)
+  } else {
+    pchs <- rep_len(pchs, 2)
+  }
   bgs <- plot_args$bg
-  if (is.null(bgs)) bgs <- c("black", "white") else bgs <- rep_len(bgs, 2)
+  if (is.null(bgs)) {
+    bgs <- c("black", "white")
+  } else {
+    bgs <- rep_len(bgs, 2)
+  }
   ltys <- plot_args$lty
-  if (is.null(ltys)) ltys <- c(1, 2) else ltys <- rep_len(ltys, 2)
+  if (is.null(ltys)) {
+    ltys <- c(1, 2)
+  } else {
+    ltys <- rep_len(ltys, 2)
+  }
   cexs <- plot_args$cex
-  if (is.null(cexs)) cexs <- c(1, 1) else cexs <- rep_len(cexs, 2)
-  do.call(plot, args =
-            c(list(x = c(min(ranges$ID) - 0.5,
-                         max(ranges$ID + 0.5)),
-                   y = c(min(ranges$min_bin),
-                         max(ranges$max_bin)),
-                   axes = FALSE, type = "n", xaxs = "i"),
-              plot_args))
+  if (is.null(cexs)) {
+    cexs <- c(1, 1)
+  } else {
+    cexs <- rep_len(cexs, 2)
+  }
+  do.call(
+    plot,
+    args = c(
+      list(
+        x = c(min(ranges$ID) - 0.5, max(ranges$ID + 0.5)),
+        y = c(min(ranges$min_bin), max(ranges$max_bin)),
+        axes = FALSE,
+        type = "n",
+        xaxs = "i"
+      ),
+      plot_args
+    )
+  )
   # Groups provided?
   if (!is.null(group)) {
     # Calculate plotting values for groups
     s <- split(x = ranges, f = ranges[, group])
-    vals_rect <- lapply(s, function(x) cbind(min(x$ID),
-                                             max(x$ID)))
+    vals_rect <- lapply(s, function(x) cbind(min(x$ID), max(x$ID)))
     # Define colours
     cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
     # Run across number of groups
-    lapply(1:length(vals_rect), function(x) {
+    lapply(seq_along(vals_rect), function(x) {
       # Add background rectangles
-      rect(xleft = vals_rect[[x]][1] - 0.5,
-           xright = vals_rect[[x]][2] + 0.5,
-           ybottom = 0,
-           ytop = max(ranges$max_bin) * 2,
-           col = cols_rect[x])
+      rect(
+        xleft = vals_rect[[x]][1] - 0.5,
+        xright = vals_rect[[x]][2] + 0.5,
+        ybottom = 0,
+        ytop = max(ranges$max_bin) * 2,
+        col = cols_rect[x]
+      )
       # Add group labels
-      axis(3,
-           at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
-           labels = names(vals_rect)[x],
-           tick = TRUE,
-           hadj = 0.5, gap.axis = 50,
-           line = 0, las = 1)
+      axis(
+        3,
+        at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
+        labels = names(vals_rect)[x],
+        tick = TRUE,
+        hadj = 0.5,
+        gap.axis = 50,
+        line = 0,
+        las = 1
+      )
     })
   }
   # Add segments
   if (is.null(certainty)) {
-    segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
-             x0 = ranges$ID, x1 = ranges$ID,
-             col = cols[1], lwd = lwds[1], lty = ltys[1])
+    segments(
+      y0 = ranges$min_bin,
+      y1 = ranges$max_bin,
+      x0 = ranges$ID,
+      x1 = ranges$ID,
+      col = cols[1],
+      lwd = lwds[1],
+      lty = ltys[1]
+    )
   } else {
-    segments(y0 = ranges$min_bin, y1 = ranges$max_bin,
-             x0 = ranges$ID, x1 = ranges$ID,
-             col = cols[2], lty = ltys[2], lwds[2])
-    segments(y0 = ranges$min_bin_certain, y1 = ranges$max_bin_certain,
-             x0 = ranges$ID, x1 = ranges$ID,
-             col = cols[1], lty = ltys[1], lwd = lwds[1])
+    segments(
+      y0 = ranges$min_bin,
+      y1 = ranges$max_bin,
+      x0 = ranges$ID,
+      x1 = ranges$ID,
+      col = cols[2],
+      lty = ltys[2],
+      lwds[2]
+    )
+    segments(
+      y0 = ranges$min_bin_certain,
+      y1 = ranges$max_bin_certain,
+      x0 = ranges$ID,
+      x1 = ranges$ID,
+      col = cols[1],
+      lty = ltys[1],
+      lwd = lwds[1]
+    )
   }
   # Add points
   if (is.null(certainty)) {
-    points(y = occdf[, level, drop = TRUE], x = occdf$ID, pch = pchs[1],
-           col = cols[1], bg = bgs[1], cex = cexs[1])
+    points(
+      y = occdf[, level, drop = TRUE],
+      x = occdf$ID,
+      pch = pchs[1],
+      col = cols[1],
+      bg = bgs[1],
+      cex = cexs[1]
+    )
   } else {
-    points(y = certain[, level, drop = TRUE], x = certain$ID,
-           pch = pchs[1], col = cols[1], bg = bgs[1], cex = cexs[1])
-    points(y = uncertain[, level, drop = TRUE], x = uncertain$ID,
-           pch = pchs[2], col = cols[2], bg = bgs[2], cex = cexs[2])
+    points(
+      y = certain[, level, drop = TRUE],
+      x = certain$ID,
+      pch = pchs[1],
+      col = cols[1],
+      bg = bgs[1],
+      cex = cexs[1]
+    )
+    points(
+      y = uncertain[, level, drop = TRUE],
+      x = uncertain$ID,
+      pch = pchs[2],
+      col = cols[2],
+      bg = bgs[2],
+      cex = cexs[2]
+    )
   }
   # Plot y-axis
   if ("side" %in% names(y_args)) {

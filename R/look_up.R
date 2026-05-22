@@ -119,17 +119,17 @@
 #'                  int_key = interval_key, assign_with_GTS = "GTS2012")
 #'
 #' @export
-look_up <- function(occdf, early_interval = "early_interval",
-                    late_interval = "late_interval",
-                    int_key = FALSE,
-                    assign_with_GTS = "GTS2020",
-                    return_unassigned = FALSE) {
-
-
-
+look_up <- function(
+  occdf,
+  early_interval = "early_interval",
+  late_interval = "late_interval",
+  int_key = FALSE,
+  assign_with_GTS = "GTS2020",
+  return_unassigned = FALSE
+) {
   #=== Handling errors ===
 
-  if (is.data.frame(occdf) == FALSE) {
+  if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe.")
   }
 
@@ -137,7 +137,7 @@ look_up <- function(occdf, early_interval = "early_interval",
     stop("`early_interval` needs to be of type `character`")
   }
   if (!early_interval %in% colnames(occdf)) {
-      stop("`early_interval` needs to match a column name of `occdf`")
+    stop("`early_interval` needs to match a column name of `occdf`")
   }
 
   if (!is.character(late_interval)) {
@@ -148,29 +148,38 @@ look_up <- function(occdf, early_interval = "early_interval",
   }
 
   # int_key checks
-  if (is.data.frame(int_key) == FALSE) {
-    if (int_key != FALSE) {
+  if (!is.data.frame(int_key)) {
+    if (!isFALSE(int_key)) {
       stop("`int_key` should be a dataframe.")
     } else {
       if (!(assign_with_GTS %in% c("GTS2020", "GTS2012"))) {
         stop(
-      "assignment with GTS needs to be enabled if `int_key` is set to `FALSE`"
-    )
+          "assignment with GTS needs to be enabled if `int_key` is set to `FALSE`"
+        )
       }
     }
   } else {
-
-    if (!(all(c("interval_name", "early_stage", "late_stage") %in%
-             colnames(int_key)))) {
-      stop('`int_key` needs to contain the columns "interval_name",
-           "early_stage" and "late_stage"')
+    if (
+      !(all(
+        c("interval_name", "early_stage", "late_stage") %in%
+          colnames(int_key)
+      ))
+    ) {
+      stop(
+        '`int_key` needs to contain the columns "interval_name",
+           "early_stage" and "late_stage"'
+      )
     }
 
-    if (!(is.character(int_key$interval_name) &&
-         is.character(int_key$early_stage) &&
-         is.character(int_key$late_stage))) {
-      stop("`int_key$interval_name`, `int_key$early_stage`, and
-           `int_key$late_stage` needs to be of type `character`")
+    if (
+      !(is.character(int_key$interval_name) &&
+        is.character(int_key$early_stage) &&
+        is.character(int_key$late_stage))
+    ) {
+      stop(
+        "`int_key$interval_name`, `int_key$early_stage`, and
+           `int_key$late_stage` needs to be of type `character`"
+      )
     }
 
     if ("max_ma" %in% colnames(int_key)) {
@@ -194,14 +203,20 @@ look_up <- function(occdf, early_interval = "early_interval",
 
   # if there are missing values in `late`, fill them in from `early`
   replace_pattern <- c("", " ")
-  replace_ind <- which(vapply(late, function(x) {
-    x %in% replace_pattern | is.na(x)
-  }, logical(1)))
+  replace_ind <- which(vapply(
+    late,
+    function(x) {
+      x %in% replace_pattern | is.na(x)
+    },
+    logical(1)
+  ))
   late[replace_ind] <- early[replace_ind]
   # in this case, display a warning
   if (length(replace_ind) >= 1) {
-    warning('`NA`, `""` or `" "` entries from `late_interval` have been
-            filled in with the corresponding `early_interval` entries')
+    warning(
+      '`NA`, `""` or `" "` entries from `late_interval` have been
+            filled in with the corresponding `early_interval` entries'
+    )
   }
 
   # add columns to output data frame
@@ -209,14 +224,16 @@ look_up <- function(occdf, early_interval = "early_interval",
   occdf$late_stage <- rep(NA_character_, nrow(occdf))
   if ("max_ma" %in% colnames(int_key) || is.character(assign_with_GTS)) {
     occdf$interval_max_ma <- rep(NA_real_, nrow(occdf))
-    }
-  if (("max_ma" %in% colnames(int_key) &&
-      "min_ma" %in% colnames(int_key)) || is.character(assign_with_GTS)) {
+  }
+  if (
+    ("max_ma" %in% colnames(int_key) && "min_ma" %in% colnames(int_key)) ||
+      is.character(assign_with_GTS)
+  ) {
     occdf$interval_mid_ma <- rep(NA_real_, nrow(occdf))
-    }
+  }
   if ("min_ma" %in% colnames(int_key) || is.character(assign_with_GTS)) {
     occdf$interval_min_ma <- rep(NA_real_, nrow(occdf))
-    }
+  }
 
   ## early stages unique entries
   early_unique <- unique(early)
@@ -228,9 +245,13 @@ look_up <- function(occdf, early_interval = "early_interval",
   if (is.data.frame(int_key)) {
     # early stage
     # find assignable intervals
-    assign_ind1 <- vapply(early_unique, function(x) {
-      x %in% int_key$interval_name
-    }, FUN.VALUE = logical(1L))
+    assign_ind1 <- vapply(
+      early_unique,
+      function(x) {
+        x %in% int_key$interval_name
+      },
+      FUN.VALUE = logical(1L)
+    )
     assign1 <- early_unique[assign_ind1]
     # loop through assignable intervals and assign early stages
     for (i in seq_len(length(assign1))) {
@@ -246,9 +267,13 @@ look_up <- function(occdf, early_interval = "early_interval",
 
     # late stage
     # find assignable intervals
-    assign_ind2 <- vapply(late_unique, function(x) {
-      x %in% int_key$interval_name
-    }, FUN.VALUE = logical(1L))
+    assign_ind2 <- vapply(
+      late_unique,
+      function(x) {
+        x %in% int_key$interval_name
+      },
+      FUN.VALUE = logical(1L)
+    )
     assign2 <- late_unique[assign_ind2]
     # loop through assignable intervals and assign late stages
     for (i in seq_len(length(assign2))) {
@@ -261,8 +286,8 @@ look_up <- function(occdf, early_interval = "early_interval",
           int_key$min_ma[int_key$interval_name == assign2[i]]
       }
     }
-
-  } else { # set assign indices to FALSE in case there is no int_key
+  } else {
+    # set assign indices to FALSE in case there is no int_key
     assign_ind1 <- rep(FALSE, length(early_unique))
     assign_ind2 <- rep(FALSE, length(late_unique))
   }
@@ -272,21 +297,24 @@ look_up <- function(occdf, early_interval = "early_interval",
   #   stages based on GTS2020
 
   # Load GTS2020 or GTS2012, or set GTS to NULL
-  gts <- switch(assign_with_GTS,
-                "GTS2020" = {
-                  palaeoverse::GTS2020
-                },
-                "GTS2012" = {
-                  palaeoverse::GTS2012
-                },
-                {
-                  if (assign_with_GTS == FALSE) {
-                    NULL
-                  } else {
-                    stop("`assign_with_GTS` needs to be `FALSE`, `GTS2012` or
-                          `GTS2020`")
-                  }
-                }
+  gts <- switch(
+    assign_with_GTS,
+    "GTS2020" = {
+      palaeoverse::GTS2020
+    },
+    "GTS2012" = {
+      palaeoverse::GTS2012
+    },
+    {
+      if (!assign_with_GTS) {
+        NULL
+      } else {
+        stop(
+          "`assign_with_GTS` needs to be `FALSE`, `GTS2012` or
+                          `GTS2020`"
+        )
+      }
+    }
   )
 
   # implement GTS assignment
@@ -296,20 +324,29 @@ look_up <- function(occdf, early_interval = "early_interval",
     gts <- gts[-which(gts$interval_name == "Pridoli" & gts$rank == "epoch"), ]
 
     # early stages
-    early_unique_gts <- early_unique[assign_ind1 == FALSE]
-    assign_ind_gts <- vapply(early_unique_gts, function(x) {
-      x %in% gts$interval_name
-    }, FUN.VALUE = logical(1L))
+    early_unique_gts <- early_unique[!assign_ind1]
+    assign_ind_gts <- vapply(
+      early_unique_gts,
+      function(x) {
+        x %in% gts$interval_name
+      },
+      FUN.VALUE = logical(1L)
+    )
     assign_gts1 <- early_unique_gts[assign_ind_gts]
 
     # take max_ma and assign corresponding stage
-    assigned_max_ma_gts <- vapply(assign_gts1, function(x) {
-      gts$max_ma[x == gts$interval_name]
-    }, FUN.VALUE = numeric(1))
+    assigned_max_ma_gts <- vapply(
+      assign_gts1,
+      function(x) {
+        gts$max_ma[x == gts$interval_name]
+      },
+      FUN.VALUE = numeric(1)
+    )
 
     # remove pre-Cambrian intervals as there are no stages defined
-    pre_camb <- which(assigned_max_ma_gts >
-                        gts$max_ma[which(gts$interval_name == "Fortunian")])
+    pre_camb <- which(
+      assigned_max_ma_gts > gts$max_ma[which(gts$interval_name == "Fortunian")]
+    )
     if (length(pre_camb) >= 1) {
       assigned_max_ma_gts <- assigned_max_ma_gts[-pre_camb]
       assign_gts1 <- assign_gts1[-pre_camb]
@@ -317,27 +354,40 @@ look_up <- function(occdf, early_interval = "early_interval",
 
     # assign early stages to occurrences
     for (i in seq_len(length(assign_gts1))) {
-      occdf$early_stage[early == assign_gts1[i] &
-                          is.na(occdf$early_stage)] <-
-        gts$interval_name[gts$max_ma == assigned_max_ma_gts[i] &
-                            gts$rank == "stage"]
+      occdf$early_stage[
+        early == assign_gts1[i] &
+          is.na(occdf$early_stage)
+      ] <-
+        gts$interval_name[
+          gts$max_ma == assigned_max_ma_gts[i] &
+            gts$rank == "stage"
+        ]
     }
 
     # late stages
-    late_unique_gts <- late_unique[assign_ind2 == FALSE]
-    assign_ind_gts <- vapply(late_unique_gts, function(x) {
-      x %in% gts$interval_name
-    }, FUN.VALUE = logical(1L))
+    late_unique_gts <- late_unique[!assign_ind2]
+    assign_ind_gts <- vapply(
+      late_unique_gts,
+      function(x) {
+        x %in% gts$interval_name
+      },
+      FUN.VALUE = logical(1L)
+    )
     assign_gts2 <- late_unique_gts[assign_ind_gts]
 
     # take min_ma and assign corresponding stage
-    assigned_min_ma_gts <- vapply(assign_gts2, function(x) {
-      gts$min_ma[x == gts$interval_name]
-    }, FUN.VALUE = numeric(1))
+    assigned_min_ma_gts <- vapply(
+      assign_gts2,
+      function(x) {
+        gts$min_ma[x == gts$interval_name]
+      },
+      FUN.VALUE = numeric(1)
+    )
 
     # remove pre-Cambrian intervals as there are no stages defined
-    pre_camb <- which(assigned_min_ma_gts >=
-                        gts$max_ma[which(gts$interval_name == "Fortunian")])
+    pre_camb <- which(
+      assigned_min_ma_gts >= gts$max_ma[which(gts$interval_name == "Fortunian")]
+    )
     if (length(pre_camb) >= 1) {
       assigned_min_ma_gts <- assigned_min_ma_gts[-pre_camb]
       assign_gts2 <- assign_gts2[-pre_camb]
@@ -346,10 +396,14 @@ look_up <- function(occdf, early_interval = "early_interval",
     # assign late stages to occurrences
     for (i in seq_len(length(assign_gts2))) {
       # stage
-      occdf$late_stage[late == assign_gts2[i] &
-                         is.na(occdf$late_stage)] <-
-        gts$interval_name[gts$min_ma == assigned_min_ma_gts[i] &
-                            gts$rank == "stage"]
+      occdf$late_stage[
+        late == assign_gts2[i] &
+          is.na(occdf$late_stage)
+      ] <-
+        gts$interval_name[
+          gts$min_ma == assigned_min_ma_gts[i] &
+            gts$rank == "stage"
+        ]
     }
 
     # add max_ma and min_ma based on GTS
@@ -357,18 +411,28 @@ look_up <- function(occdf, early_interval = "early_interval",
     if ("interval_max_ma" %in% colnames(occdf)) {
       stage_unique <- unique(occdf$early_stage)
       # find assignable intervals
-      assign_age_ind <- vapply(stage_unique, function(x) {
-        x %in% gts$interval_name
-      }, FUN.VALUE = logical(1L))
+      assign_age_ind <- vapply(
+        stage_unique,
+        function(x) {
+          x %in% gts$interval_name
+        },
+        FUN.VALUE = logical(1L)
+      )
       assign_age <- stage_unique[assign_age_ind]
       # get max ages again here as we excluded assigned intervals earlier
-      assigned_max_ma_gts <- vapply(assign_age, function(x) {
-        gts$max_ma[x == gts$interval_name]
-      }, FUN.VALUE = numeric(1))
+      assigned_max_ma_gts <- vapply(
+        assign_age,
+        function(x) {
+          gts$max_ma[x == gts$interval_name]
+        },
+        FUN.VALUE = numeric(1)
+      )
       # assign max age
       for (i in seq_len(length(assign_age))) {
-        occdf$interval_max_ma[occdf$early_stage == assign_age[i] &
-                             is.na(occdf$interval_max_ma)] <-
+        occdf$interval_max_ma[
+          occdf$early_stage == assign_age[i] &
+            is.na(occdf$interval_max_ma)
+        ] <-
           assigned_max_ma_gts[i]
       }
     }
@@ -376,18 +440,28 @@ look_up <- function(occdf, early_interval = "early_interval",
     if ("interval_min_ma" %in% colnames(occdf)) {
       stage_unique <- unique(occdf$late_stage)
       # find assignable intervals
-      assign_age_ind <- vapply(stage_unique, function(x) {
-        x %in% gts$interval_name
-      }, FUN.VALUE = logical(1L))
+      assign_age_ind <- vapply(
+        stage_unique,
+        function(x) {
+          x %in% gts$interval_name
+        },
+        FUN.VALUE = logical(1L)
+      )
       assign_age <- stage_unique[assign_age_ind]
       # get min ages again here as we excluded assigned intervals earlier
-      assigned_min_ma_gts <- vapply(assign_age, function(x) {
-        gts$min_ma[x == gts$interval_name]
-      }, FUN.VALUE = numeric(1))
+      assigned_min_ma_gts <- vapply(
+        assign_age,
+        function(x) {
+          gts$min_ma[x == gts$interval_name]
+        },
+        FUN.VALUE = numeric(1)
+      )
       # assign min age
       for (i in seq_len(length(assign_age))) {
-        occdf$interval_min_ma[occdf$late_stage == assign_age[i] &
-                             is.na(occdf$interval_min_ma)] <-
+        occdf$interval_min_ma[
+          occdf$late_stage == assign_age[i] &
+            is.na(occdf$interval_min_ma)
+        ] <-
           assigned_min_ma_gts[i]
       }
     }
@@ -395,38 +469,55 @@ look_up <- function(occdf, early_interval = "early_interval",
 
   #=== add stage_mid_ma ages to the output ===
 
-  if ("interval_max_ma" %in% colnames(occdf) &&
-      "interval_min_ma" %in% colnames(occdf)) {
+  if (
+    "interval_max_ma" %in%
+      colnames(occdf) &&
+      "interval_min_ma" %in% colnames(occdf)
+  ) {
     occdf$interval_mid_ma <- (occdf$interval_max_ma + occdf$interval_min_ma) / 2
   }
 
   #=== get names of intervals which could not be assigned ===
 
-  unassigned <- sort(unique(c(occdf[which(
-    is.na(occdf$early_stage)), early_interval, drop = TRUE],
-    occdf[which(
-      is.na(occdf$late_stage)), late_interval, drop = TRUE])))
+  unassigned <- sort(unique(c(
+    occdf[
+      which(
+        is.na(occdf$early_stage)
+      ),
+      early_interval,
+      drop = TRUE
+    ],
+    occdf[
+      which(
+        is.na(occdf$late_stage)
+      ),
+      late_interval,
+      drop = TRUE
+    ]
+  )))
 
   #=== Ouput ===
 
   # optional: return interval names which could not be assigned stages
 
-    if (return_unassigned == FALSE && length(unassigned) >= 1) {
-      warning(
-    c("The following intervals could not be matched with intervals from int_key
-      or GTS: ", paste(unassigned, collapse = ", "))
+  if (!return_unassigned && length(unassigned) >= 1) {
+    warning(
+      c(
+        "The following intervals could not be matched with intervals from int_key
+      or GTS: ",
+        paste(unassigned, collapse = ", ")
       )
-    }
+    )
+  }
 
   # return output
-  if (return_unassigned && length(unassigned >= 1)) {
+  if (return_unassigned && length(unassigned) >= 1) {
     return(unassigned)
   } else {
     if (return_unassigned && length(unassigned) == 0) {
-   message("All intervals have been assigned.")
+      message("All intervals have been assigned.")
     }
   }
 
   if (!return_unassigned) occdf
-
 }

@@ -67,14 +67,18 @@
 #' # reset user par
 #' par(oldpar)
 #' @export
-phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
-                        sort = "presence") {
+phylo_check <- function(
+  tree = NULL,
+  list = NULL,
+  out = "full_table",
+  sort = "presence"
+) {
   #Errors for incorrect input
   if (is.null(tree)) {
     stop("Phylogeny must be provided")
   }
 
-  if (inherits(tree, "phylo") == FALSE) {
+  if (!inherits(tree, "phylo")) {
     stop("Phylogeny must be a phylo object")
   }
 
@@ -82,17 +86,23 @@ phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
     stop("List of taxa to check against must be provided")
   }
 
-  if (is.vector(list) == FALSE) {
+  if (!is.vector(list)) {
     stop("List of taxa must be a vector")
   }
 
   if (any(grepl("[^[:alnum:][:space:]_]", list))) {
-    stop("Taxon names should not contain punctuation except spaces or
-         underscores")
+    stop(
+      "Taxon names should not contain punctuation except spaces or
+         underscores"
+    )
   }
 
-  if (out != "counts" && out != "full_table" && out != "diff_table" &&
-      out != "tree") {
+  if (
+    out != "counts" &&
+      out != "full_table" &&
+      out != "diff_table" &&
+      out != "tree"
+  ) {
     stop("out must either be 'full_table', 'diff_table', 'counts' or 'tree'")
   }
 
@@ -101,8 +111,10 @@ phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
   }
 
   if (out != "full_table" && out != "diff_table" && sort != "presence") {
-    warning("sort is redundant when using outputs other than 'full_table' or
-            'diff_table'")
+    warning(
+      "sort is redundant when using outputs other than 'full_table' or
+            'diff_table'"
+    )
   }
 
   #Function
@@ -112,8 +124,12 @@ phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
 
   #Give uniform capitalisation
   list <- gsub("^([a-z])", "\\U\\1", tolower(list), perl = TRUE)
-  tree$tip.label <- gsub("^([a-z])", "\\U\\1", tolower(tree$tip.label),
-                         perl = TRUE)
+  tree$tip.label <- gsub(
+    "^([a-z])",
+    "\\U\\1",
+    tolower(tree$tip.label),
+    perl = TRUE
+  )
 
   #Create vectors of names, those in tree and those in list
   if (out == "counts" || out == "full_table" || out == "diff_table") {
@@ -135,7 +151,7 @@ phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
   }
 
   if (out == "diff_table") {
-    table <- subset(table, names_in_tree == FALSE | names_in_list == FALSE)
+    table <- subset(table, !names_in_tree | !names_in_list)
   }
 
   if (out == "full_table" || out == "diff_table") {
@@ -153,8 +169,10 @@ phylo_check <- function(tree = NULL, list = NULL, out = "full_table",
     only_list <- length(which(difference == -1))
     in_both <- length(which(difference == 0))
 
-    counts <- data.frame(c("tree_and_list", "only_in_tree", "only_in_list"),
-                        c(in_both, only_tree, only_list))
+    counts <- data.frame(
+      c("tree_and_list", "only_in_tree", "only_in_list"),
+      c(in_both, only_tree, only_list)
+    )
     colnames(counts) <- c("category", "number_of_taxa")
 
     return(counts)
