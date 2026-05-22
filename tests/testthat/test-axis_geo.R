@@ -175,13 +175,13 @@ test_that("axis_geo() can be used on multiple sides", {
     axis_geo(
       side = 1,
       intervals = list("epochs", "periods"),
-      height = list(.05, .03),
+      height = list(0.05, 0.03),
       tick_at = seq(0, 100, 25),
       title = "Time (Ma)"
     )
     axis_geo(
       side = 2,
-      height = list(.03, .05),
+      height = list(0.03, 0.05),
       intervals = list("epoch", "period"),
       bord_col = "purple",
       center_end_labels = list(FALSE, TRUE),
@@ -190,7 +190,7 @@ test_that("axis_geo() can be used on multiple sides", {
     )
     axis_geo(
       side = 3,
-      height = list(.03, .05),
+      height = list(0.03, 0.05),
       intervals = list(epochs, periods_sub),
       abbr = FALSE,
       skip = c(
@@ -205,7 +205,7 @@ test_that("axis_geo() can be used on multiple sides", {
     )
     axis_geo(
       side = 4,
-      height = list(.04, .03),
+      height = list(0.04, 0.03),
       intervals = list("epoch", "North American land mammal ages"),
       fill = list("lightblue", "yellow"),
       lty = list("solid", "dashed"),
@@ -248,18 +248,18 @@ test_that("axis_geo() works with phylogenies", {
 })
 
 test_that("axis_geo() error handling", {
-  expect_error(axis_geo(height = c(0.5, 0.5)))
-  expect_error(axis_geo(fill = 5))
-  expect_error(axis_geo(lab = "true"))
-  expect_error(axis_geo(lab_color = 42))
-  expect_error(axis_geo(lab_size = "big"))
-  expect_error(axis_geo(rot = NULL))
-  expect_error(axis_geo(abbr = c("true", 1)))
-  expect_error(axis_geo(skip = c(1, 2, 3)))
-  expect_error(axis_geo(center_end_labels = c(FALSE, TRUE)))
-  expect_error(axis_geo(autofit = c(FALSE, TRUE)))
-  expect_error(axis_geo(bord_col = TRUE))
-  expect_error(axis_geo(lty = 7))
-  expect_error(axis_geo(lwd = "thin"))
-  expect_error(axis_geo(side = 5))
+  expect_snapshot(axis_geo(height = c(0.5, 0.5)), error = TRUE)
+  expect_snapshot(axis_geo(fill = 5), error = TRUE)
+  expect_snapshot(axis_geo(lab = "true"), error = TRUE)
+  expect_snapshot(axis_geo(lab_color = 42), error = TRUE)
+  expect_snapshot(axis_geo(lab_size = "big"), error = TRUE)
+  expect_snapshot(axis_geo(rot = NULL), error = TRUE)
+  expect_snapshot(axis_geo(abbr = c("true", 1)), error = TRUE)
+  expect_snapshot(axis_geo(skip = c(1, 2, 3)), error = TRUE)
+  expect_snapshot(axis_geo(center_end_labels = c(FALSE, TRUE)), error = TRUE)
+  expect_snapshot(axis_geo(autofit = c(FALSE, TRUE)), error = TRUE)
+  expect_snapshot(axis_geo(bord_col = TRUE), error = TRUE)
+  expect_snapshot(axis_geo(lty = 7), error = TRUE)
+  expect_snapshot(axis_geo(lwd = "thin"), error = TRUE)
+  expect_snapshot(axis_geo(side = 5), error = TRUE)
 })

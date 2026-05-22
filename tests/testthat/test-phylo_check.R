@@ -35,11 +35,11 @@ test_that("phylo_check() works", {
   expect_true(inherits(phylo_check(tree, list, out = "tree"), "phylo"))
 
   #expect error
-  expect_error(phylo_check())
-  expect_error(phylo_check(tree))
-  expect_error(phylo_check(tree = list))
-  expect_error(phylo_check(tree = tree, list = tree))
-  expect_error(phylo_check(tree, list, out = "test"))
-  expect_error(phylo_check(tree, list, sort = "test"))
-  expect_error(phylo_check(tree, list = "."))
+  expect_snapshot(phylo_check(), error = TRUE)
+  expect_snapshot(phylo_check(tree), error = TRUE)
+  expect_snapshot(phylo_check(tree = list), error = TRUE)
+  expect_snapshot(phylo_check(tree = tree, list = tree), error = TRUE)
+  expect_snapshot(phylo_check(tree, list, out = "test"), error = TRUE)
+  expect_snapshot(phylo_check(tree, list, sort = "test"), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = "."), error = TRUE)
 })

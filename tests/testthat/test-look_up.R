@@ -146,16 +146,25 @@ test_that("look_up() works", {
 
   occdf <- tetrapods
   # check error handling
-  expect_error(look_up("Sakmarian"))
-  expect_error(look_up(occdf[names(occdf) != "early_interval"]))
-  expect_error(look_up(occdf, early_interval = "test"))
-  expect_error(look_up(occdf, late_interval = "test"))
-  expect_error(look_up(occdf, int_key = "Sakmarian"))
-  expect_error(look_up(
-    occdf,
-    int_key = custom_key[names(custom_key) != "interval_name"]
-  ))
-  expect_error(look_up(occdf, int_key = FALSE, assign_with_GTS = FALSE))
+  expect_snapshot(look_up("Sakmarian"), error = TRUE)
+  expect_snapshot(
+    look_up(occdf[names(occdf) != "early_interval"]),
+    error = TRUE
+  )
+  expect_snapshot(look_up(occdf, early_interval = "test"), error = TRUE)
+  expect_snapshot(look_up(occdf, late_interval = "test"), error = TRUE)
+  expect_snapshot(look_up(occdf, int_key = "Sakmarian"), error = TRUE)
+  expect_snapshot(
+    look_up(
+      occdf,
+      int_key = custom_key[names(custom_key) != "interval_name"]
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    look_up(occdf, int_key = FALSE, assign_with_GTS = FALSE),
+    error = TRUE
+  )
 
   interval_key <- palaeoverse::interval_key
 
@@ -163,15 +172,15 @@ test_that("look_up() works", {
   expect_warning(look_up(occdf[1:10, ], int_key = interval_key))
 
   interval_key$min_ma <- rep("test", nrow(interval_key))
-  expect_error(look_up(occdf[1:10, ], int_key = interval_key))
+  expect_snapshot(look_up(occdf[1:10, ], int_key = interval_key), error = TRUE)
 
   interval_key$max_ma <- rep("test", nrow(interval_key))
-  expect_error(look_up(occdf[1:10, ], int_key = interval_key))
+  expect_snapshot(look_up(occdf[1:10, ], int_key = interval_key), error = TRUE)
 
   interval_key$interval_name <- rep(1, nrow(interval_key))
-  expect_error(look_up(occdf[1:10, ], int_key = interval_key))
+  expect_snapshot(look_up(occdf[1:10, ], int_key = interval_key), error = TRUE)
 
-  expect_error(look_up(occdf[1:10, ], early_interval = 5))
+  expect_snapshot(look_up(occdf[1:10, ], early_interval = 5), error = TRUE)
 
-  expect_error(look_up(occdf[1:10, ], late_interval = 5))
+  expect_snapshot(look_up(occdf[1:10, ], late_interval = 5), error = TRUE)
 })
