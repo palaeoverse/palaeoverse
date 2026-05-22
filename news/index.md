@@ -2,6 +2,8 @@
 
 ## palaeoverse (development version)
 
+### New features
+
 - Added `group` argument to
   [`tax_range_time()`](https://palaeoverse.palaeoverse.org/reference/tax_range_time.md)
   and
@@ -32,13 +34,13 @@
 
 CRAN release: 2024-10-14
 
+### New features
+
 - Several updates to
   [`palaeorotate()`](https://palaeoverse.palaeoverse.org/reference/palaeorotate.md)
   - Mantle reference frame models removed
   - TorsvikCocks2017 model added
   - Added updated reconstruction files (1 myr resolution)
-- Fixed point plotting bug in
-  [`tax_range_strat()`](https://palaeoverse.palaeoverse.org/reference/tax_range_strat.md)
 - Added
   [`lat_bins_area()`](https://palaeoverse.palaeoverse.org/reference/lat_bins_area.md)
   ([\#114](https://github.com/palaeoverse/palaeoverse/issues/114))
@@ -49,9 +51,16 @@ CRAN release: 2024-10-14
 - Made all functions tibble-friendly
   ([\#118](https://github.com/palaeoverse/palaeoverse/issues/118))
 
+### Bug fixes
+
+- Fixed point plotting bug in
+  [`tax_range_strat()`](https://palaeoverse.palaeoverse.org/reference/tax_range_strat.md)
+
 ## palaeoverse 1.3.0
 
 CRAN release: 2024-04-16
+
+### New features
 
 - Added plot customisability to
   [`tax_range_time()`](https://palaeoverse.palaeoverse.org/reference/tax_range_time.md)
@@ -71,6 +80,9 @@ CRAN release: 2024-04-16
   ([\#104](https://github.com/palaeoverse/palaeoverse/issues/104))
 - Improved link accessibility
   ([\#88](https://github.com/palaeoverse/palaeoverse/issues/88))
+
+### Bug fixes
+
 - Fix superfluous columns in
   [`palaeorotate()`](https://palaeoverse.palaeoverse.org/reference/palaeorotate.md)
   ([\#110](https://github.com/palaeoverse/palaeoverse/issues/110))
@@ -79,21 +91,36 @@ CRAN release: 2024-04-16
 
 CRAN release: 2023-08-17
 
+### New features
+
+- Added ability to use custom bins for
+  [`tax_expand_time()`](https://palaeoverse.palaeoverse.org/reference/tax_expand_time.md)
+  ([\#94](https://github.com/palaeoverse/palaeoverse/issues/94))
+
+### Bug fixes
+
 - Fixed handling of multiple models in
   [`palaeorotate()`](https://palaeoverse.palaeoverse.org/reference/palaeorotate.md)
   ([\#92](https://github.com/palaeoverse/palaeoverse/issues/92))
 - Fixed custom ticks behavior for
   [`axis_geo_phylo()`](https://palaeoverse.palaeoverse.org/reference/axis_geo.md)
-- Added ability to use custom bins for
-  [`tax_expand_time()`](https://palaeoverse.palaeoverse.org/reference/tax_expand_time.md)
-  ([\#94](https://github.com/palaeoverse/palaeoverse/issues/94))
 
 ## palaeoverse 1.2.0
 
 CRAN release: 2023-04-18
 
+### New features
+
 - [`time_bins()`](https://palaeoverse.palaeoverse.org/reference/time_bins.md)
   updated to enable users to call geological time scales from Macrostrat
+- Removed `deeptime` dependency
+- Updated font colors in GTS2012 and GTS2020 based on background
+  luminance
+- Added two tutorial vignettes
+  ([\#31](https://github.com/palaeoverse/palaeoverse/issues/31))
+
+### Bug fixes
+
 - Fixed minor documentation error in
   [`tax_range_time()`](https://palaeoverse.palaeoverse.org/reference/tax_range_time.md)
 - Fixed unnecessary column output in
@@ -103,9 +130,6 @@ CRAN release: 2023-04-18
   [`palaeorotate()`](https://palaeoverse.palaeoverse.org/reference/palaeorotate.md)
   for some specific datasets
   ([\#78](https://github.com/palaeoverse/palaeoverse/issues/78))
-- Removed `deeptime` dependency
-- Updated font colors in GTS2012 and GTS2020 based on background
-  luminance
 - Fixed multi-model call in
   [`palaeorotate()`](https://palaeoverse.palaeoverse.org/reference/palaeorotate.md)
   for the “point” method which did not return all requested model
@@ -114,8 +138,6 @@ CRAN release: 2023-04-18
 - Fixed an erroneous entry in
   [`interval_key()`](https://palaeoverse.palaeoverse.org/reference/interval_key.md)
   ([\#84](https://github.com/palaeoverse/palaeoverse/issues/84))
-- Added two tutorial vignettes
-  ([\#31](https://github.com/palaeoverse/palaeoverse/issues/31))
 - Fixed a
   [`tax_range_space()`](https://palaeoverse.palaeoverse.org/reference/tax_range_space.md)
   bug for custom column names
@@ -123,6 +145,8 @@ CRAN release: 2023-04-18
 ## palaeoverse 1.1.1
 
 CRAN release: 2023-02-16
+
+### New features
 
 - palaeoverse now requires `deeptime` (\>= 1.0.0)
 - Added additional test to catch when Zenodo is offline
@@ -149,7 +173,7 @@ CRAN release: 2023-02-16
 
 CRAN release: 2023-01-12
 
-Updates
+### New features
 
 - Added package-level documentation function
 - [`bin_time()`](https://palaeoverse.palaeoverse.org/reference/bin_time.md)
@@ -172,7 +196,7 @@ Updates
   dataframe
   ([\#51](https://github.com/palaeoverse/palaeoverse/issues/51))
 
-Minor bug fixes
+### Bug fixes
 
 - Updated
   [`palaeorotate()`](https://palaeoverse.palaeoverse.org/reference/palaeorotate.md)

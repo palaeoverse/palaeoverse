@@ -39,6 +39,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="palaeoverse-development-version">palaeoverse (development version)<a class="anchor" aria-label="anchor" href="#palaeoverse-development-version"></a></h2>
+<div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li>Added <code>group</code> argument to <code><a href="../reference/tax_range_time.html">tax_range_time()</a></code> and <code><a href="../reference/tax_range_strat.html">tax_range_strat()</a></code> and improved plotting (<a href="https://github.com/palaeoverse/palaeoverse/issues/120" class="external-link">#120</a>)</li>
 <li>Made bin durations more even and added <code>n_bins</code> option in <code><a href="../reference/time_bins.html">time_bins()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/131" class="external-link">#131</a>)</li>
 <li>Added <code>autofit</code> argument to <code><a href="../reference/axis_geo.html">axis_geo()</a></code> which, when enabled, automatically adjusts the sizes of individual interval labels to fit within the interval boxes (<a href="https://github.com/palaeoverse/palaeoverse/issues/21" class="external-link">#21</a>)</li>
@@ -46,54 +48,81 @@
 <li>Increased efficiency and reduced hackiness of <code><a href="../reference/group_apply.html">group_apply()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/135" class="external-link">#135</a>)</li>
 <li>Downloads related to the <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code> function are now retried if they fail (<a href="https://github.com/palaeoverse/palaeoverse/issues/137" class="external-link">#137</a>)</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.0" id="palaeoverse-140">palaeoverse 1.4.0<a class="anchor" aria-label="anchor" href="#palaeoverse-140"></a></h2><p class="text-muted">CRAN release: 2024-10-14</p>
+<div class="section level3">
+<h3 id="new-features-1-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-4-0"></a></h3>
 <ul><li>Several updates to <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code>
 <ul><li>Mantle reference frame models removed</li>
 <li>TorsvikCocks2017 model added</li>
 <li>Added updated reconstruction files (1 myr resolution)</li>
 </ul></li>
-<li>Fixed point plotting bug in <code><a href="../reference/tax_range_strat.html">tax_range_strat()</a></code>
-</li>
 <li>Added <code><a href="../reference/lat_bins_area.html">lat_bins_area()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/114" class="external-link">#114</a>)</li>
 <li>Replaced <code><a href="../reference/lat_bins.html">lat_bins()</a></code> with <code><a href="../reference/lat_bins_degrees.html">lat_bins_degrees()</a></code>
 </li>
 <li>Made all functions tibble-friendly (<a href="https://github.com/palaeoverse/palaeoverse/issues/118" class="external-link">#118</a>)</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-4-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-4-0"></a></h3>
+<ul><li>Fixed point plotting bug in <code><a href="../reference/tax_range_strat.html">tax_range_strat()</a></code>
+</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.0" id="palaeoverse-130">palaeoverse 1.3.0<a class="anchor" aria-label="anchor" href="#palaeoverse-130"></a></h2><p class="text-muted">CRAN release: 2024-04-16</p>
+<div class="section level3">
+<h3 id="new-features-1-3-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-3-0"></a></h3>
 <ul><li>Added plot customisability to <code><a href="../reference/tax_range_time.html">tax_range_time()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/99" class="external-link">#99</a>)</li>
 <li>Update <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code> to handle updates with GPlates API (<a href="https://github.com/palaeoverse/palaeoverse/issues/112" class="external-link">#112</a>)</li>
 <li>New function to create stratigraphic range plots, <code><a href="../reference/tax_range_strat.html">tax_range_strat()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/97" class="external-link">#97</a>)</li>
 <li>Added age arguments (<code>max_ma</code>/<code>min_ma</code>) to <code><a href="../reference/bin_time.html">bin_time()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/106" class="external-link">#106</a>)</li>
 <li>Added warning to <code><a href="../reference/bin_time.html">bin_time()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/104" class="external-link">#104</a>)</li>
 <li>Improved link accessibility (<a href="https://github.com/palaeoverse/palaeoverse/issues/88" class="external-link">#88</a>)</li>
-<li>Fix superfluous columns in <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/110" class="external-link">#110</a>)</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-3-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-0"></a></h3>
+<ul><li>Fix superfluous columns in <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/110" class="external-link">#110</a>)</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.1" id="palaeoverse-121">palaeoverse 1.2.1<a class="anchor" aria-label="anchor" href="#palaeoverse-121"></a></h2><p class="text-muted">CRAN release: 2023-08-17</p>
+<div class="section level3">
+<h3 id="new-features-1-2-1">New features<a class="anchor" aria-label="anchor" href="#new-features-1-2-1"></a></h3>
+<ul><li>Added ability to use custom bins for <code><a href="../reference/tax_expand_time.html">tax_expand_time()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/94" class="external-link">#94</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-2-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-1"></a></h3>
 <ul><li>Fixed handling of multiple models in <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/92" class="external-link">#92</a>)</li>
 <li>Fixed custom ticks behavior for <code><a href="../reference/axis_geo.html">axis_geo_phylo()</a></code>
 </li>
-<li>Added ability to use custom bins for <code><a href="../reference/tax_expand_time.html">tax_expand_time()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/94" class="external-link">#94</a>)</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="palaeoverse-120">palaeoverse 1.2.0<a class="anchor" aria-label="anchor" href="#palaeoverse-120"></a></h2><p class="text-muted">CRAN release: 2023-04-18</p>
+<div class="section level3">
+<h3 id="new-features-1-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-2-0"></a></h3>
 <ul><li>
 <code><a href="../reference/time_bins.html">time_bins()</a></code> updated to enable users to call geological time scales from Macrostrat</li>
-<li>Fixed minor documentation error in <code><a href="../reference/tax_range_time.html">tax_range_time()</a></code>
+<li>Removed <code>deeptime</code> dependency</li>
+<li>Updated font colors in GTS2012 and GTS2020 based on background luminance</li>
+<li>Added two tutorial vignettes (<a href="https://github.com/palaeoverse/palaeoverse/issues/31" class="external-link">#31</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-2-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0"></a></h3>
+<ul><li>Fixed minor documentation error in <code><a href="../reference/tax_range_time.html">tax_range_time()</a></code>
 </li>
 <li>Fixed unnecessary column output in <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/78" class="external-link">#78</a>)</li>
 <li>Fixed binding issues with the “point” method in <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code> for some specific datasets (<a href="https://github.com/palaeoverse/palaeoverse/issues/78" class="external-link">#78</a>)</li>
-<li>Removed <code>deeptime</code> dependency</li>
-<li>Updated font colors in GTS2012 and GTS2020 based on background luminance</li>
 <li>Fixed multi-model call in <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code> for the “point” method which did not return all requested model coordinates (<a href="https://github.com/palaeoverse/palaeoverse/issues/82" class="external-link">#82</a>)</li>
 <li>Fixed an erroneous entry in <code><a href="../reference/interval_key.html">interval_key()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/84" class="external-link">#84</a>)</li>
-<li>Added two tutorial vignettes (<a href="https://github.com/palaeoverse/palaeoverse/issues/31" class="external-link">#31</a>)</li>
 <li>Fixed a <code><a href="../reference/tax_range_space.html">tax_range_space()</a></code> bug for custom column names</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.1" id="palaeoverse-111">palaeoverse 1.1.1<a class="anchor" aria-label="anchor" href="#palaeoverse-111"></a></h2><p class="text-muted">CRAN release: 2023-02-16</p>
+<div class="section level3">
+<h3 id="new-features-1-1-1">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-1"></a></h3>
 <ul><li>palaeoverse now requires <code>deeptime</code> (&gt;= 1.0.0)</li>
 <li>Added additional test to catch when Zenodo is offline (<code><a href="../reference/palaeorotate.html">palaeorotate()</a></code>)</li>
 <li>Added a <code>coords</code> argument to the <code><a href="../reference/tax_range_space.html">tax_range_space()</a></code> function to control whether coordinates are returned</li>
@@ -104,9 +133,11 @@
 <li>max distance calculations in <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code>’s uncertainty functionality updated to use <code><a href="https://rdrr.io/pkg/geosphere/man/distGeo.html" class="external-link">geosphere::distGeo()</a></code>
 </li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="palaeoverse-110">palaeoverse 1.1.0<a class="anchor" aria-label="anchor" href="#palaeoverse-110"></a></h2><p class="text-muted">CRAN release: 2023-01-12</p>
-<p>Updates</p>
+<div class="section level3">
+<h3 id="new-features-1-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
 <ul><li>Added package-level documentation function</li>
 <li>
 <code><a href="../reference/bin_time.html">bin_time()</a></code> now accepts user-defined probability function (<a href="https://github.com/palaeoverse/palaeoverse/issues/20" class="external-link">#20</a>)</li>
@@ -120,7 +151,9 @@
 <code><a href="../reference/time_bins.html">time_bins()</a></code> now supports user input dataframes (<a href="https://github.com/palaeoverse/palaeoverse/issues/19" class="external-link">#19</a>)</li>
 <li>
 <code><a href="../reference/tax_unique.html">tax_unique()</a></code> now supports returning the unique names appended to the input dataframe (<a href="https://github.com/palaeoverse/palaeoverse/issues/51" class="external-link">#51</a>)</li>
-</ul><p>Minor bug fixes</p>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
 <ul><li>Updated <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code> reconstruction files to use an hexagonal equal-area grid (<a href="https://github.com/palaeoverse/palaeoverse/issues/59" class="external-link">#59</a>)</li>
 <li>Added error handling for when GPlates and Zenodo is offline</li>
 <li>Added default value for the round argument in <code><a href="../reference/palaeorotate.html">palaeorotate()</a></code>
@@ -136,6 +169,7 @@
 <code><a href="../reference/tax_unique.html">tax_unique()</a></code> now retains homonyms from different higher taxonomic groups (<a href="https://github.com/palaeoverse/palaeoverse/issues/50" class="external-link">#50</a>)</li>
 <li>Fixed <code><a href="../reference/axis_geo.html">axis_geo()</a></code> for phylogenies (<a href="https://github.com/palaeoverse/palaeoverse/issues/68" class="external-link">#68</a>)</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="palaeoverse-100">palaeoverse 1.0.0<a class="anchor" aria-label="anchor" href="#palaeoverse-100"></a></h2><p class="text-muted">CRAN release: 2022-10-31</p>
 <p>First full release of the palaeoverse R package. The package provides functions to help streamline analyses and improve code readability and reproducibility.</p>
