@@ -29,7 +29,6 @@ jobs:
         run: |
           lintr::lint_package(linters = lintr::linters_with_defaults(
             # Air takes care of all formatting so we deactivate all formatting-related rules
-            absolute_path_linter = NULL,
             brace_linter = NULL,
             commas_linter = NULL,
             function_left_parentheses_linter = NULL,
@@ -48,7 +47,7 @@ jobs:
             # Handled by Jarl
             equals_na_linter = NULL,
             quotes_linter = NULL,
-            T_and_F_symbol_linter_linter = NULL
+            T_and_F_symbol_linter = NULL
           ))
         shell: Rscript {0}
         env:
