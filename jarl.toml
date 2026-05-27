@@ -1,5 +1,4 @@
 [lint]
-# Use the default set of rules + the testthat-specific rules
 extend-select = ["quotes", "TESTTHAT"]
 ignore = ["expect_type"]
 fixable = ["ALL"]
