@@ -1,5 +1,7 @@
 # palaeoverse (development version)
 
+## New features
+
 * Added `group` argument to `tax_range_time()` and `tax_range_strat()` and improved plotting (#120)
 * Made bin durations more even and added `n_bins` option in `time_bins()` (#131)
 * Added `autofit` argument to `axis_geo()` which, when enabled, automatically adjusts the sizes of individual interval labels to fit within the interval boxes (#21)
@@ -9,16 +11,23 @@
 
 # palaeoverse 1.4.0
 
+## New features
+
 * Several updates to `palaeorotate()`
   * Mantle reference frame models removed
   * TorsvikCocks2017 model added
   * Added updated reconstruction files (1 myr resolution)
-* Fixed point plotting bug in `tax_range_strat()`
 * Added `lat_bins_area()` (#114)
 * Replaced `lat_bins()` with `lat_bins_degrees()`
 * Made all functions tibble-friendly (#118)
 
+## Bug fixes
+
+* Fixed point plotting bug in `tax_range_strat()`
+
 # palaeoverse 1.3.0
+
+## New features
 
 * Added plot customisability to `tax_range_time()` (#99)
 * Update `palaeorotate()` to handle updates with GPlates API (#112)
@@ -26,28 +35,43 @@
 * Added age arguments (`max_ma`/`min_ma`) to `bin_time()` (#106)
 * Added warning to `bin_time()` (#104)
 * Improved link accessibility (#88)
+
+## Bug fixes
+
 * Fix superfluous columns in `palaeorotate()` (#110)
 
 # palaeoverse 1.2.1
 
+## New features
+
+* Added ability to use custom bins for `tax_expand_time()` (#94)
+
+## Bug fixes
+
 * Fixed handling of multiple models in `palaeorotate()` (#92)
 * Fixed custom ticks behavior for `axis_geo_phylo()`
-* Added ability to use custom bins for `tax_expand_time()` (#94)
 
 # palaeoverse 1.2.0
 
+## New features
+
 * `time_bins()` updated to enable users to call geological time scales from Macrostrat
+* Removed `deeptime` dependency
+* Updated font colors in GTS2012 and GTS2020 based on background luminance
+* Added two tutorial vignettes (#31)
+
+## Bug fixes
+
 * Fixed minor documentation error in `tax_range_time()`
 * Fixed unnecessary column output in `palaeorotate()` (#78)
 * Fixed binding issues with the "point" method in `palaeorotate()` for some specific datasets (#78)
-* Removed `deeptime` dependency
-* Updated font colors in GTS2012 and GTS2020 based on background luminance
 * Fixed multi-model call in `palaeorotate()` for the "point" method which did not return all requested model coordinates (#82)
 * Fixed an erroneous entry in `interval_key()` (#84)
-* Added two tutorial vignettes (#31)
 * Fixed a `tax_range_space()` bug for custom column names
 
 # palaeoverse 1.1.1
+
+## New features
 
 * palaeoverse now requires `deeptime` (>= 1.0.0)
 * Added additional test to catch when Zenodo is offline (`palaeorotate()`)
@@ -58,7 +82,8 @@
 * max distance calculations in `palaeorotate()`'s uncertainty functionality updated to use `geosphere::distGeo()`
 
 # palaeoverse 1.1.0
-Updates
+
+## New features
 
 * Added package-level documentation function
 * `bin_time()` now accepts user-defined probability function (#20)
@@ -68,7 +93,7 @@ Updates
 * `time_bins()` now supports user input dataframes (#19)
 * `tax_unique()` now supports returning the unique names appended to the input dataframe (#51)
 
-Minor bug fixes
+## Bug fixes
 
 * Updated `palaeorotate()` reconstruction files to use an hexagonal equal-area grid (#59)
 * Added error handling for when GPlates and Zenodo is offline

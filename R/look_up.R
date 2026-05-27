@@ -149,7 +149,7 @@ look_up <- function(
 
   # int_key checks
   if (!is.data.frame(int_key)) {
-    if (int_key) {
+    if (!isFALSE(int_key)) {
       stop("`int_key` should be a dataframe.")
     } else {
       if (!(assign_with_GTS %in% c("GTS2020", "GTS2012"))) {
