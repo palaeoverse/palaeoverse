@@ -9,34 +9,63 @@ test_that("bin_space() works", {
 
   # Expect equal
   expect_equal(
-    nrow(bin_space(occdf = tetrapods, spacing = 250,
-                     plot = TRUE)),
-      nrow(tetrapods))
+    nrow(bin_space(occdf = tetrapods, spacing = 250, plot = TRUE)),
+    nrow(tetrapods)
+  )
   expect_equal(
-    nrow(bin_space(occdf = tetrapods, spacing = 1000, sub_grid = 250,
-                     plot = TRUE)),
-    nrow(tetrapods))
+    nrow(bin_space(
+      occdf = tetrapods,
+      spacing = 1000,
+      sub_grid = 250,
+      plot = TRUE
+    )),
+    nrow(tetrapods)
+  )
 
   # Expect true
-  expect_type(bin_space(
-        occdf = tetrapods, spacing = 250, return = TRUE,
-        plot = TRUE), "list")
+  expect_true(
+    is.list(
+      bin_space(
+        occdf = tetrapods,
+        spacing = 250,
+        return = TRUE,
+        plot = TRUE
+      )
+    )
+  )
 
-  expect_type(bin_space(
-        occdf = tetrapods, spacing = 500, sub_grid = 200, return = TRUE,
-        plot = TRUE), "list")
+  expect_true(
+    is.list(
+      bin_space(
+        occdf = tetrapods,
+        spacing = 500,
+        sub_grid = 200,
+        return = TRUE,
+        plot = TRUE
+      )
+    )
+  )
 
   # Error handling
-  expect_error(bin_space(occdf = matrix(tetrapods)))
-  expect_error(bin_space(occdf = tetrapods, lng = "long", lat = "latit"))
-  expect_error(bin_space(occdf = tetrapods, spacing = 1000, sub_grid = 1000))
-  expect_error(bin_space(occdf = tetrapods, spacing = NA))
-  expect_error(bin_space(occdf = tetrapods, spacing = 1000, sub_grid = NA))
-  expect_error(bin_space(occdf = tetrapods, return = "TRUE"))
+  expect_snapshot(bin_space(occdf = matrix(tetrapods)), error = TRUE)
+  expect_snapshot(
+    bin_space(occdf = tetrapods, lng = "long", lat = "latit"),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_space(occdf = tetrapods, spacing = 1000, sub_grid = 1000),
+    error = TRUE
+  )
+  expect_snapshot(bin_space(occdf = tetrapods, spacing = NA), error = TRUE)
+  expect_snapshot(
+    bin_space(occdf = tetrapods, spacing = 1000, sub_grid = NA),
+    error = TRUE
+  )
+  expect_snapshot(bin_space(occdf = tetrapods, return = "TRUE"), error = TRUE)
   tetrapods$lat[1] <- 94
-  expect_error(bin_space(occdf = tetrapods))
+  expect_snapshot(bin_space(occdf = tetrapods), error = TRUE)
   tetrapods$lat[1] <- "94"
-  expect_error(bin_space(occdf = tetrapods))
+  expect_snapshot(bin_space(occdf = tetrapods), error = TRUE)
   tetrapods$lng[1] <- 184
-  expect_error(bin_space(occdf = tetrapods))
+  expect_snapshot(bin_space(occdf = tetrapods), error = TRUE)
 })

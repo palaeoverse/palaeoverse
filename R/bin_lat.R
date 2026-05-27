@@ -63,22 +63,28 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   occdf$lat_min <- NA
   #=== Assign data ===
   for (i in seq_len(nrow(bins))) {
-    vec <- which(occdf[, lat, drop = TRUE] <= bins$max[i] &
-                 occdf[, lat, drop = TRUE] >= bins$min[i])
+    vec <- which(
+      occdf[, lat, drop = TRUE] <= bins$max[i] &
+        occdf[, lat, drop = TRUE] >= bins$min[i]
+    )
     occdf$lat_bin[vec] <- bins$bin[i]
     occdf$lat_max[vec] <- bins$max[i]
     occdf$lat_mid[vec] <- bins$mid[i]
     occdf$lat_min[vec] <- bins$min[i]
   }
   #=== Boundary bins ===
-  if (boundary &&
-      any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))) {
+  if (
+    boundary &&
+      any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))
+  ) {
     # Which occurrences fall on boundaries?
     tmp <- occdf[which(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min)), ]
     # Reverse direction to ensure alternative bin is assigned
     for (i in rev(seq_len(nrow(bins)))) {
-      vec <- which(tmp[, lat, drop = TRUE] <= bins$max[i] &
-                     tmp[, lat, drop = TRUE] >= bins$min[i])
+      vec <- which(
+        tmp[, lat, drop = TRUE] <= bins$max[i] &
+          tmp[, lat, drop = TRUE] >= bins$min[i]
+      )
       tmp$lat_bin[vec] <- bins$bin[i]
       tmp$lat_max[vec] <- bins$max[i]
       tmp$lat_mid[vec] <- bins$mid[i]
@@ -87,10 +93,14 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
     occdf <- rbind.data.frame(occdf, tmp)
   }
   #=== Add warning ===
-  if (!boundary &&
-      any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))) {
-    message(paste("Presence of occurrences falling on boundaries detected.",
-                   "\nOccurrences assigned to upper bin."))
+  if (
+    !boundary &&
+      any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))
+  ) {
+    message(paste(
+      "Presence of occurrences falling on boundaries detected.",
+      "\nOccurrences assigned to upper bin."
+    ))
   }
   #=== Return data ===
   return(occdf)

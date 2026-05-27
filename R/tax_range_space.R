@@ -113,30 +113,35 @@
 #' ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
 #' coords = TRUE)
 #' @export
-tax_range_space <- function(occdf,
-                            name = "genus",
-                            lng = "lng",
-                            lat = "lat",
-                            method = "lat",
-                            spacing = 100,
-                            coords = FALSE) {
-
+tax_range_space <- function(
+  occdf,
+  name = "genus",
+  lng = "lng",
+  lat = "lat",
+  method = "lat",
+  spacing = 100,
+  coords = FALSE
+) {
   #=== Handling errors ===
   if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe")
   }
 
   if (!all(c(name, lng, lat) %in% colnames(occdf))) {
-    stop("Either `name`, `lng`, or `lat`, is not a named column
-in `occdf`")
+    stop(
+      "Either `name`, `lng`, or `lat`, is not a named column
+in `occdf`"
+    )
   }
 
   if (!is.character(method)) {
     stop("`method` is not of character class")
   }
 
-  if (!is.numeric(occdf[, lat, drop = TRUE]) ||
-      !is.numeric(occdf[, lng, drop = TRUE])) {
+  if (
+    !is.numeric(occdf[, lat, drop = TRUE]) ||
+      !is.numeric(occdf[, lng, drop = TRUE])
+  ) {
     stop("`lng` and/or `lat` columns are not of numeric class")
   }
 
@@ -144,8 +149,10 @@ in `occdf`")
     stop("The `name` column contains NA values")
   }
 
-  if (anyNA(occdf[, lat, drop = TRUE]) ||
-      anyNA(occdf[, lng, drop = TRUE])) {
+  if (
+    anyNA(occdf[, lat, drop = TRUE]) ||
+      anyNA(occdf[, lng, drop = TRUE])
+  ) {
     stop("`lng` and/or `lat` columns contain NA values")
   }
 
@@ -156,8 +163,10 @@ in `occdf`")
   if (is.na(method_match)) {
     # If the user has entered a non-valid term for the "method" argument,
     # generate an error and warn the user.
-    stop("Invalid `method`. Choose either:
-  'con', 'lat', 'gcd', or 'occ'.")
+    stop(
+      "Invalid `method`. Choose either:
+  'con', 'lat', 'gcd', or 'occ'."
+    )
   } else {
     method <- possible_methods[method_match]
   }
@@ -178,8 +187,10 @@ in `occdf`")
       # Subset taxa
       tmp <- occdf[which(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
       # Calculate convex hull
-      tmp <- tmp[chull(x = tmp[, lng, drop = TRUE],
-                       y = tmp[, lat, drop = TRUE]), c(lng, lat)]
+      tmp <- tmp[
+        chull(x = tmp[, lng, drop = TRUE], y = tmp[, lat, drop = TRUE]),
+        c(lng, lat)
+      ]
       # Calculate area of convex hull and convert to km^2
       area <- geosphere::areaPolygon(tmp) / 1e+6
       # Round to three decimal places
@@ -202,11 +213,13 @@ in `occdf`")
   #=== Latitudinal range ===
   if (method == "lat") {
     # Generate dataframe for population
-    lat_df <- data.frame(taxon = unique_taxa,
-                         taxon_id = seq(1, length(unique_taxa), 1),
-                         max_lat = rep(NA, length(unique_taxa)),
-                         min_lat = rep(NA, length(unique_taxa)),
-                         range_lat = rep(NA, length(unique_taxa)))
+    lat_df <- data.frame(
+      taxon = unique_taxa,
+      taxon_id = seq(1, length(unique_taxa), 1),
+      max_lat = rep(NA, length(unique_taxa)),
+      min_lat = rep(NA, length(unique_taxa)),
+      range_lat = rep(NA, length(unique_taxa))
+    )
     # Run for loop across unique taxa
     for (i in seq_along(unique_taxa)) {
       vec <- which(occdf[, name, drop = TRUE] == unique_taxa[i])
@@ -219,7 +232,9 @@ in `occdf`")
 
     # Round off values
     lat_df[, c("max_lat", "min_lat", "range_lat")] <- round(
-      x = lat_df[, c("max_lat", "min_lat", "range_lat")], digits = 3)
+      x = lat_df[, c("max_lat", "min_lat", "range_lat")],
+      digits = 3
+    )
 
     # Return dataframe
     return(lat_df)
@@ -238,8 +253,10 @@ in `occdf`")
       # Subset df
       tmp <- occdf[which(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
       # Calculate GCD matrix using the Haversine method
-      vals <- geosphere::distm(x = tmp[, c(lng, lat)],
-                               fun = geosphere::distHaversine)
+      vals <- geosphere::distm(
+        x = tmp[, c(lng, lat)],
+        fun = geosphere::distHaversine
+      )
       # Convert to km
       vals <- vals / 10^3
       # Extract location of points with max GCD
@@ -258,7 +275,9 @@ in `occdf`")
 
     # Round off values
     gcd_df[, c(lng, lat, "gcd")] <- round(
-      x = gcd_df[, c(lng, lat, "gcd")], digits = 3)
+      x = gcd_df[, c(lng, lat, "gcd")],
+      digits = 3
+    )
 
     # simplify output?
     if (!coords) {
@@ -272,16 +291,19 @@ in `occdf`")
   #=== Occupied grid cells  ===
   if (method == "occ") {
     # Generate dataframe for population
-    oc_df <- data.frame(taxon = unique_taxa,
-                        taxon_id = seq(1, length(unique_taxa), 1),
-                        n_cells = rep(NA, length(unique_taxa)),
-                        proportional_occ = rep(NA, length(unique_taxa)),
-                        spacing = rep(NA, length(unique_taxa)))
+    oc_df <- data.frame(
+      taxon = unique_taxa,
+      taxon_id = seq(1, length(unique_taxa), 1),
+      n_cells = rep(NA, length(unique_taxa)),
+      proportional_occ = rep(NA, length(unique_taxa)),
+      spacing = rep(NA, length(unique_taxa))
+    )
     # Generate equal area hexagonal grid
     # Which resolution should be used based on input distance/spacing?
     # Use the h3jsr::h3_info_table to calculate resolution
     grid <- h3jsr::h3_info_table[
-      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)), ]
+      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)),
+    ]
     # Add resolution spacing
     oc_df$spacing <- grid$avg_cendist_km
     # Track occupied cells
@@ -300,8 +322,10 @@ in `occdf`")
       tracker <- append(tracker, n_cells)
     }
     # Get proportional occupancy
-    oc_df$proportional_occ <- round(oc_df$n_cells / length(unique(tracker)),
-                                    digits = 3)
+    oc_df$proportional_occ <- round(
+      oc_df$n_cells / length(unique(tracker)),
+      digits = 3
+    )
     # Return data
     return(oc_df)
   }

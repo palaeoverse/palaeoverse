@@ -40,8 +40,13 @@
 #'
 #' # Generate latitudinal bins for defined latitudinal range
 #' bins <- lat_bins_degrees(size = 10, min = -50, max = 50)
-lat_bins_degrees <- function(size = 10, min = -90, max = 90,
-                     fit = FALSE, plot = FALSE) {
+lat_bins_degrees <- function(
+  size = 10,
+  min = -90,
+  max = 90,
+  fit = FALSE,
+  plot = FALSE
+) {
   #error handling
   if (!is.numeric(size)) {
     stop("`size` should be a numeric")
@@ -95,15 +100,22 @@ lat_bins_degrees <- function(size = 10, min = -90, max = 90,
   df <- cbind.data.frame(bin, df)
   #plot latitudinal bins
   if (plot) {
-    plot(1, type = "n", xlim = c(-180, 180),
-         ylim = c(min(df$min), max(df$max)),
-         xlab = "Longitude (\u00B0)", ylab = "Latitude (\u00B0)")
+    plot(
+      1,
+      type = "n",
+      xlim = c(-180, 180),
+      ylim = c(min(df$min), max(df$max)),
+      xlab = "Longitude (\u00B0)",
+      ylab = "Latitude (\u00B0)"
+    )
     cols <- rep(c("#01665e", "#80cdc1"), nrow(df))
-    for (i in seq_len(nrow(df))){
-      polygon(x = c(-180, -180, 180, 180),
-              y = c(df$min[i], df$max[i], df$max[i], df$min[i]),
-              col = cols[i],
-              border = "black")
+    for (i in seq_len(nrow(df))) {
+      polygon(
+        x = c(-180, -180, 180, 180),
+        y = c(df$min[i], df$max[i], df$max[i], df$min[i]),
+        col = cols[i],
+        border = "black"
+      )
     }
     if (fit) {
       title(paste0("Bin size set to ", size))
@@ -112,7 +124,10 @@ lat_bins_degrees <- function(size = 10, min = -90, max = 90,
 
   if (fit) {
     message(paste0(
-      "Bin size set to ", size, " degrees to fit latitudinal range."))
+      "Bin size set to ",
+      size,
+      " degrees to fit latitudinal range."
+    ))
   }
 
   return(df)
@@ -126,8 +141,13 @@ lat_bins_degrees <- function(size = 10, min = -90, max = 90,
 #' with `lat_bins_area().`
 #' @inheritParams lat_bins_degrees
 #' @export
-lat_bins <- function(size = 10, min = -90, max = 90,
-                     fit = FALSE, plot = FALSE) {
+lat_bins <- function(
+  size = 10,
+  min = -90,
+  max = 90,
+  fit = FALSE,
+  plot = FALSE
+) {
   lifecycle::deprecate_warn("1.4.0", "lat_bins()", "lat_bins_degrees()")
   argg <- as.list(environment())
   do.call(lat_bins_degrees, argg)

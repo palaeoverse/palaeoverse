@@ -114,13 +114,21 @@
 #' #number of bins
 #' ex7 <- time_bins(scale = "North American land mammal ages", n_bins = 7)
 #'
-time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
-                      n_bins = NULL, assign = NULL, scale = "GTS2020",
-                      plot = FALSE) {
+time_bins <- function(
+  interval = "Phanerozoic",
+  rank = "stage",
+  size = NULL,
+  n_bins = NULL,
+  assign = NULL,
+  scale = "GTS2020",
+  plot = FALSE
+) {
   # Error handling -------------------------------------------------------
-  if (!is.character(interval) &&
+  if (
+    !is.character(interval) &&
       !is.numeric(interval) &&
-      !is.null(interval)) {
+      !is.null(interval)
+  ) {
     stop("`interval` must be NULL or of class 'character' or 'numeric'")
   }
 
@@ -137,27 +145,37 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
   }
 
   if (is.numeric(assign) && any(assign < 0)) {
-    stop(paste("Age estimates for `assign` should be non-negative values.",
-               "Hint: You can transform your data using abs()."))
+    stop(paste(
+      "Age estimates for `assign` should be non-negative values.",
+      "Hint: You can transform your data using abs()."
+    ))
   }
 
   if (!is.character(scale) && !is.data.frame(scale)) {
-    stop(paste("`scale` must be either:\n",
-               "The name of an in-built time scale (e.g. 'GTS2020'),",
-               "the name of a Macrostrat time scale (see details),",
-               "or a `data.frame`."))
+    stop(paste(
+      "`scale` must be either:\n",
+      "The name of an in-built time scale (e.g. 'GTS2020'),",
+      "the name of a Macrostrat time scale (see details),",
+      "or a `data.frame`."
+    ))
   }
 
-  if (is.data.frame(scale) &&
-      !all(c("interval_name", "max_ma", "min_ma") %in% colnames(scale))) {
-    stop(paste("`scale` does not contain named columns:",
-               "'interval_name', 'max_ma', and 'min_ma'."))
+  if (
+    is.data.frame(scale) &&
+      !all(c("interval_name", "max_ma", "min_ma") %in% colnames(scale))
+  ) {
+    stop(paste(
+      "`scale` does not contain named columns:",
+      "'interval_name', 'max_ma', and 'min_ma'."
+    ))
   }
 
   if (length(interval) > 2 && !is.null(interval)) {
-    stop(paste("`interval` must be a 'character' or",
-               "'numeric' vector of length 1 or 2",
-               "or NULL."))
+    stop(paste(
+      "`interval` must be a 'character' or",
+      "'numeric' vector of length 1 or 2",
+      "or NULL."
+    ))
   }
 
   if (length(rank) > 1) {
@@ -211,8 +229,11 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       int_index <- charmatch(interval, df$interval_name)
       if (anyNA(int_index)) {
         stop(
-          paste("Check spelling of specified intervals.",
-                "Available intervals are accessible via GTS2020 and GTS2012."))
+          paste(
+            "Check spelling of specified intervals.",
+            "Available intervals are accessible via GTS2020 and GTS2012."
+          )
+        )
       }
       # Subset df for intervals
       if (length(int_index) > 1) {
@@ -223,8 +244,10 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
         int_index <- c(df$min_ma[int_index], df$max_ma[int_index])
       }
       # Subset df
-      int_index <- which(df$max_ma > min(int_index) &
-                           df$min_ma < max(int_index))
+      int_index <- which(
+        df$max_ma > min(int_index) &
+          df$min_ma < max(int_index)
+      )
     }
     # Filter dataset by desired interval ages (numeric string)
     if (is.numeric(interval)) {
@@ -236,8 +259,10 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
         stop("minimum `interval` value is less than available intervals")
       }
       # Subset df
-      int_index <- which(df$max_ma >= min(interval) &
-                           df$min_ma <= max(interval))
+      int_index <- which(
+        df$max_ma >= min(interval) &
+          df$min_ma <= max(interval)
+      )
     }
     # Sort int_index
     int_index <- sort(int_index)
@@ -261,22 +286,29 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
         nslookup("macrostrat.org")
       },
       error = function(e) {
-        stop("Macrostrat is not available. Either the site is down or you are
+        stop(
+          "Macrostrat is not available. Either the site is down or you are
              not connected to the internet.",
-             call. = FALSE
+          call. = FALSE
         )
       }
     )
-    url <- url(paste0("https://macrostrat.org/api/v2/defs/intervals",
-                      "?format=csv&timescale=",
-                      gsub(" ", "%20", scale)))
-    df <- tryCatch({
-      read.csv(url, header = TRUE, stringsAsFactors = FALSE)
-    },
-    error = function(e) {
-      stop("`name` does not match a built-in or Macrostrat time scale.",
-           call. = FALSE)
-    })
+    url <- url(paste0(
+      "https://macrostrat.org/api/v2/defs/intervals",
+      "?format=csv&timescale=",
+      gsub(" ", "%20", scale)
+    ))
+    df <- tryCatch(
+      {
+        read.csv(url, header = TRUE, stringsAsFactors = FALSE)
+      },
+      error = function(e) {
+        stop(
+          "`name` does not match a built-in or Macrostrat time scale.",
+          call. = FALSE
+        )
+      }
+    )
     df <- df[, c("name", "b_age", "t_age", "abbrev", "color")]
     colnames(df) <- c("interval_name", "max_ma", "min_ma", "abbr", "colour")
     # Add mid_ma
@@ -301,12 +333,26 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
   # Tidy dataframe -------------------------------------------------------
   # Abbreviate names if required
   if (anyNA(df$abbr)) {
-    df$abbr <- abbreviate(df$interval_name, minlength = 1,
-                          use.classes = FALSE, named = FALSE)
+    df$abbr <- abbreviate(
+      df$interval_name,
+      minlength = 1,
+      use.classes = FALSE,
+      named = FALSE
+    )
   }
   # Reorder dataframe
-  df <- df[, c("bin", "interval_name", "rank", "max_ma", "mid_ma",
-               "min_ma", "duration_myr", "abbr", "colour", "font")]
+  df <- df[, c(
+    "bin",
+    "interval_name",
+    "rank",
+    "max_ma",
+    "mid_ma",
+    "min_ma",
+    "duration_myr",
+    "abbr",
+    "colour",
+    "font"
+  )]
   df <- df[order(-df$max_ma), ]
   # Generate equal-length bins? ------------------------------------------
   if (is.numeric(size) || is.numeric(n_bins)) {
@@ -349,9 +395,12 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       }
       #
       # Fill the dynamic programming table
-      for (k in 2:n_bins) {  # Bins from 2 to n_bins
-        for (i in k:n_intervals) {  # Intervals from k to n_intervals
-          for (j in (k - 1):(i - 1)) {  # Possible partition points
+      for (k in 2:n_bins) {
+        # Bins from 2 to n_bins
+        for (i in k:n_intervals) {
+          # Intervals from k to n_intervals
+          for (j in (k - 1):(i - 1)) {
+            # Possible partition points
             bin_duration <-
               cumulative_durations[i + 1] - cumulative_durations[j + 1]
             cost <- cost_mat[j + 1, k - 1] + (bin_duration - target_bin_size)^2
@@ -409,19 +458,25 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
     if (is.numeric(size)) {
       message_head <- paste(
         "Target duration of equal length time bins was set to",
-        round(size, digits = 2),  "Myr.\n")
+        round(size, digits = 2),
+        "Myr.\n"
+      )
     } else {
-      message_head <- paste0("Number of equal length time bins was set to ",
-                             n_bins, ".\n")
+      message_head <- paste0(
+        "Number of equal length time bins was set to ",
+        n_bins,
+        ".\n"
+      )
     }
     message(
-      paste0(message_head,
-             n_bins,
-             " time bins were generated with a mean length of ",
-             round(mean_duration, digits = 2),
-             " Myr and a standard deviation of ",
-             round(sd_duration, digits = 2),
-             " Myr."
+      paste0(
+        message_head,
+        n_bins,
+        " time bins were generated with a mean length of ",
+        round(mean_duration, digits = 2),
+        " Myr and a standard deviation of ",
+        round(sd_duration, digits = 2),
+        " Myr."
       )
     )
   }
@@ -431,11 +486,13 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       df$colour <- c("#80cdc1")
       df$font <- c("black")
     }
-    plot(1, type = "n",
-         xlim = c(max(df$max_ma), min(df$min_ma)),
-         ylim = c(0, max(df$duration_myr)),
-         xlab = "Time (Ma)",
-         ylab = "Duration (Myr)"
+    plot(
+      1,
+      type = "n",
+      xlim = c(max(df$max_ma), min(df$min_ma)),
+      ylim = c(0, max(df$duration_myr)),
+      xlab = "Time (Ma)",
+      ylab = "Duration (Myr)"
     )
     for (i in seq_len(length.out = nrow(df))) {
       polygon(
@@ -462,10 +519,14 @@ time_bins <- function(interval = "Phanerozoic", rank = "stage", size = NULL,
       }
       tmp <- assign
       for (i in seq_len(length.out = nrow(df))) {
-        assign[which(tmp <= df$max_ma[i] &
-                       tmp >= df$min_ma[i])] <- df$mid_ma[i]
-        names(assign)[which(tmp <= df$max_ma[i] &
-                              tmp >= df$min_ma[i])] <- df$bin[i]
+        assign[which(
+          tmp <= df$max_ma[i] &
+            tmp >= df$min_ma[i]
+        )] <- df$mid_ma[i]
+        names(assign)[which(
+          tmp <= df$max_ma[i] &
+            tmp >= df$min_ma[i]
+        )] <- df$bin[i]
       }
       assign <- list(df, assign)
       names(assign) <- c("Bins", "Assignation")
