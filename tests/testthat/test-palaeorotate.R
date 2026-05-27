@@ -166,21 +166,18 @@ test_that("palaeorotate() grid method works", {
     lat = c(46, 35, -7),
     age = c(88, 125, 300)
   )
-  vcr::use_cassette("palaeorotate-grid", {
-    grid <- palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid")
-  })
-
   # Same number of rows returned
-  expect_equal(nrow(grid), 3)
+  expect_equal(
+    nrow(palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid")),
+    3
+  )
 
   # Check that multiple models are being returned
-  vcr::use_cassette("palaeorotate-grid-multi", {
-    grid_multi <- palaeorotate(
-      occdf = occdf,
-      method = "grid",
-      model = c("PALEOMAP", "GOLONKA")
-    )
-  })
+  grid_multi <- palaeorotate(
+    occdf = occdf,
+    method = "grid",
+    model = c("PALEOMAP", "GOLONKA")
+  )
   expect_true(all(
     c("p_lng_PALEOMAP", "p_lat_PALEOMAP", "p_lng_GOLONKA", "p_lat_GOLONKA") %in%
       colnames(grid_multi)
