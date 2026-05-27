@@ -1,6 +1,6 @@
 [lint]
 # Use the default set of rules + the testthat-specific rules
-extend-select = ["TESTTHAT"]
+extend-select = ["quotes", "TESTTHAT"]
 ignore = ["expect_type"]
 fixable = ["ALL"]
 fix-roxygen = true
@@ -9,3 +9,6 @@ fix-roxygen = true
 # https://github.com/r-lib/tree-sitter-r/issues/189
 # [lint.assignment]
 # operator = "<-"
+
+[lint.quotes]
+quote = "double"
