@@ -54,6 +54,7 @@ test_that("palaeorotate() error handling works", {
 
 test_that("palaeorotate() point method works", {
   skip_if_offline(host = "gws.gplates.org")
+  skip_on_cran()
 
   occdf <- data.frame(
     lng = c(2, -103, -66),
@@ -61,14 +62,20 @@ test_that("palaeorotate() point method works", {
     age = c(88, 125, 300)
   )
 
+  vcr::use_cassette("palaeorotate-paleomap", {
+    paleomap <- palaeorotate(occdf = occdf, model = "PALEOMAP")
+  })
+
   # Same number of rows returned
-  expect_equal(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")), 3)
+  expect_equal(nrow(paleomap), 3)
 
   # Check that multiple models are being returned
-  occdf <- palaeorotate(occdf = occdf, model = c("PALEOMAP", "GOLONKA"))
+  vcr::use_cassette("palaeorotate-multi", {
+    multi <- palaeorotate(occdf = occdf, model = c("PALEOMAP", "GOLONKA"))
+  })
   expect_true(all(
     c("p_lng_PALEOMAP", "p_lat_PALEOMAP", "p_lng_GOLONKA", "p_lat_GOLONKA") %in%
-      colnames(occdf)
+      colnames(multi)
   ))
 
   # Check chunk size is working
@@ -78,10 +85,15 @@ test_that("palaeorotate() point method works", {
     lat = runif(1500, -90, 90),
     age = rep(100, 1500)
   )
+
   expect_warning(
-    expect_true(nrow(palaeorotate(occdf = occdf, model = "PALEOMAP")) == 1500),
+    vcr::use_cassette("palaeorotate-paleomap-chunksize", {
+      paleomap <- palaeorotate(occdf = occdf, model = "PALEOMAP")
+    }),
     regexp = "Palaeocoordinates"
   )
+
+  expect_true(nrow(paleomap) == 1500)
 
   # Check handling of temporal range (NAs should be returned)
   occdf <- data.frame(
@@ -89,23 +101,27 @@ test_that("palaeorotate() point method works", {
     lat = runif(10, -90, 90),
     age = rep(700, 10)
   )
+
   expect_warning(
-    expect_true(all(is.na(
-      palaeorotate(occdf = occdf, model = "GOLONKA")$p_lng
-    ))),
+    vcr::use_cassette("palaeorotate-temporal", {
+      paleomap <- palaeorotate(occdf = occdf, model = "GOLONKA")$p_lng
+    }),
     regexp = "Palaeocoordinates"
   )
+  expect_true(all(is.na(paleomap)))
+
   # Check all NA for uncertainty when one model is outside range
   expect_warning(
-    expect_true(all(is.na(
-      palaeorotate(
+    vcr::use_cassette("palaeorotate-multi-outside-range", {
+      paleomap <- palaeorotate(
         occdf = occdf,
         model = c("PALEOMAP", "GOLONKA"),
         uncertainty = TRUE
       )$max_dist
-    ))),
+    }),
     regexp = "Palaeocoordinates"
   )
+  expect_true(all(is.na(paleomap)))
 
   ## Previously available models removed
   expect_snapshot(
@@ -129,37 +145,45 @@ test_that("palaeorotate() point method works", {
   )
 
   # Expect warnings
-  expect_warning(palaeorotate(
-    occdf = occdf,
-    method = "point",
-    model = c("GOLONKA", "PALEOMAP")
-  ))
+  expect_warning(
+    vcr::use_cassette("palaeorotate-multi-point", {
+      paleomap <- palaeorotate(
+        occdf = occdf,
+        method = "point",
+        model = c("GOLONKA", "PALEOMAP")
+      )
+    }),
+    regexp = "Palaeocoordinates"
+  )
 })
 
 test_that("palaeorotate() grid method works", {
   skip_if_offline(host = "zenodo.org")
+  skip_on_cran()
 
   occdf <- data.frame(
     lng = c(2, -103, -66),
     lat = c(46, 35, -7),
     age = c(88, 125, 300)
   )
+  vcr::use_cassette("palaeorotate-grid", {
+    grid <- palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid")
+  })
 
   # Same number of rows returned
-  expect_equal(
-    nrow(palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid")),
-    3
-  )
+  expect_equal(nrow(grid), 3)
 
   # Check that multiple models are being returned
-  occdf <- palaeorotate(
-    occdf = occdf,
-    method = "grid",
-    model = c("PALEOMAP", "GOLONKA")
-  )
+  vcr::use_cassette("palaeorotate-grid-multi", {
+    grid_multi <- palaeorotate(
+      occdf = occdf,
+      method = "grid",
+      model = c("PALEOMAP", "GOLONKA")
+    )
+  })
   expect_true(all(
     c("p_lng_PALEOMAP", "p_lat_PALEOMAP", "p_lng_GOLONKA", "p_lat_GOLONKA") %in%
-      colnames(occdf)
+      colnames(grid_multi)
   ))
 
   # Check handling of temporal range (NAs should be returned)
@@ -169,21 +193,28 @@ test_that("palaeorotate() grid method works", {
     age = rep(700, 10)
   )
   expect_warning(
-    expect_true(all(is.na(
-      palaeorotate(occdf = occdf, model = "GOLONKA", method = "grid")$p_lng
-    ))),
+    vcr::use_cassette("palaeorotate-grid-temporal", {
+      grid_temporal <- palaeorotate(
+        occdf = occdf,
+        model = "GOLONKA",
+        method = "grid"
+      )
+    }),
     regexp = "Palaeocoordinates"
   )
+  expect_true(all(is.na(grid_temporal$p_lng)))
+
   # Check all NA for uncertainty when one model is outside range
   expect_warning(
-    expect_true(all(is.na(
-      palaeorotate(
+    vcr::use_cassette("palaeorotate-grid-temporal-outside-range", {
+      grid_temporal <- palaeorotate(
         occdf = occdf,
         model = c("PALEOMAP", "GOLONKA"),
         method = "grid",
         uncertainty = TRUE
-      )$max_dist
-    ))),
+      )
+    }),
     regexp = "Palaeocoordinates"
   )
+  expect_true(all(is.na(grid_temporal$max_dist)))
 })

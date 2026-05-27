@@ -1,0 +1,122 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=88&lons=2&lats=46&model=PALEOMAP&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 200
+    headers:
+      date: Wed, 27 May 2026 10:43:46 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '58'
+      access-control-allow-origin: '*'
+      vary: Accept,Cookie
+      allow: GET, POST, OPTIONS
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: application/json
+    body:
+      string: '{"type": "MultiPoint", "coordinates": [[3.3803, 36.0574]]}'
+  recorded_at: 2026-05-27 10:43:46
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=125&lons=-103&lats=35&model=PALEOMAP&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 200
+    headers:
+      date: Wed, 27 May 2026 10:43:47 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '60'
+      access-control-allow-origin: '*'
+      vary: Accept,Cookie
+      allow: GET, OPTIONS, POST
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: application/json
+    body:
+      string: '{"type": "MultiPoint", "coordinates": [[-54.3464, 34.2684]]}'
+  recorded_at: 2026-05-27 10:43:48
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=300&lons=-66&lats=-7&model=PALEOMAP&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 200
+    headers:
+      date: Wed, 27 May 2026 10:43:49 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '61'
+      access-control-allow-origin: '*'
+      vary: Accept,Cookie
+      allow: OPTIONS, POST, GET
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: application/json
+    body:
+      string: '{"type": "MultiPoint", "coordinates": [[-41.3441, -26.7097]]}'
+  recorded_at: 2026-05-27 10:43:49
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=88&lons=2&lats=46&model=GOLONKA&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 200
+    headers:
+      date: Wed, 27 May 2026 10:43:50 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '58'
+      access-control-allow-origin: '*'
+      vary: Accept,Cookie
+      allow: OPTIONS, POST, GET
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: application/json
+    body:
+      string: '{"type": "MultiPoint", "coordinates": [[14.4278, 38.153]]}'
+  recorded_at: 2026-05-27 10:43:50
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=125&lons=-103&lats=35&model=GOLONKA&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 200
+    headers:
+      date: Wed, 27 May 2026 10:43:51 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '60'
+      access-control-allow-origin: '*'
+      vary: Accept,Cookie
+      allow: POST, OPTIONS, GET
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: application/json
+    body:
+      string: '{"type": "MultiPoint", "coordinates": [[-41.1781, 37.1129]]}'
+  recorded_at: 2026-05-27 10:43:52
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=300&lons=-66&lats=-7&model=GOLONKA&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 200
+    headers:
+      date: Wed, 27 May 2026 10:43:53 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '61'
+      access-control-allow-origin: '*'
+      vary: Accept,Cookie
+      allow: OPTIONS, GET, POST
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: application/json
+    body:
+      string: '{"type": "MultiPoint", "coordinates": [[-39.0384, -24.2911]]}'
+  recorded_at: 2026-05-27 10:43:53
+recorded_with: VCR-vcr/2.1.0
