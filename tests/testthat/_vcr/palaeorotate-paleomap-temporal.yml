@@ -1,0 +1,23 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=700&lons=11.3%2C108.846%2C-7.382%2C-116.135%2C-37.032%2C113.122%2C158.889%2C-117.594%2C-52.221%2C73.814&lats=82.663%2C-12.996%2C-65.535%2C56.473%2C55.232%2C73.46%2C36.648%2C-7.417%2C-75.308%2C41.534&model=GOLONKA&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 400
+    headers:
+      date: Wed, 27 May 2026 10:40:13 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '108'
+      vary: Accept,Cookie
+      allow: POST, GET, OPTIONS
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: text/html; charset=utf-8
+      connection: close
+    body:
+      string: 'The time (700.0) is out of the scope of the reconstruction model GOLONKA
+        {''big_time'': 540, ''small_time'': 0}.'
+  recorded_at: 2026-05-27 10:40:13
+recorded_with: VCR-vcr/2.1.0
