@@ -406,12 +406,12 @@ str(coll_genera)
 
 ```
 ## 'data.frame':	2853 obs. of  6 variables:
+##  $ collection_no: chr  "11149" "11152" "11165" "11165" ...
 ##  $ class        : chr  "Osteichthyes" "Osteichthyes" "Osteichthyes" "Reptilia" ...
 ##  $ order        : chr  NA "Temnospondyli" "Cotylosauria" NA ...
 ##  $ family       : chr  NA "Dissorophidae" NA "Bolosauridae" ...
 ##  $ genus        : chr  NA "Parioxys" "Archeria" "Bolosaurus" ...
 ##  $ unique_name  : chr  "Osteichthyes indet." "Parioxys sp." "Archeria sp." "Bolosaurus sp." ...
-##  $ collection_no: chr  "11149" "11152" "11165" "11165" ...
 ```
 
 Next, let's count the number of unique genera per collection:
@@ -537,13 +537,13 @@ head(space_tetrapods)
 ```
 
 ```
-##              taxon taxon_id      area bin_midpoint
-## 1        Abdalodon        1      0.00       257.05
-## 2        Acrodenta        2      0.00       257.05
-## 3      Adelosaurus        3      0.00       257.05
-## 4    Aelurognathus        4 292392.77       257.05
-## 5     Aelurosaurus        5  14698.41       257.05
-## 6 Aenigmastropheus        6      0.00       257.05
+##   bin_midpoint            taxon taxon_id      area
+## 1       257.05        Abdalodon        1      0.00
+## 2       257.05        Acrodenta        2      0.00
+## 3       257.05      Adelosaurus        3      0.00
+## 4       257.05    Aelurognathus        4 292392.77
+## 5       257.05     Aelurosaurus        5  14698.41
+## 6       257.05 Aenigmastropheus        6      0.00
 ```
 As you can see, the combination of `group_apply` and `tax_range_space` produces a dataset with the area of geographic range for each taxon in kilometers squared for each time interval. Note that an area of zero here means that there is only one occurrence of that taxon in that time bin. From this information we can now plot how the average range size of tetrapods changed throughout the Carboniferous and Permian:
 
