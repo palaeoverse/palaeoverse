@@ -142,13 +142,19 @@ group_apply <- function(occdf, group, fun, ...) {
     dfrows <- vapply(X = output_lst, FUN = nrow, FUN.VALUE = 1L)
     keys <- keys[output_lst_keep, , drop = FALSE]
     output_df <- cbind(
-      keys[rep(seq_along(dfrows), dfrows), , drop = FALSE],
-      do.call(what = rbind, args = output_lst)
+      do.call(what = rbind, args = output_lst),
+      keys[rep(seq_along(dfrows), dfrows), , drop = FALSE]
     )
   } else {
     fun_name <- deparse(substitute(fun))
     output_df <- array2DF(x = output_lst, responseName = fun_name)
     output_df <- output_df[!is.na(output_df[, fun_name]), ]
+    # Reorder column to match the column order in the case of output of type list.
+    # https://github.com/palaeoverse/palaeoverse/issues/197
+    output_df <- output_df[,
+      c(ncol(output_df), seq_along(ncol(output_df) - 1)),
+      drop = FALSE
+    ]
   }
 
   # Update output if none returned
