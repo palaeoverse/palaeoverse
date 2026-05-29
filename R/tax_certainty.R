@@ -13,7 +13,8 @@
 #'   `name` for. Matched values will be classified as "uncertain". A
 #'   pre-defined named list of terms is screened for by default (see Details).
 #'   These terms can be ignored, or replaced through this argument (e.g.
-#'   `terms = list(species = "")`).
+#'   `terms = list(species = NULL)`). Note, screened terms are not
+#'   case-sensitive.
 #' @param certainty \code{vector}. A vector of length two denoting
 #'   how certainty should be coded. The first element of the vector denotes
 #'   "certain" status (default: 1), while the second denotes "uncertain"
@@ -32,14 +33,16 @@
 #'   taxonomic identifications. When **any** of these notations are present,
 #'   the taxonomic name is considered uncertain, while in their absence, the
 #'   taxonomic name is considered certain. A pre-defined named list of terms
-#'   is screened for by default, with the follow names and values:
+#'   is screened for by default (i.e.
+#'   `list(subspecies = c("ssp\\.", "subsp\\."), species = c("sp\\.", "spp\\."), ...)`),
+#'   with the following names and values:
 #'
 #'   - subspecies: ssp., subsp.
 #'   - species: sp., spp.
 #'   - genus: gen.
 #'   - family: fam.
 #'   - indeterminable: indeterminabilis, indeterminata, indet., ind.
-#'   - uncertain: incerta, ind., "", ''
+#'   - uncertain: incerta, ind., ?, "", ''
 #'   - confer: confer, cf., cfr., conf.
 #'   - dubia: dubia, sp. dub., nomen dubium
 #'   - incertae: incertae sedis, inc. sed.
@@ -52,8 +55,11 @@
 #'   Additional terms to screen for can be provided via the `terms` argument
 #'   via a named list (e.g. `terms = list(custom = "species1")`). In addition,
 #'   the pre-defined named list can be modified to omit, or update certain
-#'   terms (e.g. `terms = list(species = "")` or
-#'   `terms = list(genus = "gen\\.", "genus")`).
+#'   terms (e.g. `terms = list(species = NULL)` or
+#'   `terms = list(genus = "gen\\.", "genus")`). Note, while this function
+#'   intends to minimise false positives (e.g. use of "sp." over "sp" to avoid
+#'   mid-name matches), it is the responsibility of the user to understand the
+#'   scale of risk for screened terms with respect to the input data.
 #'
 #'   The pre-defined list is intended to be comprehensive, and is informed by:
 #'
@@ -78,7 +84,7 @@
 #'                            certainty = c("certain", "uncertain"),
 #'                            append = TRUE)
 #' certainty <- tax_certainty(taxdf = occdf, name = "genus",
-#'                            terms = list(subspecies = "", species = ""),
+#'                            terms = list(subspecies = NULL, species = NULL),
 #'                            certainty = c("certain", "uncertain"),
 #'                            append = FALSE)
 #' @export
@@ -104,7 +110,7 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
   if (!is.logical(append)) {
     stop("`append` must be of class logical (TRUE/FALSE).")
   }
-  # Create temporary taxdf to not replace original values
+  # Create temporary taxdf column to not replace original values
   taxdf$certainty <- taxdf[[name]]
   # Replace empty rows with NA
   taxdf$certainty <- gsub(pattern = "^$|^\\s+$",
@@ -117,7 +123,7 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
                  family = c("fam\\."),
                  indeterminable = c("indeterminabilis", "indeterminata",
                                     "indet\\.", "ind\\."),
-                 uncertain = c("incerta", "?", "inc\\.",
+                 uncertain = c("incerta", "\\?",
                                "\\\"\\\"", "\\\'\\\'"),
                  confer = c("confer$", "cf\\.", "cfr\\.", "conf\\."),
                  dubia = c("dubia$","sp\\. dub\\.", "nomen dubium"),
@@ -129,6 +135,8 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
                  not_specified = c("NO_.*_SPECIFIED"))
   # Update pre-defined terms and/or include custom terms
   screen[names(terms)] <- terms
+  # Drop NULL screening terms if present
+  screen <- screen[!unlist(lapply(screen, is.null))]
   # Identify taxonomic certainty
   matches <- lapply(screen, function(x) {
     sapply(x, grepl, taxdf$certainty, ignore.case = TRUE)
@@ -148,6 +156,7 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
     taxdf$certainty <- classif
     return(taxdf)
   } else {
+    names(classif) <- taxdf[, name]
     return(classif)
   }
 }

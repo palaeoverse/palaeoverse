@@ -23,7 +23,8 @@ wish to check (e.g. "identified_name").}
 \code{name} for. Matched values will be classified as "uncertain". A
 pre-defined named list of terms is screened for by default (see Details).
 These terms can be ignored, or replaced through this argument (e.g.
-\code{terms = list(species = "")}).}
+\code{terms = list(species = NULL)}). Note, screened terms are not
+case-sensitive.}
 
 \item{certainty}{\code{vector}. A vector of length two denoting
 how certainty should be coded. The first element of the vector denotes
@@ -52,14 +53,16 @@ abbreviations, qualifiers, and notations expressing uncertainty in
 taxonomic identifications. When \strong{any} of these notations are present,
 the taxonomic name is considered uncertain, while in their absence, the
 taxonomic name is considered certain. A pre-defined named list of terms
-is screened for by default, with the follow names and values:
+is screened for by default (i.e.
+\code{list(subspecies = c("ssp\\\\.", "subsp\\\\."), species = c("sp\\\\.", "spp\\\\."), ...)}),
+with the following names and values:
 \itemize{
 \item subspecies: ssp., subsp.
 \item species: sp., spp.
 \item genus: gen.
 \item family: fam.
 \item indeterminable: indeterminabilis, indeterminata, indet., ind.
-\item uncertain: incerta, ind., "", ''
+\item uncertain: incerta, ind., ?, "", ''
 \item confer: confer, cf., cfr., conf.
 \item dubia: dubia, sp. dub., nomen dubium
 \item incertae: incertae sedis, inc. sed.
@@ -73,8 +76,11 @@ is screened for by default, with the follow names and values:
 Additional terms to screen for can be provided via the \code{terms} argument
 via a named list (e.g. \code{terms = list(custom = "species1")}). In addition,
 the pre-defined named list can be modified to omit, or update certain
-terms (e.g. \code{terms = list(species = "")} or
-\code{terms = list(genus = "gen\\\\.", "genus")}).
+terms (e.g. \code{terms = list(species = NULL)} or
+\code{terms = list(genus = "gen\\\\.", "genus")}). Note, while this function
+intends to minimise false positives (e.g. use of "sp." over "sp" to avoid
+mid-name matches), it is the responsibility of the user to understand the
+scale of risk for screened terms with respect to the input data.
 
 The pre-defined list is intended to be comprehensive, and is informed by:
 \itemize{
@@ -105,7 +111,7 @@ certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
                            certainty = c("certain", "uncertain"),
                            append = TRUE)
 certainty <- tax_certainty(taxdf = occdf, name = "genus",
-                           terms = list(subspecies = "", species = ""),
+                           terms = list(subspecies = NULL, species = NULL),
                            certainty = c("certain", "uncertain"),
                            append = FALSE)
 }
