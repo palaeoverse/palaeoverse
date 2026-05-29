@@ -138,11 +138,11 @@ tax_range_strat <- function(
   }
 
   if (length(group) > 1) {
-    stop('`group` length is >1, only a single grouping variable is accepted.')
+    stop("`group` length is >1, only a single grouping variable is accepted.")
   }
 
   if (!is.null(group) && !group %in% colnames(occdf)) {
-    stop('`group` is not a named column in `occdf`')
+    stop("`group` is not a named column in `occdf`")
   }
 
   if (!all(c(name, level) %in% colnames(occdf))) {

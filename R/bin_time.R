@@ -180,7 +180,7 @@ bin_time <- function(
   }
 
   if (method == "point" && !is.function(fun)) {
-    stop('`fun` is not a function.')
+    stop("`fun` is not a function.")
   }
 
   #=== Reporting Info ===
