@@ -40,41 +40,59 @@ test_that("group_apply works", {
     4017
   )
 
-  expect_equal(
-    nrow(group_apply(
-      occdf = occdf,
-      group = c("collection_no"),
-      fun = tax_check,
-      verbose = FALSE
-    )),
-    NULL
-  )
+  expect_null(nrow(group_apply(
+    occdf = occdf,
+    group = c("collection_no"),
+    fun = tax_check,
+    verbose = FALSE
+  )))
 
   # Errors
-  expect_error(group_apply(occdf = 1, group = c("cc"), fun = tax_range_time))
-  expect_error(group_apply(
-    occdf = occdf,
-    group = c("cc"),
-    fun = "tax_range_time"
-  ))
-  expect_error(group_apply(
-    occdf = occdf,
-    group = c("test"),
-    fun = tax_range_time
-  ))
-  expect_error(group_apply(occdf = occdf, fun = tax_range_time))
-  expect_error(group_apply(occdf = occdf, group = c("cc"), fun = tax_range))
-  expect_error(group_apply(
-    occdf = occdf,
-    group = c("cc"),
-    fun = tax_range_time,
-    not_an_argument = "test"
-  ))
-  expect_error(group_apply(
-    occdf = occdf,
-    group = c("cc"),
-    fun = tax_range_time,
-    not_an_argument1 = "test",
-    not_an_argument2 = "test"
-  ))
+  expect_snapshot(
+    group_apply(occdf = 1, group = c("cc"), fun = tax_range_time),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("cc"),
+      fun = "tax_range_time"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("test"),
+      fun = tax_range_time
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(occdf = occdf, fun = tax_range_time),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(occdf = occdf, group = c("cc"), fun = tax_range),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("cc"),
+      fun = tax_range_time,
+      not_an_argument = "test"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("cc"),
+      fun = tax_range_time,
+      not_an_argument1 = "test",
+      not_an_argument2 = "test"
+    ),
+    error = TRUE
+  )
 })

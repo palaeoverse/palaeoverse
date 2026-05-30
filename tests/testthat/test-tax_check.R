@@ -31,28 +31,31 @@ testdf <- data.frame(
 # test errors from incorrectly supplied arguments, and warnings
 test_that("tax_check() accepts taxon names, no groups", {
   # not data.frame or zero length data.frame supplied
-  expect_error(tax_check(name = "genus", group = TRUE))
-  expect_error(tax_check(1))
-  expect_error(tax_check(data.frame()))
+  expect_snapshot(tax_check(name = "genus", group = TRUE), error = TRUE)
+  expect_snapshot(tax_check(1), error = TRUE)
+  expect_snapshot(tax_check(data.frame()), error = TRUE)
   # name column not/incorrectly specified
-  expect_error(tax_check(testdf, name = 1))
-  expect_error(tax_check(testdf, name = c("one", "name")))
-  expect_error(tax_check(testdf, name = "age"))
+  expect_snapshot(tax_check(testdf, name = 1), error = TRUE)
+  expect_snapshot(tax_check(testdf, name = c("one", "name")), error = TRUE)
+  expect_snapshot(tax_check(testdf, name = "age"), error = TRUE)
   # groups column incorrectly specified
-  expect_error(tax_check(testdf, "genus", group = TRUE))
-  expect_error(tax_check(testdf, "genus", group = c("a", "group")))
-  expect_error(tax_check(testdf, "genus", group = "agroup"))
-  expect_error(tax_check(testdf, "genus", group = "age"))
+  expect_snapshot(tax_check(testdf, "genus", group = TRUE), error = TRUE)
+  expect_snapshot(
+    tax_check(testdf, "genus", group = c("a", "group")),
+    error = TRUE
+  )
+  expect_snapshot(tax_check(testdf, "genus", group = "agroup"), error = TRUE)
+  expect_snapshot(tax_check(testdf, "genus", group = "age"), error = TRUE)
   # Jaro distance out of range 0-1
-  expect_error(tax_check(testdf, "genus", dis = "max"))
-  expect_error(tax_check(testdf, "genus", dis = 0))
-  expect_error(tax_check(testdf, "genus", dis = FALSE))
+  expect_snapshot(tax_check(testdf, "genus", dis = "max"), error = TRUE)
+  expect_snapshot(tax_check(testdf, "genus", dis = 0), error = TRUE)
+  expect_snapshot(tax_check(testdf, "genus", dis = FALSE), error = TRUE)
   # start/end letter matches incorrectly supplied
-  expect_error(tax_check(testdf, "genus", start = "1"))
-  expect_error(tax_check(testdf, "genus", start = c(1, 3)))
-  expect_error(tax_check(testdf, "genus", start = TRUE))
+  expect_snapshot(tax_check(testdf, "genus", start = "1"), error = TRUE)
+  expect_snapshot(tax_check(testdf, "genus", start = c(1, 3)), error = TRUE)
+  expect_snapshot(tax_check(testdf, "genus", start = TRUE), error = TRUE)
   # verbosity not logical
-  expect_error(tax_check(testdf, "genus", verbose = "TRUE"))
+  expect_snapshot(tax_check(testdf, "genus", verbose = "TRUE"), error = TRUE)
   # non alpha character warning
   expect_warning(tax_check(testdf, "genus", verbose = TRUE))
 })

@@ -108,7 +108,7 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
   )
 
   # plot latitudinal bins
-  if (plot == TRUE) {
+  if (plot) {
     plot(
       1,
       type = "n",

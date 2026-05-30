@@ -102,11 +102,11 @@ tax_range_time <- function(
   intervals = "periods"
 ) {
   #=== Handling errors ===
-  if (is.data.frame(occdf) == FALSE) {
+  if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe")
   }
 
-  if (is.logical(plot) == FALSE) {
+  if (!is.logical(plot)) {
     stop("`plot` should be logical (TRUE/FALSE)")
   }
 
@@ -117,30 +117,30 @@ tax_range_time <- function(
     stop("`max_ma` and `min_ma` must be of class numeric.")
   }
 
-  if (any(c(name, min_ma, max_ma) %in% colnames(occdf) == FALSE)) {
+  if (!all(c(name, min_ma, max_ma) %in% colnames(occdf))) {
     stop(
       "Either `name`, `min_ma`, or `max_ma`, is not a named column in
          `occdf`"
     )
   }
 
-  if (any(is.na(occdf[, name, drop = TRUE]))) {
+  if (anyNA(occdf[, name, drop = TRUE])) {
     stop("The `name` column contains NA values")
   }
 
   if (
-    any(is.na(occdf[, min_ma, drop = TRUE])) ||
-      any(is.na(occdf[, max_ma, drop = TRUE]))
+    anyNA(occdf[, min_ma, drop = TRUE]) ||
+      anyNA(occdf[, max_ma, drop = TRUE])
   ) {
     stop("`min_ma` and/or `max_ma` columns contain NA values")
   }
 
   if (length(group) > 1) {
-    stop('`group` length is >1, only a single grouping variable is accepted.')
+    stop("`group` length is >1, only a single grouping variable is accepted.")
   }
 
-  if (!is.null(group) && (group %in% colnames(occdf) == FALSE)) {
-    stop('`group` is not a named column in `occdf`')
+  if (!is.null(group) && (!group %in% colnames(occdf))) {
+    stop("`group` is not a named column in `occdf`")
   }
 
   if (!by %in% c("name", "FAD", "LAD")) {
@@ -166,7 +166,7 @@ tax_range_time <- function(
       #=== Set-up ===
       unique_taxa <- unique(occdf[, name, drop = TRUE])
       # Order taxa by name
-      unique_taxa <- unique_taxa[order(unique_taxa)]
+      unique_taxa <- sort(unique_taxa)
 
       #=== Temporal range ===
       # Generate dataframe for population
@@ -200,7 +200,7 @@ tax_range_time <- function(
     max_ma = max_ma
   )
   # Assign taxon_ids
-  temp_df$taxon_id <- 1:nrow(temp_df)
+  temp_df$taxon_id <- seq_len(nrow(temp_df))
   # Round off values
   temp_df[, c("max_ma", "min_ma", "range_myr")] <- round(
     x = temp_df[, c("max_ma", "min_ma", "range_myr")],
@@ -210,7 +210,7 @@ tax_range_time <- function(
   row.names(temp_df) <- NULL
 
   #=== Plotting ===
-  if (plot == TRUE) {
+  if (plot) {
     # Default plot args
     args <- list(
       main = "Temporal range of taxa",
@@ -254,7 +254,7 @@ tax_range_time <- function(
       axes = TRUE
     )
     # Add ylabels
-    axis(2, at = 1:nrow(temp_df), labels = temp_df$taxon, las = 2)
+    axis(2, at = seq_len(nrow(temp_df)), labels = temp_df$taxon, las = 2)
     # Add yaxis title
     title(ylab = args$ylab, line = 2 + extra_margin)
     # Groups provided?
@@ -267,7 +267,7 @@ tax_range_time <- function(
       # Define colours
       cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
       # Run across number of groups
-      lapply(1:length(vals_rect), function(x) {
+      lapply(seq_along(vals_rect), function(x) {
         # Add background rectangles
         rect(
           xleft = xlim[1] * 2,

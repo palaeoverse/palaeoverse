@@ -51,11 +51,11 @@ tax_expand_lat <- function(
   min_lat = "min_lat"
 ) {
   # Handle errors
-  if (is.data.frame(taxdf) == FALSE) {
+  if (!is.data.frame(taxdf)) {
     stop("`taxdf` should be a dataframe")
   }
 
-  if (is.data.frame(bins) == FALSE) {
+  if (!is.data.frame(bins)) {
     stop("`bins` should be a dataframe")
   }
 
@@ -87,7 +87,7 @@ tax_expand_lat <- function(
     stop("Maximum latitude must be larger than or equal to minimum latitude")
   }
 
-  if (any(duplicated(taxdf))) {
+  if (anyDuplicated(taxdf) > 0) {
     stop("Not all rows in `taxdf` are unique")
   }
 
