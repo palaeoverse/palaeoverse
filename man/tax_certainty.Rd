@@ -22,9 +22,9 @@ wish to check (e.g. "identified_name").}
 \item{terms}{\code{list}. A named list of uncertainty terms to screen
 \code{name} for. Matched values will be classified as "uncertain". A
 pre-defined named list of terms is screened for by default (see Details).
-These terms can be ignored, or replaced through this argument (e.g.
-\code{terms = list(species = NULL)}). Note, screened terms are not
-case-sensitive.}
+These terms can be ignored (e.g. \code{terms = list(species = NULL)}), or
+replaced through this argument (e.g. \code{terms = list(species = "sp1")}).
+Note, screened terms are not case-sensitive.}
 
 \item{certainty}{\code{vector}. A vector of length two denoting
 how certainty should be coded. The first element of the vector denotes
@@ -38,8 +38,8 @@ containing the taxonomic identification certainty status is returned.}
 }
 \value{
 When \code{append} is \code{TRUE}, the input \code{taxdf} with an
-appended 'certainty' column classifying each taxon (default), or a vector
-if \code{append} is \code{FALSE}.
+appended 'certainty' column classifying each taxon (default), or a named
+vector if \code{append} is \code{FALSE}.
 }
 \description{
 Check whether a given taxonomic name is certain or uncertain by screening
@@ -54,7 +54,7 @@ taxonomic identifications. When \strong{any} of these notations are present,
 the taxonomic name is considered uncertain, while in their absence, the
 taxonomic name is considered certain. A pre-defined named list of terms
 is screened for by default (i.e.
-\code{list(subspecies = c("ssp\\\\.", "subsp\\\\."), species = c("sp\\\\.", "spp\\\\."), ...)}),
+\code{list(subspecies = c("ssp\\\\.", "subsp\\\\."), ...)}),
 with the following names and values:
 \itemize{
 \item subspecies: ssp., subsp.

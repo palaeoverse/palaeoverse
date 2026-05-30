@@ -12,9 +12,9 @@
 #' @param terms \code{list}. A named list of uncertainty terms to screen
 #'   `name` for. Matched values will be classified as "uncertain". A
 #'   pre-defined named list of terms is screened for by default (see Details).
-#'   These terms can be ignored, or replaced through this argument (e.g.
-#'   `terms = list(species = NULL)`). Note, screened terms are not
-#'   case-sensitive.
+#'   These terms can be ignored (e.g. `terms = list(species = NULL)`), or
+#'   replaced through this argument (e.g. `terms = list(species = "sp1")`).
+#'   Note, screened terms are not case-sensitive.
 #' @param certainty \code{vector}. A vector of length two denoting
 #'   how certainty should be coded. The first element of the vector denotes
 #'   "certain" status (default: 1), while the second denotes "uncertain"
@@ -25,8 +25,8 @@
 #'   containing the taxonomic identification certainty status is returned.
 #'
 #' @return When `append` is \code{TRUE}, the input \code{taxdf} with an
-#'   appended 'certainty' column classifying each taxon (default), or a vector
-#'   if \code{append} is `FALSE`.
+#'   appended 'certainty' column classifying each taxon (default), or a named
+#'   vector if \code{append} is `FALSE`.
 #'
 #' @details This function screens `name` for common substitutes,
 #'   abbreviations, qualifiers, and notations expressing uncertainty in
@@ -34,7 +34,7 @@
 #'   the taxonomic name is considered uncertain, while in their absence, the
 #'   taxonomic name is considered certain. A pre-defined named list of terms
 #'   is screened for by default (i.e.
-#'   `list(subspecies = c("ssp\\.", "subsp\\."), species = c("sp\\.", "spp\\."), ...)`),
+#'   `list(subspecies = c("ssp\\.", "subsp\\."), ...)`),
 #'   with the following names and values:
 #'
 #'   - subspecies: ssp., subsp.
