@@ -21,7 +21,7 @@ test_that("tax_certainty() works", {
                              append = 99))
   # Expect true
   ## Vector returned
-  expect_true(is.vector(tax_certainty(taxdf = tetrapods,
+  expect_true(is.data.frame(tax_certainty(taxdf = tetrapods,
                                       name = "accepted_name",
                                       append = FALSE)))
   ## Dataframe returned
@@ -32,20 +32,20 @@ test_that("tax_certainty() works", {
   expect_true(is.logical(tax_certainty(taxdf = tetrapods,
                                        name = "accepted_name",
                                        certainty = c(TRUE, FALSE),
-                                       append = FALSE)))
+                                       append = FALSE)$certainty))
   ## Certainty appended correctly
   expect_true("certainty" %in% colnames(tax_certainty(taxdf = tetrapods,
                                                       name = "accepted_name",
                                                       append = TRUE)))
   ## Custom terms
-  expect_true(is.vector(tax_certainty(taxdf = tetrapods,
+  expect_true(is.data.frame(tax_certainty(taxdf = tetrapods,
                                       name = "genus",
                                       terms = list(custom = "test"),
                                       append = FALSE)))
 
   ## Correct number of certain/uncertainty values returned
   expect_equal(4222,
-    sum(tax_certainty(taxdf = tetrapods, name = "family", append = FALSE)))
+    sum(tax_certainty(taxdf = tetrapods, name = "family", append = FALSE)$certainty))
 
 })
 

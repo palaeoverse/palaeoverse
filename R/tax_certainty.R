@@ -21,12 +21,14 @@
 #'   status (default: 0).
 #' @param append \code{logical}. If \code{TRUE} (default), the returned object
 #'   is a \code{data.frame} consisting of the input \code{taxdf} with a column
-#'   denoting the taxonomic 'certainty' appended. If \code{FALSE}, a vector
-#'   containing the taxonomic identification certainty status is returned.
+#'   denoting the taxonomic 'certainty' appended. If \code{FALSE}, a two-column
+#'   dataframe containing the input `name` and the taxonomic identification
+#'   certainty status is returned.
 #'
 #' @return When `append` is \code{TRUE}, the input \code{taxdf} with an
-#'   appended 'certainty' column classifying each taxon (default), or a named
-#'   vector if \code{append} is `FALSE`.
+#'   appended 'certainty' column classifying each taxon (default). When
+#'   \code{append} is `FALSE`, a two-column dataframe with input `name`
+#'   and 'certainty' column classifying each taxon.
 #'
 #' @details This function screens `name` for common substitutes,
 #'   abbreviations, qualifiers, and notations expressing uncertainty in
@@ -83,6 +85,7 @@
 #' certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
 #'                            certainty = c("certain", "uncertain"),
 #'                            append = TRUE)
+#' # Turn off subspecies- and species-level screening terms (genus-level data)
 #' certainty <- tax_certainty(taxdf = occdf, name = "genus",
 #'                            terms = list(subspecies = NULL, species = NULL),
 #'                            certainty = c("certain", "uncertain"),
@@ -151,12 +154,11 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
   matches[matches >= 2] <- 2
   # Extract certainty
   classif <- certainty[matches]
-  # Add to dataframe?
-  if (append == TRUE) {
-    taxdf$certainty <- classif
-    return(taxdf)
-  } else {
-    names(classif) <- taxdf[, name]
-    return(classif)
+  # Add certainty
+  taxdf$certainty <- classif
+  # Extract only names and certainty
+  if (append == FALSE) {
+    taxdf <- taxdf[, c(name, "certainty")]
   }
+  return(taxdf)
 }

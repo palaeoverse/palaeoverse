@@ -33,13 +33,15 @@ status (default: 0).}
 
 \item{append}{\code{logical}. If \code{TRUE} (default), the returned object
 is a \code{data.frame} consisting of the input \code{taxdf} with a column
-denoting the taxonomic 'certainty' appended. If \code{FALSE}, a vector
-containing the taxonomic identification certainty status is returned.}
+denoting the taxonomic 'certainty' appended. If \code{FALSE}, a two-column
+dataframe containing the input \code{name} and the taxonomic identification
+certainty status is returned.}
 }
 \value{
 When \code{append} is \code{TRUE}, the input \code{taxdf} with an
-appended 'certainty' column classifying each taxon (default), or a named
-vector if \code{append} is \code{FALSE}.
+appended 'certainty' column classifying each taxon (default). When
+\code{append} is \code{FALSE}, a two-column dataframe with input \code{name}
+and 'certainty' column classifying each taxon.
 }
 \description{
 Check whether a given taxonomic name is certain or uncertain by screening
@@ -110,6 +112,7 @@ occdf <- tetrapods[1:100, ]
 certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
                            certainty = c("certain", "uncertain"),
                            append = TRUE)
+# Turn off subspecies- and species-level screening terms (genus-level data)
 certainty <- tax_certainty(taxdf = occdf, name = "genus",
                            terms = list(subspecies = NULL, species = NULL),
                            certainty = c("certain", "uncertain"),
