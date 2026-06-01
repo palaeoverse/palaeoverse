@@ -107,6 +107,8 @@ downstream analyses.
   : Generate pseudo-occurrences from latitudinal range data
 - [`tax_expand_time()`](https://palaeoverse.palaeoverse.org/reference/tax_expand_time.md)
   : Generate pseudo-occurrences from temporal range data
+- [`tax_certainty()`](https://palaeoverse.palaeoverse.org/reference/tax_certainty.md)
+  : Classify the certainty of taxonomic identifications
 
 ## Data binning
 

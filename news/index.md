@@ -4,6 +4,9 @@
 
 ### New features
 
+- Added
+  [`tax_certainty()`](https://palaeoverse.palaeoverse.org/reference/tax_certainty.md)
+  ([\#109](https://github.com/palaeoverse/palaeoverse/issues/109))
 - Added `group` argument to
   [`tax_range_time()`](https://palaeoverse.palaeoverse.org/reference/tax_range_time.md)
   and
