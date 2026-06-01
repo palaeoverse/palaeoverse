@@ -90,7 +90,7 @@
 #'                            certainty = c("certain", "uncertain"),
 #'                            append = TRUE)
 #' # Turn off subspecies- and species-level screening terms (genus-level data)
-#' certainty <- tax_certainty(taxdf = occdf, name = "genus",
+#' certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
 #'                            terms = list(subspecies = NULL, species = NULL),
 #'                            certainty = c("certain", "uncertain"),
 #'                            append = FALSE)
