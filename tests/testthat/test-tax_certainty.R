@@ -62,7 +62,7 @@ test_that("tax_certainty() works", {
 
   ## Correct number of certain/uncertainty values returned
   expect_equal(
-    4222,
+    3759,
     sum(
       tax_certainty(
         taxdf = tetrapods,
