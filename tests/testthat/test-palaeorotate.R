@@ -165,6 +165,7 @@ test_that("palaeorotate() grid method works", {
     lat = c(46, 35, -7),
     age = c(88, 125, 300)
   )
+
   # Same number of rows returned
   expect_equal(
     nrow(palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid")),
@@ -172,14 +173,14 @@ test_that("palaeorotate() grid method works", {
   )
 
   # Check that multiple models are being returned
-  grid_multi <- palaeorotate(
+  occdf <- palaeorotate(
     occdf = occdf,
     method = "grid",
     model = c("PALEOMAP", "GOLONKA")
   )
   expect_true(all(
     c("p_lng_PALEOMAP", "p_lat_PALEOMAP", "p_lng_GOLONKA", "p_lat_GOLONKA") %in%
-      colnames(grid_multi)
+      colnames(occdf)
   ))
 
   # Check handling of temporal range (NAs should be returned)
