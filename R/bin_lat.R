@@ -36,16 +36,16 @@
 #'
 bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   #=== Handling errors ===
-  if (is.data.frame(occdf) == FALSE) {
+  if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe.")
   }
-  if (is.data.frame(bins) == FALSE) {
+  if (!is.data.frame(bins)) {
     stop("`bins` should be a dataframe.")
   }
-  if (lat %in% colnames(occdf) == FALSE) {
+  if (!lat %in% colnames(occdf)) {
     stop("`lat` column name does not exist in `occdf`")
   }
-  if (any(is.na(occdf[, lat, drop = TRUE]))) {
+  if (anyNA(occdf[, lat, drop = TRUE])) {
     stop("`lat` contains NA values")
   }
   if (any(occdf[, lat, drop = TRUE] > 90 | occdf[, lat, drop = TRUE] < -90)) {
@@ -74,7 +74,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   }
   #=== Boundary bins ===
   if (
-    boundary == TRUE &&
+    boundary &&
       any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))
   ) {
     # Which occurrences fall on boundaries?
@@ -94,7 +94,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   }
   #=== Add warning ===
   if (
-    boundary == FALSE &&
+    !boundary &&
       any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))
   ) {
     message(paste(

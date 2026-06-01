@@ -123,7 +123,7 @@ colnames(tetrapods)[c(35, 37)] <- c("max_ma", "min_ma")
 # Generate time bins
 tetrapods <- bin_time(occdf = tetrapods,
                       bins = bins,
-                      method = 'mid')
+                      method = "mid")
 
 ```
 
@@ -136,7 +136,7 @@ cp_tetrapods <- subset(tetrapods, min_ma > min(bins$min_ma))
 # Bin occurrences into chosen time bins
 mid_tetrapods <- bin_time(occdf = cp_tetrapods,
                           bins = bins,
-                          method = 'mid')
+                          method = "mid")
 
 ```
 
@@ -163,7 +163,7 @@ As you can see, only ~25% of the dataset can be assigned to just one bin - the o
 # Bin occurrences into chosen time bins
 maj_tetrapods <- bin_time(occdf = cp_tetrapods,
                           bins = bins,
-                          method = 'majority')
+                          method = "majority")
 
 ```
 
@@ -189,8 +189,8 @@ Looks good to me! Now that we have palaeocoordinates for our occurrences, we can
 ```{r}
 # Make a table of potential number of bins
 maj_tetrapods <- bin_space(occdf = maj_tetrapods,
-                           lng = 'p_lng',
-                           lat = 'p_lat',
+                           lng = "p_lng",
+                           lat = "p_lat",
                            spacing = 100)
 
 # Show the first 6 rows of the new columns added using `bin_space`.
@@ -330,9 +330,7 @@ plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
      pch = 19, col = "#0e826f") # point style and colour
 box()
 axis(2) # add a normal axis to the elft side
-axis_geo(side = 1, intervals = list("epochs", "periods"))
-title(xlab = "Time (Ma)", line = 4)
-
+axis_geo(side = 1, intervals = list("epochs", "periods"), title = "Time (Ma)")
 ```
 
 Amazing! Now we can clearly see that alpha diversity appears to be a lot higher in the Permian than the Carboniferous. But how has the spatial distribution of tetrapods changed across this boundary? Let's use some of the other `palaeoverse` functions to find out!
