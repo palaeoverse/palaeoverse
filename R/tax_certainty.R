@@ -161,6 +161,8 @@ tax_certainty <- function(
     sapply(x, grepl, taxdf$certainty, ignore.case = TRUE, perl = TRUE)
   })
   matches <- do.call(cbind, matches)
+  # Explicitly test NA
+  matches <- cbind(matches, is.na = is.na(taxdf$certainty))
   # Calculate row sums (1 (or more) = match/uncertain, 0 = no match/certain)
   matches <- rowSums(matches)
   # Match user definitions
