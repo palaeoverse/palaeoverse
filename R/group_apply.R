@@ -152,7 +152,7 @@ group_apply <- function(occdf, group, fun, ...) {
     # Reorder column to match the column order in the case of output of type list.
     # https://github.com/palaeoverse/palaeoverse/issues/197
     output_df <- output_df[,
-      c(ncol(output_df), seq_along(ncol(output_df) - 1)),
+      c(ncol(output_df), seq_len(ncol(output_df) - 1)),
       drop = FALSE
     ]
   }
