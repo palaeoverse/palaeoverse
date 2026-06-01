@@ -10,6 +10,15 @@ test_that("group_apply works", {
     ),
     37
   )
+  # Column order
+  expect_named(
+    group_apply(occdf = occdf, group = "cc", fun = nrow),
+    c("nrow", "cc")
+  )
+  expect_named(
+    group_apply(occdf = occdf, group = c("cc", "formation"), fun = nrow),
+    c("nrow", "cc", "formation")
+  )
   # Temporal range of data per time bin with default arguments
   expect_equal(
     nrow(
