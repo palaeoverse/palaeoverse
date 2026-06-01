@@ -10,15 +10,6 @@ test_that("group_apply works", {
     ),
     37
   )
-  # Column order
-  expect_named(
-    group_apply(occdf = occdf, group = "cc", fun = nrow),
-    c("nrow", "cc")
-  )
-  expect_named(
-    group_apply(occdf = occdf, group = c("cc", "formation"), fun = nrow),
-    c("nrow", "cc", "formation")
-  )
   # Temporal range of data per time bin with default arguments
   expect_equal(
     nrow(
@@ -55,8 +46,48 @@ test_that("group_apply works", {
     fun = tax_check,
     verbose = FALSE
   )))
+})
 
-  # Errors
+test_that("group_apply() puts groups last", {
+  # Load example data
+  occdf <- tetrapods[1:100, ]
+  # Remove NA data
+  occdf <- subset(occdf, !is.na(genus))
+
+  # Single group
+  expect_named(
+    group_apply(occdf = occdf, group = "cc", fun = nrow),
+    c("nrow", "cc")
+  )
+
+  # Several groups
+  expect_named(
+    group_apply(occdf = occdf, group = c("cc", "formation"), fun = nrow),
+    c("nrow", "cc", "formation")
+  )
+
+  # Hits the "list" branch in group_apply()
+  expect_named(
+    group_apply(
+      occdf = occdf,
+      group = "collection_no",
+      fun = tax_unique,
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class",
+      resolution = "genus"
+    ),
+    c("class", "order", "family", "genus", "unique_name", "collection_no")
+  )
+})
+
+test_that("group_apply() error handling", {
+  # Load example data
+  occdf <- tetrapods
+  # Remove NA data
+  occdf <- subset(occdf, !is.na(genus))
+
   expect_snapshot(
     group_apply(occdf = 1, group = c("cc"), fun = tax_range_time),
     error = TRUE
