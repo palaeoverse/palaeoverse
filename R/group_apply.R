@@ -141,6 +141,9 @@ group_apply <- function(occdf, group, fun, ...) {
     output_lst <- output_lst[output_lst_keep]
     dfrows <- vapply(X = output_lst, FUN = nrow, FUN.VALUE = 1L)
     keys <- keys[output_lst_keep, , drop = FALSE]
+    # Groups should be last.
+    # https://github.com/palaeoverse/palaeoverse/issues/197
+    # https://github.com/palaeoverse/palaeoverse/issues/199
     output_df <- cbind(
       do.call(what = rbind, args = output_lst),
       keys[rep(seq_along(dfrows), dfrows), , drop = FALSE]
@@ -151,6 +154,7 @@ group_apply <- function(occdf, group, fun, ...) {
     output_df <- output_df[!is.na(output_df[, fun_name]), ]
     # Reorder column to match the column order in the case of output of type list.
     # https://github.com/palaeoverse/palaeoverse/issues/197
+    # https://github.com/palaeoverse/palaeoverse/issues/199
     output_df <- output_df[,
       c(ncol(output_df), seq_len(ncol(output_df) - 1)),
       drop = FALSE
