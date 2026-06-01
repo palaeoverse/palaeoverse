@@ -89,9 +89,8 @@ group_apply <- function(occdf, group, fun, ...) {
   if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe")
   }
-  
-  foo(   bar
-  )
+
+  foo(bar)
 
   any(is.na(x))
 
