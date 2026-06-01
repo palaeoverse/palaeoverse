@@ -95,12 +95,17 @@
 #'                            certainty = c("certain", "uncertain"),
 #'                            append = FALSE)
 #' @export
-tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
-                          certainty = c(1, 0), append = TRUE) {
+tax_certainty <- function(
+  taxdf = NULL,
+  name = NULL,
+  terms = NULL,
+  certainty = c(1, 0),
+  append = TRUE
+) {
   # Error handling
   # Check taxdf is dataframe
   if (!is.data.frame(taxdf)) {
-      stop("`taxdf` must be a data.frame.")
+    stop("`taxdf` must be a data.frame.")
   }
   # Check for valid name input
   if (is.null(taxdf[[name]])) {
@@ -110,7 +115,7 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
     stop("`names` must be of class character.")
   }
   # Check for valid list input
-  if (!is.list(terms) & !is.null(terms)) {
+  if (!is.list(terms) && !is.null(terms)) {
     stop("`terms` must be of class list or NULL.")
   }
   # Check for valid append input
@@ -120,26 +125,33 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
   # Create temporary taxdf column to not replace original values
   taxdf$certainty <- taxdf[[name]]
   # Replace empty rows with NA
-  taxdf$certainty <- gsub(pattern = "^$|^\\s+$",
-                          replacement = NA_character_,
-                          x = taxdf$certainty)
+  taxdf$certainty <- gsub(
+    pattern = "^$|^\\s+$",
+    replacement = NA_character_,
+    x = taxdf$certainty
+  )
   # Terms to screen for
-  screen <- list(subspecies = c("(?<!n\\. )ssp\\.", "(?<!n\\. )subsp\\."),
-                 species = c("(?<!n\\. )sp\\.", "(?<!n\\. )spp\\."),
-                 genus = c("(?<!n\\. )gen\\."),
-                 family = c("(?<!n\\. )fam\\."),
-                 indeterminable = c("indeterminabilis", "indeterminata",
-                                    "indet\\.", "ind\\."),
-                 uncertain = c("incerta", "\\?",
-                               "\\\"\\\"", "\\\'\\\'"),
-                 confer = c("confer$", "cf\\.", "cfr\\.", "conf\\."),
-                 dubia = c("dubia$","sp\\. dub\\.", "nomen dubium"),
-                 incertae = c("incertae sedis", "inc\\. sed\\."),
-                 problematica = c("problematica"),
-                 informal = c("informal"),
-                 unavailable = c("^NA$"),
-                 trace = c("ex\\.", "exuvia", "exuviae"),
-                 not_specified = c("NO_.*_SPECIFIED"))
+  screen <- list(
+    subspecies = c("(?<!n\\. )ssp\\.", "(?<!n\\. )subsp\\."),
+    species = c("(?<!n\\. )sp\\.", "(?<!n\\. )spp\\."),
+    genus = c("(?<!n\\. )gen\\."),
+    family = c("(?<!n\\. )fam\\."),
+    indeterminable = c(
+      "indeterminabilis",
+      "indeterminata",
+      "indet\\.",
+      "ind\\."
+    ),
+    uncertain = c("incerta", "\\?", "\\\"\\\"", "\\\'\\\'"),
+    confer = c("confer$", "cf\\.", "cfr\\.", "conf\\."),
+    dubia = c("dubia$", "sp\\. dub\\.", "nomen dubium"),
+    incertae = c("incertae sedis", "inc\\. sed\\."),
+    problematica = c("problematica"),
+    informal = c("informal"),
+    unavailable = c("^NA$"),
+    trace = c("ex\\.", "exuvia", "exuviae"),
+    not_specified = c("NO_.*_SPECIFIED")
+  )
   # Update pre-defined terms and/or include custom terms
   screen[names(terms)] <- terms
   # Drop NULL screening terms if present
@@ -161,7 +173,7 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
   # Add certainty
   taxdf$certainty <- classif
   # Extract only names and certainty
-  if (append == FALSE) {
+  if (!append) {
     taxdf <- taxdf[, c(name, "certainty")]
   }
   return(taxdf)
