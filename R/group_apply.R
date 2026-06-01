@@ -89,6 +89,9 @@ group_apply <- function(occdf, group, fun, ...) {
   if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe")
   }
+  
+  foo(   bar
+  )
 
   if (!any(group %in% colnames(occdf))) {
     stop("Supplied `group` is not a named column in `occdf`")
