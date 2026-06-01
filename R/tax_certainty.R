@@ -22,12 +22,12 @@
 #' @param append \code{logical}. If \code{TRUE} (default), the returned object
 #'   is a \code{data.frame} consisting of the input \code{taxdf} with a column
 #'   denoting the taxonomic 'certainty' appended. If \code{FALSE}, a two-column
-#'   dataframe containing the input `name` and the taxonomic identification
-#'   certainty status is returned.
+#'   \code{data.frame} containing the input `name` and the taxonomic
+#'   identification certainty status is returned.
 #'
 #' @return When `append` is \code{TRUE}, the input \code{taxdf} with an
 #'   appended 'certainty' column classifying each taxon (default). When
-#'   \code{append} is `FALSE`, a two-column dataframe with input `name`
+#'   \code{append} is `FALSE`, a two-column \code{data.frame} with input `name`
 #'   and 'certainty' column classifying each taxon.
 #'
 #' @details This function screens `name` for common substitutes,
@@ -82,6 +82,9 @@
 #' data(tetrapods)
 #' occdf <- tetrapods[1:100, ]
 #' # Summarise taxonomic certainty
+#' certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+#'                            append = FALSE)
+#' # Append uncertainty to dataframe
 #' certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
 #'                            certainty = c("certain", "uncertain"),
 #'                            append = TRUE)
