@@ -1,5 +1,7 @@
 #' Add an axis with a geological timescale
 #'
+#' hello
+#'
 #' \code{axis_geo} behaves similarly to \code{\link[graphics]{axis}} in that it
 #' adds an axis to the specified side of a base R plot. The main difference is
 #' that it also adds a geological timescale between the plot and the axis. The
