@@ -14,22 +14,21 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r@9f58233a78a2a9fd874714be10f8bba627233339 # v2
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: r-lib/actions/setup-r-dependencies@a51a8012b0aab7c32ef9d19bf54da93f3254335e # v2
         with:
           extra-packages: any::lintr, local::.
           needs: lint
 
       - name: Lint
         run: |
-          # Air takes care of all formatting so we deactivate all formatting-related rules
           lintr::lint_package(linters = lintr::linters_with_defaults(
-            absolute_path_linter = NULL,
+            # Air takes care of all formatting so we deactivate all formatting-related rules
             brace_linter = NULL,
             commas_linter = NULL,
             function_left_parentheses_linter = NULL,
@@ -37,12 +36,18 @@ jobs:
             infix_spaces_linter = NULL,
             line_length_linter = NULL,
             paren_body_linter = NULL,
+            pipe_continuation_linter = NULL,
             semicolon_linter = NULL,
             spaces_inside_linter = NULL,
             spaces_left_parentheses_linter = NULL,
             trailing_blank_lines_linter = NULL,
             trailing_whitespace_linter = NULL,
-            whitespace_linter = NULL
+            whitespace_linter = NULL,
+
+            # Handled by Jarl
+            equals_na_linter = NULL,
+            quotes_linter = NULL,
+            T_and_F_symbol_linter = NULL
           ))
         shell: Rscript {0}
         env:

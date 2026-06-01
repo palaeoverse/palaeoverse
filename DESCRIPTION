@@ -44,28 +44,28 @@ Roxygen: list(markdown = TRUE)
 Depends: 
     R (>= 4.0)
 Imports:
-    stats,
-    utils,
-    graphics,
-    methods,
-    curl,
     ape,
-    sf,
-    stringdist,
+    curl,
     geosphere,
+    graphics,
     h3jsr (>= 1.3.0),
     httr,
+    lifecycle,
+    methods,
     pbapply,
-    lifecycle
+    sf,
+    stats,
+    stringdist,
+    utils
 Suggests:
-    rmarkdown,
+    covr,
     knitr,
-    testthat (>= 3.0.0),
-    vdiffr (>= 1.0.0),
     paleotree,
     phytools,
-    covr,
-    vcr
+    rmarkdown,
+    testthat (>= 3.0.0),
+    vcr,
+    vdiffr (>= 1.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/testthat/parallel: true
