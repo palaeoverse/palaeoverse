@@ -80,6 +80,10 @@ test_that("group_apply() puts groups last", {
     ),
     c("class", "order", "family", "genus", "unique_name", "collection_no")
   )
+  expect_named(
+    group_apply(occdf = occdf, group = c("cc"), fun = tax_range_time),
+    c("taxon", "taxon_id", "max_ma", "min_ma", "range_myr", "n_occ", "cc")
+  )
 })
 
 test_that("group_apply() error handling", {
