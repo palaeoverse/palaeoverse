@@ -93,6 +93,8 @@ group_apply <- function(occdf, group, fun, ...) {
   foo(   bar
   )
 
+  any(is.na(x))
+
   if (!any(group %in% colnames(occdf))) {
     stop("Supplied `group` is not a named column in `occdf`")
   }
