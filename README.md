@@ -13,19 +13,17 @@
 
 The aim of `palaeoverse` is to generate a community-driven software package of generic functions for the palaeobiological community. The package does not provide implementations of statistical analyses, rather it provides auxiliary functions to help streamline analyses and improve code readability and reproducibility.
 
-# Development team
-- [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), Universidade de Vigo
-- [William Gearty](mailto:willgearty@gmail.com), American Museum of Natural History
-- [Bethany J. Allen](mailto:Bethany.Allen@bsse.ethz.ch), ETH Zürich
-- [Kilian Eichenseer](mailto:kilian.eichenseer@gmail.com), Durham University
-- [Christopher D. Dean](mailto:christopherdaviddean@gmail.com), University College London
-- [Sofía Galván](mailto:sofia.galvan@uvigo.es), Universidade de Vigo
-- [Miranta Kouvari](mailto:kouvari.miranta@gmail.com), University College London/Natural History Museum
-- [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), University of São Paulo/Stony Brook University
-- [Cecily Nicholl](mailto:cecily.nicholl@ucl.ac.uk), University College London
-- [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), École Normale Supérieure de Lyon
-- [Erin M. Dillon](mailto:erinmdillon@ucsb.edu), Smithsonian Tropical Research Institute/University of California
-- [A. Alessandro Chiarenza](mailto:a.chiarenza15@gmail.com), Universidade de Vigo
+# Current Core Development Team
+
+- [Lewis A. Jones](mailto:LewisA.Jones@outlook.com), University College London
+- [William Gearty](mailto:willgearty@gmail.com), Syracuse University
+- [Bethany J. Allen](mailto:bethany.janet.allen@gfz.de), Helmholtz Centre for Geosciences
+- [Etienne Bacher](mailto:e.bacher@ucl.ac.uk), University College London
+- [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), University of São Paulo
+
+
+## Contributors
+
 
 # Installation
 
@@ -53,7 +51,7 @@ As with any community project, society, or meeting we feel it is important to es
 
 If you use the palaeoverse R package in your work, please cite as:
 
-Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2023. palaeoverse: A community-driven R package to support palaeobiological analysis. *Methods in Ecology and Evolution* 14(09), 2205--2215. doi: [10.1111/2041-210X.14099](https://doi.org/10.1111/2041-210X.14099).
+Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C., Buffan, L., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2023. palaeoverse: A community-driven R package to support palaeobiological analysis. *Methods in Ecology and Evolution* 14(09), 2205–2215. doi: [10.1111/2041-210X.14099](https://doi.org/10.1111/2041-210X.14099).
 
 <p align="left">
 
