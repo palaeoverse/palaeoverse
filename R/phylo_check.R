@@ -36,7 +36,7 @@
 #' @section Reviewer(s):
 #' William Gearty & Pedro Godoy
 #'
-#' @examples
+#' @examplesIf requireNamespace("paleotree", quietly = TRUE)
 #' # track user par
 #' oldpar <- par(no.readonly = TRUE)
 #' #Read in example tree of ceratopsians from paleotree
