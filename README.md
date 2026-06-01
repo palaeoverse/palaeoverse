@@ -21,7 +21,6 @@ The aim of `palaeoverse` is to generate a community-driven software package of g
 - [Etienne Bacher](mailto:e.bacher@ucl.ac.uk), University College London
 - [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), University of São Paulo
 
-
 ## Contributors
 
 
