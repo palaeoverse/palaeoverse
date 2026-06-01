@@ -5,8 +5,8 @@
 #' denoting the certainty of taxonomic identifications (see Details for
 #' screening values).
 #'
-#' @param taxdf \code{data.frame}. A dataframe with a named column containing
-#'   the taxonomic names to be checked.
+#' @param taxdf \code{data.frame}. A \code{data.frame} with a named column
+#'   containing the taxonomic names to be checked.
 #' @param name \code{character}. The column name of the taxonomic names you
 #'   wish to check (e.g. "identified_name").
 #' @param terms \code{list}. A named list of uncertainty terms to screen
@@ -21,12 +21,12 @@
 #'   status (default: 0).
 #' @param append \code{logical}. If \code{TRUE} (default), the returned object
 #'   is a \code{data.frame} consisting of the input \code{taxdf} with a column
-#'   denoting the taxonomic 'certainty' appended. If \code{FALSE}, a two-column
+#'   denoting the taxonomic "certainty" appended. If \code{FALSE}, a two-column
 #'   \code{data.frame} containing the input `name` and the taxonomic
 #'   identification certainty status is returned.
 #'
 #' @return When `append` is \code{TRUE}, the input \code{taxdf} with an
-#'   appended 'certainty' column classifying each taxon (default). When
+#'   appended "certainty" column classifying each taxon (default). When
 #'   \code{append} is `FALSE`, a two-column \code{data.frame} with input `name`
 #'   and 'certainty' column classifying each taxon.
 #'
@@ -36,13 +36,13 @@
 #'   the taxonomic name is considered uncertain, while in their absence, the
 #'   taxonomic name is considered certain. A pre-defined named list of terms
 #'   is screened for by default (i.e.
-#'   `list(subspecies = c("ssp\\.", "subsp\\."), ...)`),
+#'   `list(subspecies = c("(?<!n\\. )ssp\\.", "(?<!n\\. )subsp\\."), ...)`),
 #'   with the following names and values:
 #'
-#'   - subspecies: ssp., subsp.
-#'   - species: sp., spp.
-#'   - genus: gen.
-#'   - family: fam.
+#'   - subspecies: ssp., subsp. (while ignoring n. ssp. and n. subsp.)
+#'   - species: sp., spp. (while ignoring n. sp. and n. spp.)
+#'   - genus: gen. (while ignoring n. gen. and n. gen.)
+#'   - family: fam. (while ignoring n. fam.)
 #'   - indeterminable: indeterminabilis, indeterminata, indet., ind.
 #'   - uncertain: incerta, ind., ?, "", ''
 #'   - confer: confer, cf., cfr., conf.
@@ -58,10 +58,11 @@
 #'   via a named list (e.g. `terms = list(custom = "species1")`). In addition,
 #'   the pre-defined named list can be modified to omit, or update certain
 #'   terms (e.g. `terms = list(species = NULL)` or
-#'   `terms = list(genus = "gen\\.", "genus")`). Note, while this function
+#'   `terms = list(genus = c("(?<!n\\. )gen\\.")`). Note, while this function
 #'   intends to minimise false positives (e.g. use of "sp." over "sp" to avoid
-#'   mid-name matches), it is the responsibility of the user to understand the
-#'   scale of risk for screened terms with respect to the input data.
+#'   mid-name matches, ignoring "n. gen." (new genus) but flagging "gen."),
+#'   it is the responsibility of the user to understand the scale of risk for
+#'   screened terms with respect to the input data.
 #'
 #'   The pre-defined list is intended to be comprehensive, and is informed by:
 #'
@@ -123,10 +124,10 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
                           replacement = NA_character_,
                           x = taxdf$certainty)
   # Terms to screen for
-  screen <- list(subspecies = c("ssp\\.", "subsp\\."),
-                 species = c("sp\\.", "spp\\."),
-                 genus = c("gen\\."),
-                 family = c("fam\\."),
+  screen <- list(subspecies = c("(?<!n\\. )ssp\\.", "(?<!n\\. )subsp\\."),
+                 species = c("(?<!n\\. )sp\\.", "(?<!n\\. )spp\\."),
+                 genus = c("(?<!n\\. )gen\\."),
+                 family = c("(?<!n\\. )fam\\."),
                  indeterminable = c("indeterminabilis", "indeterminata",
                                     "indet\\.", "ind\\."),
                  uncertain = c("incerta", "\\?",
@@ -145,7 +146,7 @@ tax_certainty <- function(taxdf = NULL, name = NULL, terms = NULL,
   screen <- screen[!unlist(lapply(screen, is.null))]
   # Identify taxonomic certainty
   matches <- lapply(screen, function(x) {
-    sapply(x, grepl, taxdf$certainty, ignore.case = TRUE)
+    sapply(x, grepl, taxdf$certainty, ignore.case = TRUE, perl = TRUE)
   })
   matches <- do.call(cbind, matches)
   # Calculate row sums (1 (or more) = match/uncertain, 0 = no match/certain)

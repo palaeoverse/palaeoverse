@@ -13,8 +13,8 @@ tax_certainty(
 )
 }
 \arguments{
-\item{taxdf}{\code{data.frame}. A dataframe with a named column containing
-the taxonomic names to be checked.}
+\item{taxdf}{\code{data.frame}. A \code{data.frame} with a named column
+containing the taxonomic names to be checked.}
 
 \item{name}{\code{character}. The column name of the taxonomic names you
 wish to check (e.g. "identified_name").}
@@ -33,14 +33,14 @@ status (default: 0).}
 
 \item{append}{\code{logical}. If \code{TRUE} (default), the returned object
 is a \code{data.frame} consisting of the input \code{taxdf} with a column
-denoting the taxonomic 'certainty' appended. If \code{FALSE}, a two-column
-dataframe containing the input \code{name} and the taxonomic identification
-certainty status is returned.}
+denoting the taxonomic "certainty" appended. If \code{FALSE}, a two-column
+\code{data.frame} containing the input \code{name} and the taxonomic
+identification certainty status is returned.}
 }
 \value{
 When \code{append} is \code{TRUE}, the input \code{taxdf} with an
-appended 'certainty' column classifying each taxon (default). When
-\code{append} is \code{FALSE}, a two-column dataframe with input \code{name}
+appended "certainty" column classifying each taxon (default). When
+\code{append} is \code{FALSE}, a two-column \code{data.frame} with input \code{name}
 and 'certainty' column classifying each taxon.
 }
 \description{
@@ -56,13 +56,13 @@ taxonomic identifications. When \strong{any} of these notations are present,
 the taxonomic name is considered uncertain, while in their absence, the
 taxonomic name is considered certain. A pre-defined named list of terms
 is screened for by default (i.e.
-\code{list(subspecies = c("ssp\\\\.", "subsp\\\\."), ...)}),
+\code{list(subspecies = c("(?<!n\\\\. )ssp\\\\.", "(?<!n\\\\. )subsp\\\\."), ...)}),
 with the following names and values:
 \itemize{
-\item subspecies: ssp., subsp.
-\item species: sp., spp.
-\item genus: gen.
-\item family: fam.
+\item subspecies: ssp., subsp. (while ignoring n. ssp. and n. subsp.)
+\item species: sp., spp. (while ignoring n. sp. and n. spp.)
+\item genus: gen. (while ignoring n. gen. and n. gen.)
+\item family: fam. (while ignoring n. fam.)
 \item indeterminable: indeterminabilis, indeterminata, indet., ind.
 \item uncertain: incerta, ind., ?, "", ''
 \item confer: confer, cf., cfr., conf.
@@ -79,10 +79,11 @@ Additional terms to screen for can be provided via the \code{terms} argument
 via a named list (e.g. \code{terms = list(custom = "species1")}). In addition,
 the pre-defined named list can be modified to omit, or update certain
 terms (e.g. \code{terms = list(species = NULL)} or
-\code{terms = list(genus = "gen\\\\.", "genus")}). Note, while this function
+\verb{terms = list(genus = c("(?<!n\\\\. )gen\\\\.")}). Note, while this function
 intends to minimise false positives (e.g. use of "sp." over "sp" to avoid
-mid-name matches), it is the responsibility of the user to understand the
-scale of risk for screened terms with respect to the input data.
+mid-name matches, ignoring "n. gen." (new genus) but flagging "gen."),
+it is the responsibility of the user to understand the scale of risk for
+screened terms with respect to the input data.
 
 The pre-defined list is intended to be comprehensive, and is informed by:
 \itemize{
@@ -109,6 +110,9 @@ Lewis A. Jones, Bethany J. Allen, & William Gearty
 data(tetrapods)
 occdf <- tetrapods[1:100, ]
 # Summarise taxonomic certainty
+certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+                           append = FALSE)
+# Append uncertainty to dataframe
 certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
                            certainty = c("certain", "uncertain"),
                            append = TRUE)
