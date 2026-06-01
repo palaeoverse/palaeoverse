@@ -152,7 +152,7 @@ group_apply <- function(occdf, group, fun, ...) {
     fun_name <- deparse(substitute(fun))
     output_df <- array2DF(x = output_lst, responseName = fun_name)
     output_df <- output_df[!is.na(output_df[, fun_name]), ]
-    # Reorder column to match the column order in the case of output of type list.
+    # Groups should be last.
     # https://github.com/palaeoverse/palaeoverse/issues/197
     # https://github.com/palaeoverse/palaeoverse/issues/199
     output_df <- output_df[,
