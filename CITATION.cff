@@ -1,0 +1,134 @@
+cff-version: 1.2.0
+title: "palaeoverse: Prepare and Explore Data for Palaeobiological Analyses"
+message: "If you use this software, please cite both the software and the associated paper."
+type: software
+authors:
+  - given-names: "Lewis A."
+    family-names: "Jones"
+    email: "LewisA.Jones@outlook.com"
+    orcid: "https://orcid.org/0000-0003-3902-8986"
+  - given-names: "William"
+    family-names: "Gearty"
+    email: "willgearty@gmail.com"
+    orcid: "https://orcid.org/0000-0003-0076-3262"
+  - given-names: "Bethany J."
+    family-names: "Allen"
+    email: "bethany.janet.allen@gfz.de"
+    orcid: "https://orcid.org/0000-0003-0282-6407"
+  - given-names: "Etienne"
+    family-names: "Bacher"
+    email: "e.bacher@ucl.ac.uk""
+    orcid: "https://orcid.org/0000-0002-9271-5075"
+  - given-names: "Kilian"
+    family-names: "Eichenseer"
+    email: "kilian.eichenseer@gmail.com"
+    orcid: "https://orcid.org/0000-0002-0477-8878"
+  - given-names: "Christopher D."
+    family-names: "Dean"
+    email: "christopherdaviddean@gmail.com"
+    orcid: "https://orcid.org/0000-0001-6471-6903"
+  - given-names: "Joseph T."
+    family-names: "Flannery-Sutherland"
+    email: "j.t.flannerysutherland@bham.ac.uk"
+    orcid: "https://orcid.org/0000-0001-8232-6773"
+  - given-names: "Sofia"
+    family-names: "Galvan"
+    email: "sofia.galvan@uvigo.es"
+    orcid: "https://orcid.org/0000-0002-3092-4314"
+  - given-names: "Miranta"
+    family-names: "Kouvari"
+    email: "kouvari.miranta@gmail.com"
+    orcid: "https://orcid.org/0000-0002-5442-6221"
+  - given-names: "Pedro L."
+    family-names: "Godoy"
+    email: "pedrolorenagodoy@gmail.com"
+    orcid: "https://orcid.org/0000-0003-4519-5094"
+  - given-names: "Cecily"
+    family-names: "Nicholl"
+    email: "cecily.nicholl@ucl.ac.uk"
+    orcid: "https://orcid.org/0000-0003-2860-2604"
+  - given-names: "Lucas"
+    family-names: "Buffan"
+    email: "lucas.l.buffan@gmail.com"
+    orcid: "https://orcid.org/0000-0002-2353-1432"
+  - given-names: "Erin M."
+    family-names: "Dillon"
+    email: "emdillon23@gmail.com"
+    orcid: "https://orcid.org/0000-0003-0249-027X"
+  - given-names: "A. Alessandro"
+    family-names: "Chiarenza"
+    email: "a.chiarenza15@gmail.com"
+    orcid: "https://orcid.org/0000-0001-5525-6730"
+preferred-citation:
+  type: article
+  title: "palaeoverse: A community-driven R package to support palaeobiological analysis"
+  authors:
+    - given-names: "Lewis A."
+      family-names: "Jones"
+      orcid: "https://orcid.org/0000-0003-3902-8986"
+    - given-names: "William"
+      family-names: "Gearty"
+      orcid: "https://orcid.org/0000-0003-0076-3262"
+    - given-names: "Bethany J."
+      family-names: "Allen"
+      orcid: "https://orcid.org/0000-0003-0282-6407"
+    - given-names: "Kilian"
+      family-names: "Eichenseer"
+      orcid: "https://orcid.org/0000-0002-0477-8878"
+    - given-names: "Christopher D."
+      family-names: "Dean"
+      orcid: "https://orcid.org/0000-0001-6471-6903"
+    - given-names: "Sofia"
+      family-names: "Galvan"
+      orcid: "https://orcid.org/0000-0002-3092-4314"
+    - given-names: "Miranta"
+      family-names: "Kouvari"
+      orcid: "https://orcid.org/0000-0002-5442-6221"
+    - given-names: "Pedro L."
+      family-names: "Godoy"
+      orcid: "https://orcid.org/0000-0003-4519-5094"
+    - given-names: "Cecily"
+      family-names: "Nicholl"
+      orcid: "https://orcid.org/0000-0003-2860-2604"
+    - given-names: "Lucas"
+      family-names: "Buffan"
+      orcid: "https://orcid.org/0000-0002-2353-1432"
+    - given-names: "Erin M."
+      family-names: "Dillon"
+      orcid: "https://orcid.org/0000-0003-0249-027X"
+    - given-names: "Joseph T."
+      family-names: "Flannery-Sutherland"
+      orcid: "https://orcid.org/0000-0001-8232-6773"
+    - given-names: "A. Alessandro"
+      family-names: "Chiarenza"
+      orcid: "https://orcid.org/0000-0001-5525-6730"
+  journal: "Methods in Ecology and Evolution"
+  volume: 14
+  issue: 9
+  start: 2205
+  end: 2215
+  year: 2023
+  doi: "10.1111/2041-210X.14099"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.7728638
+    description: Zenodo
+  - type: doi
+    value: 10.32614/CRAN.package.palaeoverse
+    description: CRAN
+repository-code: 'https://github.com/palaeoverse/palaeoverse'
+url: 'https://palaeoverse.org'
+abstract: >-
+  Provides functionality to support data preparation and exploration for
+  palaeobiological analyses, improving code reproducibility and accessibility.
+  The wider aim of palaeoverse is to bring the palaeobiological community
+  together to establish agreed standards. The package currently includes
+  functionality for data cleaning, binning (time and space), exploration,
+  summarisation and visualisation.
+keywords:
+  - palaeobiology
+  - paleobiology
+  - biodiversity
+  - fossil
+  - r-package
+license: GPL-3.0
