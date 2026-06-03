@@ -10,6 +10,10 @@
 * Increased efficiency and reduced hackiness of `group_apply()` (#135)
 * Downloads related to the `palaeorotate()` function are now retried if they fail (#137)
 
+## Other changes
+
+* `tax_range_time()` and `tax_range_strat()` now reset row names of the output (#120).
+
 # palaeoverse 1.4.0
 
 ## New features
