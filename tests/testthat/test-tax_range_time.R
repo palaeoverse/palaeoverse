@@ -47,5 +47,5 @@ test_that("tax_range_time() resets row names", {
   tetrapods <- subset(tetrapods, !is.na(order) & order != "NO_ORDER_SPECIFIED")
   # Temporal range
   result <- tax_range_time(occdf = tetrapods, name = "order")
-  expect_equal(row.names(result), as.character(1:30))
+  expect_equal(row.names(result), as.character(seq_len(nrow(result))))
 })
