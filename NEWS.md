@@ -2,12 +2,17 @@
 
 ## New features
 
+* Added `tax_certainty()` (#109)
 * Added `group` argument to `tax_range_time()` and `tax_range_strat()` and improved plotting (#120)
 * Made bin durations more even and added `n_bins` option in `time_bins()` (#131)
 * Added `autofit` argument to `axis_geo()` which, when enabled, automatically adjusts the sizes of individual interval labels to fit within the interval boxes (#21)
 * Added `title` argument to `axis_geo()` which can be used to add a title to the axis with the timescale (#133)
 * Increased efficiency and reduced hackiness of `group_apply()` (#135)
 * Downloads related to the `palaeorotate()` function are now retried if they fail (#137)
+
+## Other changes
+
+* `tax_range_time()` and `tax_range_strat()` now reset row names of the output (#120).
 
 # palaeoverse 1.4.0
 

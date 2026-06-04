@@ -1,0 +1,105 @@
+# This takes the results of "format-lint.yaml" and creates a comment on the PR to explain 
+# them.
+#
+# See "format-lint.yaml" for more details on why this workflow split is needed.
+
+name: PR comment
+
+on:
+  workflow_run:
+    workflows: [Format and lint]
+    types: [completed]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'pull_request'
+    permissions:
+      pull-requests: write
+      actions: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Download air results
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        continue-on-error: true
+        with:
+          name: air-results
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/air
+
+      - name: Download jarl results
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        continue-on-error: true
+        with:
+          name: jarl-results
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/jarl
+
+      - name: Read results
+        id: results
+        run: |
+          echo "pr_number=$(cat /tmp/air/pr-number.txt 2>/dev/null)" >> "$GITHUB_OUTPUT"
+          echo "air_result=$(cat /tmp/air/air-result.txt 2>/dev/null)" >> "$GITHUB_OUTPUT"
+          echo "jarl_result=$(cat /tmp/jarl/jarl-result.txt 2>/dev/null)" >> "$GITHUB_OUTPUT"
+
+      # After reading the results of Air and Jarl, we have several possible outcomes:
+      #   - both pass: if we had created a comment before because at least one of them was
+      #       failing, then we update this comment. Otherwise, we don't open a comment just to
+      #       say that this is passing.
+      #   - Jarl, Air, or both fail: we create a comment with a custom template to explain 
+      #       what failed and how to fix it locally. This should help new contributors when 
+      #       they see that CI for linting and formatting fails. 
+
+      # This is needed to know if we need to create or update a comment.
+      - name: Find existing comment
+        if: steps.results.outputs.pr_number != ''
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
+        id: find-comment
+        with:
+          issue-number: ${{ steps.results.outputs.pr_number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- format-lint-check -->'
+
+      # Build the comment body depending on Air and Jarl results. For the case where both
+      # fail, we concatenate the two single-failure templates. 
+      #
+      # Note that the case with both succeeding produces a template only if we have                  
+      # "$COMMENT_ID", i.e. if we already created a comment before. If we didn't, then               
+      # `steps.build.outputs.ready` is false and the last step isn't triggered.            
+      - name: Build comment
+        id: build
+        if: steps.results.outputs.pr_number != ''
+        env:
+          AIR_RESULT: ${{ steps.results.outputs.air_result }}
+          JARL_RESULT: ${{ steps.results.outputs.jarl_result }}
+          COMMENT_ID: ${{ steps.find-comment.outputs.comment-id }}
+        # The "echo" between the two "cat" ensures a new line between the two templates.
+        run: |
+          if [[ "$AIR_RESULT" == "failure" && "$JARL_RESULT" == "failure" ]]; then
+            {
+              cat .github/workflows/templates/air-only.md
+              echo
+              echo "---"
+              echo
+              cat .github/workflows/templates/jarl-only.md
+            } > /tmp/comment.md
+          elif [[ "$AIR_RESULT" == "failure" ]]; then
+            cp .github/workflows/templates/air-only.md /tmp/comment.md
+          elif [[ "$JARL_RESULT" == "failure" ]]; then
+            cp .github/workflows/templates/jarl-only.md /tmp/comment.md
+          elif [[ -n "$COMMENT_ID" ]]; then
+            cp .github/workflows/templates/all-pass.md /tmp/comment.md
+          fi
+          [[ -f /tmp/comment.md ]] && echo "ready=true" >> "$GITHUB_OUTPUT" || echo "ready=false" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update comment
+        if: steps.build.outputs.ready == 'true' && steps.results.outputs.pr_number != ''
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ steps.results.outputs.pr_number }}
+          body-path: /tmp/comment.md
+          edit-mode: replace
