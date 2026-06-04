@@ -15,14 +15,14 @@ authors:
     family-names: "Allen"
     email: "bethany.janet.allen@gfz.de"
     orcid: "https://orcid.org/0000-0003-0282-6407"
-  - given-names: "Etienne"
-    family-names: "Bacher"
-    email: "e.bacher@ucl.ac.uk""
-    orcid: "https://orcid.org/0000-0002-9271-5075"
   - given-names: "Kilian"
     family-names: "Eichenseer"
     email: "kilian.eichenseer@gmail.com"
     orcid: "https://orcid.org/0000-0002-0477-8878"
+  - given-names: "Etienne"
+    family-names: "Bacher"
+    email: "etienne.bacher@protonmail.com"
+    orcid: "https://orcid.org/0000-0002-9271-5075"
   - given-names: "Christopher D."
     family-names: "Dean"
     email: "christopherdaviddean@gmail.com"
@@ -31,34 +31,6 @@ authors:
     family-names: "Flannery-Sutherland"
     email: "j.t.flannerysutherland@bham.ac.uk"
     orcid: "https://orcid.org/0000-0001-8232-6773"
-  - given-names: "Sofia"
-    family-names: "Galvan"
-    email: "sofia.galvan@uvigo.es"
-    orcid: "https://orcid.org/0000-0002-3092-4314"
-  - given-names: "Miranta"
-    family-names: "Kouvari"
-    email: "kouvari.miranta@gmail.com"
-    orcid: "https://orcid.org/0000-0002-5442-6221"
-  - given-names: "Pedro L."
-    family-names: "Godoy"
-    email: "pedrolorenagodoy@gmail.com"
-    orcid: "https://orcid.org/0000-0003-4519-5094"
-  - given-names: "Cecily"
-    family-names: "Nicholl"
-    email: "cecily.nicholl@ucl.ac.uk"
-    orcid: "https://orcid.org/0000-0003-2860-2604"
-  - given-names: "Lucas"
-    family-names: "Buffan"
-    email: "lucas.l.buffan@gmail.com"
-    orcid: "https://orcid.org/0000-0002-2353-1432"
-  - given-names: "Erin M."
-    family-names: "Dillon"
-    email: "emdillon23@gmail.com"
-    orcid: "https://orcid.org/0000-0003-0249-027X"
-  - given-names: "A. Alessandro"
-    family-names: "Chiarenza"
-    email: "a.chiarenza15@gmail.com"
-    orcid: "https://orcid.org/0000-0001-5525-6730"
 preferred-citation:
   type: article
   title: "palaeoverse: A community-driven R package to support palaeobiological analysis"
@@ -113,11 +85,8 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.7728638
     description: Zenodo
-  - type: doi
-    value: 10.32614/CRAN.package.palaeoverse
-    description: CRAN
-repository-code: 'https://github.com/palaeoverse/palaeoverse'
-url: 'https://palaeoverse.org'
+repository-code: "https://github.com/palaeoverse/palaeoverse"
+url: "https://palaeoverse.org""
 abstract: >-
   Provides functionality to support data preparation and exploration for
   palaeobiological analyses, improving code reproducibility and accessibility.
