@@ -30,6 +30,7 @@ Authors:
   \item Bethany J. Allen \email{Bethany.Allen@bsse.ethz.ch} (\href{https://orcid.org/0000-0003-0282-6407}{ORCID})
   \item Kilian Eichenseer \email{kilian.eichenseer@gmail.com} (\href{https://orcid.org/0000-0002-0477-8878}{ORCID})
   \item Christopher D. Dean \email{christopherdaviddean@gmail.com} (\href{https://orcid.org/0000-0001-6471-6903}{ORCID})
+  \item Etienne Bacher \email{etienne.bacher@protonmail.com} (\href{https://orcid.org/0000-0002-9271-5075}{ORCID})
   \item Joseph T. Flannery-Sutherland \email{jf15558@bristol.ac.uk} (\href{https://orcid.org/0000-0001-8232-6773}{ORCID})
 }
 

@@ -3,7 +3,7 @@ meta <- packageDescription("palaeoverse")
 authors <- eval(parse(text = meta$`Authors@R`))
 authors <- Filter(function(p) "aut" %in% p$role, authors)
 
-citHeader("To cite palaeoverse in publications, please cite the original article describing the package, as well as the package version you are using:")
+citHeader("To cite palaeoverse in publications, please cite both the article describing the package and the package itself:")
 
 bibentry(bibtype = "Article",
          title = "palaeoverse: A community-driven R package to support palaeobiological analysis",

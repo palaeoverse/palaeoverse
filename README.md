@@ -49,6 +49,8 @@ And the package version you are using:
 ```r
 # Get citation
 citation("palaeoverse")
+# Get citation in BibTex format
+toBibtex(citation("palaeoverse"))
 ```
 
 # Current Core Development Team
