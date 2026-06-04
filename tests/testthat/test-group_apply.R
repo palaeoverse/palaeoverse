@@ -40,41 +40,116 @@ test_that("group_apply works", {
     4017
   )
 
-  expect_equal(
-    nrow(group_apply(
-      occdf = occdf,
-      group = c("collection_no"),
-      fun = tax_check,
-      verbose = FALSE
-    )),
-    NULL
+  expect_null(nrow(group_apply(
+    occdf = occdf,
+    group = c("collection_no"),
+    fun = tax_check,
+    verbose = FALSE
+  )))
+})
+
+test_that("group_apply() puts groups last", {
+  # Load example data
+  occdf <- tetrapods[1:100, ]
+  # Remove NA data
+  occdf <- subset(occdf, !is.na(genus))
+
+  # Single group
+  expect_named(
+    group_apply(occdf = occdf, group = "cc", fun = nrow),
+    c("nrow", "cc")
   )
 
-  # Errors
-  expect_error(group_apply(occdf = 1, group = c("cc"), fun = tax_range_time))
-  expect_error(group_apply(
-    occdf = occdf,
-    group = c("cc"),
-    fun = "tax_range_time"
-  ))
-  expect_error(group_apply(
-    occdf = occdf,
-    group = c("test"),
-    fun = tax_range_time
-  ))
-  expect_error(group_apply(occdf = occdf, fun = tax_range_time))
-  expect_error(group_apply(occdf = occdf, group = c("cc"), fun = tax_range))
-  expect_error(group_apply(
-    occdf = occdf,
-    group = c("cc"),
-    fun = tax_range_time,
-    not_an_argument = "test"
-  ))
-  expect_error(group_apply(
-    occdf = occdf,
-    group = c("cc"),
-    fun = tax_range_time,
-    not_an_argument1 = "test",
-    not_an_argument2 = "test"
-  ))
+  # Several groups
+  expect_named(
+    group_apply(occdf = occdf, group = c("cc", "formation"), fun = nrow),
+    c("nrow", "cc", "formation")
+  )
+
+  # Hits the "list" branch in group_apply()
+  expect_named(
+    group_apply(
+      occdf = occdf,
+      group = "collection_no",
+      fun = tax_unique,
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class",
+      resolution = "genus"
+    ),
+    c("class", "order", "family", "genus", "unique_name", "collection_no")
+  )
+  expect_named(
+    group_apply(
+      occdf = occdf,
+      group = c("cc", "formation"),
+      fun = tax_range_time
+    ),
+    c(
+      "taxon",
+      "taxon_id",
+      "max_ma",
+      "min_ma",
+      "range_myr",
+      "n_occ",
+      "cc",
+      "formation"
+    )
+  )
+})
+
+test_that("group_apply() error handling", {
+  # Load example data
+  occdf <- tetrapods
+  # Remove NA data
+  occdf <- subset(occdf, !is.na(genus))
+
+  expect_snapshot(
+    group_apply(occdf = 1, group = c("cc"), fun = tax_range_time),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("cc"),
+      fun = "tax_range_time"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("test"),
+      fun = tax_range_time
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(occdf = occdf, fun = tax_range_time),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(occdf = occdf, group = c("cc"), fun = tax_range),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("cc"),
+      fun = tax_range_time,
+      not_an_argument = "test"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("cc"),
+      fun = tax_range_time,
+      not_an_argument1 = "test",
+      not_an_argument2 = "test"
+    ),
+    error = TRUE
+  )
 })

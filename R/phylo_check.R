@@ -36,7 +36,7 @@
 #' @section Reviewer(s):
 #' William Gearty & Pedro Godoy
 #'
-#' @examples
+#' @examplesIf requireNamespace("paleotree", quietly = TRUE)
 #' # track user par
 #' oldpar <- par(no.readonly = TRUE)
 #' #Read in example tree of ceratopsians from paleotree
@@ -78,7 +78,7 @@ phylo_check <- function(
     stop("Phylogeny must be provided")
   }
 
-  if (inherits(tree, "phylo") == FALSE) {
+  if (!inherits(tree, "phylo")) {
     stop("Phylogeny must be a phylo object")
   }
 
@@ -86,7 +86,7 @@ phylo_check <- function(
     stop("List of taxa to check against must be provided")
   }
 
-  if (is.vector(list) == FALSE) {
+  if (!is.vector(list)) {
     stop("List of taxa must be a vector")
   }
 
@@ -151,7 +151,7 @@ phylo_check <- function(
   }
 
   if (out == "diff_table") {
-    table <- subset(table, names_in_tree == FALSE | names_in_list == FALSE)
+    table <- subset(table, !names_in_tree | !names_in_list)
   }
 
   if (out == "full_table" || out == "diff_table") {

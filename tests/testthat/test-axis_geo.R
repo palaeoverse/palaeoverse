@@ -13,8 +13,7 @@ test_that("axis_geo() works", {
     box()
 
     axis(side = 2)
-    axis_geo(side = 1, intervals = "periods")
-    title(xlab = "Time (Ma)", line = 4)
+    axis_geo(side = 1, intervals = "periods", title = "Time (Ma)")
   })
 })
 
@@ -58,45 +57,8 @@ test_that("axis_geo() works with negative axis", {
 
 test_that("axis_geo() works with autofit", {
   expect_doppelganger("axis_geo() with autofit", function() {
-    plot(
-      x = reef_df$interval_mid_ma,
-      y = reef_df$lat,
-      axes = FALSE,
-      type = "p",
-      pch = 20,
-      xlim = c(542, 0),
-      xlab = NA,
-      ylab = "Paleolatitude"
-    )
-    box()
-
-    axis(side = 2)
-    axis_geo(side = 1, intervals = "periods", lab_size = 4, autofit = TRUE)
-    title(xlab = "Time (Ma)", line = 4)
-  })
-  expect_doppelganger("axis_geo() with autofit2", function() {
-    par(mar = c(5.1, 6.1, 4.1, 2.1))
-    plot(
-      y = reef_df$interval_mid_ma,
-      x = reef_df$lat,
-      axes = FALSE,
-      type = "p",
-      pch = 20,
-      ylim = c(542, 0),
-      ylab = NA,
-      xlab = "Paleolatitude"
-    )
-    box()
-
-    axis(side = 1)
-    axis_geo(side = 2, intervals = "periods", lab_size = 4, autofit = TRUE)
-    title(ylab = "Time (Ma)", line = 4.5)
-  })
-})
-
-test_that("axis_geo() works with time_bins()", {
-  expect_doppelganger("axis_geo() with time_bins() scale", function() {
-    par(mar = c(5.1, 4.1, 4.1, 2.1))
+    # Slightly increase space on bottom margin
+    par(mar = c(6.1, 4.1, 4.1, 2.1))
     plot(
       x = reef_df$interval_mid_ma,
       y = reef_df$lat,
@@ -112,9 +74,60 @@ test_that("axis_geo() works with time_bins()", {
     axis(side = 2)
     axis_geo(
       side = 1,
-      intervals = time_bins(rank = "period", scale = "GTS2020")
+      intervals = "periods",
+      lab_size = 4,
+      autofit = TRUE,
+      title = "Time (Ma)"
     )
-    title(xlab = "Time (Ma)", line = 4)
+  })
+  expect_doppelganger("axis_geo() with autofit2", function() {
+    # Slightly increase space on left margin
+    par(mar = c(5.1, 6.1, 4.1, 2.1))
+    plot(
+      y = reef_df$interval_mid_ma,
+      x = reef_df$lat,
+      axes = FALSE,
+      type = "p",
+      pch = 20,
+      ylim = c(542, 0),
+      ylab = NA,
+      xlab = "Paleolatitude"
+    )
+    box()
+
+    axis(side = 1)
+    axis_geo(
+      side = 2,
+      intervals = "periods",
+      lab_size = 4,
+      autofit = TRUE,
+      title = "Time (Ma)"
+    )
+  })
+})
+
+test_that("axis_geo() works with time_bins()", {
+  expect_doppelganger("axis_geo() with time_bins() scale", function() {
+    # Slightly increase space on bottom margin
+    par(mar = c(6.1, 4.1, 4.1, 2.1))
+    plot(
+      x = reef_df$interval_mid_ma,
+      y = reef_df$lat,
+      axes = FALSE,
+      type = "p",
+      pch = 20,
+      xlim = c(542, 0),
+      xlab = NA,
+      ylab = "Paleolatitude"
+    )
+    box()
+
+    axis(side = 2)
+    axis_geo(
+      side = 1,
+      intervals = time_bins(rank = "period", scale = "GTS2020"),
+      title = "Time (Ma)"
+    )
   })
 })
 
@@ -139,9 +152,9 @@ test_that("axis_geo() works with multiple scales", {
       intervals = list("stages", "periods"),
       tick_at = seq(0, 500, 50),
       lab = list(FALSE, TRUE),
-      abbr = FALSE
+      abbr = FALSE,
+      title = "Time (Ma)"
     )
-    title(xlab = "Time (Ma)", line = 6)
   })
 })
 
@@ -162,13 +175,13 @@ test_that("axis_geo() can be used on multiple sides", {
     axis_geo(
       side = 1,
       intervals = list("epochs", "periods"),
-      height = list(.05, .03),
+      height = list(0.05, 0.03),
       tick_at = seq(0, 100, 25),
       title = "Time (Ma)"
     )
     axis_geo(
       side = 2,
-      height = list(.03, .05),
+      height = list(0.03, 0.05),
       intervals = list("epoch", "period"),
       bord_col = "purple",
       center_end_labels = list(FALSE, TRUE),
@@ -177,7 +190,7 @@ test_that("axis_geo() can be used on multiple sides", {
     )
     axis_geo(
       side = 3,
-      height = list(.03, .05),
+      height = list(0.03, 0.05),
       intervals = list(epochs, periods_sub),
       abbr = FALSE,
       skip = c(
@@ -192,7 +205,7 @@ test_that("axis_geo() can be used on multiple sides", {
     )
     axis_geo(
       side = 4,
-      height = list(.04, .03),
+      height = list(0.04, 0.03),
       intervals = list("epoch", "North American land mammal ages"),
       fill = list("lightblue", "yellow"),
       lty = list("solid", "dashed"),
@@ -235,18 +248,18 @@ test_that("axis_geo() works with phylogenies", {
 })
 
 test_that("axis_geo() error handling", {
-  expect_error(axis_geo(height = c(0.5, 0.5)))
-  expect_error(axis_geo(fill = 5))
-  expect_error(axis_geo(lab = "true"))
-  expect_error(axis_geo(lab_color = 42))
-  expect_error(axis_geo(lab_size = "big"))
-  expect_error(axis_geo(rot = NULL))
-  expect_error(axis_geo(abbr = c("true", 1)))
-  expect_error(axis_geo(skip = c(1, 2, 3)))
-  expect_error(axis_geo(center_end_labels = c(FALSE, TRUE)))
-  expect_error(axis_geo(autofit = c(FALSE, TRUE)))
-  expect_error(axis_geo(bord_col = TRUE))
-  expect_error(axis_geo(lty = 7))
-  expect_error(axis_geo(lwd = "thin"))
-  expect_error(axis_geo(side = 5))
+  expect_snapshot(axis_geo(height = c(0.5, 0.5)), error = TRUE)
+  expect_snapshot(axis_geo(fill = 5), error = TRUE)
+  expect_snapshot(axis_geo(lab = "true"), error = TRUE)
+  expect_snapshot(axis_geo(lab_color = 42), error = TRUE)
+  expect_snapshot(axis_geo(lab_size = "big"), error = TRUE)
+  expect_snapshot(axis_geo(rot = NULL), error = TRUE)
+  expect_snapshot(axis_geo(abbr = c("true", 1)), error = TRUE)
+  expect_snapshot(axis_geo(skip = c(1, 2, 3)), error = TRUE)
+  expect_snapshot(axis_geo(center_end_labels = c(FALSE, TRUE)), error = TRUE)
+  expect_snapshot(axis_geo(autofit = c(FALSE, TRUE)), error = TRUE)
+  expect_snapshot(axis_geo(bord_col = TRUE), error = TRUE)
+  expect_snapshot(axis_geo(lty = 7), error = TRUE)
+  expect_snapshot(axis_geo(lwd = "thin"), error = TRUE)
+  expect_snapshot(axis_geo(side = 5), error = TRUE)
 })

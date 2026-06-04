@@ -17,23 +17,29 @@ test_that("tax_range_strat() error handling", {
   )
 
   # Expect error
-  expect_error(tax_range_strat(occdf = NA))
-  expect_error(tax_range_strat(occdf = occdf, group = "test"))
-  expect_error(tax_range_strat(occdf = occdf, name = "test"))
-  expect_error(tax_range_strat(occdf = occdf, level = "test"))
-  expect_error(tax_range_strat(occdf = occdf, level = "genus"))
-  expect_error(tax_range_strat(occdf = occdf, certainty = 0))
-  expect_error(tax_range_strat(occdf = occdf, certainty = "test"))
-  expect_error(tax_range_strat(occdf = occdf, by = "test"))
+  expect_snapshot(tax_range_strat(occdf = NA), error = TRUE)
+  expect_snapshot(tax_range_strat(occdf = occdf, group = "test"), error = TRUE)
+  expect_snapshot(tax_range_strat(occdf = occdf, name = "test"), error = TRUE)
+  expect_snapshot(tax_range_strat(occdf = occdf, level = "test"), error = TRUE)
+  expect_snapshot(tax_range_strat(occdf = occdf, level = "genus"), error = TRUE)
+  expect_snapshot(tax_range_strat(occdf = occdf, certainty = 0), error = TRUE)
+  expect_snapshot(
+    tax_range_strat(occdf = occdf, certainty = "test"),
+    error = TRUE
+  )
+  expect_snapshot(tax_range_strat(occdf = occdf, by = "test"), error = TRUE)
 
   occdf[1, 1] <- NA
-  expect_error(tax_range_strat(occdf = occdf))
+  expect_snapshot(tax_range_strat(occdf = occdf), error = TRUE)
   occdf[1, 1] <- "shrimp"
   occdf[1, 3] <- NA
-  expect_error(tax_range_strat(occdf = occdf))
+  expect_snapshot(tax_range_strat(occdf = occdf), error = TRUE)
   occdf[1, 3] <- 1
   occdf[1, 4] <- NA
-  expect_error(tax_range_strat(occdf = occdf, certainty = "certainty"))
+  expect_snapshot(
+    tax_range_strat(occdf = occdf, certainty = "certainty"),
+    error = TRUE
+  )
 })
 
 test_that("tax_range_strat() plots", {

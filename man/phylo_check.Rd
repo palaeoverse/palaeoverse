@@ -57,6 +57,7 @@ William Gearty & Pedro Godoy
 }
 
 \examples{
+\dontshow{if (requireNamespace("paleotree", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # track user par
 oldpar <- par(no.readonly = TRUE)
 #Read in example tree of ceratopsians from paleotree
@@ -86,4 +87,5 @@ out = "tree")
 plot(my_ceratopsians)
 # reset user par
 par(oldpar)
+\dontshow{\}) # examplesIf}
 }

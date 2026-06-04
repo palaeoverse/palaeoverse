@@ -124,15 +124,15 @@ bin_time <- function(
   ...
 ) {
   #=== Handling errors ===
-  if (is.data.frame(occdf) == FALSE) {
+  if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe.")
   }
-  if (is.data.frame(bins) == FALSE) {
+  if (!is.data.frame(bins)) {
     stop("`bins` should be a dataframe.")
   }
   if (
-    any(is.na(occdf[, max_ma, drop = TRUE])) ||
-      any(is.na(occdf[, min_ma, drop = TRUE]))
+    anyNA(occdf[, max_ma, drop = TRUE]) ||
+      anyNA(occdf[, min_ma, drop = TRUE])
   ) {
     stop(paste("NA values detected in", max_ma, "or", min_ma))
   }
@@ -140,7 +140,7 @@ bin_time <- function(
   possible_methods <- c("all", "majority", "random", "point", "mid")
   method_match <- charmatch(method, possible_methods)
 
-  if (is.na(method_match) == TRUE) {
+  if (is.na(method_match)) {
     # If the user has entered a non-valid term for the "method" argument,
     # generate an error and warn the user.
     stop(paste(
@@ -151,7 +151,7 @@ bin_time <- function(
     method <- possible_methods[method_match]
   }
 
-  if (is.numeric(reps) == FALSE) {
+  if (!is.numeric(reps)) {
     stop("Invalid `reps`. Choose a numeric value.")
   }
 
@@ -180,14 +180,13 @@ bin_time <- function(
   }
 
   if (method == "point" && !is.function(fun)) {
-    stop('`fun` is not a function.')
+    stop("`fun` is not a function.")
   }
 
   #=== Reporting Info ===
 
   # Make an empty list that's the length of the occurrence dataframe.
-  bin_list <- list()
-  bin_list <- sapply(seq_len(nrow(occdf)), function(x) NULL)
+  bin_list <- vector("list", length = nrow(occdf))
 
   # For each occurrence, find all the bins that it is present within, and
   # add as elements to that part of the list.
@@ -226,7 +225,7 @@ bin_time <- function(
     # If no mid point is present for occurrence age range, add one in a
     # new column.
     rmcol <- FALSE
-    if (("mid_ma" %in% colnames(occdf)) == FALSE) {
+    if (!("mid_ma" %in% colnames(occdf))) {
       occdf$mid_ma <- (occdf[, max_ma, drop = TRUE] +
         occdf[, min_ma, drop = TRUE]) /
         2
@@ -253,7 +252,7 @@ bin_time <- function(
     }
 
     # Remove mid_ma for fossil occurrences (if not already present as input)
-    if (rmcol == TRUE) {
+    if (rmcol) {
       occdf <- occdf[, -which(colnames(occdf) == "mid_ma")]
     }
 
@@ -284,8 +283,7 @@ bin_time <- function(
       }
     }
     # make occurrence list for filling with reps
-    occ_list <- list()
-    occ_list <- sapply(seq_len(nrow(occdf)), function(x) NULL)
+    occ_list <- vector("list", length = nrow(occdf))
 
     # For each occurrence max/min age, make probability distribution and
     # sample from it. Record that with each occurrence.
@@ -319,8 +317,7 @@ bin_time <- function(
     #drop cols that are not needed
     occdf <- occdf[, -which(colnames(occdf) == "bin_midpoint")]
 
-    occ_df_list <- list()
-    occ_df_list <- sapply(seq_len(reps), function(x) NULL)
+    occ_df_list <- vector("list", length = reps)
 
     #add point estimates to each dataframe
     for (i in seq_len(reps)) {
@@ -402,10 +399,8 @@ bin_time <- function(
   #--- Method 5: Random ---
   if (method == "random") {
     # Generate empty lists for populating
-    occ_list <- list()
-    occ_list <- sapply(seq_len(nrow(occdf)), function(x) NULL)
-    occ_df_list <- list()
-    occ_df_list <- sapply(seq_len(reps), function(x) NULL)
+    occ_list <- vector("list", length = nrow(occdf))
+    occ_df_list <- vector("list", length = reps)
 
     # Randomly sample from the list of bins that occurrence appears in, and
     # add to the bin column for the occurrence.
