@@ -82,6 +82,8 @@ jobs:
             {
               cat .github/workflows/templates/air-only.md
               echo
+              echo "---"
+              echo
               cat .github/workflows/templates/jarl-only.md
             } > /tmp/comment.md
           elif [[ "$AIR_RESULT" == "failure" ]]; then
