@@ -10,8 +10,26 @@ name: R-CMD-check-hard
 on:
   push:
     branches: [main, master]
+    paths:
+      - .github/workflows/R-CMD-check-hard.yaml
+      - .Rbuildignore
+      - R/**
+      - inst/**
+      - tests/**
+      - vignettes/*
+      - DESCRIPTION
+      - NAMESPACE
   pull_request:
     branches: [main, master]
+    paths:
+      - .github/workflows/R-CMD-check-hard.yaml
+      - .Rbuildignore
+      - R/**
+      - inst/**
+      - tests/**
+      - vignettes/*
+      - DESCRIPTION
+      - NAMESPACE
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
