@@ -34,7 +34,7 @@ if (getRversion() < "4.3.0") {
       if (!all(vapply(x, function(v) is.null(names(v)), TRUE))) {
         return(integer(0))
       }
-      return(vapply(x, length, 1L))
+      return(lengths(x))
     }
     keys <- do.call(
       expand.grid,
