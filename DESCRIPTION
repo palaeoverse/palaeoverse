@@ -1,6 +1,6 @@
 Package: palaeoverse
 Title: Prepare and Explore Data for Palaeobiological Analyses
-Version: 1.4.0.9000
+Version: 1.5.0
 Authors@R: c(
     person(given = "Lewis A.", family = "Jones", email = "LewisA.Jones@outlook.com",
       role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3902-8986")),
@@ -11,7 +11,11 @@ Authors@R: c(
     person(given = "Kilian", family = "Eichenseer", email = "kilian.eichenseer@gmail.com",
       role = c("aut"), comment = c(ORCID = "0000-0002-0477-8878")),
     person(given = "Christopher D.", family = "Dean", email = "christopherdaviddean@gmail.com",
-      role = c("aut"), comment = c(ORCID = "0000-0001-6471-6903")),      
+      role = c("aut"), comment = c(ORCID = "0000-0001-6471-6903")),  
+    person(given = "Etienne", family = "Bacher", email = "etienne.bacher@protonmail.com",
+      role = c("aut"), comment = c(ORCID = "0000-0002-9271-5075")),
+    person(given = "Joseph T.", family = "Flannery-Sutherland", email = "jf15558@bristol.ac.uk",
+      role = c("aut"), comment = c(ORCID = "0000-0001-8232-6773")),
     person(given = "Sofia", family = "Galvan", email = "sofia.galvan@uvigo.es",
       role = c("ctb"), comment = c(ORCID = "0000-0002-3092-4314")),
     person(given = "Miranta", family = "Kouvari", email = "m.kouvari@ucl.ac.uk",
@@ -24,8 +28,6 @@ Authors@R: c(
       role = c("ctb"), comment = c(ORCID = "0000-0002-2353-1432")),
     person(given = "Erin M.", family = "Dillon", email = "emdillon23@gmail.com",
       role = c("ctb"), comment = c(ORCID = "0000-0003-0249-027X")),
-    person(given = "Joseph T.", family = "Flannery-Sutherland", email = "jf15558@bristol.ac.uk",
-      role = c("aut"), comment = c(ORCID = "0000-0001-8232-6773")),
     person(given = "A. Alessandro", family = "Chiarenza", email = "a.chiarenza15@gmail.com",
       role = c("ctb"), comment = c(ORCID = "0000-0001-5525-6730")))
 Description: Provides functionality to support data preparation and exploration for
@@ -72,4 +74,5 @@ URL: https://palaeoverse.palaeoverse.org,
      https://github.com/palaeoverse/palaeoverse,
      https://palaeoverse.org
 BugReports: https://github.com/palaeoverse/palaeoverse/issues
+DOI: 10.5281/zenodo.7728638
 Config/roxygen2/version: 8.0.0

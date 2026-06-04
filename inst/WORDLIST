@@ -2,6 +2,7 @@ Albertosaurus
 Ankylosaurus
 Antell
 Armistead
+Bacher
 Biogeosciences
 Bluesky
 Brocklehurst
@@ -16,7 +17,7 @@ Dicynodontidae
 Domeier
 Dunhill
 EPSG
-ETH
+Etienne
 FADs
 Flannery
 GOLONKA
@@ -40,7 +41,6 @@ Maidment
 Mannion
 Merdith
 Myr
-Normale
 ORCID
 Oligocene
 Ornithomimus
@@ -64,8 +64,6 @@ Schmitz
 Sci
 Scotese
 Sigovini
-Sofía
-Supérieure
 Syst
 Tagliapietra
 Tetley
@@ -73,12 +71,11 @@ Torsvik
 TorsvikCocks
 Uber's
 Uhen
-Universidade
 Zahirovic
 Zenodo
-Zürich
 abbr
 aff
+allcontributors
 az
 behavior
 bg
@@ -162,4 +159,3 @@ xlab
 ylab
 youtube
 zenodo
-École
