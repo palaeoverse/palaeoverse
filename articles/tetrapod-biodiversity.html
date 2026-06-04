@@ -73,7 +73,7 @@
     
 <p><strong>Authors:</strong> <a href="https://palaeoverse.org/#about-us" class="external-link">The Palaeoverse Development
 Team</a></p>
-<p><strong>Last updated:</strong> 2024-10-14</p>
+<p><strong>Last updated:</strong> 2026-06-01</p>
 <div style="text-align: justify">
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -242,8 +242,9 @@ we’ll talk about this more in a minute.</p>
 <span><span class="co"># Generate time bins</span></span>
 <span><span class="va">tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span>,</span>
 <span>                      bins <span class="op">=</span> <span class="va">bins</span>,</span>
-<span>                      method <span class="op">=</span> <span class="st">'mid'</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in bin_time(occdf = tetrapods, bins = bins, method = "mid"): Minimum age of occurrence data is less than minimum age of bins.</span></span></code></pre>
+<span>                      method <span class="op">=</span> <span class="st">"mid"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error in `bin_time()`:</span></span>
+<span><span class="co">## ! Minimum age of occurrence data is less than minimum age of bins.</span></span></code></pre>
 <p>Oh no! We’ve hit an error. This is because there’s some occurrences
 that sit outside of the time intervals we’re interested in.
 <code>bin_time</code> can’t bin occurrences which sit outside of the
@@ -256,9 +257,10 @@ remove these occurrences.</p>
 <span><span class="co"># Bin occurrences into chosen time bins</span></span>
 <span><span class="va">mid_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">cp_tetrapods</span>,</span>
 <span>                          bins <span class="op">=</span> <span class="va">bins</span>,</span>
-<span>                          method <span class="op">=</span> <span class="st">'mid'</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more occurrences have a midpoint age</span></span>
-<span><span class="co">## equivalent to a bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.</span></span></code></pre>
+<span>                          method <span class="op">=</span> <span class="st">"mid"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more occurrences have a midpoint</span></span>
+<span><span class="co">## age equivalent to a bin boundary. Binning skipped for these occurrences. Hint:</span></span>
+<span><span class="co">## `which(is.na(occdf$bin_assignment))`.</span></span></code></pre>
 <p>That’s better! Let’s see how our dataset has changed.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Examine the dataset columns</span></span>
@@ -303,7 +305,7 @@ range.</p>
 <code class="sourceCode R"><span><span class="co"># Bin occurrences into chosen time bins</span></span>
 <span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">cp_tetrapods</span>,</span>
 <span>                          bins <span class="op">=</span> <span class="va">bins</span>,</span>
-<span>                          method <span class="op">=</span> <span class="st">'majority'</span><span class="op">)</span></span></code></pre></div>
+<span>                          method <span class="op">=</span> <span class="st">"majority"</span><span class="op">)</span></span></code></pre></div>
 <p>We’d recommend playing around with these different options and seeing
 how they impact your results!</p>
 <p>Next, we’ll also bin our occurrences spatially. We need a couple of
@@ -332,8 +334,8 @@ many discrete equal-area hexagonal grid cells (based on <a href="https://h3geo.o
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Make a table of potential number of bins</span></span>
 <span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_space.html">bin_space</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">maj_tetrapods</span>,</span>
-<span>                           lng <span class="op">=</span> <span class="st">'p_lng'</span>,</span>
-<span>                           lat <span class="op">=</span> <span class="st">'p_lat'</span>,</span>
+<span>                           lng <span class="op">=</span> <span class="st">"p_lng"</span>,</span>
+<span>                           lat <span class="op">=</span> <span class="st">"p_lat"</span>,</span>
 <span>                           spacing <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Average spacing between adjacent cells in the primary grid was set to 103.6 km. </span></span>
 <span><span class="co">## H3 resolution: 3</span></span></code></pre>
@@ -551,13 +553,13 @@ calculate the average for each time interval for our dataset:</p>
 <span></span>
 <span><span class="co"># Have a look at the dataset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">space_tetrapods</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##               taxon taxon_id      area bin_midpoint</span></span>
-<span><span class="co">## 1         Abdalodon        1      0.00       257.05</span></span>
-<span><span class="co">## 2         Acrodenta        2      0.00       257.05</span></span>
-<span><span class="co">## 3       Adelosaurus        3      0.00       257.05</span></span>
-<span><span class="co">## 4     Aelurognathus        4 292392.77       257.05</span></span>
-<span><span class="co">## 9      Aelurosaurus        5  14698.41       257.05</span></span>
-<span><span class="co">## 14 Aenigmastropheus        6      0.00       257.05</span></span></code></pre>
+<pre><code><span><span class="co">##              taxon taxon_id      area bin_midpoint</span></span>
+<span><span class="co">## 1        Abdalodon        1      0.00       257.05</span></span>
+<span><span class="co">## 2        Acrodenta        2      0.00       257.05</span></span>
+<span><span class="co">## 3      Adelosaurus        3      0.00       257.05</span></span>
+<span><span class="co">## 4    Aelurognathus        4 292392.77       257.05</span></span>
+<span><span class="co">## 5     Aelurosaurus        5  14698.41       257.05</span></span>
+<span><span class="co">## 6 Aenigmastropheus        6      0.00       257.05</span></span></code></pre>
 <p>As you can see, the combination of <code>group_apply</code> and
 <code>tax_range_space</code> produces a dataset with the area of
 geographic range for each taxon in kilometers squared for each time

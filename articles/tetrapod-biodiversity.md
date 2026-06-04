@@ -3,7 +3,7 @@
 **Authors:** [The Palaeoverse Development
 Team](https://palaeoverse.org/#about-us)
 
-**Last updated:** 2024-10-14
+**Last updated:** 2026-06-01
 
 ## Introduction
 
@@ -199,10 +199,11 @@ colnames(tetrapods)[c(35, 37)] <- c("max_ma", "min_ma")
 # Generate time bins
 tetrapods <- bin_time(occdf = tetrapods,
                       bins = bins,
-                      method = 'mid')
+                      method = "mid")
 ```
 
-    ## Error in bin_time(occdf = tetrapods, bins = bins, method = "mid"): Minimum age of occurrence data is less than minimum age of bins.
+    ## Error in `bin_time()`:
+    ## ! Minimum age of occurrence data is less than minimum age of bins.
 
 Oh no! We’ve hit an error. This is because there’s some occurrences that
 sit outside of the time intervals we’re interested in. `bin_time` can’t
@@ -217,11 +218,12 @@ cp_tetrapods <- subset(tetrapods, min_ma > min(bins$min_ma))
 # Bin occurrences into chosen time bins
 mid_tetrapods <- bin_time(occdf = cp_tetrapods,
                           bins = bins,
-                          method = 'mid')
+                          method = "mid")
 ```
 
-    ## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more occurrences have a midpoint age
-    ## equivalent to a bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.
+    ## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more occurrences have a midpoint
+    ## age equivalent to a bin boundary. Binning skipped for these occurrences. Hint:
+    ## `which(is.na(occdf$bin_assignment))`.
 
 That’s better! Let’s see how our dataset has changed.
 
@@ -281,7 +283,7 @@ the bin which covers the majority of their potential time range.
 # Bin occurrences into chosen time bins
 maj_tetrapods <- bin_time(occdf = cp_tetrapods,
                           bins = bins,
-                          method = 'majority')
+                          method = "majority")
 ```
 
 We’d recommend playing around with these different options and seeing
@@ -324,8 +326,8 @@ system](https://h3geo.org/)).
 
 # Make a table of potential number of bins
 maj_tetrapods <- bin_space(occdf = maj_tetrapods,
-                           lng = 'p_lng',
-                           lat = 'p_lat',
+                           lng = "p_lng",
+                           lat = "p_lat",
                            spacing = 100)
 ```
 
@@ -597,13 +599,13 @@ space_tetrapods <- group_apply(occdf = space_tetrapods,
 head(space_tetrapods)
 ```
 
-    ##               taxon taxon_id      area bin_midpoint
-    ## 1         Abdalodon        1      0.00       257.05
-    ## 2         Acrodenta        2      0.00       257.05
-    ## 3       Adelosaurus        3      0.00       257.05
-    ## 4     Aelurognathus        4 292392.77       257.05
-    ## 9      Aelurosaurus        5  14698.41       257.05
-    ## 14 Aenigmastropheus        6      0.00       257.05
+    ##              taxon taxon_id      area bin_midpoint
+    ## 1        Abdalodon        1      0.00       257.05
+    ## 2        Acrodenta        2      0.00       257.05
+    ## 3      Adelosaurus        3      0.00       257.05
+    ## 4    Aelurognathus        4 292392.77       257.05
+    ## 5     Aelurosaurus        5  14698.41       257.05
+    ## 6 Aenigmastropheus        6      0.00       257.05
 
 As you can see, the combination of `group_apply` and `tax_range_space`
 produces a dataset with the area of geographic range for each taxon in
