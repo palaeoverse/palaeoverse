@@ -1,4 +1,4 @@
-# group_apply works
+# group_apply() error handling
 
     Code
       group_apply(occdf = 1, group = c("cc"), fun = tax_range_time)

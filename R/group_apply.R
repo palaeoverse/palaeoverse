@@ -141,14 +141,24 @@ group_apply <- function(occdf, group, fun, ...) {
     output_lst <- output_lst[output_lst_keep]
     dfrows <- vapply(X = output_lst, FUN = nrow, FUN.VALUE = 1L)
     keys <- keys[output_lst_keep, , drop = FALSE]
+    # Groups should be last.
+    # https://github.com/palaeoverse/palaeoverse/issues/197
+    # https://github.com/palaeoverse/palaeoverse/issues/199
     output_df <- cbind(
-      keys[rep(seq_along(dfrows), dfrows), , drop = FALSE],
-      do.call(what = rbind, args = output_lst)
+      do.call(what = rbind, args = output_lst),
+      keys[rep(seq_along(dfrows), dfrows), , drop = FALSE]
     )
   } else {
     fun_name <- deparse(substitute(fun))
     output_df <- array2DF(x = output_lst, responseName = fun_name)
     output_df <- output_df[!is.na(output_df[, fun_name]), ]
+    # Groups should be last.
+    # https://github.com/palaeoverse/palaeoverse/issues/197
+    # https://github.com/palaeoverse/palaeoverse/issues/199
+    output_df <- output_df[,
+      c(ncol(output_df), seq_len(ncol(output_df) - 1)),
+      drop = FALSE
+    ]
   }
 
   # Update output if none returned
