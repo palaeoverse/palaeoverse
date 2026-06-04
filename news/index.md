@@ -33,6 +33,14 @@
   function are now retried if they fail
   ([\#137](https://github.com/palaeoverse/palaeoverse/issues/137))
 
+### Other changes
+
+- [`tax_range_time()`](https://palaeoverse.palaeoverse.org/reference/tax_range_time.md)
+  and
+  [`tax_range_strat()`](https://palaeoverse.palaeoverse.org/reference/tax_range_strat.md)
+  now reset row names of the output
+  ([\#120](https://github.com/palaeoverse/palaeoverse/issues/120)).
+
 ## palaeoverse 1.4.0
 
 CRAN release: 2024-10-14
