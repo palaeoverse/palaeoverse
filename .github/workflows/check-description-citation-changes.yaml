@@ -12,7 +12,7 @@ jobs:
   check-changelog:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if changelog update is needed
+      - name: Check if DESCRIPTION or CITATION.cff update is needed
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |

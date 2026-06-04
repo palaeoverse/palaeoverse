@@ -86,7 +86,7 @@ identifiers:
     value: 10.5281/zenodo.7728638
     description: Zenodo
 repository-code: "https://github.com/palaeoverse/palaeoverse"
-url: "https://palaeoverse.org""
+url: "https://palaeoverse.org"
 abstract: >-
   Provides functionality to support data preparation and exploration for
   palaeobiological analyses, improving code reproducibility and accessibility.
