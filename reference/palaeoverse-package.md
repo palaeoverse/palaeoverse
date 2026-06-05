@@ -36,7 +36,7 @@ Authors:
 - William Gearty <willgearty@gmail.com>
   ([ORCID](https://orcid.org/0000-0003-0076-3262))
 
-- Bethany J. Allen <Bethany.Allen@bsse.ethz.ch>
+- Bethany J. Allen <bethany.janet.allen@gfz.de>
   ([ORCID](https://orcid.org/0000-0003-0282-6407))
 
 - Kilian Eichenseer <kilian.eichenseer@gmail.com>
@@ -45,7 +45,10 @@ Authors:
 - Christopher D. Dean <christopherdaviddean@gmail.com>
   ([ORCID](https://orcid.org/0000-0001-6471-6903))
 
-- Joseph T. Flannery-Sutherland <jf15558@bristol.ac.uk>
+- Etienne Bacher <etienne.bacher@protonmail.com>
+  ([ORCID](https://orcid.org/0000-0002-9271-5075))
+
+- Joseph T. Flannery-Sutherland <j.t.flannerysutherland@bham.ac.uk>
   ([ORCID](https://orcid.org/0000-0001-8232-6773))
 
 Other contributors:
@@ -53,7 +56,7 @@ Other contributors:
 - Sofia Galvan <sofia.galvan@uvigo.es>
   ([ORCID](https://orcid.org/0000-0002-3092-4314)) \[contributor\]
 
-- Miranta Kouvari <m.kouvari@ucl.ac.uk>
+- Miranta Kouvari <kouvari.miranta@gmail.com>
   ([ORCID](https://orcid.org/0000-0002-5442-6221)) \[contributor\]
 
 - Pedro L. Godoy <pedrolorenagodoy@gmail.com>

@@ -19,6 +19,12 @@
   Dean](https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean)**.
   Author. [](https://orcid.org/0000-0001-6471-6903)
 
+- **Etienne Bacher**. Author. [](https://orcid.org/0000-0002-9271-5075)
+
+- **[Joseph T.
+  Flannery-Sutherland](https://www.researchgate.net/profile/Joseph-Flannery-Sutherland)**.
+  Author. [](https://orcid.org/0000-0001-8232-6773)
+
 - **[Sofia Galvan](https://orcid.org/0000-0002-3092-4314)**.
   Contributor. [](https://orcid.org/0000-0002-3092-4314)
 
@@ -38,10 +44,6 @@
 - **[Erin M. Dillon](https://erinmdillon.wordpress.com)**. Contributor.
   [](https://orcid.org/0000-0003-0249-027X)
 
-- **[Joseph T.
-  Flannery-Sutherland](https://www.researchgate.net/profile/Joseph-Flannery-Sutherland)**.
-  Author. [](https://orcid.org/0000-0001-8232-6773)
-
 - **[A. Alessandro Chiarenza](https://linktr.ee/AlessandroChiarenza)**.
   Contributor. [](https://orcid.org/0000-0001-5525-6730)
 
@@ -51,7 +53,7 @@ Source:
 [`inst/CITATION`](https://github.com/palaeoverse/palaeoverse/blob/main/inst/CITATION)
 
 Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván
-S., Kouvari, M., Godoy, P.L., Nicholl, C.S.C., Dillon, E.M.,
+S., Kouvari, M., Godoy, P.L., Nicholl, C.S.C., Buffan, L., Dillon, E.M.,
 Flannery-Sutherland, J.T., Chiarenza, A.A. 2023. palaeoverse: A
 community-driven R package to support palaeobiological analysis. Methods
 in Ecology and Evolution. 14(9), 2205--2215. doi:
@@ -65,4 +67,18 @@ in Ecology and Evolution. 14(9), 2205--2215. doi:
       volume = {14(9)},
       pages = {2205--2215},
       doi = {10.1111/2041-210X.14099},
+    }
+
+Jones L, Gearty W, Allen B, Eichenseer K, Dean C, Bacher E,
+Flannery-Sutherland J (2026). *palaeoverse: Prepare and Explore Data for
+Palaeobiological Analyses. R package version 1.4.0.9000*.
+[doi:10.5281/zenodo.7728638](https://doi.org/10.5281/zenodo.7728638).
+<https://CRAN.R-project.org/package=palaeoverse>.
+
+    @Manual{,
+      title = {palaeoverse: Prepare and Explore Data for Palaeobiological Analyses. R package version 1.4.0.9000},
+      author = {Lewis A. Jones and William Gearty and Bethany J. Allen and Kilian Eichenseer and Christopher D. Dean and Etienne Bacher and Joseph T. Flannery-Sutherland},
+      year = {2026},
+      url = {https://CRAN.R-project.org/package=palaeoverse},
+      doi = {10.5281/zenodo.7728638},
     }

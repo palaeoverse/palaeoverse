@@ -9,31 +9,6 @@ package does not provide implementations of statistical analyses, rather
 it provides auxiliary functions to help streamline analyses and improve
 code readability and reproducibility.
 
-# Development team
-
-- [Lewis A. Jones](mailto:LewisAlan.Jones@uvigo.es), Universidade de
-  Vigo
-- [William Gearty](mailto:willgearty@gmail.com), American Museum of
-  Natural History
-- [Bethany J. Allen](mailto:Bethany.Allen@bsse.ethz.ch), ETH Zürich
-- [Kilian Eichenseer](mailto:kilian.eichenseer@gmail.com), Durham
-  University
-- [Christopher D. Dean](mailto:christopherdaviddean@gmail.com),
-  University College London
-- [Sofía Galván](mailto:sofia.galvan@uvigo.es), Universidade de Vigo
-- [Miranta Kouvari](mailto:kouvari.miranta@gmail.com), University
-  College London/Natural History Museum
-- [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), University of São
-  Paulo/Stony Brook University
-- [Cecily Nicholl](mailto:cecily.nicholl@ucl.ac.uk), University College
-  London
-- [Lucas Buffan](mailto:lucas.buffan@ens-lyon.fr), École Normale
-  Supérieure de Lyon
-- [Erin M. Dillon](mailto:erinmdillon@ucsb.edu), Smithsonian Tropical
-  Research Institute/University of California
-- [A. Alessandro Chiarenza](mailto:a.chiarenza15@gmail.com),
-  Universidade de Vigo
-
 # Installation
 
 The stable version of `palaeoverse` can be installed from CRAN using:
@@ -73,15 +48,37 @@ and work in a harassment-free environment.
 
 # Citation
 
-If you use the palaeoverse R package in your work, please cite as:
+If you use the palaeoverse R package in your work, please cite the
+original article describing the package:
 
 Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván
-S., Kouvari, M., Godoy, P.L., Nicholl, C., Dillon, E.M.,
+S., Kouvari, M., Godoy, P.L., Nicholl, C., Buffan, L., Dillon, E.M.,
 Flannery-Sutherland, J.T., Chiarenza, A.A. 2023. palaeoverse: A
 community-driven R package to support palaeobiological analysis.
-*Methods in Ecology and Evolution* 14(09), 2205–2215. doi:
+*Methods in Ecology and Evolution* 14(09), 2205–2215. DOI:
 [10.1111/2041-210X.14099](https://doi.org/10.1111/2041-210X.14099).
 
-![](reference/figures/logo.png)
+And the package version you are using:
 
-Hexlogo by Miranta Kouvari and Cecily Nicholl
+``` r
+
+# Get citation
+citation("palaeoverse")
+# Get citation in BibTex format
+toBibtex(citation("palaeoverse"))
+```
+
+# Maintainers
+
+- [Lewis A. Jones](mailto:LewisA.Jones@outlook.com), University College
+  London
+- [Palaeoverse](https://palaeoverse.org)
+
+## Contributors
+
+All contributions to this project are gratefully acknowledged using the
+[`allcontributors` package](https://github.com/ropensci/allcontributors)
+following the [allcontributors](https://allcontributors.org)
+specification. Contributions of any kind are welcome!
+
+[TABLE]
