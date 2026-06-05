@@ -53,13 +53,10 @@ citation("palaeoverse")
 toBibtex(citation("palaeoverse"))
 ```
 
-# Current Core Development Team
+# Maintainers
 
 - [Lewis A. Jones](mailto:LewisA.Jones@outlook.com), University College London
-- [William Gearty](mailto:willgearty@gmail.com), Syracuse University
-- [Etienne Bacher](mailto:etienne.bacher@protonmail.com), University College London
-- [Bethany J. Allen](mailto:bethany.janet.allen@gfz.de), Helmholtz Centre for Geosciences
-- [Pedro L. Godoy](mailto:pedrolorenagodoy@gmail.com), University of São Paulo
+- [Palaeoverse](https://palaeoverse.org)
 
 ## Contributors
 
