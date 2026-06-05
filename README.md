@@ -99,6 +99,10 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </a><br>
 <a href="https://github.com/palaeoverse/palaeoverse/commits?author=ChristopherDavidDean">ChristopherDavidDean</a>
 </td>
+</tr>
+
+
+<tr>
 <td align="center">
 <a href="https://github.com/bethany-j-allen">
 <img src="https://avatars.githubusercontent.com/u/39991015?v=4" width="100px;" alt=""/>
@@ -111,10 +115,6 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </a><br>
 <a href="https://github.com/palaeoverse/palaeoverse/commits?author=SofiaGalv">SofiaGalv</a>
 </td>
-</tr>
-
-
-<tr>
 <td align="center">
 <a href="https://github.com/BrunaFarina">
 <img src="https://avatars.githubusercontent.com/u/82400814?v=4" width="100px;" alt=""/>
@@ -133,6 +133,10 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </a><br>
 <a href="https://github.com/palaeoverse/palaeoverse/commits?author=jf15558">jf15558</a>
 </td>
+</tr>
+
+
+<tr>
 <td align="center">
 <a href="https://github.com/rsbivand">
 <img src="https://avatars.githubusercontent.com/u/10198404?u=130e1eda9687fabcf3606cbcbcfea79708207f7e&v=4" width="100px;" alt=""/>
@@ -157,16 +161,16 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </a><br>
 <a href="https://github.com/palaeoverse/palaeoverse/commits?author=AlfioAlessandroChiarenza">AlfioAlessandroChiarenza</a>
 </td>
-</tr>
-
-
-<tr>
 <td align="center">
 <a href="https://github.com/Buffan3369">
 <img src="https://avatars.githubusercontent.com/u/94531347?u=f8cdd8afbc64a157e919038535028b0af76c5073&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/palaeoverse/palaeoverse/commits?author=Buffan3369">Buffan3369</a>
 </td>
+</tr>
+
+
+<tr>
 <td align="center">
 <a href="https://github.com/pedrolgodoy">
 <img src="https://avatars.githubusercontent.com/u/25245537?u=bc63170fc670a56b5fcf36084004b6b3ad2fb43f&v=4" width="100px;" alt=""/>
@@ -197,16 +201,16 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </a><br>
 <a href="https://github.com/palaeoverse/palaeoverse/commits?author=RussellGarwood">RussellGarwood</a>
 </td>
+</tr>
+
+
+<tr>
 <td align="center">
 <a href="https://github.com/harrietdrage">
 <img src="https://avatars.githubusercontent.com/u/9463417?v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/palaeoverse/palaeoverse/commits?author=harrietdrage">harrietdrage</a>
 </td>
-</tr>
-
-
-<tr>
 <td align="center">
 <a href="https://github.com/erinmdillon">
 <img src="https://avatars.githubusercontent.com/u/28285818?u=9d463d3d50a9f416a44d3a44f4fe4971529e2130&v=4" width="100px;" alt=""/>
@@ -226,3 +230,4 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+

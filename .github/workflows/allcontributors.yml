@@ -33,7 +33,7 @@ jobs:
           extra-packages: any::allcontributors
 
       - name: Update allcontributors
-        run: Rscript -e 'allcontributors::add_contributors(num_sections = 1)'
+        run: Rscript -e 'allcontributors::add_contributors(ncols = 5, num_sections = 1)'
 
       - name: Commit results
         run: |
