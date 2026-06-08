@@ -79,13 +79,22 @@ jobs:
             if (!citationModified && !descriptionModified) {
               console.log('DESCRIPTION and CITATION.cff are both unmodified, skipping check.');
               // Remove label if it exists since both files are now unmodified
-              if (hasLabel) {
+              if (hasLabelDescription) {
                 console.log('Removing label');
                 await github.rest.issues.removeLabel({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: prNumber,
-                  name: labelName,
+                  name: labelNameDescription,
+                });
+              }
+              if (hasLabelCitation) {
+                console.log('Removing label');
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  name: labelNameCitation,
                 });
               }
               return;
