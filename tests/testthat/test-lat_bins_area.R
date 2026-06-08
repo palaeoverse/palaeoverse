@@ -13,7 +13,7 @@ test_that("different radius affects the results", {
 })
 
 # TODO: what should happen here? Currently it returns area = 0 and area_prop = NaN
-# test_that("lat_bins_aread handles case where min == max", {
+# test_that("lat_bins_area handles case where min == max", {
 #   lat_bins_area(min = 90, max = 90)
 # })
 
