@@ -1,0 +1,120 @@
+name: Check changes in DESCRIPTION and CITATION
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  check-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if DESCRIPTION or CITATION.cff update is needed
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const labelNameDescription = 'forgot-to-update-DESCRIPTION?';
+            const labelNameCitation = 'forgot-to-update-CITATION?';
+
+            // Get current labels on the PR
+            const { data: currentLabels } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            // Does the PR already has the labels we're focusing on?
+            const hasLabelDescription = currentLabels.some(label => label.name === labelNameDescription);
+            const hasLabelCitation = currentLabels.some(label => label.name === labelNameCitation);
+
+            // Get list of files changed in the PR
+            const files = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            // Check if CITATION.cff was modified
+            const citationModified = files.data.some(
+              file => file.filename === 'CITATION.cff'
+            );
+
+            // Check if DESCRIPTION was modified
+            const descriptionModified = files.data.some(
+              file => file.filename === 'DESCRIPTION'
+            );
+
+            // Both DESCRIPTION and CITATION.cff are modified: remove the label if it was present
+            // and return early.
+            if (citationModified && descriptionModified) {
+              console.log('DESCRIPTION and CITATION.cff are both modified, skipping check.');
+              // Remove label if it exists since both files are now modified
+              if (hasLabelDescription) {
+                console.log('Removing label');
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  name: labelNameDescription,
+                });
+              }
+              if (hasLabelCitation) {
+                console.log('Removing label');
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  name: labelNameCitation,
+                });
+              }
+              return;
+            }
+
+            // None of DESCRIPTION and CITATION.cff are modified: remove the label if it was present
+            // and return early.
+            if (!citationModified && !descriptionModified) {
+              console.log('DESCRIPTION and CITATION.cff are both unmodified, skipping check.');
+              // Remove label if it exists since both files are now unmodified
+              if (hasLabel) {
+                console.log('Removing label');
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  name: labelName,
+                });
+              }
+              return;
+            }
+
+            // The PR modifies DESCRIPTION but not CITATION.cff
+            // --> maybe CITATION.cff should be updated
+            // --> add label if not already present
+            if (descriptionModified && !citationModified && !hasLabelCitation) {
+              console.log('Adding label for CITATION');
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                labels: [labelNameCitation],
+              });
+              return;
+            }
+
+            // The PR modifies CITATION.cff but not DESCRIPTION
+            // --> maybe DESCRIPTION should be updated
+            // --> add label if not already present
+            if (!descriptionModified && citationModified && !hasLabelDescription) {
+              console.log('Adding label for DESCRIPTION');
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                labels: [labelNameDescription],
+              });
+              return;
+            }
