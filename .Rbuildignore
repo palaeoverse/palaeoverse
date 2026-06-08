@@ -26,3 +26,4 @@ vignettes/precompile.R
 vignettes/phanerozoic-reefs.Rmd.orig
 vignettes/tetrapod-biodiversity.Rmd.orig
 ^jarl\.toml$
+^CITATION\.cff$
