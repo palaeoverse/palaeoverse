@@ -35,6 +35,14 @@
 ---
 
     Code
+      lat_bins_area(n = -1)
+    Condition
+      Error in `data.frame()`:
+      ! arguments imply differing number of rows: 3, 1, 0
+
+---
+
+    Code
       lat_bins_area(n = numeric(0))
     Condition
       Error in `if (n%%1 != 0) ...`:
@@ -115,8 +123,8 @@
 ---
 
     Code
-      lat_bins_area(r = character(0))
+      lat_bins_area(r = numeric(0))
     Condition
-      Error in `lat_bins_area()`:
-      ! `r` should be a numeric.
+      Error in `data.frame()`:
+      ! arguments imply differing number of rows: 12, 0
 
