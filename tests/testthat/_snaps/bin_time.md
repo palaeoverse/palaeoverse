@@ -114,7 +114,7 @@
 ---
 
     Code
-      bin_time(occdf = data.frame(), bins = data.frame(), method = "mid", reps = TRUE)
+      bin_time(occdf = data.frame(), bins = data.frame(), method = "mid")
     Condition
       Error in `[.data.frame`:
       ! undefined columns selected
@@ -143,6 +143,14 @@
       Error in `bin_time()`:
       ! Invalid `method`. Choose either: 
        'all', 'majority', 'random', 'point', or 'mid'.
+
+# wrong input for reps
+
+    Code
+      bin_time(occdf = occdf, bins = bins, method = "random", reps = TRUE)
+    Condition
+      Error in `bin_time()`:
+      ! Invalid `reps`. Choose a numeric value.
 
 # wrong input for fun
 

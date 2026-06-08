@@ -278,20 +278,11 @@ test_that("wrong input for occdf", {
     error = TRUE
   )
   expect_snapshot(
-    bin_time(
-      occdf = data.frame(),
-      bins = data.frame(),
-      method = "mid",
-      reps = TRUE
-    ),
+    bin_time(occdf = data.frame(), bins = data.frame(), method = "mid"),
     error = TRUE
   )
   expect_snapshot(
-    bin_time(
-      occdf = data.frame(),
-      bins = data.frame(),
-      method = "mid"
-    ),
+    bin_time(occdf = data.frame(), bins = data.frame(), method = "mid"),
     error = TRUE
   )
 
@@ -313,6 +304,20 @@ test_that("wrong input for method", {
 
   expect_snapshot(
     bin_time(occdf = occdf, bins = bins, method = "foo"),
+    error = TRUE
+  )
+})
+
+test_that("wrong input for reps", {
+  occdf <- tetrapods[1:5, ]
+  bins <- data.frame(
+    bin = 1:54,
+    max_ma = seq(10, 540, 10),
+    min_ma = seq(0, 530, 10)
+  )
+
+  expect_snapshot(
+    bin_time(occdf = occdf, bins = bins, method = "random", reps = TRUE),
     error = TRUE
   )
 })
@@ -415,6 +420,21 @@ test_that("errors in data for min and max age", {
 
 #   expect_snapshot(
 #     bin_time(occdf = occdf, bins = bins, method = "random", fun = dnorm),
+#     error = TRUE
+#   )
+# })
+
+# TODO: shouldn't this error?
+# test_that("arg 'reps' is only used if method is 'point' or 'random'", {
+#   occdf <- tetrapods[1:5, ]
+#   bins <- data.frame(
+#     bin = 1:54,
+#     max_ma = seq(10, 540, 10),
+#     min_ma = seq(0, 530, 10)
+#   )
+
+#   expect_snapshot(
+#     bin_time(occdf = occdf, bins = bins, method = "all", reps = 10),
 #     error = TRUE
 #   )
 # })
