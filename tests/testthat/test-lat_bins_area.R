@@ -1,4 +1,7 @@
 test_that("lat_bins_area works", {
+  # default is to output 12 rows
+  expect_snapshot(lat_bins_area())
+
   expect_snapshot(lat_bins_area(n = 6))
   expect_snapshot(lat_bins_area(n = 6, min = 0, max = 90))
 })
