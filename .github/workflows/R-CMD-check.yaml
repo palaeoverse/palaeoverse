@@ -23,6 +23,9 @@ on:
       - vignettes/*
       - DESCRIPTION
       - NAMESPACE
+  schedule:
+    # Every Monday at 8am
+    - cron: "0 8 * * 1"
 
 name: R-CMD-check
 

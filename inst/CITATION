@@ -1,4 +1,9 @@
-citHeader("To cite palaeoverse in publications, use the following citation:")
+meta <- packageDescription("palaeoverse")
+
+authors <- eval(parse(text = meta$`Authors@R`))
+authors <- Filter(function(p) "aut" %in% p$role, authors)
+
+citHeader("To cite palaeoverse in publications, please cite both the article describing the package and the package itself:")
 
 bibentry(bibtype = "Article",
          title = "palaeoverse: A community-driven R package to support palaeobiological analysis",
@@ -20,9 +25,18 @@ bibentry(bibtype = "Article",
          volume = "14(9)",
          pages = "2205--2215",
          doi = "10.1111/2041-210X.14099",
-         textVersion = paste("Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C.S.C., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2023.",
+         textVersion = paste("Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván S., Kouvari, M., Godoy, P.L., Nicholl, C.S.C., Buffan, L., Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2023.",
          "palaeoverse: A community-driven R package to support palaeobiological analysis.",
          "Methods in Ecology and Evolution.",
          "14(9), 2205--2215.",
          "doi: 10.1111/2041-210X.14099")
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = paste0("palaeoverse: Prepare and Explore Data for Palaeobiological Analyses. R package version ", meta$Version),
+  author   = authors,
+  year     = format(Sys.time(), "%Y"),
+  url      = "https://CRAN.R-project.org/package=palaeoverse",
+  doi      = paste0(meta$DOI)
 )
