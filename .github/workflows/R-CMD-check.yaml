@@ -6,6 +6,7 @@ on:
     paths:
       - .github/workflows/R-CMD-check.yaml
       - .Rbuildignore
+      - man/**
       - R/**
       - inst/**
       - tests/**
@@ -17,6 +18,7 @@ on:
     paths:
       - .github/workflows/R-CMD-check.yaml
       - .Rbuildignore
+      - man/**
       - R/**
       - inst/**
       - tests/**

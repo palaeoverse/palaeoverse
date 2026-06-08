@@ -6,6 +6,7 @@ on:
     paths:
       - .github/workflows/test-coverage.yaml
       - .Rbuildignore
+      - man/**
       - R/**
       - inst/**
       - tests/**
@@ -16,6 +17,7 @@ on:
     paths:
       - .github/workflows/test-coverage.yaml
       - .Rbuildignore
+      - man/**
       - R/**
       - inst/**
       - tests/**
