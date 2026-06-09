@@ -40,7 +40,7 @@ devtools::install_github("palaeoverse/palaeoverse")
 
 You can now load `palaeoverse` using the default `library` function:
 
-```{r echo = TRUE}
+```{r echo = TRUE, eval = TRUE}
 library(palaeoverse)
 ```
 
