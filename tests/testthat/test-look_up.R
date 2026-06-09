@@ -1,71 +1,225 @@
-test_that("look_up() works", {
-  occdf <- tetrapods
-  vec <- c(NA, " ", "")
-  occdf <- occdf[which(!occdf$late_interval %in% vec), ]
-  vec <- look_up(occdf = occdf, return_unassigned = TRUE)
-  vec <- append(vec, c(NA, " ", ""))
+test_that("basic behavior works", {
+  # drop missings
+  occdf <- tetrapods[which(!tetrapods$late_interval %in% c(NA, " ", "")), ]
+  occdf <- occdf[2:6, ]
 
-  # load tetrapod data
-  occdf <- occdf[which(!occdf$late_interval %in% vec), ]
-  occdf <- occdf[which(!occdf$early_interval %in% vec), ]
-  occdf$late_interval <- occdf$early_interval
+  out <- look_up(occdf = occdf)
+  expect_named(
+    out,
+    c(
+      names(occdf),
+      c(
+        "early_stage",
+        "late_stage",
+        "interval_max_ma",
+        "interval_mid_ma",
+        "interval_min_ma"
+      )
+    )
+  )
+  expect_equal(nrow(out), nrow(occdf))
+  expect_snapshot(
+    out[, c(
+      "early_interval",
+      "late_interval",
+      "early_stage",
+      "late_stage",
+      "interval_max_ma",
+      "interval_mid_ma",
+      "interval_min_ma"
+    )]
+  )
+})
 
-  # check correct format and output
-  expect_true(is.data.frame(look_up(occdf[1:10, ])))
-  expect_true(is.character((look_up(occdf[1:10, ]))$early_stage))
-  expect_true(is.numeric((look_up(occdf[1:10, ]))$interval_min_ma))
+test_that("wrong input for argument 'occdf'", {
+  expect_snapshot(look_up(1), error = TRUE)
+  expect_snapshot(look_up(NA), error = TRUE)
+  expect_snapshot(look_up(NULL), error = TRUE)
+})
 
-  # check correct amount of data returned
-  expect_equal(nrow(look_up(occdf[1:10, ])), 10)
-  expect_equal(ncol(look_up(occdf[1:10, ])), 37)
-  expect_equal(nrow(look_up(occdf[1:10, ], assign_with_GTS = "GTS2012")), 10)
-  expect_equal(ncol(look_up(occdf[1:10, ], assign_with_GTS = "GTS2012")), 37)
+test_that("look_up() warns if some intervals couldn't be matched", {
+  # drop missings
+  occdf <- tetrapods[which(!tetrapods$late_interval %in% c(NA, " ", "")), ]
+  occdf <- occdf[1:2, ]
+  expect_warning(
+    out <- look_up(occdf = occdf),
+    "The following intervals could not be matched with intervals from int_key"
+  )
+  expect_snapshot(
+    out[, c(
+      "early_interval",
+      "late_interval",
+      "early_stage",
+      "late_stage",
+      "interval_max_ma",
+      "interval_mid_ma",
+      "interval_min_ma"
+    )]
+  )
+})
 
-  # check behaviour without int_key
-  expect_equal(
-    (look_up(
-      occdf[1:10, ],
-      int_key = FALSE,
-      assign_with_GTS = "GTS2012"
-    ))$early_stage[1:2],
-    c("Induan", "Asselian")
+test_that("arguments 'early_interval' and 'late_interval' work", {
+  # drop missings and rename interval columns
+  occdf <- tetrapods[which(!tetrapods$late_interval %in% c(NA, " ", "")), ]
+  occdf <- occdf[2:3, c("early_interval", "late_interval")]
+  names(occdf) <- c("early", "late")
+
+  # either one or both interval colums are not found in the data
+  expect_snapshot(look_up(occdf = occdf), error = TRUE)
+  expect_snapshot(
+    look_up(occdf = occdf, early_interval = "early"),
+    error = TRUE
+  )
+  expect_snapshot(look_up(occdf = occdf, late_interval = "late"), error = TRUE)
+
+  # wrong input type
+  expect_snapshot(look_up(occdf = occdf, early_interval = 1), error = TRUE)
+  expect_snapshot(look_up(occdf = occdf, early_interval = NA), error = TRUE)
+  expect_snapshot(
+    look_up(occdf = occdf, early_interval = c("a", "b")),
+    error = TRUE
+  )
+  expect_snapshot(look_up(occdf = occdf, late_interval = 1), error = TRUE)
+  expect_snapshot(look_up(occdf = occdf, late_interval = NA), error = TRUE)
+  expect_snapshot(
+    look_up(occdf = occdf, late_interval = c("a", "b")),
+    error = TRUE
   )
 
-  # check that no error is produced when pre-Phanerozoic intervals are included
+  expect_equal(
+    look_up(
+      occdf = occdf,
+      early_interval = "early",
+      late_interval = "late"
+    ),
+    data.frame(
+      early = c("Induan", "Asselian"),
+      late = c("Olenekian", "Sakmarian"),
+      early_stage = c("Induan", "Asselian"),
+      late_stage = c("Olenekian", "Sakmarian"),
+      interval_max_ma = c(251.902, 298.9),
+      interval_mid_ma = c(249.551, 294.5),
+      interval_min_ma = c(247.2, 290.1),
+      row.names = c(3L, 19L)
+    )
+  )
+})
+
+test_that("argument 'int_key' works", {
+  # drop missings
+  occdf <- tetrapods[which(!tetrapods$late_interval %in% c(NA, " ", "")), ]
+  occdf <- occdf[2:6, c("early_interval", "late_interval")]
+
+  my_interval <- data.frame(
+    interval_name = c("Induan", "Asselian"),
+    early_stage = c("foo1", "foo2"),
+    late_stage = c("bar1", "bar2")
+  )
+
+  # TODO: I really don't know what to expect here
+  expect_snapshot(look_up(occdf, int_key = my_interval))
+
+  # wrong format for int_key
+  expect_snapshot(
+    look_up(
+      occdf,
+      int_key = data.frame(
+        interval_name = c("Induan", "Asselian"),
+        early_stage = c("foo1", "foo2")
+      )
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    look_up(
+      occdf,
+      int_key = data.frame(
+        interval_name = c("Induan", "Asselian"),
+        late_stage = c("foo1", "foo2")
+      )
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    look_up(occdf, int_key = 1),
+    error = TRUE
+  )
+  expect_snapshot(
+    look_up(occdf, int_key = c("a", "b")),
+    error = TRUE
+  )
+})
+
+test_that("argument 'assign_with_GTS' works", {
+  # drop missings
+  occdf <- tetrapods[which(!tetrapods$late_interval %in% c(NA, " ", "")), ]
+  occdf <- occdf[2:6, c("early_interval", "late_interval")]
+
+  expect_snapshot(look_up(occdf, assign_with_GTS = "GTS2012"))
+
+  occdf <- tetrapods
+  occdf$late_interval <- occdf$early_interval
+  occdf <- occdf[which(!occdf$early_interval %in% GTS2020$interval_name), ]
+  occdf <- occdf[10:20, ]
+  out <- look_up(occdf, int_key = interval_key, assign_with_GTS = FALSE)
+  expect_named(
+    out,
+    c(names(occdf), c("early_stage", "late_stage"))
+  )
+  expect_equal(nrow(out), nrow(occdf))
+  expect_snapshot(
+    out[, c("early_interval", "late_interval", "early_stage", "late_stage")]
+  )
+
+  # TODO: update docs to mention that we can't have assign_with_GTS = FALSE
+  # and int_key = FALSE at the same time
+  expect_snapshot(look_up(occdf, assign_with_GTS = FALSE), error = TRUE)
+
+  # TODO: input type and value checks should come before checking whether int_key = FALSE
+  # (for both snapshots below)
+  expect_snapshot(look_up(occdf, assign_with_GTS = 1), error = TRUE)
+  expect_snapshot(look_up(occdf, assign_with_GTS = "foo"), error = TRUE)
+})
+
+test_that("argument 'return_unassigned' works", {
+  # drop missings
+  occdf <- tetrapods[which(!tetrapods$late_interval %in% c(NA, " ", "")), ]
+  occdf <- occdf[1:5, c("early_interval", "late_interval")]
+  expect_equal(look_up(occdf, return_unassigned = TRUE), "Missourian")
+
+  expect_message(
+    expect_null(look_up(occdf[2:3, ], return_unassigned = TRUE)),
+    "All intervals have been assigned."
+  )
+})
+
+test_that("no error is produced when pre-Phanerozoic intervals are included", {
   occdf <- reefs
   occdf$interval[1] <- "Meso-archean"
+  occdf <- occdf[which(occdf$interval %in% c("Ediacaran", "Meso-archean")), ]
   expect_warning(
-    expect_equal(
-      look_up(
-        occdf[
-          which(
-            occdf$interval == "Ediacaran" |
-              occdf$interval == "Meso-archean"
-          ),
-        ],
-        early_interval = "interval",
-        late_interval = "interval",
-        assign_with_GTS = "GTS2012",
-        int_key = FALSE
-      )$early_stage,
-      rep(NA_character_, 3)
+    out <- look_up(
+      occdf,
+      early_interval = "interval",
+      late_interval = "interval",
+      assign_with_GTS = "GTS2012",
+      int_key = FALSE
     ),
     regexp = "Ediacaran"
   )
-
-  # check whether unassigned intervals are returned, if required
-  occdf <- tetrapods
-  vec <- c(NA, " ", "")
-  occdf <- occdf[which(!occdf$late_interval %in% vec), ]
-  expect_equal(
-    look_up(
-      occdf[1:100, ],
-      int_key = palaeoverse::interval_key,
-      return_unassigned = TRUE
-    ),
-    "Early Triassic"
+  expect_snapshot(
+    out[, c(
+      "interval",
+      "early_stage",
+      "late_stage",
+      "interval_max_ma",
+      "interval_mid_ma",
+      "interval_min_ma"
+    )]
   )
+})
 
+test_that("", {
   # turn off "GTS": stage ages are not returned as not given in interval_key
   occdf <- tetrapods
   occdf$late_interval <- occdf$early_interval
@@ -96,31 +250,6 @@ test_that("look_up() works", {
     37
   )
 
-  expect_equal(
-    (look_up(
-      occdf[1:10, ],
-      int_key = custom_key,
-      assign_with_GTS = FALSE
-    ))$interval_max_ma[1],
-    400
-  )
-  expect_equal(
-    (look_up(
-      occdf[1:10, ],
-      int_key = custom_key,
-      assign_with_GTS = FALSE
-    ))$interval_mid_ma[2],
-    385
-  )
-  expect_equal(
-    (look_up(
-      occdf[1:10, ],
-      int_key = custom_key,
-      assign_with_GTS = FALSE
-    ))$late_stage[1],
-    "Sakmarian"
-  )
-
   # check assignment just based on early_interval
   expect_equal(
     (look_up(
@@ -131,56 +260,4 @@ test_that("look_up() works", {
     ))$late_stage[1],
     "Sakmarian"
   )
-
-  # check whether different late_interval name works
-  colnames(occdf)[which(colnames(occdf) == "late_interval")] <- "other_interval"
-  expect_equal(
-    (look_up(
-      occdf[1:10, ],
-      int_key = custom_key,
-      assign_with_GTS = FALSE,
-      late_interval = "other_interval"
-    ))$late_stage[1],
-    "Sakmarian"
-  )
-
-  occdf <- tetrapods
-  # check error handling
-  expect_snapshot(look_up("Sakmarian"), error = TRUE)
-  expect_snapshot(
-    look_up(occdf[names(occdf) != "early_interval"]),
-    error = TRUE
-  )
-  expect_snapshot(look_up(occdf, early_interval = "test"), error = TRUE)
-  expect_snapshot(look_up(occdf, late_interval = "test"), error = TRUE)
-  expect_snapshot(look_up(occdf, int_key = "Sakmarian"), error = TRUE)
-  expect_snapshot(
-    look_up(
-      occdf,
-      int_key = custom_key[names(custom_key) != "interval_name"]
-    ),
-    error = TRUE
-  )
-  expect_snapshot(
-    look_up(occdf, int_key = FALSE, assign_with_GTS = FALSE),
-    error = TRUE
-  )
-
-  interval_key <- palaeoverse::interval_key
-
-  interval_key$max_ma <- rep(1, nrow(interval_key))
-  expect_warning(look_up(occdf[1:10, ], int_key = interval_key))
-
-  interval_key$min_ma <- rep("test", nrow(interval_key))
-  expect_snapshot(look_up(occdf[1:10, ], int_key = interval_key), error = TRUE)
-
-  interval_key$max_ma <- rep("test", nrow(interval_key))
-  expect_snapshot(look_up(occdf[1:10, ], int_key = interval_key), error = TRUE)
-
-  interval_key$interval_name <- rep(1, nrow(interval_key))
-  expect_snapshot(look_up(occdf[1:10, ], int_key = interval_key), error = TRUE)
-
-  expect_snapshot(look_up(occdf[1:10, ], early_interval = 5), error = TRUE)
-
-  expect_snapshot(look_up(occdf[1:10, ], late_interval = 5), error = TRUE)
 })
