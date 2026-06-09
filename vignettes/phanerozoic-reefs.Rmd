@@ -29,15 +29,15 @@ load_all()
 
 The `palaeoverse` package can be installed via CRAN or its dedicated [GitHub repository](https://github.com/palaeoverse/palaeoverse) if the development version is preferred. To install via the CRAN, simply use:
 
-```{r echo = TRUE}
-# install.packages("palaeoverse")
+```{r echo = TRUE, eval = FALSE}
+install.packages("palaeoverse")
 ```
 
 To install the development version, first install the `devtools` package, and then use `install_github` to install `palaeoverse` directly from GitHub.
 
-```{r echo = TRUE}
-# install.packages("devtools")
-# devtools::install_github("palaeoverse/palaeoverse")
+```{r echo = TRUE, eval = FALSE}
+install.packages("devtools")
+devtools::install_github("palaeoverse/palaeoverse")
 ```
 
 You can now load `palaeoverse` using the default `library` function:
