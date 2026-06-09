@@ -135,6 +135,14 @@
       Error in `lat_bins_degrees()`:
       ! `min` should be less than `max`
 
+---
+
+    Code
+      lat_bins_degrees(min = 30, max = 30)
+    Condition
+      Error in `lat_bins_degrees()`:
+      ! `min` should be less than `max`
+
 # argument 'fit' works
 
     Code
