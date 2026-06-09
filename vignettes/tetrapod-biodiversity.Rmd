@@ -40,13 +40,13 @@ devtools::install_github("palaeoverse/palaeoverse")
 
 You can now load `palaeoverse` using the default `library` function:
 
-```{r eval = FALSE}
+```{r}
 library(palaeoverse)
 ```
 
 **Before we get onto the good stuff, the development team has a small request**. If you use `palaeoverse` in your research, please cite the associated publication. This will help us to continue our work in supporting you to do yours. You can access the appropriate citation via:
 
-```{r eval = FALSE}
+```{r}
 citation("palaeoverse")
 ```
 

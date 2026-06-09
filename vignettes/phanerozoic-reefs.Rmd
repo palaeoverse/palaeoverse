@@ -15,8 +15,6 @@ vignette: >
 knitr::opts_chunk$set(echo = FALSE, include = TRUE, eval = FALSE,
                       out.width = "100%", fig.width = 7.2, fig.height = 6, dpi = 200,
                       fig.path = "")
-library(devtools)
-load_all()
 ```
 
 <div style="text-align: justify">
@@ -42,7 +40,7 @@ devtools::install_github("palaeoverse/palaeoverse")
 
 You can now load `palaeoverse` using the default `library` function:
 
-```{r echo = TRUE, eval = FALSE}
+```{r echo = TRUE}
 library(palaeoverse)
 ```
 
