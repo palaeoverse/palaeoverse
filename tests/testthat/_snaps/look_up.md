@@ -113,10 +113,10 @@
 ---
 
     Code
-      look_up(occdf = occdf, late_interval = NA)
+      look_up(occdf = occdf, early_interval = "early", late_interval = NA)
     Condition
       Error in `look_up()`:
-      ! `early_interval` needs to match a column name of `occdf`
+      ! `late_interval` needs to be of type `character`
 
 ---
 
@@ -125,6 +125,22 @@
     Condition
       Error in `look_up()`:
       ! `early_interval` needs to match a column name of `occdf`
+
+# warn if 'late_interval' values have been filled with 'early_interval' ones
+
+    Code
+      look_up(occdf)
+    Condition
+      Warning in `look_up()`:
+      `NA`, `""` or `" "` entries from `late_interval` have been
+                  filled in with the corresponding `early_interval` entries
+    Output
+        early_interval late_interval early_stage late_stage interval_max_ma
+      2     Capitanian          <NA>  Capitanian Capitanian         265.100
+      3         Induan     Olenekian      Induan  Olenekian         251.902
+        interval_mid_ma interval_min_ma
+      2         262.100           259.1
+      3         249.551           247.2
 
 # argument 'int_key' works
 
@@ -143,6 +159,22 @@
       20              NA           290.1
       21              NA           290.1
       22              NA           290.1
+
+---
+
+    Code
+      look_up(occdf, int_key = 1)
+    Condition
+      Error in `look_up()`:
+      ! `int_key` should be a dataframe.
+
+---
+
+    Code
+      look_up(occdf, int_key = c("a", "b"))
+    Condition
+      Error in `look_up()`:
+      ! `int_key` should be a dataframe.
 
 ---
 
@@ -167,18 +199,51 @@
 ---
 
     Code
-      look_up(occdf, int_key = 1)
+      look_up(occdf, int_key = data.frame(interval_name = c("Induan", "Asselian"),
+      early_stage = 1:2, late_stage = c("foo1", "foo2")))
     Condition
       Error in `look_up()`:
-      ! `int_key` should be a dataframe.
+      ! `int_key$interval_name`, `int_key$early_stage`, and
+                 `int_key$late_stage` needs to be of type `character`
 
 ---
 
     Code
-      look_up(occdf, int_key = c("a", "b"))
+      look_up(occdf, int_key = data.frame(interval_name = c("Induan", "Asselian"),
+      early_stage = c("foo1", "foo2"), late_stage = c("foo1", "foo2"), max_ma = c("a",
+        "b")))
     Condition
       Error in `look_up()`:
-      ! `int_key` should be a dataframe.
+      ! `int_key$max_ma` needs to be of type `numeric`
+
+---
+
+    Code
+      look_up(occdf, int_key = data.frame(interval_name = c("Induan", "Asselian"),
+      early_stage = c("foo1", "foo2"), late_stage = c("foo1", "foo2"), max_ma = c("a",
+        "b")))
+    Condition
+      Error in `look_up()`:
+      ! `int_key$max_ma` needs to be of type `numeric`
+
+# int_key works with columns 'min_ma' and 'max_ma'
+
+    Code
+      out[, c("early_interval", "late_interval", "early_stage", "late_stage",
+        "max_ma", "interval_mid_ma", "min_ma", "interval_max_ma", "interval_min_ma")]
+    Output
+           early_interval late_interval early_stage late_stage max_ma interval_mid_ma
+      1        Missourian      Gzhelian  Kasimovian   Gzhelian  305.9             375
+      59       Capitanian Wuchiapingian  Capitanian       <NA>  265.1              NA
+      554      Capitanian Wuchiapingian  Capitanian       <NA>  265.1              NA
+      1957       Gzhelian      Asselian    Gzhelian       <NA>  303.7              NA
+      2031     Missourian     Virgilian  Kasimovian       <NA>  305.9              NA
+           min_ma interval_max_ma interval_min_ma
+      1    298.90             400             350
+      59   254.17             300              NA
+      554  254.17             300              NA
+      1957 295.50             360              NA
+      2031 298.90             400              NA
 
 # argument 'assign_with_GTS' works
 

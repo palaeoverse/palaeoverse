@@ -80,7 +80,10 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
     error = TRUE
   )
   expect_snapshot(look_up(occdf = occdf, late_interval = 1), error = TRUE)
-  expect_snapshot(look_up(occdf = occdf, late_interval = NA), error = TRUE)
+  expect_snapshot(
+    look_up(occdf = occdf, early_interval = "early", late_interval = NA),
+    error = TRUE
+  )
   expect_snapshot(
     look_up(occdf = occdf, late_interval = c("a", "b")),
     error = TRUE
@@ -105,6 +108,12 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
   )
 })
 
+test_that("warn if 'late_interval' values have been filled with 'early_interval' ones", {
+  occdf <- tetrapods[2:3, c("early_interval", "late_interval")]
+  # snapshot captures both the warning and the output
+  expect_snapshot(look_up(occdf))
+})
+
 test_that("argument 'int_key' works", {
   # drop missings
   occdf <- tetrapods[which(!tetrapods$late_interval %in% c(NA, " ", "")), ]
@@ -119,7 +128,11 @@ test_that("argument 'int_key' works", {
   # TODO: I really don't know what to expect here
   expect_snapshot(look_up(occdf, int_key = my_interval))
 
-  # wrong format for int_key
+  # wrong input for int_key
+  expect_snapshot(look_up(occdf, int_key = 1), error = TRUE)
+  expect_snapshot(look_up(occdf, int_key = c("a", "b")), error = TRUE)
+
+  # missing column(s) in int_key
   expect_snapshot(
     look_up(
       occdf,
@@ -140,13 +153,88 @@ test_that("argument 'int_key' works", {
     ),
     error = TRUE
   )
+  # wrong column type
   expect_snapshot(
-    look_up(occdf, int_key = 1),
+    look_up(
+      occdf,
+      int_key = data.frame(
+        interval_name = c("Induan", "Asselian"),
+        early_stage = 1:2,
+        late_stage = c("foo1", "foo2")
+      )
+    ),
+    error = TRUE
+  )
+  # max_ma and min_ma must be numeric
+  expect_snapshot(
+    look_up(
+      occdf,
+      int_key = data.frame(
+        interval_name = c("Induan", "Asselian"),
+        early_stage = c("foo1", "foo2"),
+        late_stage = c("foo1", "foo2"),
+        max_ma = c("a", "b")
+      )
+    ),
     error = TRUE
   )
   expect_snapshot(
-    look_up(occdf, int_key = c("a", "b")),
+    look_up(
+      occdf,
+      int_key = data.frame(
+        interval_name = c("Induan", "Asselian"),
+        early_stage = c("foo1", "foo2"),
+        late_stage = c("foo1", "foo2"),
+        max_ma = c("a", "b")
+      )
+    ),
     error = TRUE
+  )
+})
+
+test_that("int_key works with columns 'min_ma' and 'max_ma'", {
+  occdf <- tetrapods
+  occdf <- occdf[which(!occdf$late_interval %in% c("", " ", NA)), ]
+
+  custom_key <- data.frame(
+    interval_name = c("Missourian", "Gzhelian", "Capitanian"),
+    early_stage = c("Kasimovian", "Gzhelian", "Capitanian"),
+    late_stage = c("Sakmarian", "Gzhelian", "Capitanian"),
+    max_ma = c(400, 360, 300),
+    min_ma = c(370, 350, 290)
+  )
+
+  occdf <- occdf[which(occdf$early_interval %in% custom_key$interval_name), ]
+  occdf <- occdf[1:5, ]
+
+  expect_warning(
+    out <- look_up(occdf, int_key = custom_key, assign_with_GTS = FALSE),
+    "The following intervals could not be matched with"
+  )
+  expect_named(
+    out,
+    c(
+      names(occdf),
+      "early_stage",
+      "late_stage",
+      "interval_max_ma",
+      "interval_mid_ma",
+      "interval_min_ma"
+    )
+  )
+  expect_equal(nrow(out), nrow(occdf))
+  expect_snapshot(
+    out[, c(
+      "early_interval",
+      "late_interval",
+      "early_stage",
+      "late_stage",
+      "max_ma",
+      "interval_mid_ma",
+      "min_ma",
+      "interval_max_ma",
+      "interval_min_ma"
+    )]
   )
 })
 
