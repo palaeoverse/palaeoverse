@@ -185,7 +185,7 @@ test_that("argument 'int_key' works", {
         interval_name = c("Induan", "Asselian"),
         early_stage = c("foo1", "foo2"),
         late_stage = c("foo1", "foo2"),
-        max_ma = c("a", "b")
+        min_ma = c("a", "b")
       )
     ),
     error = TRUE

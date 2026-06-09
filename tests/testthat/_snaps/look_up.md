@@ -220,11 +220,11 @@
 
     Code
       look_up(occdf, int_key = data.frame(interval_name = c("Induan", "Asselian"),
-      early_stage = c("foo1", "foo2"), late_stage = c("foo1", "foo2"), max_ma = c("a",
+      early_stage = c("foo1", "foo2"), late_stage = c("foo1", "foo2"), min_ma = c("a",
         "b")))
     Condition
       Error in `look_up()`:
-      ! `int_key$max_ma` needs to be of type `numeric`
+      ! `int_key$min_ma` needs to be of type `numeric`
 
 # int_key works with columns 'min_ma' and 'max_ma'
 
