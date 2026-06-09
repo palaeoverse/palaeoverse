@@ -259,6 +259,11 @@ test_that("argument 'assign_with_GTS' works", {
     out[, c("early_interval", "late_interval", "early_stage", "late_stage")]
   )
 
+  expect_snapshot(
+    look_up(occdf, int_key = interval_key, assign_with_GTS = "foo"),
+    error = TRUE
+  )
+
   # TODO: update docs to mention that we can't have assign_with_GTS = FALSE
   # and int_key = FALSE at the same time
   expect_snapshot(look_up(occdf, assign_with_GTS = FALSE), error = TRUE)

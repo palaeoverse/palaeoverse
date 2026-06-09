@@ -284,6 +284,14 @@
 ---
 
     Code
+      look_up(occdf, int_key = interval_key, assign_with_GTS = "foo")
+    Condition
+      Error in `!assign_with_GTS`:
+      ! invalid argument type
+
+---
+
+    Code
       look_up(occdf, assign_with_GTS = FALSE)
     Condition
       Error in `look_up()`:
