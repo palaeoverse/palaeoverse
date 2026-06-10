@@ -62,14 +62,6 @@
       Error:
       ! object 'foobar' not found
 
----
-
-    Code
-      group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow)
-    Condition
-      Error in `xtfrm.data.frame()`:
-      ! cannot xtfrm data frames
-
 # error handling for argument 'fun'
 
     Code
