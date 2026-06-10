@@ -86,9 +86,12 @@ test_that("argument 'plot' works", {
   expect_doppelganger("lat_bins_degrees", function() {
     lat_bins_degrees(40, plot = TRUE)
   })
-  expect_doppelganger("lat_bins_degrees with fit", function() {
-    lat_bins_degrees(40, fit = TRUE, plot = TRUE)
-  })
+  expect_message(
+    expect_doppelganger("lat_bins_degrees with fit", function() {
+      lat_bins_degrees(40, fit = TRUE, plot = TRUE)
+    }),
+    "Bin size set to 36 degrees to fit latitudinal range."
+  )
   expect_snapshot(lat_bins_degrees(plot = 100), error = TRUE)
   expect_snapshot(lat_bins_degrees(plot = logical(0)), error = TRUE)
   expect_snapshot(lat_bins_degrees(plot = NA), error = TRUE)
