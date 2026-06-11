@@ -50,7 +50,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/palaeoverse/palaeoverse/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/palaeoverse/palaeoverse/blob/v.1.5.0/inst/CITATION)
 
 Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván
 S., Kouvari, M., Godoy, P.L., Nicholl, C.S.C., Buffan, L., Dillon, E.M.,
