@@ -1,4 +1,4 @@
-meta <- packageDescription("palaeoverse")
+# "meta" isn't defined here but made available by R CMD check
 
 authors <- eval(parse(text = meta$`Authors@R`))
 authors <- Filter(function(p) "aut" %in% p$role, authors)
