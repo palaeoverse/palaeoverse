@@ -38,5 +38,5 @@ bibentry(
   author   = authors,
   year     = format(Sys.time(), "%Y"),
   url      = "https://CRAN.R-project.org/package=palaeoverse",
-  doi      = paste0(meta$DOI)
+  doi      = "10.5281/zenodo.7728638"
 )
