@@ -50,7 +50,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/palaeoverse/palaeoverse/blob/v.1.5.0/inst/CITATION)
+[`inst/CITATION`](https://github.com/palaeoverse/palaeoverse/blob/main/inst/CITATION)
 
 Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D., Galván
 S., Kouvari, M., Godoy, P.L., Nicholl, C.S.C., Buffan, L., Dillon, E.M.,
@@ -71,12 +71,12 @@ in Ecology and Evolution. 14(9), 2205--2215. doi:
 
 Jones L, Gearty W, Allen B, Eichenseer K, Dean C, Bacher E,
 Flannery-Sutherland J (2026). *palaeoverse: Prepare and Explore Data for
-Palaeobiological Analyses. R package version 1.5.0*.
+Palaeobiological Analyses. R package version 1.5.0.9000*.
 [doi:10.5281/zenodo.7728638](https://doi.org/10.5281/zenodo.7728638).
 <https://CRAN.R-project.org/package=palaeoverse>.
 
     @Manual{,
-      title = {palaeoverse: Prepare and Explore Data for Palaeobiological Analyses. R package version 1.5.0},
+      title = {palaeoverse: Prepare and Explore Data for Palaeobiological Analyses. R package version 1.5.0.9000},
       author = {Lewis A. Jones and William Gearty and Bethany J. Allen and Kilian Eichenseer and Christopher D. Dean and Etienne Bacher and Joseph T. Flannery-Sutherland},
       year = {2026},
       url = {https://CRAN.R-project.org/package=palaeoverse},
