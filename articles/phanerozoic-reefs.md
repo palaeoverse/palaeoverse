@@ -3,7 +3,7 @@
 **Authors:** [The Palaeoverse Development
 Team](https://palaeoverse.org/#about-us)
 
-**Last updated:** 2026-06-01
+**Last updated:** 2026-06-10
 
 ## Introduction
 
@@ -155,7 +155,7 @@ time… one solution could be to use age values to bin the reefs into time
 bins, but no age range data is provided in the dataset (i.e. “max_ma”
 and “min_ma”). We must therefore use the names of each interval to link
 to a common time scale, the ‘[International Geological
-Stages](https://stratigraphy.org/chart)’ established by the
+Stages](https://stratigraphy.org/chart/)’ established by the
 International Commission on Stratigraphy (ICS). Fortunately, we can make
 use of the `look_up` function to do so. This function can be used to
 assign international geological stages and numeric ages to occurrences,

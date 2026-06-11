@@ -7,7 +7,7 @@ palaeobiological community together to establish agreed standards. The
 package currently includes functionality for data cleaning, binning
 (time and space), exploration, summarisation and visualisation.
 Reference datasets (i.e. Geological Time Scales
-<https://stratigraphy.org/chart>) and auxiliary functions are also
+<https://stratigraphy.org/chart/>) and auxiliary functions are also
 provided. Details can be found in: Jones et al., (2023) [doi:
 10.1111/2041-210X.14099](https://doi.org/%2010.1111/2041-210X.14099) .
 
