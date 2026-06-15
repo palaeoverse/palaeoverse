@@ -4,6 +4,8 @@
 
 ## palaeoverse 1.5.0
 
+CRAN release: 2026-06-11
+
 ### New features
 
 - Added
