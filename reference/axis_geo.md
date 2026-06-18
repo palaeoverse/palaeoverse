@@ -326,6 +326,8 @@ axis(2)
 axis_geo(side = 1, intervals = "North American land mammal ages",
          title = "Time (Ma)")
 
+#> Warning: cannot open URL 'https://macrostrat.org/api/v2/defs/intervals?format=csv&timescale=North%20American%20land%20mammal%20ages': HTTP status was '500 Internal Server Error'
+#> Error: `name` does not match a built-in or Macrostrat time scale.
 
 # scale with custom intervals
 intervals <- data.frame(min_ma = c(0, 10, 25, 32),
