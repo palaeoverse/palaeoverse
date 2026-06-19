@@ -32,6 +32,17 @@ jobs:
           # - the gnu.org link may generate a 429 (too many requests)
           #
           # This is not ideal but at least we can catch failures in other links.
+          #
+          # --max-concurrency, --max-retries, --retry-wait-time and --timeout make
+          # the check more robust against transient "Connection failed" errors that
+          # happen when lychee hits a single host (e.g. palaeoverse.org) with too
+          # many simultaneous requests.
           args: |
-            . --exclude '(^https://doi\.org/10\.1111/2041-210X\.14099$)|(fsf\.org)|(gnu\.org)' --accept 200,429
+            .
+            --max-concurrency 4
+            --max-retries 5
+            --retry-wait-time 5
+            --timeout 30
+            --exclude '(^https://doi\.org/10\.1111/2041-210X\.14099$)|(fsf\.org)|(gnu\.org)'
+            --accept 200,429
           fail: true

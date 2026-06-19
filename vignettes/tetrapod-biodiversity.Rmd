@@ -11,7 +11,7 @@ vignette: >
 
 **Authors:** [The Palaeoverse Development Team](https://palaeoverse.org/#about-us)
 
-**Last updated:** 2026-06-01
+**Last updated:** 2026-06-10
 
 
 
@@ -187,9 +187,8 @@ mid_tetrapods <- bin_time(occdf = cp_tetrapods,
 ```
 
 ```
-## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more occurrences have a midpoint
-## age equivalent to a bin boundary. Binning skipped for these occurrences. Hint:
-## `which(is.na(occdf$bin_assignment))`.
+## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more occurrences have a midpoint age
+## equivalent to a bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.
 ```
 
 That's better! Let's see how our dataset has changed.
