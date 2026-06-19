@@ -26,7 +26,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
       - uses: r-lib/actions/setup-pandoc@9f58233a78a2a9fd874714be10f8bba627233339 # v2
         with:
