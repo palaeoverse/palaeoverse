@@ -104,6 +104,9 @@ test_that("bin_time() works with method 'random'", {
   )
   expect_type(bin_random, "list")
   expect_length(bin_random, 5)
+  # bin_random is a list of dataframes. Checking values for all elements is
+  # not possible but at least we can ensure that all those dataframes have
+  # correct column names and types.
   invisible(
     lapply(bin_random, function(x) {
       expect_true(is.data.frame(x))
