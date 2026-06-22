@@ -54,6 +54,7 @@ test_that("palaeorotate() error handling works", {
 
 test_that("palaeorotate() point method works", {
   skip_if_offline(host = "gws.gplates.org")
+  skip_if_not_installed("vcr")
 
   occdf <- data.frame(
     lng = c(2, -103, -66),
@@ -159,6 +160,7 @@ test_that("palaeorotate() point method works", {
 test_that("palaeorotate() grid method works", {
   skip_if_offline(host = "zenodo.org")
   skip_on_cran()
+  skip_if_not_installed("vcr")
 
   occdf <- data.frame(
     lng = c(2, -103, -66),
