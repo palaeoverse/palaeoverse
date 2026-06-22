@@ -12,7 +12,7 @@ test_that("different radius affects the results", {
   expect_all_false(orig$area == new$area)
 })
 
-# TODO: what should happen here? Currently it returns area = 0 and area_prop = NaN
+# TODO: this should error
 # test_that("lat_bins_area handles case where min == max", {
 #   lat_bins_area(min = 90, max = 90)
 # })
@@ -37,7 +37,7 @@ test_that("lat_bins_area errors with wrong inputs", {
   expect_snapshot(lat_bins_area(r = "Earth"), error = TRUE)
   expect_snapshot(lat_bins_area(r = numeric(0)), error = TRUE)
 
-  # TODO: I suppose this should error? Currently it doesn't
+  # TODO: this should error
   # expect_snapshot(lat_bins_area(r = -1), error = TRUE)
 })
 
