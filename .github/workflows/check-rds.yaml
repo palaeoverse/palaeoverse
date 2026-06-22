@@ -1,0 +1,44 @@
+# We stored some vignette outputs in RDS files because they are time-consuming to produce
+# and depend on external services that might be unavailable. This workflow periodically 
+# runs R scripts that ensure that the RDS files are still up to date.
+#
+# Those scripts are designed so that connectivity issues are reported in the workflow 
+# output but do not lead to a workflow failure because there wouldn't be anything 
+# actionable from our side. 
+
+name: Check vignettes RDS files
+
+on:
+  workflow_dispatch: # Manually run
+  schedule:
+    # Every Monday at 8am
+    - cron: "0 8 * * 1"
+
+jobs:
+  check-rds:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: r-lib/actions/setup-r@9f58233a78a2a9fd874714be10f8bba627233339 # v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@a51a8012b0aab7c32ef9d19bf54da93f3254335e # v2
+        with:
+          extra-packages: any::devtools, any::here
+
+      - name: Check tetrapod-biodiversity RDS
+        run: Rscript vignettes/check-rds-tetrapod-biodiversity.R
+
+      - name: Check phanerozoic-reefs RDS
+        # We want to run this step even if the previous one failed. This is different from:
+        # - continue-on-error, which would ignore the result of the previous step when reporting
+        #   whether the workflow failed;
+        # - `if: always()`, which would run even if we manually cancel the workflow.
+        if: ${{ !cancelled() }}
+        run: Rscript vignettes/check-rds-phanerozoic-reefs.R
