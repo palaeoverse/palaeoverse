@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Provides functionality to support data preparation and exploration for palaeobiological analyses, improving code reproducibility and accessibility. The wider aim of 'palaeoverse' is to bring the palaeobiological community together to establish agreed standards. The package currently includes functionality for data cleaning, binning (time and space), exploration, summarisation and visualisation. Reference datasets (i.e. Geological Time Scales \url{https://stratigraphy.org/chart}) and auxiliary functions are also provided. Details can be found in: Jones et al., (2023) \doi{ 10.1111/2041-210X.14099}.
+Provides functionality to support data preparation and exploration for palaeobiological analyses, improving code reproducibility and accessibility. The wider aim of 'palaeoverse' is to bring the palaeobiological community together to establish agreed standards. The package currently includes functionality for data cleaning, binning (time and space), exploration, summarisation and visualisation. Reference datasets (i.e. Geological Time Scales \url{https://stratigraphy.org/chart/}) and auxiliary functions are also provided. Details can be found in: Jones et al., (2023) \doi{ 10.1111/2041-210X.14099}.
 }
 \seealso{
 Useful links:
@@ -27,16 +27,17 @@ Authors:
 \itemize{
   \item Lewis A. Jones \email{LewisA.Jones@outlook.com} (\href{https://orcid.org/0000-0003-3902-8986}{ORCID})
   \item William Gearty \email{willgearty@gmail.com} (\href{https://orcid.org/0000-0003-0076-3262}{ORCID})
-  \item Bethany J. Allen \email{Bethany.Allen@bsse.ethz.ch} (\href{https://orcid.org/0000-0003-0282-6407}{ORCID})
+  \item Bethany J. Allen \email{bethany.janet.allen@gfz.de} (\href{https://orcid.org/0000-0003-0282-6407}{ORCID})
   \item Kilian Eichenseer \email{kilian.eichenseer@gmail.com} (\href{https://orcid.org/0000-0002-0477-8878}{ORCID})
   \item Christopher D. Dean \email{christopherdaviddean@gmail.com} (\href{https://orcid.org/0000-0001-6471-6903}{ORCID})
-  \item Joseph T. Flannery-Sutherland \email{jf15558@bristol.ac.uk} (\href{https://orcid.org/0000-0001-8232-6773}{ORCID})
+  \item Etienne Bacher \email{etienne.bacher@protonmail.com} (\href{https://orcid.org/0000-0002-9271-5075}{ORCID})
+  \item Joseph T. Flannery-Sutherland \email{j.t.flannerysutherland@bham.ac.uk} (\href{https://orcid.org/0000-0001-8232-6773}{ORCID})
 }
 
 Other contributors:
 \itemize{
   \item Sofia Galvan \email{sofia.galvan@uvigo.es} (\href{https://orcid.org/0000-0002-3092-4314}{ORCID}) [contributor]
-  \item Miranta Kouvari \email{m.kouvari@ucl.ac.uk} (\href{https://orcid.org/0000-0002-5442-6221}{ORCID}) [contributor]
+  \item Miranta Kouvari \email{kouvari.miranta@gmail.com} (\href{https://orcid.org/0000-0002-5442-6221}{ORCID}) [contributor]
   \item Pedro L. Godoy \email{pedrolorenagodoy@gmail.com} (\href{https://orcid.org/0000-0003-4519-5094}{ORCID}) [contributor]
   \item Cecily Nicholl \email{cecily.nicholl@ucl.ac.uk} (\href{https://orcid.org/0000-0003-2860-2604}{ORCID}) [contributor]
   \item Lucas Buffan \email{lucas.l.buffan@gmail.com} (\href{https://orcid.org/0000-0002-2353-1432}{ORCID}) [contributor]
