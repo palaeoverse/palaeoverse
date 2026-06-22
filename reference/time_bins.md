@@ -169,6 +169,6 @@ ex6 <- time_bins(scale = scale, size = 20, plot = TRUE)
 #Use North American land mammal ages from Macrostrat and specify a desired
 #number of bins
 ex7 <- time_bins(scale = "North American land mammal ages", n_bins = 7)
-#> Warning: cannot open URL 'https://macrostrat.org/api/v2/defs/intervals?format=csv&timescale=North%20American%20land%20mammal%20ages': HTTP status was '500 Internal Server Error'
-#> Error: `name` does not match a built-in or Macrostrat time scale.
+#> Number of equal length time bins was set to 7.
+#> 7 time bins were generated with a mean length of 9.43 Myr and a standard deviation of 1.19 Myr.
 ```
