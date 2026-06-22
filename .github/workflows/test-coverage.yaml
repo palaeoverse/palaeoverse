@@ -3,7 +3,29 @@
 on:
   push:
     branches: [main, master]
+    paths:
+      - .github/workflows/test-coverage.yaml
+      - .Rbuildignore
+      - data/**
+      - man/**
+      - R/**
+      - inst/**
+      - tests/**
+      - vignettes/*
+      - DESCRIPTION
+      - NAMESPACE
   pull_request:
+    paths:
+      - .github/workflows/test-coverage.yaml
+      - .Rbuildignore
+      - data/**
+      - man/**
+      - R/**
+      - inst/**
+      - tests/**
+      - vignettes/*
+      - DESCRIPTION
+      - NAMESPACE
 
 name: test-coverage
 

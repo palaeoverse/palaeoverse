@@ -66,6 +66,7 @@ Suggests:
     phytools,
     rmarkdown,
     testthat (>= 3.0.0),
+    vcr,
     vdiffr (>= 1.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
