@@ -10,7 +10,7 @@
 
 fetch_or_skip <- function(expr) {
   tryCatch(
-    force(expr),
+    expr,
     error = function(e) {
       msg <- conditionMessage(e)
       connectivity <- grepl(
