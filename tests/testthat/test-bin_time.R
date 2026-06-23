@@ -12,8 +12,7 @@ test_occdf <- rbind(
 
   # Falls entirely within bin 1: all methods should agree.
   c("occ1", 2, 8),
-  # Range exactly equals bin 2's boundaries. Strict inequalities (max>min & min<max)
-  # mean it lands only in bin 2, not the neighbours.
+  # Range exactly equals bin 2's boundaries so it lands only in bin 2, not the neighbours.
   c("occ2", 10, 20),
 
   # Two-bin cases ------------------------------------
@@ -131,7 +130,6 @@ test_that("bin_time() works with method 'random'", {
     reps = 5
   )
 
-  # It would be annoying to test all values in all dataframes in the list output.
   # We test that:
   # - all elements have the correct column names and columns
   # - values that shouldn't change across samples are correct
@@ -199,7 +197,6 @@ test_that("bin_time() works with method 'point'", {
     reps = 5
   )
 
-  # It would be annoying to test all values in all dataframes in the list output.
   # We test that:
   # - all elements have the correct column names and columns
   # - values that shouldn't change across samples are correct
@@ -224,7 +221,7 @@ test_that("bin_time() works with method 'point'", {
       expect_type(x$bin_assignment, "integer")
       expect_type(x$point_estimates, "double")
 
-      # This interval has the same min and max so it should never change
+      # occ8 has min_ma == max_ma, so its point estimate is always exactly 15
       constant <- x[
         8,
         c(
@@ -248,7 +245,8 @@ test_that("bin_time() works with method 'point'", {
       )
     })
   )
-  # occ8 has min_ma == max_ma, so its point estimate is always exactly 15
+
+  # Check one full dataframe:
   expect_equal(
     bin_point[[1]][, c(
       "name",
@@ -277,16 +275,10 @@ test_that("bin_time() works with method 'point'", {
 })
 
 test_that("user can pass custom function to method 'point'", {
-  bins <- data.frame(
-    bin = 1:54,
-    max_ma = seq(10, 540, 10),
-    min_ma = seq(0, 530, 10)
-  )
-
   set.seed(1234)
   bin_point <- bin_time(
     occdf = test_occdf,
-    bins = bins,
+    bins = test_bins,
     method = "point",
     reps = 5,
     fun = dnorm,
@@ -294,7 +286,6 @@ test_that("user can pass custom function to method 'point'", {
     sd = 0.25
   )
 
-  # It would be annoying to test all values in all dataframes in the list output.
   # We test that:
   # - all elements have the correct column names and columns
   # - values that shouldn't change across samples are correct
