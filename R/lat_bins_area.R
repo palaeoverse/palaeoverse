@@ -45,6 +45,19 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
     stop("`n` should be a numeric.")
   }
 
+  if (length(n) != 1) {
+    stop("`n` must have length 1.")
+  }
+  if (length(max) != 1) {
+    stop("`max` must have length 1.")
+  }
+  if (length(min) != 1) {
+    stop("`min` must have length 1.")
+  }
+  if (length(plot) != 1) {
+    stop("`plot` must have length 1.")
+  }
+
   if (max > 90 || max < -90) {
     stop("`max` should be less than 90 and more than -90.")
   }
