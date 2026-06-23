@@ -1,10 +1,6 @@
 # We stored some vignette outputs in RDS files because they are time-consuming to produce
 # and depend on external services that might be unavailable. This workflow periodically 
 # runs R scripts that ensure that the RDS files are still up to date.
-#
-# Those scripts are designed so that connectivity issues are reported in the workflow 
-# output but do not lead to a workflow failure because there wouldn't be anything 
-# actionable from our side. 
 
 name: Check vignettes RDS files
 
@@ -32,13 +28,5 @@ jobs:
         with:
           extra-packages: any::devtools, any::here
 
-      - name: Check tetrapod-biodiversity RDS
-        run: Rscript vignettes/check-rds-tetrapod-biodiversity.R
-
-      - name: Check phanerozoic-reefs RDS
-        # We want to run this step even if the previous one failed. This is different from:
-        # - continue-on-error, which would ignore the result of the previous step when reporting
-        #   whether the workflow failed;
-        # - `if: always()`, which would run even if we manually cancel the workflow.
-        if: ${{ !cancelled() }}
-        run: Rscript vignettes/check-rds-phanerozoic-reefs.R
+      - name: Check that RDS files are up to date
+        run: Rscript vignettes/update-rds-files.R
