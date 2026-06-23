@@ -26,7 +26,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@a51a8012b0aab7c32ef9d19bf54da93f3254335e # v2
         with:
-          extra-packages: any::devtools, any::here
+          extra-packages: any::devtools, any::git2r, any::here
 
       - name: Check that RDS files are up to date
         run: Rscript vignettes/update-rds-files.R
