@@ -13,28 +13,14 @@ test_that("group_apply() basic behavior", {
   )
 
   # several groups
+  # fmt: skip
   expect_equal(
     group_apply(occdf = occdf, group = c("collection_no", "cc"), fun = nrow),
     data.frame(
       nrow = c(1, 5, 4, 2, 1, 1, 1, 1, 1, 9, 6, 6, 3, 6, 1, 1, 1),
       collection_no = c(
-        "13219",
-        "22644",
-        "22725",
-        "22726",
-        "12943",
-        "13044",
-        "13046",
-        "13048",
-        "13049",
-        "13080",
-        "13257",
-        "13947",
-        "22635",
-        "22714",
-        "13004",
-        "13043",
-        "13083"
+        "13219", "22644", "22725", "22726", "12943", "13044", "13046", "13048", "13049", 
+        "13080", "13257", "13947", "22635", "22714", "13004", "13043", "13083"
       ),
       cc = c("CA", "RU", "UK", "UK", rep("US", 10), "ZA", "ZA", "ZA"),
       row.names = 1:17
@@ -168,16 +154,11 @@ test_that("error handling for argument 'group'", {
   )
 
   # using an external object in 'group' when 'group' has multiple values
-
-  # TODO: this gives a different error message depending on whether I do
-  # testthat::test_file("tests/testthat/test-group_apply.R") ("cannot xtfrm data frames")
-  # or devtools::test() ("object foo not found")
-
-  # foo <- mtcars
-  # expect_snapshot(
-  #   group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow),
-  #   error = TRUE
-  # )
+  foo <- mtcars
+  expect_snapshot(
+    group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow),
+    error = TRUE
+  )
 })
 
 test_that("error handling for argument 'fun'", {

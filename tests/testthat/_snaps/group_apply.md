@@ -62,6 +62,14 @@
       Error:
       ! object 'foobar' not found
 
+---
+
+    Code
+      group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow)
+    Condition
+      Error:
+      ! object 'foo' not found
+
 # error handling for argument 'fun'
 
     Code
