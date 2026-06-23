@@ -1,4 +1,4 @@
-meta <- packageDescription("palaeoverse")
+# "meta" isn't defined here but made available by R CMD check
 
 authors <- eval(parse(text = meta$`Authors@R`))
 authors <- Filter(function(p) "aut" %in% p$role, authors)
@@ -38,5 +38,5 @@ bibentry(
   author   = authors,
   year     = format(Sys.time(), "%Y"),
   url      = "https://CRAN.R-project.org/package=palaeoverse",
-  doi      = paste0(meta$DOI)
+  doi      = "10.5281/zenodo.7728638"
 )
