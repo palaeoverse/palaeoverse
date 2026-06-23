@@ -441,7 +441,8 @@ test_that("'early_interval' and 'late_interval' can point to the same column", {
     )
   )
 
-  # This is the same as early_interval and late_interval being equal
+  # Ensure that we get the same results when early_interval and late_interval
+  # are equal
   occdf <- data.frame(
     case = c("both_stages_equal", "gts_epoch"),
     early_interval = c("Capitanian", "Cisuralian"),
