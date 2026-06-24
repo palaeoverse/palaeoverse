@@ -108,3 +108,83 @@
       Error in `tax_expand_lat()`:
       ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
 
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = "nonexistent")
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = NULL)
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = character(0))
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = NA)
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = c("a", "b"))
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = "nonexistent")
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = NULL)
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = character(0))
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = NA)
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = c("a", "b"))
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+

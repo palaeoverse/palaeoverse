@@ -168,4 +168,47 @@ test_that("args 'min_lat' and 'max_lat' work", {
       max = seq(50, -30, by = -10)
     )
   )
+
+  # input checks
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = "nonexistent"),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = NULL),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = character(0)),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = NA),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = c("a", "b")),
+    error = TRUE
+  )
+
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = "nonexistent"),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = NULL),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = character(0)),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = NA),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = c("a", "b")),
+    error = TRUE
+  )
 })
