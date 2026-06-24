@@ -1,3 +1,21 @@
+# basic behavior works
+
+    Code
+      tax_check(data.frame())
+    Condition
+      Error in `tax_check()`:
+      ! Please supply `taxdf` as a data.frame with named columns, containing
+               taxon names, and optionally their higher classification
+
+---
+
+    Code
+      tax_check(1)
+    Condition
+      Error in `tax_check()`:
+      ! Please supply `taxdf` as a data.frame with named columns, containing
+               taxon names, and optionally their higher classification
+
 # arg 'name' works
 
     Code

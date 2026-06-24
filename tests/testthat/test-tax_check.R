@@ -24,6 +24,10 @@ test_that("basic behavior works", {
       non_letter_group = NULL
     )
   )
+
+  # input checks
+  expect_snapshot(tax_check(data.frame()), error = TRUE)
+  expect_snapshot(tax_check(1), error = TRUE)
 })
 
 test_that("arg 'name' works", {
