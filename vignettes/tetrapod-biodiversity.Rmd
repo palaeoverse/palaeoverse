@@ -163,6 +163,12 @@ We'd recommend playing around with these different options and seeing how they i
 
 Next, we'll also bin our occurrences spatially. We need a couple of functions to do this. Firstly, we need to add palaeocoordinates to our dataset. We can use the `palaeorotate` function to do this.
 
+<!-- 
+The following four chunks are here to handle the absence or the presence of an RDS file
+containing the results of palaeorotate():
+- if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
+- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+-->
 
 ```{r echo = FALSE, eval = TRUE}
 rds_point_paleomap_tetrapods_exists <- file.exists("_data/palaeorotate_point_paleomap_tetrapods.rds")

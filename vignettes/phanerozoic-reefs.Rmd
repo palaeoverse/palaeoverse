@@ -174,6 +174,12 @@ You would (and should) of course want to explore your data a little more than th
 
 When studying modern latitudinal trends (e.g. in biodiversity), researchers can use the geographic coordinates of their samples to conduct analyses. However, as the continents shift through time, palaeobiologists must reconstruct the palaeogeographic coordinates of fossil localities. To do so, plate rotation models are used (e.g. the PALEOMAP model) to rotate the modern coordinates of fossil localities to their location at time of deposition. The `palaeorotate` function allows the user to do so using either the 'point' or 'grid' method. The first approach makes use of the GPlates Web Service and allows point data to be rotated to specific ages using the available models (see the [GPlates Web Service documentation](https://gwsdoc.gplates.org)). The second approach uses reconstruction files of pre-generated palaeocoordinates to spatiotemporally link occurrences' modern coordinates and age estimates with their respective palaeocoordinates. Let's give it a shot:
 
+<!-- 
+The following four chunks are here to handle the absence or the presence of an RDS file
+containing the results of palaeorotate():
+- if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
+- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+-->
 
 ```{r echo = FALSE, eval = TRUE}
 rds_point_paleomap_reefs_exists <- file.exists("_data/palaeorotate_point_paleomap.rds")
@@ -240,6 +246,13 @@ axis_geo(side = 1, intervals = "periods")
 ```
 
 That's definitely much clearer! Should we stop there? Well... how about one last thing... let's consider how plate rotation model choice might impact these results using three different models: GOLONKA, PALEOMAP, and MERDITH2021 (Wright et al. 2013; Scotese & Wright, 2018; Merdith et al. 2021).
+
+<!-- 
+The following four chunks are here to handle the absence or the presence of an RDS file
+containing the results of palaeorotate():
+- if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
+- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+-->
 
 ```{r echo = FALSE, eval = TRUE}
 rds_point_multi_models_exists <- file.exists("_data/palaeorotate_point_multi_models.rds")
