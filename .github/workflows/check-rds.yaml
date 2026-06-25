@@ -1,0 +1,32 @@
+# We stored some vignette outputs in RDS files because they are time-consuming to produce
+# and depend on external services that might be unavailable. This workflow periodically 
+# runs R scripts that ensure that the RDS files are still up to date.
+
+name: Check vignettes RDS files
+
+on:
+  workflow_dispatch: # Manually run
+  schedule:
+    # Every Monday at 8am
+    - cron: "0 8 * * 1"
+
+jobs:
+  check-rds:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: r-lib/actions/setup-r@9f58233a78a2a9fd874714be10f8bba627233339 # v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@a51a8012b0aab7c32ef9d19bf54da93f3254335e # v2
+        with:
+          extra-packages: any::git2r
+
+      - name: Check that RDS files are up to date
+        run: Rscript vignettes/update-rds-files.R
