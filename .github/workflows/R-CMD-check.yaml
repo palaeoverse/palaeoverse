@@ -33,6 +33,10 @@ on:
 
 name: R-CMD-check
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
@@ -43,11 +47,15 @@ jobs:
       fail-fast: false
       matrix:
         config:
+          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
           - {os: macOS-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
+          - {os: ubuntu-latest,  r: 'release'}
+          - {os: ubuntu-latest,  r: 'oldrel-1'}
+          - {os: ubuntu-latest,  r: 'oldrel-2'}
+          - {os: ubuntu-latest,  r: 'oldrel-3'}
+          - {os: ubuntu-latest,  r: 'oldrel-4'}
+          - {os: ubuntu-latest,  r: 'oldrel-5'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -63,6 +71,16 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
+
+      # Some packages (e.g. geosphere) have compilation errors on R 4.1 and 4.2 because by default they
+      # use C++14 while they require C++17. We manually set this required C++ version for those R 
+      # versions only.
+      - name: Set C++17 compiler for older R versions
+        if: ${{ matrix.config.r == 'oldrel-4' || matrix.config.r == 'oldrel-5' }}
+        run: |
+          mkdir -p ~/.R
+          echo "CXX = g++ -std=gnu++17" >> ~/.R/Makevars
+        shell: bash
 
       - uses: r-lib/actions/setup-r-dependencies@a51a8012b0aab7c32ef9d19bf54da93f3254335e # v2
         with:
