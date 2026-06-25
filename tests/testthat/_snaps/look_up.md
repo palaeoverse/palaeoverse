@@ -67,8 +67,8 @@
     Code
       look_up(occdf = dat, early_interval = c("a", "b"))
     Condition
-      Error in `if (!early_interval %in% colnames(occdf)) ...`:
-      ! the condition has length > 1
+      Error in `look_up()`:
+      ! `early_interval` must be of length 1
 
 ---
 
