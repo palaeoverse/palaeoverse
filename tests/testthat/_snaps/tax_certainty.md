@@ -43,6 +43,6 @@
     Code
       tax_certainty(taxdf = occdf, name = "identified_name", append = NA)
     Condition
-      Error in `if (!append) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `tax_certainty()`:
+      ! `append` must be of class logical (TRUE/FALSE).
 
