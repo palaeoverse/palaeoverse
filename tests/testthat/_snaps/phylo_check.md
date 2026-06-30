@@ -59,16 +59,16 @@
     Code
       phylo_check(tree, list, out = NA)
     Condition
-      Error in `if (...) NULL`:
-      ! missing value where TRUE/FALSE needed
+      Error in `phylo_check()`:
+      ! `out` must be of length 1.
 
 ---
 
     Code
       phylo_check(tree, list, out = NULL)
     Condition
-      Error in `if (...) NULL`:
-      ! missing value where TRUE/FALSE needed
+      Error in `phylo_check()`:
+      ! `out` must be of length 1.
 
 # arg 'sort' works
 
@@ -91,14 +91,14 @@
     Code
       phylo_check(tree, list, sort = NA)
     Condition
-      Error in `if (sort != "az" && sort != "presence") ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `phylo_check()`:
+      ! `sort` must be of length 1.
 
 ---
 
     Code
       phylo_check(tree, list, sort = NULL)
     Condition
-      Error in `if (sort != "az" && sort != "presence") ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `phylo_check()`:
+      ! `sort` must be of length 1.
 
