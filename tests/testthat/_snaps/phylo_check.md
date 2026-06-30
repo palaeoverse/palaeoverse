@@ -33,6 +33,15 @@
 # arg 'list' works
 
     Code
+      phylo_check(tree, c("foo.bar"))
+    Condition
+      Error in `phylo_check()`:
+      ! Taxon names should not contain punctuation except spaces or
+               underscores
+
+---
+
+    Code
       phylo_check(tree)
     Condition
       Error in `phylo_check()`:

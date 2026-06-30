@@ -38,6 +38,9 @@ test_that("arg 'list' works", {
   # TODO: do we expect the change from "abc" -> "Abc"?
   expect_equal(out$taxon_name, c("Abc", "Def", tree$tip.label))
 
+  # doesn't accept punctuation
+  expect_snapshot(phylo_check(tree, c("foo.bar")), error = TRUE)
+
   # input checks
   expect_snapshot(phylo_check(tree), error = TRUE)
 
