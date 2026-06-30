@@ -16,7 +16,7 @@ test_that("basic behavior works", {
     "Triceratops_prorsus"
   )
 
-  expect_snapshot(out <- phylo_check(tree, list))
+  out <- phylo_check(tree, list)
   expect_equal(nrow(out), 40)
   expect_equal(ncol(out), 3)
   expect_true(unique(out[out$taxon_name %in% list, "present_in_list"]))

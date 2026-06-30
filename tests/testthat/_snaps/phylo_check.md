@@ -1,11 +1,6 @@
 # basic behavior works
 
     Code
-      out <- phylo_check(tree, list)
-
----
-
-    Code
       phylo_check()
     Condition
       Error in `phylo_check()`:
