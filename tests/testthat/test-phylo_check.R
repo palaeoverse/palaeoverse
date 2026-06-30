@@ -32,6 +32,7 @@ test_that("arg 'list' works", {
   skip_if_not_installed("paleotree")
   library(paleotree)
   data(RaiaCopesRule)
+  tree <- ceratopsianTreeRaia
 
   out <- phylo_check(tree, c("abc", "def"))
   # TODO: do we expect the change from "abc" -> "Abc"?
@@ -53,6 +54,7 @@ test_that("arg 'out' works", {
   skip_if_not_installed("paleotree")
   library(paleotree)
   data(RaiaCopesRule)
+  tree <- ceratopsianTreeRaia
   list <- c(
     "Nasutoceratops_titusi",
     "Diabloceratops_eatoni",
@@ -130,6 +132,7 @@ test_that("arg 'sort' works", {
   skip_if_not_installed("paleotree")
   library(paleotree)
   data(RaiaCopesRule)
+  tree <- ceratopsianTreeRaia
   list <- c(
     "Nasutoceratops_titusi",
     "Diabloceratops_eatoni",
