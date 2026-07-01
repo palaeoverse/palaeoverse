@@ -2,20 +2,20 @@
 #'
 #' A function to assign fossil occurrences to user-specified latitudinal bins.
 #'
-#' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
+#' @param occdf `dataframe`. A dataframe of the fossil occurrences you
 #' wish to bin. This dataframe should contain a column with the
 #' latitudinal coordinates of occurrence data.
-#' @param bins \code{dataframe}. A dataframe of the bins that you wish to
+#' @param bins `dataframe`. A dataframe of the bins that you wish to
 #' allocate fossil occurrences to, such as that returned by
-#' \code{\link[palaeoverse:lat_bins]{lat_bins()}}. This dataframe must
+#' [`lat_bins()`]. This dataframe must
 #' contain at least the following named columns: "bin", "max" and "min".
-#' @param lat \code{character}. The name of the column you wish to be treated
+#' @param lat `character`. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat"). This column should contain
 #' numerical values. Defaults to "lat".
-#' @param boundary \code{logical}. If \code{TRUE}, occurrences
+#' @param boundary `logical`. If `TRUE`, occurrences
 #' falling on the boundaries of latitudinal bins will be duplicated and
 #' assigned to both bins.
-#' If \code{FALSE}, occurrences will be binned into the upper bin
+#' If `FALSE`, occurrences will be binned into the upper bin
 #' only (i.e. highest row number).
 #'
 #' @return A dataframe of the original input `occdf` with appended
