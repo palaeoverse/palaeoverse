@@ -280,19 +280,30 @@ time_bins <- function(
     # Assign scale to rank
     rank <- scale
     # Try to get the time scale from Macrostrat
-    # Online and Macrostrat available?
-    tryCatch(
-      {
-        nslookup("macrostrat.org")
-      },
-      error = function(e) {
-        stop(
-          "Macrostrat is not available. Either the site is down or you are
-             not connected to the internet.",
-          call. = FALSE
-        )
-      }
+
+    # Online?
+    if (!curl::has_internet()) {
+      stop(
+        "You must be connected to Internet to access Macrostrat.",
+        call. = FALSE
+      )
+    }
+
+    # Macrostrat available?
+    status <- try(
+      httr::http_status(httr::GET("https://macrostrat.org/api")),
+      silent = TRUE
     )
+    # Using !isTRUE() here to handle the case where status$category is NULL or NA
+    if (
+      inherits(status, "try-error") || !isTRUE(status$category == "Success")
+    ) {
+      stop(
+        "Macrostrat is not available, the API might be down.",
+        call. = FALSE
+      )
+    }
+
     url <- url(paste0(
       "https://macrostrat.org/api/v2/defs/intervals",
       "?format=csv&timescale=",
