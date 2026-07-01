@@ -11,6 +11,7 @@
 * Added `title` argument to `axis_geo()` which can be used to add a title to the axis with the timescale (#133)
 * Increased efficiency and reduced hackiness of `group_apply()` (#135)
 * Downloads related to the `palaeorotate()` function are now retried if they fail (#137)
+* `palaeoverse` requires R >= 4.1.0 (#181).
 
 ## Other changes
 
