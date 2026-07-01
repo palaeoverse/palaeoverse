@@ -95,8 +95,8 @@
     Code
       tax_range_space(occdf, method = c("gcd", "occ"))
     Condition
-      Error in `if (is.na(method_match)) ...`:
-      ! the condition has length > 1
+      Error in `tax_range_space()`:
+      ! `method` must be of length 1.
 
 ---
 
@@ -112,8 +112,8 @@
     Code
       tax_range_space(occdf, method = character(0))
     Condition
-      Error in `if (is.na(method_match)) ...`:
-      ! argument is of length zero
+      Error in `tax_range_space()`:
+      ! `method` must be of length 1.
 
 ---
 
@@ -168,14 +168,14 @@
     Code
       tax_range_space(occdf, method = "gcd", coords = logical(0))
     Condition
-      Error in `if (!coords) ...`:
-      ! argument is of length zero
+      Error in `tax_range_space()`:
+      ! `coords` must be of length 1.
 
 ---
 
     Code
       tax_range_space(occdf, method = "gcd", coords = NA)
     Condition
-      Error in `if (!coords) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `tax_range_space()`:
+      ! `coords` must not be NA.
 
