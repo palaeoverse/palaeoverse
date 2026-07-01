@@ -137,8 +137,8 @@ tax_range_strat <- function(
     stop("`level` must be of class numeric")
   }
 
-  if (length(group) > 1) {
-    stop("`group` length is >1, only a single grouping variable is accepted.")
+  if (!is.null(group) && length(group) != 1) {
+    stop("`group` must be of length 1.")
   }
 
   if (!is.null(group) && !group %in% colnames(occdf)) {
@@ -150,6 +150,9 @@ tax_range_strat <- function(
   }
 
   if (!is.null(certainty)) {
+    if (length(certainty) != 1) {
+      stop("`certainty` must be of length 1.")
+    }
     if (!is.character(certainty)) {
       stop("`certainty` must either be of class character or NULL")
     }
@@ -169,6 +172,9 @@ tax_range_strat <- function(
     stop("The `level` column contains NA values")
   }
 
+  if (length(by) != 1) {
+    stop("`by` must be of length 1.")
+  }
   if (!by %in% c("name", "FAD", "LAD")) {
     stop("`by` must be either \"FAD\", \"LAD\", or \"name\"")
   }
