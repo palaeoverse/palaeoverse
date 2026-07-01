@@ -97,6 +97,14 @@ phylo_check <- function(
     )
   }
 
+  if (length(out) == 0 || is.na(out)) {
+    stop("`out` must be of length 1.")
+  }
+
+  if (length(sort) == 0 || is.na(sort)) {
+    stop("`sort` must be of length 1.")
+  }
+
   if (
     out != "counts" &&
       out != "full_table" &&
