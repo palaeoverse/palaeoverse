@@ -179,8 +179,8 @@
     Code
       tax_expand_time(taxdf, scale = character(0))
     Condition
-      Error in `if (scale %in% c("GTS2020", "GTS2012")) ...`:
-      ! argument is of length zero
+      Error in `tax_expand_time()`:
+      ! If specified, `scale` must be of length 1.
 
 ---
 
@@ -229,16 +229,16 @@
     Code
       tax_expand_time(taxdf, rank = character(0))
     Condition
-      Error in `if (...) NULL`:
-      ! missing value where TRUE/FALSE needed
+      Error in `tax_expand_time()`:
+      ! `rank` must be either: stage, epoch, period, era, or eon
 
 ---
 
     Code
       tax_expand_time(taxdf, rank = NULL)
     Condition
-      Error in `if (...) NULL`:
-      ! missing value where TRUE/FALSE needed
+      Error in `tax_expand_time()`:
+      ! `rank` must be either: stage, epoch, period, era, or eon
 
 ---
 
@@ -269,8 +269,8 @@
     Code
       tax_expand_time(taxdf, ext_orig = logical(0))
     Condition
-      Error in `if (ext_orig) ...`:
-      ! argument is of length zero
+      Error in `tax_expand_time()`:
+      ! `ext_orig` must be of length 1.
 
 ---
 
@@ -278,7 +278,7 @@
       tax_expand_time(taxdf, ext_orig = NULL)
     Condition
       Error in `tax_expand_time()`:
-      ! `ext_orig` should be logical (TRUE/FALSE)
+      ! `ext_orig` must be of length 1.
 
 ---
 
@@ -293,6 +293,6 @@
     Code
       tax_expand_time(taxdf, ext_orig = NA)
     Condition
-      Error in `if (ext_orig) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `tax_expand_time()`:
+      ! `ext_orig` must not be NA.
 
