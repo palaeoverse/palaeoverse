@@ -116,7 +116,7 @@
       tax_range_strat(occdf, group = c("class", "genus"))
     Condition
       Error in `tax_range_strat()`:
-      ! `group` length is >1, only a single grouping variable is accepted.
+      ! `group` must be of length 1.
 
 ---
 
@@ -131,8 +131,8 @@
     Code
       tax_range_strat(occdf, group = character(0))
     Condition
-      Error in `if (!is.null(group) && !group %in% colnames(occdf)) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `tax_range_strat()`:
+      ! `group` must be of length 1.
 
 ---
 
@@ -140,7 +140,7 @@
       tax_range_strat(occdf, group = NA)
     Condition
       Error in `tax_range_strat()`:
-      ! `group` must not be NA.
+      ! `group` is not a named column in `occdf`
 
 ---
 
