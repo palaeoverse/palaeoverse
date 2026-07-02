@@ -3,7 +3,7 @@
 **Authors:** [The Palaeoverse Development
 Team](https://palaeoverse.org/#about-us)
 
-**Last updated:** 2026-06-10
+**Last updated:** 2026-07-02
 
 ## Introduction
 
@@ -56,6 +56,26 @@ supporting you to do yours. You can access the appropriate citation via:
 citation("palaeoverse")
 ```
 
+    ## To cite palaeoverse in publications, please cite both the article
+    ## describing the package and the package itself:
+    ## 
+    ##   Jones, L.A., Gearty, W., Allen, B.J., Eichenseer, K., Dean, C.D.,
+    ##   Galván S., Kouvari, M., Godoy, P.L., Nicholl, C.S.C., Buffan, L.,
+    ##   Dillon, E.M., Flannery-Sutherland, J.T., Chiarenza, A.A. 2023.
+    ##   palaeoverse: A community-driven R package to support palaeobiological
+    ##   analysis. Methods in Ecology and Evolution. 14(9), 2205--2215. doi:
+    ##   10.1111/2041-210X.14099
+    ## 
+    ##   Jones L, Gearty W, Allen B, Eichenseer K, Dean C, Bacher E,
+    ##   Flannery-Sutherland J (2026). _palaeoverse: Prepare and Explore Data
+    ##   for Palaeobiological Analyses. R package version 1.5.0.9000_.
+    ##   doi:10.5281/zenodo.7728638 <https://doi.org/10.5281/zenodo.7728638>.
+    ##   <https://CRAN.R-project.org/package=palaeoverse>.
+    ## 
+    ## To see these entries in BibTeX format, use 'print(<citation>,
+    ## bibtex=TRUE)', 'toBibtex(.)', or set
+    ## 'options(citation.bibtex.max=999)'.
+
 ### Now that that’s out of the way, let’s begin!
 
 The Carboniferous and early Permian have been regarded as critical
@@ -94,12 +114,16 @@ data(tetrapods)
 colnames(tetrapods)
 ```
 
-    ##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"    
-    ##  [6] "accepted_rank"     "early_interval"    "late_interval"     "max_ma"            "min_ma"           
-    ## [11] "phylum"            "class"             "order"             "family"            "genus"            
-    ## [16] "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"  
-    ## [21] "cc"                "formation"         "stratgroup"        "member"            "zone"             
-    ## [26] "lithology1"        "environment"       "pres_mode"         "taxon_environment" "motility"         
+    ##  [1] "occurrence_no"     "collection_no"     "identified_name"  
+    ##  [4] "identified_rank"   "accepted_name"     "accepted_rank"    
+    ##  [7] "early_interval"    "late_interval"     "max_ma"           
+    ## [10] "min_ma"            "phylum"            "class"            
+    ## [13] "order"             "family"            "genus"            
+    ## [16] "abund_value"       "abund_unit"        "lng"              
+    ## [19] "lat"               "collection_name"   "cc"               
+    ## [22] "formation"         "stratgroup"        "member"           
+    ## [25] "zone"              "lithology1"        "environment"      
+    ## [28] "pres_mode"         "taxon_environment" "motility"         
     ## [31] "life_habit"        "diet"
 
 ``` r
@@ -221,8 +245,9 @@ mid_tetrapods <- bin_time(occdf = cp_tetrapods,
                           method = "mid")
 ```
 
-    ## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or more occurrences have a midpoint age
-    ## equivalent to a bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.
+    ## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or
+    ## more occurrences have a midpoint age equivalent to a bin boundary. Binning
+    ## skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.
 
 That’s better! Let’s see how our dataset has changed.
 
@@ -232,15 +257,20 @@ That’s better! Let’s see how our dataset has changed.
 colnames(mid_tetrapods)
 ```
 
-    ##  [1] "occurrence_no"     "collection_no"     "identified_name"   "identified_rank"   "accepted_name"    
-    ##  [6] "accepted_rank"     "early_interval"    "late_interval"     "old_max_ma"        "old_min_ma"       
-    ## [11] "phylum"            "class"             "order"             "family"            "genus"            
-    ## [16] "abund_value"       "abund_unit"        "lng"               "lat"               "collection_name"  
-    ## [21] "cc"                "formation"         "stratgroup"        "member"            "zone"             
-    ## [26] "lithology1"        "environment"       "pres_mode"         "taxon_environment" "motility"         
-    ## [31] "life_habit"        "diet"              "early_stage"       "late_stage"        "max_ma"           
-    ## [36] "interval_mid_ma"   "min_ma"            "id"                "n_bins"            "bin_assignment"   
-    ## [41] "bin_midpoint"
+    ##  [1] "occurrence_no"     "collection_no"     "identified_name"  
+    ##  [4] "identified_rank"   "accepted_name"     "accepted_rank"    
+    ##  [7] "early_interval"    "late_interval"     "old_max_ma"       
+    ## [10] "old_min_ma"        "phylum"            "class"            
+    ## [13] "order"             "family"            "genus"            
+    ## [16] "abund_value"       "abund_unit"        "lng"              
+    ## [19] "lat"               "collection_name"   "cc"               
+    ## [22] "formation"         "stratgroup"        "member"           
+    ## [25] "zone"              "lithology1"        "environment"      
+    ## [28] "pres_mode"         "taxon_environment" "motility"         
+    ## [31] "life_habit"        "diet"              "early_stage"      
+    ## [34] "late_stage"        "max_ma"            "interval_mid_ma"  
+    ## [37] "min_ma"            "id"                "n_bins"           
+    ## [40] "bin_assignment"    "bin_midpoint"
 
 As you can see, four new columns (variables) have been added to our
 dataset. Two of these are especially important. First is the
@@ -264,10 +294,10 @@ table(mid_tetrapods$n_bins) / nrow(mid_tetrapods) # proportions
 ```
 
     ## 
-    ##            1            2            3            4            5            6            7            8 
-    ## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 0.0008880995 0.0005920663 
-    ##            9 
-    ## 0.0047365305
+    ##            1            2            3            4            5            6 
+    ## 0.2495559503 0.5192421551 0.1258140912 0.0793368857 0.0097690941 0.0100651273 
+    ##            7            8            9 
+    ## 0.0008880995 0.0005920663 0.0047365305
 
 As you can see, only ~25% of the dataset can be assigned to just one
 bin - the other occurrences can’t be confidently assigned to an
@@ -528,9 +558,7 @@ plot(alpha_data$interval_mid_ma, alpha_data$n_taxa, # add the points
      pch = 19, col = "#0e826f") # point style and colour
 ```
 
-![plot of chunk alpha-div-plot-1](alpha-div-plot-1-1.png)
-
-plot of chunk alpha-div-plot-1
+![](alpha-div-plot-1-1.png)
 
 That looks good, but it’s a bit difficult to figure out what stages
 contain which data points.
@@ -556,9 +584,7 @@ axis(2) # add a normal axis to the elft side
 axis_geo(side = 1, intervals = list("epochs", "periods"), title = "Time (Ma)")
 ```
 
-![plot of chunk alpha-div-plot-2](alpha-div-plot-2-1.png)
-
-plot of chunk alpha-div-plot-2
+![](alpha-div-plot-2-1.png)
 
 Amazing! Now we can clearly see that alpha diversity appears to be a lot
 higher in the Permian than the Carboniferous. But how has the spatial
@@ -631,9 +657,7 @@ axis_geo(side = 1, intervals = list("epochs", "periods"))
 title(xlab = "Time (Ma)", line = 4)
 ```
 
-![plot of chunk alpha-div-plot-3](alpha-div-plot-3-1.png)
-
-plot of chunk alpha-div-plot-3
+![](alpha-div-plot-3-1.png)
 
 From this plot it seems like the average geographic range size of
 tetrapods increased during the Permian. However, we first need to be

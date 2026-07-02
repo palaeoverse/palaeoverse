@@ -3,7 +3,7 @@
 **Authors:** [The Palaeoverse Development
 Team](https://palaeoverse.org/#about-us)
 
-**Last updated:** 2026-06-10
+**Last updated:** 2026-07-02
 
 ## Introduction
 
@@ -155,7 +155,7 @@ time… one solution could be to use age values to bin the reefs into time
 bins, but no age range data is provided in the dataset (i.e. “max_ma”
 and “min_ma”). We must therefore use the names of each interval to link
 to a common time scale, the ‘[International Geological
-Stages](https://stratigraphy.org/chart/)’ established by the
+Stages](https://stratigraphy.org/chart)’ established by the
 International Commission on Stratigraphy (ICS). Fortunately, we can make
 use of the `look_up` function to do so. This function can be used to
 assign international geological stages and numeric ages to occurrences,
@@ -271,9 +271,7 @@ plot(x = reefs_time$interval_mid_ma,
 axis_geo(side = 1, intervals = "periods")
 ```
 
-![plot of chunk n-reef](n-reef-1.png)
-
-plot of chunk n-reef
+![](n-reef-1.png)
 
 You would (and should) of course want to explore your data a little more
 than this. However, for the sake of brevity, let’s focus on our research
@@ -330,9 +328,7 @@ plot(x = reefs$bin_midpoint,
 axis_geo(side = 1, intervals = "periods")
 ```
 
-![plot of chunk reefs-dist](reefs-dist-1.png)
-
-plot of chunk reefs-dist
+![](reefs-dist-1.png)
 
 Neat! But it’s hard to draw any trends from this data (there is a lot of
 it!). We can do better… let’s summarise this information… if we assume
@@ -365,9 +361,7 @@ plot(x = midpoints,
 axis_geo(side = 1, intervals = "periods")
 ```
 
-![plot of chunk reefs-max](reefs-max-1.png)
-
-plot of chunk reefs-max
+![](reefs-max-1.png)
 
 That’s definitely much clearer! Should we stop there? Well… how about
 one last thing… let’s consider how plate rotation model choice might
@@ -395,13 +389,20 @@ head(reefs[, c("p_lng_PALEOMAP", "p_lat_PALEOMAP",
                "p_lng_MERDITH2021", "p_lat_MERDITH2021")])
 ```
 
-    ##   p_lng_PALEOMAP p_lat_PALEOMAP p_lng_GOLONKA p_lat_GOLONKA p_lng_MERDITH2021 p_lat_MERDITH2021
-    ## 1        21.3630        10.0755       35.6565        8.3384           34.4223           12.1964
-    ## 2        22.1341         2.3106       31.0982        4.8069           30.8863            4.7404
-    ## 3             NA             NA      124.2500       24.3330          124.2489           24.3367
-    ## 4             NA             NA      124.2500       24.3330          124.2493           24.3352
-    ## 5             NA             NA      124.2500       24.3330          124.2498           24.3337
-    ## 6        26.3041        -0.3093       38.0979        4.9270           36.3998            4.5809
+    ##   p_lng_PALEOMAP p_lat_PALEOMAP p_lng_GOLONKA p_lat_GOLONKA p_lng_MERDITH2021
+    ## 1        21.3630        10.0755       35.6565        8.3384           34.4223
+    ## 2        22.1341         2.3106       31.0982        4.8069           30.8863
+    ## 3             NA             NA      124.2500       24.3330          124.2489
+    ## 4             NA             NA      124.2500       24.3330          124.2493
+    ## 5             NA             NA      124.2500       24.3330          124.2498
+    ## 6        26.3041        -0.3093       38.0979        4.9270           36.3998
+    ##   p_lat_MERDITH2021
+    ## 1           12.1964
+    ## 2            4.7404
+    ## 3           24.3367
+    ## 4           24.3352
+    ## 5           24.3337
+    ## 6            4.5809
 
 Now we’ve palaeorotated our data, let’s repeat what we did earlier and
 calculate the most poleward reef occurrence for each model.
@@ -457,9 +458,7 @@ legend(530, 15, legend=c("PALEOMAP", "GOLONKA", "MERDITH2021"),
 axis_geo(side = 1, intervals = "periods")
 ```
 
-![plot of chunk reefs-max-multi](reefs-max-multi-1.png)
-
-plot of chunk reefs-max-multi
+![](reefs-max-multi-1.png)
 
 We will leave you to make your own conclusions…
 
