@@ -297,8 +297,7 @@ test_that("argument 'intervals' works", {
 
   # TODO: currently these do not work because they produce the plot and then throw the error.
   # The fact that they still create a plot doesn't play nicely with expect_snapshot().
-  # The validation of "intervals" should come earlier in the function so that the plot
-  # isn't created.
+  # The validation of "intervals" should come earlier in the function, before creating the plot.
 
   # expect_snapshot(
   #   tax_range_time(occdf, plot = TRUE, intervals = c("genus", "min_ma")),
