@@ -200,12 +200,10 @@ test_that("argument 'by' works", {
     certainty = c(1, 1, 0, 1, 0, 1, 1, 1)
   )
 
-  # "FAD" (default) -> sort by min_bin
   expect_equal(
     tax_range_strat(occdf, by = "FAD")$taxon,
     c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus")
   )
-  # "LAD" -> sort by max_bin
   expect_equal(
     tax_range_strat(occdf, by = "LAD")$taxon,
     c("Anconastes", "Araeoscelis", "Edaphosaurus", "Procolophon")
