@@ -44,7 +44,7 @@ test_that("error handling for argument 'occdf'", {
   )
 })
 
-test_that("group_apply() accepts functions that return less or more rows that in the input", {
+test_that("group_apply() accepts functions that return less or more rows than in the input", {
   occdf <- tetrapods[1:100, ]
   occdf <- subset(occdf, !is.na(genus))
   expect_equal(
