@@ -53,12 +53,12 @@ test_occdf$max_ma <- as.numeric(test_occdf$max_ma)
 
 
 test_that("bin_time() works with method 'mid'", {
-  # occ7's midpoint equals a bin midpoint, which triggers a warning
+  # occ3's midpoint (10) equals a bin boundary, which triggers a warning and
+  # returns an NA assignment
   expect_warning(
     bin_mid <- bin_time(occdf = test_occdf, bins = test_bins, method = "mid"),
     "equivalent to a bin boundary"
   )
-  # occ3's midpoint (10) falls on a bin boundary, so it is NA
   expect_equal(
     bin_mid,
     data.frame(
