@@ -81,8 +81,8 @@
     Code
       tax_unique(dinosaurs, binomial = character(0))
     Condition
-      Error in `if (!is.null(binomial) && !(binomial %in% colnames(occdf))) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `tax_unique()`:
+      ! `binomial` must have length 1.
 
 ---
 
@@ -113,8 +113,8 @@
     Code
       tax_unique(dinosaurs, genus = "genus", family = "family", name = character(0))
     Condition
-      Error in `if (!is.null(name) && !(name %in% colnames(occdf))) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `tax_unique()`:
+      ! `name` must have length 1.
 
 ---
 
@@ -146,8 +146,8 @@
       tax_unique(dinosaurs, species = "species", genus = "genus", family = character(
         0))
     Condition
-      Error in `if (!(col_name %in% colnames(occdf))) ...`:
-      ! argument is of length zero
+      Error in `tax_unique()`:
+      ! `family` must have length 1.
 
 ---
 
@@ -181,8 +181,8 @@
       tax_unique(occdf = dinosaurs, species = "species", genus = "genus", family = "family",
         resolution = character(0))
     Condition
-      Error in `if ((resolution != "species") && (resolution != "genus")) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `tax_unique()`:
+      ! `resolution` must have length 1.
 
 # arg 'append' works
 
@@ -190,8 +190,8 @@
       tax_unique(dinosaurs, species = "species", genus = "genus", family = "family",
         order = "order", class = "class", append = "foo")
     Condition
-      Error in `if (append) ...`:
-      ! argument is not interpretable as logical
+      Error in `tax_unique()`:
+      ! `append` must be a logical.
 
 ---
 
@@ -199,8 +199,8 @@
       tax_unique(dinosaurs, species = "species", genus = "genus", family = "family",
         order = "order", class = "class", append = logical(0))
     Condition
-      Error in `if (append) ...`:
-      ! argument is of length zero
+      Error in `tax_unique()`:
+      ! `append` must have length 1.
 
 # taxonomic columns must not contain punctuation
 
