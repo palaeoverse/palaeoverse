@@ -46,4 +46,4 @@ We appreciate that GitHub is not a platform for everyone and have set up a [Goog
 
 ## Code of Conduct
 
-Please note that by contributing to `palaeoverse` you agree to our [Code of Conduct](https://palaeoverse.org/conduct.html).
+Please note that by contributing to `palaeoverse` you agree to our [Code of Conduct](https://palaeoverse.org/about/code-of-conduct/).
