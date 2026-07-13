@@ -104,12 +104,14 @@ test_that("bin_time() works with method 'all'", {
   # Occurrences spanning several bins are duplicated, one row per bin
   # fmt: skip
   expect_equal(
-    bin_all[, c("name", "id", "n_bins", "bin_assignment", "bin_midpoint")],
+    bin_all,
     data.frame(
       name = c(
         "occ1", "occ2", "occ3", "occ3", "occ4", "occ4", "occ5", "occ5", "occ5",
         "occ6", "occ6", "occ6", "occ6", "occ6", "occ7", "occ8"
       ),
+      min_ma = c(2, 10, 5, 5, 9, 9, 5, 5, 5, 0, 0, 0, 0, 0, 0, 15),
+      max_ma = c(8, 20, 15, 15, 19, 19, 25, 25, 25, 50, 50, 50, 50, 50, 10, 15),
       id = c(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 6, 6, 7, 8),
       n_bins = c(1, 1, 2, 2, 2, 2, 3, 3, 3, 5, 5, 5, 5, 5, 1, 1),
       bin_assignment = c(1, 2, 1, 2, 1, 2, 1, 2, 3, 1, 2, 3, 4, 5, 1, 2),
@@ -168,15 +170,11 @@ test_that("bin_time() works with method 'random'", {
   )
   # Check one full dataframe:
   expect_equal(
-    bin_random[[1]][, c(
-      "name",
-      "id",
-      "n_bins",
-      "bin_assignment",
-      "bin_midpoint"
-    )],
+    bin_random[[1]],
     data.frame(
-      name = paste0("occ", 1:8),
+      name = c("occ1", "occ2", "occ3", "occ4", "occ5", "occ6", "occ7", "occ8"),
+      min_ma = c(2, 10, 5, 9, 5, 0, 0, 15),
+      max_ma = c(8, 20, 15, 19, 25, 50, 10, 15),
       id = 1:8,
       n_bins = c(1, 1, 2, 2, 3, 5, 1, 1),
       bin_assignment = c(1, 2, 2, 2, 2, 4, 1, 2),
@@ -244,29 +242,17 @@ test_that("bin_time() works with method 'point'", {
   )
 
   # Check one full dataframe:
+  # fmt: skip
   expect_equal(
-    bin_point[[1]][, c(
-      "name",
-      "id",
-      "n_bins",
-      "bin_assignment",
-      "point_estimates"
-    )],
+    bin_point[[1]],
     data.frame(
-      name = paste0("occ", 1:8),
+      name = c("occ1", "occ2", "occ3", "occ4", "occ5", "occ6", "occ7", "occ8"),
+      min_ma = c(2, 10, 5, 9, 5, 0, 0, 15),
+      max_ma = c(8, 20, 15, 19, 25, 50, 10, 15),
       id = 1:8,
       n_bins = c(1, 1, 2, 2, 3, 5, 1, 1),
       bin_assignment = c(1, 2, 1, 2, 1, 3, 1, 2),
-      point_estimates = c(
-        3.003,
-        12.373,
-        5.995,
-        18.594,
-        5.297,
-        20.191,
-        9.346,
-        15
-      )
+      point_estimates = c(3.003, 12.373, 5.995, 18.594, 5.297, 20.191, 9.346, 15)
     )
   )
 })
@@ -333,27 +319,17 @@ test_that("user can pass custom function to method 'point'", {
   )
 
   # Check one full dataframe
+  # fmt: skip
   expect_equal(
-    bin_point[[1]][, c(
-      "id",
-      "n_bins",
-      "bin_assignment",
-      "point_estimates"
-    )],
+    bin_point[[1]],
     data.frame(
+      name = c("occ1", "occ2", "occ3", "occ4", "occ5", "occ6", "occ7", "occ8"),
+      min_ma = c(2, 10, 5, 9, 5, 0, 0, 15),
+      max_ma = c(8, 20, 15, 19, 25, 50, 10, 15),
       id = 1:8,
       n_bins = c(1, 1, 2, 2, 3, 5, 1, 1),
       bin_assignment = c(1, 2, 1, 2, 1, 3, 1, 2),
-      point_estimates = c(
-        3.003,
-        12.373,
-        5.995,
-        14.027,
-        5.297,
-        20.191,
-        5.195,
-        15
-      )
+      point_estimates = c(3.003, 12.373, 5.995, 14.027, 5.297, 20.191, 5.195, 15)
     )
   )
 })
