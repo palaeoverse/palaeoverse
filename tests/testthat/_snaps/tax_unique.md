@@ -1,6 +1,14 @@
 # basic behavior works
 
     Code
+      tax_unique()
+    Condition
+      Error in `tax_unique()`:
+      ! Must enter an `occdf` of occurrences or taxon names
+
+---
+
+    Code
       tax_unique(data.frame())
     Condition
       Error in `tax_unique()`:
@@ -21,6 +29,26 @@
     Condition
       Error in `tax_unique()`:
       ! `occdf` must be a data.frame
+
+---
+
+    Code
+      tax_unique(data.frame(genus = "Tyrannosaurus", binomial = "Tyrannosaurus rex",
+        family = "Tyrannosauridae", order = "Coelurosauria", class = "Tetanurae"),
+      species = "species", genus = "genus")
+    Condition
+      Error in `tax_unique()`:
+      ! `occdf` does not contain column name provided to `species`
+
+---
+
+    Code
+      tax_unique(data.frame(species = "Tyrannosaurus", binomial = "Tyrannosaurus rex",
+        family = "Tyrannosauridae", order = "Coelurosauria", class = "Tetanurae"),
+      species = "species", genus = "genus")
+    Condition
+      Error in `tax_unique()`:
+      ! `occdf` does not contain column name provided to `genus`
 
 # tax_unique() cannot use the same column for multiple arguments
 

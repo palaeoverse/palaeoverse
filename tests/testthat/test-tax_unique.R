@@ -34,9 +34,40 @@ test_that("basic behavior works", {
   )
 
   # input checks
+  expect_snapshot(tax_unique(), error = TRUE)
   expect_snapshot(tax_unique(data.frame()), error = TRUE)
   expect_snapshot(tax_unique(100), error = TRUE)
   expect_snapshot(tax_unique(NA), error = TRUE)
+
+  # must have columns genus and species
+  expect_snapshot(
+    tax_unique(
+      data.frame(
+        genus = "Tyrannosaurus",
+        binomial = "Tyrannosaurus rex",
+        family = "Tyrannosauridae",
+        order = "Coelurosauria",
+        class = "Tetanurae"
+      ),
+      species = "species",
+      genus = "genus"
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_unique(
+      data.frame(
+        species = "Tyrannosaurus",
+        binomial = "Tyrannosaurus rex",
+        family = "Tyrannosauridae",
+        order = "Coelurosauria",
+        class = "Tetanurae"
+      ),
+      species = "species",
+      genus = "genus"
+    ),
+    error = TRUE
+  )
 })
 
 test_that("tax_unique() cannot use the same column for multiple arguments", {
