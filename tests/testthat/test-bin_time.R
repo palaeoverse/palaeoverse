@@ -60,9 +60,11 @@ test_that("bin_time() works with method 'mid'", {
   )
   # occ3's midpoint (10) falls on a bin boundary, so it is NA
   expect_equal(
-    bin_mid[, c("name", "id", "n_bins", "bin_assignment", "bin_midpoint")],
+    bin_mid,
     data.frame(
-      name = paste0("occ", 1:8),
+      name = c("occ1", "occ2", "occ3", "occ4", "occ5", "occ6", "occ7", "occ8"),
+      min_ma = c(2, 10, 5, 9, 5, 0, 0, 15),
+      max_ma = c(8, 20, 15, 19, 25, 50, 10, 15),
       id = 1:8,
       n_bins = c(1, 1, 2, 2, 3, 5, 1, 1),
       bin_assignment = c(1, 2, NA, 2, 2, 3, 1, 2),
@@ -83,16 +85,11 @@ test_that("bin_time() works with method 'majority'", {
   )
   # occ3 is a 50/50 tie, resolved to the first bin (bin 1)
   expect_equal(
-    bin_majority[, c(
-      "name",
-      "id",
-      "n_bins",
-      "bin_assignment",
-      "bin_midpoint",
-      "overlap_percentage"
-    )],
+    bin_majority,
     data.frame(
-      name = paste0("occ", 1:8),
+      name = c("occ1", "occ2", "occ3", "occ4", "occ5", "occ6", "occ7", "occ8"),
+      min_ma = c(2, 10, 5, 9, 5, 0, 0, 15),
+      max_ma = c(8, 20, 15, 19, 25, 50, 10, 15),
       id = 1:8,
       n_bins = c(1, 1, 2, 2, 3, 5, 1, 1),
       bin_assignment = c(1, 2, 1, 2, 2, 1, 1, 2),
