@@ -149,7 +149,7 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
     )
   )
 
-  # either one or both interval colums are not found in the data
+  # either one or both interval columns are not found in the data
   expect_snapshot(look_up(occdf = dat), error = TRUE)
   expect_snapshot(
     look_up(occdf = dat, early_interval = "early"),
