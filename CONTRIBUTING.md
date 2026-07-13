@@ -111,4 +111,4 @@ a [Google Group](https://groups.google.com/g/palaeoverse) where the
 ## Code of Conduct
 
 Please note that by contributing to `palaeoverse` you agree to our [Code
-of Conduct](https://palaeoverse.org/conduct.html).
+of Conduct](https://palaeoverse.org/about/code-of-conduct/).
