@@ -158,16 +158,13 @@ test_that("error handling for argument 'group'", {
     error = TRUE
   )
 
-  # This is a corner case that used to give an unhelpful error message in an interactive
-  # session (the message is different in the snapshot):
-  #    Error in `xtfrm.data.frame()`:
-  #    ! cannot xtfrm data frames
+  # Regression test for a corner case that used to give an unhelpful error message.
+  # This only occurred when:
+  # - "group" contains a character value that has the same name as an existing object
+  #   in the environment
+  # - and "group" has more than one value.
   #
-  # This only occurred when "group" contains a character value that has the same
-  # name as an existing object in the environment and when "group" has more than
-  # one value.
-  #
-  # It seems that group_apply() tried to evaluate the object.
+  # Fixed in https://github.com/palaeoverse/palaeoverse/pull/181
   foo <- mtcars
   expect_snapshot(
     group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow),
