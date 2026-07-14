@@ -28,6 +28,9 @@ test_that("group_apply() basic behavior", {
 })
 
 test_that("error handling for argument 'occdf'", {
+  # Snapshots are slightly different in older versions of R
+  skip_if(getRversion() < "4.3.0")
+
   occdf <- tetrapods[1:50, ]
   expect_snapshot(
     group_apply(group = "cc", fun = nrow),
@@ -133,6 +136,9 @@ test_that("group_apply() puts groups last", {
 })
 
 test_that("error handling for argument 'group'", {
+  # Snapshots are slightly different in older versions of R
+  skip_if(getRversion() < "4.3.0")
+
   occdf <- tetrapods[1:50, ]
   expect_snapshot(group_apply(occdf = occdf, fun = nrow), error = TRUE)
   expect_snapshot(
@@ -170,6 +176,9 @@ test_that("error handling for argument 'group'", {
 })
 
 test_that("error handling for argument 'fun'", {
+  # Snapshots are slightly different in older versions of R
+  skip_if(getRversion() < "4.3.0")
+
   occdf <- tetrapods
   occdf <- subset(occdf, !is.na(genus))
 
