@@ -41,6 +41,10 @@ jobs:
       # rendered pkgdown website. The reason for that is that lychee apparently doesn't find 
       # links in Rd files or in vignettes because of the file format, but it will be able to
       # check them in the rendered HTML files.
+      #
+      # We also exclude 404.html since it is the only page that absolute paths (because it
+      # doesn't know which request failed so it can't resolve relative paths). This means
+      # it fails until the updated website gets deployed.
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@39066c6d1f0de280863a3760160617e188b607ad # v2
@@ -52,6 +56,7 @@ jobs:
             --max-retries 5
             --retry-wait-time 5
             --timeout 10
+            --exclude-path docs/404.html
             --exclude '(^https://doi\.org)|(fsf\.org)|(gnu\.org)|(researchgate\.net)'
             --accept 200,429
 
