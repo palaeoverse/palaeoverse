@@ -74,12 +74,14 @@ jobs:
 
       # Some packages (e.g. geosphere) have compilation errors on R 4.1 and 4.2 because by default they
       # use C++14 while they require C++17. We manually set this required C++ version for those R 
-      # versions only.
+      # versions only. We use getRversion() instead of oldrel-X logic so that this block doesn't keep
+      # running when new R version become available, even if we forget to remove it.
       - name: Set C++17 compiler for older R versions
-        if: ${{ matrix.config.r == 'oldrel-4' || matrix.config.r == 'oldrel-5' }}
         run: |
-          mkdir -p ~/.R
-          echo "CXX = g++ -std=gnu++17" >> ~/.R/Makevars
+          if Rscript -e 'if (getRversion() >= "4.3.0") quit(status = 1)'; then
+            mkdir -p ~/.R
+            echo "CXX = g++ -std=gnu++17" >> ~/.R/Makevars
+          fi
         shell: bash
 
       - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6 # v2
