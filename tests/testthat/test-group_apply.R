@@ -152,7 +152,17 @@ test_that("error handling for argument 'group'", {
     error = TRUE
   )
 
-  # using an external object in 'group' when 'group' has multiple values
+  # This is a corner case that gives an unhelpful error message in an interactive
+  # session (the message is different in the snapshot):
+  #    Error in `xtfrm.data.frame()`:
+  #    ! cannot xtfrm data frames
+  #
+  # The behavior is correct (it should error) but the message should be improved.
+  # This only occurs when "group" contains a character value that has the same
+  # name as an existing object in the environment and when "group" has more than
+  # one value.
+  #
+  # It seems that group_apply() tries to evaluate the object but it shouldn't.
   foo <- mtcars
   expect_snapshot(
     group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow),
