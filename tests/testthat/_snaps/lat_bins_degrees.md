@@ -36,16 +36,16 @@
     Code
       lat_bins_degrees(size = numeric(0))
     Condition
-      Error in `if (size > 90 || size < 0) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `lat_bins_degrees()`:
+      ! `size` must have length 1.
 
 ---
 
     Code
       lat_bins_degrees(size = c(10, 20))
     Condition
-      Error in `size > 90 || size < 0`:
-      ! 'length = 2' in coercion to 'logical(1)'
+      Error in `lat_bins_degrees()`:
+      ! `size` must have length 1.
 
 # arguments 'min' and 'max' work
 
@@ -68,24 +68,24 @@
     Code
       lat_bins_degrees(min = NA)
     Condition
-      Error in `if (min > 90 || min < -90) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `lat_bins_degrees()`:
+      ! `min` should be less than 90 and more than -90
 
 ---
 
     Code
       lat_bins_degrees(min = numeric(0))
     Condition
-      Error in `if (min > 90 || min < -90) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `lat_bins_degrees()`:
+      ! `min` must have length 1.
 
 ---
 
     Code
       lat_bins_degrees(min = c(1, 2))
     Condition
-      Error in `min > 90 || min < -90`:
-      ! 'length = 2' in coercion to 'logical(1)'
+      Error in `lat_bins_degrees()`:
+      ! `min` must have length 1.
 
 ---
 
@@ -108,24 +108,24 @@
     Code
       lat_bins_degrees(max = NA)
     Condition
-      Error in `if (max > 90 || max < -90) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `lat_bins_degrees()`:
+      ! `max` should be less than 90 and more than -90
 
 ---
 
     Code
       lat_bins_degrees(max = numeric(0))
     Condition
-      Error in `if (max > 90 || max < -90) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `lat_bins_degrees()`:
+      ! `max` must have length 1.
 
 ---
 
     Code
       lat_bins_degrees(max = c(1, 2))
     Condition
-      Error in `max > 90 || max < -90`:
-      ! 'length = 2' in coercion to 'logical(1)'
+      Error in `lat_bins_degrees()`:
+      ! `max` must have length 1.
 
 ---
 
@@ -156,24 +156,24 @@
     Code
       lat_bins_degrees(fit = logical(0))
     Condition
-      Error in `if (fit) ...`:
-      ! argument is of length zero
+      Error in `lat_bins_degrees()`:
+      ! `fit` must have length 1.
 
 ---
 
     Code
       lat_bins_degrees(fit = NA)
     Condition
-      Error in `if (fit) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `lat_bins_degrees()`:
+      ! `fit` should be logical (TRUE/FALSE)
 
 ---
 
     Code
       lat_bins_degrees(fit = c(TRUE, TRUE))
     Condition
-      Error in `if (fit) ...`:
-      ! the condition has length > 1
+      Error in `lat_bins_degrees()`:
+      ! `fit` must have length 1.
 
 # argument 'plot' works
 
@@ -188,22 +188,22 @@
     Code
       lat_bins_degrees(plot = logical(0))
     Condition
-      Error in `if (plot) ...`:
-      ! argument is of length zero
+      Error in `lat_bins_degrees()`:
+      ! `plot` must have length 1.
 
 ---
 
     Code
       lat_bins_degrees(plot = NA)
     Condition
-      Error in `if (plot) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `lat_bins_degrees()`:
+      ! `plot` should be logical (TRUE/FALSE)
 
 ---
 
     Code
       lat_bins_degrees(plot = c(TRUE, TRUE))
     Condition
-      Error in `if (plot) ...`:
-      ! the condition has length > 1
+      Error in `lat_bins_degrees()`:
+      ! `plot` must have length 1.
 

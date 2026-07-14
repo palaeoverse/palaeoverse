@@ -119,7 +119,7 @@ tax_certainty <- function(
     stop("`terms` must be of class list or NULL.")
   }
   # Check for valid append input
-  if (!is.logical(append)) {
+  if (is.na(append) || !is.logical(append)) {
     stop("`append` must be of class logical (TRUE/FALSE).")
   }
   # Create temporary taxdf column to not replace original values

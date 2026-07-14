@@ -64,8 +64,8 @@
     Code
       lat_bins_area(n = numeric(0))
     Condition
-      Error in `if (n%%1 != 0) ...`:
-      ! argument is of length zero
+      Error in `lat_bins_area()`:
+      ! `n` must have length 1.
 
 ---
 
@@ -88,8 +88,8 @@
     Code
       lat_bins_area(max = numeric(0))
     Condition
-      Error in `if (max > 90 || max < -90) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `lat_bins_area()`:
+      ! `max` must have length 1.
 
 ---
 
@@ -104,8 +104,8 @@
     Code
       lat_bins_area(min = numeric(0))
     Condition
-      Error in `if (min > 90 || min < -90) ...`:
-      ! missing value where TRUE/FALSE needed
+      Error in `lat_bins_area()`:
+      ! `min` must have length 1.
 
 ---
 
@@ -128,8 +128,8 @@
     Code
       lat_bins_area(plot = logical(0))
     Condition
-      Error in `if (plot) ...`:
-      ! argument is of length zero
+      Error in `lat_bins_area()`:
+      ! `plot` must have length 1.
 
 ---
 
