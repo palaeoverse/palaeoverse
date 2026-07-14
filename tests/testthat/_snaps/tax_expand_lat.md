@@ -4,7 +4,7 @@
       tax_expand_lat(taxdf = 5)
     Condition
       Error in `tax_expand_lat()`:
-      ! `taxdf` should be a dataframe
+      ! `taxdf` must be a data frame, not the number 5.
 
 ---
 
@@ -12,7 +12,7 @@
       tax_expand_lat(taxdf)
     Condition
       Error in `tax_expand_lat()`:
-      ! argument "bins" is missing, with no default
+      ! `bins` must be a data frame, not absent.
 
 ---
 
@@ -20,7 +20,7 @@
       tax_expand_lat(taxdf, bins = 1)
     Condition
       Error in `tax_expand_lat()`:
-      ! `bins` should be a dataframe
+      ! `bins` must be a data frame, not the number 1.
 
 ---
 
@@ -28,7 +28,7 @@
       tax_expand_lat(taxdf, bins = bins, max_lat = "lat")
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! Column "lat" not found in `taxdf`.
 
 ---
 
@@ -36,7 +36,7 @@
       tax_expand_lat(taxdf, bins = bins, min_lat = "lat")
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! Column "lat" not found in `taxdf`.
 
 ---
 
@@ -45,7 +45,7 @@
         -10), min_lat = c(20, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Maximum and minimum latitudes must be less than or equal to 90
+      ! All values of column "max_lat" in `taxdf` must be between -90 and 90.
 
 ---
 
@@ -54,7 +54,7 @@
         -10), min_lat = c(-92, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Maximum and minimum latitudes must be more than or equal to -90
+      ! All values of column "min_lat" in `taxdf` must be between -90 and 90.
 
 ---
 
@@ -63,7 +63,7 @@
         "20", "-10"), min_lat = c(-92, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! The class of the max_lat column must be numeric.
+      ! Column "max_lat" in `taxdf` must be numeric, not <character>.
 
 ---
 
@@ -72,7 +72,7 @@
         -10), min_lat = c("20", -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! The class of the min_lat column must be numeric.
+      ! Column "min_lat" in `taxdf` must be numeric, not <character>.
 
 ---
 
@@ -81,7 +81,7 @@
         -10), min_lat = c(72, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Maximum latitude must be larger than or equal to minimum latitude
+      ! Maximum latitude must be larger than or equal to minimum latitude.
 
 ---
 
@@ -90,7 +90,7 @@
         -10), min_lat = c(20, 20, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Not all rows in `taxdf` are unique
+      ! `taxdf` must not have duplicated rows.
 
 ---
 
@@ -98,7 +98,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Either 'bin', 'max' or 'min' is not a named column in `bins`
+      ! Column "bin" not found in `bins`.
 
 # args 'min_lat' and 'max_lat' work
 
@@ -106,7 +106,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! Column "max_lat" not found in `taxdf`.
 
 ---
 
@@ -114,7 +114,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = "nonexistent")
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! Column "nonexistent" not found in `taxdf`.
 
 ---
 
@@ -122,7 +122,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = NULL)
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! `max_lat` must be a single string, not `NULL`.
 
 ---
 
@@ -130,7 +130,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = character(0))
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! `max_lat` must be a single string, not an empty character vector.
 
 ---
 
@@ -138,7 +138,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = NA)
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! `max_lat` must be a single string, not `NA`.
 
 ---
 
@@ -146,7 +146,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = c("a", "b"))
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! `max_lat` must be a single string, not a character vector.
 
 ---
 
@@ -154,7 +154,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = "nonexistent")
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! Column "nonexistent" not found in `taxdf`.
 
 ---
 
@@ -162,7 +162,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = NULL)
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! `min_lat` must be a single string, not `NULL`.
 
 ---
 
@@ -170,7 +170,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = character(0))
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! `min_lat` must be a single string, not an empty character vector.
 
 ---
 
@@ -178,7 +178,7 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = NA)
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! `min_lat` must be a single string, not `NA`.
 
 ---
 
@@ -186,5 +186,5 @@
       tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = c("a", "b"))
     Condition
       Error in `tax_expand_lat()`:
-      ! Either `max_lat` or `min_lat` is not a named column in `taxdf`
+      ! `min_lat` must be a single string, not a character vector.
 

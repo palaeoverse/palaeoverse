@@ -50,45 +50,45 @@ tax_expand_lat <- function(
   max_lat = "max_lat",
   min_lat = "min_lat"
 ) {
-  # Handle errors
-  if (!is.data.frame(taxdf)) {
-    stop("`taxdf` should be a dataframe")
-  }
-
-  if (!is.data.frame(bins)) {
-    stop("`bins` should be a dataframe")
-  }
-
-  if (!all(c("bin", "max", "min") %in% colnames(bins))) {
-    stop("Either 'bin', 'max' or 'min' is not a named column in `bins`")
-  }
-
-  if (!all(c(max_lat, min_lat) %in% colnames(taxdf))) {
-    stop("Either `max_lat` or `min_lat` is not a named column in `taxdf`")
-  }
+  rlang::check_data_frame(taxdf)
+  rlang::check_data_frame(bins)
+  check_column_presence(bins, "bin")
+  check_column_presence(bins, "max")
+  check_column_presence(bins, "min")
+  check_column_presence(taxdf, max_lat)
+  check_column_presence(taxdf, min_lat)
 
   if (!is.numeric(taxdf[, max_lat, drop = TRUE])) {
-    stop("The class of the max_lat column must be numeric.")
+    cli::cli_abort(
+      "Column {.val {max_lat}} in {.arg taxdf} must be numeric, not {.cls {class(max_lat)}}."
+    )
   }
 
   if (!is.numeric(taxdf[, min_lat, drop = TRUE])) {
-    stop("The class of the min_lat column must be numeric.")
+    cli::cli_abort(
+      "Column {.val {min_lat}} in {.arg taxdf} must be numeric, not {.cls {class(min_lat)}}."
+    )
   }
 
-  if (any(c(taxdf[, c(min_lat, max_lat)] < -90))) {
-    stop("Maximum and minimum latitudes must be more than or equal to -90")
+  if (any(c(taxdf[, min_lat] < -90, taxdf[, min_lat] > 90))) {
+    cli::cli_abort(
+      "All values of column {.val {min_lat}} in {.arg taxdf} must be between -90 and 90."
+    )
   }
-
-  if (any(c(taxdf[, c(min_lat, max_lat)] > 90))) {
-    stop("Maximum and minimum latitudes must be less than or equal to 90")
+  if (any(c(taxdf[, max_lat] < -90, taxdf[, max_lat] > 90))) {
+    cli::cli_abort(
+      "All values of column {.val {max_lat}} in {.arg taxdf} must be between -90 and 90."
+    )
   }
 
   if (any(taxdf[, max_lat, drop = TRUE] < taxdf[, min_lat, drop = TRUE])) {
-    stop("Maximum latitude must be larger than or equal to minimum latitude")
+    cli::cli_abort(
+      "Maximum latitude must be larger than or equal to minimum latitude."
+    )
   }
 
   if (anyDuplicated(taxdf) > 0) {
-    stop("Not all rows in `taxdf` are unique")
+    cli::cli_abort("{.arg taxdf} must not have duplicated rows.")
   }
 
   # Replicate taxon rows for each lat bin they span

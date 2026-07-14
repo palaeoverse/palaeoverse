@@ -47,6 +47,7 @@ Depends:
     R (>= 4.0)
 Imports:
     ape,
+    cli,
     curl,
     geosphere,
     graphics,
@@ -55,6 +56,7 @@ Imports:
     lifecycle,
     methods,
     pbapply,
+    rlang,
     sf,
     stats,
     stringdist,

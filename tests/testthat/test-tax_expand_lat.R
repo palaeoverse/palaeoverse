@@ -191,6 +191,9 @@ test_that("args 'min_lat' and 'max_lat' work", {
     error = TRUE
   )
 
+  # So that we don't need to specify the max_lat argument in the calls below
+  colnames(taxdf)[2] <- "max_lat"
+
   expect_snapshot(
     tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = "nonexistent"),
     error = TRUE
