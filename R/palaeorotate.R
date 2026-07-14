@@ -211,6 +211,9 @@ palaeorotate <- function(
     stop("`lng` values should be >= -180\u00B0 and <= 180\u00B0.")
   }
 
+  if (length(method) != 1) {
+    stop("`method` should have length 1.")
+  }
   if (!method %in% c("grid", "point")) {
     stop("`method` should be either 'grid' or 'point'.")
   }
@@ -221,6 +224,10 @@ palaeorotate <- function(
 
   if (!is.logical(uncertainty)) {
     stop("`uncertainty` should be of class logical (TRUE/FALSE).")
+  }
+
+  if (length(model) == 0) {
+    stop("`model` should have length > 1.")
   }
 
   # Add stop for removed models
