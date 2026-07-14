@@ -1,5 +1,7 @@
 # palaeoverse (development version)
 
+# palaeoverse 1.5.0
+
 ## New features
 
 * Added `tax_certainty()` (#109)
