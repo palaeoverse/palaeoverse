@@ -20,7 +20,7 @@ present.}
 \item{duration_myr}{The duration of the interval in millions of years.}
 \item{font}{Colour of font to use for plotting in conjunction with the
 colour column.}
-\item{colour}{Colours of stages based on the \href{https://stratigraphy.org/timescale/}{ICS timescale}.}
+\item{colour}{Colours of stages based on the \href{https://stratigraphy.org/chart/}{ICS timescale}.}
 \item{abbr}{Standard abbreviations of interval names where appropriate.}
 }
 }
