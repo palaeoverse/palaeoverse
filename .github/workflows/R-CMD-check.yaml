@@ -73,9 +73,7 @@ jobs:
           use-public-rspm: true
 
       # Some packages (e.g. geosphere) have compilation errors on R 4.1 and 4.2 because by default they
-      # use C++14 while they require C++17. We manually set this required C++ version for those R 
-      # versions only. We use getRversion() instead of oldrel-X logic so that this block doesn't keep
-      # running when new R version become available, even if we forget to remove it.
+      # use C++14 while they require C++17.
       - name: Set C++17 compiler for older R versions
         run: |
           if Rscript -e 'if (getRversion() >= "4.3.0") quit(status = 1)'; then
