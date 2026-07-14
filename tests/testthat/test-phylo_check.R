@@ -35,7 +35,7 @@ test_that("arg 'list' works", {
   tree <- ceratopsianTreeRaia
 
   out <- phylo_check(tree, c("abc", "def"))
-  # TODO: do we expect the change from "abc" -> "Abc"?
+  # TODO: this shouldn't convert to titleCase
   expect_equal(out$taxon_name, c("Abc", "Def", tree$tip.label))
 
   # doesn't accept punctuation
@@ -174,7 +174,7 @@ test_that("arg 'sort' works", {
   expect_snapshot(phylo_check(tree, list, sort = NA), error = TRUE)
   expect_snapshot(phylo_check(tree, list, sort = NULL), error = TRUE)
 
-  # TODO: should it error since "sort" is useless when out = "tree" or "counts"
+  # TODO: this should error since "sort" is useless when out = "tree" or "counts"
   # expect_snapshot(
   #   phylo_check(tree, list, out = "tree", sort = "az"),
   #   error = TRUE
