@@ -49,8 +49,18 @@ test_that("arg 'list' works", {
   # expect_snapshot(phylo_check(tree, list = list()), error = TRUE)
   # expect_snapshot(phylo_check(tree, list = NA), error = TRUE)
 
-  # TODO: what should be done with NAs?
-  # expect_snapshot(phylo_check(tree, list = c("a", NA)), error = TRUE)
+  # We accept NA in input
+  # https://github.com/palaeoverse/palaeoverse/pull/244/changes#r3500117910
+  out <- phylo_check(tree, list = c("a", NA))
+  expect_equal(
+    out[1:2, ],
+    data.frame(
+      taxon_name = c("A", NA),
+      present_in_tree = FALSE,
+      present_in_list = TRUE,
+      row.names = 38:39
+    )
+  )
 })
 
 test_that("arg 'out' works", {
