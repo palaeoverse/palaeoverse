@@ -35,7 +35,7 @@ color:
     dark-grey: "#575756"
     black: "#1D1D1B"
     white: "#FFFFFF"
-  background: very-light-blue
+  background: white
   foreground: dark-grey
   primary: light-blue
   secondary: dark-green
