@@ -17,7 +17,6 @@ pull_request_template.md
 cran-comments.md
 ^codecov\.yml$
 ^_pkgdown\.yml$
-^_brand$
 ^docs$
 ^pkgdown$
 ^doc$

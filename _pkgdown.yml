@@ -3,7 +3,7 @@ template:
   bootstrap: 5
   bslib:
     navbar-padding-y: 8px
-    brand: _brand/_brand.yml
+    brand: pkgdown/_brand/_brand.yml
 
 authors:
   Lewis A. Jones:
