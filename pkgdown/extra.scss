@@ -18,6 +18,8 @@ body,
     background: $bg-light !important;
 }
 
+// h1 titles are too big by default so we reduce their size, except for the "#palaeoverse-" one
+// since it is the package name at the top of the page.
 h1 {
     font-size: 1.7rem;
 }
