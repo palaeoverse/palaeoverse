@@ -70,14 +70,32 @@ tax_expand_lat <- function(
     )
   }
 
-  if (any(c(taxdf[, min_lat] < -90, taxdf[, min_lat] > 90))) {
+  min_lat_vals <- taxdf[, min_lat]
+  min_lat_too_low <- min_lat_vals[min_lat_vals < -90]
+  min_lat_too_high <- min_lat_vals[min_lat_vals > 90]
+  if (length(min_lat_too_low) > 0 || length(min_lat_too_high) > 0) {
+    vec <- unique(c(min_lat_too_low, min_lat_too_high))
+    truncated <- if (length(vec) > 5) " (first 5)" else ""
+    vec <- cli::cli_vec(head(vec, n = 5), list(`vec-last` = ", "))
     cli::cli_abort(
-      "All values of column {.val {min_lat}} in {.arg taxdf} must be between -90 and 90."
+      c(
+        "All values of column {.val {min_lat}} in {.arg taxdf} must be between -90 and 90.",
+        "i" = "Value(s) outside the range{truncated}: {.val {vec}}."
+      )
     )
   }
-  if (any(c(taxdf[, max_lat] < -90, taxdf[, max_lat] > 90))) {
+  max_lat_vals <- taxdf[, max_lat]
+  max_lat_too_low <- max_lat_vals[max_lat_vals < -90]
+  max_lat_too_high <- max_lat_vals[max_lat_vals > 90]
+  if (length(max_lat_too_low) > 0 || length(max_lat_too_high) > 0) {
+    vec <- unique(c(max_lat_too_low, max_lat_too_high))
+    truncated <- if (length(vec) > 5) " (first 5)" else ""
+    vec <- cli::cli_vec(head(vec, n = 5), list(`vec-last` = ", "))
     cli::cli_abort(
-      "All values of column {.val {max_lat}} in {.arg taxdf} must be between -90 and 90."
+      c(
+        "All values of column {.val {max_lat}} in {.arg taxdf} must be between -90 and 90.",
+        "i" = "Value(s) outside the range{truncated}: {.val {vec}}."
+      )
     )
   }
 

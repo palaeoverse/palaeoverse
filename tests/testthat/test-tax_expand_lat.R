@@ -64,6 +64,30 @@ test_that("basic behavior works", {
     error = TRUE
   )
 
+  # same with many values outside the range
+  expect_snapshot(
+    tax_expand_lat(
+      taxdf = data.frame(
+        name = "a",
+        max_lat = 91:100,
+        min_lat = 1
+      ),
+      bins = bins
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(
+      taxdf = data.frame(
+        name = "a",
+        max_lat = 1,
+        min_lat = 91:100
+      ),
+      bins = bins
+    ),
+    error = TRUE
+  )
+
   # wrong column types
   expect_snapshot(
     tax_expand_lat(

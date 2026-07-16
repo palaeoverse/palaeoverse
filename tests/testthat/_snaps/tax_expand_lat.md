@@ -46,6 +46,7 @@
     Condition
       Error in `tax_expand_lat()`:
       ! All values of column "max_lat" in `taxdf` must be between -90 and 90.
+      i Value(s) outside the range: 92.
 
 ---
 
@@ -55,6 +56,27 @@
     Condition
       Error in `tax_expand_lat()`:
       ! All values of column "min_lat" in `taxdf` must be between -90 and 90.
+      i Value(s) outside the range: -92.
+
+---
+
+    Code
+      tax_expand_lat(taxdf = data.frame(name = "a", max_lat = 91:100, min_lat = 1),
+      bins = bins)
+    Condition
+      Error in `tax_expand_lat()`:
+      ! All values of column "max_lat" in `taxdf` must be between -90 and 90.
+      i Value(s) outside the range (first 5): 91, 92, 93, 94, 95.
+
+---
+
+    Code
+      tax_expand_lat(taxdf = data.frame(name = "a", max_lat = 1, min_lat = 91:100),
+      bins = bins)
+    Condition
+      Error in `tax_expand_lat()`:
+      ! All values of column "min_lat" in `taxdf` must be between -90 and 90.
+      i Value(s) outside the range (first 5): 91, 92, 93, 94, 95.
 
 ---
 
