@@ -106,14 +106,14 @@ tax_expand_lat <- function(
     } else {
       ""
     }
-    vec <- cli::cli_vec(
+    to_report <- cli::cli_vec(
       head(rows_with_max_lat_smaller_than_min_lat, n = 5),
       list(`vec-last` = ", ")
     )
     cli::cli_abort(
       c(
         "Maximum latitude must be larger than or equal to minimum latitude.",
-        "i" = "Row(s) where max latitude is smaller than min latitude{truncated}: {.val {vec}}."
+        "i" = "Row(s) where max latitude is smaller than min latitude{truncated}: {.val {to_report}}."
       )
     )
   }
