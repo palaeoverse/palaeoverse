@@ -1,9 +1,7 @@
 url: https://palaeoverse.palaeoverse.org
 template:
   bootstrap: 5
-  bslib:
-    navbar-padding-y: 8px
-    brand: pkgdown/_brand/_brand.yml
+  package: pkgdown.template
 
 authors:
   Lewis A. Jones:
