@@ -73,26 +73,26 @@ tax_expand_lat <- function(
   min_lat_vals <- taxdf[, min_lat]
   min_lat_out_range <- min_lat_vals[min_lat_vals < -90 | min_lat_vals > 90]
   if (length(min_lat_out_range) > 0) {
-    vec <- unique(min_lat_out_range)
-    truncated <- if (length(vec) > 5) " (first 5)" else ""
-    vec <- cli::cli_vec(head(vec, n = 5), list(`vec-last` = ", "))
+    to_report <- unique(min_lat_out_range)
+    truncated <- if (length(to_report) > 5) " (first 5)" else ""
+    to_report <- cli::cli_vec(head(to_report, n = 5), list(`vec-last` = ", "))
     cli::cli_abort(
       c(
         "All values of column {.val {min_lat}} in {.arg taxdf} must be between -90 and 90.",
-        "i" = "Value(s) outside the range{truncated}: {.val {vec}}."
+        "i" = "Value(s) outside the range{truncated}: {.val {to_report}}."
       )
     )
   }
   max_lat_vals <- taxdf[, max_lat]
   max_lat_out_range <- max_lat_vals[max_lat_vals < -90 | max_lat_vals > 90]
   if (length(max_lat_out_range) > 0) {
-    vec <- unique(max_lat_out_range)
-    truncated <- if (length(vec) > 5) " (first 5)" else ""
-    vec <- cli::cli_vec(head(vec, n = 5), list(`vec-last` = ", "))
+    to_report <- unique(max_lat_out_range)
+    truncated <- if (length(to_report) > 5) " (first 5)" else ""
+    to_report <- cli::cli_vec(head(to_report, n = 5), list(`vec-last` = ", "))
     cli::cli_abort(
       c(
         "All values of column {.val {max_lat}} in {.arg taxdf} must be between -90 and 90.",
-        "i" = "Value(s) outside the range{truncated}: {.val {vec}}."
+        "i" = "Value(s) outside the range{truncated}: {.val {to_report}}."
       )
     )
   }
