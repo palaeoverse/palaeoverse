@@ -1,7 +1,7 @@
 url: https://palaeoverse.palaeoverse.org
 template:
   bootstrap: 5
-  package: pkgdown.template
+  package: palaeoverse.template
 
 authors:
   Lewis A. Jones:
