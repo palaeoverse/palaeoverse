@@ -58,19 +58,20 @@ tax_expand_lat <- function(
   check_column_presence(taxdf, max_lat)
   check_column_presence(taxdf, min_lat)
 
-  if (!is.numeric(taxdf[, max_lat, drop = TRUE])) {
-    cli::cli_abort(
-      "Column {.val {max_lat}} in {.arg taxdf} must be numeric, not {.cls {class(max_lat)}}."
-    )
-  }
-
-  if (!is.numeric(taxdf[, min_lat, drop = TRUE])) {
+  min_lat_vals <- taxdf[, min_lat]
+  if (!is.numeric(min_lat_vals)) {
     cli::cli_abort(
       "Column {.val {min_lat}} in {.arg taxdf} must be numeric, not {.cls {class(min_lat)}}."
     )
   }
 
-  min_lat_vals <- taxdf[, min_lat]
+  max_lat_vals <- taxdf[, max_lat]
+  if (!is.numeric(max_lat_vals)) {
+    cli::cli_abort(
+      "Column {.val {max_lat}} in {.arg taxdf} must be numeric, not {.cls {class(max_lat)}}."
+    )
+  }
+
   min_lat_out_range <- min_lat_vals[min_lat_vals < -90 | min_lat_vals > 90]
   if (length(min_lat_out_range) > 0) {
     to_report <- unique(min_lat_out_range)
@@ -83,7 +84,6 @@ tax_expand_lat <- function(
       )
     )
   }
-  max_lat_vals <- taxdf[, max_lat]
   max_lat_out_range <- max_lat_vals[max_lat_vals < -90 | max_lat_vals > 90]
   if (length(max_lat_out_range) > 0) {
     to_report <- unique(max_lat_out_range)
