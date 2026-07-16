@@ -99,9 +99,24 @@ tax_expand_lat <- function(
     )
   }
 
-  if (any(taxdf[, max_lat, drop = TRUE] < taxdf[, min_lat, drop = TRUE])) {
+  rows_with_max_lat_smaller_than_min_lat <- which(
+    taxdf[, max_lat, drop = TRUE] < taxdf[, min_lat, drop = TRUE]
+  )
+  if (length(rows_with_max_lat_smaller_than_min_lat) > 0) {
+    truncated <- if (length(rows_with_max_lat_smaller_than_min_lat) > 5) {
+      " (first 5)"
+    } else {
+      ""
+    }
+    vec <- cli::cli_vec(
+      head(rows_with_max_lat_smaller_than_min_lat, n = 5),
+      list(`vec-last` = ", ")
+    )
     cli::cli_abort(
-      "Maximum latitude must be larger than or equal to minimum latitude."
+      c(
+        "Maximum latitude must be larger than or equal to minimum latitude.",
+        "i" = "Row(s) where max latitude is smaller than min latitude{truncated}: {.val {vec}}."
+      )
     )
   }
 

@@ -125,6 +125,18 @@ test_that("basic behavior works", {
     ),
     error = TRUE
   )
+  # same with many cases
+  expect_snapshot(
+    tax_expand_lat(
+      taxdf = data.frame(
+        name = "a",
+        max_lat = c(90, 1:10),
+        min_lat = c(72, 21:30)
+      ),
+      bins = bins
+    ),
+    error = TRUE
+  )
 
   # must have unique rows
   expect_snapshot(

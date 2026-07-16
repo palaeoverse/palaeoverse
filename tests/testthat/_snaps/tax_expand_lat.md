@@ -104,6 +104,17 @@
     Condition
       Error in `tax_expand_lat()`:
       ! Maximum latitude must be larger than or equal to minimum latitude.
+      i Row(s) where max latitude is smaller than min latitude: 1.
+
+---
+
+    Code
+      tax_expand_lat(taxdf = data.frame(name = "a", max_lat = c(90, 1:10), min_lat = c(
+        72, 21:30)), bins = bins)
+    Condition
+      Error in `tax_expand_lat()`:
+      ! Maximum latitude must be larger than or equal to minimum latitude.
+      i Row(s) where max latitude is smaller than min latitude (first 5): 2, 3, 4, 5, 6.
 
 ---
 
