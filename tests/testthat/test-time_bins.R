@@ -344,7 +344,6 @@ test_that("arg 'n_bins' works", {
   expect_snapshot(time_bins(n_bins = 200), error = TRUE)
 })
 
-# TODO: remove this parameter
 test_that("arg 'assign' works", {
   expect_true(
     is.list(time_bins(
