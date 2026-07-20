@@ -147,20 +147,20 @@ test_that("arg 'rank' works", {
     )
   )
 
-  # name + period
+  # name + era
   expect_equal(
-    time_bins(interval = "Mesozoic", rank = "period"),
+    time_bins(interval = "Mesozoic", rank = "era"),
     data.frame(
-      bin = 1:3,
-      interval_name = c("Triassic", "Jurassic", "Cretaceous"),
-      rank = "period",
-      max_ma = c(251.902, 201.3, 145),
-      mid_ma = c(226.601, 173.15, 105.5),
-      min_ma = c(201.3, 145, 66),
-      duration_myr = c(50.602, 56.3, 79),
-      abbr = c("Tr", "J", "K"),
-      colour = c("#812B92", "#34B2C9", "#7FC64E"),
-      font = c("white", "black", "black")
+      bin = 1L,
+      interval_name = "Mesozoic",
+      rank = "era",
+      max_ma = 251.902,
+      mid_ma = 158.951,
+      min_ma = 66,
+      duration_myr = 185.902,
+      abbr = "M",
+      colour = "#67C5CA",
+      font = "black"
     )
   )
 
