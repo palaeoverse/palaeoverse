@@ -273,7 +273,6 @@ test_that("arg 'resolution' works", {
 
   # At genus resolution, species-level names collapse to "<genus> sp." and the
   # higher-level-only occurrences are still retained as cryptic diversity.
-  # The column "genus_species is not in the output"
   expect_equal(
     tax_unique(
       occdf = dinosaurs,
