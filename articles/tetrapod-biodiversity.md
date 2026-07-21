@@ -1,7 +1,7 @@
 # Alpha diversity and geographic range size of Carboniferous and Permian tetrapods
 
 **Authors:** [The Palaeoverse Development
-Team](https://palaeoverse.org/#about-us)
+Team](https://palaeoverse.org/about/about-us)
 
 **Last updated:** 2026-07-21
 

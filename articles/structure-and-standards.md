@@ -201,7 +201,7 @@ and is similar to the following (simplified here):
 #' Geological Time Scale 2020
 #'
 #' A dataset of the Geological Time Scale 2020. Age data from:
-#'  \url{https://stratigraphy.org/timescale/}.
+#'  \url{https://stratigraphy.org/chart/}.
 #' Supplementary information is also included in the dataset for
 #' plotting functionality (e.g. GTS2020 colour scheme).
 #'
