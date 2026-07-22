@@ -56,7 +56,7 @@ test_that("argument 'name' works", {
   )
 
   # input checks
-  # Those give a warning instead of a error on R < 4.3
+  # Those give a warning instead of an error on R < 4.3
   skip_if(getRversion() < "4.3")
   expect_snapshot(tax_range_strat(occdf, name = "test"), error = TRUE)
   expect_snapshot(tax_range_strat(occdf, name = character(0)), error = TRUE)
