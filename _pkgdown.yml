@@ -1,9 +1,7 @@
 url: https://palaeoverse.palaeoverse.org
 template:
   bootstrap: 5
-  bootswatch: flatly
-  bslib:
-    navbar-padding-y: 8px
+  package: palaeoverse.template
 
 authors:
   Lewis A. Jones:
@@ -40,13 +38,21 @@ home:
   - text: Palaeoverse website
     href: https://palaeoverse.org
 
-articles:
-- title: Articles
-  navbar: ~
-  contents:
-  - phanerozoic-reefs
-  - tetrapod-biodiversity
-  - structure-and-standards
+navbar:
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: Case studies
+      - text: Latitudinal trends in Phanerozoic reefs
+        href: articles/phanerozoic-reefs.html
+      - text: Alpha diversity and geographic range size of Carboniferous and Permian tetrapods
+        href: articles/tetrapod-biodiversity.html
+      - text: ---
+      - text: Contributing
+      - text: "Contributing to palaeoverse: structure and standards"
+        href: articles/structure-and-standards.html
+
 
 reference:
 - title: Data cleaning and preparing
