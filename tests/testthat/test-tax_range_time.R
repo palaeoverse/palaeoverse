@@ -42,3 +42,10 @@ test_that("tax_range_time() works", {
   occdf$max_ma[1] <- "test"
   expect_snapshot(tax_range_time(occdf = occdf), error = TRUE)
 })
+test_that("tax_range_time() resets row names", {
+  # Remove NAs
+  tetrapods <- subset(tetrapods, !is.na(order) & order != "NO_ORDER_SPECIFIED")
+  # Temporal range
+  result <- tax_range_time(occdf = tetrapods, name = "order")
+  expect_equal(row.names(result), as.character(seq_len(nrow(result))))
+})

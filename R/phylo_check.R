@@ -36,7 +36,7 @@
 #' @section Reviewer(s):
 #' William Gearty & Pedro Godoy
 #'
-#' @examples
+#' @examplesIf requireNamespace("paleotree", quietly = TRUE)
 #' # track user par
 #' oldpar <- par(no.readonly = TRUE)
 #' #Read in example tree of ceratopsians from paleotree
@@ -95,6 +95,14 @@ phylo_check <- function(
       "Taxon names should not contain punctuation except spaces or
          underscores"
     )
+  }
+
+  if (length(out) == 0 || is.na(out)) {
+    stop("`out` must be of length 1.")
+  }
+
+  if (length(sort) == 0 || is.na(sort)) {
+    stop("`sort` must be of length 1.")
   }
 
   if (

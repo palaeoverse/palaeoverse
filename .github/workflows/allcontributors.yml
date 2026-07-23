@@ -1,0 +1,43 @@
+on:
+  workflow_dispatch: # to be able to trigger this workflow by hand
+  push:
+    branches:
+      - main
+  schedule:
+    - cron:  '0 12 * * 0' # weekly on Sunday at 12:00
+
+name: Update allcontributors
+
+jobs:
+
+  allcontributors:
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    name: Update allcontributors
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: r-lib/actions/setup-pandoc@d3c5be51b12e724e68f33216ca3c148b66d5f0b6 # v2
+
+      - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6 # v2
+
+      - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6 # v2
+        with:
+          cache-version: 5
+          extra-packages: any::allcontributors
+
+      - name: Update allcontributors
+        run: Rscript -e 'allcontributors::add_contributors(ncols = 5, num_sections = 1)'
+
+      - name: Commit results
+        run: |
+          git config user.name  "Github Actions"
+          git config user.email "github-actions@github.com"
+          git commit README.md -m 'Update allcontributors on README.md' || echo "No changes to commit"
+          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
