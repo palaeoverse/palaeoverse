@@ -94,7 +94,7 @@ test_that("basic behavior works", {
       taxdf = data.frame(
         name = c("A", "B", "C"),
         max_lat = c("60", "20", "-10"),
-        min_lat = c(-92, -40, -60)
+        min_lat = c(-90, -40, -60)
       ),
       bins = bins
     ),

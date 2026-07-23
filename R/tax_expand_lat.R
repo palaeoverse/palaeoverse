@@ -52,50 +52,15 @@ tax_expand_lat <- function(
 ) {
   rlang::check_data_frame(taxdf)
   rlang::check_data_frame(bins)
+
   check_column_presence(bins, "bin")
   check_column_presence(bins, "max")
   check_column_presence(bins, "min")
   check_column_presence(taxdf, max_lat)
   check_column_presence(taxdf, min_lat)
 
-  min_lat_vals <- taxdf[, min_lat]
-  if (!is.numeric(min_lat_vals)) {
-    cli::cli_abort(
-      "Column {.val {min_lat}} in {.arg taxdf} must be numeric, not {.cls {class(min_lat)}}."
-    )
-  }
-
-  max_lat_vals <- taxdf[, max_lat]
-  if (!is.numeric(max_lat_vals)) {
-    cli::cli_abort(
-      "Column {.val {max_lat}} in {.arg taxdf} must be numeric, not {.cls {class(max_lat)}}."
-    )
-  }
-
-  min_lat_out_range <- min_lat_vals[min_lat_vals < -90 | min_lat_vals > 90]
-  if (length(min_lat_out_range) > 0) {
-    to_report <- unique(min_lat_out_range)
-    truncated <- if (length(to_report) > 5) " (first 5)" else ""
-    to_report <- cli::cli_vec(head(to_report, n = 5), list(`vec-last` = ", "))
-    cli::cli_abort(
-      c(
-        "All values of column {.val {min_lat}} in {.arg taxdf} must be between -90 and 90.",
-        "i" = "Value(s) outside the range{truncated}: {.val {to_report}}."
-      )
-    )
-  }
-  max_lat_out_range <- max_lat_vals[max_lat_vals < -90 | max_lat_vals > 90]
-  if (length(max_lat_out_range) > 0) {
-    to_report <- unique(max_lat_out_range)
-    truncated <- if (length(to_report) > 5) " (first 5)" else ""
-    to_report <- cli::cli_vec(head(to_report, n = 5), list(`vec-last` = ", "))
-    cli::cli_abort(
-      c(
-        "All values of column {.val {max_lat}} in {.arg taxdf} must be between -90 and 90.",
-        "i" = "Value(s) outside the range{truncated}: {.val {to_report}}."
-      )
-    )
-  }
+  check_range(taxdf, min_lat, -90, 90)
+  check_range(taxdf, max_lat, -90, 90)
 
   rows_with_max_lat_smaller_than_min_lat <- which(
     taxdf[, max_lat, drop = TRUE] < taxdf[, min_lat, drop = TRUE]

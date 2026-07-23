@@ -82,7 +82,7 @@
 
     Code
       tax_expand_lat(taxdf = data.frame(name = c("A", "B", "C"), max_lat = c("60",
-        "20", "-10"), min_lat = c(-92, -40, -60)), bins = bins)
+        "20", "-10"), min_lat = c(-90, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
       ! Column "max_lat" in `taxdf` must be numeric, not <character>.
