@@ -49,18 +49,8 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
       "Column {.val {lat}}  in {.arg occdf} must not have missing values."
     )
   }
-  lat_out_range <- lat_vals[lat_vals < -90 | lat_vals > 90]
-  if (length(lat_out_range) > 0) {
-    to_report <- unique(lat_out_range)
-    truncated <- if (length(to_report) > 5) " (first 5)" else ""
-    to_report <- cli::cli_vec(head(to_report, n = 5), list(`vec-last` = ", "))
-    cli::cli_abort(
-      c(
-        "All values of column {.val {lat}} in {.arg taxdf} must be between -90 and 90.",
-        "i" = "Value(s) outside the range{truncated}: {.val {to_report}}."
-      )
-    )
-  }
+
+  check_range(occdf, lat, -90, 90)
 
   #=== Set up ===
   # Add mid bin

@@ -60,6 +60,6 @@
       bin_lat(occdf = occdf, bins = bins, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! All values of column "lat" in `taxdf` must be between -90 and 90.
+      ! All values of column "lat" in `occdf` must be between -90 and 90.
       i Value(s) outside the range: 91.
 
