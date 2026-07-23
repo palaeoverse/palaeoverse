@@ -3,7 +3,7 @@ test_that("bin_lat works", {
   bins <- lat_bins_degrees(size = 10)
 
   # We don't lose or gain observations
-  expect_message(
+  expect_warning(
     expect_equal(
       nrow(bin_lat(occdf = tetrapods, bins = bins, lat = "lat")),
       nrow(tetrapods)
