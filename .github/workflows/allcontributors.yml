@@ -8,6 +8,10 @@ on:
 
 name: Update allcontributors
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
 
   allcontributors:
@@ -35,9 +39,14 @@ jobs:
       - name: Update allcontributors
         run: Rscript -e 'allcontributors::add_contributors(ncols = 5, num_sections = 1)'
 
-      - name: Commit results
-        run: |
-          git config user.name  "Github Actions"
-          git config user.email "github-actions@github.com"
-          git commit README.md -m 'Update allcontributors on README.md' || echo "No changes to commit"
-          git push https://${{github.actor}}:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+        with:
+          commit-message: 'Update allcontributors in README.md'
+          author: 'Github Actions <github-actions@github.com>'
+          committer: 'Github Actions <github-actions@github.com>'
+          branch: update-allcontributors
+          delete-branch: true
+          title: 'Update allcontributors in README.md'
+          body: 'Automated update of the contributors list in README.md.'
+          add-paths: README.md
