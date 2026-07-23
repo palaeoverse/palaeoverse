@@ -13,7 +13,7 @@ latitudinal coordinates of occurrence data.}
 
 \item{bins}{\code{dataframe}. A dataframe of the bins that you wish to
 allocate fossil occurrences to, such as that returned by
-\code{\link[=lat_bins]{lat_bins()}}. This dataframe must
+\code{\link[=lat_bins_degrees]{lat_bins_degrees()}} and \code{\link[=lat_bins_area]{lat_bins_area()}}. This dataframe must
 contain at least the following named columns: "bin", "max" and "min".}
 
 \item{lat}{\code{character}. The name of the column you wish to be treated

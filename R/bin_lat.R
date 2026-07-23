@@ -7,7 +7,7 @@
 #' latitudinal coordinates of occurrence data.
 #' @param bins `dataframe`. A dataframe of the bins that you wish to
 #' allocate fossil occurrences to, such as that returned by
-#' [`lat_bins()`]. This dataframe must
+#' [`lat_bins_degrees()`] and [`lat_bins_area()`]. This dataframe must
 #' contain at least the following named columns: "bin", "max" and "min".
 #' @param lat `character`. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat"). This column should contain
