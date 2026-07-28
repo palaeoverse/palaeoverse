@@ -17,6 +17,22 @@
 ---
 
     Code
+      bin_space(occdf = tetrapods, spacing = 1:2)
+    Condition
+      Error in `bin_space()`:
+      ! `spacing` must be of length 1, not 2.
+
+---
+
+    Code
+      bin_space(occdf = tetrapods, sub_grid = 1:2)
+    Condition
+      Error in `bin_space()`:
+      ! `sub_grid` must be of length 1, not 2.
+
+---
+
+    Code
       bin_space(occdf = tetrapods, spacing = 1000, sub_grid = NA)
     Condition
       Error in `bin_space()`:

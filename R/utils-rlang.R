@@ -35,7 +35,7 @@ check_range <- function(data, x, min, max) {
   }
 }
 
-check_numeric <- function(
+check_numeric_scalar <- function(
   x,
   ...,
   allow_na = TRUE,
@@ -44,6 +44,16 @@ check_numeric <- function(
   call = rlang::caller_env()
 ) {
   if (!missing(x)) {
+    if (allow_null && is.null(x)) {
+      return(invisible(NULL))
+    }
+    if (length(x) != 1) {
+      cli::cli_abort(
+        "{.code {arg}} must be of length 1, not {length(x)}.",
+        arg = arg,
+        call = call
+      )
+    }
     if (is.numeric(x)) {
       if (!allow_na && anyNA(x)) {
         cli::cli_abort(
@@ -52,9 +62,6 @@ check_numeric <- function(
           call = call
         )
       }
-      return(invisible(NULL))
-    }
-    if (allow_null && is.null(x)) {
       return(invisible(NULL))
     }
   }
