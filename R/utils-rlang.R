@@ -40,7 +40,7 @@ check_numeric <- function(
   ...,
   allow_na = TRUE,
   allow_null = FALSE,
-  required_length = 1,
+  required_length = NULL,
   arg = rlang::caller_arg(x),
   call = rlang::caller_env()
 ) {
@@ -48,7 +48,7 @@ check_numeric <- function(
     if (allow_null && is.null(x)) {
       return(invisible(NULL))
     }
-    if (length(x) != required_length) {
+    if (!is.null(required_length) && length(x) != required_length) {
       cli::cli_abort(
         "{.code {arg}} must be of length {required_length}, not {length(x)}.",
         arg = arg,
