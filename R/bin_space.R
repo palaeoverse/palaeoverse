@@ -117,50 +117,17 @@ bin_space <- function(
   return = FALSE,
   plot = FALSE
 ) {
-  #=== Error handling ===
-  if (!is.data.frame(occdf)) {
-    stop("occdf should be of class dataframe")
-  }
+  rlang::check_data_frame(occdf)
 
-  if (
-    !lng %in% colnames(occdf) ||
-      !lat %in% colnames(occdf)
-  ) {
-    stop("input column names do not exist in `occdf`")
-  }
+  check_column_presence(occdf, lat)
+  check_column_presence(occdf, lng)
+  check_range(occdf, lat, -90, 90)
+  check_range(occdf, lng, -180, 180)
 
-  if (
-    !is.numeric(occdf[, lng, drop = TRUE]) ||
-      !is.numeric(occdf[, lat, drop = TRUE])
-  ) {
-    stop("input coordinates are not of class numeric")
-  }
-
-  if (
-    any(occdf[, lat, drop = TRUE] > 90) ||
-      any(occdf[, lat, drop = TRUE] < -90)
-  ) {
-    stop("Latitudinal coordinates should be more than -90 and less than 90")
-  }
-
-  if (
-    any(occdf[, lng, drop = TRUE] > 180) ||
-      any(occdf[, lng, drop = TRUE] < -180)
-  ) {
-    stop("Longitudinal coordinates should be more than -180 and less than 180")
-  }
-
-  if (!is.numeric(spacing)) {
-    stop("`spacing` should be of class numeric")
-  }
-
-  if (!is.null(sub_grid) && !is.numeric(sub_grid)) {
-    stop("`sub_grid` should be of class numeric or NULL")
-  }
-
-  if (!is.logical(return)) {
-    stop("`return` should be logical (TRUE/FALSE)")
-  }
+  check_numeric(spacing)
+  check_numeric(sub_grid, allow_null = TRUE)
+  rlang::check_bool(return)
+  rlang::check_bool(plot)
 
   #=== Set-up ===
   # Convert to sf object and add CRS

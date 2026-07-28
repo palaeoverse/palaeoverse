@@ -34,3 +34,38 @@ check_range <- function(data, x, min, max) {
     )
   }
 }
+
+check_numeric <- function(
+  x,
+  ...,
+  allow_na = TRUE,
+  allow_null = FALSE,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+) {
+  if (!missing(x)) {
+    if (is.numeric(x)) {
+      if (!allow_na && anyNA(x)) {
+        cli::cli_abort(
+          "{.code {arg}} can't contain NA values.",
+          arg = arg,
+          call = call
+        )
+      }
+      return(invisible(NULL))
+    }
+    if (allow_null && is.null(x)) {
+      return(invisible(NULL))
+    }
+  }
+
+  rlang::stop_input_type(
+    x,
+    "a numeric value",
+    ...,
+    allow_na = FALSE,
+    allow_null = allow_null,
+    arg = arg,
+    call = call
+  )
+}
