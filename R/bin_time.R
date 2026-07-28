@@ -123,64 +123,47 @@ bin_time <- function(
   fun = dunif,
   ...
 ) {
-  #=== Handling errors ===
-  if (!is.data.frame(occdf)) {
-    stop("`occdf` should be a dataframe.")
-  }
-  if (!is.data.frame(bins)) {
-    stop("`bins` should be a dataframe.")
-  }
-  if (
-    anyNA(occdf[, max_ma, drop = TRUE]) ||
-      anyNA(occdf[, min_ma, drop = TRUE])
-  ) {
-    stop(paste("NA values detected in", max_ma, "or", min_ma))
+  rlang::check_data_frame(occdf)
+  rlang::check_data_frame(bins)
+
+  check_column_presence(bins, min_ma)
+  check_column_presence(bins, max_ma)
+  check_column_presence(bins, "bin")
+
+  occdf_min_ma_vals <- occdf[[min_ma]]
+  occdf_max_ma_vals <- occdf[[max_ma]]
+  check_numeric(occdf_min_ma_vals, allow_na = FALSE, arg = "min_ma")
+  check_numeric(occdf_max_ma_vals, allow_na = FALSE, arg = "max_ma")
+
+  method <- rlang::arg_match(
+    method,
+    values = c("mid", "majority", "all", "random", "point")
+  )
+
+  check_numeric(reps, required_length = 1)
+
+  bins_min_ma_vals <- bins[[min_ma]]
+  bins_max_ma_vals <- bins[[max_ma]]
+
+  if (max(occdf_max_ma_vals) > max(bins_max_ma_vals)) {
+    cli::cli_abort(
+      "Maximum age of occurrence data surpasses maximum age of bins."
+    )
   }
 
-  possible_methods <- c("all", "majority", "random", "point", "mid")
-  method_match <- charmatch(method, possible_methods)
-
-  if (is.na(method_match)) {
-    # If the user has entered a non-valid term for the "method" argument,
-    # generate an error and warn the user.
-    stop(paste(
-      "Invalid `method`. Choose either: \n",
-      "'all', 'majority', 'random', 'point', or 'mid'."
-    ))
-  } else {
-    method <- possible_methods[method_match]
-  }
-
-  if (!is.numeric(reps)) {
-    stop("Invalid `reps`. Choose a numeric value.")
-  }
-
-  if (!all(c("bin", max_ma, min_ma) %in% colnames(bins))) {
-    stop(paste0(
-      "Either: bin, ",
-      max_ma,
-      ", or ",
-      min_ma,
-      " column(s) do not exist in `bins`."
-    ))
-  }
-
-  if (
-    is.numeric(occdf[, max_ma, drop = TRUE]) &&
-      max(occdf[, max_ma, drop = TRUE]) > max(bins[, max_ma, drop = TRUE])
-  ) {
-    stop("Maximum age of occurrence data surpasses maximum age of bins.")
-  }
-
-  if (
-    is.numeric(occdf[, min_ma, drop = TRUE]) &&
-      min(occdf[, min_ma, drop = TRUE]) < min(bins[, min_ma, drop = TRUE])
-  ) {
-    stop("Minimum age of occurrence data is less than minimum age of bins.")
+  if (min(occdf_min_ma_vals) < min(bins_min_ma_vals)) {
+    cli::cli_abort(
+      "Minimum age of occurrence data is less than minimum age of bins."
+    )
   }
 
   if (method == "point" && !is.function(fun)) {
-    stop("`fun` is not a function.")
+    cli::cli_abort(
+      c(
+        "Setting {.code method = \"point\"} requires {.arg fun} to be a function.",
+        "x" = "Problem: {.arg fun} is {class(fun)}."
+      )
+    )
   }
 
   #=== Reporting Info ===
