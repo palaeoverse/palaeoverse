@@ -166,9 +166,11 @@ bin_space <- function(
     ]
     # Throw error if grids are the same
     if (grid$h3_resolution == s_grid$h3_resolution) {
-      stop(
-        "`spacing` and `sub_grid` values result in the same resolution.
-    Update `spacing` and/or `sub_grid` accordingly."
+      cli::cli_abort(
+        c(
+          "{.arg spacing} and {.arg sub_grid} values result in the same resolution.",
+          "i" = "Update {.arg spacing} and/or {.arg sub_grid} accordingly."
+        )
       )
     }
 
@@ -240,12 +242,15 @@ bin_space <- function(
       names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
     }
   }
-  message(
-    "Average spacing between adjacent cells in the primary grid was set to ",
-    round(grid$avg_cendist_km[1], digits = 2),
-    " km. ",
-    "\nH3 resolution: ",
-    grid$h3_resolution[1]
+  cli::cli_inform(
+    c(
+      paste0(
+        "Average spacing between adjacent cells in the primary grid was set to ",
+        round(grid$avg_cendist_km[1], digits = 2),
+        " km. "
+      ),
+      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
+    )
   )
   return(occdf)
 }

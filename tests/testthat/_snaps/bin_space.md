@@ -61,7 +61,7 @@
     Condition
       Error in `bin_space()`:
       ! `spacing` and `sub_grid` values result in the same resolution.
-          Update `spacing` and/or `sub_grid` accordingly.
+      i Update `spacing` and/or `sub_grid` accordingly.
 
 ---
 
