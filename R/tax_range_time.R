@@ -198,7 +198,7 @@ tax_range_time <- function(
 #'   Details). Defaults to "periods".
 #' @export
 plot.palaeo_tax_range_time <- function(x, y, ..., intervals = "period") {
-  # We want to pass `plot(bins)` but `bins` should be used on the y-axis only.
+  # We want to pass `plot(<something>)`
   if (missing(y)) {
     invisible()
   }

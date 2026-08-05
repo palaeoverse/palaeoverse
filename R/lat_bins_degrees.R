@@ -122,7 +122,7 @@ lat_bins_degrees <- function(
 #' @name plot_palaeo
 #' @export
 plot.palaeo_lat_degrees <- function(x, y, ...) {
-  # We want to pass `plot(bins)` but `bins` should be used on the y-axis only.
+  # We want to pass `plot(<something>)`
   if (missing(y)) {
     invisible()
   }

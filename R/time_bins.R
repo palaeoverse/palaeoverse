@@ -520,7 +520,7 @@ time_bins <- function(
 #' @name plot_palaeo
 #' @export
 plot.palaeo_time_bins <- function(x, y, ...) {
-  # We want to pass `plot(bins)` but `bins` should be used on the y-axis only.
+  # We want to pass `plot(<something>)`
   if (missing(y)) {
     invisible()
   }

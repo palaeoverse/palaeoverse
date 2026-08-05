@@ -118,7 +118,7 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371) {
 #' @name plot_palaeo
 #' @export
 plot.palaeo_lat_bins <- function(x, y, ...) {
-  # We want to pass `plot(bins)` but `bins` should be used on the y-axis only.
+  # We want to pass `plot(<something>)`
   if (missing(y)) {
     invisible()
   }

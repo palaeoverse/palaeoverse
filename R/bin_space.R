@@ -273,7 +273,7 @@ bin_space <- function(
 #' @name plot_palaeo
 #' @export
 plot.palaeo_bin_space <- function(x, y, ...) {
-  # We want to pass `plot(bins)` but `bins` should be used on the y-axis only.
+  # We want to pass `plot(<something>)`
   if (missing(y)) {
     invisible()
   }
