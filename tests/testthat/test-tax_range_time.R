@@ -39,3 +39,20 @@ test_that("tax_range_time() resets row names", {
   result <- tax_range_time(occdf = tetrapods, name = "order")
   expect_equal(row.names(result), as.character(seq_len(nrow(result))))
 })
+
+test_that("tax_range_time plotting works", {
+  occdf <- tetrapods
+  occdf <- subset(occdf, !is.na(genus))
+
+  expect_doppelganger("tax_range_time", function() {
+    plot(tax_range_time(occdf = occdf))
+  })
+  expect_doppelganger("tax_range_time with custom args", function() {
+    plot(
+      tax_range_time(occdf = occdf),
+      main = "foo",
+      xlab = "bar",
+      ylab = "baz"
+    )
+  })
+})
