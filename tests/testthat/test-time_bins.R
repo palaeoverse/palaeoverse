@@ -231,3 +231,12 @@ test_that("time_bins() works", {
   )
   expect_snapshot(time_bins(scale = scale, size = 15), error = TRUE)
 })
+
+test_that("bin_time plotting works", {
+  occdf <- tetrapods
+  occdf <- subset(occdf, !is.na(genus))
+
+  expect_doppelganger("bin_time", function() {
+    plot(time_bins(scale = "North american land mammal ages"))
+  })
+})

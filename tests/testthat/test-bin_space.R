@@ -79,3 +79,11 @@ test_that("bin_space error handling", {
   occdf$lng[1] <- "184"
   expect_snapshot(bin_space(occdf = occdf), error = TRUE)
 })
+
+test_that("bin_space plotting works", {
+  occdf <- head(tetrapods, n = 100)
+
+  expect_doppelganger("bin_space", function() {
+    plot(bin_space(occdf, spacing = 250))
+  })
+})
