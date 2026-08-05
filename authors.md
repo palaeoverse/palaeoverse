@@ -9,7 +9,7 @@
   [](https://orcid.org/0000-0003-0076-3262)
 
 - **[Bethany J.
-  Allen](https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484)**.
+  Allen](https://www.gfz.de/en/staff/bethany.janet.allen/sec47)**.
   Author. [](https://orcid.org/0000-0003-0282-6407)
 
 - **[Kilian Eichenseer](https://keichenseer.netlify.app)**. Author.
@@ -19,7 +19,8 @@
   Dean](https://www.ucl.ac.uk/earth-sciences/people/research-staff/dr-chris-dean)**.
   Author. [](https://orcid.org/0000-0001-6471-6903)
 
-- **Etienne Bacher**. Author. [](https://orcid.org/0000-0002-9271-5075)
+- **[Etienne Bacher](https://www.etiennebacher.com)**. Author.
+  [](https://orcid.org/0000-0002-9271-5075)
 
 - **[Joseph T.
   Flannery-Sutherland](https://www.researchgate.net/profile/Joseph-Flannery-Sutherland)**.
