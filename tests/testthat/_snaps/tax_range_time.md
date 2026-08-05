@@ -41,14 +41,6 @@
 ---
 
     Code
-      tax_range_time(occdf = occdf, plot = "test")
-    Condition
-      Error in `tax_range_time()`:
-      ! `plot` should be logical (TRUE/FALSE)
-
----
-
-    Code
       tax_range_time(occdf = occdf, name = "test")
     Condition
       Error in `tax_range_time()`:
@@ -61,7 +53,7 @@
       tax_range_time(occdf = occdf, plot_args = "test")
     Condition
       Error in `tax_range_time()`:
-      ! `plot_args` must be either NULL, or a list
+      ! unused argument (plot_args = "test")
 
 ---
 

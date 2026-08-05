@@ -118,22 +118,6 @@
 ---
 
     Code
-      lat_bins_area(plot = "TRUE")
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` should be logical (TRUE/FALSE).
-
----
-
-    Code
-      lat_bins_area(plot = logical(0))
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` must have length 1.
-
----
-
-    Code
       lat_bins_area(r = "Earth")
     Condition
       Error in `lat_bins_area()`:

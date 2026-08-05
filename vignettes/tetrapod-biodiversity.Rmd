@@ -83,8 +83,7 @@ There are two `palaeoverse` functions that help us to assign occurrences to diff
 # Generate time bins
 bins <- time_bins(interval = c("Carboniferous", "Permian"),
                   rank = "stage",
-                  scale = "GTS2012",
-                  plot = FALSE)
+                  scale = "GTS2012")
 
 head(bins)
 ```

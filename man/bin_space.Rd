@@ -10,8 +10,7 @@ bin_space(
   lat = "lat",
   spacing = 100,
   sub_grid = NULL,
-  return = FALSE,
-  plot = FALSE
+  return = FALSE
 )
 }
 \arguments{
@@ -36,9 +35,6 @@ See details for information on sub-grid usage.}
 
 \item{return}{\code{logical}. Should the equal-area grid information and
 polygons be returned?}
-
-\item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
-be plotted?}
 }
 \value{
 If the \code{return} argument is set to \code{FALSE}, a dataframe is
@@ -95,10 +91,10 @@ data("reefs")
 occdf <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
-ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
+ex1 <- bin_space(occdf = occdf, spacing = 500)
 
 # Bin data using a hexagonal equal-area grid and sub-grid
-ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
 
 # EXAMPLE: rarefy
 # Load data

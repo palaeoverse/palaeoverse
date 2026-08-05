@@ -18,16 +18,14 @@ test_that("time_bins() works", {
   expect_true(
     is.list(time_bins(
       interval = c("Fortunian", "Meghalayan"),
-      assign = c(232, 167, 33),
-      plot = TRUE
+      assign = c(232, 167, 33)
     ))
   )
   expect_true(
     is.list(time_bins(
       interval = c("Fortunian", "Holocene"),
       scale = "GTS2012",
-      assign = c(232, 167, 33),
-      plot = TRUE
+      assign = c(232, 167, 33)
     ))
   )
   expect_true(is.vector(
@@ -43,8 +41,7 @@ test_that("time_bins() works", {
     expect_equal(
       nrow(time_bins(
         interval = c("Fortunian", "Meghalayan"),
-        size = 10,
-        plot = TRUE
+        size = 10
       )),
       54
     )
@@ -75,7 +72,7 @@ test_that("time_bins() works", {
   )
   expect_equal(nrow(time_bins(interval = c(500, 0), scale = "GTS2012")), 94)
   expect_equal(
-    nrow(time_bins(interval = "Mesozoic", scale = "GTS2012", plot = TRUE)),
+    nrow(time_bins(interval = "Mesozoic", scale = "GTS2012")),
     30
   )
   expect_equal(nrow(time_bins(interval = "Mesozoic", rank = "period")), 3)
@@ -91,8 +88,7 @@ test_that("time_bins() works", {
       nrow(time_bins(
         interval = c(0, 200),
         rank = "period",
-        n_bins = 4,
-        plot = TRUE
+        n_bins = 4
       )),
       4
     )
@@ -148,7 +144,7 @@ test_that("time_bins() works", {
   expect_message({
     bins_size <- time_bins(size = 50)
   })
-  expect_equal(bins_n, bins_size)
+  expect_equal(bins_n, bins_size, ignore_attr = TRUE)
 
   # Test edge effect resolve
   expect_message(
@@ -184,30 +180,27 @@ test_that("time_bins() works", {
   expect_snapshot(
     time_bins(
       interval = "Mastrichtian",
-      scale = "GTS2012",
-      plot = TRUE
+      scale = "GTS2012"
     ),
     error = TRUE
   )
   expect_snapshot(
     time_bins(
       interval = "Mastrichtian",
-      scale = "2012",
-      plot = TRUE
+      scale = "2012"
     ),
     error = TRUE
   )
   expect_snapshot(
-    time_bins(interval = 700, scale = "GTS2020", plot = TRUE),
+    time_bins(interval = 700, scale = "GTS2020"),
     error = TRUE
   )
-  expect_snapshot(time_bins(interval = -1, plot = TRUE), error = TRUE)
+  expect_snapshot(time_bins(interval = -1), error = TRUE)
   expect_snapshot(time_bins(interval = data.frame()), error = TRUE)
   expect_snapshot(
-    time_bins(interval = c(50, 10, 20), plot = TRUE),
+    time_bins(interval = c(50, 10, 20)),
     error = TRUE
   )
-  expect_snapshot(time_bins(interval = "Mesozoic", plot = "TRUE"), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", assign = 40), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", assign = -40), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", assign = "30"), error = TRUE)

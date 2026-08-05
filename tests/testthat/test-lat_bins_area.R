@@ -31,9 +31,6 @@ test_that("lat_bins_area errors with wrong inputs", {
 
   expect_snapshot(lat_bins_area(min = 90, max = -90), error = TRUE)
 
-  expect_snapshot(lat_bins_area(plot = "TRUE"), error = TRUE)
-  expect_snapshot(lat_bins_area(plot = logical(0)), error = TRUE)
-
   expect_snapshot(lat_bins_area(r = "Earth"), error = TRUE)
   expect_snapshot(lat_bins_area(r = numeric(0)), error = TRUE)
 
@@ -43,6 +40,6 @@ test_that("lat_bins_area errors with wrong inputs", {
 
 test_that("lat_bins_area plotting works", {
   expect_doppelganger("lat_bins_area", function() {
-    lat_bins_area(n = 12, plot = TRUE)
+    plot(lat_bins_area(n = 12))
   })
 })

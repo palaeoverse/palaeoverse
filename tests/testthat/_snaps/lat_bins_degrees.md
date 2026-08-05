@@ -175,35 +175,3 @@
       Error in `lat_bins_degrees()`:
       ! `fit` must have length 1.
 
-# argument 'plot' works
-
-    Code
-      lat_bins_degrees(plot = 100)
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` should be logical (TRUE/FALSE)
-
----
-
-    Code
-      lat_bins_degrees(plot = logical(0))
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must have length 1.
-
----
-
-    Code
-      lat_bins_degrees(plot = NA)
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` should be logical (TRUE/FALSE)
-
----
-
-    Code
-      lat_bins_degrees(plot = c(TRUE, TRUE))
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must have length 1.
-
