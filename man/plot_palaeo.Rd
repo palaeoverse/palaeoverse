@@ -21,6 +21,13 @@
 \method{plot}{palaeo_time_bins}(x, y, ...)
 }
 \arguments{
+\item{x}{Object to plot.}
+
+\item{y}{Unused.}
+
+\item{...}{If \code{x} is of class \code{palaeo_tax_range_time}, additional arguments to
+customize the plot. See Details. Otherwise, unused.}
+
 \item{intervals}{\code{character}. The time interval information used to
 plot the x-axis: either A) a \code{character} string indicating a rank of
 intervals from the built-in \code{\link{GTS2020}}, B) a \code{character}
