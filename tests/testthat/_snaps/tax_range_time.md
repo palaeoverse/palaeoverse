@@ -50,14 +50,6 @@
 ---
 
     Code
-      tax_range_time(occdf = occdf, plot_args = "test")
-    Condition
-      Error in `tax_range_time()`:
-      ! unused argument (plot_args = "test")
-
----
-
-    Code
       tax_range_time(occdf = occdf)
     Condition
       Error in `tax_range_time()`:

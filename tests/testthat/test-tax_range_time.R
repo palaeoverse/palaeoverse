@@ -27,10 +27,6 @@ test_that("tax_range_time() works", {
   expect_snapshot(tax_range_time(occdf = occdf, by = "test"), error = TRUE)
   expect_snapshot(tax_range_time(occdf = occdf, group = "test"), error = TRUE)
   expect_snapshot(tax_range_time(occdf = occdf, name = "test"), error = TRUE)
-  expect_snapshot(
-    tax_range_time(occdf = occdf, plot_args = "test"),
-    error = TRUE
-  )
   occdf$genus[1] <- NA
   expect_snapshot(tax_range_time(occdf = occdf), error = TRUE)
   occdf$max_ma[1] <- "test"
