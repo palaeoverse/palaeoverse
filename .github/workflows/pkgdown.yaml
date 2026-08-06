@@ -43,7 +43,8 @@ jobs:
       # check them in the rendered HTML files.
       #
       # New pages created by the PR do not exist yet on the rendered website so we need to
-      # "remap" those links to the "gh-pages" branch. We need to remap two kinds of links:
+      # "remap" those links to the github workspace used by this branch. We need to remap two 
+      # kinds of links:
       # - links to palaeoverse.palaeoverse.org, e.g. a reference page for a new function
       # - links to github.com/palaeoverse/palaeoverse/blob/HEAD, e.g. links to the source 
       #   code that exist at the top of each reference page. If we add a new reference page
