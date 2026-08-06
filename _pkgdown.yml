@@ -102,7 +102,6 @@ reference:
   - lat_bins_degrees
   - time_bins
   - group_apply
-  - foo
 
 - title: Built-in data
   desc: >
