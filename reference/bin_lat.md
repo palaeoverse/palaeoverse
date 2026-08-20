@@ -21,7 +21,9 @@ bin_lat(occdf, bins, lat = "lat", boundary = FALSE)
 
   `dataframe`. A dataframe of the bins that you wish to allocate fossil
   occurrences to, such as that returned by
-  [`lat_bins()`](https://palaeoverse.palaeoverse.org/reference/lat_bins.md).
+  [`lat_bins_degrees()`](https://palaeoverse.palaeoverse.org/reference/lat_bins_degrees.md)
+  and
+  [`lat_bins_area()`](https://palaeoverse.palaeoverse.org/reference/lat_bins_area.md).
   This dataframe must contain at least the following named columns:
   "bin", "max" and "min".
 
