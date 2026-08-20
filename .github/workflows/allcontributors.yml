@@ -50,3 +50,4 @@ jobs:
           title: 'Update allcontributors in README.md'
           body: 'Automated update of the contributors list in README.md.'
           add-paths: README.md
+          token: ${{ secrets.ALLCONTRIBUTORS_PAT }}
