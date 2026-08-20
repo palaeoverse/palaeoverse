@@ -42,21 +42,26 @@ jobs:
       # links in Rd files or in vignettes because of the file format, but it will be able to
       # check them in the rendered HTML files.
       #
-      # We also exclude 404.html since it is the only page that absolute paths (because it
-      # doesn't know which request failed so it can't resolve relative paths). This means
-      # it fails until the updated website gets deployed.
+      # New pages created by the PR do not exist yet on the rendered website so we need to
+      # "remap" those links to the github workspace used by this branch. We need to remap two 
+      # kinds of links:
+      # - links to palaeoverse.palaeoverse.org, e.g. a reference page for a new function
+      # - links to github.com/palaeoverse/palaeoverse/blob/HEAD, e.g. links to the source 
+      #   code that exist at the top of each reference page. If we add a new reference page
+      #   in a PR then the source code may not exist yet on the main branch. 
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@39066c6d1f0de280863a3760160617e188b607ad # v2
         with:
           args: |
             docs
-            --root-dir=docs
+            --root-dir=${{ github.workspace }}/docs
+            --remap 'https://palaeoverse\.palaeoverse\.org/(.*) file://${{ github.workspace }}/docs/$1'
+            --remap 'https://github\.com/palaeoverse/palaeoverse/blob/HEAD/(.*) file://${{ github.workspace }}/$1'
             --max-concurrency 4
             --max-retries 5
             --retry-wait-time 5
             --timeout 10
-            --exclude-path docs/404.html
             --exclude '(^https://doi\.org)|(fsf\.org)|(gnu\.org)|(researchgate\.net)'
             --accept 200,429
 
