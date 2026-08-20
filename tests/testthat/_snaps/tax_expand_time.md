@@ -1,4 +1,4 @@
-# basic behavior works
+# basic behaviour works
 
     Code
       tax_expand_time()
