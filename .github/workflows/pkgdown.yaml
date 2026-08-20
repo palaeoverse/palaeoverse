@@ -37,6 +37,29 @@ jobs:
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
+      # This is almost the same call as in check-links.yaml but this time we run it on the 
+      # rendered pkgdown website. The reason for that is that lychee apparently doesn't find 
+      # links in Rd files or in vignettes because of the file format, but it will be able to
+      # check them in the rendered HTML files.
+      #
+      # We also exclude 404.html since it is the only page that absolute paths (because it
+      # doesn't know which request failed so it can't resolve relative paths). This means
+      # it fails until the updated website gets deployed.
+      - name: Link Checker
+        id: lychee
+        uses: lycheeverse/lychee-action@39066c6d1f0de280863a3760160617e188b607ad # v2
+        with:
+          args: |
+            docs
+            --root-dir=docs
+            --max-concurrency 4
+            --max-retries 5
+            --retry-wait-time 5
+            --timeout 10
+            --exclude-path docs/404.html
+            --exclude '(^https://doi\.org)|(fsf\.org)|(gnu\.org)|(researchgate\.net)'
+            --accept 200,429
+
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
