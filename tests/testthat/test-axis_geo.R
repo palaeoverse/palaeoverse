@@ -251,7 +251,7 @@ test_that("axis_geo() error handling", {
   expect_snapshot(axis_geo(height = c(0.5, 0.5)), error = TRUE)
   expect_snapshot(axis_geo(fill = 5), error = TRUE)
   expect_snapshot(axis_geo(lab = "true"), error = TRUE)
-  expect_snapshot(axis_geo(lab_color = 42), error = TRUE)
+  expect_snapshot(axis_geo(lab_col = 42), error = TRUE)
   expect_snapshot(axis_geo(lab_size = "big"), error = TRUE)
   expect_snapshot(axis_geo(rot = NULL), error = TRUE)
   expect_snapshot(axis_geo(abbr = c("true", 1)), error = TRUE)
@@ -262,4 +262,17 @@ test_that("axis_geo() error handling", {
   expect_snapshot(axis_geo(lty = 7), error = TRUE)
   expect_snapshot(axis_geo(lwd = "thin"), error = TRUE)
   expect_snapshot(axis_geo(side = 5), error = TRUE)
+
+  skip_if_not_installed("phytools")
+  library(phytools)
+  data(mammal.tree)
+
+  plot(mammal.tree, type = "unrooted")
+  expect_snapshot(axis_geo(phylo = TRUE), error = TRUE)
+
+  plot(mammal.tree, type = "radial")
+  expect_snapshot(axis_geo(phylo = TRUE), error = TRUE)
+
+  plot(mammal.tree, type = "fan")
+  expect_snapshot(axis_geo(phylo = TRUE), error = TRUE)
 })

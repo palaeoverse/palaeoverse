@@ -27,10 +27,10 @@
 ---
 
     Code
-      axis_geo(lab_color = 42)
+      axis_geo(lab_col = 42)
     Condition
-      Error in `rect()`:
-      ! plot.new has not been called yet
+      Error:
+      ! Invalid value supplied for lab_col, must be character (or NULL)
 
 ---
 
@@ -115,4 +115,29 @@
     Condition
       Error:
       ! Invalid value supplied for side, must be 1, 2, 3, or 4
+
+---
+
+    Code
+      axis_geo(phylo = TRUE)
+    Condition
+      Error in `axis_geo()`:
+      ! axis_geo() not available for unrooted plots;
+                 try ape::add.scale.bar()
+
+---
+
+    Code
+      axis_geo(phylo = TRUE)
+    Condition
+      Error in `axis_geo()`:
+      ! axis_geo() not meaningful for radial or fan plots
+
+---
+
+    Code
+      axis_geo(phylo = TRUE)
+    Condition
+      Error in `axis_geo()`:
+      ! axis_geo() not meaningful for radial or fan plots
 
