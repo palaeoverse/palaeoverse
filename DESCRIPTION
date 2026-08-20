@@ -37,7 +37,7 @@ Description: Provides functionality to support data preparation and exploration 
   data cleaning, binning (time and space), exploration, summarisation and 
   visualisation. Reference datasets (i.e. Geological Time Scales <https://stratigraphy.org/chart/>)
   and auxiliary functions are also provided. Details can be found in:
-  Jones et al., (2023) <doi: 10.1111/2041-210X.14099>.
+  Jones et al., (2023) <doi:10.1111/2041-210X.14099>.
 License: GPL (>= 3)
 Language: en-GB
 Encoding: UTF-8
@@ -71,6 +71,7 @@ Suggests:
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/testthat/parallel: true
+Config/Needs/website: palaeoverse/palaeoverse.template
 URL: https://palaeoverse.palaeoverse.org,
      https://github.com/palaeoverse/palaeoverse,
      https://palaeoverse.org
