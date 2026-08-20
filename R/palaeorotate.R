@@ -218,8 +218,13 @@ palaeorotate <- function(
     stop("`method` should be either 'grid' or 'point'.")
   }
 
-  if (!is.null(round) && !is.numeric(round)) {
-    stop("`round` should be NULL or of class numeric.")
+  if (!is.null(round)) {
+    if (!is.numeric(round)) {
+      stop("`round` should be NULL or of class numeric.")
+    }
+    if (length(round) != 1) {
+      stop("`round` must have length 1.")
+    }
   }
 
   if (!is.logical(uncertainty)) {
@@ -227,7 +232,7 @@ palaeorotate <- function(
   }
 
   if (length(model) == 0) {
-    stop("`model` should have length > 1.")
+    stop("`model` must have length >= 1.")
   }
 
   # Add stop for removed models

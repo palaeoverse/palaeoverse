@@ -109,7 +109,7 @@
       palaeorotate(occdf = occdf, method = "point", model = character(0))
     Condition
       Error in `palaeorotate()`:
-      ! `model` should have length > 1.
+      ! `model` must have length >= 1.
 
 ---
 
@@ -205,6 +205,14 @@
     Code
       palaeorotate(occdf = occdf, round = numeric(0))
     Condition
-      Error in `FUN()`:
-      ! invalid second argument of length 0
+      Error in `palaeorotate()`:
+      ! `round` must have length 1.
+
+---
+
+    Code
+      palaeorotate(occdf = occdf, round = 1:2)
+    Condition
+      Error in `palaeorotate()`:
+      ! `round` must have length 1.
 
