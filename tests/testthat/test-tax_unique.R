@@ -1,4 +1,4 @@
-test_that("basic behavior works", {
+test_that("basic behaviour works", {
   # fmt: skip
   dinosaurs <- data.frame(
     species = c("rex", "aegyptiacus", NA, NA, "rex"),
