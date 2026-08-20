@@ -1,4 +1,4 @@
-test_that("time_bins() default behavior", {
+test_that("time_bins() default behaviour", {
   res <- time_bins()
 
   expect_true(is.data.frame(res))
