@@ -1,4 +1,4 @@
-test_that("basic behavior works", {
+test_that("basic behaviour works", {
   taxdf <- data.frame(
     name = c("A", "B"),
     max_ma = c(150, 30),
