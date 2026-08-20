@@ -1,4 +1,4 @@
-test_that("basic behavior works", {
+test_that("basic behaviour works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
