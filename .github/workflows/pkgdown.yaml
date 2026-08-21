@@ -20,7 +20,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: r-lib/actions/setup-pandoc@d3c5be51b12e724e68f33216ca3c148b66d5f0b6 # v2
 
@@ -51,7 +51,7 @@ jobs:
       #   in a PR then the source code may not exist yet on the main branch. 
       - name: Link Checker
         id: lychee
-        uses: lycheeverse/lychee-action@39066c6d1f0de280863a3760160617e188b607ad # v2
+        uses: lycheeverse/lychee-action@649b0e4890508ea3e11ea6b3ee35ce899a25afd5 # v2
         with:
           args: |
             docs
