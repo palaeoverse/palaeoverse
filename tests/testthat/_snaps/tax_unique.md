@@ -1,7 +1,7 @@
-# tax_unique() works
+# basic behaviour works
 
     Code
-      tax_unique(species = "species", genus = "genus")
+      tax_unique()
     Condition
       Error in `tax_unique()`:
       ! Must enter an `occdf` of occurrences or taxon names
@@ -9,7 +9,15 @@
 ---
 
     Code
-      tax_unique(occdf = 100)
+      tax_unique(data.frame())
+    Condition
+      Error in `tax_unique()`:
+      ! At least one higher taxonomic level must be supplied (e.g. `family`)
+
+---
+
+    Code
+      tax_unique(100)
     Condition
       Error in `tax_unique()`:
       ! `occdf` must be a data.frame
@@ -17,15 +25,17 @@
 ---
 
     Code
-      tax_unique(occdf = tetrapods, binomial = "test")
+      tax_unique(NA)
     Condition
       Error in `tax_unique()`:
-      ! `occdf` does not contain column name provided to `binomial`
+      ! `occdf` must be a data.frame
 
 ---
 
     Code
-      tax_unique(occdf = tetrapods, species = "test")
+      tax_unique(data.frame(genus = "Tyrannosaurus", binomial = "Tyrannosaurus rex",
+        family = "Tyrannosauridae", order = "Coelurosauria", class = "Tetanurae"),
+      species = "species", genus = "genus")
     Condition
       Error in `tax_unique()`:
       ! `occdf` does not contain column name provided to `species`
@@ -33,12 +43,88 @@
 ---
 
     Code
-      tax_unique(occdf = tetrapods, genus = "test")
+      tax_unique(data.frame(species = "Tyrannosaurus", binomial = "Tyrannosaurus rex",
+        family = "Tyrannosauridae", order = "Coelurosauria", class = "Tetanurae"),
+      species = "species", genus = "genus")
     Condition
       Error in `tax_unique()`:
       ! `occdf` does not contain column name provided to `genus`
 
+# tax_unique() cannot use the same column for multiple arguments
+
+    Code
+      tax_unique(dinosaurs, family = "species", genus = "species")
+    Condition
+      Error in `tax_unique()`:
+      ! Species names must be supplied by specifying `binomial`, `genus` and
+          `species`, or `genus` and `name` columns to estimate richness at species
+          level
+
 ---
+
+    Code
+      tax_unique(dinosaurs, binomial = "species", genus = "species")
+    Condition
+      Error in `tax_unique()`:
+      ! At least one higher taxonomic level must be supplied (e.g. `family`)
+
+# arg 'binomial' works
+
+    Code
+      tax_unique(dinosaurs, binomial = "test")
+    Condition
+      Error in `tax_unique()`:
+      ! `occdf` does not contain column name provided to `binomial`
+
+---
+
+    Code
+      tax_unique(dinosaurs, binomial = character(0))
+    Condition
+      Error in `tax_unique()`:
+      ! `binomial` must have length 1.
+
+---
+
+    Code
+      tax_unique(dinosaurs, binomial = 1)
+    Condition
+      Error in `tax_unique()`:
+      ! `occdf` does not contain column name provided to `binomial`
+
+---
+
+    Code
+      tax_unique(dinosaurs, binomial = NA)
+    Condition
+      Error in `tax_unique()`:
+      ! `occdf` does not contain column name provided to `binomial`
+
+# arg 'name' works
+
+    Code
+      tax_unique(dinosaurs, genus = "genus", family = "family", name = "test")
+    Condition
+      Error in `tax_unique()`:
+      ! `occdf` does not contain column name provided to `names`
+
+---
+
+    Code
+      tax_unique(dinosaurs, genus = "genus", family = "family", name = character(0))
+    Condition
+      Error in `tax_unique()`:
+      ! `name` must have length 1.
+
+---
+
+    Code
+      tax_unique(dinosaurs, genus = "genus", family = "family", name = 1)
+    Condition
+      Error in `tax_unique()`:
+      ! `occdf` does not contain column name provided to `names`
+
+# higher taxonomic levels supplied via `...` work
 
     Code
       tax_unique(occdf = dinosaurs, species = "species", genus = "genus")
@@ -49,7 +135,7 @@
 ---
 
     Code
-      tax_unique(occdf = dinosaurs, species = "species", genus = "genus", family = "test")
+      tax_unique(dinosaurs, species = "species", genus = "genus", family = "test")
     Condition
       Error in `tax_unique()`:
       ! `occdf` does not contain column name provided to `family`
@@ -57,67 +143,73 @@
 ---
 
     Code
-      tax_unique(occdf = dinosaurs, species = "species", genus = "genus", family = "family",
-        order = "test")
+      tax_unique(dinosaurs, species = "species", genus = "genus", family = character(
+        0))
     Condition
       Error in `tax_unique()`:
-      ! `occdf` does not contain column name provided to `order`
+      ! `family` must have length 1.
 
 ---
+
+    Code
+      tax_unique(dinosaurs, species = "species", genus = "genus", family = NA)
+    Condition
+      Error in `tax_unique()`:
+      ! `occdf` does not contain column name provided to `family`
+
+# arg 'resolution' works
 
     Code
       tax_unique(occdf = dinosaurs, species = "species", genus = "genus", family = "family",
-        order = "order", class = "test")
+        resolution = "test")
     Condition
       Error in `tax_unique()`:
-      ! `occdf` does not contain column name provided to `class`
+      ! Resolution must be 'species' or 'genus'
 
 ---
 
     Code
-      tax_unique(occdf = dinosaurs, genus = "genus", family = "family", order = "order",
-        class = "class", name = "test")
+      tax_unique(occdf = dinosaurs, species = "species", genus = "genus", family = "family",
+        resolution = 1)
     Condition
       Error in `tax_unique()`:
-      ! `occdf` does not contain column name provided to `names`
+      ! Resolution must be 'species' or 'genus'
 
 ---
 
     Code
-      tax_unique(occdf = dinosaurs, genus = "genus", family = "family")
+      tax_unique(occdf = dinosaurs, species = "species", genus = "genus", family = "family",
+        resolution = character(0))
     Condition
       Error in `tax_unique()`:
-      ! Species names must be supplied by specifying `binomial`, `genus` and
-          `species`, or `genus` and `name` columns to estimate richness at species
-          level
+      ! `resolution` must have length 1.
+
+# arg 'append' works
+
+    Code
+      tax_unique(dinosaurs, species = "species", genus = "genus", family = "family",
+        order = "order", class = "class", append = "foo")
+    Condition
+      Error in `tax_unique()`:
+      ! `append` must be a logical.
 
 ---
 
     Code
-      tax_unique(occdf = dinosaurs, species = "species", family = "family",
+      tax_unique(dinosaurs, species = "species", genus = "genus", family = "family",
+        order = "order", class = "class", append = logical(0))
+    Condition
+      Error in `tax_unique()`:
+      ! `append` must have length 1.
+
+# taxonomic columns must not contain punctuation
+
+    Code
+      tax_unique(occdf = tetrapods, genus = "identified_name", family = "family",
         resolution = "genus")
     Condition
       Error in `tax_unique()`:
-      ! Genus names must be supplied by specifying `binomial` or `genus`
-          columns to estimate richness at genus level
-
----
-
-    Code
-      tax_unique(occdf = tetrapods, genus = "genus", family = "family", class = "identified_name",
-        resolution = "genus")
-    Condition
-      Error in `tax_unique()`:
-      ! `class` column should not contain punctuation
-
----
-
-    Code
-      tax_unique(occdf = tetrapods, genus = "genus", family = "family", order = "identified_name",
-        resolution = "genus")
-    Condition
-      Error in `tax_unique()`:
-      ! `order` column should not contain punctuation
+      ! `genus` column should not contain punctuation
 
 ---
 
@@ -131,46 +223,9 @@
 ---
 
     Code
-      tax_unique(occdf = tetrapods, genus = "identified_name", family = "family",
-        resolution = "genus")
-    Condition
-      Error in `tax_unique()`:
-      ! `genus` column should not contain punctuation
-
----
-
-    Code
       tax_unique(occdf = tetrapods, species = "identified_name", genus = "genus",
         family = "family", resolution = "genus")
     Condition
       Error in `tax_unique()`:
       ! `species` column should not contain punctuation
-
----
-
-    Code
-      tax_unique(occdf = tetrapods, genus = "genus", family = "family", binomial = "identified_name",
-        resolution = "genus")
-    Condition
-      Error in `tax_unique()`:
-      ! `binomial` column should not contain punctuation except spaces or
-               underscores
-
----
-
-    Code
-      tax_unique(occdf = tetrapods, genus = "genus", family = "family", name = "identified_name")
-    Condition
-      Error in `tax_unique()`:
-      ! `name` column should not contain punctuation except spaces or
-               underscores
-
----
-
-    Code
-      tax_unique(occdf = dinosaurs, species = "species", genus = "genus", family = "family",
-        resolution = "test")
-    Condition
-      Error in `tax_unique()`:
-      ! Resolution must be 'species' or 'genus'
 
