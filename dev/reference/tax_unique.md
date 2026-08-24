@@ -1,0 +1,188 @@
+# Filter occurrences to unique taxa
+
+A function to filter a list of taxonomic occurrences to unique taxa of a
+predefined resolution. Occurrences identified to a coarser taxonomic
+resolution than the desired level are retained if they belong to a clade
+which is not otherwise represented in the dataset (see details section
+for further information). This has previously been described as "cryptic
+diversity" (e.g. Mannion et al. 2011).
+
+## Usage
+
+``` r
+tax_unique(
+  occdf = NULL,
+  binomial = NULL,
+  species = NULL,
+  genus = NULL,
+  ...,
+  name = NULL,
+  resolution = "species",
+  append = FALSE
+)
+```
+
+## Arguments
+
+- occdf:
+
+  `dataframe`. A dataframe containing information on the occurrences or
+  taxa to filter.
+
+- binomial:
+
+  `character`. The name of the column in `occdf` containing the genus
+  and species names of the occurrences, either in the form "genus
+  species" or "genus_species".
+
+- species:
+
+  `character`. The name of the column in `occdf` containing the
+  species-level identifications (i.e. the specific epithet).
+
+- genus:
+
+  `character`. The name of the column in `occdf` containing the
+  genus-level identifications.
+
+- ...:
+
+  `character`. Other named arguments specifying columns of higher levels
+  of taxonomy (e.g. subfamily, order, superclass). The names of the
+  arguments will be the column names of the output, and the values of
+  the arguments correspond to the columns of `occdf`. The given order of
+  the arguments is the order in which they are filtered. Therefore,
+  these arguments must be in ascending order from lowest to highest
+  taxonomic rank (see examples below). At least one higher level of
+  taxonomy must be specified.
+
+- name:
+
+  `character`. The name of the column in `occdf` containing the
+  taxonomic names at mixed taxonomic levels; the data column
+  "accepted_name" in a [Paleobiology
+  Database](https://paleobiodb.org/#/) occurrence dataframe is of this
+  type.
+
+- resolution:
+
+  `character`. The taxonomic resolution at which to identify unique
+  occurrences, either "species" (the default) or "genus".
+
+- append:
+
+  `logical`. Should the original dataframe be returned with the unique
+  names appended as a new column?
+
+## Value
+
+A `dataframe` of taxa, with each row corresponding to a unique "species"
+or "genus" in the dataset (depending on the chosen resolution). The
+dataframe will include the taxonomic information provided into the
+function, as well as a column providing the 'unique' names of each
+taxon. If `append` is `TRUE`, the original dataframe (`occdf`) will be
+returned with these 'unique' names appended as a new column. Occurrences
+that are identified to a coarse taxonomic resolution and belong to a
+clade which is already represented within the dataset will have their
+'unique' names listed as `NA`.
+
+## Details
+
+Palaeobiologists usually count unique taxa by retaining only unique
+occurrences identified to a given taxonomic resolution, however this
+function retains occurrences identified to a coarser taxonomic
+resolution which are not already represented within the dataset. For
+example, consider the following set of occurrences:
+
+- *Albertosaurus sarcophagus*
+
+- *Ankylosaurus* sp.
+
+- Aves indet.
+
+- Ceratopsidae indet.
+
+- Hadrosauridae indet.
+
+- *Ornithomimus* sp.
+
+- *Tyrannosaurus rex*
+
+A filter for species-level identifications would reduce the species
+richness to two. However, none of these clades are nested within one
+another, so each of the indeterminately identified occurrences
+represents at least one species not already represented in the dataset.
+This function is designed to deal with such taxonomic data, and would
+retain all seven 'species' in this example.
+
+Taxonomic information is supplied within a dataframe, in which columns
+provide identifications at different taxonomic levels. Occurrence data
+can be filtered to retain either unique species, or unique genera. If a
+species-level filter is desired, the minimum input requires either (1)
+`binomial`, (2) `species` and `genus`, or (3) `name` and `genus` columns
+to be entered, as well as at least one column of a higher taxonomic
+level. In a standard [Paleobiology Database](https://paleobiodb.org/#/)
+occurrence dataframe, species names are only captured in the
+'accepted_name' column, so a species-level filter should use '`genus` =
+"genus"' and '`name` = "accepted_name"' arguments. If a genus-level
+filter is desired, the minimum input requires either (1) `binomial` or
+(2) `genus` columns to be entered, as well as at least one column of a
+higher taxonomic level.
+
+Missing data should be indicated with NAs, although the function can
+handle common labels such as "NO_FAMILY_SPECIFIED" within Paleobiology
+Database datasets.
+
+The function matches taxonomic names at face value, so homonyms may be
+falsely filtered out.
+
+## References
+
+Mannion, P. D., Upchurch, P., Carrano, M. T., and Barrett, P. M. (2011).
+Testing the effect of the rock record on diversity: a multidisciplinary
+approach to elucidating the generic richness of sauropodomorph dinosaurs
+through time. Biological Reviews, 86, 157-181.
+[doi:10.1111/j.1469-185X.2010.00139.x](https://doi.org/10.1111/j.1469-185X.2010.00139.x)
+.
+
+## Developer(s)
+
+Bethany Allen & William Gearty
+
+## Reviewer(s)
+
+Lewis A. Jones & William Gearty
+
+## Examples
+
+``` r
+#Retain unique species
+occdf <- tetrapods[1:100, ]
+species <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+order = "order", class = "class", name = "accepted_name")
+
+#Retain unique genera
+genera <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+order = "order", class = "class", resolution = "genus")
+
+#Append unique names to the original occurrences
+genera_append <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+order = "order", class = "class", resolution = "genus", append = TRUE)
+
+#Create dataframe from lists
+occdf2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
+c("Tyrannosaurus", "Spinosaurus", NA), family = c("Tyrannosauridae",
+"Spinosauridae", "Diplodocidae"))
+dinosaur_species <- tax_unique(occdf = occdf2, species = "species", genus =
+"genus", family = "family")
+
+#Retain unique genera per collection with group_apply
+genera <- group_apply(occdf = occdf,
+                     group = c("collection_no"),
+                     fun = tax_unique,
+                     genus = "genus",
+                     family = "family",
+                     order = "order",
+                     class = "class",
+                     resolution = "genus")
+```
