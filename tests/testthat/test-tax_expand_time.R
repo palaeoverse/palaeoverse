@@ -30,10 +30,15 @@ test_that("basic behaviour works", {
   )
 
   # input checks
-  expect_snapshot(tax_expand_time(), error = TRUE)
   expect_snapshot(tax_expand_time(data.frame()), error = TRUE)
   expect_snapshot(tax_expand_time(1), error = TRUE)
   expect_snapshot(tax_expand_time(NULL), error = TRUE)
+
+  # Error message changed in 4.3.0:
+  # - before: "Error in `is.data.frame()`: ..."
+  # - after: "Error in `tax_expand_time()`: ..."
+  skip_if(getRversion() < "4.3.0")
+  expect_snapshot(tax_expand_time(), error = TRUE)
 })
 
 test_that("rows must be unique", {
