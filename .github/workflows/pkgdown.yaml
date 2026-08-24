@@ -20,22 +20,60 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      - uses: r-lib/actions/setup-pandoc@9f58233a78a2a9fd874714be10f8bba627233339 # v2
+      - uses: r-lib/actions/setup-pandoc@d3c5be51b12e724e68f33216ca3c148b66d5f0b6 # v2
 
-      - uses: r-lib/actions/setup-r@9f58233a78a2a9fd874714be10f8bba627233339 # v2
+      - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6 # v2
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@a51a8012b0aab7c32ef9d19bf54da93f3254335e # v2
+      - uses: r-lib/actions/setup-r-dependencies@d3c5be51b12e724e68f33216ca3c148b66d5f0b6 # v2
         with:
-          extra-packages: any::pkgdown, local::.
+          extra-packages: any::pkgdown, any::brand.yml, local::.
           needs: website
 
+      # We use `development: mode: auto` in the pkgdown template, so the website can get 
+      # deployed to "docs" or "docs/dev" depending on the development mode. This means that
+      # we need to record this information in GITHUB_ENV so that lychee can access it later. 
       - name: Build site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        run: |
+          pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+          pkg <- pkgdown::as_pkgdown(".")
+          cat(
+            paste0("SITE_DIR=", pkg$dst_path, "\nSITE_PREFIX=", pkg$prefix, "\n"),
+            file = Sys.getenv("GITHUB_ENV"), append = TRUE
+          )
         shell: Rscript {0}
+
+      # This is almost the same call as in check-links.yaml but this time we run it on the 
+      # rendered pkgdown website. The reason for that is that lychee apparently doesn't find 
+      # links in Rd files or in vignettes because of the file format, but it will be able to
+      # check them in the rendered HTML files.
+      #
+      # New pages created by the PR do not exist yet on the rendered website so we need to
+      # "remap" those links to the github workspace used by this branch. We need to remap two 
+      # kinds of links:
+      # - links to palaeoverse.palaeoverse.org, e.g. a reference page for a new function
+      # - links to github.com/palaeoverse/palaeoverse/blob/HEAD, e.g. links to the source 
+      #   code that exist at the top of each reference page. If we add a new reference page
+      #   in a PR then the source code may not exist yet on the main branch. 
+      - name: Link Checker
+        id: lychee
+        uses: lycheeverse/lychee-action@39066c6d1f0de280863a3760160617e188b607ad # v2
+        with:
+          args: |
+            ${{ env.SITE_DIR }}
+            --root-dir=${{ env.SITE_DIR }}
+            --remap 'https://palaeoverse\.palaeoverse\.org/${{ env.SITE_PREFIX }}(.*) file://${{ env.SITE_DIR }}/$1'
+            --remap 'https://palaeoverse\.palaeoverse\.org/(.*) file://${{ env.SITE_DIR }}/$1'
+            --remap 'https://github\.com/palaeoverse/palaeoverse/blob/HEAD/(.*) file://${{ github.workspace }}/$1'
+            --max-concurrency 4
+            --max-retries 5
+            --retry-wait-time 5
+            --timeout 10
+            --exclude '(^https://doi\.org)|(fsf\.org)|(gnu\.org)|(researchgate\.net)'
+            --accept 200,429
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'

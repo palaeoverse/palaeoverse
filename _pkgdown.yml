@@ -1,9 +1,7 @@
 url: https://palaeoverse.palaeoverse.org
 template:
   bootstrap: 5
-  bootswatch: flatly
-  bslib:
-    navbar-padding-y: 8px
+  package: palaeoverse.template
 
 authors:
   Lewis A. Jones:
@@ -11,7 +9,7 @@ authors:
   William Gearty:
     href: https://williamgearty.com
   Bethany J. Allen:
-    href: https://bsse.ethz.ch/cevo/the-group/people/person-detail.html?persid=295484
+    href: https://www.gfz.de/en/staff/bethany.janet.allen/sec47
   Kilian Eichenseer:
     href: https://keichenseer.netlify.app
   Christopher D. Dean:
@@ -32,6 +30,8 @@ authors:
     href: https://www.researchgate.net/profile/Joseph-Flannery-Sutherland
   A. Alessandro Chiarenza:
     href: https://linktr.ee/AlessandroChiarenza
+  Etienne Bacher:
+    href: https://www.etiennebacher.com
 
 home:
   links:
@@ -40,13 +40,21 @@ home:
   - text: Palaeoverse website
     href: https://palaeoverse.org
 
-articles:
-- title: Articles
-  navbar: ~
-  contents:
-  - phanerozoic-reefs
-  - tetrapod-biodiversity
-  - structure-and-standards
+navbar:
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: Case studies
+      - text: Latitudinal trends in Phanerozoic reefs
+        href: articles/phanerozoic-reefs.html
+      - text: Alpha diversity and geographic range size of Carboniferous and Permian tetrapods
+        href: articles/tetrapod-biodiversity.html
+      - text: ---
+      - text: Contributing
+      - text: "Contributing to palaeoverse: structure and standards"
+        href: articles/structure-and-standards.html
+
 
 reference:
 - title: Data cleaning and preparing

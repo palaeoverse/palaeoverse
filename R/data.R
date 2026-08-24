@@ -22,7 +22,7 @@
 #'   \item{font}{Colour of font to use for plotting in conjunction with the
 #'   colour column.}
 #'   \item{colour}{Colours of stages based on the [ICS timescale](
-#'   https://stratigraphy.org/timescale/).}
+#'   https://stratigraphy.org/chart/).}
 #'   \item{abbr}{Standard abbreviations of interval names where appropriate.}
 #' }
 #' @section References:
@@ -57,7 +57,7 @@
 #'   \item{font}{Colour of font to use for plotting in conjunction with the
 #'   colour column.}
 #'   \item{colour}{Colours of stages based on the [ICS timescale](
-#'   https://stratigraphy.org/timescale/).}
+#'   https://stratigraphy.org/chart/).}
 #'   \item{abbr}{Standard abbreviations of interval names where appropriate.}
 #' }
 #' @section References:
