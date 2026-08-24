@@ -1,4 +1,5 @@
 # Copied from the R 4.6.0 implementation of array2DF() on 2026-05-19
+# To be removed when the R version in "Depends" in DESCRIPTION is >= 4.3
 
 if (getRversion() < "4.3.0") {
   array2DF <- function(
