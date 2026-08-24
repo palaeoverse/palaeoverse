@@ -106,7 +106,7 @@ tax_range_time <- function(
     stop("`occdf` should be a dataframe")
   }
 
-  if (!is.logical(plot)) {
+  if (!is.logical(plot) || is.na(plot)) {
     stop("`plot` should be logical (TRUE/FALSE)")
   }
 
@@ -141,6 +141,10 @@ tax_range_time <- function(
 
   if (!is.null(group) && (!group %in% colnames(occdf))) {
     stop("`group` is not a named column in `occdf`")
+  }
+
+  if (length(by) != 1) {
+    stop("`by` must be of length 1.")
   }
 
   if (!by %in% c("name", "FAD", "LAD")) {
