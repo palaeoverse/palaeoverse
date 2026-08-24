@@ -329,6 +329,19 @@ test_that("arg 'rank' works", {
     )
   )
 
+  # TODO: rank = NULL should work if we provide bins
+  # https://github.com/palaeoverse/palaeoverse/pull/247/changes#r3842362378
+  # taxdf <- data.frame(
+  #   name = c("A", "B", "C"),
+  #   max_ma = c(150, 60, 30),
+  #   min_ma = c(110, 20, 0)
+  # )
+  # bins <- time_bins(scale = "GTS2012", rank = "stage")
+  # expect_equal(
+  #   tax_expand_time(taxdf, bins = bins),
+  #   tax_expand_time(taxdf, bins = bins, rank = NULL)
+  # )
+
   # input checks
   expect_snapshot(
     tax_expand_time(taxdf, rank = c("eon", "period")),
