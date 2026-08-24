@@ -136,6 +136,9 @@ look_up <- function(
   if (!is.character(early_interval)) {
     stop("`early_interval` needs to be of type `character`")
   }
+  if (length(early_interval) != 1) {
+    stop("`early_interval` must be of length 1")
+  }
   if (!early_interval %in% colnames(occdf)) {
     stop("`early_interval` needs to match a column name of `occdf`")
   }
