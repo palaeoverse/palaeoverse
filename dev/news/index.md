@@ -2,6 +2,9 @@
 
 ## palaeoverse (development version)
 
+- `palaeoverse` requires R \>= 4.1.0
+  ([\#181](https://github.com/palaeoverse/palaeoverse/issues/181)).
+
 ## palaeoverse 1.5.0
 
 CRAN release: 2026-06-11
