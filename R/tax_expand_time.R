@@ -88,12 +88,18 @@ tax_expand_time <- function(
   }
 
   if (
-    length(rank) > 1 ||
+    length(rank) != 1 ||
       !(rank %in% c("stage", "epoch", "period", "era", "eon"))
   ) {
     stop("`rank` must be either: stage, epoch, period, era, or eon")
   }
 
+  if (length(ext_orig) != 1) {
+    stop("`ext_orig` must be of length 1.")
+  }
+  if (is.na(ext_orig)) {
+    stop("`ext_orig` must not be NA.")
+  }
   if (!is.logical(ext_orig)) {
     stop("`ext_orig` should be logical (TRUE/FALSE)")
   }
@@ -109,6 +115,9 @@ tax_expand_time <- function(
       stop("bin, max_ma and/or min_ma do not exist in `bins`.")
     }
   } else {
+    if (length(scale) != 1) {
+      stop("If specified, `scale` must be of length 1.")
+    }
     # get the desired timescale at the desired rank
     bins <- time_bins(rank = rank, scale = scale)
   }

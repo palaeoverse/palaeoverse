@@ -1,5 +1,7 @@
 # palaeoverse (development version)
 
+* `palaeoverse` requires R >= 4.1.0 (#181).
+
 # palaeoverse 1.5.0
 
 ## New features

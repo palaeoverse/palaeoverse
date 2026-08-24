@@ -134,6 +134,16 @@ in `occdf`"
     )
   }
 
+  if (length(method) != 1) {
+    stop("`method` must be of length 1.")
+  }
+  if (length(coords) != 1) {
+    stop("`coords` must be of length 1.")
+  }
+  if (is.na(coords)) {
+    stop("`coords` must not be NA.")
+  }
+
   if (!is.character(method)) {
     stop("`method` is not of character class")
   }

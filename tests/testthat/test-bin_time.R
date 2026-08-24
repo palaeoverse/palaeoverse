@@ -335,6 +335,9 @@ test_that("user can pass custom function to method 'point'", {
 })
 
 test_that("wrong input for occdf", {
+  # Snapshots are slightly different in older versions of R
+  skip_if(getRversion() < "4.3.0")
+
   occdf <- tetrapods[1:5, ]
   bins <- data.frame(
     bin = 1:54,

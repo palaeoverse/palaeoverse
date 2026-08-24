@@ -115,12 +115,13 @@ group_apply <- function(occdf, group, fun, ...) {
       ))
     }
   }
-  # Generate formula
-  form <- as.formula(paste0("~ ", paste(group, collapse = " + ")))
 
-  # by is a wrapper of tapply, but it ends up being MUCH faster than tapply
-  # because of some data wrangling it does
-  output_lst <- by(data = occdf, INDICES = form, FUN = fun, ...)
+  output_lst <- by(
+    data = occdf,
+    INDICES = occdf[, group, drop = FALSE],
+    FUN = fun,
+    ...
+  )
 
   if (is.list(output_lst)) {
     # modified from array2DF() to handle when functions return empty dfs
