@@ -1,14 +1,6 @@
 # basic behaviour works
 
     Code
-      tax_expand_time()
-    Condition
-      Error in `tax_expand_time()`:
-      ! argument "taxdf" is missing, with no default
-
----
-
-    Code
       tax_expand_time(data.frame())
     Condition
       Error in `tax_expand_time()`:
@@ -29,6 +21,14 @@
     Condition
       Error in `tax_expand_time()`:
       ! `taxdf` should be a dataframe
+
+---
+
+    Code
+      tax_expand_time()
+    Condition
+      Error in `tax_expand_time()`:
+      ! argument "taxdf" is missing, with no default
 
 # rows must be unique
 
