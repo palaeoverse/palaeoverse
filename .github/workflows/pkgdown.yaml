@@ -33,8 +33,17 @@ jobs:
           extra-packages: any::pkgdown, any::brand.yml, local::.
           needs: website
 
+      # We use `development: mode: auto` in the pkgdown template, so the website can get 
+      # deployed to "docs" or "docs/dev" depending on the development mode. This means that
+      # we need to record this information in GITHUB_ENV so that lychee can access it later. 
       - name: Build site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        run: |
+          pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+          pkg <- pkgdown::as_pkgdown(".")
+          cat(
+            paste0("SITE_DIR=", pkg$dst_path, "\nSITE_PREFIX=", pkg$prefix, "\n"),
+            file = Sys.getenv("GITHUB_ENV"), append = TRUE
+          )
         shell: Rscript {0}
 
       # This is almost the same call as in check-links.yaml but this time we run it on the 
@@ -54,9 +63,10 @@ jobs:
         uses: lycheeverse/lychee-action@39066c6d1f0de280863a3760160617e188b607ad # v2
         with:
           args: |
-            docs
-            --root-dir=${{ github.workspace }}/docs
-            --remap 'https://palaeoverse\.palaeoverse\.org/(.*) file://${{ github.workspace }}/docs/$1'
+            ${{ env.SITE_DIR }}
+            --root-dir=${{ env.SITE_DIR }}
+            --remap 'https://palaeoverse\.palaeoverse\.org/${{ env.SITE_PREFIX }}(.*) file://${{ env.SITE_DIR }}/$1'
+            --remap 'https://palaeoverse\.palaeoverse\.org/(.*) file://${{ env.SITE_DIR }}/$1'
             --remap 'https://github\.com/palaeoverse/palaeoverse/blob/HEAD/(.*) file://${{ github.workspace }}/$1'
             --max-concurrency 4
             --max-retries 5
