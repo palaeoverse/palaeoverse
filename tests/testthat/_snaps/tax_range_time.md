@@ -33,6 +33,14 @@
 # argument 'name' works
 
     Code
+      tax_range_time(nadf, name = "species")
+    Condition
+      Error in `tax_range_time()`:
+      ! The `name` column contains NA values
+
+---
+
+    Code
       tax_range_time(occdf, name = c("Species", "max_ma"))
     Condition
       Error in `tax_range_time()`:
@@ -73,14 +81,6 @@
     Condition
       Error in `xtfrm.data.frame()`:
       ! cannot xtfrm data frames
-
----
-
-    Code
-      tax_range_time(nadf, name = "species")
-    Condition
-      Error in `tax_range_time()`:
-      ! The `name` column contains NA values
 
 # argument 'max_ma' works
 

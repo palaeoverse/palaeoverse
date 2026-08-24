@@ -43,6 +43,14 @@ test_that("argument 'name' works", {
     )
   )
 
+  # the "name" column must not contain NA values
+  nadf <- occdf
+  nadf$species[1] <- NA
+  expect_snapshot(
+    tax_range_time(nadf, name = "species"),
+    error = TRUE
+  )
+
   # input checks
   expect_snapshot(
     tax_range_time(occdf, name = c("Species", "max_ma")),
@@ -51,15 +59,10 @@ test_that("argument 'name' works", {
   expect_snapshot(tax_range_time(occdf, name = "nonexistent"), error = TRUE)
   expect_snapshot(tax_range_time(occdf, name = 1), error = TRUE)
   expect_snapshot(tax_range_time(occdf, name = NA), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, name = NULL), error = TRUE)
 
-  # the "name" column must not contain NA values
-  nadf <- occdf
-  nadf$species[1] <- NA
-  expect_snapshot(
-    tax_range_time(nadf, name = "species"),
-    error = TRUE
-  )
+  # Snapshot is slightly different with R < 4.3
+  skip_if(getRversion() < "4.3.0")
+  expect_snapshot(tax_range_time(occdf, name = NULL), error = TRUE)
 })
 
 test_that("argument 'max_ma' works", {
