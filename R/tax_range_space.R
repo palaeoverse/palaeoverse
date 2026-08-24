@@ -192,7 +192,7 @@ in `occdf`"
         c(lng, lat)
       ]
       # Calculate area of convex hull and convert to km^2
-      area <- geosphere::areaPolygon(tmp) / 1e+6
+      area <- geosphere::areaPolygon(as.matrix(tmp)) / 1e+6
       # Round to three decimal places
       area <- round(area, digits = 3)
       tmp <- cbind.data.frame(taxon, taxon_id, tmp, area)

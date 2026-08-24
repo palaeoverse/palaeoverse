@@ -9,7 +9,7 @@
 ---
 
     Code
-      time_bins(interval = "Mastrichtian", scale = "GTS2012", plot = TRUE)
+      time_bins(interval = "Mastrichtian", scale = "GTS2012")
     Condition
       Error in `time_bins()`:
       ! Check spelling of specified intervals. Available intervals are accessible via GTS2020 and GTS2012.
@@ -17,7 +17,7 @@
 ---
 
     Code
-      time_bins(interval = "Mastrichtian", scale = "2012", plot = TRUE)
+      time_bins(interval = "Mastrichtian", scale = "2012")
     Condition
       Error:
       ! `name` does not match a built-in or Macrostrat time scale.
@@ -25,7 +25,7 @@
 ---
 
     Code
-      time_bins(interval = 700, scale = "GTS2020", plot = TRUE)
+      time_bins(interval = 700, scale = "GTS2020")
     Condition
       Error in `time_bins()`:
       ! No intervals are available for the defined interval range.
@@ -33,7 +33,7 @@
 ---
 
     Code
-      time_bins(interval = -1, plot = TRUE)
+      time_bins(interval = -1)
     Condition
       Error in `time_bins()`:
       ! minimum `interval` value is less than available intervals
@@ -49,18 +49,10 @@
 ---
 
     Code
-      time_bins(interval = c(50, 10, 20), plot = TRUE)
+      time_bins(interval = c(50, 10, 20))
     Condition
       Error in `time_bins()`:
       ! `interval` must be a 'character' or 'numeric' vector of length 1 or 2 or NULL.
-
----
-
-    Code
-      time_bins(interval = "Mesozoic", plot = "TRUE")
-    Condition
-      Error in `time_bins()`:
-      ! `plot` should be logical (TRUE/FALSE).
 
 ---
 

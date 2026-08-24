@@ -10,10 +10,7 @@ tax_range_time(
   min_ma = "min_ma",
   max_ma = "max_ma",
   group = NULL,
-  by = "FAD",
-  plot = FALSE,
-  plot_args = NULL,
-  intervals = "periods"
+  by = "FAD"
 )
 }
 \arguments{
@@ -39,21 +36,6 @@ treated as a single group.}
 \item{by}{\code{character}. How should the output be sorted?
 Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 or "name" (alphabetically by taxon names).}
-
-\item{plot}{\code{logical}. Should a plot of the ranges be generated?}
-
-\item{plot_args}{\code{list}. A list of optional arguments relevant to
-plotting. See Details for options.}
-
-\item{intervals}{\code{character}. The time interval information used to
-plot the x-axis: either A) a \code{character} string indicating a rank of
-intervals from the built-in \code{\link{GTS2020}}, B) a \code{character}
-string indicating a \code{data.frame} hosted by
-\href{https://macrostrat.org}{Macrostrat} (see \code{\link{time_bins}}), or C)
-a custom \code{data.frame} of time interval boundaries (see \link{axis_geo}
-Details). A list of strings or data.frames can be supplied to add
-multiple time scales to the same side of the plot (see \link{axis_geo}
-Details). Defaults to "periods".}
 }
 \value{
 A \code{data.frame} containing the following columns:
@@ -71,20 +53,7 @@ The temporal range(s) of taxa are calculated by extracting all
 unique taxa (\code{name} column) from the input \code{occdf}, and checking their
 first and last appearance. The temporal duration of each taxon is also
 calculated. If the input data columns contain NAs, these must be
-removed prior to function call. A plot of the temporal range of each
-taxon is also returned if \code{plot = TRUE}. Customisable argument options
-(i.e. \code{\link[graphics:par]{graphics::par()}}) to pass to \code{plot_args} as a list (and their
-defaults) for plotting include:
-\itemize{
-\item xlab = "Time (Ma)"
-\item ylab = "Taxon ID"
-\item col = "black"
-\item bg = "black"
-\item pch = 20
-\item cex = 1
-\item lty = 1
-\item lwd = 1
-}
+removed prior to function call.
 
 Note: this function provides output based solely on the user input data.
 The true duration of a taxon is likely confounded by uncertainty in
@@ -106,22 +75,20 @@ occdf <- tetrapods
 # Remove NAs
 occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 # Temporal range
-ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
+ex <- tax_range_time(occdf = occdf, name = "order")
 # Temporal range ordered by class
 # Update margins for plotting
 par(mar = c(8, 5, 6, 6))
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-                     plot = TRUE)
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 # Customise appearance
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-                     plot = TRUE,
-                     plot_args = list(ylab = "Orders",
-                                      pch = 21, col = "black", bg = "blue",
-                                      lty = 2),
-                     intervals = list("periods", "eras"))
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+
+plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
+     intervals = list("periods", "eras"))
+
 # Control plotting order of groups
 occdf$class <- factor(x = occdf$class,
                       levels = c("Reptilia", "Osteichthyes"))
 ex <- tax_range_time(occdf = occdf, name = "order",
-                     group = "class", plot = TRUE)
+                     group = "class")
 }

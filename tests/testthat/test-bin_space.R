@@ -5,7 +5,7 @@ test_that("bin_space() works", {
   # We don't lose or gain observations
   expect_message(
     expect_equal(
-      nrow(bin_space(occdf = occdf, spacing = 250, plot = TRUE)),
+      nrow(bin_space(occdf = occdf, spacing = 250)),
       nrow(occdf)
     ),
     "H3 resolution: 2"
@@ -13,7 +13,7 @@ test_that("bin_space() works", {
   expect_message(
     expect_equal(
       nrow(
-        bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+        bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
       ),
       nrow(occdf)
     ),
@@ -23,7 +23,7 @@ test_that("bin_space() works", {
   # Check output type
   expect_message(
     expect_type(
-      bin_space(occdf = occdf, spacing = 250, return = TRUE, plot = TRUE),
+      bin_space(occdf = occdf, spacing = 250, return = TRUE),
       "list"
     ),
     "H3 resolution: 2"
@@ -34,8 +34,7 @@ test_that("bin_space() works", {
         occdf = occdf,
         spacing = 500,
         sub_grid = 200,
-        return = TRUE,
-        plot = TRUE
+        return = TRUE
       ),
       "list"
     ),
@@ -79,4 +78,12 @@ test_that("bin_space error handling", {
   expect_snapshot(bin_space(occdf = occdf), error = TRUE)
   occdf$lng[1] <- "184"
   expect_snapshot(bin_space(occdf = occdf), error = TRUE)
+})
+
+test_that("bin_space plotting works", {
+  occdf <- head(tetrapods, n = 100)
+
+  expect_doppelganger("bin_space", function() {
+    plot(bin_space(occdf, spacing = 250))
+  })
 })

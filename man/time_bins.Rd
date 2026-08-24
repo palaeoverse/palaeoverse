@@ -10,8 +10,7 @@ time_bins(
   size = NULL,
   n_bins = NULL,
   assign = NULL,
-  scale = "GTS2020",
-  plot = FALSE
+  scale = "GTS2020"
 )
 }
 \arguments{
@@ -49,8 +48,6 @@ timescale from
 user-input \code{data.frame}. If a \code{data.frame} is provided, it must contain
 at least the following named columns: "interval_name", "max_ma", and
 "min_ma". As such, age data should be provided in Ma.}
-
-\item{plot}{\code{logical}. Should a plot of time bins be generated?}
 }
 \value{
 A \code{data.frame} of time bins for the specified intervals or a
@@ -116,17 +113,17 @@ Kilian Eichenseer & William Gearty
 
 \examples{
 #Using numeric age
-ex1 <- time_bins(interval = 10, plot = TRUE)
+ex1 <- time_bins(interval = 10)
 
 #Using numeric age range
-ex2 <- time_bins(interval = c(50, 100), plot = TRUE)
+ex2 <- time_bins(interval = c(50, 100))
 
 #Using a single interval name
-ex3 <- time_bins(interval = c("Maastrichtian"), plot = TRUE)
+ex3 <- time_bins(interval = c("Maastrichtian"))
 
 #Using a range of intervals and near-equal duration bins
 ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"),
-                 size = 10, plot = TRUE)
+                 size = 10)
 
 #Assign bins based on given age estimates
 ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
@@ -136,7 +133,7 @@ ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
 scale <- data.frame(interval_name = 1:5,
                     min_ma = c(0, 18, 32, 38, 45),
                     max_ma = c(18, 32, 38, 45, 53))
-ex6 <- time_bins(scale = scale, size = 20, plot = TRUE)
+ex6 <- time_bins(scale = scale, size = 20)
 
 #Use North American land mammal ages from Macrostrat and specify a desired
 #number of bins

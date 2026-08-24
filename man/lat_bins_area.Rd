@@ -4,7 +4,7 @@
 \alias{lat_bins_area}
 \title{Generate equal-area latitudinal bins}
 \usage{
-lat_bins_area(n = 12, min = -90, max = 90, r = 6371, plot = FALSE)
+lat_bins_area(n = 12, min = -90, max = 90, r = 6371)
 }
 \arguments{
 \item{n}{\code{numeric}. A single numeric value defining the number of
@@ -20,9 +20,6 @@ of the latitudinal range (defaults to 90).}
 \item{r}{\code{numeric}. The radius of the Earth in kilometres. Defaults to
 the volumetric mean radius of the Earth (6371 km). Other user-specified
 \code{r} values are accepted (e.g. equatorial radius 6378 km).}
-
-\item{plot}{\code{logical}. Should a plot of the latitudinal bins be
-generated? If \code{TRUE}, a plot is generated. Defaults to \code{FALSE}.}
 }
 \value{
 A \code{data.frame} of user-defined number of latitudinal bins. The
@@ -54,7 +51,7 @@ bins <- lat_bins_area(n = 12)
 # Generate latitudinal bins for just the (sub-)tropics
 bins <- lat_bins_area(n = 6, min = -30, max = 30)
 # Generate latitudinal bins and a plot
-bins <- lat_bins_area(n = 24, plot = TRUE)
+bins <- lat_bins_area(n = 24)
 }
 \seealso{
 For bins with unequal area, but equal latitudinal range, see

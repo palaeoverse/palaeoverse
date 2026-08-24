@@ -17,8 +17,6 @@
 #' set to the nearest integer which is divisible by the user-input range.
 #' If \code{fit = FALSE}, and bin size is not divisible into the range, the
 #' upper part of the latitudinal range will be missing.
-#' @param plot \code{logical}. Should a plot of the latitudinal bins be
-#'   generated? If `TRUE`, a plot is generated. Defaults to `FALSE`.
 #' @return A \code{dataframe} of latitudinal bins of user-defined size. The
 #'   \code{data.frame} contains the following columns: bin (bin number), min
 #'   (minimum latitude of the bin), mid (midpoint latitude of
@@ -44,8 +42,7 @@ lat_bins_degrees <- function(
   size = 10,
   min = -90,
   max = 90,
-  fit = FALSE,
-  plot = FALSE
+  fit = FALSE
 ) {
   #error handling
   if (!is.numeric(size)) {
@@ -63,9 +60,6 @@ lat_bins_degrees <- function(
   }
   if (length(fit) != 1) {
     stop("`fit` must have length 1.")
-  }
-  if (length(plot) != 1) {
-    stop("`plot` must have length 1.")
   }
 
   if (is.na(max) || max > 90 || max < -90) {
@@ -86,10 +80,6 @@ lat_bins_degrees <- function(
 
   if (!is.logical(fit) || is.na(fit)) {
     stop("`fit` should be logical (TRUE/FALSE)")
-  }
-
-  if (!is.logical(plot) || is.na(plot)) {
-    stop("`plot` should be logical (TRUE/FALSE)")
   }
 
   # Latitudinal range
@@ -114,30 +104,6 @@ lat_bins_degrees <- function(
   df <- cbind(min, mid, max)
   df <- df[order(-max), ]
   df <- cbind.data.frame(bin, df)
-  #plot latitudinal bins
-  if (plot) {
-    plot(
-      1,
-      type = "n",
-      xlim = c(-180, 180),
-      ylim = c(min(df$min), max(df$max)),
-      xlab = "Longitude (\u00B0)",
-      ylab = "Latitude (\u00B0)"
-    )
-    cols <- rep(c("#01665e", "#80cdc1"), nrow(df))
-    for (i in seq_len(nrow(df))) {
-      polygon(
-        x = c(-180, -180, 180, 180),
-        y = c(df$min[i], df$max[i], df$max[i], df$min[i]),
-        col = cols[i],
-        border = "black"
-      )
-    }
-    if (fit) {
-      title(paste0("Bin size set to ", size))
-    }
-  }
-
   if (fit) {
     message(paste0(
       "Bin size set to ",
@@ -146,8 +112,42 @@ lat_bins_degrees <- function(
     ))
   }
 
+  class(df) <- c("palaeo_lat_degrees", class(df))
+  attr(df, "palaeo_fit") <- fit
+  attr(df, "palaeo_size") <- size
   return(df)
 }
+
+
+#' @name plot_palaeo
+#' @export
+plot.palaeo_lat_degrees <- function(x, y, ...) {
+  # We want to pass `plot(<something>)`
+  if (missing(y)) {
+    invisible()
+  }
+  plot(
+    1,
+    type = "n",
+    xlim = c(-180, 180),
+    ylim = c(min(x$min), max(x$max)),
+    xlab = "Longitude (\u00B0)",
+    ylab = "Latitude (\u00B0)"
+  )
+  cols <- rep(c("#01665e", "#80cdc1"), nrow(x))
+  for (i in seq_len(nrow(x))) {
+    polygon(
+      x = c(-180, -180, 180, 180),
+      y = c(x$min[i], x$max[i], x$max[i], x$min[i]),
+      col = cols[i],
+      border = "black"
+    )
+  }
+  if (isTRUE(attr(x, "palaeo_fit"))) {
+    title(paste0("Bin size set to ", attr(x, "palaeo_size")))
+  }
+}
+
 #' Generate equal-width latitudinal bins
 #'
 #' @description
@@ -161,8 +161,7 @@ lat_bins <- function(
   size = 10,
   min = -90,
   max = 90,
-  fit = FALSE,
-  plot = FALSE
+  fit = FALSE
 ) {
   lifecycle::deprecate_warn("1.4.0", "lat_bins()", "lat_bins_degrees()")
   argg <- as.list(environment())

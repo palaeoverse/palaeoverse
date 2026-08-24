@@ -10,7 +10,8 @@ test_that("argument 'size' works", {
       min = c(30, -10, -50, -90),
       mid = c(50, 10, -30, -70),
       max = c(70, 30, -10, -50)
-    )
+    ),
+    ignore_attr = TRUE
   )
   expect_snapshot(lat_bins_degrees(size = 100), error = TRUE)
   expect_snapshot(lat_bins_degrees(size = numeric(0)), error = TRUE)
@@ -25,7 +26,8 @@ test_that("arguments 'min' and 'max' work", {
       min = c(50, 10, -30),
       mid = c(70, 30, -10),
       max = c(90, 50, 10)
-    )
+    ),
+    ignore_attr = TRUE
   )
   expect_equal(
     lat_bins_degrees(40, max = 10),
@@ -34,7 +36,8 @@ test_that("arguments 'min' and 'max' work", {
       min = c(-50, -90),
       mid = c(-30, -70),
       max = c(-10, -50)
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # TODO: this looks suspicious, "min", "mid", and "max" should be column names?
@@ -72,7 +75,8 @@ test_that("argument 'fit' works", {
         min = c(54, 18, -18, -54, -90),
         mid = c(72, 36, 0, -36, -72),
         max = c(90, 54, 18, -18, -54)
-      )
+      ),
+      ignore_attr = TRUE
     ),
     "Bin size set to 36 degrees to fit latitudinal range."
   )
@@ -84,16 +88,12 @@ test_that("argument 'fit' works", {
 
 test_that("argument 'plot' works", {
   expect_doppelganger("lat_bins_degrees", function() {
-    lat_bins_degrees(40, plot = TRUE)
+    plot(lat_bins_degrees(40))
   })
   expect_message(
     expect_doppelganger("lat_bins_degrees with fit", function() {
-      lat_bins_degrees(40, fit = TRUE, plot = TRUE)
+      plot(lat_bins_degrees(40, fit = TRUE))
     }),
     "Bin size set to 36 degrees to fit latitudinal range."
   )
-  expect_snapshot(lat_bins_degrees(plot = 100), error = TRUE)
-  expect_snapshot(lat_bins_degrees(plot = logical(0)), error = TRUE)
-  expect_snapshot(lat_bins_degrees(plot = NA), error = TRUE)
-  expect_snapshot(lat_bins_degrees(plot = c(TRUE, TRUE)), error = TRUE)
 })

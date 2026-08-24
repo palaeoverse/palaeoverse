@@ -19,8 +19,6 @@
 #' See details for information on sub-grid usage.
 #' @param return \code{logical}. Should the equal-area grid information and
 #' polygons be returned?
-#' @param plot \code{logical}. Should the occupied cells of the equal-area grid
-#' be plotted?
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
 #' returned of the original input `occdf` with cell information. If `return` is
@@ -68,10 +66,10 @@
 #' occdf <- reefs[1:250, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
+#' ex1 <- bin_space(occdf = occdf, spacing = 500)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+#' ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
@@ -114,8 +112,7 @@ bin_space <- function(
   lat = "lat",
   spacing = 100,
   sub_grid = NULL,
-  return = FALSE,
-  plot = FALSE
+  return = FALSE
 ) {
   #=== Error handling ===
   if (!is.data.frame(occdf)) {
@@ -237,31 +234,13 @@ bin_space <- function(
   # Get occupied cells
   primary <- h3jsr::cell_to_polygon(input = occdf$cell_ID, simple = TRUE)
 
-  # Plot data?
-  if (plot) {
-    plot(
-      base_grid,
-      setParUsrBB = TRUE,
-      xlab = "Longitude",
-      ylab = "Latitude",
-      axes = TRUE
+  if (!is.null(sub_grid)) {
+    secondary <- h3jsr::cell_to_polygon(
+      input = occdf$cell_ID_sub,
+      simple = TRUE
     )
-    plot(
-      primary,
-      col = "#feb24c",
-      axes = TRUE,
-      ylab = "Latitude",
-      xlab = "Longitude",
-      add = TRUE
-    )
-    if (!is.null(sub_grid)) {
-      secondary <- h3jsr::cell_to_polygon(
-        input = occdf$cell_ID_sub,
-        simple = TRUE
-      )
-      plot(secondary, col = "#1d91c0", add = TRUE)
-    }
   }
+
   # Should the grid be returned?
   if (return) {
     if (!is.null(sub_grid)) {
@@ -280,5 +259,45 @@ bin_space <- function(
     "\nH3 resolution: ",
     grid$h3_resolution[1]
   )
+
+  class(occdf) <- c("palaeo_bin_space", class(occdf))
+  attr(occdf, "palaeo_base_grid") <- base_grid
+  attr(occdf, "palaeo_primary") <- primary
+  if (exists("secondary")) {
+    attr(occdf, "palaeo_secondary") <- secondary
+  }
+
   return(occdf)
+}
+
+#' @name plot_palaeo
+#' @export
+plot.palaeo_bin_space <- function(x, y, ...) {
+  # We want to pass `plot(<something>)`
+  if (missing(y)) {
+    invisible()
+  }
+
+  base_grid <- attr(x, "palaeo_base_grid")
+  primary <- attr(x, "palaeo_primary")
+  secondary <- attr(x, "palaeo_secondary")
+
+  plot(
+    base_grid,
+    setParUsrBB = TRUE,
+    xlab = "Longitude",
+    ylab = "Latitude",
+    axes = TRUE
+  )
+  plot(
+    primary,
+    col = "#feb24c",
+    axes = TRUE,
+    ylab = "Latitude",
+    xlab = "Longitude",
+    add = TRUE
+  )
+  if (!is.null(secondary)) {
+    plot(secondary, col = "#1d91c0", add = TRUE)
+  }
 }

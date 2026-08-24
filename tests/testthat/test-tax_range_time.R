@@ -11,17 +11,12 @@ test_that("tax_range_time() works", {
   expect_true(is.data.frame(tax_range_time(occdf = occdf, by = "name")))
   expect_true(is.data.frame(tax_range_time(
     occdf = occdf,
-    group = "class",
-    plot = TRUE
+    group = "class"
   )))
 
   # Expect equal
   expect_equal(
-    nrow(tax_range_time(occdf = occdf, plot = TRUE)),
-    unique_taxa
-  )
-  expect_equal(
-    nrow(tax_range_time(occdf = occdf, plot = FALSE)),
+    nrow(tax_range_time(occdf = occdf)),
     unique_taxa
   )
 
@@ -31,12 +26,7 @@ test_that("tax_range_time() works", {
   expect_snapshot(tax_range_time(occdf = occdf, min_ma = "test"), error = TRUE)
   expect_snapshot(tax_range_time(occdf = occdf, by = "test"), error = TRUE)
   expect_snapshot(tax_range_time(occdf = occdf, group = "test"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf = occdf, plot = "test"), error = TRUE)
   expect_snapshot(tax_range_time(occdf = occdf, name = "test"), error = TRUE)
-  expect_snapshot(
-    tax_range_time(occdf = occdf, plot_args = "test"),
-    error = TRUE
-  )
   occdf$genus[1] <- NA
   expect_snapshot(tax_range_time(occdf = occdf), error = TRUE)
   occdf$max_ma[1] <- "test"
@@ -48,4 +38,21 @@ test_that("tax_range_time() resets row names", {
   # Temporal range
   result <- tax_range_time(occdf = tetrapods, name = "order")
   expect_equal(row.names(result), as.character(seq_len(nrow(result))))
+})
+
+test_that("tax_range_time plotting works", {
+  occdf <- tetrapods
+  occdf <- subset(occdf, !is.na(genus))
+
+  expect_doppelganger("tax_range_time", function() {
+    plot(tax_range_time(occdf = occdf))
+  })
+  expect_doppelganger("tax_range_time with custom args", function() {
+    plot(
+      tax_range_time(occdf = occdf),
+      main = "foo",
+      xlab = "bar",
+      ylab = "baz"
+    )
+  })
 })
