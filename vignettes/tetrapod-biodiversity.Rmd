@@ -213,6 +213,9 @@ head(maj_tetrapods[, c("cell_ID", "cell_centroid_lng", "cell_centroid_lat")])
 Now that we have both temporal and spatial bins, we can use these data to see how the spatial coverage of tetrapod fossils in our dataset varies through time.
 
 ```{r message = FALSE}
+# Extract unique interval midpoints
+midpoints <- sort(unique(maj_tetrapods$bin_midpoint))
+
 # Calculate the number of unique cells in each time bin
 unique_cells <- unique(maj_tetrapods[, c("bin_midpoint", "cell_ID")])
 spat.cov <- group_apply(unique_cells, group = "bin_midpoint", fun = nrow)
