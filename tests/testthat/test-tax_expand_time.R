@@ -239,12 +239,6 @@ test_that("arg 'scale' works", {
 })
 
 test_that("arg 'rank' works", {
-  bins <- data.frame(
-    bin = 1:4,
-    max_ma = c(160, 120, 80, 40),
-    min_ma = c(120, 80, 40, 0)
-  )
-
   taxdf <- data.frame(
     name = c("A", "B"),
     max_ma = c(150, 30),
