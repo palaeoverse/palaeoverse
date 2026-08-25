@@ -132,15 +132,21 @@ time_bins <- function(
     stop("`interval` must be NULL or of class 'character' or 'numeric'")
   }
 
+  if (!is.null(size) && length(size) != 1) {
+    stop("`size` must be of length 1.")
+  }
   if (!is.numeric(size) && !is.null(size)) {
     stop("`size` should be a 'numeric' or NULL.")
   }
 
+  if (!is.null(n_bins) && length(n_bins) != 1) {
+    stop("`n_bins` must be of length 1.")
+  }
   if (!is.numeric(n_bins) && !is.null(n_bins)) {
     stop("`size` should be a 'numeric' or NULL.")
   }
 
-  if (!is.logical(plot)) {
+  if (length(plot) != 1 || is.na(plot) || !is.logical(plot)) {
     stop("`plot` should be logical (TRUE/FALSE).")
   }
 
@@ -151,6 +157,9 @@ time_bins <- function(
     ))
   }
 
+  if (!is.data.frame(scale) && length(scale) != 1) {
+    stop("`scale` must be of length 1.")
+  }
   if (!is.character(scale) && !is.data.frame(scale)) {
     stop(paste(
       "`scale` must be either:\n",
@@ -178,7 +187,7 @@ time_bins <- function(
     ))
   }
 
-  if (length(rank) > 1) {
+  if (length(rank) != 1) {
     stop("`rank` must be of length 1.")
   }
 

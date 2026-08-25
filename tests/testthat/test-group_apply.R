@@ -28,7 +28,9 @@ test_that("group_apply() basic behavior", {
 })
 
 test_that("error handling for argument 'occdf'", {
-  occdf <- tetrapods[1:50, ]
+  # Snapshots are slightly different in older versions of R
+  skip_if(getRversion() < "4.3.0")
+
   expect_snapshot(
     group_apply(group = "cc", fun = nrow),
     error = TRUE
@@ -133,6 +135,9 @@ test_that("group_apply() puts groups last", {
 })
 
 test_that("error handling for argument 'group'", {
+  # Snapshots are slightly different in older versions of R
+  skip_if(getRversion() < "4.3.0")
+
   occdf <- tetrapods[1:50, ]
   expect_snapshot(group_apply(occdf = occdf, fun = nrow), error = TRUE)
   expect_snapshot(
@@ -152,17 +157,13 @@ test_that("error handling for argument 'group'", {
     error = TRUE
   )
 
-  # This is a corner case that gives an unhelpful error message in an interactive
-  # session (the message is different in the snapshot):
-  #    Error in `xtfrm.data.frame()`:
-  #    ! cannot xtfrm data frames
+  # Regression test for a corner case that used to give an unhelpful error message.
+  # This only occurred when:
+  # - "group" contains a character value that has the same name as an existing object
+  #   in the environment
+  # - and "group" has more than one value.
   #
-  # The behavior is correct (it should error) but the message should be improved.
-  # This only occurs when "group" contains a character value that has the same
-  # name as an existing object in the environment and when "group" has more than
-  # one value.
-  #
-  # It seems that group_apply() tries to evaluate the object but it shouldn't.
+  # Fixed in https://github.com/palaeoverse/palaeoverse/pull/181
   foo <- mtcars
   expect_snapshot(
     group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow),
@@ -171,6 +172,9 @@ test_that("error handling for argument 'group'", {
 })
 
 test_that("error handling for argument 'fun'", {
+  # Snapshots are slightly different in older versions of R
+  skip_if(getRversion() < "4.3.0")
+
   occdf <- tetrapods
   occdf <- subset(occdf, !is.na(genus))
 
