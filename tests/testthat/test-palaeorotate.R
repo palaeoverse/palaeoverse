@@ -186,7 +186,7 @@ test_that("arg 'model' works", {
   )
   expect_warning(
     vcr::use_cassette("palaeorotate-multi-point", {
-      paleomap <- palaeorotate(
+      palaeorotate(
         occdf = occdf_old,
         method = "point",
         model = c("GOLONKA", "PALEOMAP")

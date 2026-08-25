@@ -31,7 +31,6 @@ test_that("error handling for argument 'occdf'", {
   # Snapshots are slightly different in older versions of R
   skip_if(getRversion() < "4.3.0")
 
-  occdf <- tetrapods[1:50, ]
   expect_snapshot(
     group_apply(group = "cc", fun = nrow),
     error = TRUE

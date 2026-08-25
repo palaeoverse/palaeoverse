@@ -338,13 +338,6 @@ test_that("wrong input for occdf", {
   # Snapshots are slightly different in older versions of R
   skip_if(getRversion() < "4.3.0")
 
-  occdf <- tetrapods[1:5, ]
-  bins <- data.frame(
-    bin = 1:54,
-    max_ma = seq(10, 540, 10),
-    min_ma = seq(0, 530, 10)
-  )
-
   # "occdf" must be a non-empty dataframe and must be provided
   expect_snapshot(bin_time(occdf = c(50, 20, 10)), error = TRUE)
   expect_snapshot(bin_time(bins = c(50, 20, 10)), error = TRUE)

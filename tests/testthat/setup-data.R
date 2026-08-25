@@ -1,5 +1,4 @@
 # set up data to test plotting
-stages <- subset(GTS2020, rank == "stage")
 periods <- subset(GTS2020, rank == "period")
 epochs <- subset(GTS2020, rank == "epoch")
 
