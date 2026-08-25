@@ -1,7 +1,7 @@
 test_that("time_bins() default behaviour", {
   res <- time_bins()
 
-  expect_true(is.data.frame(res))
+  expect_s3_class(res, "data.frame")
   expect_equal(nrow(res), 102)
   expect_named(
     res,
