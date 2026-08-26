@@ -85,34 +85,21 @@
 #' ex4 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
 #' @export
 group_apply <- function(occdf, group, fun, ...) {
-  # Handle errors
-  if (!is.data.frame(occdf)) {
-    stop("`occdf` should be a dataframe")
-  }
-
-  if (!any(group %in% colnames(occdf))) {
-    stop("Supplied `group` is not a named column in `occdf`")
-  }
-
-  if (!is.function(fun)) {
-    stop("Supplied `fun` is not a function")
-  }
+  rlang::check_data_frame(occdf)
+  check_columns_presence(occdf, group)
+  check_function(fun)
 
   supp_args <- list(...)
   if (!("..." %in% names(formals(fun)))) {
     indx <- which(!(names(supp_args) %in% names(formals(fun))))
-    if (length(indx) > 1) {
-      stop(paste(
-        paste0("`", names(supp_args)[indx], "`", collapse = "/"),
-        "are not valid arguments for the specified function"
-      ))
-    } else if (length(indx) == 1) {
-      stop(paste0(
-        "`",
+    if (length(indx) >= 1) {
+      to_report <- cli::cli_vec(
         names(supp_args)[indx],
-        "`",
-        " is not a valid argument for the specified function"
-      ))
+        list(`vec-last` = ", and ")
+      )
+      cli::cli_abort(
+        "{.code {to_report}} {?is/are} not {?a/} valid argument{?s} for the specified function {.code {rlang::caller_arg(fun)}}"
+      )
     }
   }
 
