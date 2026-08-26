@@ -1,0 +1,28 @@
+#' Check whether some arguments are unnamed but shouldn't. This is an alternative to
+#' putting `...` in the function definition and checking whether they are empty.
+#'
+#' @param exceptions Arguments that can be unnamed
+#'
+#' @noRd
+ensure_args_are_named <- function(exceptions = NULL) {
+  args_in_call_from_user <- rlang::call_args_names(rlang::caller_call())
+  args_that_can_be_unnamed <- exceptions
+  unnamed_args <- args_in_call_from_user[which(args_in_call_from_user == "")]
+
+  if (length(unnamed_args) != length(args_that_can_be_unnamed)) {
+    extra <- if (length(exceptions) > 0) {
+      " (except for {.val {cli::cli_vec(exceptions)}})"
+    } else {
+      ""
+    }
+    msg <- paste0("All arguments must be named", extra, ".")
+    n <- length(unnamed_args) - length(args_that_can_be_unnamed)
+    cli::cli_abort(
+      c(
+        msg,
+        "i" = "Currently, there {?is/are} {n} argument{?s} that should be named."
+      ),
+      call = rlang::caller_env()
+    )
+  }
+}
