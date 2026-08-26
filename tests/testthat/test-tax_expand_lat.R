@@ -1,4 +1,7 @@
 test_that("basic behavior works", {
+  # Snapshots are slightly different in older versions of R
+  skip_if(getRversion() < "4.3.0")
+
   bins <- data.frame(
     bin = 1:9,
     min = seq(from = 40, to = -40, by = -10),

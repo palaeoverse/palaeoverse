@@ -1,0 +1,62 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=88&lons=2&lats=46&model=MERDITH2021&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 200
+    headers:
+      date: Tue, 14 Jul 2026 08:53:39 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '58'
+      access-control-allow-origin: '*'
+      vary: Accept,Cookie
+      allow: OPTIONS, GET, POST
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: application/json
+    body:
+      string: '{"type": "MultiPoint", "coordinates": [[13.1964, 37.223]]}'
+  recorded_at: 2026-07-14 08:53:39
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=125&lons=-103&lats=35&model=MERDITH2021&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 200
+    headers:
+      date: Tue, 14 Jul 2026 08:53:40 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '60'
+      access-control-allow-origin: '*'
+      vary: Accept,Cookie
+      allow: OPTIONS, GET, POST
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: application/json
+    body:
+      string: '{"type": "MultiPoint", "coordinates": [[-42.7735, 35.8561]]}'
+  recorded_at: 2026-07-14 08:53:41
+- request:
+    method: GET
+    uri: https://gws.gplates.org/reconstruct/reconstruct_points/?time=300&lons=-66&lats=-7&model=MERDITH2021&anchor_plate_id=0&return_null_points=TRUE
+  response:
+    status: 200
+    headers:
+      date: Tue, 14 Jul 2026 08:53:42 GMT
+      server: Apache/2.4.52 (Ubuntu)
+      content-length: '61'
+      access-control-allow-origin: '*'
+      vary: Accept,Cookie
+      allow: OPTIONS, POST, GET
+      x-frame-options: DENY
+      x-content-type-options: nosniff
+      referrer-policy: same-origin
+      cross-origin-opener-policy: same-origin
+      content-type: application/json
+    body:
+      string: '{"type": "MultiPoint", "coordinates": [[-37.9774, -25.6146]]}'
+  recorded_at: 2026-07-14 08:53:42
+recorded_with: VCR-vcr/2.1.0
