@@ -137,7 +137,7 @@ test_that("bin_time() works with method 'random'", {
   expect_length(bin_random, 5)
   invisible(
     lapply(bin_random, function(x) {
-      expect_true(is.data.frame(x))
+      expect_s3_class(x, "data.frame")
       expect_named(
         x,
         c(names(test_occdf), "id", "n_bins", "bin_assignment", "bin_midpoint")
@@ -200,7 +200,7 @@ test_that("bin_time() works with method 'point'", {
   expect_length(bin_point, 5)
   invisible(
     lapply(bin_point, function(x) {
-      expect_true(is.data.frame(x))
+      expect_s3_class(x, "data.frame")
       expect_named(
         x,
         c(
@@ -277,7 +277,7 @@ test_that("user can pass custom function to method 'point'", {
   expect_length(bin_point, 5)
   invisible(
     lapply(bin_point, function(x) {
-      expect_true(is.data.frame(x))
+      expect_s3_class(x, "data.frame")
       expect_named(
         x,
         c(
@@ -335,12 +335,8 @@ test_that("user can pass custom function to method 'point'", {
 })
 
 test_that("wrong input for occdf", {
-  occdf <- tetrapods[1:5, ]
-  bins <- data.frame(
-    bin = 1:54,
-    max_ma = seq(10, 540, 10),
-    min_ma = seq(0, 530, 10)
-  )
+  # Snapshots are slightly different in older versions of R
+  skip_if(getRversion() < "4.3.0")
 
   # "occdf" must be a non-empty dataframe and must be provided
   expect_snapshot(bin_time(occdf = c(50, 20, 10)), error = TRUE)
