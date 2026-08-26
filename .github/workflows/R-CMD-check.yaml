@@ -15,7 +15,6 @@ on:
       - DESCRIPTION
       - NAMESPACE
   pull_request:
-    branches: [main, master]
     paths:
       - .github/workflows/R-CMD-check.yaml
       - .Rbuildignore
