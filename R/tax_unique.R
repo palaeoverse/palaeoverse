@@ -150,6 +150,25 @@ tax_unique <- function(
     stop("`occdf` must be a data.frame")
   }
 
+  if (!is.null(append) && length(append) != 1) {
+    stop("`append` must have length 1.")
+  }
+  if (is.na(append)) {
+    stop("`append` must not be NA.")
+  }
+  if (!is.logical(append)) {
+    stop("`append` must be a logical.")
+  }
+  if (!is.null(resolution) && length(resolution) != 1) {
+    stop("`resolution` must have length 1.")
+  }
+  if (!is.null(name) && length(name) != 1) {
+    stop("`name` must have length 1.")
+  }
+  if (!is.null(binomial) && length(binomial) != 1) {
+    stop("`binomial` must have length 1.")
+  }
+
   #Check for column labels and rename them if present
   if (!is.null(binomial) && !(binomial %in% colnames(occdf))) {
     stop("`occdf` does not contain column name provided to `binomial`")
@@ -169,8 +188,12 @@ tax_unique <- function(
   if (length(higher_args) == 0) {
     stop("At least one higher taxonomic level must be supplied (e.g. `family`)")
   }
+
   for (level_label in higher_names) {
     col_name <- higher_args[[level_label]]
+    if (length(col_name) == 0) {
+      stop(paste0("`", level_label, "` must have length 1."))
+    }
     if (!(col_name %in% colnames(occdf))) {
       stop(paste0(
         "`occdf` does not contain column name provided to `",

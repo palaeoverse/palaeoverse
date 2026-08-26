@@ -24,9 +24,9 @@ jobs:
   format-air:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install Air
-        uses: posit-dev/setup-air@f3a5b6aec110503f81b8d69439023308ebdf4874 # v1
+        uses: posit-dev/setup-air@c4114380d9ee04ea23d9fda3f329843cf4cf57c2 # v1.0.1
       - name: Check
         id: check
         run: air format . --check
@@ -38,7 +38,7 @@ jobs:
           echo "${{ github.event.pull_request.number }}" > /tmp/pr-number.txt
       - name: Upload artifacts
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: air-results
           path: |
@@ -50,7 +50,7 @@ jobs:
   lint-jarl:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Check
         id: check
         uses: etiennebacher/setup-jarl@eabf7e572f2991d165059007531b9bbe2987e39c # v0.1.1
@@ -60,7 +60,7 @@ jobs:
         run: echo "${{ steps.check.outcome }}" > /tmp/jarl-result.txt
       - name: Upload artifact
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: jarl-results
           path: /tmp/jarl-result.txt

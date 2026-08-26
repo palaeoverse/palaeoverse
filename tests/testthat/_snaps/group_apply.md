@@ -59,16 +59,16 @@
     Code
       group_apply(occdf = occdf, group = c("cc", "foobar"), fun = nrow)
     Condition
-      Error:
-      ! object 'foobar' not found
+      Error in `[.data.frame`:
+      ! undefined columns selected
 
 ---
 
     Code
       group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow)
     Condition
-      Error:
-      ! object 'foo' not found
+      Error in `[.data.frame`:
+      ! undefined columns selected
 
 # error handling for argument 'fun'
 
