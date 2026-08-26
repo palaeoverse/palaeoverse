@@ -35,25 +35,23 @@
 #' occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
 #'
 bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
-  #=== Handling errors ===
-  if (!is.data.frame(occdf)) {
-    stop("`occdf` should be a dataframe.")
+  rlang::check_data_frame(occdf)
+  rlang::check_data_frame(bins)
+  rlang::check_bool(boundary)
+  check_column_presence(occdf, lat)
+  check_column_presence(bins, "min")
+  check_column_presence(bins, "max")
+  check_column_presence(bins, "bin")
+
+  lat_vals <- occdf[[lat]]
+  if (anyNA(lat_vals)) {
+    cli::cli_abort(
+      "Column {.val {lat}}  in {.arg occdf} must not have missing values."
+    )
   }
-  if (!is.data.frame(bins)) {
-    stop("`bins` should be a dataframe.")
-  }
-  if (!lat %in% colnames(occdf)) {
-    stop("`lat` column name does not exist in `occdf`")
-  }
-  if (anyNA(occdf[, lat, drop = TRUE])) {
-    stop("`lat` contains NA values")
-  }
-  if (any(occdf[, lat, drop = TRUE] > 90 | occdf[, lat, drop = TRUE] < -90)) {
-    stop("Latitudes should be more than -90 and less than 90")
-  }
-  if (sum(c("max", "min", "bin") %in% colnames(bins)) != 3) {
-    stop("`bins` does not contain bin, max and min named columns")
-  }
+
+  check_range(occdf, lat, -90, 90)
+
   #=== Set up ===
   # Add mid bin
   bins$mid <- (bins$max + bins$min) / 2
@@ -64,8 +62,8 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   #=== Assign data ===
   for (i in seq_len(nrow(bins))) {
     vec <- which(
-      occdf[, lat, drop = TRUE] <= bins$max[i] &
-        occdf[, lat, drop = TRUE] >= bins$min[i]
+      lat_vals <= bins$max[i] &
+        lat_vals >= bins$min[i]
     )
     occdf$lat_bin[vec] <- bins$bin[i]
     occdf$lat_max[vec] <- bins$max[i]
@@ -75,10 +73,10 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   #=== Boundary bins ===
   if (
     boundary &&
-      any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))
+      any(lat_vals %in% c(bins$max, bins$min))
   ) {
     # Which occurrences fall on boundaries?
-    tmp <- occdf[which(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min)), ]
+    tmp <- occdf[which(lat_vals %in% c(bins$max, bins$min)), ]
     # Reverse direction to ensure alternative bin is assigned
     for (i in rev(seq_len(nrow(bins)))) {
       vec <- which(
@@ -95,11 +93,11 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   #=== Add warning ===
   if (
     !boundary &&
-      any(occdf[, lat, drop = TRUE] %in% c(bins$max, bins$min))
+      any(lat_vals %in% c(bins$max, bins$min))
   ) {
-    message(paste(
+    cli::cli_warn(c(
       "Presence of occurrences falling on boundaries detected.",
-      "\nOccurrences assigned to upper bin."
+      "i" = "Occurrences assigned to upper bin."
     ))
   }
   #=== Return data ===
