@@ -62,6 +62,7 @@ reference:
     Functions for cleaning and preparing occurrence or taxonomic
     data for downstream analyses.
   contents:
+  - as_palaeo
   - tax_check
   - phylo_check
   - tax_unique
