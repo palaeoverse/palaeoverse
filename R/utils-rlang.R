@@ -66,7 +66,6 @@ check_range <- function(data, column, min, max) {
 #' the error message to contain "be of class dataframe".
 #'
 #' @param data dataframe to check
-#' @param column A single column name to check.
 #'
 #' @noRd
 check_data_frame <- function(data) {
