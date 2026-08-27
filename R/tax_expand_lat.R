@@ -50,8 +50,8 @@ tax_expand_lat <- function(
   max_lat = "max_lat",
   min_lat = "min_lat"
 ) {
-  rlang::check_data_frame(taxdf)
-  rlang::check_data_frame(bins)
+  check_data_frame(taxdf)
+  check_data_frame(bins)
 
   check_column_presence(bins, "bin")
   check_column_presence(bins, "max")

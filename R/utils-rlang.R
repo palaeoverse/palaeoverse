@@ -57,3 +57,23 @@ check_range <- function(data, column, min, max) {
     )
   }
 }
+
+#' Check whether an object is a dataframe
+#'
+#' This errors if `data` isn't a dataframe, and it returns no value otherwise.
+#'
+#' This duplicates the behaviour of `rlang::check_data_frame()` because we wanted
+#' the error message to contain "be of class dataframe".
+#'
+#' @param data dataframe to check
+#' @param column A single column name to check.
+#'
+#' @noRd
+check_data_frame <- function(data) {
+  if (rlang::is_missing(data) || !is.data.frame(data)) {
+    cli::cli_abort(
+      "{.arg {rlang::caller_arg(data)}} must be of class dataframe, not {obj_type_friendly(data)}.",
+      call = rlang::caller_env()
+    )
+  }
+}

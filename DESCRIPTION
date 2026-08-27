@@ -56,7 +56,7 @@ Imports:
     lifecycle,
     methods,
     pbapply,
-    rlang,
+    rlang (>= 1.1.0),
     sf,
     stats,
     stringdist,
