@@ -64,3 +64,21 @@ test_that("bin_lat error handling", {
     error = TRUE
   )
 })
+
+test_that("bin_lat() uses info set in as_palaeo()", {
+  bins <- lat_bins_degrees(size = 10)
+
+  dat <- tetrapods
+  names(dat)[names(dat) == "lat"] <- "my_lat"
+
+  # before as_palaeo(), error because we would need lat = "my_lat"
+  expect_error(bin_lat(occdf = dat, bins = bins))
+
+  # after as_palaeo(), bin_lat() knows that it needs to check whether
+  # the data has an attribute for latitude
+  dat <- as_palaeo(dat, lat = "my_lat")
+  expect_message(
+    expect_no_error(bin_lat(occdf = dat, bins = bins)),
+    "Occurrences assigned to upper bin"
+  )
+})

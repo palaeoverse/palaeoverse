@@ -42,6 +42,9 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   if (!is.data.frame(bins)) {
     stop("`bins` should be a dataframe.")
   }
+
+  lat <- resolve_info(occdf, lat, column_present_in_call = !missing(lat))
+
   if (!lat %in% colnames(occdf)) {
     stop("`lat` column name does not exist in `occdf`")
   }
