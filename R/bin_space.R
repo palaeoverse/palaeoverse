@@ -108,15 +108,7 @@
 #'   mean(counts)
 #' })
 #' @export
-bin_space <- function(
-  occdf,
-  lng = "lng",
-  lat = "lat",
-  spacing = 100,
-  sub_grid = NULL,
-  return = FALSE,
-  plot = FALSE
-) {
+bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
   #=== Error handling ===
   if (!is.data.frame(occdf)) {
     stop("occdf should be of class dataframe")
@@ -150,18 +142,6 @@ bin_space <- function(
     stop("Longitudinal coordinates should be more than -180 and less than 180")
   }
 
-  if (!is.numeric(spacing)) {
-    stop("`spacing` should be of class numeric")
-  }
-
-  if (!is.null(sub_grid) && !is.numeric(sub_grid)) {
-    stop("`sub_grid` should be of class numeric or NULL")
-  }
-
-  if (!is.logical(return)) {
-    stop("`return` should be logical (TRUE/FALSE)")
-  }
-
   #=== Set-up ===
   # Convert to sf object and add CRS
   occdf <- sf::st_as_sf(
@@ -172,14 +152,7 @@ bin_space <- function(
   )
 
   #=== Grid binning  ===
-  # Generate equal area hexagonal grid
-  # Which resolution should be used based on input distance/spacing?
-  # Use the h3jsr::h3_info_table to calculate resolution
-  grid <- h3jsr::h3_info_table[
-    which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)),
-  ]
-  # Add column grid specification
-  grid$grid <- c("primary")
+  grid <- bins
 
   # Extract cell ID
   occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = grid$h3_resolution)
@@ -191,33 +164,6 @@ bin_space <- function(
   occdf$cell_centroid_lat <- sf::st_coordinates(
     h3jsr::cell_to_point(h3_address = occdf$cell_ID)
   )[, c("Y")]
-
-  # Sub-grid desired?
-  if (!is.null(sub_grid)) {
-    s_grid <- h3jsr::h3_info_table[
-      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - sub_grid)),
-    ]
-    # Throw error if grids are the same
-    if (grid$h3_resolution == s_grid$h3_resolution) {
-      stop(
-        "`spacing` and `sub_grid` values result in the same resolution.
-    Update `spacing` and/or `sub_grid` accordingly."
-      )
-    }
-
-    # Add column grid specification
-    s_grid$grid <- c("sub-grid")
-    # Extract cell ID
-    occdf$cell_ID_sub <- h3jsr::point_to_cell(occdf, res = s_grid$h3_resolution)
-
-    # Extract cell centroids
-    occdf$cell_centroid_lng_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
-    )[, c("X")]
-    occdf$cell_centroid_lat_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
-    )[, c("Y")]
-  }
 
   # Drop geometries column
   occdf <- sf::st_drop_geometry(occdf)
