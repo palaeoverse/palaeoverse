@@ -1,3 +1,13 @@
+#' Create a `palaeo` object to store information on your data
+#'
+#' @description
+#' This function allows you to define information on your data only once so that
+#' it is automatically used in subsequent `palaeoverse` functions.
+#'
+#' @param x Dataframe
+#' @param lat Name of the column that contains the latitude.
+#' @param lon Name of the column that contains the longitude.
+#'
 #' @export
 as_palaeo <- function(x, lat = "lat", lon = "lon") {
   rlang::check_data_frame(x)
