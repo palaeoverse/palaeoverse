@@ -6,7 +6,6 @@
 #' @noRd
 ensure_args_are_named <- function(exceptions = NULL) {
   args_in_call_from_user <- rlang::call_args_names(rlang::caller_call())
-  # browser()
   unnamed_exceptions <- setdiff(exceptions, args_in_call_from_user)
   unnamed_args <- args_in_call_from_user[which(args_in_call_from_user == "")]
 
