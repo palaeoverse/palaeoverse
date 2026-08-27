@@ -104,7 +104,7 @@
     Condition
       Error in `tax_expand_lat()`:
       ! Maximum latitude must be larger than or equal to minimum latitude.
-      i Row(s) where max latitude is smaller than min latitude: 1.
+      i Row(s) where `max_lat` is smaller than `min_lat`: 1.
 
 ---
 
@@ -114,7 +114,7 @@
     Condition
       Error in `tax_expand_lat()`:
       ! Maximum latitude must be larger than or equal to minimum latitude.
-      i Row(s) where max latitude is smaller than min latitude (first 5): 2, 3, 4, 5, 6.
+      i Row(s) where `max_lat` is smaller than `min_lat` (first 5): 2, 3, 4, 5, 6.
 
 ---
 

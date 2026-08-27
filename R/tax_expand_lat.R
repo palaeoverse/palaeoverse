@@ -78,7 +78,7 @@ tax_expand_lat <- function(
     cli::cli_abort(
       c(
         "Maximum latitude must be larger than or equal to minimum latitude.",
-        "i" = "Row(s) where max latitude is smaller than min latitude{truncated}: {.val {to_report}}."
+        "i" = "Row(s) where {.arg max_lat} is smaller than {.arg min_lat}{truncated}: {.val {to_report}}."
       )
     )
   }
