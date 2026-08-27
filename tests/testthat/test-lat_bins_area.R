@@ -17,6 +17,16 @@ test_that("different radius affects the results", {
 #   lat_bins_area(min = 90, max = 90)
 # })
 
+test_that("lat_bins_area errors with unnamed args", {
+  expect_snapshot(lat_bins_area(10, 1), error = TRUE)
+  expect_snapshot(lat_bins_area(n = 10, 1), error = TRUE)
+  expect_snapshot(lat_bins_area(10, 1, 2), error = TRUE)
+  expect_snapshot(lat_bins_area(10, 1, max = 2), error = TRUE)
+
+  # partial arg matching works
+  expect_snapshot(lat_bins_area(10, mi = 1, ma = 2))
+})
+
 test_that("lat_bins_area errors with wrong inputs", {
   expect_snapshot(lat_bins_area(n = "10"), error = TRUE)
   expect_snapshot(lat_bins_area(n = -1), error = TRUE)

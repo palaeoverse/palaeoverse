@@ -43,6 +43,59 @@
       5   5  9.594068 14.532644 19.471221 4.250537e+13 0.1666667
       6   6  0.000000  4.797034  9.594068 4.250537e+13 0.1666667
 
+# lat_bins_area errors with unnamed args
+
+    Code
+      lat_bins_area(10, 1)
+    Condition
+      Error in `lat_bins_area()`:
+      ! All arguments must be named (except for "n").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      lat_bins_area(n = 10, 1)
+    Condition
+      Error in `lat_bins_area()`:
+      ! All arguments must be named (except for "n").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      lat_bins_area(10, 1, 2)
+    Condition
+      Error in `lat_bins_area()`:
+      ! All arguments must be named (except for "n").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      lat_bins_area(10, 1, max = 2)
+    Condition
+      Error in `lat_bins_area()`:
+      ! All arguments must be named (except for "n").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      lat_bins_area(10, mi = 1, ma = 2)
+    Output
+         bin      min      mid      max        area area_prop
+      1    1 1.899978 1.949989 2.000000 4.44957e+11       0.1
+      2    2 1.799961 1.849969 1.899978 4.44957e+11       0.1
+      3    3 1.699950 1.749955 1.799961 4.44957e+11       0.1
+      4    4 1.599944 1.649947 1.699950 4.44957e+11       0.1
+      5    5 1.499943 1.549943 1.599944 4.44957e+11       0.1
+      6    6 1.399946 1.449945 1.499943 4.44957e+11       0.1
+      7    7 1.299954 1.349950 1.399946 4.44957e+11       0.1
+      8    8 1.199966 1.249960 1.299954 4.44957e+11       0.1
+      9    9 1.099981 1.149974 1.199966 4.44957e+11       0.1
+      10  10 1.000000 1.049991 1.099981 4.44957e+11       0.1
+
 # lat_bins_area errors with wrong inputs
 
     Code
