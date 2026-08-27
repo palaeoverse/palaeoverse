@@ -1,3 +1,11 @@
+#' Check whether a column exists in the data
+#'
+#' This errors if `column` doesn't exist in `data`, and it returns no value otherwise.
+#'
+#' @param data dataframe to check
+#' @param column A single column name to check.
+#'
+#' @noRd
 check_column_presence <- function(data, column) {
   rlang::check_string(
     column,
@@ -12,11 +20,26 @@ check_column_presence <- function(data, column) {
   }
 }
 
-check_range <- function(data, x, min, max) {
-  vals <- data[[x]]
+#' Check whether all values of a numeric column fall in a custom range
+#'
+#' This errors if any of the following cases:
+#'
+#' - `column` doesn't exist in `data`
+#' - `column` isn't numeric
+#' - at least one value of `column` is outside the `[min:max]` range
+#'
+#' `NA` are considered to be outside the range.
+#'
+#' @param data dataframe to check
+#' @param column A single column name to check.
+#' @param min,max Range limits.
+#'
+#' @noRd
+check_range <- function(data, column, min, max) {
+  vals <- data[[column]]
   if (!is.numeric(vals)) {
     cli::cli_abort(
-      "Column {.val {rlang::caller_arg(x)}} in {.arg {rlang::caller_arg(data)}} must be numeric, not {.cls {class(vals)}}.",
+      "Column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be numeric, not {.cls {class(vals)}}.",
       call = rlang::caller_env()
     )
   }
@@ -27,7 +50,7 @@ check_range <- function(data, x, min, max) {
     to_report <- cli::cli_vec(head(to_report, n = 5), list(`vec-last` = ", "))
     cli::cli_abort(
       c(
-        "All values of column {.val {rlang::caller_arg(x)}} in {.arg {rlang::caller_arg(data)}} must be between {min} and {max}.",
+        "All values of column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be between {min} and {max}.",
         "i" = "Value(s) outside the range{truncated}: {.val {to_report}}."
       ),
       call = rlang::caller_env()
