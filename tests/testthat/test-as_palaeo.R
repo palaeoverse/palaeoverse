@@ -25,3 +25,20 @@ test_that("as_palaeo() custom print method works", {
   dat2 <- as_palaeo(dat)
   expect_snapshot(dat2)
 })
+
+test_that("consecutive as_palaeo() work correctly", {
+  dat <- data.frame(lat = 1, long = 2)
+  dat <- as_palaeo(dat)
+  dat <- as_palaeo(dat, lon = "long")
+
+  # palaeo_lat was added by the first as_palaeo()
+  # palaeo_lon was added by the second as_palaeo()
+  expect_equal(attr(dat, "palaeo_lat"), "lat")
+  expect_equal(attr(dat, "palaeo_lon"), "long")
+
+  # Can overwrite an attribute previously set
+  names(dat)[names(dat) == "lat"] <- "my_lat"
+  dat <- as_palaeo(dat, lat = "my_lat")
+  expect_equal(attr(dat, "palaeo_lat"), "my_lat")
+  expect_equal(attr(dat, "palaeo_lon"), "long")
+})
