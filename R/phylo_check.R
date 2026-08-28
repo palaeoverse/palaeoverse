@@ -73,19 +73,22 @@ phylo_check <- function(
   out = "full_table",
   sort = "presence"
 ) {
-
   #Errors for incorrect input
-  if(missing(tree)) stop("argument \"tree\" is missing, with no default")
+  if (missing(tree)) {
+    stop("argument \"tree\" is missing, with no default")
+  }
 
   if (!inherits(tree, "phylo")) {
     stop("Phylogeny must be a phylo object")
   }
 
+  if (missing(list)) {
+    stop("argument \"list\" is missing, with no default")
+  }
+
   if (!is.vector(list)) {
     stop("List of taxa must be a vector")
   }
-
-  if(missing(list)) stop("argument \"list\" is missing, with no default")
 
   if (any(grepl("[^[:alnum:][:space:]_]", list))) {
     stop(
