@@ -1,8 +1,6 @@
 test_that("throws error for missing required arguments", {
   expect_snapshot(tax_certainty(), error = TRUE)
-  data("tetrapods")
-  occdf <- tetrapods[1:5, ]
-  expect_snapshot(tax_certainty(taxdf = occdf), error = TRUE)
+  expect_snapshot(tax_certainty(taxdf = tetrapods), error = TRUE)
   expect_snapshot(tax_certainty(taxdf = 1, name = "foo"), error = TRUE)
 })
 
