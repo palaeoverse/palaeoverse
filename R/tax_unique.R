@@ -226,7 +226,7 @@ tax_unique <- function(
   }
 
   if (
-    !is.null(binomial) && any(grepl("[^[:alnum:][:space:]]", occdf[[binomial]]))
+    !is.null(binomial) && any(grepl("[^[:alnum:][:space:]_]", occdf[[binomial]]))
   ) {
     stop(
       "`binomial` column should not contain punctuation except spaces or
@@ -234,7 +234,7 @@ tax_unique <- function(
     )
   }
 
-  if (!is.null(name) && any(grepl("[^[:alnum:][:space:]]", occdf[[name]]))) {
+  if (!is.null(name) && any(grepl("[^[:alnum:][:space:]_]", occdf[[name]]))) {
     stop(
       "`name` column should not contain punctuation except spaces or
          underscores"
