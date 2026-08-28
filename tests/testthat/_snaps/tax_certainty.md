@@ -1,3 +1,19 @@
+# throws error for missing required arguments
+
+    Code
+      tax_certainty()
+    Condition
+      Error in `tax_certainty()`:
+      ! argument "taxdf" is missing, with no default
+
+---
+
+    Code
+      tax_certainty(taxdf = occdf)
+    Condition
+      Error in `tax_certainty()`:
+      ! argument "name" is missing, with no default
+
 # tax_certainty() basic behavior
 
     Code

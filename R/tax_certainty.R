@@ -96,13 +96,22 @@
 #'                            append = FALSE)
 #' @export
 tax_certainty <- function(
-  taxdf = NULL,
-  name = NULL,
+  taxdf,
+  name,
   terms = NULL,
   certainty = c(1, 0),
   append = TRUE
 ) {
   # Error handling
+
+  if (missing(taxdf)) {
+    stop("argument \"taxdf\" is missing, with no default")
+  }
+
+  if (missing(name)) {
+    stop("argument \"name\" is missing, with no default")
+  }
+
   # Check taxdf is dataframe
   if (!is.data.frame(taxdf)) {
     stop("`taxdf` must be a data.frame.")
