@@ -459,7 +459,7 @@ test_that("taxonomic columns must not contain punctuation", {
   )
 })
 
-test_that("underscores in binomial or name column work",{
+test_that("underscores in binomial or name column work", {
   dat <- data.frame(
     species = "rex",
     genus = "Tyrannosaurus",
@@ -494,5 +494,4 @@ test_that("underscores in binomial or name column work",{
     class = "class",
     name = "name"
   ))
-
 })

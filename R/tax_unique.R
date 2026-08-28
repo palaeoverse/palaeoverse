@@ -226,7 +226,8 @@ tax_unique <- function(
   }
 
   if (
-    !is.null(binomial) && any(grepl("[^[:alnum:][:space:]_]", occdf[[binomial]]))
+    !is.null(binomial) &&
+      any(grepl("[^[:alnum:][:space:]_]", occdf[[binomial]]))
   ) {
     stop(
       "`binomial` column should not contain punctuation except spaces or
