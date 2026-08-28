@@ -37,7 +37,7 @@ axis_geo(
   bkgd = "grey90",
   neg = FALSE,
   exact = FALSE,
-  round = FALSE,
+  round = NULL,
   tick_at = NULL,
   tick_labels = TRUE,
   title = NULL,
@@ -169,9 +169,9 @@ axis_geo_phylo(...)
 
   `integer`. Number of decimal places to which exact axis labels should
   be rounded (using [`round`](https://rdrr.io/r/base/Round.html)). If no
-  value is specified, the exact values will be used. Trailing zeros are
-  always removed. `tick_at` and `tick_labels` can be used to include
-  labels with trailing zeros.
+  numeric value is specified, the exact values will be used. Trailing
+  zeros are always removed. `tick_at` and `tick_labels` can be used to
+  include labels with trailing zeros.
 
 - tick_at:
 

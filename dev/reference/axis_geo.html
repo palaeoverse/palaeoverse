@@ -106,7 +106,7 @@ below), with the intent that plots will be publication-ready.</p>
 <span>  bkgd <span class="op">=</span> <span class="st">"grey90"</span>,</span>
 <span>  neg <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  exact <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  round <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  round <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  tick_at <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  tick_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -239,10 +239,10 @@ marks and numeric tick labels placed at the interval boundaries. If
 
 <dt id="arg-round">round<a class="anchor" aria-label="anchor" href="#arg-round"></a></dt>
 <dd><p><code>integer</code>. Number of decimal places to which exact axis
-labels should be rounded (using <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></code>). If no value is
-specified, the exact values will be used. Trailing zeros are always
-removed. <code>tick_at</code> and <code>tick_labels</code> can be used to include
-labels with trailing zeros.</p></dd>
+labels should be rounded (using <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></code>). If no numeric
+value is specified, the exact values will be used. Trailing zeros are
+always removed. <code>tick_at</code> and <code>tick_labels</code> can be used to
+include labels with trailing zeros.</p></dd>
 
 
 <dt id="arg-tick-at">tick_at<a class="anchor" aria-label="anchor" href="#arg-tick-at"></a></dt>
