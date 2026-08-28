@@ -1,7 +1,8 @@
 test_that("throws error for missing required arguments", {
+  expect_snapshot(tax_certainty(taxdf = 1, name = "foo"), error = TRUE)
+  skip_if(getRversion() < "4.3.0")
   expect_snapshot(tax_certainty(), error = TRUE)
   expect_snapshot(tax_certainty(taxdf = tetrapods), error = TRUE)
-  expect_snapshot(tax_certainty(taxdf = 1, name = "foo"), error = TRUE)
 })
 
 test_that("tax_certainty() basic behavior", {

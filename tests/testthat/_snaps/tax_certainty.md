@@ -1,6 +1,14 @@
 # throws error for missing required arguments
 
     Code
+      tax_certainty(taxdf = 1, name = "foo")
+    Condition
+      Error in `tax_certainty()`:
+      ! `taxdf` must be a data.frame.
+
+---
+
+    Code
       tax_certainty()
     Condition
       Error in `tax_certainty()`:
@@ -13,14 +21,6 @@
     Condition
       Error in `tax_certainty()`:
       ! argument "name" is missing, with no default
-
----
-
-    Code
-      tax_certainty(taxdf = 1, name = "foo")
-    Condition
-      Error in `tax_certainty()`:
-      ! `taxdf` must be a data.frame.
 
 # tax_certainty() basic behavior
 

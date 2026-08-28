@@ -1,10 +1,10 @@
 # basic behavior works
 
     Code
-      phylo_check()
+      phylo_check(data.frame())
     Condition
       Error in `phylo_check()`:
-      ! argument "tree" is missing, with no default
+      ! Phylogeny must be a phylo object
 
 ---
 
@@ -17,7 +17,7 @@
 ---
 
     Code
-      phylo_check(data.frame())
+      phylo_check(NA)
     Condition
       Error in `phylo_check()`:
       ! Phylogeny must be a phylo object
@@ -25,10 +25,10 @@
 ---
 
     Code
-      phylo_check(NA)
+      phylo_check()
     Condition
       Error in `phylo_check()`:
-      ! Phylogeny must be a phylo object
+      ! argument "tree" is missing, with no default
 
 # arg 'list' works
 

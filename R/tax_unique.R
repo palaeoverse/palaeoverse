@@ -142,10 +142,6 @@ tax_unique <- function(
   append = FALSE
 ) {
   #Give errors for incorrect input
-  if (missing(occdf)) {
-    stop("Must enter an `occdf` of occurrences or taxon names")
-  }
-
   if (!is.data.frame(occdf)) {
     stop("`occdf` must be a data.frame")
   }

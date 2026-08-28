@@ -74,16 +74,8 @@ phylo_check <- function(
   sort = "presence"
 ) {
   #Errors for incorrect input
-  if (missing(tree)) {
-    stop("argument \"tree\" is missing, with no default")
-  }
-
   if (!inherits(tree, "phylo")) {
     stop("Phylogeny must be a phylo object")
-  }
-
-  if (missing(list)) {
-    stop("argument \"list\" is missing, with no default")
   }
 
   if (!is.vector(list)) {
