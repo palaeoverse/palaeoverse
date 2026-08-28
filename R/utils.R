@@ -1,5 +1,4 @@
-#' Check whether some arguments are unnamed but shouldn't. This is an alternative to
-#' putting `...` in the function definition and checking whether they are empty.
+#' Check whether there are unnamed arguments that should be named.
 #'
 #' @param exceptions Arguments that can be unnamed
 #'
