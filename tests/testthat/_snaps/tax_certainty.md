@@ -9,7 +9,7 @@
 ---
 
     Code
-      tax_certainty(taxdf = occdf)
+      tax_certainty(taxdf = tetrapods)
     Condition
       Error in `tax_certainty()`:
       ! argument "name" is missing, with no default
