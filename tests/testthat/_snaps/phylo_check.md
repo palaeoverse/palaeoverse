@@ -4,7 +4,7 @@
       phylo_check()
     Condition
       Error in `phylo_check()`:
-      ! Phylogeny must be provided
+      ! argument "tree" is missing, with no default
 
 ---
 
@@ -45,7 +45,7 @@
       phylo_check(tree)
     Condition
       Error in `phylo_check()`:
-      ! List of taxa to check against must be provided
+      ! argument "list" is missing, with no default
 
 # arg 'out' works
 
