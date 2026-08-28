@@ -825,11 +825,12 @@ axis_geo <- function(
     if (phylo) {
       tick_at <- (tick_at - phylo_alpha) / phylo_beta
     }
-    if (is.numeric(round)) {
-      tick_labels <- round(tick_at, digits = round)
-    } else {
+    if (is.null(round)){
       tick_labels <- as.character(tick_at) # removes trailing zeros
+    } else {
+      tick_labels <- round(tick_at, digits = round)
     }
+
   }
   if (phylo) {
     if (is.null(tick_at)) {
