@@ -83,15 +83,15 @@ check_symbol <- function(
   call = caller_env()
 ) {
   if (!missing(x)) {
-    if (is_symbol(x)) {
+    if (rlang::is_symbol(x)) {
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x)) {
+    if (allow_null && rlang::is_null(x)) {
       return(invisible(NULL))
     }
   }
 
-  stop_input_type(
+  rlang::stop_input_type(
     x,
     "a symbol",
     ...,
@@ -110,15 +110,15 @@ check_arg <- function(
   call = caller_env()
 ) {
   if (!missing(x)) {
-    if (is_symbol(x)) {
+    if (rlang::is_symbol(x)) {
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x)) {
+    if (allow_null && rlang::is_null(x)) {
       return(invisible(NULL))
     }
   }
 
-  stop_input_type(
+  rlang::stop_input_type(
     x,
     "an argument name",
     ...,
@@ -137,15 +137,15 @@ check_call <- function(
   call = caller_env()
 ) {
   if (!missing(x)) {
-    if (is_call(x)) {
+    if (rlang::is_call(x)) {
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x)) {
+    if (allow_null && rlang::is_null(x)) {
       return(invisible(NULL))
     }
   }
 
-  stop_input_type(
+  rlang::stop_input_type(
     x,
     "a defused call",
     ...,
@@ -164,15 +164,15 @@ check_environment <- function(
   call = caller_env()
 ) {
   if (!missing(x)) {
-    if (is_environment(x)) {
+    if (rlang::is_environment(x)) {
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x)) {
+    if (allow_null && rlang::is_null(x)) {
       return(invisible(NULL))
     }
   }
 
-  stop_input_type(
+  rlang::stop_input_type(
     x,
     "an environment",
     ...,
@@ -191,15 +191,15 @@ check_function <- function(
   call = caller_env()
 ) {
   if (!missing(x)) {
-    if (is_function(x)) {
+    if (rlang::is_function(x)) {
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x)) {
+    if (allow_null && rlang::is_null(x)) {
       return(invisible(NULL))
     }
   }
 
-  stop_input_type(
+  rlang::stop_input_type(
     x,
     "a function",
     ...,
@@ -221,12 +221,12 @@ check_closure <- function(
     if (is_closure(x)) {
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x)) {
+    if (allow_null && rlang::is_null(x)) {
       return(invisible(NULL))
     }
   }
 
-  stop_input_type(
+  rlang::stop_input_type(
     x,
     "an R function",
     ...,
@@ -246,14 +246,14 @@ check_formula <- function(
   call = caller_env()
 ) {
   if (!missing(x)) {
-    if (allow_null && is_null(x)) {
+    if (allow_null && rlang::is_null(x)) {
       return(invisible(NULL))
     }
     scoped <- if (allow_unevaluated) NULL else TRUE
-    if (is_formula(x, scoped = scoped)) {
+    if (rlang::is_formula(x, scoped = scoped)) {
       return(invisible(NULL))
     }
-    if (!allow_unevaluated && is_formula(x)) {
+    if (!allow_unevaluated && rlang::is_formula(x)) {
       cli::cli_abort(
         "{.arg {arg}} must be an evaluated formula, not a defused one.",
         arg = arg,
@@ -262,7 +262,7 @@ check_formula <- function(
     }
   }
 
-  stop_input_type(
+  rlang::stop_input_type(
     x,
     "a formula",
     ...,
@@ -287,7 +287,7 @@ check_character <- function(
   call = caller_env()
 ) {
   if (!missing(x)) {
-    if (is_character(x)) {
+    if (rlang::is_character(x)) {
       if (!allow_na && any(is.na(x))) {
         abort(
           sprintf("`%s` can't contain NA values.", arg),
@@ -299,12 +299,12 @@ check_character <- function(
       return(invisible(NULL))
     }
 
-    if (allow_null && is_null(x)) {
+    if (allow_null && rlang::is_null(x)) {
       return(invisible(NULL))
     }
   }
 
-  stop_input_type(
+  rlang::stop_input_type(
     x,
     "a character vector",
     ...,
@@ -323,9 +323,9 @@ check_logical <- function(
   call = caller_env()
 ) {
   if (!missing(x)) {
-    if (is_logical(x)) {
+    if (rlang::is_logical(x)) {
       if (!allow_na && any(is.na(x))) {
-        abort(
+        rlang::abort(
           sprintf("`%s` can't contain NA values.", arg),
           arg = arg,
           call = call
@@ -333,12 +333,12 @@ check_logical <- function(
       }
       return(invisible(NULL))
     }
-    if (allow_null && is_null(x)) {
+    if (allow_null && rlang::is_null(x)) {
       return(invisible(NULL))
     }
   }
 
-  stop_input_type(
+  rlang::stop_input_type(
     x,
     "a logical vector",
     ...,

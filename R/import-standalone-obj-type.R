@@ -180,7 +180,7 @@ obj_type_friendly <- function(x, value = TRUE) {
 
 vec_type_friendly <- function(x, length = FALSE) {
   if (!is_vector(x)) {
-    abort("`x` must be a vector.")
+    rlang::abort("`x` must be a vector.")
   }
   type <- typeof(x)
   n_dim <- length(dim(x))
@@ -269,7 +269,7 @@ vec_type_friendly <- function(x, length = FALSE) {
 }
 
 .rlang_stop_unexpected_typeof <- function(x, call = caller_env()) {
-  abort(
+  rlang::abort(
     sprintf("Unexpected type <%s>.", typeof(x)),
     call = call
   )
