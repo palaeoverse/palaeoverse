@@ -68,22 +68,14 @@
 #' par(oldpar)
 #' @export
 phylo_check <- function(
-  tree = NULL,
-  list = NULL,
+  tree,
+  list,
   out = "full_table",
   sort = "presence"
 ) {
   #Errors for incorrect input
-  if (is.null(tree)) {
-    stop("Phylogeny must be provided")
-  }
-
   if (!inherits(tree, "phylo")) {
     stop("Phylogeny must be a phylo object")
-  }
-
-  if (is.null(list)) {
-    stop("List of taxa to check against must be provided")
   }
 
   if (!is.vector(list)) {

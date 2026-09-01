@@ -69,6 +69,12 @@ importFrom(httr,
 importFrom(lifecycle,deprecated)
 importFrom(methods,is)
 importFrom(pbapply,pblapply)
+importFrom(rlang,
+  is_list,
+  is_missing,
+  is_na,
+  is_vector
+)
 importFrom(sf,
   st_as_sf,
   st_coordinates,
@@ -82,4 +88,7 @@ importFrom(stats,
   sd
 )
 importFrom(stringdist,stringdistmatrix)
-importFrom(utils,read.csv)
+importFrom(utils,
+  head,
+  read.csv
+)

@@ -1,10 +1,22 @@
 # basic behaviour works
 
     Code
-      tax_unique()
+      tax_unique(data.frame(genus = "Tyrannosaurus", binomial = "Tyrannosaurus rex",
+        family = "Tyrannosauridae", order = "Coelurosauria", class = "Tetanurae"),
+      species = "species", genus = "genus")
     Condition
       Error in `tax_unique()`:
-      ! Must enter an `occdf` of occurrences or taxon names
+      ! `occdf` does not contain column name provided to `species`
+
+---
+
+    Code
+      tax_unique(data.frame(species = "Tyrannosaurus", binomial = "Tyrannosaurus rex",
+        family = "Tyrannosauridae", order = "Coelurosauria", class = "Tetanurae"),
+      species = "species", genus = "genus")
+    Condition
+      Error in `tax_unique()`:
+      ! `occdf` does not contain column name provided to `genus`
 
 ---
 
@@ -33,22 +45,10 @@
 ---
 
     Code
-      tax_unique(data.frame(genus = "Tyrannosaurus", binomial = "Tyrannosaurus rex",
-        family = "Tyrannosauridae", order = "Coelurosauria", class = "Tetanurae"),
-      species = "species", genus = "genus")
+      tax_unique()
     Condition
       Error in `tax_unique()`:
-      ! `occdf` does not contain column name provided to `species`
-
----
-
-    Code
-      tax_unique(data.frame(species = "Tyrannosaurus", binomial = "Tyrannosaurus rex",
-        family = "Tyrannosauridae", order = "Coelurosauria", class = "Tetanurae"),
-      species = "species", genus = "genus")
-    Condition
-      Error in `tax_unique()`:
-      ! `occdf` does not contain column name provided to `genus`
+      ! argument "occdf" is missing, with no default
 
 # tax_unique() cannot use the same column for multiple arguments
 
