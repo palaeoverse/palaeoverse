@@ -49,8 +49,8 @@
       lat_bins_area(10, 1)
     Condition
       Error in `lat_bins_area()`:
-      ! All arguments must be named (except for "n").
-      i Currently, there is 1 argument that should be named.
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
 
 ---
 
@@ -58,7 +58,7 @@
       lat_bins_area(n = 10, 1)
     Condition
       Error in `lat_bins_area()`:
-      ! All arguments must be named (except for "n").
+      ! All arguments must be named.
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -67,8 +67,8 @@
       lat_bins_area(10, 1, 2)
     Condition
       Error in `lat_bins_area()`:
-      ! All arguments must be named (except for "n").
-      i Currently, there are 2 arguments that should be named.
+      ! All arguments must be named.
+      i Currently, there are 3 arguments that should be named.
 
 ---
 
@@ -76,8 +76,8 @@
       lat_bins_area(10, 1, max = 2)
     Condition
       Error in `lat_bins_area()`:
-      ! All arguments must be named (except for "n").
-      i Currently, there is 1 argument that should be named.
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
 
 # partial matching of argument names is forbidden
 

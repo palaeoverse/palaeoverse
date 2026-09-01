@@ -40,7 +40,7 @@
 #' # Generate latitudinal bins and a plot
 #' bins <- lat_bins_area(n = 24, plot = TRUE)
 lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
-  ensure_args_are_named(exceptions = "n")
+  ensure_args_are_named()
 
   # Error handling
   if (!is.numeric(n)) {
