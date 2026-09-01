@@ -4,7 +4,7 @@
       tax_expand_lat(taxdf = 5)
     Condition
       Error in `tax_expand_lat()`:
-      ! `taxdf` must be of class dataframe, not the number 5.
+      ! `taxdf` must be of class <data.frame>, not the number 5.
 
 ---
 
@@ -12,7 +12,7 @@
       tax_expand_lat(taxdf)
     Condition
       Error in `tax_expand_lat()`:
-      ! `bins` must be of class dataframe, not absent.
+      ! `bins` must be of class <data.frame>, not absent.
 
 ---
 
@@ -20,7 +20,7 @@
       tax_expand_lat(taxdf, bins = 1)
     Condition
       Error in `tax_expand_lat()`:
-      ! `bins` must be of class dataframe, not the number 1.
+      ! `bins` must be of class <data.frame>, not the number 1.
 
 ---
 

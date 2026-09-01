@@ -71,7 +71,7 @@ check_range <- function(data, column, min, max) {
 check_data_frame <- function(data) {
   if (rlang::is_missing(data) || !is.data.frame(data)) {
     cli::cli_abort(
-      "{.arg {rlang::caller_arg(data)}} must be of class dataframe, not {obj_type_friendly(data)}.",
+      "{.arg {rlang::caller_arg(data)}} must be of class {.cls data.frame}, not {obj_type_friendly(data)}.",
       call = rlang::caller_env()
     )
   }
