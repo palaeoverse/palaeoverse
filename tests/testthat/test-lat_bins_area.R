@@ -22,9 +22,11 @@ test_that("lat_bins_area errors with unnamed args", {
   expect_snapshot(lat_bins_area(n = 10, 1), error = TRUE)
   expect_snapshot(lat_bins_area(10, 1, 2), error = TRUE)
   expect_snapshot(lat_bins_area(10, 1, max = 2), error = TRUE)
+})
 
-  # partial arg matching works
-  expect_snapshot(lat_bins_area(10, mi = 1, ma = 2))
+test_that("partial matching of argument names is forbidden", {
+  expect_snapshot(lat_bins_area(10, mi = 1), error = TRUE)
+  expect_snapshot(lat_bins_area(10, mi = 1, ma = 2), error = TRUE)
 })
 
 test_that("lat_bins_area errors with wrong inputs", {
