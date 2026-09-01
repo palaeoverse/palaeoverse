@@ -96,13 +96,14 @@
 #'                            append = FALSE)
 #' @export
 tax_certainty <- function(
-  taxdf = NULL,
-  name = NULL,
+  taxdf,
+  name,
   terms = NULL,
   certainty = c(1, 0),
   append = TRUE
 ) {
   # Error handling
+
   # Check taxdf is dataframe
   if (!is.data.frame(taxdf)) {
     stop("`taxdf` must be a data.frame.")
