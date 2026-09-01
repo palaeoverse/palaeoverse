@@ -39,7 +39,7 @@ check_range <- function(data, column, min, max) {
   vals <- data[[column]]
   if (!is.numeric(vals)) {
     cli::cli_abort(
-      "Column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be numeric, not {.cls {class(vals)}}.",
+      "Column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be {.cls numeric}, not {.cls {class(vals)}}.",
       call = rlang::caller_env()
     )
   }
