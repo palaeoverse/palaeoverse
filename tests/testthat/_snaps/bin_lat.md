@@ -4,7 +4,7 @@
       bin_lat(occdf = 2, bins = bins, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! `occdf` must be a data frame, not the number 2.
+      ! `occdf` must be of class <data.frame>, not the number 2.
 
 ---
 
@@ -12,7 +12,7 @@
       bin_lat(occdf = occdf, bins = 2, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! `bins` must be a data frame, not the number 2.
+      ! `bins` must be of class <data.frame>, not the number 2.
 
 ---
 

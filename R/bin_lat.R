@@ -35,8 +35,8 @@
 #' occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
 #'
 bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
-  rlang::check_data_frame(occdf)
-  rlang::check_data_frame(bins)
+  check_data_frame(occdf)
+  check_data_frame(bins)
   rlang::check_bool(boundary)
   check_column_presence(occdf, lat)
   check_column_presence(bins, "min")
