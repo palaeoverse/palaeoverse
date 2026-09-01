@@ -11,7 +11,7 @@ diversity" (e.g. Mannion et al. 2011).
 
 ``` r
 tax_unique(
-  occdf = NULL,
+  occdf,
   binomial = NULL,
   species = NULL,
   genus = NULL,

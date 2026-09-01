@@ -8,13 +8,7 @@ Details for screening values).
 ## Usage
 
 ``` r
-tax_certainty(
-  taxdf = NULL,
-  name = NULL,
-  terms = NULL,
-  certainty = c(1, 0),
-  append = TRUE
-)
+tax_certainty(taxdf, name, terms = NULL, certainty = c(1, 0), append = TRUE)
 ```
 
 ## Arguments

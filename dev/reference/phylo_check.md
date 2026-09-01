@@ -7,7 +7,7 @@ include taxon names within the vector.
 ## Usage
 
 ``` r
-phylo_check(tree = NULL, list = NULL, out = "full_table", sort = "presence")
+phylo_check(tree, list, out = "full_table", sort = "presence")
 ```
 
 ## Arguments
