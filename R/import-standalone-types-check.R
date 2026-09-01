@@ -79,8 +79,8 @@ check_symbol <- function(
   x,
   ...,
   allow_null = FALSE,
-  arg = caller_arg(x),
-  call = caller_env()
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
 ) {
   if (!missing(x)) {
     if (rlang::is_symbol(x)) {
@@ -106,8 +106,8 @@ check_arg <- function(
   x,
   ...,
   allow_null = FALSE,
-  arg = caller_arg(x),
-  call = caller_env()
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
 ) {
   if (!missing(x)) {
     if (rlang::is_symbol(x)) {
@@ -133,8 +133,8 @@ check_call <- function(
   x,
   ...,
   allow_null = FALSE,
-  arg = caller_arg(x),
-  call = caller_env()
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
 ) {
   if (!missing(x)) {
     if (rlang::is_call(x)) {
@@ -160,8 +160,8 @@ check_environment <- function(
   x,
   ...,
   allow_null = FALSE,
-  arg = caller_arg(x),
-  call = caller_env()
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
 ) {
   if (!missing(x)) {
     if (rlang::is_environment(x)) {
@@ -187,8 +187,8 @@ check_function <- function(
   x,
   ...,
   allow_null = FALSE,
-  arg = caller_arg(x),
-  call = caller_env()
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
 ) {
   if (!missing(x)) {
     if (rlang::is_function(x)) {
@@ -214,11 +214,11 @@ check_closure <- function(
   x,
   ...,
   allow_null = FALSE,
-  arg = caller_arg(x),
-  call = caller_env()
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
 ) {
   if (!missing(x)) {
-    if (is_closure(x)) {
+    if (rlang::is_closure(x)) {
       return(invisible(NULL))
     }
     if (allow_null && rlang::is_null(x)) {
@@ -242,8 +242,8 @@ check_formula <- function(
   ...,
   allow_null = FALSE,
   allow_unevaluated = FALSE,
-  arg = caller_arg(x),
-  call = caller_env()
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
 ) {
   if (!missing(x)) {
     if (allow_null && rlang::is_null(x)) {
@@ -283,13 +283,13 @@ check_character <- function(
   ...,
   allow_na = TRUE,
   allow_null = FALSE,
-  arg = caller_arg(x),
-  call = caller_env()
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
 ) {
   if (!missing(x)) {
     if (rlang::is_character(x)) {
       if (!allow_na && any(is.na(x))) {
-        abort(
+        rlang::abort(
           sprintf("`%s` can't contain NA values.", arg),
           arg = arg,
           call = call
@@ -319,8 +319,8 @@ check_logical <- function(
   ...,
   allow_na = TRUE,
   allow_null = FALSE,
-  arg = caller_arg(x),
-  call = caller_env()
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
 ) {
   if (!missing(x)) {
     if (rlang::is_logical(x)) {
