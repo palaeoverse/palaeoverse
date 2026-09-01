@@ -50,8 +50,8 @@ tax_expand_lat <- function(
   max_lat = "max_lat",
   min_lat = "min_lat"
 ) {
-  rlang::check_data_frame(taxdf)
-  rlang::check_data_frame(bins)
+  check_data_frame(taxdf)
+  check_data_frame(bins)
 
   check_column_presence(bins, "bin")
   check_column_presence(bins, "max")
@@ -78,7 +78,7 @@ tax_expand_lat <- function(
     cli::cli_abort(
       c(
         "Maximum latitude must be larger than or equal to minimum latitude.",
-        "i" = "Row(s) where max latitude is smaller than min latitude{truncated}: {.val {to_report}}."
+        "i" = "Row(s) where {.arg max_lat} is smaller than {.arg min_lat}{truncated}: {.val {to_report}}."
       )
     )
   }
