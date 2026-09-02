@@ -40,7 +40,7 @@
       bin_lat(occdf = 2, bins = bins, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! `occdf` should be a dataframe.
+      ! `occdf` must be of class <data.frame>, not the number 2.
 
 ---
 
@@ -48,7 +48,7 @@
       bin_lat(occdf = occdf, bins = 2, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! `bins` should be a dataframe.
+      ! `bins` must be of class <data.frame>, not the number 2.
 
 ---
 
@@ -56,7 +56,7 @@
       bin_lat(occdf = occdf, bins = bins, lat = "plat")
     Condition
       Error in `bin_lat()`:
-      ! `lat` column name does not exist in `occdf`
+      ! Column "plat" not found in `occdf`.
 
 ---
 
@@ -64,7 +64,7 @@
       bin_lat(occdf = occdf, bins = bins2, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! `bins` does not contain bin, max and min named columns
+      ! Column "bin" not found in `bins`.
 
 ---
 
@@ -72,7 +72,7 @@
       bin_lat(occdf = occdf, bins = bins2, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! `bins` does not contain bin, max and min named columns
+      ! Column "min" not found in `bins`.
 
 ---
 
@@ -80,7 +80,7 @@
       bin_lat(occdf = occdf, bins = bins2, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! `bins` does not contain bin, max and min named columns
+      ! Column "max" not found in `bins`.
 
 ---
 
@@ -88,7 +88,7 @@
       bin_lat(occdf = occdf, bins = bins, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! `lat` contains NA values
+      ! Column "lat" in `occdf` must not have missing values.
 
 ---
 
@@ -96,5 +96,6 @@
       bin_lat(occdf = occdf, bins = bins, lat = "lat")
     Condition
       Error in `bin_lat()`:
-      ! Latitudes should be more than -90 and less than 90
+      ! All values of column "lat" in `occdf` must be between -90 and 90.
+      i Value(s) outside the range: 91.
 
