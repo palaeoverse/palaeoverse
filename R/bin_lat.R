@@ -44,12 +44,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   check_column_presence(bins, "bin")
 
   lat_vals <- occdf[[lat]]
-  if (anyNA(lat_vals)) {
-    cli::cli_abort(
-      "Column {.val {lat}}  in {.arg occdf} must not have missing values."
-    )
-  }
-
+  check_na(occdf, lat)
   check_range(occdf, lat, -90, 90)
 
   #=== Set up ===

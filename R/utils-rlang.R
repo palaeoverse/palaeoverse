@@ -20,6 +20,24 @@ check_column_presence <- function(data, column) {
   }
 }
 
+#' Check whether a column contains missing values
+#'
+#' This errors if there are missing values.
+#'
+#' @param data dataframe to check
+#' @param column A single column name to check.
+#'
+#' @noRd
+check_na <- function(data, column) {
+  values <- data[[column]]
+  if (anyNA(values)) {
+    cli::cli_abort(
+      "Column {.val {column}}  in {.arg {rlang::caller_arg(data)}} must not have missing values.",
+      call = rlang::caller_env()
+    )
+  }
+}
+
 #' Check whether all values of a numeric column fall in a custom range
 #'
 #' This errors if any of the following cases:
