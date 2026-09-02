@@ -101,6 +101,8 @@ tax_range_time <- function(
   plot_args = NULL,
   intervals = "periods"
 ) {
+  ensure_args_are_named()
+
   #=== Handling errors ===
   if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe")
