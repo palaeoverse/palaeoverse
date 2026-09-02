@@ -126,6 +126,8 @@ bin_time <- function(
   check_data_frame(occdf)
   check_data_frame(bins)
 
+  check_column_presence(occdf, min_ma)
+  check_column_presence(occdf, max_ma)
   check_column_presence(bins, min_ma)
   check_column_presence(bins, max_ma)
   check_column_presence(bins, "bin")

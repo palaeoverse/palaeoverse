@@ -28,12 +28,28 @@
       bin_time(occdf = data.frame(), bins = data.frame(), method = "mid")
     Condition
       Error in `bin_time()`:
-      ! Column "min_ma" not found in `bins`.
+      ! Column "min_ma" not found in `occdf`.
 
 ---
 
     Code
       bin_time(occdf = data.frame(), bins = data.frame(), method = "mid")
+    Condition
+      Error in `bin_time()`:
+      ! Column "min_ma" not found in `occdf`.
+
+---
+
+    Code
+      bin_time(occdf = test_occdf, bins = data.frame(), method = "mid")
+    Condition
+      Error in `bin_time()`:
+      ! Column "min_ma" not found in `bins`.
+
+---
+
+    Code
+      bin_time(occdf = test_occdf, bins = data.frame(), method = "mid")
     Condition
       Error in `bin_time()`:
       ! Column "min_ma" not found in `bins`.
