@@ -149,7 +149,7 @@ bin_time <- function(
 
   if (max(occdf_max_ma_vals) > max(bins_max_ma_vals)) {
     cli::cli_abort(
-      "Maximum age of occurrence data ({.val {max(occdf_max_ma_vals)}}) surpasses maximum age of bins ({.val {max(bins_max_ma_vals)}}) ."
+      "Maximum age of occurrence data ({.val {max(occdf_max_ma_vals)}}) surpasses maximum age of bins ({.val {max(bins_max_ma_vals)}})."
     )
   }
 
