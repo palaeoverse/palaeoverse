@@ -149,13 +149,13 @@ bin_time <- function(
 
   if (max(occdf_max_ma_vals) > max(bins_max_ma_vals)) {
     cli::cli_abort(
-      "Maximum age of occurrence data surpasses maximum age of bins."
+      "Maximum age of occurrence data ({.val {max(occdf_max_ma_vals)}}) surpasses maximum age of bins ({.val {max(bins_max_ma_vals)}}) ."
     )
   }
 
   if (min(occdf_min_ma_vals) < min(bins_min_ma_vals)) {
     cli::cli_abort(
-      "Minimum age of occurrence data is less than minimum age of bins."
+      "Minimum age of occurrence data ({.val {min(occdf_min_ma_vals)}}) is less than minimum age of bins ({.val {min(bins_min_ma_vals)}})."
     )
   }
 

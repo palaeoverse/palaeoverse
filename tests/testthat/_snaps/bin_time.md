@@ -127,7 +127,7 @@
       bin_time(occdf = occdf, bins = bins)
     Condition
       Error in `bin_time()`:
-      ! Minimum age of occurrence data is less than minimum age of bins.
+      ! Minimum age of occurrence data (-5000) is less than minimum age of bins (0).
 
 ---
 
@@ -135,7 +135,7 @@
       bin_time(occdf = occdf, bins = bins)
     Condition
       Error in `bin_time()`:
-      ! Maximum age of occurrence data surpasses maximum age of bins.
+      ! Maximum age of occurrence data (5000) surpasses maximum age of bins (540) .
 
 ---
 
