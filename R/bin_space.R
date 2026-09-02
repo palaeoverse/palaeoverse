@@ -119,50 +119,16 @@ bin_space <- function(
 ) {
   ensure_args_are_named()
 
-  #=== Error handling ===
-  if (!is.data.frame(occdf)) {
-    stop("occdf should be of class dataframe")
-  }
+  check_data_frame(occdf)
+  check_column_presence(occdf, lat)
+  check_column_presence(occdf, lng)
+  check_range(occdf, lat, -90, 90)
+  check_range(occdf, lng, -180, 180)
 
-  if (
-    !lng %in% colnames(occdf) ||
-      !lat %in% colnames(occdf)
-  ) {
-    stop("input column names do not exist in `occdf`")
-  }
-
-  if (
-    !is.numeric(occdf[, lng, drop = TRUE]) ||
-      !is.numeric(occdf[, lat, drop = TRUE])
-  ) {
-    stop("input coordinates are not of class numeric")
-  }
-
-  if (
-    any(occdf[, lat, drop = TRUE] > 90) ||
-      any(occdf[, lat, drop = TRUE] < -90)
-  ) {
-    stop("Latitudinal coordinates should be more than -90 and less than 90")
-  }
-
-  if (
-    any(occdf[, lng, drop = TRUE] > 180) ||
-      any(occdf[, lng, drop = TRUE] < -180)
-  ) {
-    stop("Longitudinal coordinates should be more than -180 and less than 180")
-  }
-
-  if (!is.numeric(spacing)) {
-    stop("`spacing` should be of class numeric")
-  }
-
-  if (!is.null(sub_grid) && !is.numeric(sub_grid)) {
-    stop("`sub_grid` should be of class numeric or NULL")
-  }
-
-  if (!is.logical(return)) {
-    stop("`return` should be logical (TRUE/FALSE)")
-  }
+  check_numeric(spacing, required_length = 1)
+  check_numeric(sub_grid, allow_null = TRUE, required_length = 1)
+  rlang::check_bool(return)
+  rlang::check_bool(plot)
 
   #=== Set-up ===
   # Convert to sf object and add CRS
@@ -201,9 +167,11 @@ bin_space <- function(
     ]
     # Throw error if grids are the same
     if (grid$h3_resolution == s_grid$h3_resolution) {
-      stop(
-        "`spacing` and `sub_grid` values result in the same resolution.
-    Update `spacing` and/or `sub_grid` accordingly."
+      cli::cli_abort(
+        c(
+          "{.arg spacing} and {.arg sub_grid} values result in the same resolution.",
+          "i" = "Update {.arg spacing} and/or {.arg sub_grid} accordingly."
+        )
       )
     }
 
@@ -275,12 +243,15 @@ bin_space <- function(
       names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
     }
   }
-  message(
-    "Average spacing between adjacent cells in the primary grid was set to ",
-    round(grid$avg_cendist_km[1], digits = 2),
-    " km. ",
-    "\nH3 resolution: ",
-    grid$h3_resolution[1]
+  cli::cli_inform(
+    c(
+      paste0(
+        "Average spacing between adjacent cells in the primary grid was set to ",
+        round(grid$avg_cendist_km[1], digits = 2),
+        " km. "
+      ),
+      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
+    )
   )
   return(occdf)
 }
