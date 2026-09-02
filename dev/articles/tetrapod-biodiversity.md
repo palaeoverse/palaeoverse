@@ -227,7 +227,8 @@ tetrapods <- bin_time(occdf = tetrapods,
 ```
 
     ## Error in `bin_time()`:
-    ## ! Minimum age of occurrence data is less than minimum age of bins.
+    ## ! Minimum age of occurrence data (247.2) is less than minimum age of
+    ##   bins (252.2).
 
 Oh no! We’ve hit an error. This is because there’s some occurrences that
 sit outside of the time intervals we’re interested in. `bin_time` can’t
