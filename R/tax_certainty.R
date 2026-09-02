@@ -102,6 +102,8 @@ tax_certainty <- function(
   certainty = c(1, 0),
   append = TRUE
 ) {
+  ensure_args_are_named()
+
   # Error handling
 
   # Check taxdf is dataframe
