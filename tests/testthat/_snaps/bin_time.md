@@ -57,7 +57,7 @@
 ---
 
     Code
-      bin_time(mtcars, occdf = c(50, 20, 10))
+      bin_time(bins = mtcars, occdf = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
       ! `occdf` must be of class <data.frame>, not a double vector.
@@ -144,4 +144,32 @@
     Condition
       Error in `bin_time()`:
       ! `max_ma` can't contain NA values.
+
+# bin_time errors with unnamed args
+
+    Code
+      bin_time(occdf = test_occdf, test_bins, method = "majority")
+    Condition
+      Error in `bin_time()`:
+      ! All arguments must be named.
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      bin_time(test_occdf, test_bins, "majority")
+    Condition
+      Error in `bin_time()`:
+      ! All arguments must be named.
+      i Currently, there are 3 arguments that should be named.
+
+---
+
+    Code
+      bin_time(occdf = test_occdf, bins = test_bins, method = "point", reps = 5, fun = dnorm,
+        0.5, 0.25)
+    Condition
+      Error in `bin_time()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
 
