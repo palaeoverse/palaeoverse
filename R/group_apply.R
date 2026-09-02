@@ -116,19 +116,10 @@ group_apply <- function(occdf, group, fun, ...) {
     }
   }
 
-  # `by()` passes the data as an unnamed argument, which is rejected by
-  # functions requiring named arguments
-  first_arg <- names(formals(args(fun)))[1]
   output_lst <- by(
     data = occdf,
     INDICES = occdf[, group, drop = FALSE],
-    FUN = function(x, ...) {
-      fun_args <- list(x, ...)
-      if (!is.na(first_arg) && first_arg != "...") {
-        names(fun_args)[1] <- first_arg
-      }
-      do.call(fun, fun_args)
-    },
+    FUN = fun,
     ...
   )
 

@@ -45,18 +45,6 @@ test_that("error handling for argument 'occdf'", {
   )
 })
 
-test_that("group_apply() passes the data to `fun` as a named argument", {
-  occdf <- tetrapods[1:100, ]
-  count_rows <- function(occdf) {
-    ensure_args_are_named()
-    nrow(occdf)
-  }
-  expect_named(
-    group_apply(occdf = occdf, group = "cc", fun = count_rows),
-    c("count_rows", "cc")
-  )
-})
-
 test_that("group_apply() accepts functions that return less or more rows than in the input", {
   occdf <- tetrapods[1:100, ]
   occdf <- subset(occdf, !is.na(genus))
