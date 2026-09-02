@@ -79,8 +79,8 @@ Lewis A. Jones
 taxdf <- data.frame(name = c("A", "B", "C"),
                     max_ma = c(150, 60, 30),
                     min_ma = c(110, 20, 0))
-ex <- tax_expand_time(taxdf)
+ex <- tax_expand_time(taxdf = taxdf)
 
 bins <- time_bins(scale = "GTS2012", rank = "stage")
-ex2 <- tax_expand_time(taxdf, bins = bins)
+ex2 <- tax_expand_time(taxdf = taxdf, bins = bins)
 }
