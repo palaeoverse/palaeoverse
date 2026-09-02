@@ -177,6 +177,8 @@ palaeorotate <- function(
   uncertainty = TRUE,
   round = 3
 ) {
+  ensure_args_are_named()
+
   # Error-handling ----------------------------------------------------------
   if (!exists("occdf") || !is.data.frame(occdf)) {
     stop("Please supply `occdf` as a data.frame.")
