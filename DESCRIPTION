@@ -78,4 +78,4 @@ URL: https://palaeoverse.palaeoverse.org,
      https://github.com/palaeoverse/palaeoverse,
      https://palaeoverse.org
 BugReports: https://github.com/palaeoverse/palaeoverse/issues
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
