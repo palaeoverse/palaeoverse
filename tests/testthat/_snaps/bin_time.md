@@ -4,7 +4,7 @@
       bin_time(occdf = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
-      ! `occdf` must be a data frame, not a double vector.
+      ! `occdf` must be of class <data.frame>, not a double vector.
 
 ---
 
@@ -12,7 +12,7 @@
       bin_time(bins = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
-      ! `occdf` must be a data frame, not absent.
+      ! `occdf` must be of class <data.frame>, not absent.
 
 ---
 
@@ -20,7 +20,7 @@
       bin_time(occdf = data.frame(), bins = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
-      ! `bins` must be a data frame, not a double vector.
+      ! `bins` must be of class <data.frame>, not a double vector.
 
 ---
 
@@ -44,7 +44,7 @@
       bin_time(mtcars, occdf = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
-      ! `occdf` must be a data frame, not a double vector.
+      ! `occdf` must be of class <data.frame>, not a double vector.
 
 # wrong input for method
 

@@ -123,8 +123,8 @@ bin_time <- function(
   fun = dunif,
   ...
 ) {
-  rlang::check_data_frame(occdf)
-  rlang::check_data_frame(bins)
+  check_data_frame(occdf)
+  check_data_frame(bins)
 
   check_column_presence(bins, min_ma)
   check_column_presence(bins, max_ma)
