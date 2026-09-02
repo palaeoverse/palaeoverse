@@ -110,7 +110,7 @@ check_arg <- function(
   call = rlang::caller_env()
 ) {
   if (!missing(x)) {
-    if (is_symbol(x)) {
+    if (rlang::is_symbol(x)) {
       return(invisible(NULL))
     }
     if (allow_null && rlang::is_null(x)) {

@@ -21,7 +21,6 @@ export(tax_range_strat)
 export(tax_range_time)
 export(tax_unique)
 export(time_bins)
-import(rlang)
 importFrom(ape,
   .PlotPhyloEnv,
   drop.tip
