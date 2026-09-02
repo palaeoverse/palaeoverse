@@ -24,7 +24,7 @@ axis_geo(
   bkgd = "grey90",
   neg = FALSE,
   exact = FALSE,
-  round = FALSE,
+  round = NULL,
   tick_at = NULL,
   tick_labels = TRUE,
   title = NULL,
@@ -116,10 +116,10 @@ marks and numeric tick labels placed at the interval boundaries. If
 \code{TRUE}, this overrides \code{tick_at} and \code{tick_labels}.}
 
 \item{round}{\code{integer}. Number of decimal places to which exact axis
-labels should be rounded (using \code{\link[base]{round}}). If no value is
-specified, the exact values will be used. Trailing zeros are always
-removed. \code{tick_at} and \code{tick_labels} can be used to include
-labels with trailing zeros.}
+labels should be rounded (using \code{\link[base]{round}}). If no numeric
+value is specified, the exact values will be used. Trailing zeros are
+always removed. \code{tick_at} and \code{tick_labels} can be used to
+include labels with trailing zeros.}
 
 \item{tick_at}{A \code{numeric} vector specifying custom points at which tick
 marks are to be drawn on the axis. If specified, this is passed directly to
