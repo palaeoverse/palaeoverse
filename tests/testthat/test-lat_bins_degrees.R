@@ -97,3 +97,10 @@ test_that("argument 'plot' works", {
   expect_snapshot(lat_bins_degrees(plot = NA), error = TRUE)
   expect_snapshot(lat_bins_degrees(plot = c(TRUE, TRUE)), error = TRUE)
 })
+
+test_that("lat_bins errors with unnamed args", {
+  expect_snapshot(lat_bins(10, -90), error = TRUE)
+  expect_snapshot(lat_bins(size = 10, -90), error = TRUE)
+  expect_snapshot(lat_bins(10, -90, 90), error = TRUE)
+  expect_snapshot(lat_bins(10, -90, max = 90), error = TRUE)
+})

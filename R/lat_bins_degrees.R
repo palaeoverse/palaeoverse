@@ -164,6 +164,8 @@ lat_bins <- function(
   fit = FALSE,
   plot = FALSE
 ) {
+  ensure_args_are_named()
+
   lifecycle::deprecate_warn("1.4.0", "lat_bins()", "lat_bins_degrees()")
   argg <- as.list(environment())
   do.call(lat_bins_degrees, argg)
