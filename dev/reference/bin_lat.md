@@ -62,6 +62,6 @@ occdf <- tetrapods
 bins <- lat_bins_degrees(size = 10)
 # Bin data
 occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
-#> Presence of occurrences falling on boundaries detected. 
-#> Occurrences assigned to upper bin.
+#> Warning: Presence of occurrences falling on boundaries detected.
+#> ℹ Occurrences assigned to upper bin.
 ```
