@@ -129,10 +129,10 @@
 #'   marks and numeric tick labels placed at the interval boundaries. If
 #'   \code{TRUE}, this overrides \code{tick_at} and \code{tick_labels}.
 #' @param round \code{integer}. Number of decimal places to which exact axis
-#'   labels should be rounded (using \code{\link[base]{round}}). If no value is
-#'   specified, the exact values will be used. Trailing zeros are always
-#'   removed. \code{tick_at} and \code{tick_labels} can be used to include
-#'   labels with trailing zeros.
+#'   labels should be rounded (using \code{\link[base]{round}}). If no numeric
+#'   value is specified, the exact values will be used. Trailing zeros are
+#'   always removed. \code{tick_at} and \code{tick_labels} can be used to
+#'   include labels with trailing zeros.
 #' @param tick_at A \code{numeric} vector specifying custom points at which tick
 #'   marks are to be drawn on the axis. If specified, this is passed directly to
 #'   \code{\link[graphics]{axis}}. If \code{phylo} is \code{TRUE}, these values
@@ -248,7 +248,7 @@ axis_geo <- function(
   bkgd = "grey90",
   neg = FALSE,
   exact = FALSE,
-  round = FALSE,
+  round = NULL,
   # passed to axis():
   tick_at = NULL,
   tick_labels = TRUE,
@@ -825,10 +825,10 @@ axis_geo <- function(
     if (phylo) {
       tick_at <- (tick_at - phylo_alpha) / phylo_beta
     }
-    if (is.numeric(round)) {
-      tick_labels <- round(tick_at, round)
-    } else {
+    if (is.null(round)) {
       tick_labels <- as.character(tick_at) # removes trailing zeros
+    } else {
+      tick_labels <- round(tick_at, digits = round)
     }
   }
   if (phylo) {

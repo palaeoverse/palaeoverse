@@ -4,7 +4,7 @@
       bin_space(occdf = matrix(tetrapods))
     Condition
       Error in `bin_space()`:
-      ! `occdf` must be a data frame, not a list matrix.
+      ! `occdf` must be of class <data.frame>, not a list matrix.
 
 ---
 
@@ -78,7 +78,7 @@
       bin_space(occdf = occdf)
     Condition
       Error in `bin_space()`:
-      ! Column "lat" in `occdf` must be numeric, not <character>.
+      ! Column "lat" in `occdf` must be <numeric>, not <character>.
 
 ---
 
@@ -95,5 +95,5 @@
       bin_space(occdf = occdf)
     Condition
       Error in `bin_space()`:
-      ! Column "lng" in `occdf` must be numeric, not <character>.
+      ! Column "lng" in `occdf` must be <numeric>, not <character>.
 
