@@ -154,6 +154,9 @@ tax_unique <- function(
   if (!is.null(genus)) {
     check_column_presence(occdf, genus)
   }
+  if (!is.null(name)) {
+    check_column_presence(occdf, name)
+  }
 
   higher_args <- list(...)
   higher_names <- names(higher_args)
@@ -180,10 +183,6 @@ tax_unique <- function(
         "Column {.val {level_label}} must not contain punctuation."
       )
     }
-  }
-
-  if (!is.null(name)) {
-    check_column_presence(occdf, name)
   }
 
   if (!is.null(genus) && any(grepl("[[:punct:]]", occdf[[genus]]))) {
