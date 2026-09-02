@@ -160,9 +160,7 @@ tax_unique <- function(
   higher_cols <- unname(unlist(higher_args))
   if (length(higher_args) == 0) {
     cli::cli_abort(
-      c(
-        "At least one higher taxonomic level must be supplied (e.g. {.code family = \"family\"})."
-      )
+      "At least one higher taxonomic level must be supplied (e.g. {.code family = \"family\"})."
     )
   }
 
