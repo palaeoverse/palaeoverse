@@ -98,7 +98,7 @@ check_symbol <- function(
     allow_na = FALSE,
     allow_null = allow_null,
     arg = arg,
-    call = rlang::call
+    call = call
   )
 }
 
@@ -125,7 +125,7 @@ check_arg <- function(
     allow_na = FALSE,
     allow_null = allow_null,
     arg = arg,
-    call = rlang::call
+    call = call
   )
 }
 
@@ -152,7 +152,7 @@ check_call <- function(
     allow_na = FALSE,
     allow_null = allow_null,
     arg = arg,
-    call = rlang::call
+    call = call
   )
 }
 
@@ -179,7 +179,7 @@ check_environment <- function(
     allow_na = FALSE,
     allow_null = allow_null,
     arg = arg,
-    call = rlang::call
+    call = call
   )
 }
 
@@ -206,7 +206,7 @@ check_function <- function(
     allow_na = FALSE,
     allow_null = allow_null,
     arg = arg,
-    call = rlang::call
+    call = call
   )
 }
 
@@ -233,7 +233,7 @@ check_closure <- function(
     allow_na = FALSE,
     allow_null = allow_null,
     arg = arg,
-    call = rlang::call
+    call = call
   )
 }
 
@@ -257,7 +257,7 @@ check_formula <- function(
       cli::cli_abort(
         "{.arg {arg}} must be an evaluated formula, not a defused one.",
         arg = arg,
-        call = rlang::call
+        call = call
       )
     }
   }
@@ -269,7 +269,7 @@ check_formula <- function(
     allow_na = FALSE,
     allow_null = allow_null,
     arg = arg,
-    call = rlang::call
+    call = call
   )
 }
 
@@ -292,7 +292,7 @@ check_character <- function(
         rlang::abort(
           sprintf("`%s` can't contain NA values.", arg),
           arg = arg,
-          call = rlang::call
+          call = call
         )
       }
 
@@ -310,7 +310,7 @@ check_character <- function(
     ...,
     allow_null = allow_null,
     arg = arg,
-    call = rlang::call
+    call = call
   )
 }
 
@@ -328,7 +328,7 @@ check_logical <- function(
         rlang::abort(
           sprintf("`%s` can't contain NA values.", arg),
           arg = arg,
-          call = rlang::call
+          call = call
         )
       }
       return(invisible(NULL))
@@ -345,7 +345,7 @@ check_logical <- function(
     allow_na = FALSE,
     allow_null = allow_null,
     arg = arg,
-    call = rlang::call
+    call = call
   )
 }
 
