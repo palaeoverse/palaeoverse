@@ -73,6 +73,8 @@ phylo_check <- function(
   out = "full_table",
   sort = "presence"
 ) {
+  ensure_args_are_named()
+
   #Errors for incorrect input
   if (!inherits(tree, "phylo")) {
     stop("Phylogeny must be a phylo object")
