@@ -4,7 +4,7 @@
       bin_space(occdf = matrix(tetrapods))
     Condition
       Error in `bin_space()`:
-      ! `occdf` must be a data frame, not a list matrix.
+      ! `occdf` must be of class <data.frame>, not a list matrix.
 
 ---
 

@@ -117,7 +117,7 @@ bin_space <- function(
   return = FALSE,
   plot = FALSE
 ) {
-  rlang::check_data_frame(occdf)
+  check_data_frame(occdf)
 
   check_column_presence(occdf, lat)
   check_column_presence(occdf, lng)
