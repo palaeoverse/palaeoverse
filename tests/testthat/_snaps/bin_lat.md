@@ -1,3 +1,39 @@
+# bin_lat errors with unnamed args
+
+    Code
+      bin_lat(tetrapods, bins)
+    Condition
+      Error in `bin_lat()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      bin_lat(occdf = tetrapods, bins)
+    Condition
+      Error in `bin_lat()`:
+      ! All arguments must be named.
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      bin_lat(tetrapods, bins, "lat")
+    Condition
+      Error in `bin_lat()`:
+      ! All arguments must be named.
+      i Currently, there are 3 arguments that should be named.
+
+---
+
+    Code
+      bin_lat(tetrapods, bins, lat = "lat")
+    Condition
+      Error in `bin_lat()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
 # bin_lat error handling
 
     Code

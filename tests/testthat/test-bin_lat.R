@@ -21,6 +21,14 @@ test_that("bin_lat works", {
   )
 })
 
+test_that("bin_lat errors with unnamed args", {
+  bins <- lat_bins_degrees(size = 10)
+  expect_snapshot(bin_lat(tetrapods, bins), error = TRUE)
+  expect_snapshot(bin_lat(occdf = tetrapods, bins), error = TRUE)
+  expect_snapshot(bin_lat(tetrapods, bins, "lat"), error = TRUE)
+  expect_snapshot(bin_lat(tetrapods, bins, lat = "lat"), error = TRUE)
+})
+
 test_that("bin_lat error handling", {
   # We modify this data so copy it first
   occdf <- tetrapods

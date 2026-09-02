@@ -35,6 +35,8 @@
 #' occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
 #'
 bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
+  ensure_args_are_named()
+
   #=== Handling errors ===
   if (!is.data.frame(occdf)) {
     stop("`occdf` should be a dataframe.")
