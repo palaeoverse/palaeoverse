@@ -31,14 +31,14 @@ test_that("basic behavior works", {
 
   # input checks
   expect_snapshot(tax_expand_lat(taxdf = 5), error = TRUE)
-  expect_snapshot(tax_expand_lat(taxdf), error = TRUE)
-  expect_snapshot(tax_expand_lat(taxdf, bins = 1), error = TRUE)
+  expect_snapshot(tax_expand_lat(taxdf = taxdf), error = TRUE)
+  expect_snapshot(tax_expand_lat(taxdf = taxdf, bins = 1), error = TRUE)
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, max_lat = "lat"),
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = "lat"),
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, min_lat = "lat"),
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = "lat"),
     error = TRUE
   )
 
@@ -171,6 +171,29 @@ test_that("basic behavior works", {
   )
   bins <- bins[, -1]
   expect_snapshot(tax_expand_lat(taxdf = taxdf, bins = bins), error = TRUE)
+})
+
+test_that("tax_expand_lat errors with unnamed args", {
+  bins <- data.frame(
+    bin = 1:9,
+    min = seq(from = 40, to = -40, by = -10),
+    mid = seq(from = 45, to = -35, by = -10),
+    max = seq(from = 50, to = -30, by = -10)
+  )
+
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c(20, 50, -10),
+    min_lat = c(-10, 20, -40)
+  )
+
+  expect_snapshot(tax_expand_lat(taxdf, bins), error = TRUE)
+  expect_snapshot(tax_expand_lat(taxdf = taxdf, bins), error = TRUE)
+  expect_snapshot(tax_expand_lat(taxdf, bins, "max_lat"), error = TRUE)
+  expect_snapshot(
+    tax_expand_lat(taxdf, bins, max_lat = "max_lat"),
+    error = TRUE
+  )
 })
 
 test_that("args 'min_lat' and 'max_lat' work", {
