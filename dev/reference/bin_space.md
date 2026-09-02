@@ -114,14 +114,16 @@ occdf <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
 ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
-#> Average spacing between adjacent cells in the primary grid was set to 725.17 km. 
-#> H3 resolution: 1
+#> Average spacing between adjacent cells in the primary grid was set to 725.17
+#> km.
+#> ℹ H3 resolution: 1
 
 # Bin data using a hexagonal equal-area grid and sub-grid
 ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
 
-#> Average spacing between adjacent cells in the primary grid was set to 725.17 km. 
-#> H3 resolution: 1
+#> Average spacing between adjacent cells in the primary grid was set to 725.17
+#> km.
+#> ℹ H3 resolution: 1
 
 # EXAMPLE: rarefy
 # Load data
@@ -129,8 +131,9 @@ occdf <- tetrapods[1:250, ]
 
 # Assign to spatial bin
 occdf <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
-#> Average spacing between adjacent cells in the primary grid was set to 725.17 km. 
-#> H3 resolution: 1
+#> Average spacing between adjacent cells in the primary grid was set to 725.17
+#> km.
+#> ℹ H3 resolution: 1
 
 # Get unique bins
 bins <- unique(occdf$cell_ID)

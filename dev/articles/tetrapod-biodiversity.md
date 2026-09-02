@@ -360,8 +360,8 @@ maj_tetrapods <- bin_space(occdf = maj_tetrapods,
                            spacing = 100)
 ```
 
-    ## Average spacing between adjacent cells in the primary grid was set to 103.6 km. 
-    ## H3 resolution: 3
+    ## Average spacing between adjacent cells in the primary grid was set to 103.6 km.
+    ## ℹ H3 resolution: 3
 
 ``` r
 
