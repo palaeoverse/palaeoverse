@@ -4,7 +4,7 @@ test_that("lat_bins_degrees() basic usage works", {
 
 test_that("argument 'size' works", {
   expect_equal(
-    lat_bins_degrees(40),
+    lat_bins_degrees(size = 40),
     data.frame(
       bin = 1:4,
       min = c(30, -10, -50, -90),
@@ -19,7 +19,7 @@ test_that("argument 'size' works", {
 
 test_that("arguments 'min' and 'max' work", {
   expect_equal(
-    lat_bins_degrees(40, min = -30),
+    lat_bins_degrees(size = 40, min = -30),
     data.frame(
       bin = 1:3,
       min = c(50, 10, -30),
@@ -28,7 +28,7 @@ test_that("arguments 'min' and 'max' work", {
     )
   )
   expect_equal(
-    lat_bins_degrees(40, max = 10),
+    lat_bins_degrees(size = 40, max = 10),
     data.frame(
       bin = 1:2,
       min = c(-50, -90),
@@ -66,7 +66,7 @@ test_that("arguments 'min' and 'max' work", {
 test_that("argument 'fit' works", {
   expect_message(
     expect_equal(
-      lat_bins_degrees(40, fit = TRUE),
+      lat_bins_degrees(size = 40, fit = TRUE),
       data.frame(
         bin = 1:5,
         min = c(54, 18, -18, -54, -90),
@@ -84,11 +84,11 @@ test_that("argument 'fit' works", {
 
 test_that("argument 'plot' works", {
   expect_doppelganger("lat_bins_degrees", function() {
-    lat_bins_degrees(40, plot = TRUE)
+    lat_bins_degrees(size = 40, plot = TRUE)
   })
   expect_message(
     expect_doppelganger("lat_bins_degrees with fit", function() {
-      lat_bins_degrees(40, fit = TRUE, plot = TRUE)
+      lat_bins_degrees(size = 40, fit = TRUE, plot = TRUE)
     }),
     "Bin size set to 36 degrees to fit latitudinal range."
   )
@@ -99,8 +99,8 @@ test_that("argument 'plot' works", {
 })
 
 test_that("lat_bins errors with unnamed args", {
-  expect_snapshot(lat_bins(10, -90), error = TRUE)
-  expect_snapshot(lat_bins(size = 10, -90), error = TRUE)
-  expect_snapshot(lat_bins(10, -90, 90), error = TRUE)
-  expect_snapshot(lat_bins(10, -90, max = 90), error = TRUE)
+  expect_snapshot(lat_bins_degrees(10, -90), error = TRUE)
+  expect_snapshot(lat_bins_degrees(size = 10, -90), error = TRUE)
+  expect_snapshot(lat_bins_degrees(10, -90, 90), error = TRUE)
+  expect_snapshot(lat_bins_degrees(10, -90, max = 90), error = TRUE)
 })

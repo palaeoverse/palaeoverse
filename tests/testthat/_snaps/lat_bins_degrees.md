@@ -210,36 +210,36 @@
 # lat_bins errors with unnamed args
 
     Code
-      lat_bins(10, -90)
+      lat_bins_degrees(10, -90)
     Condition
-      Error in `lat_bins()`:
+      Error in `lat_bins_degrees()`:
       ! All arguments must be named.
       i Currently, there are 2 arguments that should be named.
 
 ---
 
     Code
-      lat_bins(size = 10, -90)
+      lat_bins_degrees(size = 10, -90)
     Condition
-      Error in `lat_bins()`:
+      Error in `lat_bins_degrees()`:
       ! All arguments must be named.
       i Currently, there is 1 argument that should be named.
 
 ---
 
     Code
-      lat_bins(10, -90, 90)
+      lat_bins_degrees(10, -90, 90)
     Condition
-      Error in `lat_bins()`:
+      Error in `lat_bins_degrees()`:
       ! All arguments must be named.
       i Currently, there are 3 arguments that should be named.
 
 ---
 
     Code
-      lat_bins(10, -90, max = 90)
+      lat_bins_degrees(10, -90, max = 90)
     Condition
-      Error in `lat_bins()`:
+      Error in `lat_bins_degrees()`:
       ! All arguments must be named.
       i Currently, there are 2 arguments that should be named.
 
