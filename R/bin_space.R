@@ -117,6 +117,8 @@ bin_space <- function(
   return = FALSE,
   plot = FALSE
 ) {
+  ensure_args_are_named()
+
   #=== Error handling ===
   if (!is.data.frame(occdf)) {
     stop("occdf should be of class dataframe")

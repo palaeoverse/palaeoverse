@@ -1,3 +1,39 @@
+# bin_space errors with unnamed args
+
+    Code
+      bin_space(occdf, "lng")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      bin_space(occdf = occdf, "lng")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named.
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      bin_space(occdf, "lng", "lat")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named.
+      i Currently, there are 3 arguments that should be named.
+
+---
+
+    Code
+      bin_space(occdf, "lng", lat = "lat")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
 # bin_space error handling
 
     Code
