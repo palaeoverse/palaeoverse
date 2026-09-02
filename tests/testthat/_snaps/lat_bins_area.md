@@ -43,6 +43,60 @@
       5   5  9.594068 14.532644 19.471221 4.250537e+13 0.1666667
       6   6  0.000000  4.797034  9.594068 4.250537e+13 0.1666667
 
+# lat_bins_area errors with unnamed args
+
+    Code
+      lat_bins_area(10, 1)
+    Condition
+      Error in `lat_bins_area()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      lat_bins_area(n = 10, 1)
+    Condition
+      Error in `lat_bins_area()`:
+      ! All arguments must be named.
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      lat_bins_area(10, 1, 2)
+    Condition
+      Error in `lat_bins_area()`:
+      ! All arguments must be named.
+      i Currently, there are 3 arguments that should be named.
+
+---
+
+    Code
+      lat_bins_area(10, 1, max = 2)
+    Condition
+      Error in `lat_bins_area()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
+# partial matching of argument names is forbidden
+
+    Code
+      lat_bins_area(10, mi = 1)
+    Condition
+      Error in `lat_bins_area()`:
+      ! Argument names must be fully written.
+      i Partially matched argument name: "mi"
+
+---
+
+    Code
+      lat_bins_area(10, mi = 1, ma = 2)
+    Condition
+      Error in `lat_bins_area()`:
+      ! Argument names must be fully written.
+      i Partially matched argument names: "mi" and "ma"
+
 # lat_bins_area errors with wrong inputs
 
     Code

@@ -4,7 +4,7 @@
       tax_expand_lat(taxdf = 5)
     Condition
       Error in `tax_expand_lat()`:
-      ! `taxdf` must be a data frame, not the number 5.
+      ! `taxdf` must be of class <data.frame>, not the number 5.
 
 ---
 
@@ -12,7 +12,7 @@
       tax_expand_lat(taxdf)
     Condition
       Error in `tax_expand_lat()`:
-      ! `bins` must be a data frame, not absent.
+      ! `bins` must be of class <data.frame>, not absent.
 
 ---
 
@@ -20,7 +20,7 @@
       tax_expand_lat(taxdf, bins = 1)
     Condition
       Error in `tax_expand_lat()`:
-      ! `bins` must be a data frame, not the number 1.
+      ! `bins` must be of class <data.frame>, not the number 1.
 
 ---
 
@@ -85,7 +85,7 @@
         "20", "-10"), min_lat = c(-90, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Column "max_lat" in `taxdf` must be numeric, not <character>.
+      ! Column "max_lat" in `taxdf` must be <numeric>, not <character>.
 
 ---
 
@@ -94,7 +94,7 @@
         -10), min_lat = c("20", -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Column "min_lat" in `taxdf` must be numeric, not <character>.
+      ! Column "min_lat" in `taxdf` must be <numeric>, not <character>.
 
 ---
 
@@ -104,7 +104,7 @@
     Condition
       Error in `tax_expand_lat()`:
       ! Maximum latitude must be larger than or equal to minimum latitude.
-      i Row(s) where max latitude is smaller than min latitude: 1.
+      i Row(s) where `max_lat` is smaller than `min_lat`: 1.
 
 ---
 
@@ -114,7 +114,7 @@
     Condition
       Error in `tax_expand_lat()`:
       ! Maximum latitude must be larger than or equal to minimum latitude.
-      i Row(s) where max latitude is smaller than min latitude (first 5): 2, 3, 4, 5, 6.
+      i Row(s) where `max_lat` is smaller than `min_lat` (first 5): 2, 3, 4, 5, 6.
 
 ---
 

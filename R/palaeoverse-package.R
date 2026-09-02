@@ -6,5 +6,6 @@
 ## usethis namespace: start
 #' @importFrom lifecycle deprecated
 #' @import rlang
+#' @importFrom utils head
 ## usethis namespace: end
 NULL

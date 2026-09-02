@@ -22,49 +22,74 @@ export(tax_range_time)
 export(tax_unique)
 export(time_bins)
 import(rlang)
-importFrom(ape,.PlotPhyloEnv)
-importFrom(ape,drop.tip)
+importFrom(ape,
+  .PlotPhyloEnv,
+  drop.tip
+)
 importFrom(curl,nslookup)
-importFrom(geosphere,areaPolygon)
-importFrom(geosphere,distGeo)
-importFrom(geosphere,distHaversine)
-importFrom(geosphere,distm)
-importFrom(grDevices,chull)
-importFrom(grDevices,col2rgb)
-importFrom(graphics,abline)
-importFrom(graphics,axis)
-importFrom(graphics,box)
-importFrom(graphics,clip)
-importFrom(graphics,grconvertX)
-importFrom(graphics,grconvertY)
-importFrom(graphics,mtext)
-importFrom(graphics,par)
-importFrom(graphics,plot)
-importFrom(graphics,points)
-importFrom(graphics,polygon)
-importFrom(graphics,rect)
-importFrom(graphics,segments)
-importFrom(graphics,strheight)
-importFrom(graphics,strwidth)
-importFrom(graphics,text)
-importFrom(graphics,title)
-importFrom(h3jsr,cell_to_point)
-importFrom(h3jsr,cell_to_polygon)
-importFrom(h3jsr,point_to_cell)
-importFrom(httr,RETRY)
-importFrom(httr,content)
-importFrom(httr,stop_for_status)
-importFrom(httr,write_disk)
+importFrom(geosphere,
+  areaPolygon,
+  distGeo,
+  distHaversine,
+  distm
+)
+importFrom(grDevices,
+  chull,
+  col2rgb
+)
+importFrom(graphics,
+  abline,
+  axis,
+  box,
+  clip,
+  grconvertX,
+  grconvertY,
+  mtext,
+  par,
+  plot,
+  points,
+  polygon,
+  rect,
+  segments,
+  strheight,
+  strwidth,
+  text,
+  title
+)
+importFrom(h3jsr,
+  cell_to_point,
+  cell_to_polygon,
+  point_to_cell
+)
+importFrom(httr,
+  RETRY,
+  content,
+  stop_for_status,
+  write_disk
+)
 importFrom(lifecycle,deprecated)
 importFrom(methods,is)
 importFrom(pbapply,pblapply)
-importFrom(sf,st_as_sf)
-importFrom(sf,st_coordinates)
-importFrom(sf,st_drop_geometry)
-importFrom(stats,aggregate)
-importFrom(stats,as.formula)
-importFrom(stats,dunif)
-importFrom(stats,na.omit)
-importFrom(stats,sd)
+importFrom(rlang,
+  is_list,
+  is_missing,
+  is_na,
+  is_vector
+)
+importFrom(sf,
+  st_as_sf,
+  st_coordinates,
+  st_drop_geometry
+)
+importFrom(stats,
+  aggregate,
+  as.formula,
+  dunif,
+  na.omit,
+  sd
+)
 importFrom(stringdist,stringdistmatrix)
-importFrom(utils,read.csv)
+importFrom(utils,
+  head,
+  read.csv
+)
