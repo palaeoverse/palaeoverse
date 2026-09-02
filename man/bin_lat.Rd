@@ -32,6 +32,8 @@ columns containing respective latitudinal bin information.
 }
 \description{
 A function to assign fossil occurrences to user-specified latitudinal bins.
+
+All arguments must be named.
 }
 \section{Developer(s)}{
 

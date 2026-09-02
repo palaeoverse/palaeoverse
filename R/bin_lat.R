@@ -1,6 +1,9 @@
 #' Assign fossil occurrences to latitudinal bins
 #'
+#' @description
 #' A function to assign fossil occurrences to user-specified latitudinal bins.
+#'
+#' All arguments must be named.
 #'
 #' @param occdf `dataframe`. A dataframe of the fossil occurrences you
 #' wish to bin. This dataframe should contain a column with the
