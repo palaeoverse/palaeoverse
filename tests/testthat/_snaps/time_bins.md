@@ -1,3 +1,39 @@
+# time_bins errors with unnamed args
+
+    Code
+      time_bins("Maastrichtian", "stage")
+    Condition
+      Error in `time_bins()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      time_bins(interval = "Maastrichtian", "stage")
+    Condition
+      Error in `time_bins()`:
+      ! All arguments must be named.
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      time_bins("Maastrichtian", "stage", 10)
+    Condition
+      Error in `time_bins()`:
+      ! All arguments must be named.
+      i Currently, there are 3 arguments that should be named.
+
+---
+
+    Code
+      time_bins("Maastrichtian", "stage", size = 10)
+    Condition
+      Error in `time_bins()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
 # arg 'interval' works
 
     Code
