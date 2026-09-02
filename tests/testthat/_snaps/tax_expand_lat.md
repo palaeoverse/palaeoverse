@@ -85,7 +85,7 @@
         "20", "-10"), min_lat = c(-90, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Column "max_lat" in `taxdf` must be numeric, not <character>.
+      ! Column "max_lat" in `taxdf` must be <numeric>, not <character>.
 
 ---
 
@@ -94,7 +94,7 @@
         -10), min_lat = c("20", -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Column "min_lat" in `taxdf` must be numeric, not <character>.
+      ! Column "min_lat" in `taxdf` must be <numeric>, not <character>.
 
 ---
 
