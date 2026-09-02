@@ -83,24 +83,24 @@
 #' early_interval = c("Maastrichtian", "Campanian", "Sinemurian"),
 #' late_interval = c("Maastrichtian", "Campanian", "Bartonian"))
 #' # assign stages and numerical ages
-#' taxdf <- look_up(taxdf)
+#' taxdf <- look_up(occdf = taxdf)
 #'
 #' ## Use exemplary int_key
 #' # Get internal reef data
 #' occdf <- reefs
 #'  # assign stages and numerical ages
-#' occdf <- look_up(occdf,
-#'                 early_interval = "interval",
-#'                 late_interval = "interval",
-#'                 int_key = interval_key)
+#' occdf <- look_up(occdf = occdf,
+#'                  early_interval = "interval",
+#'                  late_interval = "interval",
+#'                  int_key = interval_key)
 #'
 #' ## Use exemplary int_key and return unassigned
 #' # Get internal tetrapod data
 #' occdf <- tetrapods
 #' # assign stages and numerical ages
-#' occdf <- look_up(occdf, int_key = palaeoverse::interval_key)
+#' occdf <- look_up(occdf = occdf, int_key = palaeoverse::interval_key)
 #' # return unassigned intervals
-#' unassigned <- look_up(occdf, int_key = palaeoverse::interval_key,
+#' unassigned <- look_up(occdf = occdf, int_key = palaeoverse::interval_key,
 #'                       return_unassigned = TRUE)
 #'
 #' ## Use own key and GTS2012:
@@ -114,7 +114,7 @@
 #'   early_stage = c("Asselian", "Asselian"),
 #'   late_stage = c("Changhsingian", "Asselian"))
 #' # assign stages and numerical ages:
-#' occdf <- look_up(occdf,
+#' occdf <- look_up(occdf = occdf,
 #'                  early_interval = "stage", late_interval = "stage",
 #'                  int_key = interval_key, assign_with_GTS = "GTS2012")
 #'
@@ -127,6 +127,8 @@ look_up <- function(
   assign_with_GTS = "GTS2020",
   return_unassigned = FALSE
 ) {
+  ensure_args_are_named()
+
   #=== Handling errors ===
 
   if (!is.data.frame(occdf)) {

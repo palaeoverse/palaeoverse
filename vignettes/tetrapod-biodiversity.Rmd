@@ -93,7 +93,7 @@ Before we can bin our occurrences into these time bins, we will need the ages of
 
 ```{r, warning = FALSE}
 # Get new numeric ages for named intervals using the interval key that is supplied with Palaeoverse
-tetrapods <- look_up(tetrapods, int_key = interval_key)
+tetrapods <- look_up(occdf = tetrapods, int_key = interval_key)
 
 # Make sure that any values which could not be matched contain their original values
 tetrapods$interval_max_ma <- ifelse(is.na(tetrapods$interval_max_ma),
