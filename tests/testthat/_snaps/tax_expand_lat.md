@@ -139,8 +139,8 @@
       tax_expand_lat(taxdf, bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! All arguments must be named.
-      i Currently, there are 2 arguments that should be named.
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
 
 ---
 
@@ -148,7 +148,7 @@
       tax_expand_lat(taxdf = taxdf, bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! All arguments must be named.
+      ! All arguments must be named (except for "taxdf").
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -157,8 +157,8 @@
       tax_expand_lat(taxdf, bins, "max_lat")
     Condition
       Error in `tax_expand_lat()`:
-      ! All arguments must be named.
-      i Currently, there are 3 arguments that should be named.
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there are 2 arguments that should be named.
 
 ---
 
@@ -166,8 +166,8 @@
       tax_expand_lat(taxdf, bins, max_lat = "max_lat")
     Condition
       Error in `tax_expand_lat()`:
-      ! All arguments must be named.
-      i Currently, there are 2 arguments that should be named.
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
 
 # args 'min_lat' and 'max_lat' work
 

@@ -50,7 +50,7 @@ tax_expand_lat <- function(
   max_lat = "max_lat",
   min_lat = "min_lat"
 ) {
-  ensure_args_are_named()
+  ensure_args_are_named(exceptions = "taxdf")
 
   check_data_frame(taxdf)
   check_data_frame(bins)
