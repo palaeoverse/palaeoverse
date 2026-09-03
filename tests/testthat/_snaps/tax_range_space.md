@@ -29,8 +29,8 @@
       tax_range_space(occdf, "genus")
     Condition
       Error in `tax_range_space()`:
-      ! All arguments must be named.
-      i Currently, there are 2 arguments that should be named.
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
 
 ---
 
@@ -38,7 +38,7 @@
       tax_range_space(occdf = occdf, "genus")
     Condition
       Error in `tax_range_space()`:
-      ! All arguments must be named.
+      ! All arguments must be named (except for "occdf").
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -47,8 +47,8 @@
       tax_range_space(occdf, "genus", "lng")
     Condition
       Error in `tax_range_space()`:
-      ! All arguments must be named.
-      i Currently, there are 3 arguments that should be named.
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
 
 ---
 
@@ -56,8 +56,8 @@
       tax_range_space(occdf, "genus", lng = "lng")
     Condition
       Error in `tax_range_space()`:
-      ! All arguments must be named.
-      i Currently, there are 2 arguments that should be named.
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
 
 # argument 'name' works
 

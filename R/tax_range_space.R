@@ -122,7 +122,7 @@ tax_range_space <- function(
   spacing = 100,
   coords = FALSE
 ) {
-  ensure_args_are_named()
+  ensure_args_are_named(exceptions = "occdf")
 
   #=== Handling errors ===
   if (!is.data.frame(occdf)) {
