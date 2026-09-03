@@ -270,6 +270,16 @@ test_that("arg 'size' works", {
     "90 time bins were generated"
   )
 
+  expect_snapshot(
+    out <- time_bins(
+      interval = c("Fortunian", "Meghalayan"),
+      size = 200
+    )
+  )
+  expect_snapshot(
+    out <- time_bins(interval = c("Fortunian", "Meghalayan"), size = 6)
+  )
+
   # Test edge effect resolve
   expect_message(
     expect_equal(

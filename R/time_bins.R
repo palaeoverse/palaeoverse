@@ -123,77 +123,44 @@ time_bins <- function(
   scale = "GTS2020",
   plot = FALSE
 ) {
-  # Error handling -------------------------------------------------------
-  if (
-    !is.character(interval) &&
-      !is.numeric(interval) &&
-      !is.null(interval)
-  ) {
-    stop("`interval` must be NULL or of class 'character' or 'numeric'")
+  if (!is.null(interval) && !is.character(interval) && !is.numeric(interval)) {
+    cli::cli_abort(
+      "{.arg interval} must be {.code NULL} or of class {.cls character} or {.cls numeric}, not {obj_type_friendly(interval)}."
+    )
   }
 
-  if (!is.null(size) && length(size) != 1) {
-    stop("`size` must be of length 1.")
-  }
-  if (!is.numeric(size) && !is.null(size)) {
-    stop("`size` should be a 'numeric' or NULL.")
-  }
-
-  if (!is.null(n_bins) && length(n_bins) != 1) {
-    stop("`n_bins` must be of length 1.")
-  }
-  if (!is.numeric(n_bins) && !is.null(n_bins)) {
-    stop("`size` should be a 'numeric' or NULL.")
+  if (length(interval) > 2) {
+    cli::cli_abort(
+      "{.arg interval} must be {.code NULL} or of length 1 or 2, not {length(interval)}."
+    )
   }
 
-  if (length(plot) != 1 || is.na(plot) || !is.logical(plot)) {
-    stop("`plot` should be logical (TRUE/FALSE).")
-  }
+  rlang::check_number_decimal(size, allow_null = TRUE)
+  rlang::check_number_whole(n_bins, allow_null = TRUE)
+  rlang::check_bool(plot)
 
   if (is.numeric(assign) && any(assign < 0)) {
-    stop(paste(
-      "Age estimates for `assign` should be non-negative values.",
-      "Hint: You can transform your data using abs()."
-    ))
+    cli::cli_abort(
+      c(
+        "Age estimates for {.arg assign} must be non-negative values.",
+        "i" = "You can transform your data using {.fun abs}."
+      )
+    )
   }
 
-  if (!is.data.frame(scale) && length(scale) != 1) {
-    stop("`scale` must be of length 1.")
-  }
-  if (!is.character(scale) && !is.data.frame(scale)) {
-    stop(paste(
-      "`scale` must be either:\n",
-      "The name of an in-built time scale (e.g. 'GTS2020'),",
-      "the name of a Macrostrat time scale (see details),",
-      "or a `data.frame`."
-    ))
+  if (is.data.frame(scale)) {
+    check_column_presence(scale, "interval_name")
+    check_column_presence(scale, "max_ma")
+    check_column_presence(scale, "min_ma")
+  } else {
+    rlang::check_string(scale)
   }
 
-  if (
-    is.data.frame(scale) &&
-      !all(c("interval_name", "max_ma", "min_ma") %in% colnames(scale))
-  ) {
-    stop(paste(
-      "`scale` does not contain named columns:",
-      "'interval_name', 'max_ma', and 'min_ma'."
-    ))
-  }
-
-  if (length(interval) > 2 && !is.null(interval)) {
-    stop(paste(
-      "`interval` must be a 'character' or",
-      "'numeric' vector of length 1 or 2",
-      "or NULL."
-    ))
-  }
-
-  if (length(rank) != 1) {
-    stop("`rank` must be of length 1.")
-  }
-
-  if (!rank %in% c("stage", "epoch", "period", "era", "eon", NULL)) {
-    stop("`rank` must be either: stage, epoch, period, era, eon, or NULL.")
-  }
+  rlang::check_string(rank)
+  rank <- rlang::arg_match(
+    rank,
+    values = c("stage", "epoch", "period", "era", "eon")
+  )
 
   # Input dataframe scale ------------------------------------------------
   if (is.data.frame(scale)) {
@@ -222,7 +189,9 @@ time_bins <- function(
   # In-built scales ------------------------------------------------------
   if (scale %in% c("GTS2020", "GTS2012")) {
     if (is.null(interval)) {
-      stop("`interval` is NULL. You must define an interval/age range.")
+      cli::cli_abort(
+        "{.arg interval} must not be {.code NULL} when {.arg scale} is {.val GTS2020} or {.val GTS2012}: define an interval or age range."
+      )
     }
     # Which geological timescale to use?
     if (scale == "GTS2020") {
@@ -237,10 +206,10 @@ time_bins <- function(
       # Check interval names
       int_index <- charmatch(interval, df$interval_name)
       if (anyNA(int_index)) {
-        stop(
-          paste(
-            "Check spelling of specified intervals.",
-            "Available intervals are accessible via GTS2020 and GTS2012."
+        cli::cli_abort(
+          c(
+            "Unknown interval{?s}: {.val {interval[is.na(int_index)]}}.",
+            "i" = "Available intervals are accessible via {.var GTS2020} and {.var GTS2012}."
           )
         )
       }
@@ -262,10 +231,14 @@ time_bins <- function(
     if (is.numeric(interval)) {
       # Check age range
       if (max(interval) > max(df$max_ma)) {
-        stop("maximum `interval` value is greater than available intervals")
+        cli::cli_abort(
+          "Maximum {.arg interval} value ({max(interval)}) is greater than the maximum available interval ({max(df$max_ma)})."
+        )
       }
       if (min(interval) < min(df$min_ma)) {
-        stop("minimum `interval` value is less than available intervals")
+        cli::cli_abort(
+          "Minimum {.arg interval} value ({min(interval)}) is less than the minimum available interval ({min(df$min_ma)})."
+        )
       }
       # Subset df
       int_index <- which(
@@ -281,7 +254,9 @@ time_bins <- function(
     df <- df[which(df$rank == rank), ]
     # Error handle
     if (nrow(df) == 0) {
-      stop("No intervals are available for the defined interval range.")
+      cli::cli_abort(
+        "No intervals are available for the defined {.arg interval} range."
+      )
     }
   }
   # Macrostrat dataframe scale -------------------------------------------
@@ -295,10 +270,12 @@ time_bins <- function(
         nslookup("macrostrat.org")
       },
       error = function(e) {
-        stop(
-          "Macrostrat is not available. Either the site is down or you are
-             not connected to the internet.",
-          call. = FALSE
+        cli::cli_abort(
+          c(
+            "Macrostrat is not available.",
+            "i" = "Either the site is down or you are not connected to the internet."
+          ),
+          call = rlang::caller_env(4)
         )
       }
     )
@@ -312,9 +289,9 @@ time_bins <- function(
         read.csv(url, header = TRUE, stringsAsFactors = FALSE)
       },
       error = function(e) {
-        stop(
-          "`name` does not match a built-in or Macrostrat time scale.",
-          call. = FALSE
+        cli::cli_abort(
+          "{.arg scale} must match a built-in or Macrostrat time scale.",
+          call = rlang::caller_env(4)
         )
       }
     )
@@ -377,7 +354,9 @@ time_bins <- function(
     } else {
       # Throw error if n_bins is too large
       if (n_bins > nrow(df)) {
-        stop("`n_bins` can't be greater than the number of intervals.")
+        cli::cli_abort(
+          "{.arg n_bins} ({n_bins}) must not be greater than the number of intervals ({nrow(df)})."
+        )
       }
     }
     if (n_bins > 1) {
@@ -465,27 +444,16 @@ time_bins <- function(
     #
     # Message user
     if (is.numeric(size)) {
-      message_head <- paste(
-        "Target duration of equal length time bins was set to",
-        round(size, digits = 2),
-        "Myr.\n"
-      )
+      message_head <- "Target duration of equal length time bins was set to {round(size, digits = 2)} Myr."
     } else {
-      message_head <- paste0(
-        "Number of equal length time bins was set to ",
-        n_bins,
-        ".\n"
-      )
+      message_head <- "Number of equal length time bins was set to {n_bins}."
     }
-    message(
-      paste0(
+    cli::cli_inform(
+      c(
         message_head,
-        n_bins,
-        " time bins were generated with a mean length of ",
-        round(mean_duration, digits = 2),
-        " Myr and a standard deviation of ",
-        round(sd_duration, digits = 2),
-        " Myr."
+        "i" = "{n_bins} time bin{?s} {?was/were} generated.",
+        "i" = "Mean length: {round(mean_duration, digits = 2)} Myr",
+        "i" = "Standard deviation: {round(sd_duration, digits = 2)} Myr"
       )
     )
   }
@@ -524,7 +492,9 @@ time_bins <- function(
   if (!is.null(assign)) {
     if (is.numeric(assign)) {
       if (any(assign > max(df$max_ma) | assign < min(df$min_ma))) {
-        stop("One or more ages is outside the specified time interval range")
+        cli::cli_abort(
+          "All values of {.arg assign} must be within the specified time interval range ({min(df$min_ma)} to {max(df$max_ma)})."
+        )
       }
       tmp <- assign
       for (i in seq_len(length.out = nrow(df))) {
@@ -541,7 +511,9 @@ time_bins <- function(
       names(assign) <- c("Bins", "Assignation")
       return(assign)
     } else {
-      stop("`assign` should be a numeric")
+      cli::cli_abort(
+        "{.arg assign} must be {.cls numeric}, not {obj_type_friendly(assign)}."
+      )
     }
   }
   # Clean up --------------------------------------------------------------

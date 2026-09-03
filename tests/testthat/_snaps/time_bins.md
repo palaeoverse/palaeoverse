@@ -4,7 +4,7 @@
       time_bins(interval = NA)
     Condition
       Error in `time_bins()`:
-      ! `interval` must be NULL or of class 'character' or 'numeric'
+      ! `interval` must be `NULL` or of class <character> or <numeric>, not `NA`.
 
 ---
 
@@ -12,7 +12,7 @@
       time_bins(interval = NULL)
     Condition
       Error in `time_bins()`:
-      ! `interval` is NULL. You must define an interval/age range.
+      ! `interval` must not be `NULL` when `scale` is "GTS2020" or "GTS2012": define an interval or age range.
 
 ---
 
@@ -20,7 +20,8 @@
       time_bins(interval = "foo")
     Condition
       Error in `time_bins()`:
-      ! Check spelling of specified intervals. Available intervals are accessible via GTS2020 and GTS2012.
+      ! Unknown interval: "foo".
+      i Available intervals are accessible via `GTS2020` and `GTS2012`.
 
 ---
 
@@ -28,7 +29,8 @@
       time_bins(interval = c("Mastrichtian", "foo"))
     Condition
       Error in `time_bins()`:
-      ! Check spelling of specified intervals. Available intervals are accessible via GTS2020 and GTS2012.
+      ! Unknown intervals: "Mastrichtian" and "foo".
+      i Available intervals are accessible via `GTS2020` and `GTS2012`.
 
 ---
 
@@ -36,7 +38,8 @@
       time_bins(interval = c("Mastrichtian", NA))
     Condition
       Error in `time_bins()`:
-      ! Check spelling of specified intervals. Available intervals are accessible via GTS2020 and GTS2012.
+      ! Unknown intervals: "Mastrichtian" and NA.
+      i Available intervals are accessible via `GTS2020` and `GTS2012`.
 
 ---
 
@@ -44,7 +47,7 @@
       time_bins(interval = letters[1:3])
     Condition
       Error in `time_bins()`:
-      ! `interval` must be a 'character' or 'numeric' vector of length 1 or 2 or NULL.
+      ! `interval` must be `NULL` or of length 1 or 2, not 3.
 
 ---
 
@@ -56,7 +59,7 @@
       Warning in `max()`:
       no non-missing arguments to max; returning -Inf
       Error in `time_bins()`:
-      ! No intervals are available for the defined interval range.
+      ! No intervals are available for the defined `interval` range.
 
 ---
 
@@ -64,7 +67,7 @@
       time_bins(interval = data.frame())
     Condition
       Error in `time_bins()`:
-      ! `interval` must be NULL or of class 'character' or 'numeric'
+      ! `interval` must be `NULL` or of class <character> or <numeric>, not a <data.frame> object.
 
 ---
 
@@ -72,7 +75,7 @@
       time_bins(interval = 1:3)
     Condition
       Error in `time_bins()`:
-      ! `interval` must be a 'character' or 'numeric' vector of length 1 or 2 or NULL.
+      ! `interval` must be `NULL` or of length 1 or 2, not 3.
 
 ---
 
@@ -80,7 +83,7 @@
       time_bins(interval = -1, plot = TRUE)
     Condition
       Error in `time_bins()`:
-      ! minimum `interval` value is less than available intervals
+      ! Minimum `interval` value (-1) is less than the minimum available interval (0).
 
 ---
 
@@ -88,7 +91,7 @@
       time_bins(interval = 700)
     Condition
       Error in `time_bins()`:
-      ! No intervals are available for the defined interval range.
+      ! No intervals are available for the defined `interval` range.
 
 ---
 
@@ -104,7 +107,7 @@
       Warning in `max()`:
       no non-missing arguments to max; returning -Inf
       Error in `time_bins()`:
-      ! No intervals are available for the defined interval range.
+      ! No intervals are available for the defined `interval` range.
 
 ---
 
@@ -112,7 +115,7 @@
       time_bins(interval = c(10000, 100))
     Condition
       Error in `time_bins()`:
-      ! maximum `interval` value is greater than available intervals
+      ! Maximum `interval` value (10000) is greater than the maximum available interval (4600).
 
 # arg 'rank' works
 
@@ -120,7 +123,8 @@
       time_bins(interval = "Mesozoic", rank = "stages")
     Condition
       Error in `time_bins()`:
-      ! `rank` must be either: stage, epoch, period, era, eon, or NULL.
+      ! `rank` must be one of "stage", "epoch", "period", "era", or "eon", not "stages".
+      i Did you mean "stage"?
 
 ---
 
@@ -128,7 +132,7 @@
       time_bins(interval = "Mesozoic", rank = c("stage", "period"))
     Condition
       Error in `time_bins()`:
-      ! `rank` must be of length 1.
+      ! `rank` must be a single string, not a character vector.
 
 ---
 
@@ -136,7 +140,7 @@
       time_bins(interval = "Mesozoic", rank = NA)
     Condition
       Error in `time_bins()`:
-      ! `rank` must be either: stage, epoch, period, era, eon, or NULL.
+      ! `rank` must be a single string, not `NA`.
 
 ---
 
@@ -144,15 +148,35 @@
       time_bins(interval = "Mesozoic", rank = character(0))
     Condition
       Error in `time_bins()`:
-      ! `rank` must be of length 1.
+      ! `rank` must be a single string, not an empty character vector.
 
 # arg 'size' works
+
+    Code
+      out <- time_bins(interval = c("Fortunian", "Meghalayan"), size = 200)
+    Message
+      Target duration of equal length time bins was set to 200 Myr.
+      i 3 time bins were generated.
+      i Mean length: 180.33 Myr
+      i Standard deviation: 3.59 Myr
+
+---
+
+    Code
+      out <- time_bins(interval = c("Fortunian", "Meghalayan"), size = 6)
+    Message
+      Target duration of equal length time bins was set to 6 Myr.
+      i 90 time bins were generated.
+      i Mean length: 6.01 Myr
+      i Standard deviation: 3.31 Myr
+
+---
 
     Code
       time_bins(interval = "Mesozoic", size = "ten")
     Condition
       Error in `time_bins()`:
-      ! `size` should be a 'numeric' or NULL.
+      ! `size` must be a number or `NULL`, not the string "ten".
 
 ---
 
@@ -160,7 +184,7 @@
       time_bins(interval = "Mesozoic", size = numeric(0))
     Condition
       Error in `time_bins()`:
-      ! `size` must be of length 1.
+      ! `size` must be a number or `NULL`, not an empty numeric vector.
 
 ---
 
@@ -168,7 +192,7 @@
       time_bins(interval = "Mesozoic", size = NA)
     Condition
       Error in `time_bins()`:
-      ! `size` should be a 'numeric' or NULL.
+      ! `size` must be a number or `NULL`, not `NA`.
 
 ---
 
@@ -176,7 +200,7 @@
       time_bins(interval = "Mesozoic", size = 1:2)
     Condition
       Error in `time_bins()`:
-      ! `size` must be of length 1.
+      ! `size` must be a number or `NULL`, not an integer vector.
 
 # arg 'n_bins' works
 
@@ -184,7 +208,7 @@
       time_bins(interval = "Mesozoic", n_bins = "ten")
     Condition
       Error in `time_bins()`:
-      ! `size` should be a 'numeric' or NULL.
+      ! `n_bins` must be a whole number or `NULL`, not the string "ten".
 
 ---
 
@@ -192,7 +216,7 @@
       time_bins(interval = "Mesozoic", n_bins = numeric(0))
     Condition
       Error in `time_bins()`:
-      ! `n_bins` must be of length 1.
+      ! `n_bins` must be a whole number or `NULL`, not an empty numeric vector.
 
 ---
 
@@ -200,7 +224,7 @@
       time_bins(interval = "Mesozoic", n_bins = NA)
     Condition
       Error in `time_bins()`:
-      ! `size` should be a 'numeric' or NULL.
+      ! `n_bins` must be a whole number or `NULL`, not `NA`.
 
 ---
 
@@ -208,7 +232,7 @@
       time_bins(interval = "Mesozoic", n_bins = 1:2)
     Condition
       Error in `time_bins()`:
-      ! `n_bins` must be of length 1.
+      ! `n_bins` must be a whole number or `NULL`, not an integer vector.
 
 ---
 
@@ -216,7 +240,7 @@
       time_bins(n_bins = 200)
     Condition
       Error in `time_bins()`:
-      ! `n_bins` can't be greater than the number of intervals.
+      ! `n_bins` (200) must not be greater than the number of intervals (102).
 
 # arg 'assign' works
 
@@ -224,7 +248,7 @@
       time_bins(interval = "Mesozoic", assign = 40)
     Condition
       Error in `time_bins()`:
-      ! One or more ages is outside the specified time interval range
+      ! All values of `assign` must be within the specified time interval range (66 to 251.902).
 
 ---
 
@@ -232,7 +256,8 @@
       time_bins(interval = "Mesozoic", assign = -40)
     Condition
       Error in `time_bins()`:
-      ! Age estimates for `assign` should be non-negative values. Hint: You can transform your data using abs().
+      ! Age estimates for `assign` must be non-negative values.
+      i You can transform your data using `abs()`.
 
 ---
 
@@ -240,7 +265,7 @@
       time_bins(interval = "Mesozoic", assign = "30")
     Condition
       Error in `time_bins()`:
-      ! `assign` should be a numeric
+      ! `assign` must be <numeric>, not the string "30".
 
 ---
 
@@ -248,7 +273,7 @@
       time_bins(interval = "Mesozoic", assign = NA)
     Condition
       Error in `time_bins()`:
-      ! `assign` should be a numeric
+      ! `assign` must be <numeric>, not `NA`.
 
 ---
 
@@ -256,15 +281,15 @@
       time_bins(interval = "Mesozoic", assign = 1:2)
     Condition
       Error in `time_bins()`:
-      ! One or more ages is outside the specified time interval range
+      ! All values of `assign` must be within the specified time interval range (66 to 251.902).
 
 # arg 'scale' works
 
     Code
       time_bins(interval = "Mesozoic", scale = "foo")
     Condition
-      Error:
-      ! `name` does not match a built-in or Macrostrat time scale.
+      Error in `time_bins()`:
+      ! `scale` must match a built-in or Macrostrat time scale.
 
 ---
 
@@ -272,8 +297,7 @@
       time_bins(interval = "Mesozoic", scale = 1)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be either:
-       The name of an in-built time scale (e.g. 'GTS2020'), the name of a Macrostrat time scale (see details), or a `data.frame`.
+      ! `scale` must be a single string, not the number 1.
 
 ---
 
@@ -281,8 +305,7 @@
       time_bins(interval = "Mesozoic", scale = NA)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be either:
-       The name of an in-built time scale (e.g. 'GTS2020'), the name of a Macrostrat time scale (see details), or a `data.frame`.
+      ! `scale` must be a single string, not `NA`.
 
 ---
 
@@ -290,7 +313,7 @@
       time_bins(interval = "Mesozoic", scale = character(0))
     Condition
       Error in `time_bins()`:
-      ! `scale` must be of length 1.
+      ! `scale` must be a single string, not an empty character vector.
 
 ---
 
@@ -298,7 +321,7 @@
       time_bins(scale = scale, size = 15)
     Condition
       Error in `time_bins()`:
-      ! `scale` does not contain named columns: 'interval_name', 'max_ma', and 'min_ma'.
+      ! Column "interval_name" not found in `scale`.
 
 # arg 'plot' works
 
@@ -306,7 +329,7 @@
       time_bins(interval = "Mesozoic", plot = "TRUE")
     Condition
       Error in `time_bins()`:
-      ! `plot` should be logical (TRUE/FALSE).
+      ! `plot` must be `TRUE` or `FALSE`, not the string "TRUE".
 
 ---
 
@@ -314,7 +337,7 @@
       time_bins(interval = "Mesozoic", plot = NA)
     Condition
       Error in `time_bins()`:
-      ! `plot` should be logical (TRUE/FALSE).
+      ! `plot` must be `TRUE` or `FALSE`, not `NA`.
 
 ---
 
@@ -322,5 +345,5 @@
       time_bins(interval = "Mesozoic", plot = logical(0))
     Condition
       Error in `time_bins()`:
-      ! `plot` should be logical (TRUE/FALSE).
+      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
 
