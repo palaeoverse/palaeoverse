@@ -42,46 +42,14 @@
 lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
   ensure_args_are_named()
 
-  # Error handling
-  if (!is.numeric(n)) {
-    stop("`n` should be a numeric.")
-  }
-
-  if (length(n) != 1) {
-    stop("`n` must have length 1.")
-  }
-  if (length(max) != 1) {
-    stop("`max` must have length 1.")
-  }
-  if (length(min) != 1) {
-    stop("`min` must have length 1.")
-  }
-  if (length(plot) != 1) {
-    stop("`plot` must have length 1.")
-  }
-
-  if (max > 90 || max < -90) {
-    stop("`max` should be less than 90 and more than -90.")
-  }
-
-  if (min > 90 || min < -90) {
-    stop("`min` should be less than 90 and more than -90.")
-  }
+  rlang::check_number_whole(n, min = 1)
+  rlang::check_number_decimal(max, min = -90, max = 90)
+  rlang::check_number_decimal(min, min = -90, max = 90)
+  rlang::check_number_decimal(r)
+  rlang::check_bool(plot)
 
   if (min > max) {
-    stop("`min` should be less than `max`.")
-  }
-
-  if (!is.logical(plot)) {
-    stop("`plot` should be logical (TRUE/FALSE).")
-  }
-
-  if (!is.numeric(r)) {
-    stop("`r` should be a numeric.")
-  }
-
-  if (n %% 1 != 0) {
-    stop("`n` should be an integer (whole number).")
+    cli::cli_abort("{.arg min} must be less than {.arg max}.")
   }
 
   # Convert r to metres

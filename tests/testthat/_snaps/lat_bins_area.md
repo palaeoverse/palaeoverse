@@ -103,15 +103,15 @@
       lat_bins_area(n = "10")
     Condition
       Error in `lat_bins_area()`:
-      ! `n` should be a numeric.
+      ! `n` must be a whole number, not the string "10".
 
 ---
 
     Code
       lat_bins_area(n = -1)
     Condition
-      Error in `data.frame()`:
-      ! arguments imply differing number of rows: 3, 1, 0
+      Error in `lat_bins_area()`:
+      ! `n` must be a whole number larger than or equal to 1, not the number -1.
 
 ---
 
@@ -119,7 +119,7 @@
       lat_bins_area(n = numeric(0))
     Condition
       Error in `lat_bins_area()`:
-      ! `n` must have length 1.
+      ! `n` must be a whole number, not an empty numeric vector.
 
 ---
 
@@ -127,7 +127,7 @@
       lat_bins_area(n = 3.5)
     Condition
       Error in `lat_bins_area()`:
-      ! `n` should be an integer (whole number).
+      ! `n` must be a whole number, not the number 3.5.
 
 ---
 
@@ -135,7 +135,7 @@
       lat_bins_area(max = 100)
     Condition
       Error in `lat_bins_area()`:
-      ! `max` should be less than 90 and more than -90.
+      ! `max` must be a number between -90 and 90, not the number 100.
 
 ---
 
@@ -143,7 +143,7 @@
       lat_bins_area(max = numeric(0))
     Condition
       Error in `lat_bins_area()`:
-      ! `max` must have length 1.
+      ! `max` must be a number, not an empty numeric vector.
 
 ---
 
@@ -151,7 +151,7 @@
       lat_bins_area(min = 100)
     Condition
       Error in `lat_bins_area()`:
-      ! `min` should be less than 90 and more than -90.
+      ! `min` must be a number between -90 and 90, not the number 100.
 
 ---
 
@@ -159,7 +159,7 @@
       lat_bins_area(min = numeric(0))
     Condition
       Error in `lat_bins_area()`:
-      ! `min` must have length 1.
+      ! `min` must be a number, not an empty numeric vector.
 
 ---
 
@@ -167,7 +167,7 @@
       lat_bins_area(min = 90, max = -90)
     Condition
       Error in `lat_bins_area()`:
-      ! `min` should be less than `max`.
+      ! `min` must be less than `max`.
 
 ---
 
@@ -175,7 +175,7 @@
       lat_bins_area(plot = "TRUE")
     Condition
       Error in `lat_bins_area()`:
-      ! `plot` should be logical (TRUE/FALSE).
+      ! `plot` must be `TRUE` or `FALSE`, not the string "TRUE".
 
 ---
 
@@ -183,7 +183,7 @@
       lat_bins_area(plot = logical(0))
     Condition
       Error in `lat_bins_area()`:
-      ! `plot` must have length 1.
+      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
 
 ---
 
@@ -191,13 +191,13 @@
       lat_bins_area(r = "Earth")
     Condition
       Error in `lat_bins_area()`:
-      ! `r` should be a numeric.
+      ! `r` must be a number, not the string "Earth".
 
 ---
 
     Code
       lat_bins_area(r = numeric(0))
     Condition
-      Error in `data.frame()`:
-      ! arguments imply differing number of rows: 12, 0
+      Error in `lat_bins_area()`:
+      ! `r` must be a number, not an empty numeric vector.
 
