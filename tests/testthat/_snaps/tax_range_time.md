@@ -3,8 +3,8 @@
     Code
       tax_range_time(occdf = data.frame())
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_time()`:
+      ! Column "genus" not found in `occdf`.
 
 ---
 
@@ -12,7 +12,7 @@
       tax_range_time(occdf = NULL)
     Condition
       Error in `tax_range_time()`:
-      ! `occdf` should be a dataframe
+      ! `occdf` must be of class <data.frame>, not `NULL`.
 
 ---
 
@@ -20,7 +20,7 @@
       tax_range_time(occdf = NA)
     Condition
       Error in `tax_range_time()`:
-      ! `occdf` should be a dataframe
+      ! `occdf` must be of class <data.frame>, not `NA`.
 
 ---
 
@@ -28,7 +28,7 @@
       tax_range_time(occdf = "a")
     Condition
       Error in `tax_range_time()`:
-      ! `occdf` should be a dataframe
+      ! `occdf` must be of class <data.frame>, not the string "a".
 
 # argument 'name' works
 
@@ -36,7 +36,7 @@
       tax_range_time(nadf, name = "species")
     Condition
       Error in `tax_range_time()`:
-      ! The `name` column contains NA values
+      ! Column "species" in `occdf` must not have missing values.
 
 ---
 
@@ -44,8 +44,7 @@
       tax_range_time(occdf, name = c("Species", "max_ma"))
     Condition
       Error in `tax_range_time()`:
-      ! Either `name`, `min_ma`, or `max_ma`, is not a named column in
-               `occdf`
+      ! `name` must be a single string, not a character vector.
 
 ---
 
@@ -53,8 +52,7 @@
       tax_range_time(occdf, name = "nonexistent")
     Condition
       Error in `tax_range_time()`:
-      ! Either `name`, `min_ma`, or `max_ma`, is not a named column in
-               `occdf`
+      ! Column "nonexistent" not found in `occdf`.
 
 ---
 
@@ -62,8 +60,7 @@
       tax_range_time(occdf, name = 1)
     Condition
       Error in `tax_range_time()`:
-      ! Either `name`, `min_ma`, or `max_ma`, is not a named column in
-               `occdf`
+      ! `name` must be a single string, not the number 1.
 
 ---
 
@@ -71,32 +68,31 @@
       tax_range_time(occdf, name = NA)
     Condition
       Error in `tax_range_time()`:
-      ! Either `name`, `min_ma`, or `max_ma`, is not a named column in
-               `occdf`
+      ! `name` must be a single string, not `NA`.
 
 ---
 
     Code
       tax_range_time(occdf, name = NULL)
     Condition
-      Error in `xtfrm.data.frame()`:
-      ! cannot xtfrm data frames
+      Error in `tax_range_time()`:
+      ! `name` must be a single string, not `NULL`.
 
 # argument 'max_ma' works
 
     Code
       tax_range_time(occdf, max_ma = c("Species", "max_ma"))
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_time()`:
+      ! `max_ma` must be a single string, not a character vector.
 
 ---
 
     Code
       tax_range_time(occdf, max_ma = "nonexistent")
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_time()`:
+      ! Column "nonexistent" not found in `occdf`.
 
 ---
 
@@ -104,15 +100,15 @@
       tax_range_time(occdf, max_ma = 1)
     Condition
       Error in `tax_range_time()`:
-      ! `max_ma` and `min_ma` must be of class numeric.
+      ! `max_ma` must be a single string, not the number 1.
 
 ---
 
     Code
       tax_range_time(occdf, max_ma = NA)
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_time()`:
+      ! `max_ma` must be a single string, not `NA`.
 
 ---
 
@@ -120,7 +116,7 @@
       tax_range_time(occdf, max_ma = NULL)
     Condition
       Error in `tax_range_time()`:
-      ! `max_ma` and `min_ma` must be of class numeric.
+      ! `max_ma` must be a single string, not `NULL`.
 
 ---
 
@@ -128,7 +124,7 @@
       tax_range_time(chardf)
     Condition
       Error in `tax_range_time()`:
-      ! `max_ma` and `min_ma` must be of class numeric.
+      ! Column "max_ma" in `occdf` must be numeric, not <character>.
 
 ---
 
@@ -136,23 +132,23 @@
       tax_range_time(nadf)
     Condition
       Error in `tax_range_time()`:
-      ! `min_ma` and/or `max_ma` columns contain NA values
+      ! Column "max_ma" in `occdf` must not have missing values.
 
 # argument 'min_ma' works
 
     Code
       tax_range_time(occdf, min_ma = c("Species", "min_ma"))
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_time()`:
+      ! `min_ma` must be a single string, not a character vector.
 
 ---
 
     Code
       tax_range_time(occdf, min_ma = "nonexistent")
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_time()`:
+      ! Column "nonexistent" not found in `occdf`.
 
 ---
 
@@ -160,15 +156,15 @@
       tax_range_time(occdf, min_ma = 1)
     Condition
       Error in `tax_range_time()`:
-      ! `max_ma` and `min_ma` must be of class numeric.
+      ! `min_ma` must be a single string, not the number 1.
 
 ---
 
     Code
       tax_range_time(occdf, min_ma = NA)
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_time()`:
+      ! `min_ma` must be a single string, not `NA`.
 
 ---
 
@@ -176,7 +172,7 @@
       tax_range_time(occdf, min_ma = NULL)
     Condition
       Error in `tax_range_time()`:
-      ! `max_ma` and `min_ma` must be of class numeric.
+      ! `min_ma` must be a single string, not `NULL`.
 
 ---
 
@@ -184,7 +180,7 @@
       tax_range_time(chardf)
     Condition
       Error in `tax_range_time()`:
-      ! `max_ma` and `min_ma` must be of class numeric.
+      ! Column "min_ma" in `occdf` must be numeric, not <character>.
 
 ---
 
@@ -192,7 +188,7 @@
       tax_range_time(nadf)
     Condition
       Error in `tax_range_time()`:
-      ! `min_ma` and/or `max_ma` columns contain NA values
+      ! Column "min_ma" in `occdf` must not have missing values.
 
 # argument 'group' works
 
@@ -200,7 +196,7 @@
       tax_range_time(occdf, group = c("genus", "min_ma"))
     Condition
       Error in `tax_range_time()`:
-      ! `group` length is >1, only a single grouping variable is accepted.
+      ! `group` must be a single string, not a character vector.
 
 ---
 
@@ -208,7 +204,7 @@
       tax_range_time(occdf, group = "nonexistent")
     Condition
       Error in `tax_range_time()`:
-      ! `group` is not a named column in `occdf`
+      ! Column "nonexistent" not found in `occdf`.
 
 ---
 
@@ -216,7 +212,7 @@
       tax_range_time(occdf, group = 1)
     Condition
       Error in `tax_range_time()`:
-      ! `group` is not a named column in `occdf`
+      ! `group` must be a single string, not the number 1.
 
 ---
 
@@ -224,7 +220,7 @@
       tax_range_time(occdf, group = NA)
     Condition
       Error in `tax_range_time()`:
-      ! `group` is not a named column in `occdf`
+      ! `group` must be a single string, not `NA`.
 
 # argument 'by' works
 
@@ -232,7 +228,7 @@
       tax_range_time(occdf, by = c("genus", "min_ma"))
     Condition
       Error in `tax_range_time()`:
-      ! `by` must be of length 1.
+      ! `by` must be a single string, not a character vector.
 
 ---
 
@@ -240,7 +236,7 @@
       tax_range_time(occdf, by = "nonexistent")
     Condition
       Error in `tax_range_time()`:
-      ! `by` must be either "FAD", "LAD", or "name"
+      ! `by` must be one of "FAD", "LAD", or "name", not "nonexistent".
 
 ---
 
@@ -248,7 +244,7 @@
       tax_range_time(occdf, by = 1)
     Condition
       Error in `tax_range_time()`:
-      ! `by` must be either "FAD", "LAD", or "name"
+      ! `by` must be a single string, not the number 1.
 
 ---
 
@@ -256,7 +252,7 @@
       tax_range_time(occdf, by = NA)
     Condition
       Error in `tax_range_time()`:
-      ! `by` must be either "FAD", "LAD", or "name"
+      ! `by` must be a single string, not `NA`.
 
 # argument 'plot' works
 
@@ -264,7 +260,7 @@
       tax_range_time(occdf, plot = "test")
     Condition
       Error in `tax_range_time()`:
-      ! `plot` should be logical (TRUE/FALSE)
+      ! `plot` must be `TRUE` or `FALSE`, not the string "test".
 
 ---
 
@@ -272,7 +268,7 @@
       tax_range_time(occdf, plot = NA)
     Condition
       Error in `tax_range_time()`:
-      ! `plot` should be logical (TRUE/FALSE)
+      ! `plot` must be `TRUE` or `FALSE`, not `NA`.
 
 # argument 'plot_args' works
 
@@ -280,7 +276,7 @@
       tax_range_time(occdf, plot_args = "test")
     Condition
       Error in `tax_range_time()`:
-      ! `plot_args` must be either NULL, or a list
+      ! `plot_args` must be of class <list> or `NULL`, not the string "test".
 
 ---
 
@@ -288,5 +284,5 @@
       tax_range_time(occdf, plot_args = NA)
     Condition
       Error in `tax_range_time()`:
-      ! `plot_args` must be either NULL, or a list
+      ! `plot_args` must be of class <list> or `NULL`, not `NA`.
 
