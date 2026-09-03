@@ -37,7 +37,7 @@
       palaeorotate(occdf = data.frame(lng = NA, lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lng" in `occdf` must be numeric, not <logical>.
+      ! Column "lng" in `occdf` must be <numeric>, not <logical>.
 
 ---
 
@@ -45,7 +45,7 @@
       palaeorotate(occdf = data.frame(lng = "a", lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lng" in `occdf` must be numeric, not <character>.
+      ! Column "lng" in `occdf` must be <numeric>, not <character>.
 
 # input checks for latitude
 
@@ -62,7 +62,7 @@
       palaeorotate(occdf = data.frame(lng = 40, lat = NA, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lat" in `occdf` must be numeric, not <logical>.
+      ! Column "lat" in `occdf` must be <numeric>, not <logical>.
 
 ---
 
@@ -70,7 +70,7 @@
       palaeorotate(occdf = data.frame(lng = 40, lat = "a", age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lat" in `occdf` must be numeric, not <character>.
+      ! Column "lat" in `occdf` must be <numeric>, not <character>.
 
 # input checks values for age
 
@@ -87,7 +87,7 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = NA))
     Condition
       Error in `palaeorotate()`:
-      ! Column "age" in `occdf` must be numeric, not <logical>.
+      ! Column "age" in `occdf` must be <numeric>, not <logical>.
 
 ---
 
@@ -95,7 +95,7 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = "a"))
     Condition
       Error in `palaeorotate()`:
-      ! Column "age" in `occdf` must be numeric, not <character>.
+      ! Column "age" in `occdf` must be <numeric>, not <character>.
 
 # arg 'model' works
 
