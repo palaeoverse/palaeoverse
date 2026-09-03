@@ -177,6 +177,11 @@ palaeorotate <- function(
   uncertainty = TRUE,
   round = 3
 ) {
+  # This is used in error messages. We save it here so that we don't need to
+  # use e.g. `rlang::caller_env(4)` when `cli::cli_abort()` is nested in loops or
+  # if conditions.
+  caller_env <- rlang::caller_env()
+
   check_data_frame(occdf)
 
   check_column_presence(occdf, lng)
@@ -256,7 +261,7 @@ palaeorotate <- function(
             "Zenodo is not available.",
             "i" = "Either the website is down or you are not connected to the internet."
           ),
-          call = rlang::caller_env(4)
+          call = caller_env
         )
       }
     )
@@ -366,7 +371,7 @@ palaeorotate <- function(
             "GPlates Web Service is not available.",
             "i" = "Either the website is down or you are not connected to the internet."
           ),
-          call = rlang::caller_env(4)
+          call = caller_env
         )
       }
     )
