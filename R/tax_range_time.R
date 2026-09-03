@@ -101,7 +101,7 @@ tax_range_time <- function(
   plot_args = NULL,
   intervals = "periods"
 ) {
-  ensure_args_are_named()
+  ensure_args_are_named(exceptions = "occdf")
 
   #=== Handling errors ===
   if (!is.data.frame(occdf)) {

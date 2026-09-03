@@ -24,6 +24,19 @@ test_that("basic behaviour works", {
   expect_snapshot(tax_range_time(occdf = "a"), error = TRUE)
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    max_ma = c(10, 8, 6, 5, 3),
+    min_ma = c(9, 7, 5, 4, 2)
+  )
+
+  expect_equal(
+    occdf |> tax_range_time(name = "genus", plot = FALSE),
+    tax_range_time(occdf, name = "genus", plot = FALSE)
+  )
+})
+
 test_that("tax_range_time errors with unnamed args", {
   occdf <- data.frame(
     genus = c("A", "A", "B"),
