@@ -171,8 +171,8 @@
     Code
       tax_expand_time(taxdf, scale = "foo")
     Condition
-      Error:
-      ! `name` does not match a built-in or Macrostrat time scale.
+      Error in `time_bins()`:
+      ! `scale` must match a built-in or Macrostrat time scale.
 
 ---
 
@@ -196,8 +196,7 @@
       tax_expand_time(taxdf, scale = 1)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be either:
-       The name of an in-built time scale (e.g. 'GTS2020'), the name of a Macrostrat time scale (see details), or a `data.frame`.
+      ! `scale` must be a single string, not the number 1.
 
 ---
 
@@ -205,8 +204,7 @@
       tax_expand_time(taxdf, scale = NA)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be either:
-       The name of an in-built time scale (e.g. 'GTS2020'), the name of a Macrostrat time scale (see details), or a `data.frame`.
+      ! `scale` must be a single string, not `NA`.
 
 # arg 'rank' works
 
