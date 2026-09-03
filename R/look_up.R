@@ -127,73 +127,40 @@ look_up <- function(
   assign_with_GTS = "GTS2020",
   return_unassigned = FALSE
 ) {
-  #=== Handling errors ===
+  check_data_frame(occdf)
 
-  if (!is.data.frame(occdf)) {
-    stop("`occdf` should be a dataframe.")
-  }
-
-  if (!is.character(early_interval)) {
-    stop("`early_interval` needs to be of type `character`")
-  }
-  if (length(early_interval) != 1) {
-    stop("`early_interval` must be of length 1")
-  }
-  if (!early_interval %in% colnames(occdf)) {
-    stop("`early_interval` needs to match a column name of `occdf`")
-  }
-
-  if (!is.character(late_interval)) {
-    stop("`late_interval` needs to be of type `character`")
-  }
-  if (!late_interval %in% colnames(occdf)) {
-    stop("`late_interval` needs to match a column name of `occdf`")
-  }
+  check_column_presence(occdf, early_interval)
+  check_column_presence(occdf, late_interval)
 
   # int_key checks
   if (!is.data.frame(int_key)) {
     if (!isFALSE(int_key)) {
-      stop("`int_key` should be a dataframe.")
+      check_data_frame(int_key)
     } else {
       if (!(assign_with_GTS %in% c("GTS2020", "GTS2012"))) {
-        stop(
-          "assignment with GTS needs to be enabled if `int_key` is set to `FALSE`"
+        cli::cli_abort(
+          c(
+            "{.arg assign_with_GTS} must be {.val GTS2020} or {.val GTS2012} when {.code int_key = FALSE}.",
+            "x" = "Assignment with GTS is currently disabled."
+          )
         )
       }
     }
   } else {
-    if (
-      !(all(
-        c("interval_name", "early_stage", "late_stage") %in%
-          colnames(int_key)
-      ))
-    ) {
-      stop(
-        '`int_key` needs to contain the columns "interval_name",
-           "early_stage" and "late_stage"'
-      )
-    }
-
-    if (
-      !(is.character(int_key$interval_name) &&
-        is.character(int_key$early_stage) &&
-        is.character(int_key$late_stage))
-    ) {
-      stop(
-        "`int_key$interval_name`, `int_key$early_stage`, and
-           `int_key$late_stage` needs to be of type `character`"
-      )
-    }
-
-    if ("max_ma" %in% colnames(int_key)) {
-      if (!is.numeric(int_key$max_ma)) {
-        stop("`int_key$max_ma` needs to be of type `numeric`")
+    for (column in c("interval_name", "early_stage", "late_stage")) {
+      check_column_presence(int_key, column)
+      if (!is.character(int_key[[column]])) {
+        cli::cli_abort(
+          "Column {.val {column}} in {.arg int_key} must be of class {.cls character}, not {.cls {class(int_key[[column]])}}."
+        )
       }
     }
 
-    if ("min_ma" %in% colnames(int_key)) {
-      if (!is.numeric(int_key$min_ma)) {
-        stop("`int_key$min_ma` needs to be of type `numeric`")
+    for (column in c("max_ma", "min_ma")) {
+      if (column %in% colnames(int_key) && !is.numeric(int_key[[column]])) {
+        cli::cli_abort(
+          "Column {.val {column}} in {.arg int_key} must be {.cls numeric}, not {.cls {class(int_key[[column]])}}."
+        )
       }
     }
   }
@@ -216,9 +183,8 @@ look_up <- function(
   late[replace_ind] <- early[replace_ind]
   # in this case, display a warning
   if (length(replace_ind) >= 1) {
-    warning(
-      '`NA`, `""` or `" "` entries from `late_interval` have been
-            filled in with the corresponding `early_interval` entries'
+    cli::cli_warn(
+      "{.code NA}, {.val {\"\"}} or {.val { \" \"}} entries from {.arg late_interval} have been filled in with the corresponding {.arg early_interval} entries."
     )
   }
 
@@ -312,9 +278,8 @@ look_up <- function(
       if (!assign_with_GTS) {
         NULL
       } else {
-        stop(
-          "`assign_with_GTS` needs to be `FALSE`, `GTS2012` or
-                          `GTS2020`"
+        cli::cli_abort(
+          "{.arg assign_with_GTS} must be {.code FALSE}, {.val GTS2012} or {.val GTS2020}."
         )
       }
     }
@@ -504,12 +469,10 @@ look_up <- function(
   # optional: return interval names which could not be assigned stages
 
   if (!return_unassigned && length(unassigned) >= 1) {
-    warning(
-      c(
-        "The following intervals could not be matched with intervals from int_key
-      or GTS: ",
-        paste(unassigned, collapse = ", ")
-      )
+    truncated <- if (length(unassigned) > 5) " (first 5)" else ""
+    to_report <- cli::cli_vec(head(unassigned, n = 5), list(`vec-last` = ", "))
+    cli::cli_warn(
+      "The following intervals could not be matched with intervals from {.arg int_key} or GTS{truncated}: {.val {to_report}}."
     )
   }
 
@@ -518,7 +481,7 @@ look_up <- function(
     return(unassigned)
   } else {
     if (return_unassigned && length(unassigned) == 0) {
-      message("All intervals have been assigned.")
+      cli::cli_inform("All intervals have been assigned.")
     }
   }
 
