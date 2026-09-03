@@ -43,6 +43,14 @@
       5   5  9.594068 14.532644 19.471221 4.250537e+13 0.1666667
       6   6  0.000000  4.797034  9.594068 4.250537e+13 0.1666667
 
+# lat_bins_area errors if min == max
+
+    Code
+      lat_bins_area(min = 90, max = 90)
+    Condition
+      Error in `lat_bins_area()`:
+      ! `min` must be less than `max`.
+
 # lat_bins_area errors with unnamed args
 
     Code
