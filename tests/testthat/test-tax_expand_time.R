@@ -41,6 +41,19 @@ test_that("basic behaviour works", {
   expect_snapshot(tax_expand_time(), error = TRUE)
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  taxdf <- data.frame(
+    name = c("A", "B"),
+    max_ma = c(150, 30),
+    min_ma = c(110, 0)
+  )
+
+  expect_equal(
+    taxdf |> tax_expand_time(),
+    tax_expand_time(taxdf)
+  )
+})
+
 test_that("tax_expand_time errors with unnamed args", {
   taxdf <- data.frame(
     name = c("A", "B"),

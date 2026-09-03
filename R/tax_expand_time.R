@@ -63,7 +63,7 @@ tax_expand_time <- function(
   rank = "stage",
   ext_orig = TRUE
 ) {
-  ensure_args_are_named()
+  ensure_args_are_named(exceptions = "taxdf")
 
   # Handle errors
   if (!is.data.frame(taxdf)) {
