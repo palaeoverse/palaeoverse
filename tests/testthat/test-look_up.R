@@ -123,7 +123,7 @@ test_that("look_up() warns if some intervals couldn't be matched", {
         row.names = 7L
       )
     ),
-    "The following intervals could not be matched with intervals from int_key"
+    "The following intervals could not be matched with intervals from"
   )
 })
 
