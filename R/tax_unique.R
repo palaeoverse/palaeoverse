@@ -141,62 +141,36 @@ tax_unique <- function(
   resolution = "species",
   append = FALSE
 ) {
-  #Give errors for incorrect input
-  if (!is.data.frame(occdf)) {
-    stop("`occdf` must be a data.frame")
-  }
+  check_data_frame(occdf)
+  rlang::check_bool(append)
+  resolution <- rlang::arg_match(resolution, values = c("species", "genus"))
 
-  if (!is.null(append) && length(append) != 1) {
-    stop("`append` must have length 1.")
+  if (!is.null(binomial)) {
+    check_column_presence(occdf, binomial)
   }
-  if (is.na(append)) {
-    stop("`append` must not be NA.")
+  if (!is.null(species)) {
+    check_column_presence(occdf, species)
   }
-  if (!is.logical(append)) {
-    stop("`append` must be a logical.")
+  if (!is.null(genus)) {
+    check_column_presence(occdf, genus)
   }
-  if (!is.null(resolution) && length(resolution) != 1) {
-    stop("`resolution` must have length 1.")
-  }
-  if (!is.null(name) && length(name) != 1) {
-    stop("`name` must have length 1.")
-  }
-  if (!is.null(binomial) && length(binomial) != 1) {
-    stop("`binomial` must have length 1.")
-  }
-
-  #Check for column labels and rename them if present
-  if (!is.null(binomial) && !(binomial %in% colnames(occdf))) {
-    stop("`occdf` does not contain column name provided to `binomial`")
-  }
-
-  if (!is.null(species) && !(species %in% colnames(occdf))) {
-    stop("`occdf` does not contain column name provided to `species`")
-  }
-
-  if (!is.null(genus) && !(genus %in% colnames(occdf))) {
-    stop("`occdf` does not contain column name provided to `genus`")
+  if (!is.null(name)) {
+    check_column_presence(occdf, name)
   }
 
   higher_args <- list(...)
   higher_names <- names(higher_args)
   higher_cols <- unname(unlist(higher_args))
   if (length(higher_args) == 0) {
-    stop("At least one higher taxonomic level must be supplied (e.g. `family`)")
+    cli::cli_abort(
+      "At least one higher taxonomic level must be supplied (e.g. {.code family = \"family\"})."
+    )
   }
 
   for (level_label in higher_names) {
     col_name <- higher_args[[level_label]]
-    if (length(col_name) == 0) {
-      stop(paste0("`", level_label, "` must have length 1."))
-    }
-    if (!(col_name %in% colnames(occdf))) {
-      stop(paste0(
-        "`occdf` does not contain column name provided to `",
-        level_label,
-        "`"
-      ))
-    }
+    rlang::check_string(col_name, arg = level_label)
+    check_column_presence(occdf, col_name)
     #Substitute labels used in PBDB downloads
     occdf[[col_name]] <-
       gsub(
@@ -205,60 +179,55 @@ tax_unique <- function(
         occdf[[col_name]]
       )
     if (any(grepl("[[:punct:]]", occdf[[col_name]]))) {
-      stop(paste0("`", level_label, "` column should not contain punctuation"))
+      cli::cli_abort(
+        "Column {.val {level_label}} must not contain punctuation."
+      )
     }
   }
 
-  if (!is.null(name) && !(name %in% colnames(occdf))) {
-    stop("`occdf` does not contain column name provided to `names`")
-  }
-
   if (!is.null(genus) && any(grepl("[[:punct:]]", occdf[[genus]]))) {
-    stop("`genus` column should not contain punctuation")
+    cli::cli_abort("Column {.val genus} must not contain punctuation.")
   }
 
   if (!is.null(species) && any(grepl("[[:punct:]]", occdf[[species]]))) {
-    stop("`species` column should not contain punctuation")
+    cli::cli_abort("Column {.val species} must not contain punctuation.")
   }
 
   if (
     !is.null(binomial) && any(grepl("[^[:alnum:][:space:]]", occdf[[binomial]]))
   ) {
-    stop(
-      "`binomial` column should not contain punctuation except spaces or
-         underscores"
+    cli::cli_abort(
+      "Column {.val binomial} must not contain punctuation except spaces or underscores."
     )
   }
 
   if (!is.null(name) && any(grepl("[^[:alnum:][:space:]]", occdf[[name]]))) {
-    stop(
-      "`name` column should not contain punctuation except spaces or
-         underscores"
+    cli::cli_abort(
+      "Column {.val name} must not contain punctuation except spaces or underscores."
     )
   }
 
   if (
     (resolution == "species") &&
-      (is.null(binomial)) &&
-      (is.null(species)) &&
-      (is.null(name))
+      is.null(binomial) &&
+      is.null(species) &&
+      is.null(name)
   ) {
-    stop(
-      "Species names must be supplied by specifying `binomial`, `genus` and
-    `species`, or `genus` and `name` columns to estimate richness at species
-    level"
+    cli::cli_abort(
+      c(
+        "Species names must be supplied to estimate richness at species level.",
+        "i" = "Specify {.arg binomial}, or {.arg genus} and {.arg species}, or {.arg genus} and {.arg name}."
+      )
     )
   }
 
-  if ((resolution == "genus") && (is.null(binomial)) && (is.null(genus))) {
-    stop(
-      "Genus names must be supplied by specifying `binomial` or `genus`
-    columns to estimate richness at genus level"
+  if ((resolution == "genus") && is.null(binomial) && is.null(genus)) {
+    cli::cli_abort(
+      c(
+        "Genus names must be supplied to estimate richness at genus level.",
+        "i" = "Specify a {.arg binomial} or {.arg genus} column."
+      )
     )
-  }
-
-  if ((resolution != "species") && (resolution != "genus")) {
-    stop("Resolution must be 'species' or 'genus'")
   }
 
   #Run function
