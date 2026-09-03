@@ -48,9 +48,7 @@ test_that("lat_bins_area errors with wrong inputs", {
 
   expect_snapshot(lat_bins_area(r = "Earth"), error = TRUE)
   expect_snapshot(lat_bins_area(r = numeric(0)), error = TRUE)
-
-  # TODO: this should error
-  # expect_snapshot(lat_bins_area(r = -1), error = TRUE)
+  expect_snapshot(lat_bins_area(r = -1), error = TRUE)
 })
 
 test_that("lat_bins_area plotting works", {

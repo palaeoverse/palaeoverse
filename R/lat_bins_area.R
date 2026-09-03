@@ -45,7 +45,7 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
   rlang::check_number_whole(n, min = 1)
   rlang::check_number_decimal(max, min = -90, max = 90)
   rlang::check_number_decimal(min, min = -90, max = 90)
-  rlang::check_number_decimal(r)
+  rlang::check_number_decimal(r, min = 0)
   rlang::check_bool(plot)
 
   if (min > max) {

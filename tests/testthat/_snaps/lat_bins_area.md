@@ -201,3 +201,11 @@
       Error in `lat_bins_area()`:
       ! `r` must be a number, not an empty numeric vector.
 
+---
+
+    Code
+      lat_bins_area(r = -1)
+    Condition
+      Error in `lat_bins_area()`:
+      ! `r` must be a number larger than or equal to 0, not the number -1.
+
