@@ -12,10 +12,12 @@ test_that("different radius affects the results", {
   expect_all_false(orig$area == new$area)
 })
 
-# TODO: this should error
-# test_that("lat_bins_area handles case where min == max", {
-#   lat_bins_area(min = 90, max = 90)
-# })
+test_that("lat_bins_area handles case where min == max", {
+  expect_snapshot(
+    lat_bins_area(min = 90, max = 90),
+    error = TRUE
+  )
+})
 
 test_that("lat_bins_area errors with unnamed args", {
   expect_snapshot(lat_bins_area(10, 1), error = TRUE)

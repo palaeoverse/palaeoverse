@@ -48,7 +48,7 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
   rlang::check_number_decimal(r, min = 0)
   rlang::check_bool(plot)
 
-  if (min > max) {
+  if (min >= max) {
     cli::cli_abort("{.arg min} must be less than {.arg max}.")
   }
 
