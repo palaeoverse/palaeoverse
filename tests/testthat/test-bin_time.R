@@ -99,6 +99,13 @@ test_that("bin_time() works with method 'majority'", {
   )
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  expect_equal(
+    test_occdf |> bin_time(bins = test_bins, method = "majority"),
+    bin_time(test_occdf, bins = test_bins, method = "majority")
+  )
+})
+
 test_that("bin_time() works with method 'all'", {
   bin_all <- bin_time(occdf = test_occdf, bins = test_bins, method = "all")
   # Occurrences spanning several bins are duplicated, one row per bin

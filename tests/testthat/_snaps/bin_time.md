@@ -151,7 +151,7 @@
       bin_time(occdf = test_occdf, test_bins, method = "majority")
     Condition
       Error in `bin_time()`:
-      ! All arguments must be named.
+      ! All arguments must be named (except for "occdf").
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -160,8 +160,8 @@
       bin_time(test_occdf, test_bins, "majority")
     Condition
       Error in `bin_time()`:
-      ! All arguments must be named.
-      i Currently, there are 3 arguments that should be named.
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
 
 ---
 
@@ -170,6 +170,6 @@
         0.5, 0.25)
     Condition
       Error in `bin_time()`:
-      ! All arguments must be named.
+      ! All arguments must be named (except for "occdf").
       i Currently, there are 2 arguments that should be named.
 
