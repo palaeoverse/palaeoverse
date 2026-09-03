@@ -47,6 +47,16 @@ test_that("basic behavior works", {
   )
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  occdf <- test_look_up[
+    test_look_up$case %in% c("both_stages_equal", "two_stages_range"),
+  ]
+  expect_equal(
+    occdf |> look_up(),
+    look_up(occdf)
+  )
+})
+
 test_that("look_up errors with unnamed args", {
   expect_snapshot(look_up(test_look_up, "early_interval"), error = TRUE)
   expect_snapshot(

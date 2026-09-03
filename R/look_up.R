@@ -127,7 +127,7 @@ look_up <- function(
   assign_with_GTS = "GTS2020",
   return_unassigned = FALSE
 ) {
-  ensure_args_are_named()
+  ensure_args_are_named(exceptions = "occdf")
 
   #=== Handling errors ===
 
