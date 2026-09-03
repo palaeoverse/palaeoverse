@@ -177,9 +177,9 @@ palaeorotate <- function(
   uncertainty = TRUE,
   round = 3
 ) {
-  # This is used in error messages. We save it here so that we don't need to
-  # use e.g. `rlang::caller_env(4)` when `cli::cli_abort()` in `tryCatch()`.
-  caller_env <- rlang::caller_env()
+  # This is used in error messages to report in which function call the error occurred. We save it
+  # here so that we don't need to use e.g. `rlang::caller_env(4)` when `cli::cli_abort()` in `tryCatch()`.
+  caller_env <- rlang::current_env()
 
   check_data_frame(occdf)
 
