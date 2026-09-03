@@ -120,7 +120,7 @@
     Condition
       Error in `palaeorotate()`:
       ! Selected model "MULLER2022" has recently been removed as it is not in a palaeomagnetic reference frame.
-      i See `?palaeorotate()` for available models.
+      i See `palaeorotate()` (`?palaeoverse::palaeorotate()`) for available models.
 
 ---
 

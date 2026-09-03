@@ -205,7 +205,7 @@ palaeorotate <- function(
     cli::cli_abort(
       c(
         "{cli::qty(sum(m))}Selected model{?s} {.val {removed[m]}} {?has/have} recently been removed as {?it is/they are} not in a palaeomagnetic reference frame.",
-        "i" = "See {.help palaeorotate} for available models."
+        "i" = "See {.help [{.fun palaeorotate}](palaeoverse::palaeorotate)} for available models."
       )
     )
   }
