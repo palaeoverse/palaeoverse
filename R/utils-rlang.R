@@ -20,6 +20,29 @@ check_column_presence <- function(data, column) {
   }
 }
 
+# Same as check_column_presence() but can take more than one column name
+check_columns_presence <- function(data, columns) {
+  if (length(columns) == 0) {
+    cli::cli_abort(
+      "{.arg {rlang::caller_arg(columns)}} must specify at least one column.",
+      call = rlang::caller_env()
+    )
+  }
+  check_character(
+    columns,
+    call = rlang::caller_env(),
+    arg = rlang::caller_arg(columns)
+  )
+  non_existent_cols <- columns[!columns %in% names(data)]
+  if (length(non_existent_cols)) {
+    to_report <- cli::cli_vec(non_existent_cols, list(`vec-last` = ", and "))
+    cli::cli_abort(
+      "{cli::qty(to_report)} Column{?s} {.val {to_report}} not found in {.arg {rlang::caller_arg(data)}}.",
+      call = rlang::caller_env()
+    )
+  }
+}
+
 #' Check whether a column contains missing values
 #'
 #' This errors if there are missing values.

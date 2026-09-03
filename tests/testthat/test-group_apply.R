@@ -156,6 +156,14 @@ test_that("error handling for argument 'group'", {
     group_apply(occdf = occdf, group = c("cc", "foobar"), fun = nrow),
     error = TRUE
   )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("cc", "foobar", "foobar2"),
+      fun = nrow
+    ),
+    error = TRUE
+  )
 
   # Regression test for a corner case that used to give an unhelpful error message.
   # This only occurred when:
