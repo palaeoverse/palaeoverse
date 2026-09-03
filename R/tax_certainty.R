@@ -102,27 +102,20 @@ tax_certainty <- function(
   certainty = c(1, 0),
   append = TRUE
 ) {
-  # Error handling
-
-  # Check taxdf is dataframe
-  if (!is.data.frame(taxdf)) {
-    stop("`taxdf` must be a data.frame.")
-  }
-  # Check for valid name input
-  if (is.null(taxdf[[name]])) {
-    stop("`names` is not a named column in `taxdf`.")
-  }
+  check_data_frame(taxdf)
+  check_column_presence(taxdf, name)
   if (!is.character(taxdf[[name]])) {
-    stop("`names` must be of class character.")
+    cli::cli_abort(
+      "Column {.val {name}} in {.arg taxdf} must be of class {.cls character}, not {.cls {class(taxdf[[name]])}}."
+    )
   }
-  # Check for valid list input
-  if (!is.list(terms) && !is.null(terms)) {
-    stop("`terms` must be of class list or NULL.")
+  if (!is.null(terms) && !is.list(terms)) {
+    cli::cli_abort(
+      "{.arg terms} must be of class {.cls list} or {.code NULL}, not {obj_type_friendly(terms)}."
+    )
   }
-  # Check for valid append input
-  if (is.na(append) || !is.logical(append)) {
-    stop("`append` must be of class logical (TRUE/FALSE).")
-  }
+  rlang::check_bool(append)
+
   # Create temporary taxdf column to not replace original values
   taxdf$certainty <- taxdf[[name]]
   # Replace empty rows with NA
