@@ -32,6 +32,22 @@ test_that("basic behavior works", {
   expect_snapshot(tax_range_strat(occdf = "a"), error = TRUE)
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  # fmt: skip
+  occdf <- data.frame(
+    genus = c(
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
+      "Edaphosaurus", "Procolophon"
+    ),
+    bed = c(1, 1, 2, 2, 2, 3, 3, 4),
+    certainty = c(1, 1, 0, 1, 0, 1, 1, 1)
+  )
+  expect_equal(
+    occdf |> tax_range_strat(name = "genus"),
+    tax_range_strat(occdf, name = "genus")
+  )
+})
+
 test_that("tax_range_strat errors with unnamed args", {
   occdf <- data.frame(
     genus = c("Anconastes", "Procolophon", "Procolophon"),
