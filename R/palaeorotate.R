@@ -177,7 +177,7 @@ palaeorotate <- function(
   uncertainty = TRUE,
   round = 3
 ) {
-  ensure_args_are_named()
+  ensure_args_are_named(exceptions = "occdf")
 
   # Error-handling ----------------------------------------------------------
   if (!exists("occdf") || !is.data.frame(occdf)) {
