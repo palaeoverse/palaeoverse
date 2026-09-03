@@ -90,7 +90,7 @@ tax_check <- function(
   start = 1,
   verbose = TRUE
 ) {
-  ensure_args_are_named()
+  ensure_args_are_named(exceptions = "taxdf")
 
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
