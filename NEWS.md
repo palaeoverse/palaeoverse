@@ -2,6 +2,10 @@
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
+## Bug fixes
+
+* `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).
+
 # palaeoverse 1.5.0
 
 ## New features
