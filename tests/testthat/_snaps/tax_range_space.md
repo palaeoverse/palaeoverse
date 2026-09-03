@@ -150,6 +150,14 @@
       Error in `tax_range_space()`:
       ! `spacing` must be a number, not `NA`.
 
+---
+
+    Code
+      tax_range_space(occdf, method = "occ", spacing = 1:2)
+    Condition
+      Error in `tax_range_space()`:
+      ! `spacing` must be a number, not an integer vector.
+
 # argument 'coords' works
 
     Code
