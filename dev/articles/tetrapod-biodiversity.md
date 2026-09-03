@@ -3,7 +3,7 @@
 **Authors:** [The Palaeoverse Development
 Team](https://palaeoverse.org/about/about-us)
 
-**Last updated:** 2026-09-02
+**Last updated:** 2026-09-03
 
 ## Introduction
 
