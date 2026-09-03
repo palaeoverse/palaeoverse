@@ -177,63 +177,24 @@ palaeorotate <- function(
   uncertainty = TRUE,
   round = 3
 ) {
-  # Error-handling ----------------------------------------------------------
-  if (!exists("occdf") || !is.data.frame(occdf)) {
-    stop("Please supply `occdf` as a data.frame.")
-  }
+  # This is used in error messages to report in which function call the error occurred. We save it
+  # here so that we don't need to use e.g. `rlang::caller_env(4)` when `cli::cli_abort()` in `tryCatch()`.
+  caller_env <- rlang::current_env()
 
-  if (!all(c(lng, lat, age) %in% colnames(occdf))) {
-    stop("Defined `lng`, `lat`, or `age` not found in `occdf`.")
-  }
+  check_data_frame(occdf)
 
-  if (
-    any(
-      !is.numeric(occdf[, lat, drop = TRUE]),
-      is.na(occdf[, lat, drop = TRUE]),
-      !is.numeric(occdf[, lng, drop = TRUE]),
-      is.na(occdf[, lng, drop = TRUE]),
-      !is.numeric(occdf[, age, drop = TRUE]),
-      is.na(occdf[, age, drop = TRUE])
-    )
-  ) {
-    stop("`lng`, `lat` and `age` should be of class numeric.")
-  }
+  check_column_presence(occdf, lng)
+  check_column_presence(occdf, lat)
+  check_column_presence(occdf, age)
 
-  if (any(occdf[, age, drop = TRUE] < 0)) {
-    stop("`age` contains negative values. Input ages should be positive.")
-  }
+  check_range(occdf, lat, -90, 90)
+  check_range(occdf, lng, -180, 180)
+  check_range(occdf, age, 0, Inf)
 
-  if (sum(abs(occdf[, lat, drop = TRUE]) > 90) != 0) {
-    stop("`lat` values should be >= -90\u00B0 and <= 90\u00B0.")
-  }
-
-  if (sum(abs(occdf[, lng, drop = TRUE]) > 180) != 0) {
-    stop("`lng` values should be >= -180\u00B0 and <= 180\u00B0.")
-  }
-
-  if (length(method) != 1) {
-    stop("`method` should have length 1.")
-  }
-  if (!method %in% c("grid", "point")) {
-    stop("`method` should be either 'grid' or 'point'.")
-  }
-
-  if (!is.null(round)) {
-    if (!is.numeric(round)) {
-      stop("`round` should be NULL or of class numeric.")
-    }
-    if (length(round) != 1) {
-      stop("`round` must have length 1.")
-    }
-  }
-
-  if (!is.logical(uncertainty)) {
-    stop("`uncertainty` should be of class logical (TRUE/FALSE).")
-  }
-
-  if (length(model) == 0) {
-    stop("`model` must have length >= 1.")
-  }
+  rlang::check_string(method)
+  method <- rlang::arg_match(method, values = c("point", "grid"))
+  rlang::check_number_whole(round, allow_null = TRUE)
+  rlang::check_bool(uncertainty)
 
   # Add stop for removed models
   removed <- c(
@@ -245,13 +206,12 @@ palaeorotate <- function(
   )
   m <- removed %in% model
   if (any(m)) {
-    stop(paste0(
-      "Selected model(s) (",
-      toString(removed[m]),
-      ") have recently",
-      " been removed as they are not in a palaeomagnetic reference",
-      " frame. See details for available models."
-    ))
+    cli::cli_abort(
+      c(
+        "{cli::qty(sum(m))}Selected model{?s} {.val {removed[m]}} {?has/have} recently been removed as {?it is/they are} not in a palaeomagnetic reference frame.",
+        "i" = "See {.help [{.fun palaeorotate}](palaeoverse::palaeorotate)} for available models."
+      )
+    )
   }
 
   # Model available?
@@ -262,14 +222,9 @@ palaeorotate <- function(
     "GOLONKA",
     "PALEOMAP"
   )
-  # Match input
-  model <- available[charmatch(x = model, table = available)]
-  # Invalid model input?
-  if (anyNA(model)) {
-    stop(
-      "Unavailable model(s). Choose one from the following: \n",
-      toString(available)
-    )
+  model <- rlang::arg_match(model, values = available, multiple = TRUE)
+  if (length(model) == 0) {
+    cli::cli_abort("{.arg model} must select at least one model.")
   }
 
   # Set-up ------------------------------------------------------------------
@@ -300,13 +255,12 @@ palaeorotate <- function(
         nslookup("zenodo.org")
       },
       error = function(e) {
-        stop(
-          paste0(
+        cli::cli_abort(
+          c(
             "Zenodo is not available.",
-            " Either the website is down or you are not connected ",
-            "to the internet."
+            "i" = "Either the website is down or you are not connected to the internet."
           ),
-          call. = FALSE
+          call = caller_env
         )
       }
     )
@@ -411,13 +365,12 @@ palaeorotate <- function(
         nslookup("gws.gplates.org")
       },
       error = function(e) {
-        stop(
-          paste(
+        cli::cli_abort(
+          c(
             "GPlates Web Service is not available.",
-            "Either the website is down or you are not",
-            "connected to the internet."
+            "i" = "Either the website is down or you are not connected to the internet."
           ),
-          call. = FALSE
+          call = caller_env
         )
       }
     )
@@ -480,7 +433,7 @@ palaeorotate <- function(
     # Run across models
     multi_model <- lapply(model, function(m) {
       # Inform user which model is running
-      message(m)
+      cli::cli_inform(m)
       # Run across unique ages
       rotations <- pblapply(X = uni_ages, function(i) {
         # Subset to age of interest
@@ -603,13 +556,10 @@ palaeorotate <- function(
     cnames <- c("p_lng", "p_lat")
   }
   if (anyNA(occdf[, cnames])) {
-    warning(
-      paste0(
+    cli::cli_warn(
+      c(
         "Palaeocoordinates could not be reconstructed for all points.",
-        "\n",
-        "Either assigned plate does not exist at time of ",
-        "reconstruction or the Global Plate Model(s) does not cover ",
-        "the age of reconstruction."
+        "i" = "Either the assigned plate does not exist at the time of reconstruction, or the Global Plate Model(s) do not cover the age of reconstruction."
       )
     )
   }

@@ -4,7 +4,7 @@
       palaeorotate(occdf = 10)
     Condition
       Error in `palaeorotate()`:
-      ! Please supply `occdf` as a data.frame.
+      ! `occdf` must be of class <data.frame>, not the number 10.
 
 ---
 
@@ -12,7 +12,7 @@
       palaeorotate(occdf = NA)
     Condition
       Error in `palaeorotate()`:
-      ! Please supply `occdf` as a data.frame.
+      ! `occdf` must be of class <data.frame>, not `NA`.
 
 ---
 
@@ -20,7 +20,7 @@
       palaeorotate(occdf = data.frame(lng = 10, lat = 5))
     Condition
       Error in `palaeorotate()`:
-      ! Defined `lng`, `lat`, or `age` not found in `occdf`.
+      ! Column "age" not found in `occdf`.
 
 # input checks for longitude
 
@@ -28,7 +28,8 @@
       palaeorotate(occdf = data.frame(lng = 210, lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! `lng` values should be >= -180° and <= 180°.
+      ! All values of column "lng" in `occdf` must be between -180 and 180.
+      i Value(s) outside the range: 210.
 
 ---
 
@@ -36,7 +37,7 @@
       palaeorotate(occdf = data.frame(lng = NA, lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! `lng`, `lat` and `age` should be of class numeric.
+      ! Column "lng" in `occdf` must be <numeric>, not <logical>.
 
 ---
 
@@ -44,7 +45,7 @@
       palaeorotate(occdf = data.frame(lng = "a", lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! `lng`, `lat` and `age` should be of class numeric.
+      ! Column "lng" in `occdf` must be <numeric>, not <character>.
 
 # input checks for latitude
 
@@ -52,7 +53,8 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 200, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! `lat` values should be >= -90° and <= 90°.
+      ! All values of column "lat" in `occdf` must be between -90 and 90.
+      i Value(s) outside the range: 200.
 
 ---
 
@@ -60,7 +62,7 @@
       palaeorotate(occdf = data.frame(lng = 40, lat = NA, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! `lng`, `lat` and `age` should be of class numeric.
+      ! Column "lat" in `occdf` must be <numeric>, not <logical>.
 
 ---
 
@@ -68,7 +70,7 @@
       palaeorotate(occdf = data.frame(lng = 40, lat = "a", age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! `lng`, `lat` and `age` should be of class numeric.
+      ! Column "lat" in `occdf` must be <numeric>, not <character>.
 
 # input checks values for age
 
@@ -76,7 +78,8 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = -1))
     Condition
       Error in `palaeorotate()`:
-      ! `age` contains negative values. Input ages should be positive.
+      ! All values of column "age" in `occdf` must be between 0 and Inf.
+      i Value(s) outside the range: -1.
 
 ---
 
@@ -84,7 +87,7 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = NA))
     Condition
       Error in `palaeorotate()`:
-      ! `lng`, `lat` and `age` should be of class numeric.
+      ! Column "age" in `occdf` must be <numeric>, not <logical>.
 
 ---
 
@@ -92,7 +95,7 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = "a"))
     Condition
       Error in `palaeorotate()`:
-      ! `lng`, `lat` and `age` should be of class numeric.
+      ! Column "age" in `occdf` must be <numeric>, not <character>.
 
 # arg 'model' works
 
@@ -100,8 +103,7 @@
       palaeorotate(occdf = occdf, method = "point", model = NA)
     Condition
       Error in `palaeorotate()`:
-      ! Unavailable model(s). Choose one from the following: 
-      MERDITH2021, MATTHEWS2016_pmag_ref, TorsvikCocks2017, GOLONKA, PALEOMAP
+      ! `model` must be a character vector, not `NA`.
 
 ---
 
@@ -109,7 +111,7 @@
       palaeorotate(occdf = occdf, method = "point", model = character(0))
     Condition
       Error in `palaeorotate()`:
-      ! `model` must have length >= 1.
+      ! `model` must select at least one model.
 
 ---
 
@@ -117,7 +119,8 @@
       palaeorotate(occdf = occdf, method = "point", model = "MULLER2022")
     Condition
       Error in `palaeorotate()`:
-      ! Selected model(s) (MULLER2022) have recently been removed as they are not in a palaeomagnetic reference frame. See details for available models.
+      ! Selected model "MULLER2022" has recently been removed as it is not in a palaeomagnetic reference frame.
+      i See `palaeorotate()` (`?palaeoverse::palaeorotate()`) for available models.
 
 ---
 
@@ -125,8 +128,7 @@
       palaeorotate(occdf = occdf, method = "point", model = "GPlates")
     Condition
       Error in `palaeorotate()`:
-      ! Unavailable model(s). Choose one from the following: 
-      MERDITH2021, MATTHEWS2016_pmag_ref, TorsvikCocks2017, GOLONKA, PALEOMAP
+      ! `model` must be one of "MERDITH2021", "MATTHEWS2016_pmag_ref", "TorsvikCocks2017", "GOLONKA", or "PALEOMAP", not "GPlates".
 
 # arg 'method' works
 
@@ -134,7 +136,7 @@
       palaeorotate(occdf = occdf, method = "foo")
     Condition
       Error in `palaeorotate()`:
-      ! `method` should be either 'grid' or 'point'.
+      ! `method` must be one of "point" or "grid", not "foo".
 
 ---
 
@@ -142,7 +144,7 @@
       palaeorotate(occdf = occdf, method = NA)
     Condition
       Error in `palaeorotate()`:
-      ! `method` should be either 'grid' or 'point'.
+      ! `method` must be a single string, not `NA`.
 
 ---
 
@@ -150,7 +152,7 @@
       palaeorotate(occdf = occdf, method = character(0))
     Condition
       Error in `palaeorotate()`:
-      ! `method` should have length 1.
+      ! `method` must be a single string, not an empty character vector.
 
 ---
 
@@ -158,7 +160,7 @@
       palaeorotate(occdf = occdf, method = c("point", "grid"))
     Condition
       Error in `palaeorotate()`:
-      ! `method` should have length 1.
+      ! `method` must be a single string, not a character vector.
 
 # arg 'uncertainty' works
 
@@ -166,7 +168,7 @@
       palaeorotate(occdf = dat, uncertainty = "GOONTHEN")
     Condition
       Error in `palaeorotate()`:
-      ! `uncertainty` should be of class logical (TRUE/FALSE).
+      ! `uncertainty` must be `TRUE` or `FALSE`, not the string "GOONTHEN".
 
 ---
 
@@ -174,7 +176,7 @@
       palaeorotate(occdf = dat, uncertainty = character(0))
     Condition
       Error in `palaeorotate()`:
-      ! `uncertainty` should be of class logical (TRUE/FALSE).
+      ! `uncertainty` must be `TRUE` or `FALSE`, not an empty character vector.
 
 ---
 
@@ -182,7 +184,7 @@
       palaeorotate(occdf = dat, uncertainty = 1)
     Condition
       Error in `palaeorotate()`:
-      ! `uncertainty` should be of class logical (TRUE/FALSE).
+      ! `uncertainty` must be `TRUE` or `FALSE`, not the number 1.
 
 # arg 'round' works
 
@@ -190,7 +192,7 @@
       palaeorotate(occdf = occdf, round = TRUE)
     Condition
       Error in `palaeorotate()`:
-      ! `round` should be NULL or of class numeric.
+      ! `round` must be a whole number or `NULL`, not `TRUE`.
 
 ---
 
@@ -198,7 +200,7 @@
       palaeorotate(occdf = occdf, round = NA)
     Condition
       Error in `palaeorotate()`:
-      ! `round` should be NULL or of class numeric.
+      ! `round` must be a whole number or `NULL`, not `NA`.
 
 ---
 
@@ -206,7 +208,7 @@
       palaeorotate(occdf = occdf, round = numeric(0))
     Condition
       Error in `palaeorotate()`:
-      ! `round` must have length 1.
+      ! `round` must be a whole number or `NULL`, not an empty numeric vector.
 
 ---
 
@@ -214,5 +216,5 @@
       palaeorotate(occdf = occdf, round = 1:2)
     Condition
       Error in `palaeorotate()`:
-      ! `round` must have length 1.
+      ! `round` must be a whole number or `NULL`, not an integer vector.
 
