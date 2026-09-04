@@ -16,7 +16,12 @@ ensure_args_are_named <- function(exceptions = NULL) {
 
   args_in_function_def <- names(formals(rlang::caller_fn()))
   partially_matched_names <- setdiff(named_args, args_in_function_def)
-  if (length(partially_matched_names) > 0) {
+
+  # If the original function has `...` then the user can pass extra arguments whose names
+  # shouldn't be compared to the function arguments.
+  if (
+    !("..." %in% args_in_function_def) && length(partially_matched_names) > 0
+  ) {
     cli::cli_abort(
       c(
         "Argument names must be fully written.",
