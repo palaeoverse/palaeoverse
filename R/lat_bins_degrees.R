@@ -47,6 +47,8 @@ lat_bins_degrees <- function(
   fit = FALSE,
   plot = FALSE
 ) {
+  ensure_args_are_named()
+
   #error handling
   if (!is.numeric(size)) {
     stop("`size` should be a numeric")
