@@ -23,6 +23,14 @@ test_that("arg 'occdf' works", {
   )
 })
 
+test_that("palaeorotate errors with unnamed args", {
+  occdf <- data.frame(lng = c(2, -103), lat = c(46, 35), age = c(88, 125))
+  expect_snapshot(palaeorotate(occdf, "lng"), error = TRUE)
+  expect_snapshot(palaeorotate(occdf = occdf, "lng"), error = TRUE)
+  expect_snapshot(palaeorotate(occdf, "lng", "lat"), error = TRUE)
+  expect_snapshot(palaeorotate(occdf, "lng", lat = "lat"), error = TRUE)
+})
+
 test_that("Large occdf inputs are chunked before being sent to the API", {
   skip_if_offline(host = "gws.gplates.org")
   skip_if_not_installed("vcr")
