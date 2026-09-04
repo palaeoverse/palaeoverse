@@ -50,10 +50,10 @@
 #' taxdf <- data.frame(name = c("A", "B", "C"),
 #'                     max_ma = c(150, 60, 30),
 #'                     min_ma = c(110, 20, 0))
-#' ex <- tax_expand_time(taxdf)
+#' ex <- tax_expand_time(taxdf = taxdf)
 #'
 #' bins <- time_bins(scale = "GTS2012", rank = "stage")
-#' ex2 <- tax_expand_time(taxdf, bins = bins)
+#' ex2 <- tax_expand_time(taxdf = taxdf, bins = bins)
 tax_expand_time <- function(
   taxdf,
   max_ma = "max_ma",
@@ -63,6 +63,8 @@ tax_expand_time <- function(
   rank = "stage",
   ext_orig = TRUE
 ) {
+  ensure_args_are_named()
+
   # Handle errors
   if (!is.data.frame(taxdf)) {
     stop("`taxdf` should be a dataframe")
