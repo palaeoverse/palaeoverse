@@ -63,67 +63,55 @@ tax_expand_time <- function(
   rank = "stage",
   ext_orig = TRUE
 ) {
-  # Handle errors
-  if (!is.data.frame(taxdf)) {
-    stop("`taxdf` should be a dataframe")
-  }
+  check_data_frame(taxdf)
 
-  if (!all(c(min_ma, max_ma) %in% colnames(taxdf))) {
-    stop("Either `min_ma` or `max_ma` is not a named column in `taxdf`")
-  }
+  check_column_presence(taxdf, max_ma)
+  check_column_presence(taxdf, min_ma)
 
-  if (!is.numeric(taxdf[, max_ma, drop = TRUE])) {
-    stop("The class of the max_ma column must be numeric.")
-  }
-  if (!is.numeric(taxdf[, min_ma, drop = TRUE])) {
-    stop("The class of the min_ma column must be numeric.")
-  }
+  check_range(taxdf, min_ma, 0, Inf)
+  check_range(taxdf, max_ma, 0, Inf)
 
-  if (any(taxdf[, c(min_ma, max_ma)] < 0)) {
-    stop("Maximum and minimum ages must be positive.")
-  }
+  rlang::check_bool(ext_orig)
+  rlang::check_string(rank)
+  rank <- rlang::arg_match(
+    rank,
+    values = c("stage", "epoch", "period", "era", "eon")
+  )
 
-  if (any(taxdf[, max_ma, drop = TRUE] < taxdf[, min_ma, drop = TRUE])) {
-    stop("Maximum ages must be larger than or equal to minimum ages.")
-  }
-
-  if (
-    length(rank) != 1 ||
-      !(rank %in% c("stage", "epoch", "period", "era", "eon"))
-  ) {
-    stop("`rank` must be either: stage, epoch, period, era, or eon")
-  }
-
-  if (length(ext_orig) != 1) {
-    stop("`ext_orig` must be of length 1.")
-  }
-  if (is.na(ext_orig)) {
-    stop("`ext_orig` must not be NA.")
-  }
-  if (!is.logical(ext_orig)) {
-    stop("`ext_orig` should be logical (TRUE/FALSE)")
-  }
-
-  if (is.null(bins) && (is.null(scale) || is.null(rank))) {
-    stop("Either `bin` or `scale` and `rank` must be specified.")
-  }
-  if (!is.null(bins)) {
-    if (!is.data.frame(bins)) {
-      stop("`bins` should be a dataframe.")
-    }
-    if (!all(c("bin", "max_ma", "min_ma") %in% colnames(bins))) {
-      stop("bin, max_ma and/or min_ma do not exist in `bins`.")
-    }
-  } else {
-    if (length(scale) != 1) {
-      stop("If specified, `scale` must be of length 1.")
-    }
+  if (is.null(bins)) {
+    rlang::check_string(scale)
     # get the desired timescale at the desired rank
     bins <- time_bins(rank = rank, scale = scale)
+  } else {
+    check_data_frame(bins)
+    check_column_presence(bins, "bin")
+    check_column_presence(bins, "max_ma")
+    check_column_presence(bins, "min_ma")
+  }
+
+  rows_with_max_ma_smaller_than_min_ma <- which(
+    taxdf[, max_ma, drop = TRUE] < taxdf[, min_ma, drop = TRUE]
+  )
+  if (length(rows_with_max_ma_smaller_than_min_ma) > 0) {
+    truncated <- if (length(rows_with_max_ma_smaller_than_min_ma) > 5) {
+      " (first 5)"
+    } else {
+      ""
+    }
+    to_report <- cli::cli_vec(
+      head(rows_with_max_ma_smaller_than_min_ma, n = 5),
+      list(`vec-last` = ", ")
+    )
+    cli::cli_abort(
+      c(
+        "Maximum age must be larger than or equal to minimum age.",
+        "i" = "Row(s) where {.arg max_ma} is smaller than {.arg min_ma}{truncated}: {.val {to_report}}."
+      )
+    )
   }
 
   if (anyDuplicated(taxdf) > 0) {
-    stop("Not all rows in `taxdf` are unique!")
+    cli::cli_abort("{.arg taxdf} must not have duplicated rows.")
   }
 
   # add a taxon index column (since we can't guarantee there's a "name" column)

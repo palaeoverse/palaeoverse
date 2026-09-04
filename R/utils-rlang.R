@@ -66,9 +66,16 @@ check_range <- function(data, column, min, max) {
     to_report <- unique(rng)
     truncated <- if (length(to_report) > 5) " (first 5)" else ""
     to_report <- cli::cli_vec(head(to_report, n = 5), list(`vec-last` = ", "))
+
+    msg <- if (min == 0 && is.infinite(max)) {
+      "All values of column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be positive."
+    } else {
+      "All values of column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be between {min} and {max}."
+    }
+
     cli::cli_abort(
       c(
-        "All values of column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be between {min} and {max}.",
+        msg,
         "i" = "Value(s) outside the range{truncated}: {.val {to_report}}."
       ),
       call = rlang::caller_env()
