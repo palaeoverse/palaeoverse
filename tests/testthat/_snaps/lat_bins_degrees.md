@@ -29,7 +29,7 @@
       lat_bins_degrees(size = 100)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `size` should be more than 0 and less than or equal to 90
+      ! `size` must be a number between 0 and 90, not the number 100.
 
 ---
 
@@ -37,7 +37,7 @@
       lat_bins_degrees(size = numeric(0))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `size` must have length 1.
+      ! `size` must be a number, not an empty numeric vector.
 
 ---
 
@@ -45,7 +45,7 @@
       lat_bins_degrees(size = c(10, 20))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `size` must have length 1.
+      ! `size` must be a number, not a double vector.
 
 # arguments 'min' and 'max' work
 
@@ -53,7 +53,7 @@
       lat_bins_degrees(min = 500)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `min` should be less than 90 and more than -90
+      ! `min` must be a number between -90 and 90, not the number 500.
 
 ---
 
@@ -61,7 +61,7 @@
       lat_bins_degrees(min = "a")
     Condition
       Error in `lat_bins_degrees()`:
-      ! `min` should be less than 90 and more than -90
+      ! `min` must be a number, not the string "a".
 
 ---
 
@@ -69,7 +69,7 @@
       lat_bins_degrees(min = NA)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `min` should be less than 90 and more than -90
+      ! `min` must be a number, not `NA`.
 
 ---
 
@@ -77,7 +77,7 @@
       lat_bins_degrees(min = numeric(0))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `min` must have length 1.
+      ! `min` must be a number, not an empty numeric vector.
 
 ---
 
@@ -85,7 +85,7 @@
       lat_bins_degrees(min = c(1, 2))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `min` must have length 1.
+      ! `min` must be a number, not a double vector.
 
 ---
 
@@ -93,7 +93,7 @@
       lat_bins_degrees(max = 500)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `max` should be less than 90 and more than -90
+      ! `max` must be a number between -90 and 90, not the number 500.
 
 ---
 
@@ -101,7 +101,7 @@
       lat_bins_degrees(max = "a")
     Condition
       Error in `lat_bins_degrees()`:
-      ! `max` should be less than 90 and more than -90
+      ! `max` must be a number, not the string "a".
 
 ---
 
@@ -109,7 +109,7 @@
       lat_bins_degrees(max = NA)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `max` should be less than 90 and more than -90
+      ! `max` must be a number, not `NA`.
 
 ---
 
@@ -117,7 +117,7 @@
       lat_bins_degrees(max = numeric(0))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `max` must have length 1.
+      ! `max` must be a number, not an empty numeric vector.
 
 ---
 
@@ -125,7 +125,7 @@
       lat_bins_degrees(max = c(1, 2))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `max` must have length 1.
+      ! `max` must be a number, not a double vector.
 
 ---
 
@@ -133,7 +133,7 @@
       lat_bins_degrees(min = 30, max = 10)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `min` should be less than `max`
+      ! `min` must be less than `max`.
 
 ---
 
@@ -141,7 +141,7 @@
       lat_bins_degrees(min = 30, max = 30)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `min` should be less than `max`
+      ! `min` must be less than `max`.
 
 # argument 'fit' works
 
@@ -149,7 +149,7 @@
       lat_bins_degrees(fit = 100)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `fit` should be logical (TRUE/FALSE)
+      ! `fit` must be `TRUE` or `FALSE`, not the number 100.
 
 ---
 
@@ -157,7 +157,7 @@
       lat_bins_degrees(fit = logical(0))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `fit` must have length 1.
+      ! `fit` must be `TRUE` or `FALSE`, not an empty logical vector.
 
 ---
 
@@ -165,7 +165,7 @@
       lat_bins_degrees(fit = NA)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `fit` should be logical (TRUE/FALSE)
+      ! `fit` must be `TRUE` or `FALSE`, not `NA`.
 
 ---
 
@@ -173,7 +173,7 @@
       lat_bins_degrees(fit = c(TRUE, TRUE))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `fit` must have length 1.
+      ! `fit` must be `TRUE` or `FALSE`, not a logical vector.
 
 # argument 'plot' works
 
@@ -181,7 +181,7 @@
       lat_bins_degrees(plot = 100)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `plot` should be logical (TRUE/FALSE)
+      ! `plot` must be `TRUE` or `FALSE`, not the number 100.
 
 ---
 
@@ -189,7 +189,7 @@
       lat_bins_degrees(plot = logical(0))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `plot` must have length 1.
+      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
 
 ---
 
@@ -197,7 +197,7 @@
       lat_bins_degrees(plot = NA)
     Condition
       Error in `lat_bins_degrees()`:
-      ! `plot` should be logical (TRUE/FALSE)
+      ! `plot` must be `TRUE` or `FALSE`, not `NA`.
 
 ---
 
@@ -205,5 +205,5 @@
       lat_bins_degrees(plot = c(TRUE, TRUE))
     Condition
       Error in `lat_bins_degrees()`:
-      ! `plot` must have length 1.
+      ! `plot` must be `TRUE` or `FALSE`, not a logical vector.
 
