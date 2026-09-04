@@ -117,8 +117,9 @@ bin_space <- function(
   return = FALSE,
   plot = FALSE
 ) {
-  check_data_frame(occdf)
+  ensure_args_are_named(exceptions = "occdf")
 
+  check_data_frame(occdf)
   check_column_presence(occdf, lat)
   check_column_presence(occdf, lng)
   check_range(occdf, lat, -90, 90)
