@@ -90,6 +90,8 @@ tax_check <- function(
   start = 1,
   verbose = TRUE
 ) {
+  ensure_args_are_named()
+
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
   # taxdf: a data.frame with column names and at least one row

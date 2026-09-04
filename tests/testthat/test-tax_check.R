@@ -11,7 +11,7 @@ test_that("basic behavior works", {
     )
   )
   expect_equal(
-    tax_check(dat),
+    tax_check(taxdf = dat),
     list(
       synonyms = data.frame(
         group = c("F", "J"),
@@ -26,8 +26,16 @@ test_that("basic behavior works", {
   )
 
   # input checks
-  expect_snapshot(tax_check(data.frame()), error = TRUE)
-  expect_snapshot(tax_check(1), error = TRUE)
+  expect_snapshot(tax_check(taxdf = data.frame()), error = TRUE)
+  expect_snapshot(tax_check(taxdf = 1), error = TRUE)
+})
+
+test_that("tax_check errors with unnamed args", {
+  dat <- data.frame(genus = c("Automaton", "Joebloggsia"))
+  expect_snapshot(tax_check(dat, "genus"), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, "genus"), error = TRUE)
+  expect_snapshot(tax_check(dat, "genus", NULL), error = TRUE)
+  expect_snapshot(tax_check(dat, "genus", group = NULL), error = TRUE)
 })
 
 test_that("arg 'name' works", {
@@ -44,10 +52,10 @@ test_that("arg 'name' works", {
   )
 
   # default name is "genus"
-  expect_snapshot(tax_check(dat), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat), error = TRUE)
 
   expect_equal(
-    tax_check(dat, name = "foo"),
+    tax_check(taxdf = dat, name = "foo"),
     list(
       synonyms = data.frame(
         group = c("F", "J"),
@@ -62,11 +70,11 @@ test_that("arg 'name' works", {
   )
 
   # input checks
-  expect_snapshot(tax_check(dat, name = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_check(dat, name = 1), error = TRUE)
-  expect_snapshot(tax_check(dat, name = NULL), error = TRUE)
-  expect_snapshot(tax_check(dat, name = character(0)), error = TRUE)
-  expect_snapshot(tax_check(dat, name = ""), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, name = "nonexistent"), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, name = 1), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, name = NULL), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, name = character(0)), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, name = ""), error = TRUE)
 })
 
 test_that("arg 'group' works", {
@@ -89,7 +97,7 @@ test_that("arg 'group' works", {
 
   # Without "group", we would have two groups "F" and "J"
   expect_equal(
-    tax_check(dat, group = "family"),
+    tax_check(taxdf = dat, group = "family"),
     list(
       synonyms = data.frame(
         group = "Examplidae",
@@ -104,10 +112,10 @@ test_that("arg 'group' works", {
   )
 
   # input checks
-  expect_snapshot(tax_check(dat, group = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_check(dat, group = 1), error = TRUE)
-  expect_snapshot(tax_check(dat, group = character(0)), error = TRUE)
-  expect_snapshot(tax_check(dat, group = ""), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, group = "nonexistent"), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, group = 1), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, group = character(0)), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, group = ""), error = TRUE)
 })
 
 test_that("arg 'dis' works", {
@@ -124,7 +132,7 @@ test_that("arg 'dis' works", {
   )
 
   expect_equal(
-    tax_check(dat, dis = 0.5),
+    tax_check(taxdf = dat, dis = 0.5),
     list(
       synonyms = data.frame(
         group = c("F", "F", "F", "J"),
@@ -139,11 +147,11 @@ test_that("arg 'dis' works", {
   )
 
   # input checks
-  expect_snapshot(tax_check(dat, dis = 1), error = TRUE)
-  expect_snapshot(tax_check(dat, dis = 0), error = TRUE)
-  expect_snapshot(tax_check(dat, dis = "a"), error = TRUE)
-  expect_snapshot(tax_check(dat, dis = numeric(0)), error = TRUE)
-  expect_snapshot(tax_check(dat, dis = NULL), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, dis = 1), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, dis = 0), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, dis = "a"), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, dis = numeric(0)), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, dis = NULL), error = TRUE)
 })
 
 test_that("arg 'start' works", {
@@ -158,7 +166,7 @@ test_that("arg 'start' works", {
 
   # "Kunlungoides sp" and "Kunmungoides sp" are reported as synonyms
   expect_equal(
-    tax_check(dat),
+    tax_check(taxdf = dat),
     list(
       synonyms = data.frame(
         group = "K",
@@ -175,7 +183,7 @@ test_that("arg 'start' works", {
   # The letter that diverges for "Kunlungoides sp" and "Kunmungoides sp" is the 4th one
   # so this synonym isn't reported if start >= 4
   expect_equal(
-    tax_check(dat, start = 4),
+    tax_check(taxdf = dat, start = 4),
     list(
       synonyms = NULL,
       non_letter_name = NULL,
@@ -184,12 +192,12 @@ test_that("arg 'start' works", {
   )
 
   # input checks
-  expect_snapshot(tax_check(dat, start = -1), error = TRUE)
-  expect_snapshot(tax_check(dat, start = numeric(0)), error = TRUE)
-  expect_snapshot(tax_check(dat, start = "a"), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, start = -1), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, start = numeric(0)), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, start = "a"), error = TRUE)
 
   # TODO: should error
-  # expect_snapshot(tax_check(dat, start = NULL), error = TRUE)
+  # expect_snapshot(tax_check(taxdf = dat, start = NULL), error = TRUE)
 })
 
 test_that("arg 'verbose' works", {
@@ -203,7 +211,7 @@ test_that("arg 'verbose' works", {
   )
 
   expect_equal(
-    tax_check(dat, verbose = FALSE),
+    tax_check(taxdf = dat, verbose = FALSE),
     data.frame(
       group = "K",
       greater = "Kunlungoides sp",
@@ -214,8 +222,8 @@ test_that("arg 'verbose' works", {
   )
 
   # input checks
-  expect_snapshot(tax_check(dat, verbose = 1), error = TRUE)
-  expect_snapshot(tax_check(dat, verbose = numeric(0)), error = TRUE)
-  expect_snapshot(tax_check(dat, verbose = "a"), error = TRUE)
-  expect_snapshot(tax_check(dat, verbose = NULL), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, verbose = 1), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, verbose = numeric(0)), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, verbose = "a"), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, verbose = NULL), error = TRUE)
 })
