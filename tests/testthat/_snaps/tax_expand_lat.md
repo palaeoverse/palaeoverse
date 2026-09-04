@@ -9,7 +9,7 @@
 ---
 
     Code
-      tax_expand_lat(taxdf)
+      tax_expand_lat(taxdf = taxdf)
     Condition
       Error in `tax_expand_lat()`:
       ! `bins` must be of class <data.frame>, not absent.
@@ -17,7 +17,7 @@
 ---
 
     Code
-      tax_expand_lat(taxdf, bins = 1)
+      tax_expand_lat(taxdf = taxdf, bins = 1)
     Condition
       Error in `tax_expand_lat()`:
       ! `bins` must be of class <data.frame>, not the number 1.
@@ -25,7 +25,7 @@
 ---
 
     Code
-      tax_expand_lat(taxdf, bins = bins, max_lat = "lat")
+      tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = "lat")
     Condition
       Error in `tax_expand_lat()`:
       ! Column "lat" not found in `taxdf`.
@@ -33,7 +33,7 @@
 ---
 
     Code
-      tax_expand_lat(taxdf, bins = bins, min_lat = "lat")
+      tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = "lat")
     Condition
       Error in `tax_expand_lat()`:
       ! Column "lat" not found in `taxdf`.
@@ -132,6 +132,42 @@
     Condition
       Error in `tax_expand_lat()`:
       ! Column "bin" not found in `bins`.
+
+# tax_expand_lat errors with unnamed args
+
+    Code
+      tax_expand_lat(taxdf, bins)
+    Condition
+      Error in `tax_expand_lat()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      tax_expand_lat(taxdf = taxdf, bins)
+    Condition
+      Error in `tax_expand_lat()`:
+      ! All arguments must be named.
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_expand_lat(taxdf, bins, "max_lat")
+    Condition
+      Error in `tax_expand_lat()`:
+      ! All arguments must be named.
+      i Currently, there are 3 arguments that should be named.
+
+---
+
+    Code
+      tax_expand_lat(taxdf, bins, max_lat = "max_lat")
+    Condition
+      Error in `tax_expand_lat()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
 
 # args 'min_lat' and 'max_lat' work
 
