@@ -101,58 +101,38 @@ tax_range_time <- function(
   plot_args = NULL,
   intervals = "periods"
 ) {
-  #=== Handling errors ===
-  if (!is.data.frame(occdf)) {
-    stop("`occdf` should be a dataframe")
+  check_data_frame(occdf)
+
+  check_column_presence(occdf, name)
+  check_column_presence(occdf, min_ma)
+  check_column_presence(occdf, max_ma)
+
+  check_na(occdf, name)
+
+  for (column in c(min_ma, max_ma)) {
+    vals <- occdf[, column, drop = TRUE]
+    if (!is.numeric(vals)) {
+      cli::cli_abort(
+        "Column {.val {column}} in {.arg occdf} must be numeric, not {.cls {class(vals)}}."
+      )
+    }
+
+    check_na(occdf, column)
   }
 
-  if (!is.logical(plot) || is.na(plot)) {
-    stop("`plot` should be logical (TRUE/FALSE)")
+  if (!is.null(group)) {
+    check_column_presence(occdf, group)
   }
 
-  if (
-    !is.numeric(occdf[, max_ma, drop = TRUE]) ||
-      !is.numeric(occdf[, min_ma, drop = TRUE])
-  ) {
-    stop("`max_ma` and `min_ma` must be of class numeric.")
-  }
+  rlang::check_string(by)
+  by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
 
-  if (!all(c(name, min_ma, max_ma) %in% colnames(occdf))) {
-    stop(
-      "Either `name`, `min_ma`, or `max_ma`, is not a named column in
-         `occdf`"
-    )
-  }
-
-  if (anyNA(occdf[, name, drop = TRUE])) {
-    stop("The `name` column contains NA values")
-  }
-
-  if (
-    anyNA(occdf[, min_ma, drop = TRUE]) ||
-      anyNA(occdf[, max_ma, drop = TRUE])
-  ) {
-    stop("`min_ma` and/or `max_ma` columns contain NA values")
-  }
-
-  if (length(group) > 1) {
-    stop("`group` length is >1, only a single grouping variable is accepted.")
-  }
-
-  if (!is.null(group) && (!group %in% colnames(occdf))) {
-    stop("`group` is not a named column in `occdf`")
-  }
-
-  if (length(by) != 1) {
-    stop("`by` must be of length 1.")
-  }
-
-  if (!by %in% c("name", "FAD", "LAD")) {
-    stop('`by` must be either "FAD", "LAD", or "name"')
-  }
+  rlang::check_bool(plot)
 
   if (!is.null(plot_args) && !is.list(plot_args)) {
-    stop("`plot_args` must be either NULL, or a list")
+    cli::cli_abort(
+      "{.arg plot_args} must be of class {.cls list} or {.code NULL}, not {obj_type_friendly(plot_args)}."
+    )
   }
 
   # Create pseudo-group if not provided (enable group_apply with no groups)
