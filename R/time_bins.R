@@ -123,6 +123,8 @@ time_bins <- function(
   scale = "GTS2020",
   plot = FALSE
 ) {
+  ensure_args_are_named()
+
   # Error handling -------------------------------------------------------
   if (
     !is.character(interval) &&
