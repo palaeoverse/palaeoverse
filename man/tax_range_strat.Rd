@@ -128,11 +128,12 @@ occdf <- data.frame(taxon = tetrapod_names,
 # Plot stratigraphic ranges
 # Update margins for plotting
 par(mar = c(12, 5, 2, 2))
-tax_range_strat(occdf, name = "taxon")
-tax_range_strat(occdf, name = "taxon", certainty = "certainty",
+tax_range_strat(occdf = occdf, name = "taxon")
+tax_range_strat(occdf = occdf, name = "taxon", certainty = "certainty",
                 plot_args = list(ylab = "Stratigraphic height (m)"))
 # Plot stratigraphic ranges with more labelling
-tax_range_strat(occdf, name = "taxon", certainty = "certainty", by = "name",
+tax_range_strat(occdf = occdf, name = "taxon", certainty = "certainty",
+                by = "name",
                 plot_args = list(main = "Section A",
                                  ylab = "Stratigraphic height (m)"))
 eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
@@ -146,7 +147,7 @@ par(mar = c(12, 5, 6, 2))
 # Pull class data
 occdf$class <- tetrapods$class[1:50]
 # Group stratigraphic ranges by class
-tax_range_strat(occdf, name = "taxon", group = "class",
+tax_range_strat(occdf = occdf, name = "taxon", group = "class",
                 certainty = "certainty", by = "name",
                 plot_args = list(main = "Section A",
                                  ylab = "Stratigraphic height (m)"))
