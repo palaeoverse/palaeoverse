@@ -122,64 +122,24 @@ tax_range_space <- function(
   spacing = 100,
   coords = FALSE
 ) {
-  #=== Handling errors ===
-  if (!is.data.frame(occdf)) {
-    stop("`occdf` should be a dataframe")
-  }
+  check_data_frame(occdf)
 
-  if (!all(c(name, lng, lat) %in% colnames(occdf))) {
-    stop(
-      "Either `name`, `lng`, or `lat`, is not a named column
-in `occdf`"
-    )
-  }
+  check_column_presence(occdf, name)
+  check_column_presence(occdf, lng)
+  check_column_presence(occdf, lat)
 
-  if (length(method) != 1) {
-    stop("`method` must be of length 1.")
-  }
-  if (length(coords) != 1) {
-    stop("`coords` must be of length 1.")
-  }
-  if (is.na(coords)) {
-    stop("`coords` must not be NA.")
-  }
+  check_na(occdf, name)
+  check_na(occdf, lat)
+  check_na(occdf, lng)
 
-  if (!is.character(method)) {
-    stop("`method` is not of character class")
-  }
+  check_range(occdf, lat, -90, 90)
+  check_range(occdf, lng, -180, 180)
 
-  if (
-    !is.numeric(occdf[, lat, drop = TRUE]) ||
-      !is.numeric(occdf[, lng, drop = TRUE])
-  ) {
-    stop("`lng` and/or `lat` columns are not of numeric class")
-  }
+  rlang::check_number_decimal(spacing)
+  rlang::check_bool(coords)
 
-  if (anyNA(occdf[, name, drop = TRUE])) {
-    stop("The `name` column contains NA values")
-  }
-
-  if (
-    anyNA(occdf[, lat, drop = TRUE]) ||
-      anyNA(occdf[, lng, drop = TRUE])
-  ) {
-    stop("`lng` and/or `lat` columns contain NA values")
-  }
-
-  # Possible methods specified?
-  possible_methods <- c("con", "lat", "gcd", "occ")
-  method_match <- charmatch(method, possible_methods)
-
-  if (is.na(method_match)) {
-    # If the user has entered a non-valid term for the "method" argument,
-    # generate an error and warn the user.
-    stop(
-      "Invalid `method`. Choose either:
-  'con', 'lat', 'gcd', or 'occ'."
-    )
-  } else {
-    method <- possible_methods[method_match]
-  }
+  rlang::check_string(method)
+  method <- rlang::arg_match(method, values = c("lat", "con", "gcd", "occ"))
 
   #=== Set-up ===
   unique_taxa <- unique(occdf[, name, drop = TRUE])
