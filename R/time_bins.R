@@ -517,7 +517,7 @@ time_bins <- function(
       return(assign)
     } else {
       cli::cli_abort(
-        "{.arg assign} must be {.cls numeric}, not {obj_type_friendly(assign)}."
+        "{.arg assign} must be of class {.cls numeric}, not {obj_type_friendly(assign)}."
       )
     }
   }

@@ -265,7 +265,7 @@
       time_bins(interval = "Mesozoic", assign = "30")
     Condition
       Error in `time_bins()`:
-      ! `assign` must be <numeric>, not the string "30".
+      ! `assign` must be of class <numeric>, not the string "30".
 
 ---
 
@@ -273,7 +273,7 @@
       time_bins(interval = "Mesozoic", assign = NA)
     Condition
       Error in `time_bins()`:
-      ! `assign` must be <numeric>, not `NA`.
+      ! `assign` must be of class <numeric>, not `NA`.
 
 ---
 
