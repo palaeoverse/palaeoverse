@@ -141,6 +141,10 @@ test_that("arg 'out' works", {
   expect_snapshot(phylo_check(tree, list, out = 1), error = TRUE)
   expect_snapshot(phylo_check(tree, list, out = NA), error = TRUE)
   expect_snapshot(phylo_check(tree, list, out = NULL), error = TRUE)
+  expect_snapshot(
+    phylo_check(tree, list, out = c("counts", "tree")),
+    error = TRUE
+  )
 })
 
 test_that("arg 'sort' works", {
@@ -175,6 +179,10 @@ test_that("arg 'sort' works", {
   expect_snapshot(phylo_check(tree, list, sort = 1), error = TRUE)
   expect_snapshot(phylo_check(tree, list, sort = NA), error = TRUE)
   expect_snapshot(phylo_check(tree, list, sort = NULL), error = TRUE)
+  expect_snapshot(
+    phylo_check(tree, list, sort = c("presence", "az")),
+    error = TRUE
+  )
 
   # TODO: this should error since "sort" is useless when out = "tree" or "counts"
   # expect_snapshot(
