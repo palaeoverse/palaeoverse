@@ -103,10 +103,13 @@ phylo_check <- function(
     values = c("full_table", "diff_table", "counts", "tree")
   )
 
+  # Define this before the check, otherwise `missing(sort)` always returns `FALSE`
+  missing_sort <- missing(sort)
+
   rlang::check_string(sort)
   sort <- rlang::arg_match(sort, values = c("presence", "az"))
 
-  if (out != "full_table" && out != "diff_table") {
+  if (out != "full_table" && out != "diff_table" && !missing_sort) {
     cli::cli_warn(
       "{.arg sort} is ignored when {.arg out} is not {.val full_table} or {.val diff_table}."
     )
