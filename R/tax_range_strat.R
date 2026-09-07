@@ -133,11 +133,7 @@ tax_range_strat <- function(
   check_column_presence(occdf, name)
   check_column_presence(occdf, level)
 
-  if (!is.numeric(occdf[[level]])) {
-    cli::cli_abort(
-      "Column {.val {level}} in {.arg occdf} must be of class {.cls character}, not {.cls {class(occdf[[level]])}}."
-    )
-  }
+  check_class(occdf, level, "numeric")
   check_na(occdf, name)
   check_na(occdf, level)
 

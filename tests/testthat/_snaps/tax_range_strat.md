@@ -108,7 +108,7 @@
       tax_range_strat(nadf)
     Condition
       Error in `tax_range_strat()`:
-      ! Column "bed" in `occdf` must be of class <character>, not <logical>.
+      ! Column "bed" in `occdf` must be of class <numeric>, not <logical>.
 
 # argument 'group' works
 

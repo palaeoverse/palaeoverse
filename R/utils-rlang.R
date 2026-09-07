@@ -38,6 +38,25 @@ check_na <- function(data, column) {
   }
 }
 
+#' Check whether a column is of a particular class
+#'
+#' This errors if the column doesn't inherit this class.
+#'
+#' @param data dataframe to check
+#' @param column A single column name to check.
+#' @param class Name of the class.
+#'
+#' @noRd
+check_class <- function(data, column, class) {
+  values <- data[[column]]
+  if (!inherits(values, class)) {
+    cli::cli_abort(
+      "Column {.val {column}} in {.arg {rlang::caller_arg(data)}} must be of class {.cls {class}}, not {.cls {class(values)}}.",
+      call = rlang::caller_env()
+    )
+  }
+}
+
 #' Check whether all values of a numeric column fall in a custom range
 #'
 #' This errors if any of the following cases:
