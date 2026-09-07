@@ -196,7 +196,10 @@
       tax_expand_time(taxdf, scale = 1)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be a single string, not the number 1.
+      ! `scale` must be one of the following, not the number 1:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale (see details)
+      * a <data.frame>
 
 ---
 
@@ -204,7 +207,10 @@
       tax_expand_time(taxdf, scale = NA)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be a single string, not `NA`.
+      ! `scale` must be one of the following, not `NA`:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale (see details)
+      * a <data.frame>
 
 # arg 'rank' works
 
