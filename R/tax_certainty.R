@@ -104,11 +104,8 @@ tax_certainty <- function(
 ) {
   check_data_frame(taxdf)
   check_column_presence(taxdf, name)
-  if (!is.character(taxdf[[name]])) {
-    cli::cli_abort(
-      "Column {.val {name}} in {.arg taxdf} must be of class {.cls character}, not {.cls {class(taxdf[[name]])}}."
-    )
-  }
+  check_class(taxdf, name, "character")
+
   if (!is.null(terms) && !is.list(terms)) {
     cli::cli_abort(
       "{.arg terms} must be of class {.cls list} or {.code NULL}, not {obj_type_friendly(terms)}."
