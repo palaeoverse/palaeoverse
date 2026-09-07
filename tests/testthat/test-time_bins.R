@@ -482,8 +482,8 @@ test_that("arg 'plot' works", {
 })
 
 test_that("good error message if Macrostrat is down", {
-  # We read the data from Macrostrat, so we define a "mocked" version of nslookup() that
-  # errors on purpose, since nslookup() would fail if Macrostrat is down.
+  # We define a "mocked" version of nslookup() that errors on purpose, since
+  # nslookup() would fail if Macrostrat is down.
   local_mocked_bindings(
     nslookup = function(...) stop("foo")
   )
