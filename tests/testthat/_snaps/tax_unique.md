@@ -172,7 +172,7 @@
         resolution = 1)
     Condition
       Error in `tax_unique()`:
-      ! `resolution` must be a character vector, not the number 1.
+      ! `resolution` must be a single string, not the number 1.
 
 ---
 
@@ -181,7 +181,7 @@
         resolution = character(0))
     Condition
       Error in `tax_unique()`:
-      ! `resolution` must be length 1, not length 0
+      ! `resolution` must be a single string, not an empty character vector.
 
 # arg 'append' works
 

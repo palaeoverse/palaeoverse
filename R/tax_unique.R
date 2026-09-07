@@ -143,6 +143,7 @@ tax_unique <- function(
 ) {
   check_data_frame(occdf)
   rlang::check_bool(append)
+  rlang::check_string(resolution)
   resolution <- rlang::arg_match(resolution, values = c("species", "genus"))
 
   if (!is.null(binomial)) {
