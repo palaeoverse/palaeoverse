@@ -133,15 +133,15 @@ occdf <- tetrapods[1:100, ]
 # Remove NAs
 occdf <- subset(occdf, !is.na(genus))
 # Convex hull
-ex1 <- tax_range_space(occdf = occdf, name = "genus", method = "con")
+ex1 <- tax_range_space(occdf, name = "genus", method = "con")
 # Latitudinal range
-ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
+ex2 <- tax_range_space(occdf, name = "genus", method = "lat")
 # Great Circle Distance
-ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
+ex3 <- tax_range_space(occdf, name = "genus", method = "gcd")
 # Occupied grid cells
-ex4 <- tax_range_space(occdf = occdf, name = "genus",
+ex4 <- tax_range_space(occdf, name = "genus",
                        method = "occ", spacing = 500)
 # Convex hull with coordinates
-ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
+ex5 <- tax_range_space(occdf, name = "genus", method = "con",
 coords = TRUE)
 }
