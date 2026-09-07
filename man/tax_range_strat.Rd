@@ -128,11 +128,11 @@ occdf <- data.frame(taxon = tetrapod_names,
 # Plot stratigraphic ranges
 # Update margins for plotting
 par(mar = c(12, 5, 2, 2))
-tax_range_strat(occdf = occdf, name = "taxon")
-tax_range_strat(occdf = occdf, name = "taxon", certainty = "certainty",
+tax_range_strat(occdf, name = "taxon")
+tax_range_strat(occdf, name = "taxon", certainty = "certainty",
                 plot_args = list(ylab = "Stratigraphic height (m)"))
 # Plot stratigraphic ranges with more labelling
-tax_range_strat(occdf = occdf, name = "taxon", certainty = "certainty",
+tax_range_strat(name = "taxon", certainty = "certainty",
                 by = "name",
                 plot_args = list(main = "Section A",
                                  ylab = "Stratigraphic height (m)"))
