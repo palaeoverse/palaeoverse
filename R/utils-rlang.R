@@ -179,7 +179,7 @@ check_data_frame <- function(data) {
 }
 
 
-#' Check whether all values of column `min` are lower than values of column `max`
+#' Check whether all values of `min_column` are lower than values of `max_column`
 #'
 #' @param data dataframe to check
 #' @param min_column Name of column containing min values
