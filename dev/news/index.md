@@ -7,6 +7,10 @@
 
 ### Bug fixes
 
+- [`lat_bins_area()`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_area.md)
+  now errors if `r` is negative or if `min == max`
+  ([\#321](https://github.com/palaeoverse/palaeoverse/issues/321)).
+
 - [`tax_range_space()`](https://palaeoverse.palaeoverse.org/dev/reference/tax_range_space.md)
   now errors if `spacing` is a numeric vector
   ([\#325](https://github.com/palaeoverse/palaeoverse/issues/325)).
