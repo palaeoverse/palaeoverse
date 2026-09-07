@@ -2,6 +2,10 @@
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
+## Bug fixes
+
+* `tax_range_space()` now errors if `spacing` is a numeric vector (#325).
+
 # palaeoverse 1.5.0
 
 ## New features
