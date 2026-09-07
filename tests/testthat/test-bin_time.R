@@ -353,6 +353,14 @@ test_that("wrong input for occdf", {
     bin_time(occdf = data.frame(), bins = data.frame(), method = "mid"),
     error = TRUE
   )
+  expect_snapshot(
+    bin_time(occdf = test_occdf, bins = data.frame(), method = "mid"),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_time(occdf = test_occdf, bins = data.frame(), method = "mid"),
+    error = TRUE
+  )
 
   # dataframe that doesn't have the expected columns
   # TODO: this error message should be clearer
