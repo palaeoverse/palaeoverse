@@ -98,8 +98,7 @@
 #' tax_range_strat(occdf, name = "taxon", certainty = "certainty",
 #'                 plot_args = list(ylab = "Stratigraphic height (m)"))
 #' # Plot stratigraphic ranges with more labelling
-#' tax_range_strat(occdf, name = "taxon", certainty = "certainty",
-#'                 by = "name",
+#' tax_range_strat(occdf, name = "taxon", certainty = "certainty", by = "name",
 #'                 plot_args = list(main = "Section A",
 #'                                  ylab = "Stratigraphic height (m)"))
 #' eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
