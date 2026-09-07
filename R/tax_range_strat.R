@@ -98,7 +98,7 @@
 #' tax_range_strat(occdf, name = "taxon", certainty = "certainty",
 #'                 plot_args = list(ylab = "Stratigraphic height (m)"))
 #' # Plot stratigraphic ranges with more labelling
-#' tax_range_strat(name = "taxon", certainty = "certainty",
+#' tax_range_strat(occdf, name = "taxon", certainty = "certainty",
 #'                 by = "name",
 #'                 plot_args = list(main = "Section A",
 #'                                  ylab = "Stratigraphic height (m)"))
@@ -113,7 +113,7 @@
 #' # Pull class data
 #' occdf$class <- tetrapods$class[1:50]
 #' # Group stratigraphic ranges by class
-#' tax_range_strat(occdf = occdf, name = "taxon", group = "class",
+#' tax_range_strat(occdf, name = "taxon", group = "class",
 #'                 certainty = "certainty", by = "name",
 #'                 plot_args = list(main = "Section A",
 #'                                  ylab = "Stratigraphic height (m)"))
