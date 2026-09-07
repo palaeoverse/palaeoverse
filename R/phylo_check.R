@@ -106,7 +106,7 @@ phylo_check <- function(
   rlang::check_string(sort)
   sort <- rlang::arg_match(sort, values = c("presence", "az"))
 
-  if (out != "full_table" && out != "diff_table" && sort != "presence") {
+  if (out != "full_table" && out != "diff_table") {
     cli::cli_warn(
       "{.arg sort} is ignored when {.arg out} is not {.val full_table} or {.val diff_table}."
     )
