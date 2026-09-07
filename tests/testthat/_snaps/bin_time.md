@@ -4,7 +4,7 @@
       bin_time(occdf = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
-      ! `occdf` should be a dataframe.
+      ! `occdf` must be of class <data.frame>, not a double vector.
 
 ---
 
@@ -12,7 +12,7 @@
       bin_time(bins = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
-      ! argument "occdf" is missing, with no default
+      ! `occdf` must be of class <data.frame>, not absent.
 
 ---
 
@@ -20,23 +20,39 @@
       bin_time(occdf = data.frame(), bins = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
-      ! `bins` should be a dataframe.
+      ! `bins` must be of class <data.frame>, not a double vector.
 
 ---
 
     Code
       bin_time(occdf = data.frame(), bins = data.frame(), method = "mid")
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `bin_time()`:
+      ! Column "min_ma" not found in `occdf`.
 
 ---
 
     Code
       bin_time(occdf = data.frame(), bins = data.frame(), method = "mid")
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `bin_time()`:
+      ! Column "min_ma" not found in `occdf`.
+
+---
+
+    Code
+      bin_time(occdf = test_occdf, bins = data.frame(), method = "mid")
+    Condition
+      Error in `bin_time()`:
+      ! Column "min_ma" not found in `bins`.
+
+---
+
+    Code
+      bin_time(occdf = test_occdf, bins = data.frame(), method = "mid")
+    Condition
+      Error in `bin_time()`:
+      ! Column "min_ma" not found in `bins`.
 
 ---
 
@@ -44,7 +60,7 @@
       bin_time(mtcars, occdf = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
-      ! `occdf` should be a dataframe.
+      ! `occdf` must be of class <data.frame>, not a double vector.
 
 # wrong input for method
 
@@ -52,8 +68,7 @@
       bin_time(occdf = occdf, bins = bins, method = "foo")
     Condition
       Error in `bin_time()`:
-      ! Invalid `method`. Choose either: 
-       'all', 'majority', 'random', 'point', or 'mid'.
+      ! `method` must be one of "mid", "majority", "all", "random", or "point", not "foo".
 
 # wrong input for reps
 
@@ -61,7 +76,7 @@
       bin_time(occdf = occdf, bins = bins, method = "random", reps = TRUE)
     Condition
       Error in `bin_time()`:
-      ! Invalid `reps`. Choose a numeric value.
+      ! `reps` must be a numeric value, not `TRUE`.
 
 # wrong input for fun
 
@@ -69,7 +84,8 @@
       bin_time(occdf = occdf, bins = bins, method = "point", fun = NULL)
     Condition
       Error in `bin_time()`:
-      ! `fun` is not a function.
+      ! Setting `method = "point"` requires `fun` to be a function.
+      x Problem: `fun` is NULL.
 
 ---
 
@@ -77,7 +93,8 @@
       bin_time(occdf = occdf, bins = bins, method = "point", fun = 1)
     Condition
       Error in `bin_time()`:
-      ! `fun` is not a function.
+      ! Setting `method = "point"` requires `fun` to be a function.
+      x Problem: `fun` is numeric.
 
 ---
 
@@ -110,7 +127,7 @@
       bin_time(occdf = occdf, bins = bins)
     Condition
       Error in `bin_time()`:
-      ! Minimum age of occurrence data is less than minimum age of bins.
+      ! Minimum age of occurrence data (-5000) is less than minimum age of bins (0).
 
 ---
 
@@ -118,7 +135,7 @@
       bin_time(occdf = occdf, bins = bins)
     Condition
       Error in `bin_time()`:
-      ! Maximum age of occurrence data surpasses maximum age of bins.
+      ! Maximum age of occurrence data (5000) surpasses maximum age of bins (540).
 
 ---
 
@@ -126,5 +143,5 @@
       bin_time(occdf = occdf, bins = bins)
     Condition
       Error in `bin_time()`:
-      ! NA values detected in max_ma or min_ma
+      ! `max_ma` can't contain NA values.
 

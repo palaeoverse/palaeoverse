@@ -6,6 +6,8 @@
 
 * `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).
 
+* `tax_range_space()` now errors if `spacing` is a numeric vector (#325).
+
 # palaeoverse 1.5.0
 
 ## New features
