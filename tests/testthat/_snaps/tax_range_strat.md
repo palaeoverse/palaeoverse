@@ -42,7 +42,7 @@
 ---
 
     Code
-      tax_range_strat(occdf = occdf, "genus")
+      tax_range_strat(occdf, "genus")
     Condition
       Error in `tax_range_strat()`:
       ! All arguments must be named (except for "occdf").
@@ -141,7 +141,7 @@
 ---
 
     Code
-      tax_range_strat(occdf = nadf)
+      tax_range_strat(nadf)
     Condition
       Error in `tax_range_strat()`:
       ! `level` must be of class numeric

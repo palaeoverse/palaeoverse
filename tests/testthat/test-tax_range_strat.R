@@ -9,7 +9,7 @@ test_that("basic behavior works", {
     certainty = c(1, 1, 0, 1, 0, 1, 1, 1)
   )
   expect_equal(
-    tax_range_strat(occdf = occdf),
+    tax_range_strat(occdf),
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
@@ -22,7 +22,7 @@ test_that("basic behavior works", {
 
   # It produces the expected plot
   expect_doppelganger("tax_range_strat() plots", function() {
-    tax_range_strat(occdf = occdf)
+    tax_range_strat(occdf)
   })
 
   # input checks
@@ -54,7 +54,7 @@ test_that("tax_range_strat errors with unnamed args", {
     bed = c(1, 1, 2)
   )
   expect_snapshot(tax_range_strat(occdf, "genus"), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf = occdf, "genus"), error = TRUE)
+  expect_snapshot(tax_range_strat(occdf, "genus"), error = TRUE)
   expect_snapshot(tax_range_strat(occdf, "genus", "bed"), error = TRUE)
   expect_snapshot(tax_range_strat(occdf, "genus", level = "bed"), error = TRUE)
 })
@@ -71,7 +71,7 @@ test_that("argument 'name' works", {
   )
 
   expect_equal(
-    tax_range_strat(occdf = occdf, name = "species"),
+    tax_range_strat(occdf, name = "species"),
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
@@ -127,7 +127,7 @@ test_that("argument 'level' works", {
   expect_snapshot(tax_range_strat(occdf, level = 1), error = TRUE)
   nadf <- occdf
   nadf$bed[1] <- NA
-  expect_snapshot(tax_range_strat(occdf = nadf), error = TRUE)
+  expect_snapshot(tax_range_strat(nadf), error = TRUE)
 })
 
 test_that("argument 'group' works", {
@@ -171,10 +171,7 @@ test_that("argument 'group' works", {
     error = TRUE
   )
   expect_snapshot(tax_range_strat(occdf, group = "test"), error = TRUE)
-  expect_snapshot(
-    tax_range_strat(occdf, group = character(0)),
-    error = TRUE
-  )
+  expect_snapshot(tax_range_strat(occdf, group = character(0)), error = TRUE)
   expect_snapshot(tax_range_strat(occdf, group = NA), error = TRUE)
   expect_snapshot(tax_range_strat(occdf, group = 1), error = TRUE)
 })
@@ -215,10 +212,7 @@ test_that("argument 'certainty' works", {
     tax_range_strat(occdf, certainty = c("class", "genus")),
     error = TRUE
   )
-  expect_snapshot(
-    tax_range_strat(occdf, certainty = "test"),
-    error = TRUE
-  )
+  expect_snapshot(tax_range_strat(occdf, certainty = "test"), error = TRUE)
   expect_snapshot(
     tax_range_strat(occdf, certainty = character(0)),
     error = TRUE
