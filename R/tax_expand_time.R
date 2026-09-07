@@ -72,14 +72,14 @@ tax_expand_time <- function(
   check_range(taxdf, max_ma, 0, Inf)
 
   rlang::check_bool(ext_orig)
-  rlang::check_string(rank)
-  rank <- rlang::arg_match(
-    rank,
-    values = c("stage", "epoch", "period", "era", "eon")
-  )
 
   if (is.null(bins)) {
     rlang::check_string(scale)
+    rlang::check_string(rank)
+    rank <- rlang::arg_match(
+      rank,
+      values = c("stage", "epoch", "period", "era", "eon")
+    )
     bins <- time_bins(rank = rank, scale = scale)
   } else {
     check_data_frame(bins)
