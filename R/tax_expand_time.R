@@ -80,7 +80,6 @@ tax_expand_time <- function(
 
   if (is.null(bins)) {
     rlang::check_string(scale)
-    # get the desired timescale at the desired rank
     bins <- time_bins(rank = rank, scale = scale)
   } else {
     check_data_frame(bins)
