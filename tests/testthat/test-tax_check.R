@@ -187,9 +187,7 @@ test_that("arg 'start' works", {
   expect_snapshot(tax_check(dat, start = -1), error = TRUE)
   expect_snapshot(tax_check(dat, start = numeric(0)), error = TRUE)
   expect_snapshot(tax_check(dat, start = "a"), error = TRUE)
-
-  # TODO: should error
-  # expect_snapshot(tax_check(dat, start = NULL), error = TRUE)
+  expect_snapshot(tax_check(dat, start = NULL), error = TRUE)
 })
 
 test_that("arg 'verbose' works", {
