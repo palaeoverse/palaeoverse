@@ -213,10 +213,7 @@ test_that("argument 'method' works", {
     error = TRUE
   )
   expect_snapshot(tax_range_space(occdf, method = "test"), error = TRUE)
-  expect_snapshot(
-    tax_range_space(occdf, method = character(0)),
-    error = TRUE
-  )
+  expect_snapshot(tax_range_space(occdf, method = character(0)), error = TRUE)
   expect_snapshot(tax_range_space(occdf, method = NA), error = TRUE)
   expect_snapshot(tax_range_space(occdf, method = 1), error = TRUE)
 })
