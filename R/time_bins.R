@@ -157,8 +157,11 @@ time_bins <- function(
     check_column_presence(scale, "interval_name")
     check_column_presence(scale, "max_ma")
     check_column_presence(scale, "min_ma")
-  } else {
-    rlang::check_string(scale)
+  } else if (!rlang::is_string(scale)) {
+    # Almost the same as rlang::check_string() but we allow data.frame too
+    cli::cli_abort(
+      "{.arg scale} must be a single string or a {.cls data.frame}, not {obj_type_friendly(scale)}."
+    )
   }
 
   rlang::check_string(rank)

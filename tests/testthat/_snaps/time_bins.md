@@ -297,7 +297,7 @@
       time_bins(interval = "Mesozoic", scale = 1)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be a single string, not the number 1.
+      ! `scale` must be a single string or a <data.frame>, not the number 1.
 
 ---
 
@@ -305,7 +305,7 @@
       time_bins(interval = "Mesozoic", scale = NA)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be a single string, not `NA`.
+      ! `scale` must be a single string or a <data.frame>, not `NA`.
 
 ---
 
@@ -313,7 +313,7 @@
       time_bins(interval = "Mesozoic", scale = character(0))
     Condition
       Error in `time_bins()`:
-      ! `scale` must be a single string, not an empty character vector.
+      ! `scale` must be a single string or a <data.frame>, not an empty character vector.
 
 ---
 
