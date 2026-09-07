@@ -5,6 +5,12 @@
 - `palaeoverse` requires R \>= 4.1.0
   ([\#181](https://github.com/palaeoverse/palaeoverse/issues/181)).
 
+### Bug fixes
+
+- [`tax_range_space()`](https://palaeoverse.palaeoverse.org/dev/reference/tax_range_space.md)
+  now errors if `spacing` is a numeric vector
+  ([\#325](https://github.com/palaeoverse/palaeoverse/issues/325)).
+
 ## palaeoverse 1.5.0
 
 CRAN release: 2026-06-11
