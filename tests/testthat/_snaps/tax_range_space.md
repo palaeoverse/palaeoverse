@@ -4,8 +4,7 @@
       tax_range_space(occdf = data.frame())
     Condition
       Error in `tax_range_space()`:
-      ! Either `name`, `lng`, or `lat`, is not a named column
-      in `occdf`
+      ! Column "genus" not found in `occdf`.
 
 ---
 
@@ -13,7 +12,7 @@
       tax_range_space(occdf = NA)
     Condition
       Error in `tax_range_space()`:
-      ! `occdf` should be a dataframe
+      ! `occdf` must be of class <data.frame>, not `NA`.
 
 ---
 
@@ -21,7 +20,7 @@
       tax_range_space(occdf = "a")
     Condition
       Error in `tax_range_space()`:
-      ! `occdf` should be a dataframe
+      ! `occdf` must be of class <data.frame>, not the string "a".
 
 # tax_range_space errors with unnamed args
 
@@ -65,8 +64,7 @@
       tax_range_space(occdf = occdf, name = "nonexistent")
     Condition
       Error in `tax_range_space()`:
-      ! Either `name`, `lng`, or `lat`, is not a named column
-      in `occdf`
+      ! Column "nonexistent" not found in `occdf`.
 
 ---
 
@@ -74,7 +72,7 @@
       tax_range_space(occdf = nadf, name = "genus")
     Condition
       Error in `tax_range_space()`:
-      ! The `name` column contains NA values
+      ! Column "genus" in `occdf` must not have missing values.
 
 # argument 'lng' works
 
@@ -82,8 +80,7 @@
       tax_range_space(occdf = occdf, lng = "nonexistent")
     Condition
       Error in `tax_range_space()`:
-      ! Either `name`, `lng`, or `lat`, is not a named column
-      in `occdf`
+      ! Column "nonexistent" not found in `occdf`.
 
 ---
 
@@ -91,7 +88,7 @@
       tax_range_space(occdf = chardf)
     Condition
       Error in `tax_range_space()`:
-      ! `lng` and/or `lat` columns are not of numeric class
+      ! Column "lng" in `occdf` must be <numeric>, not <character>.
 
 ---
 
@@ -99,7 +96,7 @@
       tax_range_space(occdf = nadf)
     Condition
       Error in `tax_range_space()`:
-      ! `lng` and/or `lat` columns contain NA values
+      ! Column "lng" in `occdf` must not have missing values.
 
 # argument 'lat' works
 
@@ -107,8 +104,7 @@
       tax_range_space(occdf = occdf, lat = "nonexistent")
     Condition
       Error in `tax_range_space()`:
-      ! Either `name`, `lng`, or `lat`, is not a named column
-      in `occdf`
+      ! Column "nonexistent" not found in `occdf`.
 
 ---
 
@@ -116,7 +112,7 @@
       tax_range_space(occdf = chardf)
     Condition
       Error in `tax_range_space()`:
-      ! `lng` and/or `lat` columns are not of numeric class
+      ! Column "lat" in `occdf` must be <numeric>, not <character>.
 
 ---
 
@@ -124,7 +120,7 @@
       tax_range_space(occdf = nadf)
     Condition
       Error in `tax_range_space()`:
-      ! `lng` and/or `lat` columns contain NA values
+      ! Column "lat" in `occdf` must not have missing values.
 
 # argument 'method' works
 
@@ -132,7 +128,7 @@
       tax_range_space(occdf = occdf, method = c("gcd", "occ"))
     Condition
       Error in `tax_range_space()`:
-      ! `method` must be of length 1.
+      ! `method` must be a single string, not a character vector.
 
 ---
 
@@ -140,8 +136,7 @@
       tax_range_space(occdf = occdf, method = "test")
     Condition
       Error in `tax_range_space()`:
-      ! Invalid `method`. Choose either:
-        'con', 'lat', 'gcd', or 'occ'.
+      ! `method` must be one of "lat", "con", "gcd", or "occ", not "test".
 
 ---
 
@@ -149,7 +144,7 @@
       tax_range_space(occdf = occdf, method = character(0))
     Condition
       Error in `tax_range_space()`:
-      ! `method` must be of length 1.
+      ! `method` must be a single string, not an empty character vector.
 
 ---
 
@@ -157,7 +152,7 @@
       tax_range_space(occdf = occdf, method = NA)
     Condition
       Error in `tax_range_space()`:
-      ! `method` is not of character class
+      ! `method` must be a single string, not `NA`.
 
 ---
 
@@ -165,39 +160,47 @@
       tax_range_space(occdf = occdf, method = 1)
     Condition
       Error in `tax_range_space()`:
-      ! `method` is not of character class
+      ! `method` must be a single string, not the number 1.
 
 # argument 'spacing' works
 
     Code
       tax_range_space(occdf = occdf, method = "occ", spacing = "a")
     Condition
-      Error in `h3jsr::h3_info_table$avg_cendist_km - spacing`:
-      ! non-numeric argument to binary operator
+      Error in `tax_range_space()`:
+      ! `spacing` must be a number, not the string "a".
 
 ---
 
     Code
       tax_range_space(occdf = occdf, method = "occ", spacing = numeric(0))
     Condition
-      Error in `$<-.data.frame`:
-      ! replacement has 0 rows, data has 3
+      Error in `tax_range_space()`:
+      ! `spacing` must be a number, not an empty numeric vector.
 
 ---
 
     Code
       tax_range_space(occdf = occdf, method = "occ", spacing = NA)
     Condition
-      Error in `$<-.data.frame`:
-      ! replacement has 0 rows, data has 3
+      Error in `tax_range_space()`:
+      ! `spacing` must be a number, not `NA`.
+
+---
+
+    Code
+      tax_range_space(occdf, method = "occ", spacing = 1:2)
+    Condition
+      Error in `tax_range_space()`:
+      ! `spacing` must be a number, not an integer vector.
 
 # argument 'coords' works
 
     Code
       tax_range_space(occdf = occdf, method = "gcd", coords = "a")
     Condition
-      Error in `!coords`:
-      ! invalid argument type
+      Error in `tax_range_space()`:
+      ! `coords` must be `TRUE` or `FALSE`, not the string "a".
 
 ---
 
@@ -205,7 +208,7 @@
       tax_range_space(occdf = occdf, method = "gcd", coords = logical(0))
     Condition
       Error in `tax_range_space()`:
-      ! `coords` must be of length 1.
+      ! `coords` must be `TRUE` or `FALSE`, not an empty logical vector.
 
 ---
 
@@ -213,5 +216,5 @@
       tax_range_space(occdf = occdf, method = "gcd", coords = NA)
     Condition
       Error in `tax_range_space()`:
-      ! `coords` must not be NA.
+      ! `coords` must be `TRUE` or `FALSE`, not `NA`.
 
