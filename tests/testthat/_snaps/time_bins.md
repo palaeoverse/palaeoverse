@@ -347,3 +347,12 @@
       Error in `time_bins()`:
       ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
 
+# good error message if Macrostrat is down
+
+    Code
+      time_bins(scale = "North american land mammal ages")
+    Condition
+      Error in `time_bins()`:
+      ! Macrostrat is not available.
+      i Either the site is down or you are not connected to the internet.
+
