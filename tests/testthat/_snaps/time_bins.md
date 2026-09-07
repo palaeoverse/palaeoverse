@@ -297,7 +297,10 @@
       time_bins(interval = "Mesozoic", scale = 1)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be a single string or a <data.frame>, not the number 1.
+      ! `scale` must be one of the following, not the number 1:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale (see details)
+      * a <data.frame>
 
 ---
 
@@ -305,7 +308,10 @@
       time_bins(interval = "Mesozoic", scale = NA)
     Condition
       Error in `time_bins()`:
-      ! `scale` must be a single string or a <data.frame>, not `NA`.
+      ! `scale` must be one of the following, not `NA`:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale (see details)
+      * a <data.frame>
 
 ---
 
@@ -313,7 +319,10 @@
       time_bins(interval = "Mesozoic", scale = character(0))
     Condition
       Error in `time_bins()`:
-      ! `scale` must be a single string or a <data.frame>, not an empty character vector.
+      ! `scale` must be one of the following, not an empty character vector:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale (see details)
+      * a <data.frame>
 
 ---
 

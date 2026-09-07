@@ -160,7 +160,12 @@ time_bins <- function(
   } else if (!rlang::is_string(scale)) {
     # Almost the same as rlang::check_string() but we allow data.frame too
     cli::cli_abort(
-      "{.arg scale} must be a single string or a {.cls data.frame}, not {obj_type_friendly(scale)}."
+      c(
+        "{.arg scale} must be one of the following, not {obj_type_friendly(scale)}:",
+        "*" = "the name of an in-built time scale (e.g. {.val GTS2020})",
+        "*" = "the name of a Macrostrat time scale (see details)",
+        "*" = "a {.cls data.frame}"
+      )
     )
   }
 
