@@ -181,6 +181,8 @@ check_data_frame <- function(data) {
 
 #' Check whether all values of `min_column` are lower than values of `max_column`
 #'
+#' `NA` values are not considered (e.g. a row where one column is `NA` is not counted).
+#'
 #' @param data dataframe to check
 #' @param min_column Name of column containing min values
 #' @param max_column Name of column containing max values
