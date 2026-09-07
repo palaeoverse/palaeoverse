@@ -110,13 +110,7 @@ tax_range_time <- function(
   check_na(occdf, name)
 
   for (column in c(min_ma, max_ma)) {
-    vals <- occdf[, column, drop = TRUE]
-    if (!is.numeric(vals)) {
-      cli::cli_abort(
-        "Column {.val {column}} in {.arg occdf} must be numeric, not {.cls {class(vals)}}."
-      )
-    }
-
+    check_class(occdf, column, "numeric")
     check_na(occdf, column)
   }
 
