@@ -380,6 +380,12 @@ test_that("wrong input for occdf", {
     max_ma = c(10, 9, 15)
   )
   expect_snapshot(bin_time(occdf, bins = bins), error = TRUE)
+
+  occdf <- data.frame(
+    name = c("occ1", "occ2", "occ3"),
+    min_ma = c(0, 10, 5),
+    max_ma = c(10, 11, 13)
+  )
   bins <- data.frame(
     bin = 1:3,
     min_ma = c(0, 10, 5),
