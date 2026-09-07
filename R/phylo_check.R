@@ -73,47 +73,42 @@ phylo_check <- function(
   out = "full_table",
   sort = "presence"
 ) {
-  #Errors for incorrect input
   if (!inherits(tree, "phylo")) {
-    stop("Phylogeny must be a phylo object")
-  }
-
-  if (!is.vector(list)) {
-    stop("List of taxa must be a vector")
-  }
-
-  if (any(grepl("[^[:alnum:][:space:]_]", list))) {
-    stop(
-      "Taxon names should not contain punctuation except spaces or
-         underscores"
+    cli::cli_abort(
+      "{.arg tree} must be of class {.cls phylo}, not {obj_type_friendly(tree)}."
     )
   }
 
-  if (length(out) == 0 || is.na(out)) {
-    stop("`out` must be of length 1.")
+  if (!is.vector(list)) {
+    cli::cli_abort(
+      "{.arg list} must be a vector, not {obj_type_friendly(list)}."
+    )
   }
 
-  if (length(sort) == 0 || is.na(sort)) {
-    stop("`sort` must be of length 1.")
+  bad_names <- unique(list[grepl("[^[:alnum:][:space:]_]", list)])
+  if (length(bad_names) > 0) {
+    truncated <- if (length(bad_names) > 5) " (first 5)" else ""
+    bad_names <- cli::cli_vec(head(bad_names, n = 5), list(`vec-last` = ", "))
+    cli::cli_abort(
+      c(
+        "Taxon names in {.arg list} must not contain punctuation other than spaces or underscores.",
+        "i" = "Invalid name(s){truncated}: {.val {bad_names}}."
+      )
+    )
   }
 
-  if (
-    out != "counts" &&
-      out != "full_table" &&
-      out != "diff_table" &&
-      out != "tree"
-  ) {
-    stop("out must either be 'full_table', 'diff_table', 'counts' or 'tree'")
-  }
+  rlang::check_string(out)
+  out <- rlang::arg_match(
+    out,
+    values = c("full_table", "diff_table", "counts", "tree")
+  )
 
-  if (sort != "az" && sort != "presence") {
-    stop("sort must either be 'az' or 'presence'")
-  }
+  rlang::check_string(sort)
+  sort <- rlang::arg_match(sort, values = c("presence", "az"))
 
   if (out != "full_table" && out != "diff_table" && sort != "presence") {
-    warning(
-      "sort is redundant when using outputs other than 'full_table' or
-            'diff_table'"
+    cli::cli_warn(
+      "{.arg sort} is ignored when {.arg out} is not {.val full_table} or {.val diff_table}."
     )
   }
 
