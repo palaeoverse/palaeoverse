@@ -228,11 +228,10 @@ test_that("argument 'spacing' works", {
     tax_range_space(occdf, method = "occ", spacing = NA),
     error = TRUE
   )
-  # TODO: should error
-  # expect_snapshot(
-  #   tax_range_space(occdf, method = "occ", spacing = 1:2),
-  #   error = TRUE
-  # )
+  expect_snapshot(
+    tax_range_space(occdf, method = "occ", spacing = 1:2),
+    error = TRUE
+  )
 })
 
 test_that("argument 'coords' works", {
