@@ -51,7 +51,7 @@ check_class <- function(data, column, class) {
   values <- data[[column]]
   if (!inherits(values, class)) {
     cli::cli_abort(
-      "Column {.val {column}} in {.arg {rlang::caller_arg(data)}} must be {class}, not {.cls {class(values)}}.",
+      "Column {.val {column}} in {.arg {rlang::caller_arg(data)}} must be of class {.cls {class}}, not {.cls {class(values)}}.",
       call = rlang::caller_env()
     )
   }

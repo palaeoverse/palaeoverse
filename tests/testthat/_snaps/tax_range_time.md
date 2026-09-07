@@ -124,7 +124,7 @@
       tax_range_time(chardf)
     Condition
       Error in `tax_range_time()`:
-      ! Column "max_ma" in `occdf` must be numeric, not <character>.
+      ! Column "max_ma" in `occdf` must be of class <numeric>, not <character>.
 
 ---
 
@@ -180,7 +180,7 @@
       tax_range_time(chardf)
     Condition
       Error in `tax_range_time()`:
-      ! Column "min_ma" in `occdf` must be numeric, not <character>.
+      ! Column "min_ma" in `occdf` must be of class <numeric>, not <character>.
 
 ---
 
