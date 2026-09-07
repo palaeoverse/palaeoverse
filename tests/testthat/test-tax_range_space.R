@@ -49,7 +49,6 @@ test_that("tax_range_space errors with unnamed args", {
     lat = c(0, 0, 45)
   )
   expect_snapshot(tax_range_space(occdf, "genus"), error = TRUE)
-  expect_snapshot(tax_range_space(occdf, "genus"), error = TRUE)
   expect_snapshot(tax_range_space(occdf, "genus", "lng"), error = TRUE)
   expect_snapshot(tax_range_space(occdf, "genus", lng = "lng"), error = TRUE)
 })
