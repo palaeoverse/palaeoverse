@@ -88,26 +88,7 @@ tax_expand_time <- function(
     check_column_presence(bins, "min_ma")
   }
 
-  rows_with_max_ma_smaller_than_min_ma <- which(
-    taxdf[, max_ma, drop = TRUE] < taxdf[, min_ma, drop = TRUE]
-  )
-  if (length(rows_with_max_ma_smaller_than_min_ma) > 0) {
-    truncated <- if (length(rows_with_max_ma_smaller_than_min_ma) > 5) {
-      " (first 5)"
-    } else {
-      ""
-    }
-    to_report <- cli::cli_vec(
-      head(rows_with_max_ma_smaller_than_min_ma, n = 5),
-      list(`vec-last` = ", ")
-    )
-    cli::cli_abort(
-      c(
-        "Maximum age must be larger than or equal to minimum age.",
-        "i" = "Row(s) where {.arg max_ma} is smaller than {.arg min_ma}{truncated}: {.val {to_report}}."
-      )
-    )
-  }
+  check_min_lower_than_max(taxdf, min_ma, max_ma)
 
   if (anyDuplicated(taxdf) > 0) {
     cli::cli_abort("{.arg taxdf} must not have duplicated rows.")

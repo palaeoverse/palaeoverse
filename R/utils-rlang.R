@@ -65,7 +65,10 @@ check_range <- function(data, column, min, max) {
   if (length(rng) > 0) {
     to_report <- unique(rng)
     truncated <- if (length(to_report) > 5) " (first 5)" else ""
-    to_report <- cli::cli_vec(head(to_report, n = 5), list(`vec-last` = ", "))
+    to_report <- cli::cli_vec(
+      head(to_report, n = 5),
+      list(`vec-last` = ", ", `vec-sep2` = ", ")
+    )
 
     msg <- if (min == 0 && is.infinite(max)) {
       "All values of column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be positive."
@@ -151,6 +154,38 @@ check_data_frame <- function(data) {
   if (rlang::is_missing(data) || !is.data.frame(data)) {
     cli::cli_abort(
       "{.arg {rlang::caller_arg(data)}} must be of class {.cls data.frame}, not {obj_type_friendly(data)}.",
+      call = rlang::caller_env()
+    )
+  }
+}
+
+
+#' Check whether all values of column `min` are lower than values of column `max`
+#'
+#' @param data dataframe to check
+#' @param min_column Name of column containing min values
+#' @param max_column Name of column containing max values
+#'
+#' @noRd
+check_min_lower_than_max <- function(data, min_column, max_column) {
+  rows_with_max_smaller_than_min <- which(
+    data[, max_column, drop = TRUE] < data[, min_column, drop = TRUE]
+  )
+  if (length(rows_with_max_smaller_than_min) > 0) {
+    truncated <- if (length(rows_with_max_smaller_than_min) > 5) {
+      " (first 5)"
+    } else {
+      ""
+    }
+    to_report <- cli::cli_vec(
+      head(rows_with_max_smaller_than_min, n = 5),
+      list(`vec-last` = ", ", `vec-sep2` = ", ")
+    )
+    cli::cli_abort(
+      c(
+        "Maximum age must be larger than or equal to minimum age.",
+        "i" = "Row(s) of {.arg {rlang::caller_arg(data)}} where {.arg {rlang::caller_arg(max_column)}} is smaller than {.arg {rlang::caller_arg(min_column)}}{truncated}: {.val {to_report}}."
+      ),
       call = rlang::caller_env()
     )
   }

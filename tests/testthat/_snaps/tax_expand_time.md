@@ -54,7 +54,7 @@
     Condition
       Error in `tax_expand_time()`:
       ! Maximum age must be larger than or equal to minimum age.
-      i Row(s) where `max_ma` is smaller than `min_ma`: 3.
+      i Row(s) of `taxdf` where `max_ma` is smaller than `min_ma`: 3.
 
 # arg 'bins' works
 
