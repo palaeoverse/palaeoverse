@@ -123,11 +123,6 @@ time_bins <- function(
   scale = "GTS2020",
   plot = FALSE
 ) {
-  # This is used in error messages to report in which function call the error occurred. We save it
-  # here so that we don't need to use e.g. `rlang::caller_env(4)` when calling `cli::cli_abort()`
-  # in `tryCatch()`.
-  call_env <- rlang::current_env()
-
   if (!is.null(interval) && !is.character(interval) && !is.numeric(interval)) {
     cli::cli_abort(
       "{.arg interval} must be {.code NULL} or of class {.cls character} or {.cls numeric}, not {obj_type_friendly(interval)}."
@@ -288,7 +283,7 @@ time_bins <- function(
             "Macrostrat is not available.",
             "i" = "Either the site is down or you are not connected to the internet."
           ),
-          call = call_env
+          call = NULL
         )
       }
     )
@@ -304,7 +299,7 @@ time_bins <- function(
       error = function(e) {
         cli::cli_abort(
           "{.arg scale} must match a built-in or Macrostrat time scale.",
-          call = call_env
+          call = NULL
         )
       }
     )

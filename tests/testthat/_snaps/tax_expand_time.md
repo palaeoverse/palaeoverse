@@ -171,7 +171,7 @@
     Code
       tax_expand_time(taxdf, scale = "foo")
     Condition
-      Error in `time_bins()`:
+      Error:
       ! `scale` must match a built-in or Macrostrat time scale.
 
 ---

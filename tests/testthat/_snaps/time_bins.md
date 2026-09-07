@@ -288,7 +288,7 @@
     Code
       time_bins(interval = "Mesozoic", scale = "foo")
     Condition
-      Error in `time_bins()`:
+      Error:
       ! `scale` must match a built-in or Macrostrat time scale.
 
 ---
@@ -361,7 +361,7 @@
     Code
       time_bins(scale = "North american land mammal ages")
     Condition
-      Error in `time_bins()`:
+      Error:
       ! Macrostrat is not available.
       i Either the site is down or you are not connected to the internet.
 
