@@ -84,10 +84,7 @@ test_that("argument 'name' works", {
     tax_range_time(occdf, name = c("Species", "max_ma")),
     error = TRUE
   )
-  expect_snapshot(
-    tax_range_time(occdf, name = "nonexistent"),
-    error = TRUE
-  )
+  expect_snapshot(tax_range_time(occdf, name = "nonexistent"), error = TRUE)
   expect_snapshot(tax_range_time(occdf, name = 1), error = TRUE)
   expect_snapshot(tax_range_time(occdf, name = NA), error = TRUE)
 
@@ -120,10 +117,7 @@ test_that("argument 'max_ma' works", {
     tax_range_time(occdf, max_ma = c("Species", "max_ma")),
     error = TRUE
   )
-  expect_snapshot(
-    tax_range_time(occdf, max_ma = "nonexistent"),
-    error = TRUE
-  )
+  expect_snapshot(tax_range_time(occdf, max_ma = "nonexistent"), error = TRUE)
   expect_snapshot(tax_range_time(occdf, max_ma = 1), error = TRUE)
   expect_snapshot(tax_range_time(occdf, max_ma = NA), error = TRUE)
   expect_snapshot(tax_range_time(occdf, max_ma = NULL), error = TRUE)
@@ -166,10 +160,7 @@ test_that("argument 'min_ma' works", {
     tax_range_time(occdf, min_ma = c("Species", "min_ma")),
     error = TRUE
   )
-  expect_snapshot(
-    tax_range_time(occdf, min_ma = "nonexistent"),
-    error = TRUE
-  )
+  expect_snapshot(tax_range_time(occdf, min_ma = "nonexistent"), error = TRUE)
   expect_snapshot(tax_range_time(occdf, min_ma = 1), error = TRUE)
   expect_snapshot(tax_range_time(occdf, min_ma = NA), error = TRUE)
   expect_snapshot(tax_range_time(occdf, min_ma = NULL), error = TRUE)
@@ -214,10 +205,7 @@ test_that("argument 'group' works", {
     tax_range_time(occdf, group = c("genus", "min_ma")),
     error = TRUE
   )
-  expect_snapshot(
-    tax_range_time(occdf, group = "nonexistent"),
-    error = TRUE
-  )
+  expect_snapshot(tax_range_time(occdf, group = "nonexistent"), error = TRUE)
   expect_snapshot(tax_range_time(occdf, group = 1), error = TRUE)
   expect_snapshot(tax_range_time(occdf, group = NA), error = TRUE)
 })
@@ -268,10 +256,7 @@ test_that("argument 'by' works", {
     tax_range_time(occdf, by = c("genus", "min_ma")),
     error = TRUE
   )
-  expect_snapshot(
-    tax_range_time(occdf, by = "nonexistent"),
-    error = TRUE
-  )
+  expect_snapshot(tax_range_time(occdf, by = "nonexistent"), error = TRUE)
   expect_snapshot(tax_range_time(occdf, by = 1), error = TRUE)
   expect_snapshot(tax_range_time(occdf, by = NA), error = TRUE)
 })
@@ -322,10 +307,7 @@ test_that("argument 'plot_args' works", {
   })
 
   # input checks
-  expect_snapshot(
-    tax_range_time(occdf, plot_args = "test"),
-    error = TRUE
-  )
+  expect_snapshot(tax_range_time(occdf, plot_args = "test"), error = TRUE)
   expect_snapshot(tax_range_time(occdf, plot_args = NA), error = TRUE)
 })
 
