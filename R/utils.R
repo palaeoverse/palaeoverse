@@ -15,7 +15,14 @@ ensure_args_are_named <- function(exceptions = NULL) {
   )]
 
   args_in_function_def <- names(formals(rlang::caller_fn()))
-  partially_matched_names <- setdiff(named_args, args_in_function_def)
+
+  # Dots could be passed to other functions and we can't check whether they are partially
+  # named.
+  if ("..." %in% args_in_function_def) {
+    partially_matched_names <- NULL
+  } else {
+    partially_matched_names <- setdiff(named_args, args_in_function_def)
+  }
   if (length(partially_matched_names) > 0) {
     cli::cli_abort(
       c(
