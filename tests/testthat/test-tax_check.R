@@ -158,6 +158,7 @@ test_that("arg 'dis' works", {
   # input checks
   expect_snapshot(tax_check(dat, dis = 1), error = TRUE)
   expect_snapshot(tax_check(dat, dis = 0), error = TRUE)
+  expect_snapshot(tax_check(dat, dis = c(0.5, 0.6)), error = TRUE)
   expect_snapshot(tax_check(dat, dis = "a"), error = TRUE)
   expect_snapshot(tax_check(dat, dis = numeric(0)), error = TRUE)
   expect_snapshot(tax_check(dat, dis = NULL), error = TRUE)

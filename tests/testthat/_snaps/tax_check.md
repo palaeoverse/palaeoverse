@@ -159,6 +159,14 @@
 ---
 
     Code
+      tax_check(dat, dis = c(0.5, 0.6))
+    Condition
+      Error in `tax_check()`:
+      ! `dis` must be a number, not a double vector.
+
+---
+
+    Code
       tax_check(dat, dis = "a")
     Condition
       Error in `tax_check()`:
