@@ -109,7 +109,7 @@ group_apply <- function(occdf, group, fun, ...) {
         list(`vec-last` = ", and ")
       )
       cli::cli_abort(
-        "{.code {to_report}} {?is/are} not {?a/} valid argument{?s} for the specified function {.code {rlang::caller_arg(fun)}}"
+        "{.code {to_report}} {?is/are} not {?a/} valid argument{?s} for the specified function {.fun {rlang::caller_arg(fun)}}."
       )
     }
   }

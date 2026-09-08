@@ -100,7 +100,7 @@
       group_apply(occdf = occdf, group = "cc", fun = tax_range_time, not_an_argument = "test")
     Condition
       Error in `group_apply()`:
-      ! `not_an_argument` is not a valid argument for the specified function `tax_range_time`
+      ! `not_an_argument` is not a valid argument for the specified function `tax_range_time()`.
 
 ---
 
@@ -109,5 +109,5 @@
         not_an_argument1 = "test", not_an_argument2 = "test")
     Condition
       Error in `group_apply()`:
-      ! `not_an_argument1` and `not_an_argument2` are not valid arguments for the specified function `tax_range_time`
+      ! `not_an_argument1` and `not_an_argument2` are not valid arguments for the specified function `tax_range_time()`.
 
