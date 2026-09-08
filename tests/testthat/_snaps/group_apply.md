@@ -28,7 +28,7 @@
       group_apply(occdf, group = "cc", nrow)
     Condition
       Error in `group_apply()`:
-      ! All arguments must be named (except for "ocddf").
+      ! All arguments must be named (except for "occdf").
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -37,7 +37,7 @@
       group_apply(occdf, "cc", nrow)
     Condition
       Error in `group_apply()`:
-      ! All arguments must be named (except for "ocddf").
+      ! All arguments must be named (except for "occdf").
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -46,7 +46,7 @@
       group_apply(occdf, "cc", fun = tax_range_time, name = "family")
     Condition
       Error in `group_apply()`:
-      ! All arguments must be named (except for "ocddf").
+      ! All arguments must be named (except for "occdf").
       i Currently, there is 1 argument that should be named.
 
 # error handling for argument 'group'
