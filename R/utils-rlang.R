@@ -49,7 +49,15 @@ check_na <- function(data, column) {
 #' @noRd
 check_class <- function(data, column, class) {
   values <- data[[column]]
-  if (!inherits(values, class)) {
+
+  # is.numeric() is TRUE for integers too, but inherits(x, "numeric") is FALSE for
+  # integers.
+  cond <- if (identical(class, "numeric")) {
+    !is.numeric(values)
+  } else {
+    !inherits(values, class)
+  }
+  if (cond) {
     cli::cli_abort(
       "Column {.val {column}} in {.arg {rlang::caller_arg(data)}} must be of class {.cls {class}}, not {.cls {class(values)}}.",
       call = rlang::caller_env()
