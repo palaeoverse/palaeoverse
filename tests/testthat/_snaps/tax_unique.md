@@ -57,7 +57,7 @@
     Condition
       Error in `tax_unique()`:
       ! Species names must be supplied to estimate richness at species level.
-      i Specify `binomial`, or `genus` and `species`, or `genus` and `name`.
+      i Specify `binomial`, `genus` and `species`, or `genus` and `name`.
 
 ---
 

@@ -217,7 +217,7 @@ tax_unique <- function(
     cli::cli_abort(
       c(
         "Species names must be supplied to estimate richness at species level.",
-        "i" = "Specify {.arg binomial}, or {.arg genus} and {.arg species}, or {.arg genus} and {.arg name}."
+        "i" = "Specify {.arg binomial}, {.arg genus} and {.arg species}, or {.arg genus} and {.arg name}."
       )
     )
   }
