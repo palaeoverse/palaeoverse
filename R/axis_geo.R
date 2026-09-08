@@ -335,18 +335,19 @@ axis_geo <- function(
   }
 
   height <- ensure_single_value_per_scale(height, "numeric")
-  fill <- ensure_all_type_or_null(fill, "character")
   lab <- ensure_single_value_per_scale(lab, "logical")
-  lab_col <- ensure_all_type_or_null(lab_col, "character")
   lab_size <- ensure_single_value_per_scale(lab_size, "numeric")
   rot <- ensure_single_value_per_scale(rot, "numeric")
   abbr <- ensure_single_value_per_scale(abbr, "logical")
-  skip <- ensure_all_type_or_null(skip, "character")
   center_end_labels <- ensure_single_value_per_scale(
     center_end_labels,
     "logical"
   )
   autofit <- ensure_single_value_per_scale(autofit, "logical")
+
+  fill <- ensure_all_type_or_null(fill, "character")
+  lab_col <- ensure_all_type_or_null(lab_col, "character")
+  skip <- ensure_all_type_or_null(skip, "character")
   bord_col <- ensure_all_type_or_null(bord_col, "character")
   lty <- ensure_all_type_or_null(lty, "character")
   lwd <- ensure_all_type_or_null(lwd, "numeric")
