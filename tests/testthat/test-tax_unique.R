@@ -459,3 +459,40 @@ test_that("taxonomic columns must not contain punctuation", {
     error = TRUE
   )
 })
+
+test_that("underscores in binomial or name column work", {
+  dat <- data.frame(
+    species = "rex",
+    genus = "Tyrannosaurus",
+    binomial = "Tyrannosaurus_rex",
+    family = "Tyrannosauridae",
+    order = "Coelurosauria",
+    class = "Tetanurae"
+  )
+  expect_no_error(tax_unique(
+    occdf = dat,
+    binomial = "binomial",
+    family = "family",
+    order = "order",
+    class = "class"
+  ))
+
+  dat <- data.frame(
+    name = "foo_bar",
+    species = "rex",
+    genus = "Tyrannosaurus",
+    binomial = "Tyrannosaurus rex",
+    family = "Tyrannosauridae",
+    order = "Coelurosauria",
+    class = "Tetanurae"
+  )
+
+  expect_no_error(tax_unique(
+    occdf = dat,
+    binomial = "binomial",
+    family = "family",
+    order = "order",
+    class = "class",
+    name = "name"
+  ))
+})
