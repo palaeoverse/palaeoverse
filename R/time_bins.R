@@ -138,7 +138,7 @@ time_bins <- function(
   }
 
   rlang::check_number_decimal(size, min = 0, allow_null = TRUE)
-  rlang::check_number_whole(n_bins, allow_null = TRUE)
+  rlang::check_number_whole(n_bins, min = 0, allow_null = TRUE)
   check_numeric(assign, allow_null = TRUE)
   rlang::check_bool(plot)
 

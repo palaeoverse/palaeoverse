@@ -357,6 +357,7 @@ test_that("arg 'n_bins' works", {
   expect_snapshot(time_bins(interval = "Mesozoic", n_bins = NA), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", n_bins = 1:2), error = TRUE)
   expect_snapshot(time_bins(n_bins = 200), error = TRUE)
+  expect_snapshot(time_bins(n_bins = -1), error = TRUE)
 })
 
 test_that("arg 'assign' works", {

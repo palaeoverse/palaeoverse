@@ -286,6 +286,14 @@
       Error in `time_bins()`:
       ! `n_bins` (200) must not be greater than the number of intervals (102).
 
+---
+
+    Code
+      time_bins(n_bins = -1)
+    Condition
+      Error in `time_bins()`:
+      ! `n_bins` must be a whole number larger than or equal to 0 or `NULL`, not the number -1.
+
 # arg 'assign' works
 
     Code
