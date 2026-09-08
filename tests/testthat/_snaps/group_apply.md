@@ -22,6 +22,33 @@
       Error in `group_apply()`:
       ! Supplied `group` is not a named column in `occdf`
 
+# tax_unique errors with unnamed args
+
+    Code
+      group_apply(occdf, group = "cc", nrow)
+    Condition
+      Error in `group_apply()`:
+      ! All arguments must be named (except for "ocddf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      group_apply(occdf, "cc", nrow)
+    Condition
+      Error in `group_apply()`:
+      ! All arguments must be named (except for "ocddf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      group_apply(occdf, "cc", fun = tax_range_time, name = "family")
+    Condition
+      Error in `group_apply()`:
+      ! All arguments must be named (except for "ocddf").
+      i Currently, there is 1 argument that should be named.
+
 # error handling for argument 'group'
 
     Code

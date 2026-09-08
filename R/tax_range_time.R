@@ -140,8 +140,8 @@ tax_range_time <- function(
   # Calculate ranges
   temp_df <- group_apply(
     occdf,
-    g,
-    function(occdf, name, min_ma, max_ma) {
+    group = g,
+    fun = function(occdf, name, min_ma, max_ma) {
       #=== Set-up ===
       unique_taxa <- unique(occdf[, name, drop = TRUE])
       # Order taxa by name
