@@ -14,6 +14,14 @@
       Error in `tax_check()`:
       ! `taxdf` must be of class <data.frame>, not the number 1.
 
+---
+
+    Code
+      tax_check(data.frame(genus = c(NA, "")))
+    Condition
+      Error in `tax_check()`:
+      ! Column "genus" in `taxdf` must have at least one entry that is not NA or empty.
+
 # arg 'name' works
 
     Code

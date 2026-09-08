@@ -28,6 +28,7 @@ test_that("basic behavior works", {
   # input checks
   expect_snapshot(tax_check(data.frame()), error = TRUE)
   expect_snapshot(tax_check(1), error = TRUE)
+  expect_snapshot(tax_check(data.frame(genus = c(NA, ""))), error = TRUE)
 })
 
 test_that("arg 'name' works", {
