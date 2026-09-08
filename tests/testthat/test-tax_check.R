@@ -25,6 +25,11 @@ test_that("basic behavior works", {
     )
   )
 
+  # Capture warning on non-letter characters
+  expect_snapshot(
+    tax_check(data.frame(genus = c("Automaton", "Automaton2")))
+  )
+
   # input checks
   expect_snapshot(tax_check(data.frame()), error = TRUE)
   expect_snapshot(tax_check(1), error = TRUE)
@@ -101,6 +106,17 @@ test_that("arg 'group' works", {
       ),
       non_letter_name = NULL,
       non_letter_group = NULL
+    )
+  )
+
+  # Capture warning on non-letter characters
+  expect_snapshot(
+    tax_check(
+      data.frame(
+        genus = c("Automaton", "Automaton"),
+        family = c("Foo", "Examplidae2")
+      ),
+      group = "family"
     )
   )
 

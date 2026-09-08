@@ -1,6 +1,25 @@
 # basic behavior works
 
     Code
+      tax_check(data.frame(genus = c("Automaton", "Automaton2")))
+    Condition
+      Warning:
+      Non-letter characters present in the taxon names.
+    Output
+      $synonyms
+        group   greater     lesser count_greater count_lesser
+      1     A Automaton Automaton2             1            1
+      
+      $non_letter_name
+      [1] "Automaton2"
+      
+      $non_letter_group
+      NULL
+      
+
+---
+
+    Code
       tax_check(data.frame())
     Condition
       Error in `tax_check()`:
@@ -71,6 +90,25 @@
       ! Column "" not found in `taxdf`.
 
 # arg 'group' works
+
+    Code
+      tax_check(data.frame(genus = c("Automaton", "Automaton"), family = c("Foo",
+        "Examplidae2")), group = "family")
+    Condition
+      Warning:
+      Non-letter characters present in the group names.
+    Output
+      $synonyms
+      NULL
+      
+      $non_letter_name
+      NULL
+      
+      $non_letter_group
+      [1] "Examplidae2"
+      
+
+---
 
     Code
       tax_check(dat, group = "nonexistent")
