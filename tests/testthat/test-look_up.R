@@ -164,13 +164,16 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
     look_up(occdf = dat, early_interval = c("a", "b")),
     error = TRUE
   )
-  expect_snapshot(look_up(occdf = dat, late_interval = 1), error = TRUE)
+  expect_snapshot(
+    look_up(occdf = dat, early_interval = "early", late_interval = 1),
+    error = TRUE
+  )
   expect_snapshot(
     look_up(occdf = dat, early_interval = "early", late_interval = NA),
     error = TRUE
   )
   expect_snapshot(
-    look_up(occdf = dat, late_interval = c("a", "b")),
+    look_up(occdf = dat, early_interval = "early", late_interval = c("a", "b")),
     error = TRUE
   )
 })
