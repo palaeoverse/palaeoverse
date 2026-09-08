@@ -364,8 +364,6 @@ test_that("argument 'assign_with_GTS' works", {
   # and int_key = FALSE at the same time
   expect_snapshot(look_up(occdf, assign_with_GTS = FALSE), error = TRUE)
 
-  # TODO: input type and value checks should come before checking whether int_key = FALSE
-  # (for both snapshots below)
   expect_snapshot(look_up(occdf, assign_with_GTS = 1), error = TRUE)
   expect_snapshot(look_up(occdf, assign_with_GTS = "foo"), error = TRUE)
 })
