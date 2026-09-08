@@ -113,6 +113,7 @@ tax_range_time <- function(
 
   check_class(occdf, min_ma, "numeric")
   check_class(occdf, max_ma, "numeric")
+  check_min_lower_than_max(occdf, min_ma, max_ma)
 
   if (!is.null(group)) {
     check_column_presence(occdf, group)

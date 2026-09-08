@@ -129,6 +129,8 @@ tax_range_strat <- function(
   x_args = NULL,
   y_args = NULL
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   if (!is.data.frame(occdf)) {
     stop("`occdf` should be a data.frame")
   }
