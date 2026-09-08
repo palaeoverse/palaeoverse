@@ -12,7 +12,7 @@
       axis_geo(fill = 5)
     Condition
       Error in `axis_geo()`:
-      ! `fill` must be a single character value per scale or `NULL`.
+      ! All values of `fill` must be of class <character> or `NULL`.
 
 ---
 
@@ -28,7 +28,7 @@
       axis_geo(lab_col = 42)
     Condition
       Error in `axis_geo()`:
-      ! `lab_col` must be a single character value per scale or `NULL`.
+      ! All values of `lab_col` must be of class <character> or `NULL`.
 
 ---
 

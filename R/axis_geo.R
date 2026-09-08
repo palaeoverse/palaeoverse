@@ -284,7 +284,9 @@ axis_geo <- function(
     if (is.null(root.time)) root.time <- lastPP$root.time
   }
 
-  ensure_single_value_per_scale <- function(x, type, allow_null = FALSE) {
+  # Converts `x` to a list of length `n_scales`, ensures that all list elements
+  # are scalars of a specific `type`, and if so returns the list.
+  ensure_single_value_per_scale <- function(x, type) {
     x_l <- rep(make_list(x), length.out = n_scales)
     fun <- switch(
       type,
@@ -294,15 +296,11 @@ axis_geo <- function(
       "unreachable"
     )
     all_true <- all(sapply(x_l, function(y) {
-      if (allow_null && is.null(y)) {
-        return(TRUE)
-      }
       length(y) == 1 && fun(y)
     }))
     if (!all_true) {
-      suffix <- if (allow_null) " or `NULL`" else ""
       cli::cli_abort(
-        "{.arg {rlang::caller_arg(x)}} must be a single {type} value per scale{suffix}.",
+        "{.arg {rlang::caller_arg(x)}} must be a single {type} value per scale.",
         call = rlang::caller_env()
       )
     } else {
@@ -310,6 +308,8 @@ axis_geo <- function(
     }
   }
 
+  # Converts `x` to a list of length `n_scales`, ensures that all list elements
+  # are either `NULL` or of a specific `type`, and if so returns the list.
   ensure_all_type_or_null <- function(x, type) {
     x_l <- rep(make_list(x), length.out = n_scales)
     fun <- switch(
@@ -335,13 +335,9 @@ axis_geo <- function(
   }
 
   height <- ensure_single_value_per_scale(height, "numeric")
-  fill <- ensure_single_value_per_scale(fill, "character", allow_null = TRUE)
+  fill <- ensure_all_type_or_null(fill, "character")
   lab <- ensure_single_value_per_scale(lab, "logical")
-  lab_col <- ensure_single_value_per_scale(
-    lab_col,
-    "character",
-    allow_null = TRUE
-  )
+  lab_col <- ensure_all_type_or_null(lab_col, "character")
   lab_size <- ensure_single_value_per_scale(lab_size, "numeric")
   rot <- ensure_single_value_per_scale(rot, "numeric")
   abbr <- ensure_single_value_per_scale(abbr, "logical")
