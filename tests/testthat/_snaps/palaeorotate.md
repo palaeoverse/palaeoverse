@@ -218,3 +218,21 @@
       Error in `palaeorotate()`:
       ! `round` must be a whole number or `NULL`, not an integer vector.
 
+# good error message if GPlates or Zenodo are not available
+
+    Code
+      palaeorotate(occdf = occdf, model = "PALEOMAP")
+    Condition
+      Error in `palaeorotate()`:
+      ! GPlates Web Service is not available.
+      i Either the website is down or you are not connected to the internet.
+
+---
+
+    Code
+      palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid")
+    Condition
+      Error in `palaeorotate()`:
+      ! Zenodo is not available.
+      i Either the website is down or you are not connected to the internet.
+

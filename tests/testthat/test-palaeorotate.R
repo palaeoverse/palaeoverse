@@ -380,3 +380,26 @@ test_that("arg 'round' works", {
   # TODO: this should error
   expect_snapshot(palaeorotate(occdf = occdf, round = 1:2), error = TRUE)
 })
+
+test_that("good error message if GPlates or Zenodo are not available", {
+  # We define a "mocked" version of nslookup() that errors on purpose, since
+  # nslookup() would fail if the website is not available.
+  local_mocked_bindings(
+    nslookup = function(...) stop("foo")
+  )
+  occdf <- data.frame(
+    lng = c(2, -103, -66),
+    lat = c(46, 35, -7),
+    age = c(88, 125, 300)
+  )
+  # GPlates
+  expect_snapshot(
+    palaeorotate(occdf = occdf, model = "PALEOMAP"),
+    error = TRUE
+  )
+  # Zenodo
+  expect_snapshot(
+    palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid"),
+    error = TRUE
+  )
+})
