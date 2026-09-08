@@ -376,8 +376,6 @@ test_that("arg 'round' works", {
   expect_snapshot(palaeorotate(occdf = occdf, round = TRUE), error = TRUE)
   expect_snapshot(palaeorotate(occdf = occdf, round = NA), error = TRUE)
   expect_snapshot(palaeorotate(occdf = occdf, round = numeric(0)), error = TRUE)
-
-  # TODO: this should error
   expect_snapshot(palaeorotate(occdf = occdf, round = 1:2), error = TRUE)
 })
 
