@@ -20,6 +20,13 @@ test_that("time_bins() default behaviour", {
   )
 })
 
+test_that("time_bins errors with unnamed args", {
+  expect_snapshot(time_bins("Maastrichtian", "stage"), error = TRUE)
+  expect_snapshot(time_bins(interval = "Maastrichtian", "stage"), error = TRUE)
+  expect_snapshot(time_bins("Maastrichtian", "stage", 10), error = TRUE)
+  expect_snapshot(time_bins("Maastrichtian", "stage", size = 10), error = TRUE)
+})
+
 test_that("arg 'interval' works", {
   expect_equal(
     time_bins(interval = "Maastrichtian"),
