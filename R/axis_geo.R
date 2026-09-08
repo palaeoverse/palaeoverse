@@ -310,7 +310,7 @@ axis_geo <- function(
     }
   }
 
-  check_all_type_or_null <- function(x, type) {
+  ensure_all_type_or_null <- function(x, type) {
     x_l <- rep(make_list(x), length.out = n_scales)
     fun <- switch(
       type,
@@ -345,15 +345,15 @@ axis_geo <- function(
   lab_size <- ensure_single_value_per_scale(lab_size, "numeric")
   rot <- ensure_single_value_per_scale(rot, "numeric")
   abbr <- ensure_single_value_per_scale(abbr, "logical")
-  skip <- check_all_type_or_null(skip, "character")
+  skip <- ensure_all_type_or_null(skip, "character")
   center_end_labels <- ensure_single_value_per_scale(
     center_end_labels,
     "logical"
   )
   autofit <- ensure_single_value_per_scale(autofit, "logical")
-  bord_col <- check_all_type_or_null(bord_col, "character")
-  lty <- check_all_type_or_null(lty, "character")
-  lwd <- check_all_type_or_null(lwd, "numeric")
+  bord_col <- ensure_all_type_or_null(bord_col, "character")
+  lty <- ensure_all_type_or_null(lty, "character")
+  lwd <- ensure_all_type_or_null(lwd, "numeric")
 
   # get the limits of the plot
   clip_lims <- plot_lims <- par("usr") # x1, x2, y1, y2
