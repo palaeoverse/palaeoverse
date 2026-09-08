@@ -145,7 +145,7 @@
         "b")))
     Condition
       Error in `look_up()`:
-      ! Column "max_ma" in `int_key` must be <numeric>, not <character>.
+      ! Column "max_ma" in `int_key` must be of class <numeric>, not <character>.
 
 ---
 
@@ -155,7 +155,7 @@
         "b")))
     Condition
       Error in `look_up()`:
-      ! Column "min_ma" in `int_key` must be <numeric>, not <character>.
+      ! Column "min_ma" in `int_key` must be of class <numeric>, not <character>.
 
 # argument 'assign_with_GTS' works
 
@@ -172,7 +172,6 @@
     Condition
       Error in `look_up()`:
       ! `assign_with_GTS` must be "GTS2020" or "GTS2012" when `int_key = FALSE`.
-      x Assignment with GTS is currently disabled.
 
 ---
 
@@ -181,7 +180,6 @@
     Condition
       Error in `look_up()`:
       ! `assign_with_GTS` must be "GTS2020" or "GTS2012" when `int_key = FALSE`.
-      x Assignment with GTS is currently disabled.
 
 ---
 
@@ -190,5 +188,4 @@
     Condition
       Error in `look_up()`:
       ! `assign_with_GTS` must be "GTS2020" or "GTS2012" when `int_key = FALSE`.
-      x Assignment with GTS is currently disabled.
 

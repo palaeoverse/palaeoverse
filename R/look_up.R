@@ -139,30 +139,25 @@ look_up <- function(
     } else {
       if (!(assign_with_GTS %in% c("GTS2020", "GTS2012"))) {
         cli::cli_abort(
-          c(
-            "{.arg assign_with_GTS} must be {.val GTS2020} or {.val GTS2012} when {.code int_key = FALSE}.",
-            "x" = "Assignment with GTS is currently disabled."
-          )
+          "{.arg assign_with_GTS} must be {.val GTS2020} or {.val GTS2012} when {.code int_key = FALSE}."
         )
       }
     }
   } else {
-    for (column in c("interval_name", "early_stage", "late_stage")) {
-      check_column_presence(int_key, column)
-      if (!is.character(int_key[[column]])) {
-        cli::cli_abort(
-          "Column {.val {column}} in {.arg int_key} must be of class {.cls character}, not {.cls {class(int_key[[column]])}}."
-        )
-      }
-    }
+    check_column_presence(int_key, "interval_name")
+    check_column_presence(int_key, "early_stage")
+    check_column_presence(int_key, "late_stage")
 
-    for (column in c("max_ma", "min_ma")) {
-      if (column %in% colnames(int_key) && !is.numeric(int_key[[column]])) {
-        cli::cli_abort(
-          "Column {.val {column}} in {.arg int_key} must be {.cls numeric}, not {.cls {class(int_key[[column]])}}."
-        )
-      }
-    }
+    check_class(int_key, "interval_name", "character")
+    check_class(int_key, "early_stage", "character")
+    check_class(int_key, "late_stage", "character")
+  }
+
+  if ("max_ma" %in% colnames(int_key)) {
+    check_class(int_key, "max_ma", "numeric")
+  }
+  if ("min_ma" %in% colnames(int_key)) {
+    check_class(int_key, "min_ma", "numeric")
   }
 
   #=== Preparation ===
