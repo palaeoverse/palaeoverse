@@ -520,10 +520,6 @@ time_bins <- function(
       assign <- list(df, assign)
       names(assign) <- c("Bins", "Assignation")
       return(assign)
-    } else {
-      cli::cli_abort(
-        "{.arg assign} must be of class {.cls numeric}, not {obj_type_friendly(assign)}."
-      )
     }
   }
   # Clean up --------------------------------------------------------------
