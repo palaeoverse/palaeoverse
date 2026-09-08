@@ -151,13 +151,13 @@ look_up <- function(
     check_class(int_key, "interval_name", "character")
     check_class(int_key, "early_stage", "character")
     check_class(int_key, "late_stage", "character")
-  }
 
-  if ("max_ma" %in% colnames(int_key)) {
-    check_class(int_key, "max_ma", "numeric")
-  }
-  if ("min_ma" %in% colnames(int_key)) {
-    check_class(int_key, "min_ma", "numeric")
+    if ("max_ma" %in% colnames(int_key)) {
+      check_class(int_key, "max_ma", "numeric")
+    }
+    if ("min_ma" %in% colnames(int_key)) {
+      check_class(int_key, "min_ma", "numeric")
+    }
   }
 
   #=== Preparation ===
