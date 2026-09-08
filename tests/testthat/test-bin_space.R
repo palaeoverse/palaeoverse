@@ -43,6 +43,24 @@ test_that("bin_space() works", {
   )
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  occdf <- head(tetrapods, n = 100)
+
+  expect_equal(
+    suppressMessages(occdf |> bin_space(spacing = 250)),
+    suppressMessages(bin_space(occdf, spacing = 250))
+  )
+})
+
+test_that("bin_space errors with unnamed args", {
+  occdf <- head(tetrapods, n = 100)
+
+  expect_snapshot(bin_space(occdf, "lng"), error = TRUE)
+  expect_snapshot(bin_space(occdf = occdf, "lng"), error = TRUE)
+  expect_snapshot(bin_space(occdf, "lng", "lat"), error = TRUE)
+  expect_snapshot(bin_space(occdf, "lng", lat = "lat"), error = TRUE)
+})
+
 test_that("bin_space error handling", {
   # We modify this data so copy it first
   occdf <- tetrapods
@@ -50,6 +68,8 @@ test_that("bin_space error handling", {
   # wrong input type
   expect_snapshot(bin_space(occdf = matrix(tetrapods)), error = TRUE)
   expect_snapshot(bin_space(occdf = tetrapods, spacing = NA), error = TRUE)
+  expect_snapshot(bin_space(occdf = tetrapods, spacing = 1:2), error = TRUE)
+  expect_snapshot(bin_space(occdf = tetrapods, sub_grid = 1:2), error = TRUE)
   expect_snapshot(
     bin_space(occdf = tetrapods, spacing = 1000, sub_grid = NA),
     error = TRUE
