@@ -68,7 +68,7 @@
       group_apply(occdf = occdf, group = c("cc", "foobar", "foobar2"), fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! Columns "foobar" and "foobar2" not found in `occdf`.
+      ! Column "foobar" not found in `occdf`.
 
 ---
 

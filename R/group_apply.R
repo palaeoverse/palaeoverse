@@ -86,7 +86,15 @@
 #' @export
 group_apply <- function(occdf, group, fun, ...) {
   rlang::check_data_frame(occdf)
-  check_columns_presence(occdf, group)
+
+  if (length(group) == 0) {
+    cli::cli_abort("{.arg group} must specify at least one column.")
+  }
+  check_character(group)
+  for (idx in seq_along(group)) {
+    check_column_presence(occdf, group[idx])
+  }
+
   check_function(fun)
 
   supp_args <- list(...)
