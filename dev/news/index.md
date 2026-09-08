@@ -15,6 +15,10 @@
   now errors if `spacing` is a numeric vector
   ([\#325](https://github.com/palaeoverse/palaeoverse/issues/325)).
 
+- [`tax_check()`](https://palaeoverse.palaeoverse.org/dev/reference/tax_check.md)
+  now errors if `start = NULL`
+  ([\#336](https://github.com/palaeoverse/palaeoverse/issues/336)).
+
 ## palaeoverse 1.5.0
 
 CRAN release: 2026-06-11
