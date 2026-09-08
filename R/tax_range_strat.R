@@ -129,6 +129,8 @@ tax_range_strat <- function(
   x_args = NULL,
   y_args = NULL
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
   check_column_presence(occdf, name)
   check_column_presence(occdf, level)
