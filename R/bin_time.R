@@ -132,18 +132,20 @@ bin_time <- function(
   check_column_presence(bins, max_ma)
   check_column_presence(bins, "bin")
 
-  occdf_min_ma_vals <- occdf[[min_ma]]
-  occdf_max_ma_vals <- occdf[[max_ma]]
-  check_numeric(occdf_min_ma_vals, allow_na = FALSE, arg = "min_ma")
-  check_numeric(occdf_max_ma_vals, allow_na = FALSE, arg = "max_ma")
+  check_na(occdf, min_ma)
+  check_na(occdf, max_ma)
+  check_class(occdf, min_ma, "numeric")
+  check_class(occdf, max_ma, "numeric")
 
   method <- rlang::arg_match(
     method,
     values = c("mid", "majority", "all", "random", "point")
   )
 
-  check_numeric(reps, required_length = 1)
+  rlang::check_number_whole(reps, min = 0)
 
+  occdf_min_ma_vals <- occdf[[min_ma]]
+  occdf_max_ma_vals <- occdf[[max_ma]]
   bins_min_ma_vals <- bins[[min_ma]]
   bins_max_ma_vals <- bins[[max_ma]]
 

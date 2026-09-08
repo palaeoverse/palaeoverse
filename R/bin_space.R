@@ -127,8 +127,8 @@ bin_space <- function(
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
 
-  check_numeric(spacing, required_length = 1)
-  check_numeric(sub_grid, allow_null = TRUE, required_length = 1)
+  rlang::check_number_decimal(spacing, min = 0)
+  rlang::check_number_decimal(sub_grid, min = 0, allow_null = TRUE)
   rlang::check_bool(return)
   rlang::check_bool(plot)
 

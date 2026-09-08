@@ -101,60 +101,6 @@ check_range <- function(data, column, min, max) {
   }
 }
 
-#' Check whether an object is a numeric vector
-#'
-#' @param x Values to check
-#' @param ... Unused
-#' @param allow_na Whether missing values are allowed
-#' @param allow_null Whether `x` can be NULL.
-#' @param required_length Specific length that `x` must match
-#' @param arg Name of the object to report in the error message
-#' @param call Call to report in the error message
-#'
-#' @noRd
-check_numeric <- function(
-  x,
-  ...,
-  allow_na = TRUE,
-  allow_null = FALSE,
-  required_length = NULL,
-  arg = rlang::caller_arg(x),
-  call = rlang::caller_env()
-) {
-  if (!missing(x)) {
-    if (allow_null && is.null(x)) {
-      return(invisible(NULL))
-    }
-    if (!is.null(required_length) && length(x) != required_length) {
-      cli::cli_abort(
-        "{.code {arg}} must be of length {required_length}, not {length(x)}.",
-        arg = arg,
-        call = call
-      )
-    }
-    if (is.numeric(x)) {
-      if (!allow_na && anyNA(x)) {
-        cli::cli_abort(
-          "{.code {arg}} can't contain NA values.",
-          arg = arg,
-          call = call
-        )
-      }
-      return(invisible(NULL))
-    }
-  }
-
-  rlang::stop_input_type(
-    x,
-    "a numeric value",
-    ...,
-    allow_na = FALSE,
-    allow_null = allow_null,
-    arg = arg,
-    call = call
-  )
-}
-
 #' Check whether an object is a dataframe
 #'
 #' This errors if `data` isn't a dataframe, and it returns no value otherwise.

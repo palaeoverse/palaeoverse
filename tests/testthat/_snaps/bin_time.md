@@ -76,7 +76,7 @@
       bin_time(occdf = occdf, bins = bins, method = "random", reps = TRUE)
     Condition
       Error in `bin_time()`:
-      ! `reps` must be a numeric value, not `TRUE`.
+      ! `reps` must be a whole number, not `TRUE`.
 
 # wrong input for fun
 
@@ -143,5 +143,5 @@
       bin_time(occdf = occdf, bins = bins)
     Condition
       Error in `bin_time()`:
-      ! `max_ma` can't contain NA values.
+      ! Column "max_ma" in `occdf` must not have missing values.
 
