@@ -156,7 +156,6 @@ time_bins <- function(
     check_column_presence(scale, "max_ma")
     check_column_presence(scale, "min_ma")
   } else if (!rlang::is_string(scale)) {
-    # Almost the same as rlang::check_string() but we allow data.frame too
     cli::cli_abort(
       c(
         "{.arg scale} must be one of the following, not {obj_type_friendly(scale)}:",
