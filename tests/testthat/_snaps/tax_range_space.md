@@ -52,7 +52,7 @@
       tax_range_space(chardf)
     Condition
       Error in `tax_range_space()`:
-      ! Column "lng" in `occdf` must be <numeric>, not <character>.
+      ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
 
 ---
 
@@ -76,7 +76,7 @@
       tax_range_space(chardf)
     Condition
       Error in `tax_range_space()`:
-      ! Column "lat" in `occdf` must be <numeric>, not <character>.
+      ! Column "lat" in `occdf` must be of class <numeric>, not <character>.
 
 ---
 

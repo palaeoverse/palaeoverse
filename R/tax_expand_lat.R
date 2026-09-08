@@ -59,6 +59,8 @@ tax_expand_lat <- function(
   check_column_presence(taxdf, max_lat)
   check_column_presence(taxdf, min_lat)
 
+  check_class(taxdf, min_lat, "numeric")
+  check_class(taxdf, min_lat, "numeric")
   check_range(taxdf, min_lat, -90, 90)
   check_range(taxdf, max_lat, -90, 90)
 

@@ -121,6 +121,9 @@ bin_space <- function(
 
   check_column_presence(occdf, lat)
   check_column_presence(occdf, lng)
+
+  check_class(occdf, lat, "numeric")
+  check_class(occdf, lng, "numeric")
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
 

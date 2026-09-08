@@ -1,3 +1,15 @@
+# Error message formatting rules:
+#
+# - argument names are wrapped in backticks, e.g. `dis` should be greater than 1
+#   This requires using {.arg }.
+#
+# - column names are wrapped in double quotations marks, e.g. Column "foo" not found in `occdf`
+#   (occdf is the argument name so is in backticks).
+#   This requires using {.val }.
+#
+# - classes are wrapped in `<>`, e.g. `dis` must be of class <numeric>
+#   This requires using {.cls }.
+
 #' Check whether a column exists in the data
 #'
 #' This errors if `column` doesn't exist in `data`, and it returns no value otherwise.
@@ -74,12 +86,6 @@ check_class <- function(data, column, class) {
 #' @noRd
 check_range <- function(data, column, min, max) {
   vals <- data[[column]]
-  if (!is.numeric(vals)) {
-    cli::cli_abort(
-      "Column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be {.cls numeric}, not {.cls {class(vals)}}.",
-      call = rlang::caller_env()
-    )
-  }
   rng <- vals[vals < min | vals > max]
   if (length(rng) > 0) {
     to_report <- unique(rng)
