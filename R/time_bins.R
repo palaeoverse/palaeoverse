@@ -123,6 +123,8 @@ time_bins <- function(
   scale = "GTS2020",
   plot = FALSE
 ) {
+  ensure_args_are_named()
+
   if (!is.null(interval) && !is.character(interval) && !is.numeric(interval)) {
     cli::cli_abort(
       "{.arg interval} must be {.code NULL} or of class {.cls character} or {.cls numeric}, not {obj_type_friendly(interval)}."
