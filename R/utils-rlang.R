@@ -205,7 +205,7 @@ check_min_lower_than_max <- function(data, min_column, max_column) {
     cli::cli_abort(
       c(
         "Maximum age must be larger than or equal to minimum age.",
-        "i" = "Row(s) of {.arg {rlang::caller_arg(data)}} where {.arg {rlang::caller_arg(max_column)}} is smaller than {.arg {rlang::caller_arg(min_column)}}{truncated}: {.val {to_report}}."
+        "i" = "Row(s) of {.arg {rlang::caller_arg(data)}} where {.val {max_column}} is smaller than {.val {min_column}}{truncated}: {.val {to_report}}."
       ),
       call = rlang::caller_env()
     )

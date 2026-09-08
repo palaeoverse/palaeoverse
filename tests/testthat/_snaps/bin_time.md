@@ -69,7 +69,7 @@
     Condition
       Error in `bin_time()`:
       ! Maximum age must be larger than or equal to minimum age.
-      i Row(s) of `occdf` where `max_ma` is smaller than `min_ma`: 2, 3.
+      i Row(s) of `occdf` where "max_ma" is smaller than "min_ma": 2, 3.
 
 ---
 
@@ -78,7 +78,7 @@
     Condition
       Error in `bin_time()`:
       ! Maximum age must be larger than or equal to minimum age.
-      i Row(s) of `bins` where `max_ma` is smaller than `min_ma`: 2, 3.
+      i Row(s) of `bins` where "max_ma" is smaller than "min_ma": 2, 3.
 
 # wrong input for method
 

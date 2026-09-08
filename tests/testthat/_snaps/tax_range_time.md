@@ -197,7 +197,7 @@
     Condition
       Error in `tax_range_time()`:
       ! Maximum age must be larger than or equal to minimum age.
-      i Row(s) of `occdf` where `max_ma` is smaller than `min_ma`: 2, 3.
+      i Row(s) of `occdf` where "max_ma" is smaller than "min_ma": 2, 3.
 
 # argument 'group' works
 
