@@ -87,12 +87,15 @@
 group_apply <- function(occdf, group, fun, ...) {
   rlang::check_data_frame(occdf)
 
+  check_character(group)
   if (length(group) == 0) {
     cli::cli_abort("{.arg group} must specify at least one column.")
   }
-  check_character(group)
-  for (idx in seq_along(group)) {
-    check_column_presence(occdf, group[idx])
+  unknown_cols <- setdiff(group, colnames(occdf))
+  if (length(unknown_cols) > 0) {
+    cli::cli_abort(
+      "Column{?s} {.val {unknown_cols}} not found in {.arg occdf}."
+    )
   }
 
   check_function(fun)

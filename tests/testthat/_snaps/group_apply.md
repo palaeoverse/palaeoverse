@@ -28,7 +28,7 @@
       group_apply(occdf = occdf, fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! argument "group" is missing, with no default
+      ! `group` must be a character vector, not absent.
 
 ---
 
@@ -36,7 +36,7 @@
       group_apply(occdf = occdf, group = NULL, fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! `group` must specify at least one column.
+      ! `group` must be a character vector, not `NULL`.
 
 ---
 
@@ -68,7 +68,7 @@
       group_apply(occdf = occdf, group = c("cc", "foobar", "foobar2"), fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! Column "foobar" not found in `occdf`.
+      ! Columns "foobar" and "foobar2" not found in `occdf`.
 
 ---
 
