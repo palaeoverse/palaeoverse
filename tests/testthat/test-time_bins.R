@@ -311,9 +311,7 @@ test_that("arg 'size' works", {
   )
   expect_snapshot(time_bins(interval = "Mesozoic", size = NA), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", size = 1:2), error = TRUE)
-
-  # TODO: should error
-  # expect_snapshot(time_bins(interval = "Mesozoic", size = -1), error = TRUE)
+  expect_snapshot(time_bins(interval = "Mesozoic", size = -1), error = TRUE)
 })
 
 test_that("arg 'n_bins' works", {
@@ -381,11 +379,10 @@ test_that("arg 'assign' works", {
   expect_snapshot(time_bins(interval = "Mesozoic", assign = -40), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", assign = "30"), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", assign = NA), error = TRUE)
-  # TODO: should error
-  # expect_snapshot(
-  #   time_bins(interval = "Mesozoic", assign = numeric(0)),
-  #   error = TRUE
-  # )
+  expect_snapshot(
+    time_bins(interval = "Mesozoic", assign = numeric(0)),
+    error = TRUE
+  )
   expect_snapshot(time_bins(interval = "Mesozoic", assign = 1:2), error = TRUE)
 })
 

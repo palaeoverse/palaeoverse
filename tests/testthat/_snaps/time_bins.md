@@ -238,6 +238,14 @@
       Error in `time_bins()`:
       ! `size` must be a number or `NULL`, not an integer vector.
 
+---
+
+    Code
+      time_bins(interval = "Mesozoic", size = -1)
+    Condition
+      Error in `time_bins()`:
+      ! `size` must be a number larger than or equal to 0 or `NULL`, not the number -1.
+
 # arg 'n_bins' works
 
     Code
@@ -301,7 +309,7 @@
       time_bins(interval = "Mesozoic", assign = "30")
     Condition
       Error in `time_bins()`:
-      ! `assign` must be of class <numeric>, not the string "30".
+      ! `assign` must be of class <numeric> or `NULL`, not the string "30".
 
 ---
 
@@ -309,7 +317,15 @@
       time_bins(interval = "Mesozoic", assign = NA)
     Condition
       Error in `time_bins()`:
-      ! `assign` must be of class <numeric>, not `NA`.
+      ! `assign` must be of class <numeric> or `NULL`, not `NA`.
+
+---
+
+    Code
+      time_bins(interval = "Mesozoic", assign = numeric(0))
+    Condition
+      Error in `time_bins()`:
+      ! `assign` must be of class <numeric> or `NULL`, not an empty numeric vector.
 
 ---
 
