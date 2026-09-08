@@ -47,49 +47,14 @@ lat_bins_degrees <- function(
   fit = FALSE,
   plot = FALSE
 ) {
-  #error handling
-  if (!is.numeric(size)) {
-    stop("`size` should be a numeric")
-  }
-
-  if (length(size) != 1) {
-    stop("`size` must have length 1.")
-  }
-  if (length(min) != 1) {
-    stop("`min` must have length 1.")
-  }
-  if (length(max) != 1) {
-    stop("`max` must have length 1.")
-  }
-  if (length(fit) != 1) {
-    stop("`fit` must have length 1.")
-  }
-  if (length(plot) != 1) {
-    stop("`plot` must have length 1.")
-  }
-
-  if (is.na(max) || max > 90 || max < -90) {
-    stop("`max` should be less than 90 and more than -90")
-  }
-
-  if (is.na(min) || min > 90 || min < -90) {
-    stop("`min` should be less than 90 and more than -90")
-  }
+  rlang::check_number_decimal(size, min = 0, max = 90)
+  rlang::check_number_decimal(min, min = -90, max = 90)
+  rlang::check_number_decimal(max, min = -90, max = 90)
+  rlang::check_bool(fit)
+  rlang::check_bool(plot)
 
   if (min >= max) {
-    stop("`min` should be less than `max`")
-  }
-
-  if (is.na(size) || size > 90 || size < 0) {
-    stop("`size` should be more than 0 and less than or equal to 90")
-  }
-
-  if (!is.logical(fit) || is.na(fit)) {
-    stop("`fit` should be logical (TRUE/FALSE)")
-  }
-
-  if (!is.logical(plot) || is.na(plot)) {
-    stop("`plot` should be logical (TRUE/FALSE)")
+    cli::cli_abort("{.arg min} must be less than {.arg max}.")
   }
 
   # Latitudinal range
@@ -139,11 +104,9 @@ lat_bins_degrees <- function(
   }
 
   if (fit) {
-    message(paste0(
-      "Bin size set to ",
-      size,
-      " degrees to fit latitudinal range."
-    ))
+    cli::cli_inform(
+      "Bin size set to {size} degree{?s} to fit latitudinal range."
+    )
   }
 
   return(df)
