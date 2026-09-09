@@ -643,7 +643,7 @@ tetrapods changed throughout the Carboniferous and Permian:
 ``` r
 
 # Find the average geographic range size for each time interval
-space_tetrapods_mean <- group_apply(space_tetrapods, "bin_midpoint", function(df) mean(df$area))
+space_tetrapods_mean <- group_apply(space_tetrapods, group = "bin_midpoint", fun = function(df) mean(df$area))
 colnames(space_tetrapods_mean) <- c("mean_area", "bin_midpoint")
 
 # Create a plot of average range size through time
