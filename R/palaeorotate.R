@@ -177,6 +177,8 @@ palaeorotate <- function(
   uncertainty = TRUE,
   round = 3
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   # This is used in error messages to report in which function call the error occurred. We save it
   # here so that we don't need to use e.g. `rlang::caller_env(4)` when running `cli::cli_abort()`
   # in `tryCatch()`.
