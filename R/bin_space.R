@@ -109,38 +109,14 @@
 #' })
 #' @export
 bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
-  #=== Error handling ===
-  if (!is.data.frame(occdf)) {
-    stop("occdf should be of class dataframe")
-  }
+  ensure_args_are_named(exceptions = "occdf")
 
-  if (
-    !lng %in% colnames(occdf) ||
-      !lat %in% colnames(occdf)
-  ) {
-    stop("input column names do not exist in `occdf`")
-  }
-
-  if (
-    !is.numeric(occdf[, lng, drop = TRUE]) ||
-      !is.numeric(occdf[, lat, drop = TRUE])
-  ) {
-    stop("input coordinates are not of class numeric")
-  }
-
-  if (
-    any(occdf[, lat, drop = TRUE] > 90) ||
-      any(occdf[, lat, drop = TRUE] < -90)
-  ) {
-    stop("Latitudinal coordinates should be more than -90 and less than 90")
-  }
-
-  if (
-    any(occdf[, lng, drop = TRUE] > 180) ||
-      any(occdf[, lng, drop = TRUE] < -180)
-  ) {
-    stop("Longitudinal coordinates should be more than -180 and less than 180")
-  }
+  check_data_frame(occdf)
+  check_data_frame(bins)
+  check_column_presence(occdf, lat)
+  check_column_presence(occdf, lng)
+  check_range(occdf, lat, -90, 90)
+  check_range(occdf, lng, -180, 180)
 
   #=== Set-up ===
   # Convert to sf object and add CRS
@@ -219,12 +195,15 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
       names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
     }
   }
-  message(
-    "Average spacing between adjacent cells in the primary grid was set to ",
-    round(grid$avg_cendist_km[1], digits = 2),
-    " km. ",
-    "\nH3 resolution: ",
-    grid$h3_resolution[1]
+  cli::cli_inform(
+    c(
+      paste0(
+        "Average spacing between adjacent cells in the primary grid was set to ",
+        round(grid$avg_cendist_km[1], digits = 2),
+        " km. "
+      ),
+      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
+    )
   )
   return(occdf)
 }

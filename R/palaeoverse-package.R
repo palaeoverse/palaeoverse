@@ -5,5 +5,6 @@
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
 #' @importFrom lifecycle deprecated
+#' @importFrom utils head
 ## usethis namespace: end
 NULL

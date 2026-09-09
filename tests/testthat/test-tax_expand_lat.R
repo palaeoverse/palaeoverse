@@ -67,13 +67,37 @@ test_that("basic behavior works", {
     error = TRUE
   )
 
+  # same with many values outside the range
+  expect_snapshot(
+    tax_expand_lat(
+      taxdf = data.frame(
+        name = "a",
+        max_lat = 91:100,
+        min_lat = 1
+      ),
+      bins = bins
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(
+      taxdf = data.frame(
+        name = "a",
+        max_lat = 1,
+        min_lat = 91:100
+      ),
+      bins = bins
+    ),
+    error = TRUE
+  )
+
   # wrong column types
   expect_snapshot(
     tax_expand_lat(
       taxdf = data.frame(
         name = c("A", "B", "C"),
         max_lat = c("60", "20", "-10"),
-        min_lat = c(-92, -40, -60)
+        min_lat = c(-90, -40, -60)
       ),
       bins = bins
     ),
@@ -99,6 +123,18 @@ test_that("basic behavior works", {
         name = c("A", "B", "C"),
         max_lat = c(60, 20, -10),
         min_lat = c(72, -40, -60)
+      ),
+      bins = bins
+    ),
+    error = TRUE
+  )
+  # same with many cases
+  expect_snapshot(
+    tax_expand_lat(
+      taxdf = data.frame(
+        name = "a",
+        max_lat = c(90, 1:10),
+        min_lat = c(72, 21:30)
       ),
       bins = bins
     ),
@@ -193,6 +229,9 @@ test_that("args 'min_lat' and 'max_lat' work", {
     tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = c("a", "b")),
     error = TRUE
   )
+
+  # So that we don't need to specify the max_lat argument in the calls below
+  colnames(taxdf)[2] <- "max_lat"
 
   expect_snapshot(
     tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = "nonexistent"),

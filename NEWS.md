@@ -2,6 +2,14 @@
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
+## Bug fixes
+
+* `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).
+
+* `tax_range_space()` now errors if `spacing` is a numeric vector (#325).
+
+* `tax_check()` now errors if `start = NULL` (#336).
+
 # palaeoverse 1.5.0
 
 ## New features

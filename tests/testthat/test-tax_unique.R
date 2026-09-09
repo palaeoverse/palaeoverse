@@ -33,12 +33,6 @@ test_that("basic behaviour works", {
     )
   )
 
-  # input checks
-  expect_snapshot(tax_unique(), error = TRUE)
-  expect_snapshot(tax_unique(data.frame()), error = TRUE)
-  expect_snapshot(tax_unique(100), error = TRUE)
-  expect_snapshot(tax_unique(NA), error = TRUE)
-
   # must have columns genus and species
   expect_snapshot(
     tax_unique(
@@ -68,6 +62,13 @@ test_that("basic behaviour works", {
     ),
     error = TRUE
   )
+
+  # input checks
+  expect_snapshot(tax_unique(data.frame()), error = TRUE)
+  expect_snapshot(tax_unique(100), error = TRUE)
+  expect_snapshot(tax_unique(NA), error = TRUE)
+  skip_if(getRversion() < "4.3.0")
+  expect_snapshot(tax_unique(), error = TRUE)
 })
 
 test_that("tax_unique() cannot use the same column for multiple arguments", {

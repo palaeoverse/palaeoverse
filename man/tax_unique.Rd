@@ -5,7 +5,7 @@
 \title{Filter occurrences to unique taxa}
 \usage{
 tax_unique(
-  occdf = NULL,
+  occdf,
   binomial = NULL,
   species = NULL,
   genus = NULL,

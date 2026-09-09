@@ -22,10 +22,11 @@ test_that("basic behavior works", {
   expect_true(unique(out[out$taxon_name %in% list, "present_in_list"]))
 
   # input checks
-  expect_snapshot(phylo_check(), error = TRUE)
-  expect_snapshot(phylo_check(1), error = TRUE)
   expect_snapshot(phylo_check(data.frame()), error = TRUE)
+  expect_snapshot(phylo_check(1), error = TRUE)
   expect_snapshot(phylo_check(NA), error = TRUE)
+  skip_if(getRversion() < "4.3.0")
+  expect_snapshot(phylo_check(), error = TRUE)
 })
 
 test_that("arg 'list' works", {
@@ -40,9 +41,6 @@ test_that("arg 'list' works", {
 
   # doesn't accept punctuation
   expect_snapshot(phylo_check(tree, c("foo.bar")), error = TRUE)
-
-  # input checks
-  expect_snapshot(phylo_check(tree), error = TRUE)
 
   # TODO: all those cases should error, docs say it should be a character vector
   # expect_snapshot(phylo_check(tree, list = 1), error = TRUE)
@@ -61,6 +59,10 @@ test_that("arg 'list' works", {
       row.names = 38:39
     )
   )
+
+  # input checks
+  skip_if(getRversion() < "4.3.0")
+  expect_snapshot(phylo_check(tree), error = TRUE)
 })
 
 test_that("arg 'out' works", {
@@ -111,7 +113,7 @@ test_that("arg 'out' works", {
     list(
       edge = matrix(
         c(
-          8L, 9L, 10L, 11L, 11L, 10L, 12L, 12L, 9L, 8L, 13L, 13L, 9L, 10L, 11L, 
+          8L, 9L, 10L, 11L, 11L, 10L, 12L, 12L, 9L, 8L, 13L, 13L, 9L, 10L, 11L,
           1L, 2L, 12L, 3L, 4L, 5L, 13L, 6L, 7L
         ),
         nrow = 12L,
@@ -139,6 +141,10 @@ test_that("arg 'out' works", {
   expect_snapshot(phylo_check(tree, list, out = 1), error = TRUE)
   expect_snapshot(phylo_check(tree, list, out = NA), error = TRUE)
   expect_snapshot(phylo_check(tree, list, out = NULL), error = TRUE)
+  expect_snapshot(
+    phylo_check(tree, list, out = c("counts", "tree")),
+    error = TRUE
+  )
 })
 
 test_that("arg 'sort' works", {
@@ -173,6 +179,10 @@ test_that("arg 'sort' works", {
   expect_snapshot(phylo_check(tree, list, sort = 1), error = TRUE)
   expect_snapshot(phylo_check(tree, list, sort = NA), error = TRUE)
   expect_snapshot(phylo_check(tree, list, sort = NULL), error = TRUE)
+  expect_snapshot(
+    phylo_check(tree, list, sort = c("presence", "az")),
+    error = TRUE
+  )
 
   # TODO: this should error since "sort" is useless when out = "tree" or "counts"
   # expect_snapshot(

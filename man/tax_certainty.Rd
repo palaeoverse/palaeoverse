@@ -4,13 +4,7 @@
 \alias{tax_certainty}
 \title{Classify the certainty of taxonomic identifications}
 \usage{
-tax_certainty(
-  taxdf = NULL,
-  name = NULL,
-  terms = NULL,
-  certainty = c(1, 0),
-  append = TRUE
-)
+tax_certainty(taxdf, name, terms = NULL, certainty = c(1, 0), append = TRUE)
 }
 \arguments{
 \item{taxdf}{\code{data.frame}. A \code{data.frame} with a named column
