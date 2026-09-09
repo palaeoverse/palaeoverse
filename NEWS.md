@@ -1,24 +1,14 @@
 # palaeoverse (development version)
 
-* `palaeoverse` requires R >= 4.1.0 (#181).
+This version contains many breaking changes. See the [2.0 migration guide]() for
+guidance to update existing code.
 
 ## Breaking changes
 
-* All functions now require arguments to be fully named, except when the first 
-  argument is a `data.frame` (#216). For example, the following cases would fail:
+* `palaeoverse` requires R >= 4.1.0 (#181).
 
-  ```r
-  # `taxdf` can be unnamed, but `identified_name` must be named
-  tax_certainty(taxdf, "identified_name")
-
-  # Partial argument names are not allowed
-  tax_certainty(taxdf, nam = "identified_name")
-  ```
-  This should be used instead:
-
-  ```r
-  tax_certainty(taxdf, name = "identified_name")
-  ```
+* All functions now require arguments to be fully named, except for the first 
+  argument in some cases (#216).
 
 ## Bug fixes
 
