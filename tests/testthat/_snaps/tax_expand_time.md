@@ -174,7 +174,7 @@
       tax_expand_time(taxdf, scale = "foo")
     Condition
       Error:
-      ! `name` does not match a built-in or Macrostrat time scale.
+      ! `scale` must match a built-in or Macrostrat time scale.
 
 ---
 
