@@ -145,15 +145,6 @@
 ---
 
     Code
-      tax_expand_lat(taxdf, bins)
-    Condition
-      Error in `tax_expand_lat()`:
-      ! All arguments must be named (except for "taxdf").
-      i Currently, there is 1 argument that should be named.
-
----
-
-    Code
       tax_expand_lat(taxdf, bins, "max_lat")
     Condition
       Error in `tax_expand_lat()`:

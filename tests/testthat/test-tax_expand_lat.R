@@ -208,7 +208,6 @@ test_that("tax_expand_lat errors with unnamed args", {
   )
 
   expect_snapshot(tax_expand_lat(taxdf, bins), error = TRUE)
-  expect_snapshot(tax_expand_lat(taxdf, bins), error = TRUE)
   expect_snapshot(tax_expand_lat(taxdf, bins, "max_lat"), error = TRUE)
   expect_snapshot(
     tax_expand_lat(taxdf, bins, max_lat = "max_lat"),
