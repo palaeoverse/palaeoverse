@@ -5,6 +5,17 @@ test_that("throws error for missing required arguments", {
   expect_snapshot(tax_certainty(taxdf = tetrapods), error = TRUE)
 })
 
+test_that("tax_certainty errors with unnamed args", {
+  occdf <- tetrapods[1:5, ]
+  expect_snapshot(tax_certainty(occdf, "identified_name"), error = TRUE)
+  expect_snapshot(tax_certainty(taxdf = occdf, "identified_name"), error = TRUE)
+  expect_snapshot(tax_certainty(occdf, "identified_name", NULL), error = TRUE)
+  expect_snapshot(
+    tax_certainty(occdf, "identified_name", terms = NULL),
+    error = TRUE
+  )
+})
+
 test_that("tax_certainty() basic behavior", {
   data("tetrapods")
   occdf <- tetrapods[1:5, ]
