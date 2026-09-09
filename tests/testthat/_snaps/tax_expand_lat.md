@@ -75,7 +75,8 @@
       bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Column "min_lat" in `taxdf` must be of class <numeric>, not <integer>.
+      ! All values of column "min_lat" in `taxdf` must be between -90 and 90.
+      i Value(s) outside the range (first 5): 91, 92, 93, 94, 95.
 
 ---
 

@@ -138,6 +138,7 @@ bin_time <- function(
   check_na(occdf, max_ma)
   check_class(occdf, min_ma, "numeric")
   check_class(occdf, max_ma, "numeric")
+  check_min_lower_than_max(occdf, min_ma, max_ma)
 
   method <- rlang::arg_match(
     method,
