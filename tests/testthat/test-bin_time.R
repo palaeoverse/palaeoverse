@@ -353,13 +353,45 @@ test_that("wrong input for occdf", {
     bin_time(occdf = data.frame(), bins = data.frame(), method = "mid"),
     error = TRUE
   )
+  expect_snapshot(
+    bin_time(occdf = test_occdf, bins = data.frame(), method = "mid"),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_time(occdf = test_occdf, bins = data.frame(), method = "mid"),
+    error = TRUE
+  )
 
   # dataframe that doesn't have the expected columns
-  # TODO: this error message should be clearer
   expect_snapshot(
     bin_time(mtcars, occdf = c(50, 20, 10)),
     error = TRUE
   )
+
+  # max must be greater than min in bins and occdf
+  occdf <- data.frame(
+    name = c("occ1", "occ2", "occ3"),
+    min_ma = c(0, 10, 5),
+    max_ma = c(10, 9, 3)
+  )
+  bins <- data.frame(
+    bin = 1:3,
+    min_ma = c(0, 8, 10),
+    max_ma = c(10, 9, 15)
+  )
+  expect_snapshot(bin_time(occdf, bins = bins), error = TRUE)
+
+  occdf <- data.frame(
+    name = c("occ1", "occ2", "occ3"),
+    min_ma = c(0, 10, 5),
+    max_ma = c(10, 11, 13)
+  )
+  bins <- data.frame(
+    bin = 1:3,
+    min_ma = c(0, 10, 5),
+    max_ma = c(10, 9, 3)
+  )
+  expect_snapshot(bin_time(occdf, bins = bins), error = TRUE)
 })
 
 test_that("wrong input for method", {
