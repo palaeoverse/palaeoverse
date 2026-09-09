@@ -23,6 +23,34 @@ test_that("arg 'occdf' works", {
   )
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  skip_if_offline(host = "gws.gplates.org")
+  skip_if_not_installed("vcr")
+
+  occdf <- data.frame(
+    lng = c(2, -103, -66),
+    lat = c(46, 35, -7),
+    age = c(88, 125, 300)
+  )
+
+  vcr::use_cassette("palaeorotate-paleomap", {
+    piped <- occdf |> palaeorotate(model = "PALEOMAP")
+  })
+  vcr::use_cassette("palaeorotate-paleomap", {
+    not_piped <- palaeorotate(occdf, model = "PALEOMAP")
+  })
+
+  expect_equal(piped, not_piped)
+})
+
+test_that("palaeorotate errors with unnamed args", {
+  occdf <- data.frame(lng = c(2, -103), lat = c(46, 35), age = c(88, 125))
+  expect_snapshot(palaeorotate(occdf, "lng"), error = TRUE)
+  expect_snapshot(palaeorotate(occdf = occdf, "lng"), error = TRUE)
+  expect_snapshot(palaeorotate(occdf, "lng", "lat"), error = TRUE)
+  expect_snapshot(palaeorotate(occdf, "lng", lat = "lat"), error = TRUE)
+})
+
 test_that("Large occdf inputs are chunked before being sent to the API", {
   skip_if_offline(host = "gws.gplates.org")
   skip_if_not_installed("vcr")
