@@ -78,7 +78,7 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = -1))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "age" in `occdf` must be between 0 and Inf.
+      ! All values of column "age" in `occdf` must be positive.
       i Value(s) outside the range: -1.
 
 ---
