@@ -17,6 +17,25 @@ test_that("axis_geo() works", {
   })
 })
 
+test_that("axis_geo() errors with unnamed args", {
+  expect_snapshot(
+    axis_geo(side = 1, intervals = "periods", "Time (Ma)"),
+    error = TRUE
+  )
+  expect_snapshot(axis_geo(side = 1, "periods", "Time (Ma)"), error = TRUE)
+  expect_snapshot(axis_geo(1, "periods", "Time (Ma)"), error = TRUE)
+
+  # `labels` is passed to `...` so it shouldn't be reported
+  expect_snapshot(
+    axis_geo(side = 1, intervals = "periods", "Time (Ma)", labels = FALSE),
+    error = TRUE
+  )
+})
+
+test_that("axis_geo_phylo() errors with unnamed args", {
+  expect_snapshot(axis_geo_phylo("Time (Ma)"), error = TRUE)
+})
+
 test_that("axis_geo() works with title", {
   expect_doppelganger("axis_geo() with title", function() {
     plot(
