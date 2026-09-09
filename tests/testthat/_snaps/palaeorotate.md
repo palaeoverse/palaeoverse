@@ -22,6 +22,42 @@
       Error in `palaeorotate()`:
       ! Column "age" not found in `occdf`.
 
+# palaeorotate errors with unnamed args
+
+    Code
+      palaeorotate(occdf, "lng")
+    Condition
+      Error in `palaeorotate()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      palaeorotate(occdf = occdf, "lng")
+    Condition
+      Error in `palaeorotate()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      palaeorotate(occdf, "lng", "lat")
+    Condition
+      Error in `palaeorotate()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      palaeorotate(occdf, "lng", lat = "lat")
+    Condition
+      Error in `palaeorotate()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
 # input checks for longitude
 
     Code

@@ -102,6 +102,7 @@ tax_certainty <- function(
   certainty = c(1, 0),
   append = TRUE
 ) {
+  ensure_args_are_named(exceptions = "taxdf")
   check_data_frame(taxdf)
   check_column_presence(taxdf, name)
   check_class(taxdf, name, "character")
