@@ -123,6 +123,8 @@ bin_time <- function(
   fun = dunif,
   ...
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
   check_data_frame(bins)
 
@@ -136,6 +138,7 @@ bin_time <- function(
   occdf_max_ma_vals <- occdf[[max_ma]]
   check_numeric(occdf_min_ma_vals, allow_na = FALSE, arg = "min_ma")
   check_numeric(occdf_max_ma_vals, allow_na = FALSE, arg = "max_ma")
+  check_min_lower_than_max(occdf, min_ma, max_ma)
 
   method <- rlang::arg_match(
     method,
@@ -146,6 +149,7 @@ bin_time <- function(
 
   bins_min_ma_vals <- bins[[min_ma]]
   bins_max_ma_vals <- bins[[max_ma]]
+  check_min_lower_than_max(bins, min_ma, max_ma)
 
   if (max(occdf_max_ma_vals) > max(bins_max_ma_vals)) {
     cli::cli_abort(
