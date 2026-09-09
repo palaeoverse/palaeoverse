@@ -81,8 +81,8 @@
 ---
 
     Code
-      tax_expand_lat(data.frame(name = c("A", "B", "C"), max_lat = c("60", "20",
-        "-10"), min_lat = c(-90, -40, -60)), bins = bins)
+      tax_expand_lat(taxdf = data.frame(name = c("A", "B", "C"), max_lat = c("60",
+        "20", "-10"), min_lat = c(-90, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
       ! Column "max_lat" in `taxdf` must be <numeric>, not <character>.
@@ -109,8 +109,8 @@
 ---
 
     Code
-      tax_expand_lat(data.frame(name = "a", max_lat = c(90, 1:10), min_lat = c(72, 21:
-        30)), bins = bins)
+      tax_expand_lat(taxdf = data.frame(name = "a", max_lat = c(90, 1:10), min_lat = c(
+        72, 21:30)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
       ! Maximum latitude must be larger than or equal to minimum latitude.

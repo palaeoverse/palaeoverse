@@ -94,7 +94,7 @@ test_that("basic behavior works", {
   # wrong column types
   expect_snapshot(
     tax_expand_lat(
-      data.frame(
+      taxdf = data.frame(
         name = c("A", "B", "C"),
         max_lat = c("60", "20", "-10"),
         min_lat = c(-90, -40, -60)
@@ -131,7 +131,7 @@ test_that("basic behavior works", {
   # same with many cases
   expect_snapshot(
     tax_expand_lat(
-      data.frame(
+      taxdf = data.frame(
         name = "a",
         max_lat = c(90, 1:10),
         min_lat = c(72, 21:30)
