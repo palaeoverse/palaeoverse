@@ -17,7 +17,7 @@ test_that("basic behavior works", {
 
   # Example: "B" has min_lat = 20 and max_lat = 50 so it fits in bins 1, 2, and 3
   expect_equal(
-    tax_expand_lat(taxdf, bins = bins),
+    tax_expand_lat(taxdf = taxdf, bins = bins),
     data.frame(
       name = rep(c("B", "A", "C"), each = 3),
       max_lat = rep(c(50, 20, -10), each = 3),
@@ -30,7 +30,7 @@ test_that("basic behavior works", {
   )
 
   # input checks
-  expect_snapshot(tax_expand_lat(5), error = TRUE)
+  expect_snapshot(tax_expand_lat(taxdf = 5), error = TRUE)
   expect_snapshot(tax_expand_lat(taxdf), error = TRUE)
   expect_snapshot(tax_expand_lat(taxdf, bins = 1), error = TRUE)
   expect_snapshot(
@@ -45,7 +45,7 @@ test_that("basic behavior works", {
   # min-max of latitude must be between -90 and 90
   expect_snapshot(
     tax_expand_lat(
-      data.frame(
+      taxdf = data.frame(
         name = c("A", "B", "C"),
         max_lat = c(92, 20, -10),
         min_lat = c(20, -40, -60)
@@ -57,7 +57,7 @@ test_that("basic behavior works", {
 
   expect_snapshot(
     tax_expand_lat(
-      data.frame(
+      taxdf = data.frame(
         name = c("A", "B", "C"),
         max_lat = c(60, 20, -10),
         min_lat = c(-92, -40, -60)
@@ -70,7 +70,7 @@ test_that("basic behavior works", {
   # same with many values outside the range
   expect_snapshot(
     tax_expand_lat(
-      data.frame(
+      taxdf = data.frame(
         name = "a",
         max_lat = 91:100,
         min_lat = 1
@@ -81,7 +81,7 @@ test_that("basic behavior works", {
   )
   expect_snapshot(
     tax_expand_lat(
-      data.frame(
+      taxdf = data.frame(
         name = "a",
         max_lat = 1,
         min_lat = 91:100
@@ -106,7 +106,7 @@ test_that("basic behavior works", {
 
   expect_snapshot(
     tax_expand_lat(
-      data.frame(
+      taxdf = data.frame(
         name = c("A", "B", "C"),
         max_lat = c(60, 20, -10),
         min_lat = c("20", -40, -60)
@@ -119,7 +119,7 @@ test_that("basic behavior works", {
   # can't have min latitude > max latitude
   expect_snapshot(
     tax_expand_lat(
-      data.frame(
+      taxdf = data.frame(
         name = c("A", "B", "C"),
         max_lat = c(60, 20, -10),
         min_lat = c(72, -40, -60)
@@ -144,7 +144,7 @@ test_that("basic behavior works", {
   # must have unique rows
   expect_snapshot(
     tax_expand_lat(
-      data.frame(
+      taxdf = data.frame(
         name = c("A", "A", "C"),
         max_lat = c(60, 60, -10),
         min_lat = c(20, 20, -60)
@@ -161,7 +161,7 @@ test_that("basic behavior works", {
   #   max_lat = c(60, 50, -10),
   #   min_lat = c(20, 40, -60)
   # )
-  # expect_snapshot(tax_expand_lat(taxdf, bins = bins), error = TRUE)
+  # expect_snapshot(tax_expand_lat(taxdf = taxdf, bins = bins), error = TRUE)
 
   # missing column
   taxdf <- data.frame(
@@ -170,7 +170,7 @@ test_that("basic behavior works", {
     min_lat = c(20, -40, -60)
   )
   bins <- bins[, -1]
-  expect_snapshot(tax_expand_lat(taxdf, bins = bins), error = TRUE)
+  expect_snapshot(tax_expand_lat(taxdf = taxdf, bins = bins), error = TRUE)
 })
 
 test_that("piping and not piping the first argument give the same result", {
@@ -230,12 +230,12 @@ test_that("args 'min_lat' and 'max_lat' work", {
     foo_min = c(-10, 20, -40)
   )
 
-  expect_snapshot(tax_expand_lat(taxdf, bins = bins), error = TRUE)
+  expect_snapshot(tax_expand_lat(taxdf = taxdf, bins = bins), error = TRUE)
 
   # Example: "B" has min_lat = 20 and max_lat = 50 so it fits in bins 1, 2, and 3
   expect_equal(
     tax_expand_lat(
-      taxdf,
+      taxdf = taxdf,
       bins = bins,
       max_lat = "foo_max",
       min_lat = "foo_min"
@@ -253,23 +253,23 @@ test_that("args 'min_lat' and 'max_lat' work", {
 
   # input checks
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, max_lat = "nonexistent"),
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = "nonexistent"),
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, max_lat = NULL),
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = NULL),
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, max_lat = character(0)),
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = character(0)),
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, max_lat = NA),
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = NA),
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, max_lat = c("a", "b")),
+    tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = c("a", "b")),
     error = TRUE
   )
 
@@ -277,23 +277,23 @@ test_that("args 'min_lat' and 'max_lat' work", {
   colnames(taxdf)[2] <- "max_lat"
 
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, min_lat = "nonexistent"),
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = "nonexistent"),
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, min_lat = NULL),
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = NULL),
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, min_lat = character(0)),
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = character(0)),
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, min_lat = NA),
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = NA),
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_lat(taxdf, bins = bins, min_lat = c("a", "b")),
+    tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = c("a", "b")),
     error = TRUE
   )
 })
