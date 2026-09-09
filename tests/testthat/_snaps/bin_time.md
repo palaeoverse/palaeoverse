@@ -57,11 +57,10 @@
 ---
 
     Code
-      bin_time(mtcars, occdf = c(50, 20, 10))
+      bin_time(bins = mtcars, occdf = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
-      ! All arguments must be named (except for "occdf").
-      i Currently, there is 1 argument that should be named.
+      ! `occdf` must be of class <data.frame>, not a double vector.
 
 ---
 
