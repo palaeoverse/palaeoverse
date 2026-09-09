@@ -112,7 +112,15 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
   ensure_args_are_named(exceptions = c("occdf", "bins"))
 
   check_data_frame(occdf)
-  check_data_frame(bins)
+  if (!inherits(bins, "palaeo_space_bins") && !inherits(bins, "sfc_POLYGON")) {
+    cli::cli_abort(
+      c(
+        "{.arg bins} must be of class {.cls palaeo_space_bins} or {.cls sfc_POLYGON}.",
+        "i" = "Hint: you can create space bins with {.fn space_bins}."
+      )
+    )
+  }
+
   check_column_presence(occdf, lat)
   check_column_presence(occdf, lng)
   check_range(occdf, lat, -90, 90)
@@ -151,48 +159,6 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
     res = bins$h3_resolution,
     simple = TRUE
   )
-  # Get base cells
-  base_grid <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
-
-  # Get occupied cells
-  primary <- h3jsr::cell_to_polygon(input = occdf$cell_ID, simple = TRUE)
-
-  # Plot data?
-  if (plot) {
-    plot(
-      base_grid,
-      setParUsrBB = TRUE,
-      xlab = "Longitude",
-      ylab = "Latitude",
-      axes = TRUE
-    )
-    plot(
-      primary,
-      col = "#feb24c",
-      axes = TRUE,
-      ylab = "Latitude",
-      xlab = "Longitude",
-      add = TRUE
-    )
-    if (!is.null(sub_grid)) {
-      secondary <- h3jsr::cell_to_polygon(
-        input = occdf$cell_ID_sub,
-        simple = TRUE
-      )
-      plot(secondary, col = "#1d91c0", add = TRUE)
-    }
-  }
-  # Should the grid be returned?
-  if (return) {
-    if (!is.null(sub_grid)) {
-      grid <- rbind.data.frame(bins, s_grid)
-      occdf <- list(occdf, grid, base_grid, primary, secondary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid", "sub_grid")
-    } else {
-      occdf <- list(occdf, bins, base_grid, primary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
-    }
-  }
   cli::cli_inform(
     c(
       paste0(
