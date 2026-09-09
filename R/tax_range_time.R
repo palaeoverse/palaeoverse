@@ -101,6 +101,8 @@ tax_range_time <- function(
   plot_args = NULL,
   intervals = "periods"
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
 
   check_column_presence(occdf, name)
