@@ -149,7 +149,7 @@ test_that("look_up() warns if some intervals couldn't be matched", {
         row.names = 7L
       )
     ),
-    "The following intervals could not be matched with intervals from int_key"
+    "The following intervals could not be matched with intervals"
   )
 })
 
@@ -396,7 +396,7 @@ test_that("argument 'assign_with_GTS' works", {
 test_that("argument 'return_unassigned' works", {
   expect_equal(
     look_up(
-      occdf = test_look_up[
+      test_look_up[
         !(test_look_up$case %in% c("late_na", "late_empty", "late_blank")),
       ],
       return_unassigned = TRUE
@@ -406,7 +406,7 @@ test_that("argument 'return_unassigned' works", {
 
   expect_message(
     expect_null(look_up(
-      occdf = test_look_up[
+      test_look_up[
         !(test_look_up$case %in% c("late_na", "late_empty", "late_blank")) &
           !(test_look_up$early_interval %in%
             c("Ediacaran", "Meso-archean", "Missourian")),
@@ -429,7 +429,7 @@ test_that("pre-Phanerozoic intervals are handled without error", {
   ]
   expect_warning(
     expect_equal(
-      look_up(occdf = occdf, assign_with_GTS = "GTS2012", int_key = FALSE),
+      look_up(occdf, assign_with_GTS = "GTS2012", int_key = FALSE),
       data.frame(
         case = c("precambrian", "unmatchable"),
         early_interval = c("Ediacaran", "Meso-archean"),
@@ -455,7 +455,7 @@ test_that("'early_interval' and 'late_interval' can point to the same column", {
 
   expect_equal(
     look_up(
-      occdf = occdf,
+      occdf,
       early_interval = "interval",
       late_interval = "interval"
     ),
