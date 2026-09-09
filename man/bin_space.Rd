@@ -4,15 +4,7 @@
 \alias{bin_space}
 \title{Assign fossil occurrences to spatial bins}
 \usage{
-bin_space(
-  occdf,
-  lng = "lng",
-  lat = "lat",
-  spacing = 100,
-  sub_grid = NULL,
-  return = FALSE,
-  plot = FALSE
-)
+bin_space(occdf, bins, lng = "lng", lat = "lat")
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences (or
