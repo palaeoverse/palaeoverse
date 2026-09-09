@@ -1,3 +1,39 @@
+# look_up errors with unnamed args
+
+    Code
+      look_up(test_look_up, "early_interval")
+    Condition
+      Error in `look_up()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      look_up(occdf = test_look_up, "early_interval")
+    Condition
+      Error in `look_up()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      look_up(test_look_up, "early_interval", "late_interval")
+    Condition
+      Error in `look_up()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      look_up(test_look_up, "early_interval", late_interval = "late_interval")
+    Condition
+      Error in `look_up()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
 # wrong input for argument 'occdf'
 
     Code
