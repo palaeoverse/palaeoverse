@@ -1,3 +1,48 @@
+# axis_geo() errors with unnamed args
+
+    Code
+      axis_geo(side = 1, intervals = "periods", "Time (Ma)")
+    Condition
+      Error in `axis_geo()`:
+      ! All arguments must be named.
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      axis_geo(side = 1, "periods", "Time (Ma)")
+    Condition
+      Error in `axis_geo()`:
+      ! All arguments must be named.
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      axis_geo(1, "periods", "Time (Ma)")
+    Condition
+      Error in `axis_geo()`:
+      ! All arguments must be named.
+      i Currently, there are 3 arguments that should be named.
+
+---
+
+    Code
+      axis_geo(side = 1, intervals = "periods", "Time (Ma)", labels = FALSE)
+    Condition
+      Error in `axis_geo()`:
+      ! All arguments must be named.
+      i Currently, there is 1 argument that should be named.
+
+# axis_geo_phylo() errors with unnamed args
+
+    Code
+      axis_geo_phylo("Time (Ma)")
+    Condition
+      Error in `axis_geo_phylo()`:
+      ! All arguments must be named.
+      i Currently, there is 1 argument that should be named.
+
 # axis_geo() error handling
 
     Code

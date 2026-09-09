@@ -260,6 +260,8 @@ axis_geo <- function(
   # passed to axis() and mtext():
   ...
 ) {
+  ensure_args_are_named()
+
   intervals <- make_list(intervals)
   n_scales <- length(intervals)
 
@@ -926,6 +928,7 @@ axis_geo <- function(
 #' @export
 #' @rdname axis_geo
 axis_geo_phylo <- function(...) {
+  ensure_args_are_named()
   axis_geo(..., phylo = TRUE)
 }
 
