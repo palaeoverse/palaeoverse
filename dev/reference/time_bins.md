@@ -150,7 +150,9 @@ ex3 <- time_bins(interval = c("Maastrichtian"), plot = TRUE)
 ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"),
                  size = 10, plot = TRUE)
 #> Target duration of equal length time bins was set to 10 Myr.
-#> 54 time bins were generated with a mean length of 10.02 Myr and a standard deviation of 2.4 Myr.
+#> ℹ 54 time bins were generated.
+#> ℹ Mean length: 10.02 Myr
+#> ℹ Standard deviation: 2.4 Myr
 
 
 #Assign bins based on given age estimates
@@ -163,12 +165,16 @@ scale <- data.frame(interval_name = 1:5,
                     max_ma = c(18, 32, 38, 45, 53))
 ex6 <- time_bins(scale = scale, size = 20, plot = TRUE)
 #> Target duration of equal length time bins was set to 20 Myr.
-#> 3 time bins were generated with a mean length of 17.67 Myr and a standard deviation of 2.52 Myr.
+#> ℹ 3 time bins were generated.
+#> ℹ Mean length: 17.67 Myr
+#> ℹ Standard deviation: 2.52 Myr
 
 
 #Use North American land mammal ages from Macrostrat and specify a desired
 #number of bins
 ex7 <- time_bins(scale = "North American land mammal ages", n_bins = 7)
 #> Number of equal length time bins was set to 7.
-#> 7 time bins were generated with a mean length of 9.43 Myr and a standard deviation of 1.19 Myr.
+#> ℹ 7 time bins were generated.
+#> ℹ Mean length: 9.43 Myr
+#> ℹ Standard deviation: 1.19 Myr
 ```
