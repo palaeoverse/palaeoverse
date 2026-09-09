@@ -77,7 +77,7 @@ tax_expand_lat <- function(
     }
     to_report <- cli::cli_vec(
       head(rows_with_max_lat_smaller_than_min_lat, n = 5),
-      list(`vec-last` = ", ")
+      list(`vec-last` = ", ", `vec-sep2` = ", ")
     )
     cli::cli_abort(
       c(

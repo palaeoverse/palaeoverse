@@ -90,7 +90,10 @@ phylo_check <- function(
   bad_names <- unique(list[grepl("[^[:alnum:][:space:]_]", list)])
   if (length(bad_names) > 0) {
     truncated <- if (length(bad_names) > 5) " (first 5)" else ""
-    bad_names <- cli::cli_vec(head(bad_names, n = 5), list(`vec-last` = ", "))
+    bad_names <- cli::cli_vec(
+      head(bad_names, n = 5),
+      list(`vec-last` = ", ", `vec-sep2` = ", ")
+    )
     cli::cli_abort(
       c(
         "Taxon names in {.arg list} must not contain punctuation other than spaces or underscores.",
