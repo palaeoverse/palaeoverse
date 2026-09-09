@@ -63,6 +63,7 @@ tax_expand_time <- function(
   rank = "stage",
   ext_orig = TRUE
 ) {
+  ensure_args_are_named(exceptions = "taxdf")
   check_data_frame(taxdf)
 
   check_column_presence(taxdf, max_ma)
