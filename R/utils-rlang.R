@@ -144,7 +144,7 @@ check_numeric <- function(
         call = call
       )
     }
-    if (is.numeric(x)) {
+    if (is.numeric(x) && length(x) > 0) {
       if (!allow_na && anyNA(x)) {
         cli::cli_abort(
           "{.code {arg}} can't contain NA values.",
@@ -158,7 +158,7 @@ check_numeric <- function(
 
   rlang::stop_input_type(
     x,
-    "a numeric value",
+    "of class <numeric>",
     ...,
     allow_na = FALSE,
     allow_null = allow_null,

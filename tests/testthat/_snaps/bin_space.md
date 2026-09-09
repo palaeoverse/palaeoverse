@@ -48,7 +48,7 @@
       bin_space(occdf = tetrapods, spacing = NA)
     Condition
       Error in `bin_space()`:
-      ! `spacing` must be a numeric value, not `NA`.
+      ! `spacing` must be of class <numeric>, not `NA`.
 
 ---
 
@@ -72,7 +72,7 @@
       bin_space(occdf = tetrapods, spacing = 1000, sub_grid = NA)
     Condition
       Error in `bin_space()`:
-      ! `sub_grid` must be a numeric value or `NULL`, not `NA`.
+      ! `sub_grid` must be of class <numeric> or `NULL`, not `NA`.
 
 ---
 
