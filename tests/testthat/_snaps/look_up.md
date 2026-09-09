@@ -40,7 +40,7 @@
       look_up(occdf = 1)
     Condition
       Error in `look_up()`:
-      ! `occdf` should be a dataframe.
+      ! `occdf` must be of class <data.frame>, not the number 1.
 
 ---
 
@@ -48,7 +48,7 @@
       look_up(occdf = NA)
     Condition
       Error in `look_up()`:
-      ! `occdf` should be a dataframe.
+      ! `occdf` must be of class <data.frame>, not `NA`.
 
 ---
 
@@ -56,7 +56,7 @@
       look_up(occdf = NULL)
     Condition
       Error in `look_up()`:
-      ! `occdf` should be a dataframe.
+      ! `occdf` must be of class <data.frame>, not `NULL`.
 
 # arguments 'early_interval' and 'late_interval' work
 
@@ -64,7 +64,7 @@
       look_up(occdf = dat)
     Condition
       Error in `look_up()`:
-      ! `early_interval` needs to match a column name of `occdf`
+      ! Column "early_interval" not found in `occdf`.
 
 ---
 
@@ -72,7 +72,7 @@
       look_up(occdf = dat, early_interval = "early")
     Condition
       Error in `look_up()`:
-      ! `late_interval` needs to match a column name of `occdf`
+      ! Column "late_interval" not found in `occdf`.
 
 ---
 
@@ -80,7 +80,7 @@
       look_up(occdf = dat, late_interval = "late")
     Condition
       Error in `look_up()`:
-      ! `early_interval` needs to match a column name of `occdf`
+      ! Column "early_interval" not found in `occdf`.
 
 ---
 
@@ -88,7 +88,7 @@
       look_up(occdf = dat, early_interval = 1)
     Condition
       Error in `look_up()`:
-      ! `early_interval` needs to be of type `character`
+      ! `early_interval` must be a single string, not the number 1.
 
 ---
 
@@ -96,7 +96,7 @@
       look_up(occdf = dat, early_interval = NA)
     Condition
       Error in `look_up()`:
-      ! `early_interval` needs to be of type `character`
+      ! `early_interval` must be a single string, not `NA`.
 
 ---
 
@@ -104,15 +104,15 @@
       look_up(occdf = dat, early_interval = c("a", "b"))
     Condition
       Error in `look_up()`:
-      ! `early_interval` must be of length 1
+      ! `early_interval` must be a single string, not a character vector.
 
 ---
 
     Code
-      look_up(occdf = dat, late_interval = 1)
+      look_up(occdf = dat, early_interval = "early", late_interval = 1)
     Condition
       Error in `look_up()`:
-      ! `early_interval` needs to match a column name of `occdf`
+      ! `late_interval` must be a single string, not the number 1.
 
 ---
 
@@ -120,15 +120,15 @@
       look_up(occdf = dat, early_interval = "early", late_interval = NA)
     Condition
       Error in `look_up()`:
-      ! `late_interval` needs to be of type `character`
+      ! `late_interval` must be a single string, not `NA`.
 
 ---
 
     Code
-      look_up(occdf = dat, late_interval = c("a", "b"))
+      look_up(occdf = dat, early_interval = "early", late_interval = c("a", "b"))
     Condition
       Error in `look_up()`:
-      ! `early_interval` needs to match a column name of `occdf`
+      ! `late_interval` must be a single string, not a character vector.
 
 # argument 'int_key' works
 
@@ -136,7 +136,7 @@
       look_up(occdf = occdf, int_key = 1)
     Condition
       Error in `look_up()`:
-      ! `int_key` should be a dataframe.
+      ! `int_key` must be of class <data.frame>, not the number 1.
 
 ---
 
@@ -144,7 +144,7 @@
       look_up(occdf = occdf, int_key = c("a", "b"))
     Condition
       Error in `look_up()`:
-      ! `int_key` should be a dataframe.
+      ! `int_key` must be of class <data.frame>, not a character vector.
 
 ---
 
@@ -153,8 +153,7 @@
         "Asselian"), early_stage = c("foo1", "foo2")))
     Condition
       Error in `look_up()`:
-      ! `int_key` needs to contain the columns "interval_name",
-                 "early_stage" and "late_stage"
+      ! Column "late_stage" not found in `int_key`.
 
 ---
 
@@ -163,8 +162,7 @@
         "Asselian"), late_stage = c("foo1", "foo2")))
     Condition
       Error in `look_up()`:
-      ! `int_key` needs to contain the columns "interval_name",
-                 "early_stage" and "late_stage"
+      ! Column "early_stage" not found in `int_key`.
 
 ---
 
@@ -173,8 +171,7 @@
         "Asselian"), early_stage = 1:2, late_stage = c("foo1", "foo2")))
     Condition
       Error in `look_up()`:
-      ! `int_key$interval_name`, `int_key$early_stage`, and
-                 `int_key$late_stage` needs to be of type `character`
+      ! Column "early_stage" in `int_key` must be of class <character>, not <integer>.
 
 ---
 
@@ -184,7 +181,7 @@
       max_ma = c("a", "b")))
     Condition
       Error in `look_up()`:
-      ! `int_key$max_ma` needs to be of type `numeric`
+      ! Column "max_ma" in `int_key` must be of class <numeric>, not <character>.
 
 ---
 
@@ -194,7 +191,7 @@
       min_ma = c("a", "b")))
     Condition
       Error in `look_up()`:
-      ! `int_key$min_ma` needs to be of type `numeric`
+      ! Column "min_ma" in `int_key` must be of class <numeric>, not <character>.
 
 # argument 'assign_with_GTS' works
 
@@ -210,7 +207,7 @@
       look_up(occdf = occdf, assign_with_GTS = FALSE)
     Condition
       Error in `look_up()`:
-      ! assignment with GTS needs to be enabled if `int_key` is set to `FALSE`
+      ! `assign_with_GTS` must be "GTS2020" or "GTS2012" when `int_key = FALSE`.
 
 ---
 
@@ -218,7 +215,7 @@
       look_up(occdf = occdf, assign_with_GTS = 1)
     Condition
       Error in `look_up()`:
-      ! assignment with GTS needs to be enabled if `int_key` is set to `FALSE`
+      ! `assign_with_GTS` must be "GTS2020" or "GTS2012" when `int_key = FALSE`.
 
 ---
 
@@ -226,5 +223,5 @@
       look_up(occdf = occdf, assign_with_GTS = "foo")
     Condition
       Error in `look_up()`:
-      ! assignment with GTS needs to be enabled if `int_key` is set to `FALSE`
+      ! `assign_with_GTS` must be "GTS2020" or "GTS2012" when `int_key = FALSE`.
 
