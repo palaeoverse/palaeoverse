@@ -44,7 +44,6 @@ test_that("tax_range_time errors with unnamed args", {
     min_ma = c(9, 7, 5)
   )
   expect_snapshot(tax_range_time(occdf, "genus"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, "genus"), error = TRUE)
   expect_snapshot(tax_range_time(occdf, "genus", "min_ma"), error = TRUE)
   expect_snapshot(
     tax_range_time(occdf, "genus", min_ma = "min_ma"),

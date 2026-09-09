@@ -42,15 +42,6 @@
 ---
 
     Code
-      tax_range_time(occdf, "genus")
-    Condition
-      Error in `tax_range_time()`:
-      ! All arguments must be named (except for "occdf").
-      i Currently, there is 1 argument that should be named.
-
----
-
-    Code
       tax_range_time(occdf, "genus", "min_ma")
     Condition
       Error in `tax_range_time()`:
