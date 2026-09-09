@@ -60,23 +60,13 @@ test_that("tax_unique errors with unnamed args", {
   expect_snapshot(group_apply(occdf, group = "cc", nrow), error = TRUE)
   expect_snapshot(group_apply(occdf, "cc", nrow), error = TRUE)
   expect_snapshot(
-    group_apply(
-      occdf,
-      "cc",
-      fun = tax_range_time,
-      "family"
-    ),
+    group_apply(occdf, "cc", fun = tax_range_time, "family"),
     error = TRUE
   )
 
   # `name` isn't a proper argument of `group_apply()` but we still catch that it is named
   expect_snapshot(
-    group_apply(
-      occdf,
-      "cc",
-      fun = tax_range_time,
-      name = "family"
-    ),
+    group_apply(occdf, "cc", fun = tax_range_time, name = "family"),
     error = TRUE
   )
 })
