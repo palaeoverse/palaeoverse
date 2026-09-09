@@ -154,6 +154,10 @@ test_that("arg 'out' works", {
     phylo_check(tree = tree, list = list, out = NULL),
     error = TRUE
   )
+  expect_snapshot(
+    phylo_check(tree = tree, list = list, out = c("counts", "tree")),
+    error = TRUE
+  )
 })
 
 test_that("arg 'sort' works", {
@@ -200,6 +204,10 @@ test_that("arg 'sort' works", {
   )
   expect_snapshot(
     phylo_check(tree = tree, list = list, sort = NULL),
+    error = TRUE
+  )
+  expect_snapshot(
+    phylo_check(tree = tree, list = list, sort = c("presence", "az")),
     error = TRUE
   )
 

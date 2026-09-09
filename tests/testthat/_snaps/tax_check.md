@@ -1,11 +1,29 @@
 # basic behavior works
 
     Code
+      tax_check(data.frame(genus = c("Automaton", "Automaton2")))
+    Condition
+      Warning:
+      Non-letter characters present in the taxon names.
+    Output
+      $synonyms
+        group   greater     lesser count_greater count_lesser
+      1     A Automaton Automaton2             1            1
+      
+      $non_letter_name
+      [1] "Automaton2"
+      
+      $non_letter_group
+      NULL
+      
+
+---
+
+    Code
       tax_check(data.frame())
     Condition
       Error in `tax_check()`:
-      ! Please supply `taxdf` as a data.frame with named columns, containing
-               taxon names, and optionally their higher classification
+      ! Column "genus" not found in `taxdf`.
 
 ---
 
@@ -13,8 +31,15 @@
       tax_check(1)
     Condition
       Error in `tax_check()`:
-      ! Please supply `taxdf` as a data.frame with named columns, containing
-               taxon names, and optionally their higher classification
+      ! `taxdf` must be of class <data.frame>, not the number 1.
+
+---
+
+    Code
+      tax_check(data.frame(genus = c(NA, "")))
+    Condition
+      Error in `tax_check()`:
+      ! Column "genus" in `taxdf` must have at least one entry that is not NA or empty.
 
 # arg 'name' works
 
@@ -22,7 +47,7 @@
       tax_check(dat)
     Condition
       Error in `tax_check()`:
-      ! Please specify `name` as a single column name in `taxdf`
+      ! Column "genus" not found in `taxdf`.
 
 ---
 
@@ -30,7 +55,7 @@
       tax_check(dat, name = "nonexistent")
     Condition
       Error in `tax_check()`:
-      ! Please specify `name` as a single column name in `taxdf`
+      ! Column "nonexistent" not found in `taxdf`.
 
 ---
 
@@ -38,7 +63,7 @@
       tax_check(dat, name = 1)
     Condition
       Error in `tax_check()`:
-      ! Please specify `name` as a single column name in `taxdf`
+      ! `name` must be a single string, not the number 1.
 
 ---
 
@@ -46,7 +71,7 @@
       tax_check(dat, name = NULL)
     Condition
       Error in `tax_check()`:
-      ! Please specify `name` as a single column name in `taxdf`
+      ! `name` must be a single string, not `NULL`.
 
 ---
 
@@ -54,7 +79,7 @@
       tax_check(dat, name = character(0))
     Condition
       Error in `tax_check()`:
-      ! Please specify `name` as a single column name in `taxdf`
+      ! `name` must be a single string, not an empty character vector.
 
 ---
 
@@ -62,15 +87,34 @@
       tax_check(dat, name = "")
     Condition
       Error in `tax_check()`:
-      ! Please specify `name` as a single column name in `taxdf`
+      ! Column "" not found in `taxdf`.
 
 # arg 'group' works
+
+    Code
+      tax_check(data.frame(genus = c("Automaton", "Automaton"), family = c("Foo",
+        "Examplidae2")), group = "family")
+    Condition
+      Warning:
+      Non-letter characters present in the group names.
+    Output
+      $synonyms
+      NULL
+      
+      $non_letter_name
+      NULL
+      
+      $non_letter_group
+      [1] "Examplidae2"
+      
+
+---
 
     Code
       tax_check(dat, group = "nonexistent")
     Condition
       Error in `tax_check()`:
-      ! Please specify `group` as a single column name in `taxdf`
+      ! Column "nonexistent" not found in `taxdf`.
 
 ---
 
@@ -78,7 +122,7 @@
       tax_check(dat, group = 1)
     Condition
       Error in `tax_check()`:
-      ! Please specify `group` as a single column name in `taxdf`
+      ! `group` must be a single string, not the number 1.
 
 ---
 
@@ -86,7 +130,7 @@
       tax_check(dat, group = character(0))
     Condition
       Error in `tax_check()`:
-      ! Please specify `group` as a single column name in `taxdf`
+      ! `group` must be a single string, not an empty character vector.
 
 ---
 
@@ -94,7 +138,7 @@
       tax_check(dat, group = "")
     Condition
       Error in `tax_check()`:
-      ! Please specify `group` as a single column name in `taxdf`
+      ! Column "" not found in `taxdf`.
 
 # arg 'dis' works
 
@@ -102,7 +146,7 @@
       tax_check(dat, dis = 1)
     Condition
       Error in `tax_check()`:
-      ! `dis` must be a single numeric, greater than 0 and less than 1
+      ! `dis` must be greater than 0 and less than 1.
 
 ---
 
@@ -110,7 +154,15 @@
       tax_check(dat, dis = 0)
     Condition
       Error in `tax_check()`:
-      ! `dis` must be a single numeric, greater than 0 and less than 1
+      ! `dis` must be greater than 0 and less than 1.
+
+---
+
+    Code
+      tax_check(dat, dis = c(0.5, 0.6))
+    Condition
+      Error in `tax_check()`:
+      ! `dis` must be a number, not a double vector.
 
 ---
 
@@ -118,7 +170,7 @@
       tax_check(dat, dis = "a")
     Condition
       Error in `tax_check()`:
-      ! `dis` must be a single numeric, greater than 0 and less than 1
+      ! `dis` must be a number, not the string "a".
 
 ---
 
@@ -126,7 +178,7 @@
       tax_check(dat, dis = numeric(0))
     Condition
       Error in `tax_check()`:
-      ! `dis` must be a single numeric, greater than 0 and less than 1
+      ! `dis` must be a number, not an empty numeric vector.
 
 ---
 
@@ -134,7 +186,7 @@
       tax_check(dat, dis = NULL)
     Condition
       Error in `tax_check()`:
-      ! `dis` must be a single numeric, greater than 0 and less than 1
+      ! `dis` must be a number, not `NULL`.
 
 # arg 'start' works
 
@@ -142,7 +194,7 @@
       tax_check(dat, start = -1)
     Condition
       Error in `tax_check()`:
-      ! `start` must be a single positive integer, or zero
+      ! `start` must be a whole number larger than or equal to 0, not the number -1.
 
 ---
 
@@ -150,7 +202,7 @@
       tax_check(dat, start = numeric(0))
     Condition
       Error in `tax_check()`:
-      ! `start` must be a single positive integer, or zero
+      ! `start` must be a whole number, not an empty numeric vector.
 
 ---
 
@@ -158,7 +210,15 @@
       tax_check(dat, start = "a")
     Condition
       Error in `tax_check()`:
-      ! `start` must be a single positive integer, or zero
+      ! `start` must be a whole number, not the string "a".
+
+---
+
+    Code
+      tax_check(dat, start = NULL)
+    Condition
+      Error in `tax_check()`:
+      ! `start` must be a whole number, not `NULL`.
 
 # arg 'verbose' works
 
@@ -166,7 +226,7 @@
       tax_check(dat, verbose = 1)
     Condition
       Error in `tax_check()`:
-      ! `verbose` must be a single logical value
+      ! `verbose` must be `TRUE` or `FALSE`, not the number 1.
 
 ---
 
@@ -174,7 +234,7 @@
       tax_check(dat, verbose = numeric(0))
     Condition
       Error in `tax_check()`:
-      ! `verbose` must be a single logical value
+      ! `verbose` must be `TRUE` or `FALSE`, not an empty numeric vector.
 
 ---
 
@@ -182,7 +242,7 @@
       tax_check(dat, verbose = "a")
     Condition
       Error in `tax_check()`:
-      ! `verbose` must be a single logical value
+      ! `verbose` must be `TRUE` or `FALSE`, not the string "a".
 
 ---
 
@@ -190,5 +250,5 @@
       tax_check(dat, verbose = NULL)
     Condition
       Error in `tax_check()`:
-      ! `verbose` must be a single logical value
+      ! `verbose` must be `TRUE` or `FALSE`, not `NULL`.
 
