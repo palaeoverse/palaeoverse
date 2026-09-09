@@ -25,9 +25,9 @@ test_that("tax_range_space() works", {
   )
 
   # input checks
-  expect_snapshot(tax_range_space(data.frame()), error = TRUE)
-  expect_snapshot(tax_range_space(NA), error = TRUE)
-  expect_snapshot(tax_range_space("a"), error = TRUE)
+  expect_snapshot(tax_range_space(occdf = data.frame()), error = TRUE)
+  expect_snapshot(tax_range_space(occdf = NA), error = TRUE)
+  expect_snapshot(tax_range_space(occdf = "a"), error = TRUE)
 })
 
 test_that("piping and not piping the first argument give the same result", {
@@ -73,13 +73,13 @@ test_that("argument 'name' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_space(occdf, name = "nonexistent"),
+    tax_range_space(occdf = occdf, name = "nonexistent"),
     error = TRUE
   )
   nadf <- occdf
   nadf$genus[1] <- NA
   expect_snapshot(
-    tax_range_space(nadf, name = "genus"),
+    tax_range_space(occdf = nadf, name = "genus"),
     error = TRUE
   )
 })

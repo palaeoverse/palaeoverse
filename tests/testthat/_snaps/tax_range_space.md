@@ -1,7 +1,7 @@
 # tax_range_space() works
 
     Code
-      tax_range_space(data.frame())
+      tax_range_space(occdf = data.frame())
     Condition
       Error in `tax_range_space()`:
       ! Column "genus" not found in `occdf`.
@@ -9,7 +9,7 @@
 ---
 
     Code
-      tax_range_space(NA)
+      tax_range_space(occdf = NA)
     Condition
       Error in `tax_range_space()`:
       ! `occdf` must be of class <data.frame>, not `NA`.
@@ -17,7 +17,7 @@
 ---
 
     Code
-      tax_range_space("a")
+      tax_range_space(occdf = "a")
     Condition
       Error in `tax_range_space()`:
       ! `occdf` must be of class <data.frame>, not the string "a".
@@ -52,7 +52,7 @@
 # argument 'name' works
 
     Code
-      tax_range_space(occdf, name = "nonexistent")
+      tax_range_space(occdf = occdf, name = "nonexistent")
     Condition
       Error in `tax_range_space()`:
       ! Column "nonexistent" not found in `occdf`.
@@ -60,7 +60,7 @@
 ---
 
     Code
-      tax_range_space(nadf, name = "genus")
+      tax_range_space(occdf = nadf, name = "genus")
     Condition
       Error in `tax_range_space()`:
       ! Column "genus" in `occdf` must not have missing values.
