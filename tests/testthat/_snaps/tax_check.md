@@ -20,7 +20,7 @@
 ---
 
     Code
-      tax_check(taxdf = data.frame())
+      tax_check(data.frame())
     Condition
       Error in `tax_check()`:
       ! Column "genus" not found in `taxdf`.
@@ -28,7 +28,7 @@
 ---
 
     Code
-      tax_check(taxdf = 1)
+      tax_check(1)
     Condition
       Error in `tax_check()`:
       ! `taxdf` must be of class <data.frame>, not the number 1.
@@ -36,7 +36,7 @@
 ---
 
     Code
-      tax_check(taxdf = data.frame(genus = c(NA, "")))
+      tax_check(data.frame(genus = c(NA, "")))
     Condition
       Error in `tax_check()`:
       ! Column "genus" in `taxdf` must have at least one entry that is not NA or empty.
@@ -80,7 +80,7 @@
 # arg 'name' works
 
     Code
-      tax_check(taxdf = dat)
+      tax_check(dat)
     Condition
       Error in `tax_check()`:
       ! Column "genus" not found in `taxdf`.
@@ -88,7 +88,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, name = "nonexistent")
+      tax_check(dat, name = "nonexistent")
     Condition
       Error in `tax_check()`:
       ! Column "nonexistent" not found in `taxdf`.
@@ -96,7 +96,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, name = 1)
+      tax_check(dat, name = 1)
     Condition
       Error in `tax_check()`:
       ! `name` must be a single string, not the number 1.
@@ -104,7 +104,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, name = NULL)
+      tax_check(dat, name = NULL)
     Condition
       Error in `tax_check()`:
       ! `name` must be a single string, not `NULL`.
@@ -112,7 +112,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, name = character(0))
+      tax_check(dat, name = character(0))
     Condition
       Error in `tax_check()`:
       ! `name` must be a single string, not an empty character vector.
@@ -120,7 +120,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, name = "")
+      tax_check(dat, name = "")
     Condition
       Error in `tax_check()`:
       ! Column "" not found in `taxdf`.
@@ -147,7 +147,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, group = "nonexistent")
+      tax_check(dat, group = "nonexistent")
     Condition
       Error in `tax_check()`:
       ! Column "nonexistent" not found in `taxdf`.
@@ -155,7 +155,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, group = 1)
+      tax_check(dat, group = 1)
     Condition
       Error in `tax_check()`:
       ! `group` must be a single string, not the number 1.
@@ -163,7 +163,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, group = character(0))
+      tax_check(dat, group = character(0))
     Condition
       Error in `tax_check()`:
       ! `group` must be a single string, not an empty character vector.
@@ -171,7 +171,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, group = "")
+      tax_check(dat, group = "")
     Condition
       Error in `tax_check()`:
       ! Column "" not found in `taxdf`.
@@ -179,7 +179,7 @@
 # arg 'dis' works
 
     Code
-      tax_check(taxdf = dat, dis = 1)
+      tax_check(dat, dis = 1)
     Condition
       Error in `tax_check()`:
       ! `dis` must be greater than 0 and less than 1.
@@ -187,7 +187,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, dis = 0)
+      tax_check(dat, dis = 0)
     Condition
       Error in `tax_check()`:
       ! `dis` must be greater than 0 and less than 1.
@@ -195,7 +195,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, dis = c(0.5, 0.6))
+      tax_check(dat, dis = c(0.5, 0.6))
     Condition
       Error in `tax_check()`:
       ! `dis` must be a number, not a double vector.
@@ -203,7 +203,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, dis = "a")
+      tax_check(dat, dis = "a")
     Condition
       Error in `tax_check()`:
       ! `dis` must be a number, not the string "a".
@@ -211,7 +211,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, dis = numeric(0))
+      tax_check(dat, dis = numeric(0))
     Condition
       Error in `tax_check()`:
       ! `dis` must be a number, not an empty numeric vector.
@@ -219,7 +219,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, dis = NULL)
+      tax_check(dat, dis = NULL)
     Condition
       Error in `tax_check()`:
       ! `dis` must be a number, not `NULL`.
@@ -227,7 +227,7 @@
 # arg 'start' works
 
     Code
-      tax_check(taxdf = dat, start = -1)
+      tax_check(dat, start = -1)
     Condition
       Error in `tax_check()`:
       ! `start` must be a whole number larger than or equal to 0, not the number -1.
@@ -235,7 +235,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, start = numeric(0))
+      tax_check(dat, start = numeric(0))
     Condition
       Error in `tax_check()`:
       ! `start` must be a whole number, not an empty numeric vector.
@@ -243,7 +243,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, start = "a")
+      tax_check(dat, start = "a")
     Condition
       Error in `tax_check()`:
       ! `start` must be a whole number, not the string "a".
@@ -251,7 +251,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, start = NULL)
+      tax_check(dat, start = NULL)
     Condition
       Error in `tax_check()`:
       ! `start` must be a whole number, not `NULL`.
@@ -259,7 +259,7 @@
 # arg 'verbose' works
 
     Code
-      tax_check(taxdf = dat, verbose = 1)
+      tax_check(dat, verbose = 1)
     Condition
       Error in `tax_check()`:
       ! `verbose` must be `TRUE` or `FALSE`, not the number 1.
@@ -267,7 +267,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, verbose = numeric(0))
+      tax_check(dat, verbose = numeric(0))
     Condition
       Error in `tax_check()`:
       ! `verbose` must be `TRUE` or `FALSE`, not an empty numeric vector.
@@ -275,7 +275,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, verbose = "a")
+      tax_check(dat, verbose = "a")
     Condition
       Error in `tax_check()`:
       ! `verbose` must be `TRUE` or `FALSE`, not the string "a".
@@ -283,7 +283,7 @@
 ---
 
     Code
-      tax_check(taxdf = dat, verbose = NULL)
+      tax_check(dat, verbose = NULL)
     Condition
       Error in `tax_check()`:
       ! `verbose` must be `TRUE` or `FALSE`, not `NULL`.
