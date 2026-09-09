@@ -85,34 +85,32 @@
 #' ex4 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
 #' @export
 group_apply <- function(occdf, group, fun, ...) {
-  # Handle errors
-  if (!is.data.frame(occdf)) {
-    stop("`occdf` should be a dataframe")
+  check_data_frame(occdf)
+
+  check_character(group)
+  if (length(group) == 0) {
+    cli::cli_abort("{.arg group} must specify at least one column.")
+  }
+  unknown_cols <- setdiff(group, colnames(occdf))
+  if (length(unknown_cols) > 0) {
+    cli::cli_abort(
+      "Column{?s} {.val {unknown_cols}} not found in {.arg occdf}."
+    )
   }
 
-  if (!any(group %in% colnames(occdf))) {
-    stop("Supplied `group` is not a named column in `occdf`")
-  }
-
-  if (!is.function(fun)) {
-    stop("Supplied `fun` is not a function")
-  }
+  check_function(fun)
 
   supp_args <- list(...)
   if (!("..." %in% names(formals(fun)))) {
     indx <- which(!(names(supp_args) %in% names(formals(fun))))
-    if (length(indx) > 1) {
-      stop(paste(
-        paste0("`", names(supp_args)[indx], "`", collapse = "/"),
-        "are not valid arguments for the specified function"
-      ))
-    } else if (length(indx) == 1) {
-      stop(paste0(
-        "`",
+    if (length(indx) >= 1) {
+      to_report <- cli::cli_vec(
         names(supp_args)[indx],
-        "`",
-        " is not a valid argument for the specified function"
-      ))
+        list(`vec-last` = ", and ")
+      )
+      cli::cli_abort(
+        "{.code {to_report}} {?is/are} not {?a/} valid argument{?s} for the specified function {.fun {rlang::caller_arg(fun)}}."
+      )
     }
   }
 
