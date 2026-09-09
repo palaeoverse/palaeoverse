@@ -137,7 +137,11 @@ time_bins <- function(
     )
   }
 
-  rlang::check_number_decimal(size, min = 0, allow_null = TRUE)
+  rlang::check_number_decimal(size, allow_null = TRUE)
+  if (!is.null(size) && size <= 0) {
+    cli::cli_abort("{.arg size} must be greater than 0.")
+  }
+
   rlang::check_number_whole(n_bins, min = 1, allow_null = TRUE)
   check_numeric(assign, allow_null = TRUE)
   rlang::check_bool(plot)

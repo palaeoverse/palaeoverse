@@ -244,7 +244,7 @@
       time_bins(interval = "Mesozoic", size = -1)
     Condition
       Error in `time_bins()`:
-      ! `size` must be a number larger than or equal to 0 or `NULL`, not the number -1.
+      ! `size` must be greater than 0.
 
 # arg 'n_bins' works
 
