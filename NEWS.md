@@ -14,7 +14,7 @@
   # Partial argument names are not allowed
   tax_certainty(taxdf, nam = "identified_name")
   ```
-  This should be used instead:o
+  This should be used instead:
 
   ```r
   tax_certainty(taxdf, name = "identified_name")
