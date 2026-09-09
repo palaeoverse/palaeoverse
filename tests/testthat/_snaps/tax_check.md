@@ -4,18 +4,11 @@
       tax_check(data.frame(genus = c("Automaton", "Automaton2")))
     Condition
       Warning:
-      Non-letter characters present in the taxon names.
+      Some names had non-letter characters.
+      i See which ones with `attr(<output>, "non_letter_name")`.
     Output
-      $synonyms
         group   greater     lesser count_greater count_lesser
       1     A Automaton Automaton2             1            1
-      
-      $non_letter_name
-      [1] "Automaton2"
-      
-      $non_letter_group
-      NULL
-      
 
 ---
 
@@ -96,17 +89,11 @@
         "Examplidae2")), group = "family")
     Condition
       Warning:
-      Non-letter characters present in the group names.
+      Some groups had non-letter characters.
+      i See which ones with `attr(<output>, "non_letter_group")`.
     Output
-      $synonyms
-      NULL
-      
-      $non_letter_name
-      NULL
-      
-      $non_letter_group
-      [1] "Examplidae2"
-      
+      [1] group         greater       lesser        count_greater count_lesser 
+      <0 rows> (or 0-length row.names)
 
 ---
 
@@ -219,36 +206,4 @@
     Condition
       Error in `tax_check()`:
       ! `start` must be a whole number, not `NULL`.
-
-# arg 'verbose' works
-
-    Code
-      tax_check(dat, verbose = 1)
-    Condition
-      Error in `tax_check()`:
-      ! `verbose` must be `TRUE` or `FALSE`, not the number 1.
-
----
-
-    Code
-      tax_check(dat, verbose = numeric(0))
-    Condition
-      Error in `tax_check()`:
-      ! `verbose` must be `TRUE` or `FALSE`, not an empty numeric vector.
-
----
-
-    Code
-      tax_check(dat, verbose = "a")
-    Condition
-      Error in `tax_check()`:
-      ! `verbose` must be `TRUE` or `FALSE`, not the string "a".
-
----
-
-    Code
-      tax_check(dat, verbose = NULL)
-    Condition
-      Error in `tax_check()`:
-      ! `verbose` must be `TRUE` or `FALSE`, not `NULL`.
 

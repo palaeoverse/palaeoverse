@@ -24,25 +24,23 @@
 #' beginning of potential synonyms that should match. Potential synonyms below
 #' this value will not be returned. By default this value is set to 1 (i.e.
 #' the first letter of synonyms must match).
-#' @param verbose \code{logical}. Should the results of the non-letter
-#' character check be reported to the user? If `TRUE`, the result will only be
-#' reported if such characters are detected in the taxon names.
 #'
-#' @return If verbose = `TRUE` (default), a \code{list} with three elements. The
-#' first element in the list (synonyms) is a \code{data.frame} with each row
-#' reporting a pair of potential synonyms. The first column "group" contains the
-#' higher group in which they occur (alphabetical groupings if `group` is
-#' not provided). The second column "greater" contains the most common synonym
-#' in each pair. The third column "lesser" contains the least common synonym in
-#' each pair. The third and fourth column (`count_greater`, `count_lesser`)
-#' contain the respective counts of each synonym in a pair. If no matches were
-#' found for the filtering arguments, this element is `NULL` instead. The second
-#' element (`non_letter_name`) is a vector of taxon names which contain
-#' non-letter characters, or `NULL` if none were detected. The third element
-#' (non_letter_group) is a vector of taxon groups which contain non-letter
-#' characters, or `NULL` if none were detected. If verbose = `FALSE`, a
-#' \code{data.frame} as described above is returned, or `NULL` if no matches
-#' were found.
+#' @return A `data.frame` with each row reporting a pair of potential synonyms
+#' (this `data.frame` can have zero rows), and with the following columns:
+#'
+#' - `"group"` contains the higher group in which they occur (alphabetical groupings
+#'   if `group` is not provided).
+#' - `"greater"` contains the most common synonym in each pair
+#' - `"lesser"` contains the least common synonym in each pair
+#' - `"count_greater"` and `"count_lesser"` contain the respective counts of each
+#'   synonym in a pair.
+#'
+#' This `data.frame` has two attributes:
+#'
+#' - `non_letter_name` is a vector of taxon names which contain non-letter characters,
+#'   or `NULL` if none were detected
+#' - `non_letter_group` is a vector of taxon groups which contain non-letter characters, or
+#'   `NULL` if none were detected.
 #'
 #' @details When higher taxonomy is provided, but some entries are missing,
 #' comparisons will still be made within alphabetical groups of taxa which lack
@@ -87,8 +85,7 @@ tax_check <- function(
   name = "genus",
   group = NULL,
   dis = 0.05,
-  start = 1,
-  verbose = TRUE
+  start = 1
 ) {
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
@@ -122,22 +119,10 @@ tax_check <- function(
   }
 
   rlang::check_number_whole(start, min = 0)
-  rlang::check_bool(verbose)
 
-  # check for non-letter characters, returning NULL if none
+  # check for non-letter characters
   gp <- unique(grep("[^[:alpha:] ]", group, value = TRUE))
-  if (length(gp) != 0) {
-    cli::cli_warn("Non-letter characters present in the group names.")
-  } else {
-    gp <- NULL
-  }
-
   nm <- unique(grep("[^[:alpha:] ]", taxdf[, name, drop = TRUE], value = TRUE))
-  if (length(nm) != 0) {
-    cli::cli_warn("Non-letter characters present in the taxon names.")
-  } else {
-    nm <- NULL
-  }
 
   # FORMAT INPUT DATA ------------------------------------------------------- #
 
@@ -207,48 +192,69 @@ tax_check <- function(
   # FORMAT OUTPUT ----------------------------------------------------------- #
 
   # format initial results data.frame from list
-  err <- sp[!unlist(lapply(sp, is.null))]
-  err <- as.data.frame(do.call(rbind, err))
-  err$f1 <- as.vector(table(taxdf2[, "name"])[match(
-    err$V1,
+  out <- sp[!unlist(lapply(sp, is.null))]
+  out <- as.data.frame(do.call(rbind, out))
+  out$f1 <- as.vector(table(taxdf2[, "name"])[match(
+    out$V1,
     names(table(
       taxdf2[, "name"]
     ))
   )])
-  err$f2 <- as.vector(table(taxdf2[, "name"])[match(
-    err$V2,
+  out$f2 <- as.vector(table(taxdf2[, "name"])[match(
+    out$V2,
     names(table(
       taxdf2[, "name"]
     ))
   )])
 
   # NULL if no matches present
-  if (nrow(err) == 0) {
-    err <- NULL
+  if (nrow(out) == 0) {
+    out <- data.frame(
+      group = character(0),
+      greater = character(0),
+      lesser = character(0),
+      count_greater = integer(0),
+      count_lesser = integer(0)
+    )
 
     # else reorder rows so the more frequent synonym is in the first column
   } else {
-    mins <- apply(err[, 4:5], 1, which.min) - 1
+    mins <- apply(out[, 4:5], 1, which.min) - 1
     maxs <- abs(mins - 1)
-    fq1 <- unlist(err[, 4:5])[seq_along(maxs) + (maxs * length(maxs))]
-    fq2 <- unlist(err[, 4:5])[seq_along(mins) + (mins * length(mins))]
-    mins <- unlist(err[, 1:2])[seq_along(mins) + (mins * length(mins))]
-    maxs <- unlist(err[, 1:2])[seq_along(maxs) + (maxs * length(maxs))]
-    err <- data.frame(
-      group = err$y,
+    fq1 <- unlist(out[, 4:5])[seq_along(maxs) + (maxs * length(maxs))]
+    fq2 <- unlist(out[, 4:5])[seq_along(mins) + (mins * length(mins))]
+    mins <- unlist(out[, 1:2])[seq_along(mins) + (mins * length(mins))]
+    maxs <- unlist(out[, 1:2])[seq_along(maxs) + (maxs * length(maxs))]
+    out <- data.frame(
+      group = out$y,
       greater = as.vector(maxs),
       lesser = as.vector(mins),
       count_greater = fq1,
       count_lesser = fq2
     )
-    err <- err[order(err[, "group"], err[, "greater"], method = "radix"), ]
-    row.names(err) <- NULL
+    out <- out[order(out[, "group"], out[, "greater"], method = "radix"), ]
+    row.names(out) <- NULL
   }
 
-  # return
-  if (verbose) {
-    return(list(synonyms = err, non_letter_name = nm, non_letter_group = gp))
-  } else {
-    return(err)
+  if (length(nm) > 0) {
+    cli::cli_warn(
+      c(
+        "Some names had non-letter characters.",
+        "i" = "See which ones with {.code attr(<output>, \"non_letter_name\")}."
+      )
+    )
+    attr(out, "non_letter_name") <- nm
   }
+  if (length(gp) > 0) {
+    browser
+    cli::cli_warn(
+      c(
+        "Some groups had non-letter characters.",
+        "i" = "See which ones with {.code attr(<output>, \"non_letter_group\")}."
+      )
+    )
+    attr(out, "non_letter_group") <- gp
+  }
+
+  out
 }
