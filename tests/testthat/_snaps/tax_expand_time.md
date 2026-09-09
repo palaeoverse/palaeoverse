@@ -1,7 +1,7 @@
 # basic behaviour works
 
     Code
-      tax_expand_time(taxdf = data.frame())
+      tax_expand_time(data.frame())
     Condition
       Error in `tax_expand_time()`:
       ! Column "max_ma" not found in `taxdf`.
@@ -9,7 +9,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = 1)
+      tax_expand_time(1)
     Condition
       Error in `tax_expand_time()`:
       ! `taxdf` must be of class <data.frame>, not the number 1.
@@ -17,7 +17,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = NULL)
+      tax_expand_time(NULL)
     Condition
       Error in `tax_expand_time()`:
       ! `taxdf` must be of class <data.frame>, not `NULL`.
@@ -42,7 +42,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, "max_ma")
+      tax_expand_time(taxdf, "max_ma")
     Condition
       Error in `tax_expand_time()`:
       ! All arguments must be named (except for "taxdf").
@@ -69,7 +69,7 @@
 # rows must be unique
 
     Code
-      tax_expand_time(taxdf = taxdf)
+      tax_expand_time(taxdf)
     Condition
       Error in `tax_expand_time()`:
       ! `taxdf` must not have duplicated rows.
@@ -77,7 +77,7 @@
 # ages must be positive
 
     Code
-      tax_expand_time(taxdf = taxdf)
+      tax_expand_time(taxdf)
     Condition
       Error in `tax_expand_time()`:
       ! All values of column "min_ma" in `taxdf` must be positive.
@@ -86,7 +86,7 @@
 # max ages must be larger than or equal to min ages
 
     Code
-      tax_expand_time(taxdf = taxdf)
+      tax_expand_time(taxdf)
     Condition
       Error in `tax_expand_time()`:
       ! Maximum age must be larger than or equal to minimum age.
@@ -95,7 +95,7 @@
 # arg 'bins' works
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = data.frame())
+      tax_expand_time(taxdf, bins = data.frame())
     Condition
       Error in `tax_expand_time()`:
       ! Column "bin" not found in `bins`.
@@ -103,7 +103,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = 1)
+      tax_expand_time(taxdf, bins = 1)
     Condition
       Error in `tax_expand_time()`:
       ! `bins` must be of class <data.frame>, not the number 1.
@@ -111,7 +111,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = NA)
+      tax_expand_time(taxdf, bins = NA)
     Condition
       Error in `tax_expand_time()`:
       ! `bins` must be of class <data.frame>, not `NA`.
@@ -119,7 +119,7 @@
 # args 'max_ma' and 'min_ma' work
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins)
+      tax_expand_time(taxdf, bins = bins)
     Condition
       Error in `tax_expand_time()`:
       ! Column "max_ma" not found in `taxdf`.
@@ -127,7 +127,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = "nonexistent", min_ma = "lad")
+      tax_expand_time(taxdf, bins = bins, max_ma = "nonexistent", min_ma = "lad")
     Condition
       Error in `tax_expand_time()`:
       ! Column "nonexistent" not found in `taxdf`.
@@ -135,7 +135,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = NULL, min_ma = "lad")
+      tax_expand_time(taxdf, bins = bins, max_ma = NULL, min_ma = "lad")
     Condition
       Error in `tax_expand_time()`:
       ! `max_ma` must be a single string, not `NULL`.
@@ -143,7 +143,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = character(0), min_ma = "lad")
+      tax_expand_time(taxdf, bins = bins, max_ma = character(0), min_ma = "lad")
     Condition
       Error in `tax_expand_time()`:
       ! `max_ma` must be a single string, not an empty character vector.
@@ -151,7 +151,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = NA, min_ma = "lad")
+      tax_expand_time(taxdf, bins = bins, max_ma = NA, min_ma = "lad")
     Condition
       Error in `tax_expand_time()`:
       ! `max_ma` must be a single string, not `NA`.
@@ -159,7 +159,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = c("a", "b"), min_ma = "lad")
+      tax_expand_time(taxdf, bins = bins, max_ma = c("a", "b"), min_ma = "lad")
     Condition
       Error in `tax_expand_time()`:
       ! `max_ma` must be a single string, not a character vector.
@@ -167,7 +167,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = "fad", min_ma = "nonexistent")
+      tax_expand_time(taxdf, bins = bins, max_ma = "fad", min_ma = "nonexistent")
     Condition
       Error in `tax_expand_time()`:
       ! Column "nonexistent" not found in `taxdf`.
@@ -175,7 +175,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = "fad", min_ma = NULL)
+      tax_expand_time(taxdf, bins = bins, max_ma = "fad", min_ma = NULL)
     Condition
       Error in `tax_expand_time()`:
       ! `min_ma` must be a single string, not `NULL`.
@@ -183,8 +183,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = "fad", min_ma = character(
-        0))
+      tax_expand_time(taxdf, bins = bins, max_ma = "fad", min_ma = character(0))
     Condition
       Error in `tax_expand_time()`:
       ! `min_ma` must be a single string, not an empty character vector.
@@ -192,7 +191,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = "fad", min_ma = NA)
+      tax_expand_time(taxdf, bins = bins, max_ma = "fad", min_ma = NA)
     Condition
       Error in `tax_expand_time()`:
       ! `min_ma` must be a single string, not `NA`.
@@ -200,7 +199,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, bins = bins, max_ma = "fad", min_ma = c("a", "b"))
+      tax_expand_time(taxdf, bins = bins, max_ma = "fad", min_ma = c("a", "b"))
     Condition
       Error in `tax_expand_time()`:
       ! `min_ma` must be a single string, not a character vector.
@@ -208,7 +207,7 @@
 # arg 'scale' works
 
     Code
-      tax_expand_time(taxdf = taxdf, scale = "foo")
+      tax_expand_time(taxdf, scale = "foo")
     Condition
       Error:
       ! `scale` must match a built-in or Macrostrat time scale.
@@ -216,7 +215,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, scale = character(0))
+      tax_expand_time(taxdf, scale = character(0))
     Condition
       Error in `tax_expand_time()`:
       ! `scale` must be a single string, not an empty character vector.
@@ -224,7 +223,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, scale = NULL)
+      tax_expand_time(taxdf, scale = NULL)
     Condition
       Error in `tax_expand_time()`:
       ! `scale` must be a single string, not `NULL`.
@@ -232,7 +231,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, scale = 1)
+      tax_expand_time(taxdf, scale = 1)
     Condition
       Error in `tax_expand_time()`:
       ! `scale` must be a single string, not the number 1.
@@ -240,7 +239,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, scale = NA)
+      tax_expand_time(taxdf, scale = NA)
     Condition
       Error in `tax_expand_time()`:
       ! `scale` must be a single string, not `NA`.
@@ -248,7 +247,7 @@
 # arg 'rank' works
 
     Code
-      tax_expand_time(taxdf = taxdf, rank = c("eon", "period"))
+      tax_expand_time(taxdf, rank = c("eon", "period"))
     Condition
       Error in `tax_expand_time()`:
       ! `rank` must be a single string, not a character vector.
@@ -256,7 +255,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, rank = "foo")
+      tax_expand_time(taxdf, rank = "foo")
     Condition
       Error in `tax_expand_time()`:
       ! `rank` must be one of "stage", "epoch", "period", "era", or "eon", not "foo".
@@ -264,7 +263,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, rank = character(0))
+      tax_expand_time(taxdf, rank = character(0))
     Condition
       Error in `tax_expand_time()`:
       ! `rank` must be a single string, not an empty character vector.
@@ -272,7 +271,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, rank = NULL)
+      tax_expand_time(taxdf, rank = NULL)
     Condition
       Error in `tax_expand_time()`:
       ! `rank` must be a single string, not `NULL`.
@@ -280,7 +279,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, rank = 1)
+      tax_expand_time(taxdf, rank = 1)
     Condition
       Error in `tax_expand_time()`:
       ! `rank` must be a single string, not the number 1.
@@ -288,7 +287,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, rank = NA)
+      tax_expand_time(taxdf, rank = NA)
     Condition
       Error in `tax_expand_time()`:
       ! `rank` must be a single string, not `NA`.
@@ -296,7 +295,7 @@
 # arg 'ext_orig' works
 
     Code
-      tax_expand_time(taxdf = taxdf, ext_orig = "foo")
+      tax_expand_time(taxdf, ext_orig = "foo")
     Condition
       Error in `tax_expand_time()`:
       ! `ext_orig` must be `TRUE` or `FALSE`, not the string "foo".
@@ -304,7 +303,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, ext_orig = logical(0))
+      tax_expand_time(taxdf, ext_orig = logical(0))
     Condition
       Error in `tax_expand_time()`:
       ! `ext_orig` must be `TRUE` or `FALSE`, not an empty logical vector.
@@ -312,7 +311,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, ext_orig = NULL)
+      tax_expand_time(taxdf, ext_orig = NULL)
     Condition
       Error in `tax_expand_time()`:
       ! `ext_orig` must be `TRUE` or `FALSE`, not `NULL`.
@@ -320,7 +319,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, ext_orig = 1)
+      tax_expand_time(taxdf, ext_orig = 1)
     Condition
       Error in `tax_expand_time()`:
       ! `ext_orig` must be `TRUE` or `FALSE`, not the number 1.
@@ -328,7 +327,7 @@
 ---
 
     Code
-      tax_expand_time(taxdf = taxdf, ext_orig = NA)
+      tax_expand_time(taxdf, ext_orig = NA)
     Condition
       Error in `tax_expand_time()`:
       ! `ext_orig` must be `TRUE` or `FALSE`, not `NA`.
