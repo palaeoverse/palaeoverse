@@ -176,12 +176,7 @@ test_that("args 'max_ma' and 'min_ma' work", {
 
   # input checks on `max_ma`
   expect_snapshot(
-    tax_expand_time(
-      taxdf,
-      bins = bins,
-      max_ma = "nonexistent",
-      min_ma = "lad"
-    ),
+    tax_expand_time(taxdf, bins = bins, max_ma = "nonexistent", min_ma = "lad"),
     error = TRUE
   )
   expect_snapshot(
@@ -189,12 +184,7 @@ test_that("args 'max_ma' and 'min_ma' work", {
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_time(
-      taxdf,
-      bins = bins,
-      max_ma = character(0),
-      min_ma = "lad"
-    ),
+    tax_expand_time(taxdf, bins = bins, max_ma = character(0), min_ma = "lad"),
     error = TRUE
   )
   expect_snapshot(
@@ -202,23 +192,13 @@ test_that("args 'max_ma' and 'min_ma' work", {
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_time(
-      taxdf,
-      bins = bins,
-      max_ma = c("a", "b"),
-      min_ma = "lad"
-    ),
+    tax_expand_time(taxdf, bins = bins, max_ma = c("a", "b"), min_ma = "lad"),
     error = TRUE
   )
 
   # input checks on `min_ma`
   expect_snapshot(
-    tax_expand_time(
-      taxdf,
-      bins = bins,
-      max_ma = "fad",
-      min_ma = "nonexistent"
-    ),
+    tax_expand_time(taxdf, bins = bins, max_ma = "fad", min_ma = "nonexistent"),
     error = TRUE
   )
   expect_snapshot(
@@ -226,12 +206,7 @@ test_that("args 'max_ma' and 'min_ma' work", {
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_time(
-      taxdf,
-      bins = bins,
-      max_ma = "fad",
-      min_ma = character(0)
-    ),
+    tax_expand_time(taxdf, bins = bins, max_ma = "fad", min_ma = character(0)),
     error = TRUE
   )
   expect_snapshot(
@@ -239,12 +214,7 @@ test_that("args 'max_ma' and 'min_ma' work", {
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_time(
-      taxdf,
-      bins = bins,
-      max_ma = "fad",
-      min_ma = c("a", "b")
-    ),
+    tax_expand_time(taxdf, bins = bins, max_ma = "fad", min_ma = c("a", "b")),
     error = TRUE
   )
 })
