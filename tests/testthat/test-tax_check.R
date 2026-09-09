@@ -25,27 +25,15 @@ test_that("basic behavior works", {
     )
   )
 
+  # Capture warning on non-letter characters
+  expect_snapshot(
+    tax_check(data.frame(genus = c("Automaton", "Automaton2")))
+  )
+
   # input checks
   expect_snapshot(tax_check(taxdf = data.frame()), error = TRUE)
   expect_snapshot(tax_check(taxdf = 1), error = TRUE)
-})
-
-test_that("piping and not piping the first argument give the same result", {
-  dat <- data.frame(
-    genus = c(
-      "Automaton",
-      "Joebloggsia",
-      "Facsimilus",
-      "Joebloggia",
-      "Facsimilu",
-      "Facsimilu",
-      NA
-    )
-  )
-  expect_equal(
-    dat |> tax_check(verbose = FALSE),
-    tax_check(dat, verbose = FALSE)
-  )
+  expect_snapshot(tax_check(taxdf = data.frame(genus = c(NA, ""))), error = TRUE)
 })
 
 test_that("tax_check errors with unnamed args", {
@@ -129,6 +117,17 @@ test_that("arg 'group' works", {
     )
   )
 
+  # Capture warning on non-letter characters
+  expect_snapshot(
+    tax_check(
+      data.frame(
+        genus = c("Automaton", "Automaton"),
+        family = c("Foo", "Examplidae2")
+      ),
+      group = "family"
+    )
+  )
+
   # input checks
   expect_snapshot(tax_check(taxdf = dat, group = "nonexistent"), error = TRUE)
   expect_snapshot(tax_check(taxdf = dat, group = 1), error = TRUE)
@@ -167,6 +166,7 @@ test_that("arg 'dis' works", {
   # input checks
   expect_snapshot(tax_check(taxdf = dat, dis = 1), error = TRUE)
   expect_snapshot(tax_check(taxdf = dat, dis = 0), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, dis = c(0.5, 0.6)), error = TRUE)
   expect_snapshot(tax_check(taxdf = dat, dis = "a"), error = TRUE)
   expect_snapshot(tax_check(taxdf = dat, dis = numeric(0)), error = TRUE)
   expect_snapshot(tax_check(taxdf = dat, dis = NULL), error = TRUE)
@@ -213,9 +213,7 @@ test_that("arg 'start' works", {
   expect_snapshot(tax_check(taxdf = dat, start = -1), error = TRUE)
   expect_snapshot(tax_check(taxdf = dat, start = numeric(0)), error = TRUE)
   expect_snapshot(tax_check(taxdf = dat, start = "a"), error = TRUE)
-
-  # TODO: should error
-  # expect_snapshot(tax_check(taxdf = dat, start = NULL), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, start = NULL), error = TRUE)
 })
 
 test_that("arg 'verbose' works", {

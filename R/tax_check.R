@@ -94,127 +94,49 @@ tax_check <- function(
 
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
-  # taxdf: a data.frame with column names and at least one row
-  if (!exists("taxdf")) {
-    taxdf <- NULL
-  }
-
-  if (
-    any(c(
-      !is.data.frame(taxdf),
-      nrow(taxdf) == 0,
-      is.null(colnames(taxdf))
-    ))
-  ) {
-    stop(
-      "Please supply `taxdf` as a data.frame with named columns, containing
-         taxon names, and optionally their higher classification"
-    )
-  }
-
-  # names: a 1L character vector denoting a character column in taxdf
-  if (
-    any(c(
-      !is.atomic(name),
-      length(name) != 1,
-      !name %in% colnames(taxdf)
-    ))
-  ) {
-    stop("Please specify `name` as a single column name in `taxdf`")
-  }
+  check_data_frame(taxdf)
+  check_column_presence(taxdf, name)
 
   # Replace missing values with NA
   taxdf[grep("^$|^\\s+$", taxdf[, name, drop = TRUE]), name] <- NA
 
-  if (
-    !is.character(taxdf[, name, drop = TRUE]) ||
-      all(is.na(taxdf[, name, drop = TRUE]))
-  ) {
-    stop(
-      "The `name` column in `taxdf` must contain data of class character and
-         at least one entry that is not NA or empty"
+  check_class(taxdf, name, "character")
+  if (all(is.na(taxdf[, name, drop = TRUE]))) {
+    cli::cli_abort(
+      "Column {.val {name}} in {.arg taxdf} must have at least one entry that is not NA or empty."
     )
   }
 
   # groups: If not NULL, a 1L character vector denoting a character column
   # in taxdf
   if (!is.null(group)) {
-    if (
-      any(c(
-        !is.atomic(group),
-        length(group) != 1,
-        !group %in% colnames(taxdf)
-      ))
-    ) {
-      stop("Please specify `group` as a single column name in `taxdf`")
-    }
-    if (!is.character(taxdf[, group, drop = TRUE])) {
-      stop("The `group` column in `taxdf` must contain data of class character")
-    }
+    check_column_presence(taxdf, group)
+    check_class(taxdf, group, "character")
     group <- gsub("^$|^\\s+$", NA, taxdf[, group, drop = TRUE])
   } else {
     group <- substring(taxdf[, name, drop = TRUE], 1, 1)
   }
 
   # dis: a 1L numeric > 0 and < 1
-  if (
-    any(c(
-      !is.numeric(dis),
-      length(dis) != 1,
-      !is.atomic(dis)
-    ))
-  ) {
-    stop("`dis` must be a single numeric, greater than 0 and less than 1")
-  }
-  if (dis >= 1 || dis <= 0) {
-    stop("`dis` must be a single numeric, greater than 0 and less than 1")
+  rlang::check_number_decimal(dis)
+  if (dis <= 0 || dis >= 1) {
+    cli::cli_abort("{.arg dis} must be greater than 0 and less than 1.")
   }
 
-  # start: a 1L integer >= 0
-  if (!is.null(start)) {
-    if (
-      any(c(
-        !is.numeric(start),
-        length(start) != 1,
-        !is.atomic(start)
-      ))
-    ) {
-      stop("`start` must be a single positive integer, or zero")
-    }
-    if (
-      any(c(
-        start < 0,
-        start %% 1 != 0,
-        is.nan(start),
-        is.infinite(start)
-      ))
-    ) {
-      stop("`start` must be a single positive integer, or zero")
-    }
-  }
-
-  # verbose: a 1L logical vector
-  if (
-    any(c(
-      !is.atomic(c(verbose)),
-      !is.logical(verbose),
-      length(verbose) != 1
-    ))
-  ) {
-    stop("`verbose` must be a single logical value")
-  }
+  rlang::check_number_whole(start, min = 0)
+  rlang::check_bool(verbose)
 
   # check for non-letter characters, returning NULL if none
   gp <- unique(grep("[^[:alpha:] ]", group, value = TRUE))
   if (length(gp) != 0) {
-    warning("Non-letter characters present in the group names")
+    cli::cli_warn("Non-letter characters present in the group names.")
   } else {
     gp <- NULL
   }
 
   nm <- unique(grep("[^[:alpha:] ]", taxdf[, name, drop = TRUE], value = TRUE))
   if (length(nm) != 0) {
-    warning("Non-letter characters present in the taxon names")
+    cli::cli_warn("Non-letter characters present in the taxon names.")
   } else {
     nm <- NULL
   }
