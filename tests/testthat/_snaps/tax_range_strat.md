@@ -3,8 +3,8 @@
     Code
       tax_range_strat(data.frame())
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_strat()`:
+      ! Column "genus" not found in `occdf`.
 
 ---
 
@@ -12,7 +12,7 @@
       tax_range_strat(NULL)
     Condition
       Error in `tax_range_strat()`:
-      ! `occdf` should be a data.frame
+      ! `occdf` must be of class <data.frame>, not `NULL`.
 
 ---
 
@@ -20,7 +20,7 @@
       tax_range_strat(NA)
     Condition
       Error in `tax_range_strat()`:
-      ! `occdf` should be a data.frame
+      ! `occdf` must be of class <data.frame>, not `NA`.
 
 ---
 
@@ -28,7 +28,43 @@
       tax_range_strat("a")
     Condition
       Error in `tax_range_strat()`:
-      ! `occdf` should be a data.frame
+      ! `occdf` must be of class <data.frame>, not the string "a".
+
+# tax_range_strat errors with unnamed args
+
+    Code
+      tax_range_strat(occdf, "genus")
+    Condition
+      Error in `tax_range_strat()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_range_strat(occdf, "genus")
+    Condition
+      Error in `tax_range_strat()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_range_strat(occdf, "genus", "bed")
+    Condition
+      Error in `tax_range_strat()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      tax_range_strat(occdf, "genus", level = "bed")
+    Condition
+      Error in `tax_range_strat()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
 
 # argument 'name' works
 
@@ -36,15 +72,15 @@
       tax_range_strat(occdf, name = "test")
     Condition
       Error in `tax_range_strat()`:
-      ! Either `name` or `level` is not a named column in `occdf`
+      ! Column "test" not found in `occdf`.
 
 ---
 
     Code
       tax_range_strat(occdf, name = character(0))
     Condition
-      Error in `xtfrm.data.frame()`:
-      ! cannot xtfrm data frames
+      Error in `tax_range_strat()`:
+      ! `name` must be a single string, not an empty character vector.
 
 ---
 
@@ -52,7 +88,7 @@
       tax_range_strat(occdf, name = NA)
     Condition
       Error in `tax_range_strat()`:
-      ! Either `name` or `level` is not a named column in `occdf`
+      ! `name` must be a single string, not `NA`.
 
 ---
 
@@ -60,7 +96,7 @@
       tax_range_strat(occdf, name = 1)
     Condition
       Error in `tax_range_strat()`:
-      ! Either `name` or `level` is not a named column in `occdf`
+      ! `name` must be a single string, not the number 1.
 
 ---
 
@@ -68,15 +104,15 @@
       tax_range_strat(nadf)
     Condition
       Error in `tax_range_strat()`:
-      ! The `name` column contains NA values
+      ! Column "genus" in `occdf` must not have missing values.
 
 # argument 'level' works
 
     Code
       tax_range_strat(occdf, level = "test")
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_strat()`:
+      ! Column "test" not found in `occdf`.
 
 ---
 
@@ -84,15 +120,15 @@
       tax_range_strat(occdf, level = character(0))
     Condition
       Error in `tax_range_strat()`:
-      ! `level` must be of class numeric
+      ! `level` must be a single string, not an empty character vector.
 
 ---
 
     Code
       tax_range_strat(occdf, level = NA)
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `tax_range_strat()`:
+      ! `level` must be a single string, not `NA`.
 
 ---
 
@@ -100,7 +136,7 @@
       tax_range_strat(occdf, level = 1)
     Condition
       Error in `tax_range_strat()`:
-      ! `level` must be of class numeric
+      ! `level` must be a single string, not the number 1.
 
 ---
 
@@ -108,7 +144,7 @@
       tax_range_strat(nadf)
     Condition
       Error in `tax_range_strat()`:
-      ! `level` must be of class numeric
+      ! Column "bed" in `occdf` must be of class <numeric>, not <logical>.
 
 # argument 'group' works
 
@@ -116,7 +152,7 @@
       tax_range_strat(occdf, group = c("class", "genus"))
     Condition
       Error in `tax_range_strat()`:
-      ! `group` must be of length 1.
+      ! `group` must be a single string, not a character vector.
 
 ---
 
@@ -124,7 +160,7 @@
       tax_range_strat(occdf, group = "test")
     Condition
       Error in `tax_range_strat()`:
-      ! `group` is not a named column in `occdf`
+      ! Column "test" not found in `occdf`.
 
 ---
 
@@ -132,7 +168,7 @@
       tax_range_strat(occdf, group = character(0))
     Condition
       Error in `tax_range_strat()`:
-      ! `group` must be of length 1.
+      ! `group` must be a single string, not an empty character vector.
 
 ---
 
@@ -140,7 +176,7 @@
       tax_range_strat(occdf, group = NA)
     Condition
       Error in `tax_range_strat()`:
-      ! `group` is not a named column in `occdf`
+      ! `group` must be a single string, not `NA`.
 
 ---
 
@@ -148,7 +184,7 @@
       tax_range_strat(occdf, group = 1)
     Condition
       Error in `tax_range_strat()`:
-      ! `group` is not a named column in `occdf`
+      ! `group` must be a single string, not the number 1.
 
 # argument 'certainty' works
 
@@ -156,7 +192,7 @@
       tax_range_strat(occdf, certainty = c("class", "genus"))
     Condition
       Error in `tax_range_strat()`:
-      ! `certainty` must be of length 1.
+      ! `certainty` must be a single string, not a character vector.
 
 ---
 
@@ -164,7 +200,7 @@
       tax_range_strat(occdf, certainty = "test")
     Condition
       Error in `tax_range_strat()`:
-      ! `certainty` is not a named column in `occdf`
+      ! Column "test" not found in `occdf`.
 
 ---
 
@@ -172,7 +208,7 @@
       tax_range_strat(occdf, certainty = character(0))
     Condition
       Error in `tax_range_strat()`:
-      ! `certainty` must be of length 1.
+      ! `certainty` must be a single string, not an empty character vector.
 
 ---
 
@@ -180,7 +216,7 @@
       tax_range_strat(occdf, certainty = NA)
     Condition
       Error in `tax_range_strat()`:
-      ! `certainty` must either be of class character or NULL
+      ! `certainty` must be a single string, not `NA`.
 
 ---
 
@@ -188,7 +224,7 @@
       tax_range_strat(occdf, certainty = 1)
     Condition
       Error in `tax_range_strat()`:
-      ! `certainty` must either be of class character or NULL
+      ! `certainty` must be a single string, not the number 1.
 
 # argument 'by' works
 
@@ -196,7 +232,7 @@
       tax_range_strat(occdf, by = c("FAD", "LAD"))
     Condition
       Error in `tax_range_strat()`:
-      ! `by` must be of length 1.
+      ! `by` must be a single string, not a character vector.
 
 ---
 
@@ -204,7 +240,7 @@
       tax_range_strat(occdf, by = "test")
     Condition
       Error in `tax_range_strat()`:
-      ! `by` must be either "FAD", "LAD", or "name"
+      ! `by` must be one of "FAD", "LAD", or "name", not "test".
 
 ---
 
@@ -212,7 +248,7 @@
       tax_range_strat(occdf, by = character(0))
     Condition
       Error in `tax_range_strat()`:
-      ! `by` must be of length 1.
+      ! `by` must be a single string, not an empty character vector.
 
 ---
 
@@ -220,7 +256,7 @@
       tax_range_strat(occdf, by = NA)
     Condition
       Error in `tax_range_strat()`:
-      ! `by` must be either "FAD", "LAD", or "name"
+      ! `by` must be a single string, not `NA`.
 
 ---
 
@@ -228,5 +264,5 @@
       tax_range_strat(occdf, by = 1)
     Condition
       Error in `tax_range_strat()`:
-      ! `by` must be either "FAD", "LAD", or "name"
+      ! `by` must be a single string, not the number 1.
 

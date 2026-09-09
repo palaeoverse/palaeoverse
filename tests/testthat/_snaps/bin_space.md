@@ -1,3 +1,39 @@
+# bin_space errors with unnamed args
+
+    Code
+      bin_space(occdf, "lng")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      bin_space(occdf = occdf, "lng")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      bin_space(occdf, "lng", "lat")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      bin_space(occdf, "lng", lat = "lat")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
 # bin_space error handling
 
     Code
@@ -12,7 +48,7 @@
       bin_space(occdf = tetrapods, spacing = NA)
     Condition
       Error in `bin_space()`:
-      ! `spacing` must be a numeric value, not `NA`.
+      ! `spacing` must be of class <numeric>, not `NA`.
 
 ---
 
@@ -36,7 +72,7 @@
       bin_space(occdf = tetrapods, spacing = 1000, sub_grid = NA)
     Condition
       Error in `bin_space()`:
-      ! `sub_grid` must be a numeric value or `NULL`, not `NA`.
+      ! `sub_grid` must be of class <numeric> or `NULL`, not `NA`.
 
 ---
 

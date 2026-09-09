@@ -62,6 +62,24 @@
       Error in `bin_time()`:
       ! `occdf` must be of class <data.frame>, not a double vector.
 
+---
+
+    Code
+      bin_time(occdf, bins = bins)
+    Condition
+      Error in `bin_time()`:
+      ! Maximum age must be larger than or equal to minimum age.
+      i Row(s) of `occdf` where "max_ma" is smaller than "min_ma": 2, 3.
+
+---
+
+    Code
+      bin_time(occdf, bins = bins)
+    Condition
+      Error in `bin_time()`:
+      ! Maximum age must be larger than or equal to minimum age.
+      i Row(s) of `bins` where "max_ma" is smaller than "min_ma": 2, 3.
+
 # wrong input for method
 
     Code
@@ -76,7 +94,7 @@
       bin_time(occdf = occdf, bins = bins, method = "random", reps = TRUE)
     Condition
       Error in `bin_time()`:
-      ! `reps` must be a numeric value, not `TRUE`.
+      ! `reps` must be of class <numeric>, not `TRUE`.
 
 # wrong input for fun
 
