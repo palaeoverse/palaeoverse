@@ -8,7 +8,6 @@ space_bins <- function(spacing) {
   # Generate equal area hexagonal grid
   # Which resolution should be used based on input distance/spacing?
   # Use the h3_info_table to calculate resolution
-
   grid <- h3_info_table[
     which.min(abs(h3_info_table$avg_cendist_km - spacing)),
   ]
@@ -16,16 +15,12 @@ space_bins <- function(spacing) {
   grid$grid <- c("primary")
 
   all_cells <- h3o::h3_from_strings(h3_all_cells)
-
   # Get children at desired resolution
   children <- h3o::get_children(
     all_cells,
     resolution = grid$h3_resolution
   )
-  out <- do.call(
-    "c",
-    lapply(children, function(x) sf::st_as_sfc(x))
-  )
+  out <- do.call("c", lapply(children, function(x) sf::st_as_sfc(x)))
 
   class(out) <- c("palaeo_space_bins", class(out))
   attr(out, "spacing") <- spacing
