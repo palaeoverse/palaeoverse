@@ -1,6 +1,6 @@
 # palaeoverse (development version)
 
-This version contains many breaking changes. See the [2.0 migration guide]() for
+This version contains many breaking changes. See the 2.0 migration guide for
 guidance to update existing code.
 
 ## Breaking changes
