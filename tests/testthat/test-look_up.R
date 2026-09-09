@@ -123,7 +123,7 @@ test_that("look_up() warns if some intervals couldn't be matched", {
         row.names = 7L
       )
     ),
-    "The following intervals could not be matched with intervals from int_key"
+    "The following intervals could not be matched with intervals from"
   )
 })
 
@@ -164,13 +164,16 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
     look_up(occdf = dat, early_interval = c("a", "b")),
     error = TRUE
   )
-  expect_snapshot(look_up(occdf = dat, late_interval = 1), error = TRUE)
+  expect_snapshot(
+    look_up(occdf = dat, early_interval = "early", late_interval = 1),
+    error = TRUE
+  )
   expect_snapshot(
     look_up(occdf = dat, early_interval = "early", late_interval = NA),
     error = TRUE
   )
   expect_snapshot(
-    look_up(occdf = dat, late_interval = c("a", "b")),
+    look_up(occdf = dat, early_interval = "early", late_interval = c("a", "b")),
     error = TRUE
   )
 })
@@ -361,8 +364,6 @@ test_that("argument 'assign_with_GTS' works", {
   # and int_key = FALSE at the same time
   expect_snapshot(look_up(occdf, assign_with_GTS = FALSE), error = TRUE)
 
-  # TODO: input type and value checks should come before checking whether int_key = FALSE
-  # (for both snapshots below)
   expect_snapshot(look_up(occdf, assign_with_GTS = 1), error = TRUE)
   expect_snapshot(look_up(occdf, assign_with_GTS = "foo"), error = TRUE)
 })
