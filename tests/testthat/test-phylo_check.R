@@ -166,16 +166,10 @@ test_that("arg 'out' works", {
   )
 
   # input checks
-  expect_snapshot(
-    phylo_check(tree, list, out = "foo"),
-    error = TRUE
-  )
+  expect_snapshot(phylo_check(tree, list, out = "foo"), error = TRUE)
   expect_snapshot(phylo_check(tree, list, out = 1), error = TRUE)
   expect_snapshot(phylo_check(tree, list, out = NA), error = TRUE)
-  expect_snapshot(
-    phylo_check(tree, list, out = NULL),
-    error = TRUE
-  )
+  expect_snapshot(phylo_check(tree, list, out = NULL), error = TRUE)
   expect_snapshot(
     phylo_check(tree, list, out = c("counts", "tree")),
     error = TRUE
@@ -210,19 +204,10 @@ test_that("arg 'sort' works", {
   expect_equal(sorted, unsorted[order(unsorted$taxon_name), ])
 
   # input checks
-  expect_snapshot(
-    phylo_check(tree, list, sort = "foo"),
-    error = TRUE
-  )
+  expect_snapshot(phylo_check(tree, list, sort = "foo"), error = TRUE)
   expect_snapshot(phylo_check(tree, list, sort = 1), error = TRUE)
-  expect_snapshot(
-    phylo_check(tree, list, sort = NA),
-    error = TRUE
-  )
-  expect_snapshot(
-    phylo_check(tree, list, sort = NULL),
-    error = TRUE
-  )
+  expect_snapshot(phylo_check(tree, list, sort = NA), error = TRUE)
+  expect_snapshot(phylo_check(tree, list, sort = NULL), error = TRUE)
   expect_snapshot(
     phylo_check(tree, list, sort = c("presence", "az")),
     error = TRUE
