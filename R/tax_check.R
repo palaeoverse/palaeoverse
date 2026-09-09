@@ -248,7 +248,6 @@ tax_check <- function(
     attr(out, "non_letter_name") <- nm
   }
   if (length(gp) > 0) {
-    browser
     cli::cli_warn(
       c(
         "Some groups had non-letter characters.",
