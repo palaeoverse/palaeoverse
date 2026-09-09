@@ -101,6 +101,8 @@ tax_range_time <- function(
   plot_args = NULL,
   intervals = "periods"
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
 
   check_column_presence(occdf, name)
@@ -140,8 +142,8 @@ tax_range_time <- function(
   # Calculate ranges
   temp_df <- group_apply(
     occdf,
-    g,
-    function(occdf, name, min_ma, max_ma) {
+    group = g,
+    fun = function(occdf, name, min_ma, max_ma) {
       #=== Set-up ===
       unique_taxa <- unique(occdf[, name, drop = TRUE])
       # Order taxa by name
