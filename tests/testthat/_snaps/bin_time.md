@@ -94,7 +94,7 @@
       bin_time(occdf = occdf, bins = bins, method = "random", reps = TRUE)
     Condition
       Error in `bin_time()`:
-      ! `reps` must be a numeric value, not `TRUE`.
+      ! `reps` must be of class <numeric>, not `TRUE`.
 
 # wrong input for fun
 
