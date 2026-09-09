@@ -149,7 +149,7 @@ test_that("look_up() warns if some intervals couldn't be matched", {
         row.names = 7L
       )
     ),
-    "The following intervals could not be matched with intervals"
+    "The following intervals could not be matched with intervals from"
   )
 })
 
@@ -176,27 +176,27 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
   )
 
   # either one or both interval columns are not found in the data
-  expect_snapshot(look_up(dat), error = TRUE)
+  expect_snapshot(look_up(occdf = dat), error = TRUE)
   expect_snapshot(
-    look_up(dat, early_interval = "early"),
+    look_up(occdf = dat, early_interval = "early"),
     error = TRUE
   )
-  expect_snapshot(look_up(dat, late_interval = "late"), error = TRUE)
+  expect_snapshot(look_up(occdf = dat, late_interval = "late"), error = TRUE)
 
   # wrong input type
-  expect_snapshot(look_up(dat, early_interval = 1), error = TRUE)
-  expect_snapshot(look_up(dat, early_interval = NA), error = TRUE)
+  expect_snapshot(look_up(occdf = dat, early_interval = 1), error = TRUE)
+  expect_snapshot(look_up(occdf = dat, early_interval = NA), error = TRUE)
   expect_snapshot(
-    look_up(dat, early_interval = c("a", "b")),
+    look_up(occdf = dat, early_interval = c("a", "b")),
     error = TRUE
   )
-  expect_snapshot(look_up(dat, late_interval = 1), error = TRUE)
+  expect_snapshot(look_up(occdf = dat, late_interval = 1), error = TRUE)
   expect_snapshot(
-    look_up(dat, early_interval = "early", late_interval = NA),
+    look_up(occdf = dat, early_interval = "early", late_interval = NA),
     error = TRUE
   )
   expect_snapshot(
-    look_up(dat, late_interval = c("a", "b")),
+    look_up(occdf = dat, late_interval = c("a", "b")),
     error = TRUE
   )
 })
