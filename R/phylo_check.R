@@ -73,7 +73,7 @@ phylo_check <- function(
   out = "full_table",
   sort = "presence"
 ) {
-  ensure_args_are_named(exceptions = "tree")
+  ensure_args_are_named(exceptions = c("tree", "list"))
 
   if (!inherits(tree, "phylo")) {
     cli::cli_abort(
