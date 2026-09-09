@@ -135,10 +135,7 @@ test_that("arg 'bins' works", {
   )
 
   # input checks
-  expect_snapshot(
-    tax_expand_time(taxdf, bins = data.frame()),
-    error = TRUE
-  )
+  expect_snapshot(tax_expand_time(taxdf, bins = data.frame()), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, bins = 1), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, bins = NA), error = TRUE)
 })
@@ -253,10 +250,7 @@ test_that("arg 'scale' works", {
 
   # input checks
   expect_snapshot(tax_expand_time(taxdf, scale = "foo"), error = TRUE)
-  expect_snapshot(
-    tax_expand_time(taxdf, scale = character(0)),
-    error = TRUE
-  )
+  expect_snapshot(tax_expand_time(taxdf, scale = character(0)), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, scale = NULL), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, scale = 1), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, scale = NA), error = TRUE)
@@ -365,10 +359,7 @@ test_that("arg 'rank' works", {
     error = TRUE
   )
   expect_snapshot(tax_expand_time(taxdf, rank = "foo"), error = TRUE)
-  expect_snapshot(
-    tax_expand_time(taxdf, rank = character(0)),
-    error = TRUE
-  )
+  expect_snapshot(tax_expand_time(taxdf, rank = character(0)), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, rank = NULL), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, rank = 1), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, rank = NA), error = TRUE)
@@ -393,14 +384,8 @@ test_that("arg 'ext_orig' works", {
   )
 
   # input checks
-  expect_snapshot(
-    tax_expand_time(taxdf, ext_orig = "foo"),
-    error = TRUE
-  )
-  expect_snapshot(
-    tax_expand_time(taxdf, ext_orig = logical(0)),
-    error = TRUE
-  )
+  expect_snapshot(tax_expand_time(taxdf, ext_orig = "foo"), error = TRUE)
+  expect_snapshot(tax_expand_time(taxdf, ext_orig = logical(0)), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, ext_orig = NULL), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, ext_orig = 1), error = TRUE)
   expect_snapshot(tax_expand_time(taxdf, ext_orig = NA), error = TRUE)
