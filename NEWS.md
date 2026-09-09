@@ -2,6 +2,24 @@
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
+## Breaking changes
+
+* All functions now require arguments to be fully named, except when the first 
+  argument is a `data.frame` (#216). For example, the following cases would fail:
+
+  ```r
+  # `occdf` can be unnamed, but `nrow` must be named
+  group_apply(occdf, group = "cc", nrow)
+
+  # Partial argument names are not allowed
+  group_apply(occdf, group = "cc", f = nrow)
+  ```
+  This should be used instead:
+
+  ```r
+  group_apply(occdf, group = "cc", fun = nrow)
+  ```
+
 ## Bug fixes
 
 * `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).
