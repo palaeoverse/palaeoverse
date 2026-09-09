@@ -109,10 +109,10 @@
 ---
 
     Code
-      look_up(occdf = dat, late_interval = 1)
+      look_up(occdf = dat, early_interval = "early", late_interval = 1)
     Condition
       Error in `look_up()`:
-      ! Column "early_interval" not found in `occdf`.
+      ! `late_interval` must be a single string, not the number 1.
 
 ---
 
@@ -125,10 +125,10 @@
 ---
 
     Code
-      look_up(occdf = dat, late_interval = c("a", "b"))
+      look_up(occdf = dat, early_interval = "early", late_interval = c("a", "b"))
     Condition
       Error in `look_up()`:
-      ! Column "early_interval" not found in `occdf`.
+      ! `late_interval` must be a single string, not a character vector.
 
 # argument 'int_key' works
 
