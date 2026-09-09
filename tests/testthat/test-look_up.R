@@ -82,7 +82,7 @@ test_that("wrong input for argument 'occdf'", {
 test_that("look_up() warns if late interval is NA, empty, or blank", {
   expect_warning(
     expect_equal(
-      look_up(occdf = test_look_up[test_look_up$case == "late_na", ]),
+      look_up(test_look_up[test_look_up$case == "late_na", ]),
       data.frame(
         case = "late_na",
         early_interval = "Asselian",
@@ -99,7 +99,7 @@ test_that("look_up() warns if late interval is NA, empty, or blank", {
   )
   expect_warning(
     expect_equal(
-      look_up(occdf = test_look_up[test_look_up$case == "late_empty", ]),
+      look_up(test_look_up[test_look_up$case == "late_empty", ]),
       data.frame(
         case = "late_empty",
         early_interval = "Asselian",
@@ -116,7 +116,7 @@ test_that("look_up() warns if late interval is NA, empty, or blank", {
   )
   expect_warning(
     expect_equal(
-      look_up(occdf = test_look_up[test_look_up$case == "late_blank", ]),
+      look_up(test_look_up[test_look_up$case == "late_blank", ]),
       data.frame(
         case = "late_blank",
         early_interval = "Asselian",
@@ -136,7 +136,7 @@ test_that("look_up() warns if late interval is NA, empty, or blank", {
 test_that("look_up() warns if some intervals couldn't be matched", {
   expect_warning(
     expect_equal(
-      look_up(occdf = test_look_up[test_look_up$case == "key_only", ]),
+      look_up(test_look_up[test_look_up$case == "key_only", ]),
       data.frame(
         case = "key_only",
         early_interval = "Missourian",
@@ -159,7 +159,7 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
 
   expect_equal(
     look_up(
-      occdf = dat[dat$case %in% c("both_stages_equal", "two_stages_range"), ],
+      dat[dat$case %in% c("both_stages_equal", "two_stages_range"), ],
       early_interval = "early",
       late_interval = "late"
     ),
@@ -176,27 +176,27 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
   )
 
   # either one or both interval columns are not found in the data
-  expect_snapshot(look_up(occdf = dat), error = TRUE)
+  expect_snapshot(look_up(dat), error = TRUE)
   expect_snapshot(
-    look_up(occdf = dat, early_interval = "early"),
+    look_up(dat, early_interval = "early"),
     error = TRUE
   )
-  expect_snapshot(look_up(occdf = dat, late_interval = "late"), error = TRUE)
+  expect_snapshot(look_up(dat, late_interval = "late"), error = TRUE)
 
   # wrong input type
-  expect_snapshot(look_up(occdf = dat, early_interval = 1), error = TRUE)
-  expect_snapshot(look_up(occdf = dat, early_interval = NA), error = TRUE)
+  expect_snapshot(look_up(dat, early_interval = 1), error = TRUE)
+  expect_snapshot(look_up(dat, early_interval = NA), error = TRUE)
   expect_snapshot(
-    look_up(occdf = dat, early_interval = c("a", "b")),
+    look_up(dat, early_interval = c("a", "b")),
     error = TRUE
   )
-  expect_snapshot(look_up(occdf = dat, late_interval = 1), error = TRUE)
+  expect_snapshot(look_up(dat, late_interval = 1), error = TRUE)
   expect_snapshot(
-    look_up(occdf = dat, early_interval = "early", late_interval = NA),
+    look_up(dat, early_interval = "early", late_interval = NA),
     error = TRUE
   )
   expect_snapshot(
-    look_up(occdf = dat, late_interval = c("a", "b")),
+    look_up(dat, late_interval = c("a", "b")),
     error = TRUE
   )
 })
@@ -479,7 +479,7 @@ test_that("'early_interval' and 'late_interval' can point to the same column", {
     late_interval = c("Capitanian", "Cisuralian")
   )
   expect_equal(
-    look_up(occdf = occdf),
+    look_up(occdf),
     data.frame(
       case = c("both_stages_equal", "gts_epoch"),
       early_interval = c("Capitanian", "Cisuralian"),

@@ -61,7 +61,7 @@
 # arguments 'early_interval' and 'late_interval' work
 
     Code
-      look_up(occdf = dat)
+      look_up(dat)
     Condition
       Error in `look_up()`:
       ! Column "early_interval" not found in `occdf`.
@@ -69,7 +69,7 @@
 ---
 
     Code
-      look_up(occdf = dat, early_interval = "early")
+      look_up(dat, early_interval = "early")
     Condition
       Error in `look_up()`:
       ! Column "late_interval" not found in `occdf`.
@@ -77,7 +77,7 @@
 ---
 
     Code
-      look_up(occdf = dat, late_interval = "late")
+      look_up(dat, late_interval = "late")
     Condition
       Error in `look_up()`:
       ! Column "early_interval" not found in `occdf`.
@@ -85,7 +85,7 @@
 ---
 
     Code
-      look_up(occdf = dat, early_interval = 1)
+      look_up(dat, early_interval = 1)
     Condition
       Error in `look_up()`:
       ! `early_interval` must be a single string, not the number 1.
@@ -93,7 +93,7 @@
 ---
 
     Code
-      look_up(occdf = dat, early_interval = NA)
+      look_up(dat, early_interval = NA)
     Condition
       Error in `look_up()`:
       ! `early_interval` must be a single string, not `NA`.
@@ -101,7 +101,7 @@
 ---
 
     Code
-      look_up(occdf = dat, early_interval = c("a", "b"))
+      look_up(dat, early_interval = c("a", "b"))
     Condition
       Error in `look_up()`:
       ! `early_interval` must be a single string, not a character vector.
@@ -109,7 +109,7 @@
 ---
 
     Code
-      look_up(occdf = dat, late_interval = 1)
+      look_up(dat, late_interval = 1)
     Condition
       Error in `look_up()`:
       ! Column "early_interval" not found in `occdf`.
@@ -117,7 +117,7 @@
 ---
 
     Code
-      look_up(occdf = dat, early_interval = "early", late_interval = NA)
+      look_up(dat, early_interval = "early", late_interval = NA)
     Condition
       Error in `look_up()`:
       ! `late_interval` must be a single string, not `NA`.
@@ -125,7 +125,7 @@
 ---
 
     Code
-      look_up(occdf = dat, late_interval = c("a", "b"))
+      look_up(dat, late_interval = c("a", "b"))
     Condition
       Error in `look_up()`:
       ! Column "early_interval" not found in `occdf`.
