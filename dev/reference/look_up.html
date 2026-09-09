@@ -196,15 +196,15 @@ The table corresponding to this key can be loaded with
 <span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span></span></span>
 <span class="r-in"><span><span class="co"># assign stages and numerical ages</span></span></span>
 <span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>, int_key <span class="op">=</span> <span class="fu">palaeoverse</span><span class="fu">::</span><span class="va"><a href="interval_key.html">interval_key</a></span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`NA`, `""` or `" "` entries from `late_interval` have been</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>             filled in with the corresponding `early_interval` entries</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following intervals could not be matched with intervals from int_key</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>       or GTS: Early Triassic, Late Pennsylvanian, Vokhmian</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`NA`, <span style="color: #0000BB;">""</span> or <span style="color: #0000BB;">" "</span> entries from `late_interval` have been filled in with the</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> corresponding `early_interval` entries.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following intervals could not be matched with intervals from `int_key` or</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> GTS: <span style="color: #0000BB;">"Early Triassic"</span>, <span style="color: #0000BB;">"Late Pennsylvanian"</span>, <span style="color: #0000BB;">"Vokhmian"</span>.</span>
 <span class="r-in"><span><span class="co"># return unassigned intervals</span></span></span>
 <span class="r-in"><span><span class="va">unassigned</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>, int_key <span class="op">=</span> <span class="fu">palaeoverse</span><span class="fu">::</span><span class="va"><a href="interval_key.html">interval_key</a></span>,</span></span>
 <span class="r-in"><span>                      return_unassigned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`NA`, `""` or `" "` entries from `late_interval` have been</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>             filled in with the corresponding `early_interval` entries</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`NA`, <span style="color: #0000BB;">""</span> or <span style="color: #0000BB;">" "</span> entries from `late_interval` have been filled in with the</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> corresponding `early_interval` entries.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Use own key and GTS2012:</span></span></span>
 <span class="r-in"><span><span class="co"># create example data</span></span></span>

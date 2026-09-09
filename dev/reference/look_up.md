@@ -138,15 +138,15 @@ occdf <- look_up(occdf,
 occdf <- tetrapods
 # assign stages and numerical ages
 occdf <- look_up(occdf, int_key = palaeoverse::interval_key)
-#> Warning: `NA`, `""` or `" "` entries from `late_interval` have been
-#>             filled in with the corresponding `early_interval` entries
-#> Warning: The following intervals could not be matched with intervals from int_key
-#>       or GTS: Early Triassic, Late Pennsylvanian, Vokhmian
+#> Warning: `NA`, "" or " " entries from `late_interval` have been filled in with the
+#> corresponding `early_interval` entries.
+#> Warning: The following intervals could not be matched with intervals from `int_key` or
+#> GTS: "Early Triassic", "Late Pennsylvanian", "Vokhmian".
 # return unassigned intervals
 unassigned <- look_up(occdf, int_key = palaeoverse::interval_key,
                       return_unassigned = TRUE)
-#> Warning: `NA`, `""` or `" "` entries from `late_interval` have been
-#>             filled in with the corresponding `early_interval` entries
+#> Warning: `NA`, "" or " " entries from `late_interval` have been filled in with the
+#> corresponding `early_interval` entries.
 
 ## Use own key and GTS2012:
 # create example data
