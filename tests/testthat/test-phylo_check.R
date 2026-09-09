@@ -22,15 +22,38 @@ test_that("basic behavior works", {
   expect_true(unique(out[out$taxon_name %in% list, "present_in_list"]))
 
   # input checks
-  expect_snapshot(phylo_check(tree = data.frame()), error = TRUE)
-  expect_snapshot(phylo_check(tree = 1), error = TRUE)
-  expect_snapshot(phylo_check(tree = NA), error = TRUE)
+  expect_snapshot(phylo_check(data.frame()), error = TRUE)
+  expect_snapshot(phylo_check(1), error = TRUE)
+  expect_snapshot(phylo_check(NA), error = TRUE)
   skip_if(getRversion() < "4.3.0")
   expect_snapshot(phylo_check(), error = TRUE)
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  skip_if_not_installed("paleotree")
+  library(paleotree)
+  data(RaiaCopesRule)
+  tree <- ceratopsianTreeRaia
+  list <- c(
+    "Nasutoceratops_titusi",
+    "Diabloceratops_eatoni",
+    "Zuniceratops_christopheri",
+    "Psittacosaurus_major",
+    "Psittacosaurus_sinensis",
+    "Avaceratops_lammersi",
+    "Xenoceratops_foremostensis",
+    "Leptoceratops_gracilis",
+    "Triceratops_horridus",
+    "Triceratops_prorsus"
+  )
+
+  expect_equal(
+    tree |> phylo_check(list = list),
+    phylo_check(tree, list = list)
+  )
+})
+
 test_that("phylo_check errors with unnamed args", {
-  expect_snapshot(phylo_check(1, "a"), error = TRUE)
   expect_snapshot(phylo_check(tree = 1, "a"), error = TRUE)
   expect_snapshot(phylo_check(1, "a", "full_table"), error = TRUE)
   expect_snapshot(phylo_check(1, "a", out = "full_table"), error = TRUE)

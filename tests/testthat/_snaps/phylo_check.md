@@ -1,7 +1,7 @@
 # basic behavior works
 
     Code
-      phylo_check(tree = data.frame())
+      phylo_check(data.frame())
     Condition
       Error in `phylo_check()`:
       ! `tree` must be of class <phylo>, not a <data.frame> object.
@@ -9,7 +9,7 @@
 ---
 
     Code
-      phylo_check(tree = 1)
+      phylo_check(1)
     Condition
       Error in `phylo_check()`:
       ! `tree` must be of class <phylo>, not the number 1.
@@ -17,7 +17,7 @@
 ---
 
     Code
-      phylo_check(tree = NA)
+      phylo_check(NA)
     Condition
       Error in `phylo_check()`:
       ! `tree` must be of class <phylo>, not `NA`.
@@ -33,19 +33,10 @@
 # phylo_check errors with unnamed args
 
     Code
-      phylo_check(1, "a")
-    Condition
-      Error in `phylo_check()`:
-      ! All arguments must be named.
-      i Currently, there are 2 arguments that should be named.
-
----
-
-    Code
       phylo_check(tree = 1, "a")
     Condition
       Error in `phylo_check()`:
-      ! All arguments must be named.
+      ! All arguments must be named (except for "tree").
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -54,8 +45,8 @@
       phylo_check(1, "a", "full_table")
     Condition
       Error in `phylo_check()`:
-      ! All arguments must be named.
-      i Currently, there are 3 arguments that should be named.
+      ! All arguments must be named (except for "tree").
+      i Currently, there are 2 arguments that should be named.
 
 ---
 
@@ -63,8 +54,8 @@
       phylo_check(1, "a", out = "full_table")
     Condition
       Error in `phylo_check()`:
-      ! All arguments must be named.
-      i Currently, there are 2 arguments that should be named.
+      ! All arguments must be named (except for "tree").
+      i Currently, there is 1 argument that should be named.
 
 # arg 'list' works
 
@@ -118,7 +109,7 @@
 ---
 
     Code
-      phylo_check(tree, list, out = c("counts", "tree"))
+      phylo_check(tree = tree, list = list, out = c("counts", "tree"))
     Condition
       Error in `phylo_check()`:
       ! `out` must be a single string, not a character vector.
@@ -158,7 +149,7 @@
 ---
 
     Code
-      phylo_check(tree, list, sort = c("presence", "az"))
+      phylo_check(tree = tree, list = list, sort = c("presence", "az"))
     Condition
       Error in `phylo_check()`:
       ! `sort` must be a single string, not a character vector.
