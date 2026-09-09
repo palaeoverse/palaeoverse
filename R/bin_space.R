@@ -109,7 +109,7 @@
 #' })
 #' @export
 bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = c("occdf", "bins"))
 
   check_data_frame(occdf)
   check_data_frame(bins)
@@ -128,10 +128,8 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
   )
 
   #=== Grid binning  ===
-  grid <- bins
-
   # Extract cell ID
-  occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = grid$h3_resolution)
+  occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = bins$h3_resolution)
 
   # Extract cell centroids
   occdf$cell_centroid_lng <- sf::st_coordinates(
@@ -150,7 +148,7 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
   # Get children at desired resolution
   children <- h3jsr::get_children(
     h3_address = all_cells,
-    res = grid$h3_resolution,
+    res = bins$h3_resolution,
     simple = TRUE
   )
   # Get base cells
@@ -187,11 +185,11 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
   # Should the grid be returned?
   if (return) {
     if (!is.null(sub_grid)) {
-      grid <- rbind.data.frame(grid, s_grid)
+      grid <- rbind.data.frame(bins, s_grid)
       occdf <- list(occdf, grid, base_grid, primary, secondary)
       names(occdf) <- c("occdf", "grid_info", "grid_base", "grid", "sub_grid")
     } else {
-      occdf <- list(occdf, grid, base_grid, primary)
+      occdf <- list(occdf, bins, base_grid, primary)
       names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
     }
   }
@@ -199,10 +197,10 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
     c(
       paste0(
         "Average spacing between adjacent cells in the primary grid was set to ",
-        round(grid$avg_cendist_km[1], digits = 2),
+        round(bins$avg_cendist_km[1], digits = 2),
         " km. "
       ),
-      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
+      "i" = paste0("\nH3 resolution: ", bins$h3_resolution[1])
     )
   )
   return(occdf)
