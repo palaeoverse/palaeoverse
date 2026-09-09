@@ -271,113 +271,88 @@ axis_geo <- function(
     type <- lastPP$type
     backward <- lastPP$direction %in% c("leftwards", "downwards")
     if (type == "unrooted") {
-      stop(
-        "axis_geo() not available for unrooted plots;
-           try ape::add.scale.bar()"
+      cli::cli_abort(
+        c(
+          "{.fn axis_geo} is not available for unrooted plots.",
+          "i" = "Try {.fn ape::add.scale.bar} instead."
+        )
       )
     }
     if (type %in% c("radial", "fan")) {
-      stop("axis_geo() not meaningful for radial or fan plots")
+      cli::cli_abort(
+        "{.fn axis_geo} is not meaningful for radial or fan plots."
+      )
     }
     if (is.null(root.time)) root.time <- lastPP$root.time
   }
 
-  height <- rep(make_list(height), length.out = n_scales)
-  if (!all(sapply(height, function(x) is.numeric(x) && length(x) == 1))) {
-    stop(
-      "Invalid value supplied for height, must be a single numeric value
-         per scale",
-      call. = FALSE
+  # Converts `x` to a list of length `n_scales`, ensures that all list elements
+  # are scalars of a specific `type`, and if so returns the list.
+  ensure_single_value_per_scale <- function(x, type) {
+    x_l <- rep(make_list(x), length.out = n_scales)
+    fun <- switch(
+      type,
+      "numeric" = is.numeric,
+      "character" = is.character,
+      "logical" = is.logical,
+      "unreachable"
     )
+    all_true <- all(sapply(x_l, function(y) {
+      length(y) == 1 && fun(y)
+    }))
+    if (!all_true) {
+      cli::cli_abort(
+        "{.arg {rlang::caller_arg(x)}} must be a single {type} value per scale.",
+        call = rlang::caller_env()
+      )
+    } else {
+      x_l
+    }
   }
-  fill <- rep(make_list(fill), length.out = n_scales)
-  if (!all(sapply(fill, is_type_or_null, "character"))) {
-    stop(
-      "Invalid value supplied for fill, must be character (or NULL)",
-      call. = FALSE
+
+  # Converts `x` to a list of length `n_scales`, ensures that all list elements
+  # are either `NULL` or of a specific `type`, and if so returns the list.
+  ensure_all_type_or_null <- function(x, type) {
+    x_l <- rep(make_list(x), length.out = n_scales)
+    fun <- switch(
+      type,
+      "numeric" = is.numeric,
+      "character" = is.character,
+      "logical" = is.logical,
+      "unreachable"
     )
+    all_true <- all(vapply(
+      x,
+      function(y) is.null(y) || fun(y),
+      FUN.VALUE = logical(1)
+    ))
+    if (!all_true) {
+      cli::cli_abort(
+        "All values of {.arg {rlang::caller_arg(x)}} must be of class {.cls {type}} or {.code NULL}.",
+        call = rlang::caller_env()
+      )
+    } else {
+      x_l
+    }
   }
-  lab <- rep(make_list(lab), length.out = n_scales)
-  if (!all(sapply(lab, function(x) is.logical(x) && length(x) == 1))) {
-    stop(
-      "Invalid value supplied for lab, must be a single logical value per
-         scale",
-      call. = FALSE
-    )
-  }
-  lab_col <- rep(make_list(lab_col), length.out = n_scales)
-  if (!all(sapply(lab_col, is_type_or_null, "character"))) {
-    stop(
-      "Invalid value supplied for lab_col, must be character (or NULL)",
-      call. = FALSE
-    )
-  }
-  lab_size <- rep(make_list(lab_size), length.out = n_scales)
-  if (!all(sapply(lab_size, is.numeric))) {
-    stop("Invalid value supplied for lab_size, must be numeric", call. = FALSE)
-  }
-  rot <- rep(make_list(rot), length.out = n_scales)
-  if (!all(sapply(rot, function(x) is.numeric(x) && length(x) == 1))) {
-    stop(
-      "Invalid value supplied for rot, must be a single numeric value per
-         scale",
-      call. = FALSE
-    )
-  }
-  abbr <- rep(make_list(abbr), length.out = n_scales)
-  if (!all(sapply(abbr, function(x) is.logical(x) && length(x) == 1))) {
-    stop(
-      "Invalid value supplied for abbr, must be a single numeric value per
-         scale",
-      call. = FALSE
-    )
-  }
-  skip <- rep(make_list(skip), length.out = n_scales)
-  if (!all(sapply(skip, is_type_or_null, "character"))) {
-    stop(
-      "Invalid value supplied for skip, must be character (or NULL)",
-      call. = FALSE
-    )
-  }
-  center_end_labels <- rep(make_list(center_end_labels), length.out = n_scales)
-  if (
-    !all(sapply(center_end_labels, function(x) is.logical(x) && length(x) == 1))
-  ) {
-    stop(
-      "Invalid value supplied for center_end_labels, must be a single logical
-         value per scale",
-      call. = FALSE
-    )
-  }
-  autofit <- rep(make_list(autofit), length.out = n_scales)
-  if (!all(sapply(autofit, function(x) is.logical(x) && length(x) == 1))) {
-    stop(
-      "Invalid value supplied for autofit, must be a single logical value
-         per scale",
-      call. = FALSE
-    )
-  }
-  bord_col <- rep(make_list(bord_col), length.out = n_scales)
-  if (!all(sapply(bord_col, is_type_or_null, "character"))) {
-    stop(
-      "Invalid value supplied for bord_col, must be character (or NULL)",
-      call. = FALSE
-    )
-  }
-  lty <- rep(make_list(lty), length.out = n_scales)
-  if (!all(sapply(lty, is_type_or_null, "character"))) {
-    stop(
-      "Invalid value supplied for lty, must be character (or NULL)",
-      call. = FALSE
-    )
-  }
-  lwd <- rep(make_list(lwd), length.out = n_scales)
-  if (!all(sapply(lwd, is_type_or_null, "numeric"))) {
-    stop(
-      "Invalid value supplied for lwd, must be numeric (or NULL)",
-      call. = FALSE
-    )
-  }
+
+  height <- ensure_single_value_per_scale(height, "numeric")
+  lab <- ensure_single_value_per_scale(lab, "logical")
+  lab_size <- ensure_single_value_per_scale(lab_size, "numeric")
+  rot <- ensure_single_value_per_scale(rot, "numeric")
+  abbr <- ensure_single_value_per_scale(abbr, "logical")
+  center_end_labels <- ensure_single_value_per_scale(
+    center_end_labels,
+    "logical"
+  )
+  autofit <- ensure_single_value_per_scale(autofit, "logical")
+
+  fill <- ensure_all_type_or_null(fill, "character")
+  lab_col <- ensure_all_type_or_null(lab_col, "character")
+  skip <- ensure_all_type_or_null(skip, "character")
+  bord_col <- ensure_all_type_or_null(bord_col, "character")
+  lty <- ensure_all_type_or_null(lty, "character")
+  lwd <- ensure_all_type_or_null(lwd, "numeric")
 
   # get the limits of the plot
   clip_lims <- plot_lims <- par("usr") # x1, x2, y1, y2
@@ -410,10 +385,7 @@ axis_geo <- function(
       abs_ht * c(-1, 1)[(plot_lims[1] < plot_lims[2]) + 1]
     })
   } else {
-    stop(
-      "Invalid value supplied for side, must be 1, 2, 3, or 4",
-      call. = FALSE
-    )
+    cli::cli_abort("{.arg side} must be 1, 2, 3, or 4.")
   }
   if (phylo) {
     # adapted (and fixed) from ape
@@ -964,9 +936,6 @@ make_list <- function(x) {
   if (is.list(x) && !is(x, "data.frame")) x else list(x)
 }
 
-is_type_or_null <- function(x, type) {
-  is(x, type) || is.null(x)
-}
 
 #' Fit text to a specified box
 #'

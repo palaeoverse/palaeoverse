@@ -49,7 +49,15 @@ check_na <- function(data, column) {
 #' @noRd
 check_class <- function(data, column, class) {
   values <- data[[column]]
-  if (!inherits(values, class)) {
+
+  # is.numeric() is TRUE for integers too, but inherits(x, "numeric") is FALSE for
+  # integers.
+  cond <- if (identical(class, "numeric")) {
+    !is.numeric(values)
+  } else {
+    !inherits(values, class)
+  }
+  if (cond) {
     cli::cli_abort(
       "Column {.val {column}} in {.arg {rlang::caller_arg(data)}} must be of class {.cls {class}}, not {.cls {class(values)}}.",
       call = rlang::caller_env()
@@ -136,7 +144,7 @@ check_numeric <- function(
         call = call
       )
     }
-    if (is.numeric(x)) {
+    if (is.numeric(x) && length(x) > 0) {
       if (!allow_na && anyNA(x)) {
         cli::cli_abort(
           "{.code {arg}} can't contain NA values.",
@@ -150,7 +158,7 @@ check_numeric <- function(
 
   rlang::stop_input_type(
     x,
-    "a numeric value",
+    "of class <numeric>",
     ...,
     allow_na = FALSE,
     allow_null = allow_null,
