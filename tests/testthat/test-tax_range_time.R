@@ -179,6 +179,15 @@ test_that("argument 'min_ma' works", {
   )
 })
 
+test_that("max ages must be larger than or equal to min ages", {
+  occdf <- data.frame(
+    genus = c("A", "B", "C"),
+    max_ma = c(150, 100, 30),
+    min_ma = c(110, 110, 40)
+  )
+  expect_snapshot(tax_range_time(occdf), error = TRUE)
+})
+
 test_that("argument 'group' works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
