@@ -30,6 +30,33 @@
       Error in `tax_range_time()`:
       ! `occdf` must be of class <data.frame>, not the string "a".
 
+# tax_range_time errors with unnamed args
+
+    Code
+      tax_range_time(occdf, "genus")
+    Condition
+      Error in `tax_range_time()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_range_time(occdf, "genus", "min_ma")
+    Condition
+      Error in `tax_range_time()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      tax_range_time(occdf, "genus", min_ma = "min_ma")
+    Condition
+      Error in `tax_range_time()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
 # argument 'name' works
 
     Code
@@ -189,6 +216,15 @@
     Condition
       Error in `tax_range_time()`:
       ! Column "min_ma" in `occdf` must not have missing values.
+
+# max ages must be larger than or equal to min ages
+
+    Code
+      tax_range_time(occdf)
+    Condition
+      Error in `tax_range_time()`:
+      ! Maximum age must be larger than or equal to minimum age.
+      i Row(s) of `occdf` where "max_ma" is smaller than "min_ma": 2, 3.
 
 # argument 'group' works
 

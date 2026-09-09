@@ -123,6 +123,8 @@ bin_time <- function(
   fun = dunif,
   ...
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
   check_data_frame(bins)
 
@@ -148,6 +150,7 @@ bin_time <- function(
   occdf_max_ma_vals <- occdf[[max_ma]]
   bins_min_ma_vals <- bins[[min_ma]]
   bins_max_ma_vals <- bins[[max_ma]]
+  check_min_lower_than_max(bins, min_ma, max_ma)
 
   if (max(occdf_max_ma_vals) > max(bins_max_ma_vals)) {
     cli::cli_abort(

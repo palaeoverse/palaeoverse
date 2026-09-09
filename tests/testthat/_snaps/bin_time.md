@@ -57,10 +57,28 @@
 ---
 
     Code
-      bin_time(mtcars, occdf = c(50, 20, 10))
+      bin_time(bins = mtcars, occdf = c(50, 20, 10))
     Condition
       Error in `bin_time()`:
       ! `occdf` must be of class <data.frame>, not a double vector.
+
+---
+
+    Code
+      bin_time(occdf, bins = bins)
+    Condition
+      Error in `bin_time()`:
+      ! Maximum age must be larger than or equal to minimum age.
+      i Row(s) of `occdf` where "max_ma" is smaller than "min_ma": 2, 3.
+
+---
+
+    Code
+      bin_time(occdf, bins = bins)
+    Condition
+      Error in `bin_time()`:
+      ! Maximum age must be larger than or equal to minimum age.
+      i Row(s) of `bins` where "max_ma" is smaller than "min_ma": 2, 3.
 
 # wrong input for method
 
@@ -144,4 +162,32 @@
     Condition
       Error in `bin_time()`:
       ! Column "max_ma" in `occdf` must not have missing values.
+
+# bin_time errors with unnamed args
+
+    Code
+      bin_time(occdf = test_occdf, test_bins, method = "majority")
+    Condition
+      Error in `bin_time()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      bin_time(test_occdf, test_bins, "majority")
+    Condition
+      Error in `bin_time()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      bin_time(occdf = test_occdf, bins = test_bins, method = "point", reps = 5, fun = dnorm,
+        0.5, 0.25)
+    Condition
+      Error in `bin_time()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
 

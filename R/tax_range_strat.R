@@ -129,55 +129,27 @@ tax_range_strat <- function(
   x_args = NULL,
   y_args = NULL
 ) {
-  if (!is.data.frame(occdf)) {
-    stop("`occdf` should be a data.frame")
-  }
+  ensure_args_are_named(exceptions = "occdf")
 
-  if (!is.numeric(occdf[, level, drop = TRUE])) {
-    stop("`level` must be of class numeric")
-  }
+  check_data_frame(occdf)
+  check_column_presence(occdf, name)
+  check_column_presence(occdf, level)
 
-  if (!is.null(group) && length(group) != 1) {
-    stop("`group` must be of length 1.")
-  }
+  check_class(occdf, level, "numeric")
+  check_na(occdf, name)
+  check_na(occdf, level)
 
-  if (!is.null(group) && !group %in% colnames(occdf)) {
-    stop("`group` is not a named column in `occdf`")
-  }
-
-  if (!all(c(name, level) %in% colnames(occdf))) {
-    stop("Either `name` or `level` is not a named column in `occdf`")
+  if (!is.null(group)) {
+    check_column_presence(occdf, group)
   }
 
   if (!is.null(certainty)) {
-    if (length(certainty) != 1) {
-      stop("`certainty` must be of length 1.")
-    }
-    if (!is.character(certainty)) {
-      stop("`certainty` must either be of class character or NULL")
-    }
-    if (!certainty %in% colnames(occdf)) {
-      stop("`certainty` is not a named column in `occdf`")
-    }
-    if (anyNA(occdf[, certainty, drop = TRUE])) {
-      stop("The `certainty` column contains NA values")
-    }
+    check_column_presence(occdf, certainty)
+    check_na(occdf, certainty)
   }
 
-  if (anyNA(occdf[, name, drop = TRUE])) {
-    stop("The `name` column contains NA values")
-  }
-
-  if (anyNA(occdf[, level, drop = TRUE])) {
-    stop("The `level` column contains NA values")
-  }
-
-  if (length(by) != 1) {
-    stop("`by` must be of length 1.")
-  }
-  if (!by %in% c("name", "FAD", "LAD")) {
-    stop("`by` must be either \"FAD\", \"LAD\", or \"name\"")
-  }
+  rlang::check_string(by)
+  by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
 
   # Create pseudo-group if not provided (enable group_apply with no groups)
   if (is.null(group)) {
@@ -189,8 +161,8 @@ tax_range_strat <- function(
   # Calculate ranges
   ranges <- group_apply(
     occdf,
-    g,
-    function(occdf, name, level) {
+    group = g,
+    fun = function(occdf, name, level) {
       #=== Set-up ===
       unique_taxa <- unique(occdf[, name, drop = TRUE])
       # Order taxa by name
