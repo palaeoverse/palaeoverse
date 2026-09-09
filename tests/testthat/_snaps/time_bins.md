@@ -359,8 +359,9 @@
       Error in `time_bins()`:
       ! `scale` must be one of the following, not the number 1:
       * the name of an in-built time scale (e.g. "GTS2020")
-      * the name of a Macrostrat time scale (see details)
+      * the name of a Macrostrat time scale
       * a <data.frame>
+      > See `time_bins()` (`?palaeoverse::time_bins()`) for more details.
 
 ---
 
@@ -370,8 +371,9 @@
       Error in `time_bins()`:
       ! `scale` must be one of the following, not `NA`:
       * the name of an in-built time scale (e.g. "GTS2020")
-      * the name of a Macrostrat time scale (see details)
+      * the name of a Macrostrat time scale
       * a <data.frame>
+      > See `time_bins()` (`?palaeoverse::time_bins()`) for more details.
 
 ---
 
@@ -381,8 +383,9 @@
       Error in `time_bins()`:
       ! `scale` must be one of the following, not an empty character vector:
       * the name of an in-built time scale (e.g. "GTS2020")
-      * the name of a Macrostrat time scale (see details)
+      * the name of a Macrostrat time scale
       * a <data.frame>
+      > See `time_bins()` (`?palaeoverse::time_bins()`) for more details.
 
 ---
 

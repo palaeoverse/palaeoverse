@@ -164,8 +164,9 @@ time_bins <- function(
       c(
         "{.arg scale} must be one of the following, not {obj_type_friendly(scale)}:",
         "*" = "the name of an in-built time scale (e.g. {.val GTS2020})",
-        "*" = "the name of a Macrostrat time scale (see details)",
-        "*" = "a {.cls data.frame}"
+        "*" = "the name of a Macrostrat time scale",
+        "*" = "a {.cls data.frame}",
+        ">" = "See {.help [{.fun time_bins}](palaeoverse::time_bins)} for more details."
       )
     )
   }
