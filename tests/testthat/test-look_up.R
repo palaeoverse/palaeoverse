@@ -74,9 +74,9 @@ test_that("look_up errors with unnamed args", {
 })
 
 test_that("wrong input for argument 'occdf'", {
-  expect_snapshot(look_up(occdf = 1), error = TRUE)
-  expect_snapshot(look_up(occdf = NA), error = TRUE)
-  expect_snapshot(look_up(occdf = NULL), error = TRUE)
+  expect_snapshot(look_up(1), error = TRUE)
+  expect_snapshot(look_up(NA), error = TRUE)
+  expect_snapshot(look_up(NULL), error = TRUE)
 })
 
 test_that("look_up() warns if late interval is NA, empty, or blank", {
@@ -149,7 +149,7 @@ test_that("look_up() warns if some intervals couldn't be matched", {
         row.names = 7L
       )
     ),
-    "The following intervals could not be matched with intervals from"
+    "The following intervals could not be matched with intervals from int_key"
   )
 })
 
@@ -190,16 +190,13 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
     look_up(occdf = dat, early_interval = c("a", "b")),
     error = TRUE
   )
-  expect_snapshot(
-    look_up(occdf = dat, early_interval = "early", late_interval = 1),
-    error = TRUE
-  )
+  expect_snapshot(look_up(occdf = dat, late_interval = 1), error = TRUE)
   expect_snapshot(
     look_up(occdf = dat, early_interval = "early", late_interval = NA),
     error = TRUE
   )
   expect_snapshot(
-    look_up(occdf = dat, early_interval = "early", late_interval = c("a", "b")),
+    look_up(occdf = dat, late_interval = c("a", "b")),
     error = TRUE
   )
 })
@@ -216,7 +213,7 @@ test_that("argument 'int_key' works", {
     late_stage = c("bar1", "bar2")
   )
   expect_equal(
-    look_up(occdf = occdf, int_key = my_interval),
+    look_up(occdf, int_key = my_interval),
     data.frame(
       case = c("key_only", "precambrian"),
       early_interval = c("Missourian", "Ediacaran"),
@@ -231,13 +228,13 @@ test_that("argument 'int_key' works", {
   )
 
   # wrong input for int_key
-  expect_snapshot(look_up(occdf = occdf, int_key = 1), error = TRUE)
-  expect_snapshot(look_up(occdf = occdf, int_key = c("a", "b")), error = TRUE)
+  expect_snapshot(look_up(occdf, int_key = 1), error = TRUE)
+  expect_snapshot(look_up(occdf, int_key = c("a", "b")), error = TRUE)
 
   # missing column(s) in int_key
   expect_snapshot(
     look_up(
-      occdf = occdf,
+      occdf,
       int_key = data.frame(
         interval_name = c("Induan", "Asselian"),
         early_stage = c("foo1", "foo2")
@@ -247,7 +244,7 @@ test_that("argument 'int_key' works", {
   )
   expect_snapshot(
     look_up(
-      occdf = occdf,
+      occdf,
       int_key = data.frame(
         interval_name = c("Induan", "Asselian"),
         late_stage = c("foo1", "foo2")
@@ -258,7 +255,7 @@ test_that("argument 'int_key' works", {
   # wrong column type
   expect_snapshot(
     look_up(
-      occdf = occdf,
+      occdf,
       int_key = data.frame(
         interval_name = c("Induan", "Asselian"),
         early_stage = 1:2,
@@ -270,7 +267,7 @@ test_that("argument 'int_key' works", {
   # max_ma and min_ma must be numeric
   expect_snapshot(
     look_up(
-      occdf = occdf,
+      occdf,
       int_key = data.frame(
         interval_name = c("Induan", "Asselian"),
         early_stage = c("foo1", "foo2"),
@@ -282,7 +279,7 @@ test_that("argument 'int_key' works", {
   )
   expect_snapshot(
     look_up(
-      occdf = occdf,
+      occdf,
       int_key = data.frame(
         interval_name = c("Induan", "Asselian"),
         early_stage = c("foo1", "foo2"),
@@ -310,7 +307,7 @@ test_that("int_key works with columns 'min_ma' and 'max_ma'", {
   # `unmatchable` is in neither the key nor GTS, so it stays unassigned and warns
   expect_warning(
     expect_equal(
-      look_up(occdf = occdf, int_key = custom_key, assign_with_GTS = FALSE),
+      look_up(occdf, int_key = custom_key, assign_with_GTS = FALSE),
       data.frame(
         case = c("both_stages_equal", "key_only", "unmatchable"),
         early_interval = c("Capitanian", "Missourian", "Meso-archean"),
@@ -333,7 +330,7 @@ test_that("argument 'assign_with_GTS' works", {
       c("both_stages_equal", "two_stages_range", "gts_epoch"),
   ]
   expect_equal(
-    look_up(occdf = occdf, assign_with_GTS = "GTS2020"),
+    look_up(occdf, assign_with_GTS = "GTS2020"),
     data.frame(
       case = c("both_stages_equal", "two_stages_range", "gts_epoch"),
       early_interval = c("Capitanian", "Induan", "Cisuralian"),
@@ -347,7 +344,7 @@ test_that("argument 'assign_with_GTS' works", {
     )
   )
   expect_equal(
-    look_up(occdf = occdf, assign_with_GTS = "GTS2012"),
+    look_up(occdf, assign_with_GTS = "GTS2012"),
     data.frame(
       case = c("both_stages_equal", "two_stages_range", "gts_epoch"),
       early_interval = c("Capitanian", "Induan", "Cisuralian"),
@@ -367,7 +364,7 @@ test_that("argument 'assign_with_GTS' works", {
   occdf <- test_look_up[test_look_up$case %in% c("key_only", "precambrian"), ]
   expect_warning(
     expect_equal(
-      look_up(occdf = occdf, int_key = interval_key, assign_with_GTS = FALSE),
+      look_up(occdf, int_key = interval_key, assign_with_GTS = FALSE),
       data.frame(
         case = c("key_only", "precambrian"),
         early_interval = c("Missourian", "Ediacaran"),
@@ -382,16 +379,18 @@ test_that("argument 'assign_with_GTS' works", {
 
   # input check
   expect_snapshot(
-    look_up(occdf = occdf, int_key = interval_key, assign_with_GTS = "foo"),
+    look_up(occdf, int_key = interval_key, assign_with_GTS = "foo"),
     error = TRUE
   )
 
   # TODO: update docs to mention that we can't have assign_with_GTS = FALSE
   # and int_key = FALSE at the same time
-  expect_snapshot(look_up(occdf = occdf, assign_with_GTS = FALSE), error = TRUE)
+  expect_snapshot(look_up(occdf, assign_with_GTS = FALSE), error = TRUE)
 
-  expect_snapshot(look_up(occdf = occdf, assign_with_GTS = 1), error = TRUE)
-  expect_snapshot(look_up(occdf = occdf, assign_with_GTS = "foo"), error = TRUE)
+  # TODO: input type and value checks should come before checking whether int_key = FALSE
+  # (for both snapshots below)
+  expect_snapshot(look_up(occdf, assign_with_GTS = 1), error = TRUE)
+  expect_snapshot(look_up(occdf, assign_with_GTS = "foo"), error = TRUE)
 })
 
 test_that("argument 'return_unassigned' works", {
