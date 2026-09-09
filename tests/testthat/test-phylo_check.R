@@ -16,7 +16,7 @@ test_that("basic behavior works", {
     "Triceratops_prorsus"
   )
 
-  out <- phylo_check(tree, list)
+  out <- phylo_check(tree, list = list)
   expect_equal(nrow(out), 40)
   expect_equal(ncol(out), 3)
   expect_true(unique(out[out$taxon_name %in% list, "present_in_list"]))
@@ -48,8 +48,8 @@ test_that("piping and not piping the first argument give the same result", {
   )
 
   expect_equal(
-    tree |> phylo_check(list),
-    phylo_check(tree, list)
+    tree |> phylo_check(list = list),
+    phylo_check(tree, list = list)
   )
 })
 
@@ -64,12 +64,12 @@ test_that("arg 'list' works", {
   data(RaiaCopesRule)
   tree <- ceratopsianTreeRaia
 
-  out <- phylo_check(tree, c("abc", "def"))
+  out <- phylo_check(tree, list = c("abc", "def"))
   # TODO: this shouldn't convert to titleCase
   expect_equal(out$taxon_name, c("Abc", "Def", tree$tip.label))
 
   # doesn't accept punctuation
-  expect_snapshot(phylo_check(tree, c("foo.bar")), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = c("foo.bar")), error = TRUE)
 
   # TODO: all those cases should error, docs say it should be a character vector
   # expect_snapshot(phylo_check(tree, 1), error = TRUE)
@@ -78,7 +78,7 @@ test_that("arg 'list' works", {
 
   # We accept NA in input
   # https://github.com/palaeoverse/palaeoverse/pull/244/changes#r3500117910
-  out <- phylo_check(tree, c("a", NA))
+  out <- phylo_check(tree, list = c("a", NA))
   expect_equal(
     out[1:2, ],
     data.frame(
@@ -115,7 +115,7 @@ test_that("arg 'out' works", {
   # diff_table -> only keep taxons present in tree but not in list, OR present in list but
   #               not in tree
   #            -> i.e. cannot have rows where both columns are true or both are false
-  out <- phylo_check(tree, list, out = "diff_table")
+  out <- phylo_check(tree, list = list, out = "diff_table")
   expect_equal(nrow(out), 33)
   expect_equal(ncol(out), 3)
   expect_all_false(out$present_in_tree & out$present_in_list)
@@ -123,7 +123,7 @@ test_that("arg 'out' works", {
 
   # counts -> summary table containing the number of taxa in the list but not the tree,
   #           in the tree but not the list, and in both
-  out <- phylo_check(tree, list, out = "counts")
+  out <- phylo_check(tree, list = list, out = "counts")
   expect_equal(
     out,
     data.frame(
@@ -134,7 +134,7 @@ test_that("arg 'out' works", {
 
   # tree -> a phylo object consisting of the input phylogeny trimmed to only include
   #         the tips present in the list
-  out <- phylo_check(tree, list, out = "tree")
+  out <- phylo_check(tree, list = list, out = "tree")
   expect_s3_class(out, "phylo")
   # fmt: skip
   expect_equal(
@@ -166,12 +166,12 @@ test_that("arg 'out' works", {
   )
 
   # input checks
-  expect_snapshot(phylo_check(tree, list, out = "foo"), error = TRUE)
-  expect_snapshot(phylo_check(tree, list, out = 1), error = TRUE)
-  expect_snapshot(phylo_check(tree, list, out = NA), error = TRUE)
-  expect_snapshot(phylo_check(tree, list, out = NULL), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = list, out = "foo"), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = list, out = 1), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = list, out = NA), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = list, out = NULL), error = TRUE)
   expect_snapshot(
-    phylo_check(tree, list, out = c("counts", "tree")),
+    phylo_check(tree, list = list, out = c("counts", "tree")),
     error = TRUE
   )
 })
@@ -195,31 +195,31 @@ test_that("arg 'sort' works", {
   )
 
   # arg "sorted" is equivalent to sorting the default output by hand
-  sorted <- phylo_check(tree, list, sort = "az")
-  unsorted <- phylo_check(tree, list)
+  sorted <- phylo_check(tree, list = list, sort = "az")
+  unsorted <- phylo_check(tree, list = list)
   expect_equal(sorted, unsorted[order(unsorted$taxon_name), ])
 
-  sorted <- phylo_check(tree, list, out = "diff_table", sort = "az")
-  unsorted <- phylo_check(tree, list, out = "diff_table")
+  sorted <- phylo_check(tree, list = list, out = "diff_table", sort = "az")
+  unsorted <- phylo_check(tree, list = list, out = "diff_table")
   expect_equal(sorted, unsorted[order(unsorted$taxon_name), ])
 
   # input checks
-  expect_snapshot(phylo_check(tree, list, sort = "foo"), error = TRUE)
-  expect_snapshot(phylo_check(tree, list, sort = 1), error = TRUE)
-  expect_snapshot(phylo_check(tree, list, sort = NA), error = TRUE)
-  expect_snapshot(phylo_check(tree, list, sort = NULL), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = list, sort = "foo"), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = list, sort = 1), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = list, sort = NA), error = TRUE)
+  expect_snapshot(phylo_check(tree, list = list, sort = NULL), error = TRUE)
   expect_snapshot(
-    phylo_check(tree, list, sort = c("presence", "az")),
+    phylo_check(tree, list = list, sort = c("presence", "az")),
     error = TRUE
   )
 
   # TODO: this should error since "sort" is useless when out = "tree" or "counts"
   # expect_snapshot(
-  #   phylo_check(tree, list, out = "tree", sort = "az"),
+  #   phylo_check(tree, list = list, out = "tree", sort = "az"),
   #   error = TRUE
   # )
   # expect_snapshot(
-  #   phylo_check(tree, list, out = "counts", sort = "az"),
+  #   phylo_check(tree, list = list, out = "counts", sort = "az"),
   #   error = TRUE
   # )
 })
