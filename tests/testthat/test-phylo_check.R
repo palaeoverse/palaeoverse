@@ -72,9 +72,9 @@ test_that("arg 'list' works", {
   expect_snapshot(phylo_check(tree, list = c("foo.bar")), error = TRUE)
 
   # TODO: all those cases should error, docs say it should be a character vector
-  # expect_snapshot(phylo_check(tree, 1), error = TRUE)
-  # expect_snapshot(phylo_check(tree, list()), error = TRUE)
-  # expect_snapshot(phylo_check(tree, NA), error = TRUE)
+  # expect_snapshot(phylo_check(tree, list = 1), error = TRUE)
+  # expect_snapshot(phylo_check(tree, list = list()), error = TRUE)
+  # expect_snapshot(phylo_check(tree, list = NA), error = TRUE)
 
   # We accept NA in input
   # https://github.com/palaeoverse/palaeoverse/pull/244/changes#r3500117910
