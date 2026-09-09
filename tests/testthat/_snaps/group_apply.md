@@ -4,7 +4,7 @@
       group_apply(group = "cc", fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! `occdf` must be a data frame, not absent.
+      ! `occdf` must be of class <data.frame>, not absent.
 
 ---
 
@@ -12,7 +12,7 @@
       group_apply(occdf = 1, group = "cc", fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! `occdf` must be a data frame, not the number 1.
+      ! `occdf` must be of class <data.frame>, not the number 1.
 
 ---
 

@@ -85,7 +85,7 @@
 #' ex4 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
 #' @export
 group_apply <- function(occdf, group, fun, ...) {
-  rlang::check_data_frame(occdf)
+  check_data_frame(occdf)
 
   check_character(group)
   if (length(group) == 0) {
