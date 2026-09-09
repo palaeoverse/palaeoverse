@@ -4,14 +4,7 @@
 \alias{tax_check}
 \title{Taxonomic spell check}
 \usage{
-tax_check(
-  taxdf,
-  name = "genus",
-  group = NULL,
-  dis = 0.05,
-  start = 1,
-  verbose = TRUE
-)
+tax_check(taxdf, name = "genus", group = NULL, dis = 0.05, start = 1)
 }
 \arguments{
 \item{taxdf}{\code{data.frame}. A dataframe with named columns containing
@@ -38,27 +31,26 @@ with this value for their specific data.}
 beginning of potential synonyms that should match. Potential synonyms below
 this value will not be returned. By default this value is set to 1 (i.e.
 the first letter of synonyms must match).}
-
-\item{verbose}{\code{logical}. Should the results of the non-letter
-character check be reported to the user? If \code{TRUE}, the result will only be
-reported if such characters are detected in the taxon names.}
 }
 \value{
-If verbose = \code{TRUE} (default), a \code{list} with three elements. The
-first element in the list (synonyms) is a \code{data.frame} with each row
-reporting a pair of potential synonyms. The first column "group" contains the
-higher group in which they occur (alphabetical groupings if \code{group} is
-not provided). The second column "greater" contains the most common synonym
-in each pair. The third column "lesser" contains the least common synonym in
-each pair. The third and fourth column (\code{count_greater}, \code{count_lesser})
-contain the respective counts of each synonym in a pair. If no matches were
-found for the filtering arguments, this element is \code{NULL} instead. The second
-element (\code{non_letter_name}) is a vector of taxon names which contain
-non-letter characters, or \code{NULL} if none were detected. The third element
-(non_letter_group) is a vector of taxon groups which contain non-letter
-characters, or \code{NULL} if none were detected. If verbose = \code{FALSE}, a
-\code{data.frame} as described above is returned, or \code{NULL} if no matches
-were found.
+A \code{data.frame} with each row reporting a pair of potential synonyms
+(this \code{data.frame} can have zero rows), and with the following columns:
+\itemize{
+\item \code{"group"} contains the higher group in which they occur (alphabetical groupings
+if \code{group} is not provided).
+\item \code{"greater"} contains the most common synonym in each pair
+\item \code{"lesser"} contains the least common synonym in each pair
+\item \code{"count_greater"} and \code{"count_lesser"} contain the respective counts of each
+synonym in a pair.
+}
+
+This \code{data.frame} has two attributes:
+\itemize{
+\item \code{non_letter_name} is a vector of taxon names which contain non-letter characters,
+or \code{NULL} if none were detected
+\item \code{non_letter_group} is a vector of taxon groups which contain non-letter characters, or
+\code{NULL} if none were detected.
+}
 }
 \description{
 A function to check for and count potential spelling variations of the same
@@ -70,9 +62,11 @@ When higher taxonomy is provided, but some entries are missing,
 comparisons will still be made within alphabetical groups of taxa which lack
 higher taxonomic affiliations. The function also performs a check for
 non-letter characters which are not expected to be present in
-correctly-formatted taxon names. This detection may be made available to the
-user via the \code{verbose} argument. Comparisons are performed using the
-Jaro dissimilarity metric via
+correctly-formatted taxon names. Names and groups that contain non-letter
+characters can be found with \verb{attr(<output> "non_letter_name")} and
+\verb{attr(<output> "non_letter_group")} respectively.
+
+Comparisons are performed using the Jaro dissimilarity metric via
 \code{\link[stringdist:stringdistmatrix]{stringdist::stringdistmatrix()}}.
 
 As all string distance metrics rely on approximate string matching,

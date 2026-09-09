@@ -12,16 +12,12 @@ test_that("basic behavior works", {
   )
   expect_equal(
     tax_check(dat),
-    list(
-      synonyms = data.frame(
-        group = c("F", "J"),
-        greater = c("Facsimilu", "Joebloggsia"),
-        lesser = c("Facsimilus", "Joebloggia"),
-        count_greater = c(2, 1),
-        count_lesser = 1
-      ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
+    data.frame(
+      group = c("F", "J"),
+      greater = c("Facsimilu", "Joebloggsia"),
+      lesser = c("Facsimilus", "Joebloggia"),
+      count_greater = c(2, 1),
+      count_lesser = 1
     )
   )
 
@@ -54,16 +50,12 @@ test_that("arg 'name' works", {
 
   expect_equal(
     tax_check(dat, name = "foo"),
-    list(
-      synonyms = data.frame(
-        group = c("F", "J"),
-        greater = c("Facsimilu", "Joebloggsia"),
-        lesser = c("Facsimilus", "Joebloggia"),
-        count_greater = c(2, 1),
-        count_lesser = 1
-      ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
+    data.frame(
+      group = c("F", "J"),
+      greater = c("Facsimilu", "Joebloggsia"),
+      lesser = c("Facsimilus", "Joebloggia"),
+      count_greater = c(2, 1),
+      count_lesser = 1
     )
   )
 
@@ -96,16 +88,12 @@ test_that("arg 'group' works", {
   # Without "group", we would have two groups "F" and "J"
   expect_equal(
     tax_check(dat, group = "family"),
-    list(
-      synonyms = data.frame(
-        group = "Examplidae",
-        greater = "Facsimilu",
-        lesser = "Facsimilus",
-        count_greater = 2L,
-        count_lesser = 1L
-      ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
+    data.frame(
+      group = "Examplidae",
+      greater = "Facsimilu",
+      lesser = "Facsimilus",
+      count_greater = 2L,
+      count_lesser = 1L
     )
   )
 
@@ -142,16 +130,12 @@ test_that("arg 'dis' works", {
 
   expect_equal(
     tax_check(dat, dis = 0.5),
-    list(
-      synonyms = data.frame(
-        group = c("F", "F", "F", "J"),
-        greater = c("Facsimilu", "Facsimilus", "Facsimilus", "Joebloggsia"),
-        lesser = c("Facstlwe", "Facsimilu", "Facstlwe", "Joebloggia"),
-        count_greater = 1L,
-        count_lesser = 1L
-      ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
+    data.frame(
+      group = c("F", "F", "F", "J"),
+      greater = c("Facsimilu", "Facsimilus", "Facsimilus", "Joebloggsia"),
+      lesser = c("Facstlwe", "Facsimilu", "Facstlwe", "Joebloggia"),
+      count_greater = 1L,
+      count_lesser = 1L
     )
   )
 
@@ -177,49 +161,6 @@ test_that("arg 'start' works", {
   # "Kunlungoides sp" and "Kunmungoides sp" are reported as synonyms
   expect_equal(
     tax_check(dat),
-    list(
-      synonyms = data.frame(
-        group = "K",
-        greater = "Kunlungoides sp",
-        lesser = "Kunmungoides sp",
-        count_greater = 1L,
-        count_lesser = 1L
-      ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
-    )
-  )
-
-  # The letter that diverges for "Kunlungoides sp" and "Kunmungoides sp" is the 4th one
-  # so this synonym isn't reported if start >= 4
-  expect_equal(
-    tax_check(dat, start = 4),
-    list(
-      synonyms = NULL,
-      non_letter_name = NULL,
-      non_letter_group = NULL
-    )
-  )
-
-  # input checks
-  expect_snapshot(tax_check(dat, start = -1), error = TRUE)
-  expect_snapshot(tax_check(dat, start = numeric(0)), error = TRUE)
-  expect_snapshot(tax_check(dat, start = "a"), error = TRUE)
-  expect_snapshot(tax_check(dat, start = NULL), error = TRUE)
-})
-
-test_that("arg 'verbose' works", {
-  dat <- data.frame(
-    genus = c(
-      "Automaton",
-      "Kunlungoides sp",
-      "Kunmungoides sp",
-      NA
-    )
-  )
-
-  expect_equal(
-    tax_check(dat, verbose = FALSE),
     data.frame(
       group = "K",
       greater = "Kunlungoides sp",
@@ -229,9 +170,22 @@ test_that("arg 'verbose' works", {
     )
   )
 
+  # The letter that diverges for "Kunlungoides sp" and "Kunmungoides sp" is the 4th one
+  # so this synonym isn't reported if start >= 4
+  expect_equal(
+    tax_check(dat, start = 4),
+    data.frame(
+      group = character(0),
+      greater = character(0),
+      lesser = character(0),
+      count_greater = integer(0),
+      count_lesser = integer(0)
+    )
+  )
+
   # input checks
-  expect_snapshot(tax_check(dat, verbose = 1), error = TRUE)
-  expect_snapshot(tax_check(dat, verbose = numeric(0)), error = TRUE)
-  expect_snapshot(tax_check(dat, verbose = "a"), error = TRUE)
-  expect_snapshot(tax_check(dat, verbose = NULL), error = TRUE)
+  expect_snapshot(tax_check(dat, start = -1), error = TRUE)
+  expect_snapshot(tax_check(dat, start = numeric(0)), error = TRUE)
+  expect_snapshot(tax_check(dat, start = "a"), error = TRUE)
+  expect_snapshot(tax_check(dat, start = NULL), error = TRUE)
 })

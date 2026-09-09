@@ -2,6 +2,11 @@
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
+## Breaking changes
+
+* In `tax_check()`, the argument `verbose` is removed and `tax_check()` always returns
+  a `data.frame` with attributes `non_letter_name` and `non_letter_group` (#342)
+
 ## Bug fixes
 
 * `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).
