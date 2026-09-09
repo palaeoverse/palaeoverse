@@ -41,6 +41,42 @@
       Error in `tax_check()`:
       ! Column "genus" in `taxdf` must have at least one entry that is not NA or empty.
 
+# tax_check errors with unnamed args
+
+    Code
+      tax_check(dat, "genus")
+    Condition
+      Error in `tax_check()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_check(taxdf = dat, "genus")
+    Condition
+      Error in `tax_check()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_check(dat, "genus", NULL)
+    Condition
+      Error in `tax_check()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      tax_check(dat, "genus", group = NULL)
+    Condition
+      Error in `tax_check()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
+
 # arg 'name' works
 
     Code

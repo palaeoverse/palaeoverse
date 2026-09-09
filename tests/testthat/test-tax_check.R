@@ -36,6 +36,23 @@ test_that("basic behavior works", {
   expect_snapshot(tax_check(data.frame(genus = c(NA, ""))), error = TRUE)
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  dat <- data.frame(genus = c("Automaton", "Joebloggsia"))
+
+  expect_equal(
+    dat |> tax_check(),
+    tax_check(dat)
+  )
+})
+
+test_that("tax_check errors with unnamed args", {
+  dat <- data.frame(genus = c("Automaton", "Joebloggsia"))
+  expect_snapshot(tax_check(dat, "genus"), error = TRUE)
+  expect_snapshot(tax_check(taxdf = dat, "genus"), error = TRUE)
+  expect_snapshot(tax_check(dat, "genus", NULL), error = TRUE)
+  expect_snapshot(tax_check(dat, "genus", group = NULL), error = TRUE)
+})
+
 test_that("arg 'name' works", {
   dat <- data.frame(
     foo = c(
