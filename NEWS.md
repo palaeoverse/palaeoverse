@@ -8,16 +8,16 @@
   argument is a `data.frame` (#216). For example, the following cases would fail:
 
   ```r
-  # `occdf` can be unnamed, but `nrow` must be named
-  group_apply(occdf, group = "cc", nrow)
+  # `taxdf` can be unnamed, but `identified_name` must be named
+  tax_certainty(taxdf, "identified_name")
 
   # Partial argument names are not allowed
-  group_apply(occdf, group = "cc", f = nrow)
+  tax_certainty(taxdf, nam = "identified_name")
   ```
-  This should be used instead:
+  This should be used instead:o
 
   ```r
-  group_apply(occdf, group = "cc", fun = nrow)
+  tax_certainty(taxdf, name = "identified_name")
   ```
 
 ## Bug fixes
