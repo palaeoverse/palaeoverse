@@ -135,9 +135,12 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
     crs = "EPSG:4326"
   )
 
+  h3_resolution <- attr(bins, "h3_resolution", exact = TRUE)
+  avg_cendist_km <- attr(bins, "avg_cendist_km", exact = TRUE)
+
   #=== Grid binning  ===
   # Extract cell ID
-  occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = bins$h3_resolution)
+  occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = h3_resolution)
 
   # Extract cell centroids
   occdf$cell_centroid_lng <- sf::st_coordinates(
@@ -147,26 +150,17 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
     h3jsr::cell_to_point(h3_address = occdf$cell_ID)
   )[, c("Y")]
 
-  # Drop geometries column
   occdf <- sf::st_drop_geometry(occdf)
-  # Format to dataframe
   occdf <- data.frame(occdf)
-  # Get base grid
-  all_cells <- h3jsr::get_res0()
-  # Get children at desired resolution
-  children <- h3jsr::get_children(
-    h3_address = all_cells,
-    res = bins$h3_resolution,
-    simple = TRUE
-  )
+
   cli::cli_inform(
     c(
       paste0(
         "Average spacing between adjacent cells in the primary grid was set to ",
-        round(bins$avg_cendist_km[1], digits = 2),
+        round(avg_cendist_km[1], digits = 2),
         " km. "
       ),
-      "i" = paste0("\nH3 resolution: ", bins$h3_resolution[1])
+      "i" = paste0("\nH3 resolution: ", h3_resolution[1])
     )
   )
   return(occdf)

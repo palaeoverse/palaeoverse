@@ -26,6 +26,8 @@ space_bins <- function(spacing) {
 
   class(out) <- c("palaeo_space_bins", class(out))
   attr(out, "spacing") <- spacing
+  attr(out, "h3_resolution") <- grid$h3_resolution
+  attr(out, "avg_cendist_km") <- grid$avg_cendist_km
 
   out
 }
