@@ -371,7 +371,7 @@ test_that("wrong input for occdf", {
 
   # dataframe that doesn't have the expected columns
   expect_snapshot(
-    bin_time(bins = mtcars, occdf = c(50, 20, 10)),
+    bin_time(mtcars, occdf = c(50, 20, 10)),
     error = TRUE
   )
 
