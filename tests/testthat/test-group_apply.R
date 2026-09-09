@@ -54,7 +54,7 @@ test_that("piping and not piping the first argument give the same result", {
   )
 })
 
-test_that("tax_unique errors with unnamed args", {
+test_that("group_apply errors with unnamed args", {
   occdf <- tetrapods[1:50, ]
 
   expect_snapshot(group_apply(occdf, group = "cc", nrow), error = TRUE)

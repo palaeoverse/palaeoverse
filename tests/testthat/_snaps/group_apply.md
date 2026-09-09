@@ -22,7 +22,7 @@
       Error in `group_apply()`:
       ! Column "cc" not found in `occdf`.
 
-# tax_unique errors with unnamed args
+# group_apply errors with unnamed args
 
     Code
       group_apply(occdf, group = "cc", nrow)
