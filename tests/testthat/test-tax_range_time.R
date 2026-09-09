@@ -18,10 +18,10 @@ test_that("basic behaviour works", {
   )
 
   # input checks
-  expect_snapshot(tax_range_time(data.frame()), error = TRUE)
-  expect_snapshot(tax_range_time(NULL), error = TRUE)
-  expect_snapshot(tax_range_time(NA), error = TRUE)
-  expect_snapshot(tax_range_time("a"), error = TRUE)
+  expect_snapshot(tax_range_time(occdf = data.frame()), error = TRUE)
+  expect_snapshot(tax_range_time(occdf = NULL), error = TRUE)
+  expect_snapshot(tax_range_time(occdf = NA), error = TRUE)
+  expect_snapshot(tax_range_time(occdf = "a"), error = TRUE)
 })
 
 test_that("piping and not piping the first argument give the same result", {

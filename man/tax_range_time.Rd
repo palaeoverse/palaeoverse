@@ -106,14 +106,14 @@ occdf <- tetrapods
 # Remove NAs
 occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 # Temporal range
-ex <- tax_range_time(occdf, name = "order", plot = TRUE)
+ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
 # Temporal range ordered by class
 # Update margins for plotting
 par(mar = c(8, 5, 6, 6))
-ex <- tax_range_time(occdf, name = "order", group = "class",
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
                      plot = TRUE)
 # Customise appearance
-ex <- tax_range_time(occdf, name = "order", group = "class",
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
                      plot = TRUE,
                      plot_args = list(ylab = "Orders",
                                       pch = 21, col = "black", bg = "blue",
@@ -122,6 +122,6 @@ ex <- tax_range_time(occdf, name = "order", group = "class",
 # Control plotting order of groups
 occdf$class <- factor(x = occdf$class,
                       levels = c("Reptilia", "Osteichthyes"))
-ex <- tax_range_time(occdf, name = "order",
+ex <- tax_range_time(occdf = occdf, name = "order",
                      group = "class", plot = TRUE)
 }

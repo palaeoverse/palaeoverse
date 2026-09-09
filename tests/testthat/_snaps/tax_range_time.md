@@ -1,7 +1,7 @@
 # basic behaviour works
 
     Code
-      tax_range_time(data.frame())
+      tax_range_time(occdf = data.frame())
     Condition
       Error in `tax_range_time()`:
       ! Column "genus" not found in `occdf`.
@@ -9,7 +9,7 @@
 ---
 
     Code
-      tax_range_time(NULL)
+      tax_range_time(occdf = NULL)
     Condition
       Error in `tax_range_time()`:
       ! `occdf` must be of class <data.frame>, not `NULL`.
@@ -17,7 +17,7 @@
 ---
 
     Code
-      tax_range_time(NA)
+      tax_range_time(occdf = NA)
     Condition
       Error in `tax_range_time()`:
       ! `occdf` must be of class <data.frame>, not `NA`.
@@ -25,7 +25,7 @@
 ---
 
     Code
-      tax_range_time("a")
+      tax_range_time(occdf = "a")
     Condition
       Error in `tax_range_time()`:
       ! `occdf` must be of class <data.frame>, not the string "a".
