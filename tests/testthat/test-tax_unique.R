@@ -18,7 +18,8 @@ test_that("basic behaviour works", {
       genus = "genus",
       family = "family",
       order = "order",
-      class = "class"
+      class = "class",
+      append = FALSE
     ),
     data.frame(
       class = c("Tetanurae", "Tetanurae", NA, "Neosauropoda"),
@@ -210,7 +211,8 @@ test_that("arg 'name' works", {
       genus = "genus",
       family = "family",
       class = "class",
-      name = "accepted_name"
+      name = "accepted_name",
+      append = FALSE
     ),
     data.frame(
       class = c("Tetanurae", "Tetanurae", NA, "Neosauropoda"),
@@ -259,7 +261,8 @@ test_that("higher taxonomic levels supplied via `...` work", {
       dinosaurs,
       species = "species",
       genus = "genus",
-      family = "family"
+      family = "family",
+      append = FALSE
     ),
     data.frame(
       family = c("Spinosauridae", "Tyrannosauridae", "Diplodocidae"),
@@ -329,7 +332,8 @@ test_that("arg 'resolution' works", {
       family = "family",
       order = "order",
       class = "class",
-      resolution = "genus"
+      resolution = "genus",
+      append = FALSE
     ),
     data.frame(
       class = c("Tetanurae", "Tetanurae", NA, "Neosauropoda"),
@@ -353,7 +357,8 @@ test_that("arg 'resolution' works", {
       family = "family",
       order = "order",
       class = "class",
-      resolution = "genus"
+      resolution = "genus",
+      append = FALSE
     )$unique_name,
     c(
       "Spinosaurus sp.",
@@ -405,6 +410,27 @@ test_that("arg 'append' works", {
     family = c("Tyrannosauridae", "Spinosauridae", "Diplodocidae", NA, "Tyrannosauridae"),
     order = c("Coelurosauria", "Orionides", NA, NA, "Coelurosauria"),
     class = c("Tetanurae", "Tetanurae", NA, "Neosauropoda", "Tetanurae")
+  )
+
+  # default is append = TRUE
+  expect_equal(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class",
+      append = TRUE
+    ),
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class"
+    )
   )
 
   expect_equal(
