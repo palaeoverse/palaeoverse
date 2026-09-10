@@ -122,6 +122,8 @@ tax_range_space <- function(
   spacing = 100,
   coords = FALSE
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
 
   check_column_presence(occdf, name)

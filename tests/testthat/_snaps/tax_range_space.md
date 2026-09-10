@@ -22,6 +22,33 @@
       Error in `tax_range_space()`:
       ! `occdf` must be of class <data.frame>, not the string "a".
 
+# tax_range_space errors with unnamed args
+
+    Code
+      tax_range_space(occdf, "genus")
+    Condition
+      Error in `tax_range_space()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_range_space(occdf, "genus", "lng")
+    Condition
+      Error in `tax_range_space()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      tax_range_space(occdf, "genus", lng = "lng")
+    Condition
+      Error in `tax_range_space()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
 # argument 'name' works
 
     Code

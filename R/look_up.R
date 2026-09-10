@@ -127,6 +127,8 @@ look_up <- function(
   assign_with_GTS = "GTS2020",
   return_unassigned = FALSE
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
 
   check_column_presence(occdf, early_interval)
