@@ -85,8 +85,7 @@
         "20", "-10"), min_lat = c(-90, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! All values of column "max_lat" in `taxdf` must be between -90 and 90.
-      i Value(s) outside the range: "-10".
+      ! Column "max_lat" in `taxdf` must be of class <numeric>, not <character>.
 
 ---
 
