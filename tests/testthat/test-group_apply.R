@@ -137,8 +137,7 @@ test_that("group_apply() puts groups last", {
       family = "family",
       order = "order",
       class = "class",
-      resolution = "genus",
-      append = FALSE
+      resolution = "genus"
     ),
     c("class", "order", "family", "genus", "unique_name", "collection_no")
   )
