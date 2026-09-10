@@ -145,7 +145,7 @@ bin_time <- function(
     values = c("mid", "majority", "all", "random", "point")
   )
 
-  rlang::check_number_whole(reps, min = 0)
+  rlang::check_number_whole(reps, min = 1)
 
   occdf_min_ma_vals <- occdf[[min_ma]]
   occdf_max_ma_vals <- occdf[[max_ma]]

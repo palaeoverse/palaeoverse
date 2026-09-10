@@ -96,6 +96,30 @@
       Error in `bin_time()`:
       ! `reps` must be a whole number, not `TRUE`.
 
+---
+
+    Code
+      bin_time(occdf = occdf, bins = bins, method = "random", reps = 0)
+    Condition
+      Error in `bin_time()`:
+      ! `reps` must be a whole number larger than or equal to 1, not the number 0.
+
+---
+
+    Code
+      bin_time(occdf = occdf, bins = bins, method = "random", reps = 1.5)
+    Condition
+      Error in `bin_time()`:
+      ! `reps` must be a whole number, not the number 1.5.
+
+---
+
+    Code
+      bin_time(occdf = occdf, bins = bins, method = "random", reps = NA)
+    Condition
+      Error in `bin_time()`:
+      ! `reps` must be a whole number, not `NA`.
+
 # wrong input for fun
 
     Code
