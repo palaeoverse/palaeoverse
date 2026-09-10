@@ -80,18 +80,24 @@ test_that("bin_lat() uses info set in as_palaeo()", {
   names(dat)[names(dat) == "lat"] <- "my_lat"
 
   # before as_palaeo(), error because we would need lat = "my_lat"
-  expect_error(bin_lat(occdf = dat, bins = bins))
+  expect_snapshot(
+    bin_lat(occdf = dat, bins = bins),
+    error = TRUE
+  )
 
   # after as_palaeo(), bin_lat() knows that it needs to check whether
   # the data has an attribute for latitude
   dat <- as_palaeo(dat, lat = "my_lat")
-  expect_message(
+  expect_warning(
     expect_no_error(bin_lat(occdf = dat, bins = bins)),
     "Occurrences assigned to upper bin"
   )
 
-  # For some reason, the attribute stored in the data disappeared so
-  # bin_lat() cannot recover it
+  # If the attribute stored in the data disappeared then bin_lat() cannot
+  # recover it
   attr(dat, "palaeo_lat") <- NULL
-  expect_error(bin_lat(occdf = dat, bins = bins))
+  expect_snapshot(
+    bin_lat(occdf = dat, bins = bins),
+    error = TRUE
+  )
 })
