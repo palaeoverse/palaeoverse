@@ -94,7 +94,7 @@
     Condition
       Error in `lat_bins_area()`:
       ! Argument names must be fully written.
-      i Partially matched argument name: "mi"
+      i Partially matched argument name: `mi`
 
 ---
 
@@ -103,7 +103,7 @@
     Condition
       Error in `lat_bins_area()`:
       ! Argument names must be fully written.
-      i Partially matched argument names: "mi" and "ma"
+      i Partially matched argument names: `mi` and `ma`
 
 # lat_bins_area errors with wrong inputs
 

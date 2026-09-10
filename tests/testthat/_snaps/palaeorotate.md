@@ -28,7 +28,7 @@
       palaeorotate(occdf, "lng")
     Condition
       Error in `palaeorotate()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -37,7 +37,7 @@
       palaeorotate(occdf = occdf, "lng")
     Condition
       Error in `palaeorotate()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -46,7 +46,7 @@
       palaeorotate(occdf, "lng", "lat")
     Condition
       Error in `palaeorotate()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -55,7 +55,7 @@
       palaeorotate(occdf, "lng", lat = "lat")
     Condition
       Error in `palaeorotate()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 # input checks for longitude
@@ -73,7 +73,8 @@
       palaeorotate(occdf = data.frame(lng = NA, lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lng" in `occdf` must be <numeric>, not <logical>.
+      ! All values of column "lng" in `occdf` must be between -180 and 180.
+      i Value(s) outside the range: NA.
 
 ---
 
@@ -81,7 +82,8 @@
       palaeorotate(occdf = data.frame(lng = "a", lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lng" in `occdf` must be <numeric>, not <character>.
+      ! All values of column "lng" in `occdf` must be between -180 and 180.
+      i Value(s) outside the range: "a".
 
 # input checks for latitude
 
@@ -98,7 +100,8 @@
       palaeorotate(occdf = data.frame(lng = 40, lat = NA, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lat" in `occdf` must be <numeric>, not <logical>.
+      ! All values of column "lat" in `occdf` must be between -90 and 90.
+      i Value(s) outside the range: NA.
 
 ---
 
@@ -106,7 +109,8 @@
       palaeorotate(occdf = data.frame(lng = 40, lat = "a", age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lat" in `occdf` must be <numeric>, not <character>.
+      ! All values of column "lat" in `occdf` must be between -90 and 90.
+      i Value(s) outside the range: "a".
 
 # input checks values for age
 
@@ -123,7 +127,8 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = NA))
     Condition
       Error in `palaeorotate()`:
-      ! Column "age" in `occdf` must be <numeric>, not <logical>.
+      ! All values of column "age" in `occdf` must be positive.
+      i Value(s) outside the range: NA.
 
 ---
 
@@ -131,7 +136,8 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = "a"))
     Condition
       Error in `palaeorotate()`:
-      ! Column "age" in `occdf` must be <numeric>, not <character>.
+      ! All values of column "age" in `occdf` must be positive.
+      i Value(s) outside the range: "a".
 
 # arg 'model' works
 

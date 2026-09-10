@@ -36,7 +36,7 @@
       phylo_check(1, "a", "full_table")
     Condition
       Error in `phylo_check()`:
-      ! All arguments must be named (except for "tree").
+      ! All arguments must be named (except for `tree`).
       i Currently, there are 2 arguments that should be named.
 
 ---

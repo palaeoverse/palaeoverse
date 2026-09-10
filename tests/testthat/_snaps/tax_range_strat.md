@@ -36,7 +36,7 @@
       tax_range_strat(occdf, "genus")
     Condition
       Error in `tax_range_strat()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -45,7 +45,7 @@
       tax_range_strat(occdf, "genus")
     Condition
       Error in `tax_range_strat()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -54,7 +54,7 @@
       tax_range_strat(occdf, "genus", "bed")
     Condition
       Error in `tax_range_strat()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -63,7 +63,7 @@
       tax_range_strat(occdf, "genus", level = "bed")
     Condition
       Error in `tax_range_strat()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 # argument 'name' works

@@ -41,7 +41,7 @@ ensure_args_are_named <- function(exceptions = NULL) {
     cli::cli_abort(
       c(
         "Argument names must be fully written.",
-        "i" = "Partially matched argument name{?s}: {.val {cli::cli_vec(partially_matched_names)}}"
+        "i" = "Partially matched argument name{?s}: {.arg {cli::cli_vec(partially_matched_names)}}"
       ),
       call = rlang::caller_env()
     )
@@ -49,7 +49,7 @@ ensure_args_are_named <- function(exceptions = NULL) {
 
   if (length(unnamed_args) > length(unnamed_exceptions)) {
     extra <- if (length(exceptions) > 0) {
-      " (except for {.val {cli::cli_vec(exceptions)}})"
+      " (except for {.arg {cli::cli_vec(exceptions)}})"
     } else {
       ""
     }
