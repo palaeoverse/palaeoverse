@@ -134,6 +134,8 @@ bin_time <- function(
   check_column_presence(bins, max_ma)
   check_column_presence(bins, "bin")
 
+  occdf_min_ma_vals <- occdf[[min_ma]]
+  occdf_max_ma_vals <- occdf[[max_ma]]
   check_na(occdf, min_ma)
   check_na(occdf, max_ma)
   check_class(occdf, min_ma, "numeric")
@@ -147,8 +149,6 @@ bin_time <- function(
 
   rlang::check_number_whole(reps, min = 1)
 
-  occdf_min_ma_vals <- occdf[[min_ma]]
-  occdf_max_ma_vals <- occdf[[max_ma]]
   bins_min_ma_vals <- bins[[min_ma]]
   bins_max_ma_vals <- bins[[max_ma]]
   check_min_lower_than_max(bins, min_ma, max_ma)
