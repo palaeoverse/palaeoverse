@@ -12,10 +12,24 @@ test_that("different radius affects the results", {
   expect_all_false(orig$area == new$area)
 })
 
-# TODO: this should error
-# test_that("lat_bins_area handles case where min == max", {
-#   lat_bins_area(min = 90, max = 90)
-# })
+test_that("lat_bins_area errors if min == max", {
+  expect_snapshot(
+    lat_bins_area(min = 90, max = 90),
+    error = TRUE
+  )
+})
+
+test_that("lat_bins_area errors with unnamed args", {
+  expect_snapshot(lat_bins_area(10, 1), error = TRUE)
+  expect_snapshot(lat_bins_area(n = 10, 1), error = TRUE)
+  expect_snapshot(lat_bins_area(10, 1, 2), error = TRUE)
+  expect_snapshot(lat_bins_area(10, 1, max = 2), error = TRUE)
+})
+
+test_that("partial matching of argument names is forbidden", {
+  expect_snapshot(lat_bins_area(10, mi = 1), error = TRUE)
+  expect_snapshot(lat_bins_area(10, mi = 1, ma = 2), error = TRUE)
+})
 
 test_that("lat_bins_area errors with wrong inputs", {
   expect_snapshot(lat_bins_area(n = "10"), error = TRUE)
@@ -36,9 +50,7 @@ test_that("lat_bins_area errors with wrong inputs", {
 
   expect_snapshot(lat_bins_area(r = "Earth"), error = TRUE)
   expect_snapshot(lat_bins_area(r = numeric(0)), error = TRUE)
-
-  # TODO: this should error
-  # expect_snapshot(lat_bins_area(r = -1), error = TRUE)
+  expect_snapshot(lat_bins_area(r = -1), error = TRUE)
 })
 
 test_that("lat_bins_area plotting works", {

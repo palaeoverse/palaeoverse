@@ -1,0 +1,221 @@
+#' Check whether a column exists in the data
+#'
+#' This errors if `column` doesn't exist in `data`, and it returns no value otherwise.
+#'
+#' @param data dataframe to check
+#' @param column A single column name to check.
+#'
+#' @noRd
+check_column_presence <- function(data, column) {
+  rlang::check_string(
+    column,
+    call = rlang::caller_env(),
+    arg = rlang::caller_arg(column)
+  )
+  if (!column %in% names(data)) {
+    cli::cli_abort(
+      "Column {.val {column}} not found in {.arg {rlang::caller_arg(data)}}.",
+      call = rlang::caller_env()
+    )
+  }
+}
+
+#' Check whether a column contains missing values
+#'
+#' This errors if there are missing values.
+#'
+#' @param data dataframe to check
+#' @param column A single column name to check.
+#'
+#' @noRd
+check_na <- function(data, column) {
+  values <- data[[column]]
+  if (anyNA(values)) {
+    cli::cli_abort(
+      "Column {.val {column}}  in {.arg {rlang::caller_arg(data)}} must not have missing values.",
+      call = rlang::caller_env()
+    )
+  }
+}
+
+#' Check whether a column is of a particular class
+#'
+#' This errors if the column doesn't inherit this class.
+#'
+#' @param data dataframe to check
+#' @param column A single column name to check.
+#' @param class Name of the class.
+#'
+#' @noRd
+check_class <- function(data, column, class) {
+  values <- data[[column]]
+
+  # is.numeric() is TRUE for integers too, but inherits(x, "numeric") is FALSE for
+  # integers.
+  cond <- if (identical(class, "numeric")) {
+    !is.numeric(values)
+  } else {
+    !inherits(values, class)
+  }
+  if (cond) {
+    cli::cli_abort(
+      "Column {.val {column}} in {.arg {rlang::caller_arg(data)}} must be of class {.cls {class}}, not {.cls {class(values)}}.",
+      call = rlang::caller_env()
+    )
+  }
+}
+
+#' Check whether all values of a numeric column fall in a custom range
+#'
+#' This errors if any of the following cases:
+#'
+#' - `column` doesn't exist in `data`
+#' - `column` isn't numeric
+#' - at least one value of `column` is outside the `[min:max]` range
+#'
+#' `NA` are considered to be outside the range.
+#'
+#' @param data dataframe to check
+#' @param column A single column name to check.
+#' @param min,max Range limits.
+#'
+#' @noRd
+check_range <- function(data, column, min, max) {
+  vals <- data[[column]]
+  if (!is.numeric(vals)) {
+    cli::cli_abort(
+      "Column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be {.cls numeric}, not {.cls {class(vals)}}.",
+      call = rlang::caller_env()
+    )
+  }
+  rng <- vals[vals < min | vals > max]
+  if (length(rng) > 0) {
+    to_report <- unique(rng)
+    truncated <- if (length(to_report) > 5) " (first 5)" else ""
+    to_report <- cli::cli_vec(
+      head(to_report, n = 5),
+      list(`vec-last` = ", ", `vec-sep2` = ", ")
+    )
+
+    msg <- if (min == 0 && is.infinite(max)) {
+      "All values of column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be positive."
+    } else {
+      "All values of column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be between {min} and {max}."
+    }
+
+    cli::cli_abort(
+      c(
+        msg,
+        "i" = "Value(s) outside the range{truncated}: {.val {to_report}}."
+      ),
+      call = rlang::caller_env()
+    )
+  }
+}
+
+#' Check whether an object is a numeric vector
+#'
+#' @param x Values to check
+#' @param ... Unused
+#' @param allow_na Whether missing values are allowed
+#' @param allow_null Whether `x` can be NULL.
+#' @param required_length Specific length that `x` must match
+#' @param arg Name of the object to report in the error message
+#' @param call Call to report in the error message
+#'
+#' @noRd
+check_numeric <- function(
+  x,
+  ...,
+  allow_na = TRUE,
+  allow_null = FALSE,
+  required_length = NULL,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+) {
+  if (!missing(x)) {
+    if (allow_null && is.null(x)) {
+      return(invisible(NULL))
+    }
+    if (!is.null(required_length) && length(x) != required_length) {
+      cli::cli_abort(
+        "{.code {arg}} must be of length {required_length}, not {length(x)}.",
+        arg = arg,
+        call = call
+      )
+    }
+    if (is.numeric(x) && length(x) > 0) {
+      if (!allow_na && anyNA(x)) {
+        cli::cli_abort(
+          "{.code {arg}} can't contain NA values.",
+          arg = arg,
+          call = call
+        )
+      }
+      return(invisible(NULL))
+    }
+  }
+
+  rlang::stop_input_type(
+    x,
+    "of class <numeric>",
+    ...,
+    allow_na = FALSE,
+    allow_null = allow_null,
+    arg = arg,
+    call = call
+  )
+}
+
+#' Check whether an object is a dataframe
+#'
+#' This errors if `data` isn't a dataframe, and it returns no value otherwise.
+#'
+#' This duplicates the behaviour of `rlang::check_data_frame()` because we wanted
+#' the error message to contain "be of class dataframe".
+#'
+#' @param data dataframe to check
+#'
+#' @noRd
+check_data_frame <- function(data) {
+  if (rlang::is_missing(data) || !is.data.frame(data)) {
+    cli::cli_abort(
+      "{.arg {rlang::caller_arg(data)}} must be of class {.cls data.frame}, not {obj_type_friendly(data)}.",
+      call = rlang::caller_env()
+    )
+  }
+}
+
+
+#' Check whether all values of `min_column` are lower than values of `max_column`
+#'
+#' `NA` values are not considered (e.g. a row where one column is `NA` is not counted).
+#'
+#' @param data dataframe to check
+#' @param min_column Name of column containing min values
+#' @param max_column Name of column containing max values
+#'
+#' @noRd
+check_min_lower_than_max <- function(data, min_column, max_column) {
+  rows_with_max_smaller_than_min <- which(
+    data[, max_column, drop = TRUE] < data[, min_column, drop = TRUE]
+  )
+  if (length(rows_with_max_smaller_than_min) > 0) {
+    truncated <- if (length(rows_with_max_smaller_than_min) > 5) {
+      " (first 5)"
+    } else {
+      ""
+    }
+    to_report <- cli::cli_vec(
+      head(rows_with_max_smaller_than_min, n = 5),
+      list(`vec-last` = ", ", `vec-sep2` = ", ")
+    )
+    cli::cli_abort(
+      c(
+        "Maximum age must be larger than or equal to minimum age.",
+        "i" = "Row(s) of {.arg {rlang::caller_arg(data)}} where {.val {max_column}} is smaller than {.val {min_column}}{truncated}: {.val {to_report}}."
+      ),
+      call = rlang::caller_env()
+    )
+  }
+}

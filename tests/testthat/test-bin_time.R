@@ -99,6 +99,13 @@ test_that("bin_time() works with method 'majority'", {
   )
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  expect_equal(
+    test_occdf |> bin_time(bins = test_bins, method = "majority"),
+    bin_time(test_occdf, bins = test_bins, method = "majority")
+  )
+})
+
 test_that("bin_time() works with method 'all'", {
   bin_all <- bin_time(occdf = test_occdf, bins = test_bins, method = "all")
   # Occurrences spanning several bins are duplicated, one row per bin
@@ -353,13 +360,45 @@ test_that("wrong input for occdf", {
     bin_time(occdf = data.frame(), bins = data.frame(), method = "mid"),
     error = TRUE
   )
-
-  # dataframe that doesn't have the expected columns
-  # TODO: this error message should be clearer
   expect_snapshot(
-    bin_time(mtcars, occdf = c(50, 20, 10)),
+    bin_time(occdf = test_occdf, bins = data.frame(), method = "mid"),
     error = TRUE
   )
+  expect_snapshot(
+    bin_time(occdf = test_occdf, bins = data.frame(), method = "mid"),
+    error = TRUE
+  )
+
+  # dataframe that doesn't have the expected columns
+  expect_snapshot(
+    bin_time(bins = mtcars, occdf = c(50, 20, 10)),
+    error = TRUE
+  )
+
+  # max must be greater than min in bins and occdf
+  occdf <- data.frame(
+    name = c("occ1", "occ2", "occ3"),
+    min_ma = c(0, 10, 5),
+    max_ma = c(10, 9, 3)
+  )
+  bins <- data.frame(
+    bin = 1:3,
+    min_ma = c(0, 8, 10),
+    max_ma = c(10, 9, 15)
+  )
+  expect_snapshot(bin_time(occdf, bins = bins), error = TRUE)
+
+  occdf <- data.frame(
+    name = c("occ1", "occ2", "occ3"),
+    min_ma = c(0, 10, 5),
+    max_ma = c(10, 11, 13)
+  )
+  bins <- data.frame(
+    bin = 1:3,
+    min_ma = c(0, 10, 5),
+    max_ma = c(10, 9, 3)
+  )
+  expect_snapshot(bin_time(occdf, bins = bins), error = TRUE)
 })
 
 test_that("wrong input for method", {
@@ -506,3 +545,25 @@ test_that("errors in data for min and max age", {
 #     error = TRUE
 #   )
 # })
+
+test_that("bin_time errors with unnamed args", {
+  expect_snapshot(
+    bin_time(occdf = test_occdf, test_bins, method = "majority"),
+    error = TRUE
+  )
+  expect_snapshot(bin_time(test_occdf, test_bins, "majority"), error = TRUE)
+
+  # Can't pass extra unnamed args
+  expect_snapshot(
+    bin_time(
+      occdf = test_occdf,
+      bins = test_bins,
+      method = "point",
+      reps = 5,
+      fun = dnorm,
+      0.5,
+      0.25
+    ),
+    error = TRUE
+  )
+})

@@ -20,6 +20,13 @@ test_that("time_bins() default behaviour", {
   )
 })
 
+test_that("time_bins errors with unnamed args", {
+  expect_snapshot(time_bins("Maastrichtian", "stage"), error = TRUE)
+  expect_snapshot(time_bins(interval = "Maastrichtian", "stage"), error = TRUE)
+  expect_snapshot(time_bins("Maastrichtian", "stage", 10), error = TRUE)
+  expect_snapshot(time_bins("Maastrichtian", "stage", size = 10), error = TRUE)
+})
+
 test_that("arg 'interval' works", {
   expect_equal(
     time_bins(interval = "Maastrichtian"),
@@ -270,6 +277,16 @@ test_that("arg 'size' works", {
     "90 time bins were generated"
   )
 
+  expect_snapshot(
+    out <- time_bins(
+      interval = c("Fortunian", "Meghalayan"),
+      size = 200
+    )
+  )
+  expect_snapshot(
+    out <- time_bins(interval = c("Fortunian", "Meghalayan"), size = 6)
+  )
+
   # Test edge effect resolve
   expect_message(
     expect_equal(
@@ -294,9 +311,7 @@ test_that("arg 'size' works", {
   )
   expect_snapshot(time_bins(interval = "Mesozoic", size = NA), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", size = 1:2), error = TRUE)
-
-  # TODO: should error
-  # expect_snapshot(time_bins(interval = "Mesozoic", size = -1), error = TRUE)
+  expect_snapshot(time_bins(interval = "Mesozoic", size = -1), error = TRUE)
 })
 
 test_that("arg 'n_bins' works", {
@@ -342,6 +357,7 @@ test_that("arg 'n_bins' works", {
   expect_snapshot(time_bins(interval = "Mesozoic", n_bins = NA), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", n_bins = 1:2), error = TRUE)
   expect_snapshot(time_bins(n_bins = 200), error = TRUE)
+  expect_snapshot(time_bins(n_bins = -1), error = TRUE)
 })
 
 test_that("arg 'assign' works", {
@@ -364,11 +380,10 @@ test_that("arg 'assign' works", {
   expect_snapshot(time_bins(interval = "Mesozoic", assign = -40), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", assign = "30"), error = TRUE)
   expect_snapshot(time_bins(interval = "Mesozoic", assign = NA), error = TRUE)
-  # TODO: should error
-  # expect_snapshot(
-  #   time_bins(interval = "Mesozoic", assign = numeric(0)),
-  #   error = TRUE
-  # )
+  expect_snapshot(
+    time_bins(interval = "Mesozoic", assign = numeric(0)),
+    error = TRUE
+  )
   expect_snapshot(time_bins(interval = "Mesozoic", assign = 1:2), error = TRUE)
 })
 
@@ -467,6 +482,18 @@ test_that("arg 'plot' works", {
   expect_snapshot(time_bins(interval = "Mesozoic", plot = NA), error = TRUE)
   expect_snapshot(
     time_bins(interval = "Mesozoic", plot = logical(0)),
+    error = TRUE
+  )
+})
+
+test_that("good error message if Macrostrat is down", {
+  # We define a "mocked" version of nslookup() that errors on purpose, since
+  # nslookup() would fail if Macrostrat is down.
+  local_mocked_bindings(
+    nslookup = function(...) stop("foo")
+  )
+  expect_snapshot(
+    time_bins(scale = "North american land mammal ages"),
     error = TRUE
   )
 })

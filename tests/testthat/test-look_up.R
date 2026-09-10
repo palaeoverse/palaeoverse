@@ -47,6 +47,32 @@ test_that("basic behavior works", {
   )
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  occdf <- test_look_up[
+    test_look_up$case %in% c("both_stages_equal", "two_stages_range"),
+  ]
+  expect_equal(
+    occdf |> look_up(),
+    look_up(occdf)
+  )
+})
+
+test_that("look_up errors with unnamed args", {
+  expect_snapshot(look_up(test_look_up, "early_interval"), error = TRUE)
+  expect_snapshot(
+    look_up(occdf = test_look_up, "early_interval"),
+    error = TRUE
+  )
+  expect_snapshot(
+    look_up(test_look_up, "early_interval", "late_interval"),
+    error = TRUE
+  )
+  expect_snapshot(
+    look_up(test_look_up, "early_interval", late_interval = "late_interval"),
+    error = TRUE
+  )
+})
+
 test_that("wrong input for argument 'occdf'", {
   expect_snapshot(look_up(1), error = TRUE)
   expect_snapshot(look_up(NA), error = TRUE)
@@ -123,7 +149,7 @@ test_that("look_up() warns if some intervals couldn't be matched", {
         row.names = 7L
       )
     ),
-    "The following intervals could not be matched with intervals from int_key"
+    "The following intervals could not be matched with intervals from"
   )
 })
 
@@ -164,13 +190,16 @@ test_that("arguments 'early_interval' and 'late_interval' work", {
     look_up(occdf = dat, early_interval = c("a", "b")),
     error = TRUE
   )
-  expect_snapshot(look_up(occdf = dat, late_interval = 1), error = TRUE)
+  expect_snapshot(
+    look_up(occdf = dat, early_interval = "early", late_interval = 1),
+    error = TRUE
+  )
   expect_snapshot(
     look_up(occdf = dat, early_interval = "early", late_interval = NA),
     error = TRUE
   )
   expect_snapshot(
-    look_up(occdf = dat, late_interval = c("a", "b")),
+    look_up(occdf = dat, early_interval = "early", late_interval = c("a", "b")),
     error = TRUE
   )
 })
@@ -361,8 +390,6 @@ test_that("argument 'assign_with_GTS' works", {
   # and int_key = FALSE at the same time
   expect_snapshot(look_up(occdf, assign_with_GTS = FALSE), error = TRUE)
 
-  # TODO: input type and value checks should come before checking whether int_key = FALSE
-  # (for both snapshots below)
   expect_snapshot(look_up(occdf, assign_with_GTS = 1), error = TRUE)
   expect_snapshot(look_up(occdf, assign_with_GTS = "foo"), error = TRUE)
 })

@@ -4,7 +4,7 @@
 \alias{phylo_check}
 \title{Check phylogeny tip names}
 \usage{
-phylo_check(tree = NULL, list = NULL, out = "full_table", sort = "presence")
+phylo_check(tree, list, out = "full_table", sort = "presence")
 }
 \arguments{
 \item{tree}{\code{phylo}. A phylo object containing the phylogeny.}

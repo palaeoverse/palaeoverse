@@ -24,6 +24,33 @@ test_that("basic behaviour works", {
   expect_snapshot(tax_range_time(occdf = "a"), error = TRUE)
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    max_ma = c(10, 8, 6, 5, 3),
+    min_ma = c(9, 7, 5, 4, 2)
+  )
+
+  expect_equal(
+    occdf |> tax_range_time(name = "genus", plot = FALSE),
+    tax_range_time(occdf, name = "genus", plot = FALSE)
+  )
+})
+
+test_that("tax_range_time errors with unnamed args", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B"),
+    max_ma = c(10, 8, 6),
+    min_ma = c(9, 7, 5)
+  )
+  expect_snapshot(tax_range_time(occdf, "genus"), error = TRUE)
+  expect_snapshot(tax_range_time(occdf, "genus", "min_ma"), error = TRUE)
+  expect_snapshot(
+    tax_range_time(occdf, "genus", min_ma = "min_ma"),
+    error = TRUE
+  )
+})
+
 test_that("argument 'name' works", {
   occdf <- data.frame(
     species = c("A", "A", "B", "B", "C"),
@@ -149,6 +176,15 @@ test_that("argument 'min_ma' works", {
     tax_range_time(nadf),
     error = TRUE
   )
+})
+
+test_that("max ages must be larger than or equal to min ages", {
+  occdf <- data.frame(
+    genus = c("A", "B", "C"),
+    max_ma = c(150, 100, 30),
+    min_ma = c(110, 110, 40)
+  )
+  expect_snapshot(tax_range_time(occdf), error = TRUE)
 })
 
 test_that("argument 'group' works", {

@@ -33,12 +33,6 @@ test_that("basic behaviour works", {
     )
   )
 
-  # input checks
-  expect_snapshot(tax_unique(), error = TRUE)
-  expect_snapshot(tax_unique(data.frame()), error = TRUE)
-  expect_snapshot(tax_unique(100), error = TRUE)
-  expect_snapshot(tax_unique(NA), error = TRUE)
-
   # must have columns genus and species
   expect_snapshot(
     tax_unique(
@@ -66,6 +60,61 @@ test_that("basic behaviour works", {
       species = "species",
       genus = "genus"
     ),
+    error = TRUE
+  )
+
+  # input checks
+  expect_snapshot(tax_unique(data.frame()), error = TRUE)
+  expect_snapshot(tax_unique(100), error = TRUE)
+  expect_snapshot(tax_unique(NA), error = TRUE)
+  skip_if(getRversion() < "4.3.0")
+  expect_snapshot(tax_unique(), error = TRUE)
+})
+
+test_that("piping and not piping the first argument give the same result", {
+  # fmt: skip
+  dinosaurs <- data.frame(
+    species = c("rex", "aegyptiacus", NA, NA, "rex"),
+    genus = c("Tyrannosaurus", "Spinosaurus", NA, NA, "Tyrannosaurus"),
+    binomial = c("Tyrannosaurus rex", "Spinosaurus aegyptiacus", NA, NA, "Tyrannosaurus rex"),
+    family = c("Tyrannosauridae", "Spinosauridae", "Diplodocidae", NA, "Tyrannosauridae"),
+    order = c("Coelurosauria", "Orionides", NA, NA, "Coelurosauria"),
+    class = c("Tetanurae", "Tetanurae", NA, "Neosauropoda", "Tetanurae")
+  )
+
+  expect_equal(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class"
+    ),
+    dinosaurs |>
+      tax_unique(
+        species = "species",
+        genus = "genus",
+        family = "family",
+        order = "order",
+        class = "class"
+      )
+  )
+})
+
+test_that("tax_unique errors with unnamed args", {
+  # fmt: skip
+  dinosaurs <- data.frame(
+    species = c("rex", "aegyptiacus"),
+    genus = c("Tyrannosaurus", "Spinosaurus"),
+    binomial = c("Tyrannosaurus rex", "Spinosaurus aegyptiacus")
+  )
+  expect_snapshot(tax_unique(dinosaurs, "genus"), error = TRUE)
+  expect_snapshot(tax_unique(dinosaurs, "genus", "species"), error = TRUE)
+
+  # `order` isn't a proper argument of `tax_unique()` but we still catch that it is named
+  expect_snapshot(
+    tax_unique(dinosaurs, "genus", order = "species"),
     error = TRUE
   )
 })

@@ -1,6 +1,22 @@
 # palaeoverse (development version)
 
+This version contains many breaking changes. See the 2.0 migration guide for
+guidance to update existing code.
+
+## Breaking changes
+
 * `palaeoverse` requires R >= 4.1.0 (#181).
+
+* All functions now require arguments to be fully named, except for the first 
+  argument in some cases (#216).
+
+## Bug fixes
+
+* `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).
+
+* `tax_range_space()` now errors if `spacing` is a numeric vector (#325).
+
+* `tax_check()` now errors if `start = NULL` (#336).
 
 # palaeoverse 1.5.0
 

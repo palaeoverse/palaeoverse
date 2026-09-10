@@ -1,10 +1,70 @@
+# throws error for missing required arguments
+
+    Code
+      tax_certainty(taxdf = 1, name = "foo")
+    Condition
+      Error in `tax_certainty()`:
+      ! `taxdf` must be of class <data.frame>, not the number 1.
+
+---
+
+    Code
+      tax_certainty()
+    Condition
+      Error in `tax_certainty()`:
+      ! `taxdf` must be of class <data.frame>, not absent.
+
+---
+
+    Code
+      tax_certainty(taxdf = tetrapods)
+    Condition
+      Error in `tax_certainty()`:
+      ! `name` must be a single string, not absent.
+
+# tax_certainty errors with unnamed args
+
+    Code
+      tax_certainty(occdf, "identified_name")
+    Condition
+      Error in `tax_certainty()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_certainty(taxdf = occdf, "identified_name")
+    Condition
+      Error in `tax_certainty()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_certainty(occdf, "identified_name", NULL)
+    Condition
+      Error in `tax_certainty()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      tax_certainty(occdf, "identified_name", terms = NULL)
+    Condition
+      Error in `tax_certainty()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
+
 # tax_certainty() basic behavior
 
     Code
       tax_certainty(taxdf = data.frame(), name = "identified_name")
     Condition
       Error in `tax_certainty()`:
-      ! `names` is not a named column in `taxdf`.
+      ! Column "identified_name" not found in `taxdf`.
 
 # arg 'name' works
 
@@ -12,15 +72,15 @@
       tax_certainty(taxdf = occdf, name = "foo")
     Condition
       Error in `tax_certainty()`:
-      ! `names` is not a named column in `taxdf`.
+      ! Column "foo" not found in `taxdf`.
 
 ---
 
     Code
       tax_certainty(taxdf = occdf, name = NULL)
     Condition
-      Error in `.subset2()`:
-      ! attempt to select less than one element in get1index
+      Error in `tax_certainty()`:
+      ! `name` must be a single string, not `NULL`.
 
 # arg 'terms' works
 
@@ -28,7 +88,7 @@
       tax_certainty(taxdf = occdf, name = "identified_name", terms = 1)
     Condition
       Error in `tax_certainty()`:
-      ! `terms` must be of class list or NULL.
+      ! `terms` must be of class <list> or `NULL`, not the number 1.
 
 # arg 'append' works
 
@@ -36,7 +96,7 @@
       tax_certainty(taxdf = occdf, name = "identified_name", append = 1)
     Condition
       Error in `tax_certainty()`:
-      ! `append` must be of class logical (TRUE/FALSE).
+      ! `append` must be `TRUE` or `FALSE`, not the number 1.
 
 ---
 
@@ -44,5 +104,5 @@
       tax_certainty(taxdf = occdf, name = "identified_name", append = NA)
     Condition
       Error in `tax_certainty()`:
-      ! `append` must be of class logical (TRUE/FALSE).
+      ! `append` must be `TRUE` or `FALSE`, not `NA`.
 

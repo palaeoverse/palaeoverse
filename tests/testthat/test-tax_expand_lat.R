@@ -67,13 +67,37 @@ test_that("basic behavior works", {
     error = TRUE
   )
 
+  # same with many values outside the range
+  expect_snapshot(
+    tax_expand_lat(
+      taxdf = data.frame(
+        name = "a",
+        max_lat = 91:100,
+        min_lat = 1
+      ),
+      bins = bins
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    tax_expand_lat(
+      taxdf = data.frame(
+        name = "a",
+        max_lat = 1,
+        min_lat = 91:100
+      ),
+      bins = bins
+    ),
+    error = TRUE
+  )
+
   # wrong column types
   expect_snapshot(
     tax_expand_lat(
       taxdf = data.frame(
         name = c("A", "B", "C"),
         max_lat = c("60", "20", "-10"),
-        min_lat = c(-92, -40, -60)
+        min_lat = c(-90, -40, -60)
       ),
       bins = bins
     ),
@@ -99,6 +123,18 @@ test_that("basic behavior works", {
         name = c("A", "B", "C"),
         max_lat = c(60, 20, -10),
         min_lat = c(72, -40, -60)
+      ),
+      bins = bins
+    ),
+    error = TRUE
+  )
+  # same with many cases
+  expect_snapshot(
+    tax_expand_lat(
+      taxdf = data.frame(
+        name = "a",
+        max_lat = c(90, 1:10),
+        min_lat = c(72, 21:30)
       ),
       bins = bins
     ),
@@ -135,6 +171,48 @@ test_that("basic behavior works", {
   )
   bins <- bins[, -1]
   expect_snapshot(tax_expand_lat(taxdf = taxdf, bins = bins), error = TRUE)
+})
+
+test_that("piping and not piping the first argument give the same result", {
+  bins <- data.frame(
+    bin = 1:9,
+    min = seq(from = 40, to = -40, by = -10),
+    mid = seq(from = 45, to = -35, by = -10),
+    max = seq(from = 50, to = -30, by = -10)
+  )
+
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c(20, 50, -10),
+    min_lat = c(-10, 20, -40)
+  )
+
+  expect_equal(
+    taxdf |> tax_expand_lat(bins = bins),
+    tax_expand_lat(taxdf, bins = bins)
+  )
+})
+
+test_that("tax_expand_lat errors with unnamed args", {
+  bins <- data.frame(
+    bin = 1:9,
+    min = seq(from = 40, to = -40, by = -10),
+    mid = seq(from = 45, to = -35, by = -10),
+    max = seq(from = 50, to = -30, by = -10)
+  )
+
+  taxdf <- data.frame(
+    name = c("A", "B", "C"),
+    max_lat = c(20, 50, -10),
+    min_lat = c(-10, 20, -40)
+  )
+
+  expect_snapshot(tax_expand_lat(taxdf, bins), error = TRUE)
+  expect_snapshot(tax_expand_lat(taxdf, bins, "max_lat"), error = TRUE)
+  expect_snapshot(
+    tax_expand_lat(taxdf, bins, max_lat = "max_lat"),
+    error = TRUE
+  )
 })
 
 test_that("args 'min_lat' and 'max_lat' work", {
@@ -193,6 +271,9 @@ test_that("args 'min_lat' and 'max_lat' work", {
     tax_expand_lat(taxdf = taxdf, bins = bins, max_lat = c("a", "b")),
     error = TRUE
   )
+
+  # So that we don't need to specify the max_lat argument in the calls below
+  colnames(taxdf)[2] <- "max_lat"
 
   expect_snapshot(
     tax_expand_lat(taxdf = taxdf, bins = bins, min_lat = "nonexistent"),
