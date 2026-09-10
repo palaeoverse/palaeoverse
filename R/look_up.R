@@ -467,7 +467,10 @@ look_up <- function(
 
   if (!return_unassigned && length(unassigned) >= 1) {
     truncated <- if (length(unassigned) > 5) " (first 5)" else ""
-    to_report <- cli::cli_vec(head(unassigned, n = 5), list(`vec-last` = ", "))
+    to_report <- cli::cli_vec(
+      head(unassigned, n = 5),
+      list(`vec-last` = ", ", `vec-sep2` = ", ")
+    )
     cli::cli_warn(
       "The following intervals could not be matched with intervals from {.arg int_key} or GTS{truncated}: {.val {to_report}}."
     )

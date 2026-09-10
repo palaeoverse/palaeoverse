@@ -1,3 +1,15 @@
+# Error message formatting rules:
+#
+# - argument names are wrapped in backticks, e.g. `dis` should be greater than 1
+#   This requires using {.arg }.
+#
+# - column names are wrapped in double quotations marks, e.g. Column "foo" not found in `occdf`
+#   (occdf is the argument name so is in backticks).
+#   This requires using {.val }.
+#
+# - classes are wrapped in `<>`, e.g. `dis` must be of class <numeric>
+#   This requires using {.cls }.
+
 #' Check whether a column exists in the data
 #'
 #' This errors if `column` doesn't exist in `data`, and it returns no value otherwise.
@@ -58,6 +70,9 @@ check_class <- function(data, column, class) {
     !inherits(values, class)
   }
   if (cond) {
+    # We don't want to use `{obj_type_friendly(values)}` here, to avoid e.g.
+    # `Column "max_ma" in `occdf` must be of class <numeric>, not a character vector.`,
+    # which would be less clear.
     cli::cli_abort(
       "Column {.val {column}} in {.arg {rlang::caller_arg(data)}} must be of class {.cls {class}}, not {.cls {class(values)}}.",
       call = rlang::caller_env()
@@ -67,13 +82,9 @@ check_class <- function(data, column, class) {
 
 #' Check whether all values of a numeric column fall in a custom range
 #'
-#' This errors if any of the following cases:
+#' This errors if at least one value of `column` is outside the `[min:max]` range.
 #'
-#' - `column` doesn't exist in `data`
-#' - `column` isn't numeric
-#' - at least one value of `column` is outside the `[min:max]` range
-#'
-#' `NA` are considered to be outside the range.
+#' `NA` are considered to be outside of the range.
 #'
 #' @param data dataframe to check
 #' @param column A single column name to check.
@@ -82,12 +93,6 @@ check_class <- function(data, column, class) {
 #' @noRd
 check_range <- function(data, column, min, max) {
   vals <- data[[column]]
-  if (!is.numeric(vals)) {
-    cli::cli_abort(
-      "Column {.val {rlang::caller_arg(column)}} in {.arg {rlang::caller_arg(data)}} must be {.cls numeric}, not {.cls {class(vals)}}.",
-      call = rlang::caller_env()
-    )
-  }
   rng <- vals[vals < min | vals > max]
   if (length(rng) > 0) {
     to_report <- unique(rng)
@@ -111,60 +116,6 @@ check_range <- function(data, column, min, max) {
       call = rlang::caller_env()
     )
   }
-}
-
-#' Check whether an object is a numeric vector
-#'
-#' @param x Values to check
-#' @param ... Unused
-#' @param allow_na Whether missing values are allowed
-#' @param allow_null Whether `x` can be NULL.
-#' @param required_length Specific length that `x` must match
-#' @param arg Name of the object to report in the error message
-#' @param call Call to report in the error message
-#'
-#' @noRd
-check_numeric <- function(
-  x,
-  ...,
-  allow_na = TRUE,
-  allow_null = FALSE,
-  required_length = NULL,
-  arg = rlang::caller_arg(x),
-  call = rlang::caller_env()
-) {
-  if (!missing(x)) {
-    if (allow_null && is.null(x)) {
-      return(invisible(NULL))
-    }
-    if (!is.null(required_length) && length(x) != required_length) {
-      cli::cli_abort(
-        "{.code {arg}} must be of length {required_length}, not {length(x)}.",
-        arg = arg,
-        call = call
-      )
-    }
-    if (is.numeric(x) && length(x) > 0) {
-      if (!allow_na && anyNA(x)) {
-        cli::cli_abort(
-          "{.code {arg}} can't contain NA values.",
-          arg = arg,
-          call = call
-        )
-      }
-      return(invisible(NULL))
-    }
-  }
-
-  rlang::stop_input_type(
-    x,
-    "of class <numeric>",
-    ...,
-    allow_na = FALSE,
-    allow_null = allow_null,
-    arg = arg,
-    call = call
-  )
 }
 
 #' Check whether an object is a dataframe

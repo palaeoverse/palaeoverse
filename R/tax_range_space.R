@@ -134,6 +134,8 @@ tax_range_space <- function(
   check_na(occdf, lat)
   check_na(occdf, lng)
 
+  check_class(occdf, lat, "numeric")
+  check_class(occdf, lng, "numeric")
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
 

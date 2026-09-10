@@ -85,7 +85,7 @@
         "20", "-10"), min_lat = c(-90, -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Column "max_lat" in `taxdf` must be <numeric>, not <character>.
+      ! Column "max_lat" in `taxdf` must be of class <numeric>, not <character>.
 
 ---
 
@@ -94,7 +94,7 @@
         -10), min_lat = c("20", -40, -60)), bins = bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! Column "min_lat" in `taxdf` must be <numeric>, not <character>.
+      ! Column "min_lat" in `taxdf` must be of class <numeric>, not <character>.
 
 ---
 
@@ -139,7 +139,7 @@
       tax_expand_lat(taxdf, bins)
     Condition
       Error in `tax_expand_lat()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -148,7 +148,7 @@
       tax_expand_lat(taxdf, bins, "max_lat")
     Condition
       Error in `tax_expand_lat()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -157,7 +157,7 @@
       tax_expand_lat(taxdf, bins, max_lat = "max_lat")
     Condition
       Error in `tax_expand_lat()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 # args 'min_lat' and 'max_lat' work

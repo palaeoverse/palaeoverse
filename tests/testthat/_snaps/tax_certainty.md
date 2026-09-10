@@ -28,7 +28,7 @@
       tax_certainty(occdf, "identified_name")
     Condition
       Error in `tax_certainty()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -37,7 +37,7 @@
       tax_certainty(taxdf = occdf, "identified_name")
     Condition
       Error in `tax_certainty()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -46,7 +46,7 @@
       tax_certainty(occdf, "identified_name", NULL)
     Condition
       Error in `tax_certainty()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -55,7 +55,7 @@
       tax_certainty(occdf, "identified_name", terms = NULL)
     Condition
       Error in `tax_certainty()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 # tax_certainty() basic behavior

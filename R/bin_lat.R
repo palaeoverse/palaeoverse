@@ -47,6 +47,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
 
   lat_vals <- occdf[[lat]]
   check_na(occdf, lat)
+  check_class(occdf, lat, "numeric")
   check_range(occdf, lat, -90, 90)
 
   #=== Set up ===

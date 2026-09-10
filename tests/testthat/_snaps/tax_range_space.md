@@ -28,7 +28,7 @@
       tax_range_space(occdf, "genus")
     Condition
       Error in `tax_range_space()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -37,7 +37,7 @@
       tax_range_space(occdf, "genus", "lng")
     Condition
       Error in `tax_range_space()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -46,7 +46,7 @@
       tax_range_space(occdf, "genus", lng = "lng")
     Condition
       Error in `tax_range_space()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 # argument 'name' works
@@ -79,7 +79,7 @@
       tax_range_space(chardf)
     Condition
       Error in `tax_range_space()`:
-      ! Column "lng" in `occdf` must be <numeric>, not <character>.
+      ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
 
 ---
 
@@ -103,7 +103,7 @@
       tax_range_space(chardf)
     Condition
       Error in `tax_range_space()`:
-      ! Column "lat" in `occdf` must be <numeric>, not <character>.
+      ! Column "lat" in `occdf` must be of class <numeric>, not <character>.
 
 ---
 
