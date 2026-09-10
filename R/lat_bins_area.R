@@ -39,10 +39,28 @@
 #' bins <- lat_bins_area(n = 6, min = -30, max = 30)
 #' # Generate latitudinal bins and a plot
 #' bins <- lat_bins_area(n = 24, plot = TRUE)
-lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
+lat_bins_area <- function(
+  n_bins = 12,
+  min = -90,
+  max = 90,
+  r = 6371,
+  plot = FALSE,
+  n
+) {
   ensure_args_are_named()
 
-  rlang::check_number_whole(n, min = 1)
+  if (!missing(n)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "lat_bins_area(n)",
+      "lat_bins_area(n_bins)",
+      always = TRUE
+    )
+    rlang::check_exclusive(n, n_bins)
+    n_bins <- n
+  }
+
+  rlang::check_number_whole(n_bins, min = 1)
   rlang::check_number_decimal(max, min = -90, max = 90)
   rlang::check_number_decimal(min, min = -90, max = 90)
   rlang::check_number_decimal(r, min = 0)
@@ -60,16 +78,18 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
   sin_max_lat <- sin(max * pi / 180)
 
   # indices to divide the area into n parts
-  indices <- n:0
+  indices <- n_bins:0
 
   # latitudes of bin boundaries in radians
-  latitudes_rad <- asin(sin_min_lat + indices / n * (sin_max_lat - sin_min_lat))
+  latitudes_rad <- asin(
+    sin_min_lat + indices / n_bins * (sin_max_lat - sin_min_lat)
+  )
 
   # latitudes of bin boundaries in degrees
   latitudes <- latitudes_rad * 180 / pi
 
   # vertical sine span of the bands on the surface of the sphere
-  sine_spans <- sin(latitudes_rad[-(n + 1)]) - sin(latitudes_rad[-1])
+  sine_spans <- sin(latitudes_rad[-(n_bins + 1)]) - sin(latitudes_rad[-1])
 
   # absolute surface area for each band
   band_areas <- 2 * pi * r^2 * sine_spans
@@ -78,14 +98,14 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
   band_areas_prop <- sine_spans / (sin_max_lat - sin_min_lat)
 
   # midpoint for each band
-  mid_points <- (latitudes[-(n + 1)] + latitudes[-1]) / 2
+  mid_points <- (latitudes[-(n_bins + 1)] + latitudes[-1]) / 2
 
   # populate data frame
   bins <- data.frame(
-    bin = 1:n,
+    bin = 1:n_bins,
     min = latitudes[-1],
     mid = mid_points,
-    max = latitudes[-(n + 1)],
+    max = latitudes[-(n_bins + 1)],
     area = band_areas,
     area_prop = band_areas_prop
   )
