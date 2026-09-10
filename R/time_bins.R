@@ -145,14 +145,12 @@ time_bins <- function(
   rlang::check_number_whole(n_bins, min = 1, allow_null = TRUE)
   rlang::check_bool(plot)
 
-  if (
-    !is.null(assign) > 0 &&
-      (!rlang::is_bare_numeric(assign) || length(assign) == 0)
-  ) {
-    cli::cli_abort(
-      "{.arg assign} must be of class <numeric> or `NULL`, not {obj_type_friendly(assign)}."
-    )
-  } else {
+  if (!is.null(assign)) {
+    if (!is.numeric(assign) || length(assign) == 0) {
+      cli::cli_abort(
+        "{.arg assign} must be of class <numeric> or `NULL`, not {obj_type_friendly(assign)}."
+      )
+    }
     if (any(assign < 0)) {
       cli::cli_abort(
         c(
@@ -162,7 +160,6 @@ time_bins <- function(
       )
     }
   }
-
   if (is.data.frame(scale)) {
     check_column_presence(scale, "interval_name")
     check_column_presence(scale, "max_ma")
