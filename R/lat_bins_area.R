@@ -47,11 +47,11 @@ lat_bins_area <- function(
   max = 90,
   r = 6371,
   plot = FALSE,
-  n
+  n = deprecated()
 ) {
   ensure_args_are_named()
 
-  if (!missing(n)) {
+  if (lifecycle::is_present(n)) {
     lifecycle::deprecate_warn(
       "2.0.0",
       "lat_bins_area(n)",

@@ -64,7 +64,9 @@ test_that("n is deprecated but still works", {
   expect_snapshot(lat_bins_area(n = 6))
 
   # still works
-  expect_equal(lat_bins_area(n = 6), lat_bins_area(n_bins = 6))
+  expect_warning(
+    expect_equal(lat_bins_area(n = 6), lat_bins_area(n_bins = 6))
+  )
 
   # still input checking
   expect_snapshot(lat_bins_area(n = "6"), error = TRUE)
