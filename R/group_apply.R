@@ -5,7 +5,7 @@
 #' `data.frame` as input (e.g. `nrow`, `ncol`, `lengths`, `unique`) may also be
 #' used.
 #'
-#' @param occdf \code{dataframe}. A dataframe of fossil occurrences or taxa,
+#' @param data \code{dataframe}. A dataframe of fossil occurrences or taxa,
 #' as relevant to the desired function.
 #' This dataframe must contain the grouping variables and the necessary
 #' variables for the function you wish to call (see function-specific
@@ -15,7 +15,7 @@
 #' one grouping variable will produce an output containing subgroups for each
 #' unique combination of values.
 #' @param fun \code{function}. The function you wish to apply to
-#' `occdf`. See details for compatible functions.
+#' `data`. See details for compatible functions.
 #' @param ... Additional arguments available in the called
 #' function. These arguments may be required for function arguments
 #' without default values, or if you wish to overwrite the default argument
@@ -58,13 +58,13 @@
 #' @examples
 #' # Examples
 #' # Get tetrapods data
-#' occdf <- tetrapods[1:100, ]
+#' data <- tetrapods[1:100, ]
 #' # Remove NA data
-#' occdf <- subset(occdf, !is.na(genus))
+#' data <- subset(data, !is.na(genus))
 #' # Count number of occurrences from each country
-#' ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
+#' ex1 <- group_apply(data = data, group = "cc", fun = nrow)
 #' # Unique genera per collection with group_apply and input arguments
-#' ex2 <- group_apply(occdf = occdf,
+#' ex2 <- group_apply(data = data,
 #'                    group = "collection_no",
 #'                    fun = tax_unique,
 #'                    genus = "genus",
@@ -73,30 +73,30 @@
 #'                    class = "class",
 #'                    resolution = "genus")
 #' # Use multiple variables (number of occurrences per collection and formation)
-#' ex3 <- group_apply(occdf = occdf,
+#' ex3 <- group_apply(data = data,
 #'                    group = c("collection_no", "formation"),
 #'                    fun = nrow)
 #' # Compute counts of occurrences per latitudinal bin
 #' # Set up lat bins
 #' bins <- lat_bins_degrees()
 #' # bin occurrences
-#' occdf <- bin_lat(occdf = occdf, bins = bins)
+#' data <- bin_lat(data = data, bins = bins)
 #' # Calculate number of occurrences per bin
-#' ex4 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
+#' ex4 <- group_apply(data = data, group = "lat_bin", fun = nrow)
 #' @export
-group_apply <- function(occdf, group, fun, ...) {
-  ensure_args_are_named(exceptions = "occdf")
+group_apply <- function(data, group, fun, ...) {
+  ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(occdf)
+  check_data_frame(data)
 
   check_character(group)
   if (length(group) == 0) {
     cli::cli_abort("{.arg group} must specify at least one column.")
   }
-  unknown_cols <- setdiff(group, colnames(occdf))
+  unknown_cols <- setdiff(group, colnames(data))
   if (length(unknown_cols) > 0) {
     cli::cli_abort(
-      "Column{?s} {.val {unknown_cols}} not found in {.arg occdf}."
+      "Column{?s} {.val {unknown_cols}} not found in {.arg data}."
     )
   }
 
@@ -117,8 +117,8 @@ group_apply <- function(occdf, group, fun, ...) {
   }
 
   output_lst <- by(
-    data = occdf,
-    INDICES = occdf[, group, drop = FALSE],
+    data = data,
+    INDICES = data[, group, drop = FALSE],
     FUN = fun,
     ...
   )

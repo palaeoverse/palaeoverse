@@ -5,7 +5,7 @@
 #' hull, latitudinal range, maximum Great Circle Distance, and the number of
 #' occupied equal-area hexagonal grid cells.
 #'
-#' @param occdf \code{dataframe}. A dataframe of fossil occurrences. This
+#' @param data \code{dataframe}. A dataframe of fossil occurrences. This
 #'   dataframe should contain at least three columns: names of taxa, longitude
 #'   and latitude (see `name`, `lng`, and `lat` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
@@ -18,7 +18,7 @@
 #'   as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
 #'   prior to function call.
 #' @param method \code{character}. How should geographic range be calculated
-#'   for each taxon in `occdf`? Four options exist in this function: "con",
+#'   for each taxon in `data`? Four options exist in this function: "con",
 #'   "lat", "gcd", and "occ". See Details for a description of each.
 #' @param spacing \code{numeric}. The desired spacing (in km) between the
 #'   center of adjacent grid cells. Only required if the `method` argument is
@@ -51,18 +51,18 @@
 #' @details Four commonly applied approaches (Darroch et al. 2020)
 #' are available using the `tax_range_space` function for calculating ranges:
 #' - Convex hull: the "con" method calculates the geographic range of taxa
-#' using a convex hull for each taxon in `occdf`, and calculates the area of
+#' using a convex hull for each taxon in `data`, and calculates the area of
 #' the convex hull (in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}) using
 #' \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}. The
 #' convex hull method works by creating a polygon that encompasses all
 #' occurrence points of the taxon.
 #' - Latitudinal: the "lat" method calculates the palaeolatitudinal
-#' range of a taxon. It does so for each taxon in `occdf` by finding their
+#' range of a taxon. It does so for each taxon in `data` by finding their
 #' maximum and minimum latitudinal occurrence (from input `lat`).
 #' The palaeolatitudinal range of each taxon is also calculated (i.e. the
 #' difference between the minimum and maximum latitude).
 #' - Maximum Great Circle Distance: the "gcd" method calculates the maximum
-#' Great Circle Distance between occurrences for each taxon in `occdf`. It does
+#' Great Circle Distance between occurrences for each taxon in `data`. It does
 #' so using \code{\link[geosphere:distHaversine]{geosphere::distHaversine()}}.
 #' This function calculates Great Circle Distance using the Haversine method
 #' with the radius of the Earth set to the 6378.137 km.
@@ -97,24 +97,24 @@
 #' @importFrom h3jsr point_to_cell
 #' @examples
 #' # Grab internal data
-#' occdf <- tetrapods[1:100, ]
+#' data <- tetrapods[1:100, ]
 #' # Remove NAs
-#' occdf <- subset(occdf, !is.na(genus))
+#' data <- subset(data, !is.na(genus))
 #' # Convex hull
-#' ex1 <- tax_range_space(occdf = occdf, name = "genus", method = "con")
+#' ex1 <- tax_range_space(data = data, name = "genus", method = "con")
 #' # Latitudinal range
-#' ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
+#' ex2 <- tax_range_space(data = data, name = "genus", method = "lat")
 #' # Great Circle Distance
-#' ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
+#' ex3 <- tax_range_space(data = data, name = "genus", method = "gcd")
 #' # Occupied grid cells
-#' ex4 <- tax_range_space(occdf = occdf, name = "genus",
+#' ex4 <- tax_range_space(data = data, name = "genus",
 #'                        method = "occ", spacing = 500)
 #' # Convex hull with coordinates
-#' ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
+#' ex5 <- tax_range_space(data = data, name = "genus", method = "con",
 #' coords = TRUE)
 #' @export
 tax_range_space <- function(
-  occdf,
+  data,
   name = "genus",
   lng = "lng",
   lat = "lat",
@@ -122,20 +122,20 @@ tax_range_space <- function(
   spacing = 100,
   coords = FALSE
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(occdf)
+  check_data_frame(data)
 
-  check_column_presence(occdf, name)
-  check_column_presence(occdf, lng)
-  check_column_presence(occdf, lat)
+  check_column_presence(data, name)
+  check_column_presence(data, lng)
+  check_column_presence(data, lat)
 
-  check_na(occdf, name)
-  check_na(occdf, lat)
-  check_na(occdf, lng)
+  check_na(data, name)
+  check_na(data, lat)
+  check_na(data, lng)
 
-  check_range(occdf, lat, -90, 90)
-  check_range(occdf, lng, -180, 180)
+  check_range(data, lat, -90, 90)
+  check_range(data, lng, -180, 180)
 
   rlang::check_number_decimal(spacing)
   rlang::check_bool(coords)
@@ -144,7 +144,7 @@ tax_range_space <- function(
   method <- rlang::arg_match(method, values = c("lat", "con", "gcd", "occ"))
 
   #=== Set-up ===
-  unique_taxa <- unique(occdf[, name, drop = TRUE])
+  unique_taxa <- unique(data[, name, drop = TRUE])
   # Order taxa
   unique_taxa <- sort(unique_taxa)
 
@@ -157,7 +157,7 @@ tax_range_space <- function(
       taxon <- unique_taxa[i]
       taxon_id <- i
       # Subset taxa
-      tmp <- occdf[which(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
+      tmp <- data[which(data[, name, drop = TRUE] == unique_taxa[i]), ]
       # Calculate convex hull
       tmp <- tmp[
         chull(x = tmp[, lng, drop = TRUE], y = tmp[, lat, drop = TRUE]),
@@ -194,9 +194,9 @@ tax_range_space <- function(
     )
     # Run for loop across unique taxa
     for (i in seq_along(unique_taxa)) {
-      vec <- which(occdf[, name, drop = TRUE] == unique_taxa[i])
-      lat_df$max_lat[i] <- max(occdf[vec, lat])
-      lat_df$min_lat[i] <- min(occdf[vec, lat])
+      vec <- which(data[, name, drop = TRUE] == unique_taxa[i])
+      lat_df$max_lat[i] <- max(data[vec, lat])
+      lat_df$min_lat[i] <- min(data[vec, lat])
       lat_df$range_lat[i] <- lat_df$max_lat[i] - lat_df$min_lat[i]
     }
     # Remove row names
@@ -223,7 +223,7 @@ tax_range_space <- function(
       # taxon id
       taxon_id <- i
       # Subset df
-      tmp <- occdf[which(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
+      tmp <- data[which(data[, name, drop = TRUE] == unique_taxa[i]), ]
       # Calculate GCD matrix using the Haversine method
       vals <- geosphere::distm(
         x = tmp[, c(lng, lat)],
@@ -283,7 +283,7 @@ tax_range_space <- function(
     # Run for loop over all unique taxa
     for (i in seq_along(unique_taxa)) {
       # Subset df
-      tmp <- occdf[which(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
+      tmp <- data[which(data[, name, drop = TRUE] == unique_taxa[i]), ]
       # Extract cell ID
       n_cells <- suppressMessages(
         h3jsr::point_to_cell(tmp[, c(lng, lat)], res = grid$h3_resolution)

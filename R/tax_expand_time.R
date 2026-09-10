@@ -8,7 +8,7 @@
 #' the row representing a taxon must be replicated for each interval through
 #' which the taxon persisted.
 #'
-#' @param taxdf \code{dataframe}. A dataframe of taxa (such as that
+#' @param data \code{dataframe}. A dataframe of taxa (such as that
 #'   produced by \code{\link{tax_range_time}}) with columns for the maximum and
 #'   minimum ages (FADs and LADs). Each row should represent a unique taxon.
 #'   Additional columns may be included (e.g. taxon names, additional taxonomy,
@@ -47,15 +47,15 @@
 #'   Lewis A. Jones
 #' @export
 #' @examples
-#' taxdf <- data.frame(name = c("A", "B", "C"),
+#' data <- data.frame(name = c("A", "B", "C"),
 #'                     max_ma = c(150, 60, 30),
 #'                     min_ma = c(110, 20, 0))
-#' ex <- tax_expand_time(taxdf)
+#' ex <- tax_expand_time(data)
 #'
 #' bins <- time_bins(scale = "GTS2012", rank = "stage")
-#' ex2 <- tax_expand_time(taxdf, bins = bins)
+#' ex2 <- tax_expand_time(data, bins = bins)
 tax_expand_time <- function(
-  taxdf,
+  data,
   max_ma = "max_ma",
   min_ma = "min_ma",
   bins = NULL,
@@ -63,14 +63,14 @@ tax_expand_time <- function(
   rank = "stage",
   ext_orig = TRUE
 ) {
-  ensure_args_are_named(exceptions = "taxdf")
-  check_data_frame(taxdf)
+  ensure_args_are_named(exceptions = "data")
+  check_data_frame(data)
 
-  check_column_presence(taxdf, max_ma)
-  check_column_presence(taxdf, min_ma)
+  check_column_presence(data, max_ma)
+  check_column_presence(data, min_ma)
 
-  check_range(taxdf, min_ma, 0, Inf)
-  check_range(taxdf, max_ma, 0, Inf)
+  check_range(data, min_ma, 0, Inf)
+  check_range(data, max_ma, 0, Inf)
 
   rlang::check_bool(ext_orig)
 
@@ -89,21 +89,21 @@ tax_expand_time <- function(
     check_column_presence(bins, "min_ma")
   }
 
-  check_min_lower_than_max(taxdf, min_ma, max_ma)
+  check_min_lower_than_max(data, min_ma, max_ma)
 
-  if (anyDuplicated(taxdf) > 0) {
-    cli::cli_abort("{.arg taxdf} must not have duplicated rows.")
+  if (anyDuplicated(data) > 0) {
+    cli::cli_abort("{.arg data} must not have duplicated rows.")
   }
 
   # add a taxon index column (since we can't guarantee there's a "name" column)
   # use a very unique column name so we don't clobber any existing columns
-  taxdf$this_is_a_unique_index_column_name <- seq_len(nrow(taxdf))
+  data$this_is_a_unique_index_column_name <- seq_len(nrow(data))
 
   # replicate taxon rows for each interval they span
   dat_list <- lapply(seq_len(nrow(bins)), function(i) {
-    int_tax <- taxdf[
-      taxdf[, min_ma, drop = TRUE] < bins$max_ma[i] &
-        taxdf[, max_ma, drop = TRUE] > bins$min_ma[i],
+    int_tax <- data[
+      data[, min_ma, drop = TRUE] < bins$max_ma[i] &
+        data[, max_ma, drop = TRUE] > bins$min_ma[i],
     ]
     if (ext_orig) {
       int_tax$ext <- int_tax[, min_ma, drop = TRUE] >= bins$min_ma[i] &

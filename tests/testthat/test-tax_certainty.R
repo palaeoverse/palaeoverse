@@ -1,121 +1,121 @@
 test_that("throws error for missing required arguments", {
-  expect_snapshot(tax_certainty(taxdf = 1, name = "foo"), error = TRUE)
+  expect_snapshot(tax_certainty(data = 1, name = "foo"), error = TRUE)
   skip_if(getRversion() < "4.3.0")
   expect_snapshot(tax_certainty(), error = TRUE)
-  expect_snapshot(tax_certainty(taxdf = tetrapods), error = TRUE)
+  expect_snapshot(tax_certainty(data = tetrapods), error = TRUE)
 })
 
 test_that("tax_certainty errors with unnamed args", {
-  occdf <- tetrapods[1:5, ]
-  expect_snapshot(tax_certainty(occdf, "identified_name"), error = TRUE)
-  expect_snapshot(tax_certainty(taxdf = occdf, "identified_name"), error = TRUE)
-  expect_snapshot(tax_certainty(occdf, "identified_name", NULL), error = TRUE)
+  data <- tetrapods[1:5, ]
+  expect_snapshot(tax_certainty(data, "identified_name"), error = TRUE)
+  expect_snapshot(tax_certainty(data = data, "identified_name"), error = TRUE)
+  expect_snapshot(tax_certainty(data, "identified_name", NULL), error = TRUE)
   expect_snapshot(
-    tax_certainty(occdf, "identified_name", terms = NULL),
+    tax_certainty(data, "identified_name", terms = NULL),
     error = TRUE
   )
 })
 
 test_that("tax_certainty() basic behavior", {
   data("tetrapods")
-  occdf <- tetrapods[1:5, ]
+  data <- tetrapods[1:5, ]
   expect_equal(
-    tax_certainty(taxdf = occdf, name = "identified_name"),
-    cbind(occdf, data.frame(certainty = c(1, 0, 1, 1, 1)))
+    tax_certainty(data = data, name = "identified_name"),
+    cbind(data, data.frame(certainty = c(1, 0, 1, 1, 1)))
   )
 
   # input checks
   expect_snapshot(
-    tax_certainty(taxdf = data.frame(), name = "identified_name"),
+    tax_certainty(data = data.frame(), name = "identified_name"),
     error = TRUE
   )
 })
 
 test_that("arg 'name' works", {
   data("tetrapods")
-  occdf <- tetrapods[1:5, "identified_name", drop = FALSE]
-  colnames(occdf) <- "new_name"
+  data <- tetrapods[1:5, "identified_name", drop = FALSE]
+  colnames(data) <- "new_name"
 
   expect_equal(
-    tax_certainty(taxdf = occdf, name = "new_name"),
-    cbind(occdf, data.frame(certainty = c(1, 0, 1, 1, 1)))
+    tax_certainty(data = data, name = "new_name"),
+    cbind(data, data.frame(certainty = c(1, 0, 1, 1, 1)))
   )
 
   # input checks
   expect_snapshot(
-    tax_certainty(taxdf = occdf, name = "foo"),
+    tax_certainty(data = data, name = "foo"),
     error = TRUE
   )
   expect_snapshot(
-    tax_certainty(taxdf = occdf, name = NULL),
+    tax_certainty(data = data, name = NULL),
     error = TRUE
   )
 
   # TODO: this should error, docs say this should be a column name, not a column index
   # expect_snapshot(
-  #   tax_certainty(taxdf = occdf, name = 1),
+  #   tax_certainty(data = data, name = 1),
   #   error = TRUE
   # )
 })
 
 test_that("arg 'terms' works", {
   data("tetrapods")
-  occdf <- tetrapods[1:5, "identified_name", drop = FALSE]
+  data <- tetrapods[1:5, "identified_name", drop = FALSE]
 
   # "Broiliellus n. sp. arroyoensis" and "n. gen. Ophiodeirus n. sp. casei"
   # now become uncertain
   expect_equal(
     tax_certainty(
-      taxdf = occdf,
+      data = data,
       name = "identified_name",
       terms = list(
         species = "Broiliellus n. sp. arroyoensis",
         genus = "Ophiodeirus"
       )
     ),
-    cbind(occdf, data.frame(certainty = c(1, 0, 1, 0, 0)))
+    cbind(data, data.frame(certainty = c(1, 0, 1, 0, 0)))
   )
 
   # input checks
   expect_snapshot(
-    tax_certainty(taxdf = occdf, name = "identified_name", terms = 1),
+    tax_certainty(data = data, name = "identified_name", terms = 1),
     error = TRUE
   )
 
   # TODO: should error
   # expect_snapshot(
-  #   tax_certainty(taxdf = occdf, name = "identified_name", terms = list(1)),
+  #   tax_certainty(data = data, name = "identified_name", terms = list(1)),
   #   error = TRUE
   # )
 
   # TODO: should error
   # expect_snapshot(
-  #   tax_certainty(taxdf = occdf, name = "identified_name", terms = list(a = 1)),
+  #   tax_certainty(data = data, name = "identified_name", terms = list(a = 1)),
   #   error = TRUE
   # )
 })
 
 test_that("arg 'certainty' works", {
   data("tetrapods")
-  occdf <- tetrapods[1:5, ]
+  data <- tetrapods[1:5, ]
 
   expect_equal(
     tax_certainty(
-      taxdf = occdf,
+      data = data,
       name = "identified_name",
       certainty = c("A", "B")
     ),
-    cbind(occdf, data.frame(certainty = c("A", "B", "A", "A", "A")))
+    cbind(data, data.frame(certainty = c("A", "B", "A", "A", "A")))
   )
 
   # check mixing character and numeric
   expect_equal(
     tax_certainty(
-      taxdf = occdf,
+      data = data,
       name = "identified_name",
       certainty = c("A", 0)
     ),
-    cbind(occdf, data.frame(certainty = c("A", "0", "A", "A", "A")))
+    cbind(data, data.frame(certainty = c("A", "0", "A", "A", "A")))
   )
 
   # input checks
@@ -124,39 +124,39 @@ test_that("arg 'certainty' works", {
   # certainty should be coded."
   #
   # expect_snapshot(
-  #   tax_certainty(taxdf = occdf, name = "identified_name", certainty = "A"),
+  #   tax_certainty(data = data, name = "identified_name", certainty = "A"),
   #   error = TRUE
   # )
   # expect_snapshot(
-  #   tax_certainty(taxdf = occdf, name = "identified_name", certainty = c("A", "B", "C")),
+  #   tax_certainty(data = data, name = "identified_name", certainty = c("A", "B", "C")),
   #   error = TRUE
   # )
 
   # TODO: should error, this doesn't return the column "certainty"
   # expect_snapshot(
-  #   tax_certainty(taxdf = occdf, name = "identified_name", certainty = NULL),
+  #   tax_certainty(data = data, name = "identified_name", certainty = NULL),
   #   error = TRUE
   # )
 
   # TODO: should error, this returns 1 everywhere
   # expect_snapshot(
-  #   tax_certainty(taxdf = occdf, name = "identified_name", certainty = c(1, 1)),
+  #   tax_certainty(data = data, name = "identified_name", certainty = c(1, 1)),
   #   error = TRUE
   # )
 })
 
 test_that("arg 'append' works", {
   data("tetrapods")
-  occdf <- tetrapods[1:5, c("identified_name", "life_habit")]
+  data <- tetrapods[1:5, c("identified_name", "life_habit")]
 
   expect_equal(
     tax_certainty(
-      taxdf = occdf,
+      data = data,
       name = "identified_name",
       append = FALSE
     ),
     cbind(
-      occdf[, "identified_name", drop = FALSE],
+      data[, "identified_name", drop = FALSE],
       data.frame(certainty = c(1, 0, 1, 1, 1))
     )
   )
@@ -164,11 +164,11 @@ test_that("arg 'append' works", {
   # input checks
 
   expect_snapshot(
-    tax_certainty(taxdf = occdf, name = "identified_name", append = 1),
+    tax_certainty(data = data, name = "identified_name", append = 1),
     error = TRUE
   )
   expect_snapshot(
-    tax_certainty(taxdf = occdf, name = "identified_name", append = NA),
+    tax_certainty(data = data, name = "identified_name", append = NA),
     error = TRUE
   )
 })

@@ -1,10 +1,10 @@
 test_that("tax_range_space() works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "A", "A", "B", "B", "C"),
     lng = c(0, 10, 10, 0, 30, 40, 100),
     lat = c(0, 0, 10, 10, 45, 50, -10)
   )
-  out <- tax_range_space(occdf)
+  out <- tax_range_space(data)
 
   expect_equal(
     out,
@@ -21,47 +21,47 @@ test_that("tax_range_space() works", {
   # jarl-ignore expect_length: would be less readable to use expect_length in this case
   expect_equal(
     nrow(out),
-    length(unique(occdf$genus))
+    length(unique(data$genus))
   )
 
   # input checks
-  expect_snapshot(tax_range_space(occdf = data.frame()), error = TRUE)
-  expect_snapshot(tax_range_space(occdf = NA), error = TRUE)
-  expect_snapshot(tax_range_space(occdf = "a"), error = TRUE)
+  expect_snapshot(tax_range_space(data = data.frame()), error = TRUE)
+  expect_snapshot(tax_range_space(data = NA), error = TRUE)
+  expect_snapshot(tax_range_space(data = "a"), error = TRUE)
 })
 
 test_that("piping and not piping the first argument give the same result", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "A", "A", "B", "B", "C"),
     lng = c(0, 10, 10, 0, 30, 40, 100),
     lat = c(0, 0, 10, 10, 45, 50, -10)
   )
   expect_equal(
-    occdf |> tax_range_space(name = "genus"),
-    tax_range_space(occdf, name = "genus")
+    data |> tax_range_space(name = "genus"),
+    tax_range_space(data, name = "genus")
   )
 })
 
 test_that("tax_range_space errors with unnamed args", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B"),
     lng = c(0, 10, 30),
     lat = c(0, 0, 45)
   )
-  expect_snapshot(tax_range_space(occdf, "genus"), error = TRUE)
-  expect_snapshot(tax_range_space(occdf, "genus", "lng"), error = TRUE)
-  expect_snapshot(tax_range_space(occdf, "genus", lng = "lng"), error = TRUE)
+  expect_snapshot(tax_range_space(data, "genus"), error = TRUE)
+  expect_snapshot(tax_range_space(data, "genus", "lng"), error = TRUE)
+  expect_snapshot(tax_range_space(data, "genus", lng = "lng"), error = TRUE)
 })
 
 test_that("argument 'name' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     species = c("A", "A", "A", "A", "B", "B", "C"),
     lng = c(0, 10, 10, 0, 30, 40, 100),
     lat = c(0, 0, 10, 10, 45, 50, -10)
   )
 
   expect_equal(
-    tax_range_space(occdf, name = "species"),
+    tax_range_space(data, name = "species"),
     data.frame(
       taxon = c("A", "B", "C"),
       taxon_id = 1:3,
@@ -73,26 +73,26 @@ test_that("argument 'name' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_space(occdf = occdf, name = "nonexistent"),
+    tax_range_space(data = data, name = "nonexistent"),
     error = TRUE
   )
-  nadf <- occdf
+  nadf <- data
   nadf$genus[1] <- NA
   expect_snapshot(
-    tax_range_space(occdf = nadf, name = "genus"),
+    tax_range_space(data = nadf, name = "genus"),
     error = TRUE
   )
 })
 
 test_that("argument 'lng' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "A", "A", "B", "B", "C"),
     p_lng = c(0, 10, 10, 0, 30, 40, 100),
     lat = c(0, 0, 10, 10, 45, 50, -10)
   )
 
   expect_equal(
-    tax_range_space(occdf, lng = "p_lng"),
+    tax_range_space(data, lng = "p_lng"),
     data.frame(
       taxon = c("A", "B", "C"),
       taxon_id = 1:3,
@@ -104,7 +104,7 @@ test_that("argument 'lng' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_space(occdf, lng = "nonexistent"),
+    tax_range_space(data, lng = "nonexistent"),
     error = TRUE
   )
   # the "lng" column must be numeric
@@ -122,14 +122,14 @@ test_that("argument 'lng' works", {
 })
 
 test_that("argument 'lat' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "A", "A", "B", "B", "C"),
     lng = c(0, 10, 10, 0, 30, 40, 100),
     p_lat = c(0, 0, 10, 10, 45, 50, -10)
   )
 
   expect_equal(
-    tax_range_space(occdf, lat = "p_lat"),
+    tax_range_space(data, lat = "p_lat"),
     data.frame(
       taxon = c("A", "B", "C"),
       taxon_id = 1:3,
@@ -141,7 +141,7 @@ test_that("argument 'lat' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_space(occdf, lat = "nonexistent"),
+    tax_range_space(data, lat = "nonexistent"),
     error = TRUE
   )
   # the "lat" column must be numeric
@@ -159,14 +159,14 @@ test_that("argument 'lat' works", {
 })
 
 test_that("argument 'method' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "A", "A", "B", "B", "C"),
     lng = c(0, 10, 10, 0, 30, 40, 100),
     lat = c(0, 0, 10, 10, 45, 50, -10)
   )
 
   expect_equal(
-    tax_range_space(occdf, method = "lat"),
+    tax_range_space(data, method = "lat"),
     data.frame(
       taxon = c("A", "B", "C"),
       taxon_id = 1:3,
@@ -177,7 +177,7 @@ test_that("argument 'method' works", {
   )
 
   expect_equal(
-    tax_range_space(occdf, method = "con"),
+    tax_range_space(data, method = "con"),
     data.frame(
       taxon = c("A", "B", "C"),
       taxon_id = 1:3,
@@ -187,7 +187,7 @@ test_that("argument 'method' works", {
   )
 
   expect_equal(
-    tax_range_space(occdf, method = "gcd"),
+    tax_range_space(data, method = "gcd"),
     data.frame(
       taxon = c("A", "B", "C"),
       taxon_id = 1:3,
@@ -197,7 +197,7 @@ test_that("argument 'method' works", {
   )
 
   expect_equal(
-    tax_range_space(occdf, method = "occ"),
+    tax_range_space(data, method = "occ"),
     data.frame(
       taxon = c("A", "B", "C"),
       taxon_id = c(1, 2, 3),
@@ -209,24 +209,24 @@ test_that("argument 'method' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_space(occdf, method = c("gcd", "occ")),
+    tax_range_space(data, method = c("gcd", "occ")),
     error = TRUE
   )
-  expect_snapshot(tax_range_space(occdf, method = "test"), error = TRUE)
-  expect_snapshot(tax_range_space(occdf, method = character(0)), error = TRUE)
-  expect_snapshot(tax_range_space(occdf, method = NA), error = TRUE)
-  expect_snapshot(tax_range_space(occdf, method = 1), error = TRUE)
+  expect_snapshot(tax_range_space(data, method = "test"), error = TRUE)
+  expect_snapshot(tax_range_space(data, method = character(0)), error = TRUE)
+  expect_snapshot(tax_range_space(data, method = NA), error = TRUE)
+  expect_snapshot(tax_range_space(data, method = 1), error = TRUE)
 })
 
 test_that("argument 'spacing' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "A", "A", "B", "B", "C"),
     lng = c(0, 10, 10, 0, 30, 40, 100),
     lat = c(0, 0, 10, 10, 45, 50, -10)
   )
 
-  small <- tax_range_space(occdf, method = "occ", spacing = 100)
-  large <- tax_range_space(occdf, method = "occ", spacing = 500)
+  small <- tax_range_space(data, method = "occ", spacing = 100)
+  large <- tax_range_space(data, method = "occ", spacing = 500)
 
   expect_true(unique(large$spacing) > unique(small$spacing))
   expect_length(unique(small$spacing), 1L)
@@ -234,37 +234,37 @@ test_that("argument 'spacing' works", {
   # "spacing" is only relevant for the "occ" method: it is ignored otherwise
   # TODO: should this error ?
   expect_equal(
-    tax_range_space(occdf, method = "lat", spacing = 500),
-    tax_range_space(occdf, method = "lat", spacing = 100)
+    tax_range_space(data, method = "lat", spacing = 500),
+    tax_range_space(data, method = "lat", spacing = 100)
   )
 
   # input checks
   expect_snapshot(
-    tax_range_space(occdf, method = "occ", spacing = "a"),
+    tax_range_space(data, method = "occ", spacing = "a"),
     error = TRUE
   )
   expect_snapshot(
-    tax_range_space(occdf, method = "occ", spacing = numeric(0)),
+    tax_range_space(data, method = "occ", spacing = numeric(0)),
     error = TRUE
   )
   expect_snapshot(
-    tax_range_space(occdf, method = "occ", spacing = NA),
+    tax_range_space(data, method = "occ", spacing = NA),
     error = TRUE
   )
   expect_snapshot(
-    tax_range_space(occdf, method = "occ", spacing = 1:2),
+    tax_range_space(data, method = "occ", spacing = 1:2),
     error = TRUE
   )
 })
 
 test_that("argument 'coords' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "A", "A", "B", "B", "C"),
     lng = c(0, 10, 10, 0, 30, 40, 100),
     lat = c(0, 0, 10, 10, 45, 50, -10)
   )
   expect_equal(
-    tax_range_space(occdf, method = "con", coords = TRUE),
+    tax_range_space(data, method = "con", coords = TRUE),
     data.frame(
       taxon = rep(c("A", "B", "C"), c(4L, 2L, 1L)),
       taxon_id = rep(1:3, c(4L, 2L, 1L)),
@@ -277,7 +277,7 @@ test_that("argument 'coords' works", {
   # For the "gcd" method, coords = TRUE returns the coordinates of the two most
   # distant points
   expect_equal(
-    tax_range_space(occdf, method = "gcd", coords = TRUE),
+    tax_range_space(data, method = "gcd", coords = TRUE),
     data.frame(
       taxon = rep(c("A", "B", "C"), each = 2L),
       taxon_id = rep(1:3, each = 2L),
@@ -289,15 +289,15 @@ test_that("argument 'coords' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_space(occdf, method = "gcd", coords = "a"),
+    tax_range_space(data, method = "gcd", coords = "a"),
     error = TRUE
   )
   expect_snapshot(
-    tax_range_space(occdf, method = "gcd", coords = logical(0)),
+    tax_range_space(data, method = "gcd", coords = logical(0)),
     error = TRUE
   )
   expect_snapshot(
-    tax_range_space(occdf, method = "gcd", coords = NA),
+    tax_range_space(data, method = "gcd", coords = NA),
     error = TRUE
   )
 })
