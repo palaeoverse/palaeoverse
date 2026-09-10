@@ -73,8 +73,7 @@
       palaeorotate(occdf = data.frame(lng = NA, lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "lng" in `occdf` must be between -180 and 180.
-      i Value(s) outside the range: NA.
+      ! Column "lng" in `occdf` must be of class <numeric>, not <logical>.
 
 ---
 
@@ -82,8 +81,7 @@
       palaeorotate(occdf = data.frame(lng = "a", lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "lng" in `occdf` must be between -180 and 180.
-      i Value(s) outside the range: "a".
+      ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
 
 # input checks for latitude
 
@@ -100,8 +98,7 @@
       palaeorotate(occdf = data.frame(lng = 40, lat = NA, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "lat" in `occdf` must be between -90 and 90.
-      i Value(s) outside the range: NA.
+      ! Column "lat" in `occdf` must be of class <numeric>, not <logical>.
 
 ---
 
@@ -109,8 +106,7 @@
       palaeorotate(occdf = data.frame(lng = 40, lat = "a", age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "lat" in `occdf` must be between -90 and 90.
-      i Value(s) outside the range: "a".
+      ! Column "lat" in `occdf` must be of class <numeric>, not <character>.
 
 # input checks values for age
 
@@ -127,8 +123,7 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = NA))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "age" in `occdf` must be positive.
-      i Value(s) outside the range: NA.
+      ! Column "age" in `occdf` must be of class <numeric>, not <logical>.
 
 ---
 
@@ -136,8 +131,7 @@
       palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = "a"))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "age" in `occdf` must be positive.
-      i Value(s) outside the range: "a".
+      ! Column "age" in `occdf` must be of class <numeric>, not <character>.
 
 # arg 'model' works
 
