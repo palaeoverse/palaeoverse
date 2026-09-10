@@ -3,17 +3,17 @@
 #' A function to assign fossil occurrences to specified time bins based on
 #' different approaches commonly applied in palaeobiology.
 #'
-#' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
+#' @param data \code{dataframe}. A dataframe of the fossil occurrences you
 #'   wish to bin. This dataframe should contain at least two columns with
 #'   `numeric` values: maximum age of occurrence and minimum age of
 #'   occurrence (see `max_ma`, `min_ma`). If required, `numeric` ages can be
 #'   generated from interval names via the
 #'   \code{\link[palaeoverse:look_up]{look_up()}} function.
 #' @param min_ma \code{character}. The name of the column you wish to be
-#'   treated as the minimum age for `occdf` and `bins`, e.g. "min_ma"
+#'   treated as the minimum age for `data` and `bins`, e.g. "min_ma"
 #'   (default).
 #' @param max_ma \code{character}. The name of the column you wish to be
-#'   treated as the maximum age for `occdf` and `bins`, e.g. "max_ma"
+#'   treated as the maximum age for `data` and `bins`, e.g. "max_ma"
 #'   (default).
 #' @param bins \code{dataframe}. A dataframe of the bins that you wish to
 #'   allocate fossil occurrences to such as that returned by
@@ -42,13 +42,13 @@
 #'   function arguments should therefore be scaled to be within these bounds.
 #'
 #' @return For methods "mid", "majority" and "all", a \code{dataframe} of the
-#'   original input `occdf` with the following appended columns is returned:
+#'   original input `data` with the following appended columns is returned:
 #'   occurrence id (`id`), number of bins that the occurrence age range covers
 #'   (`n_bins`), bin assignment (`bin_assignment`), and bin midpoint
 #'   (`bin_midpoint`). In the case of the "majority" method, an additional
 #'   column of the majority percentage overlap (`overlap_percentage`) is also
 #'   appended. For the "random" and "point" method, a \code{list} is returned
-#'   (of length reps) with each element a copy of the `occdf` and appended
+#'   (of length reps) with each element a copy of the `data` and appended
 #'   columns (random: `bin_assignment` and `bin_midpoint`; point:
 #'   `bin_assignment` and `point_estimates`).
 #'
@@ -59,20 +59,20 @@
 #' - Majority: The "majority" method bins an occurrence into the bin which it
 #'   most overlaps with. As part of this implementation, the majority
 #'   percentage overlap of the occurrence is also calculated and returned as
-#'   an additional column in `occdf`. If desired, these percentages can be
+#'   an additional column in `data`. If desired, these percentages can be
 #'   used to further filter an occurrence dataset.
 #' - All: The "all" method bins an occurrence into every bin its age range
 #'   covers. For occurrences with age ranges of more than one bin, the
 #'   occurrence row is duplicated. Each occurrence is assigned an ID in the
-#'   column `occdf$id` so that duplicates can be tracked. Additionally,
-#'   `occdf$n_bins` records the number of bins each occurrence appears within.
+#'   column `data$id` so that duplicates can be tracked. Additionally,
+#'   `data$n_bins` records the number of bins each occurrence appears within.
 #' - Random: The "random" method randomly samples X amount of bins (with
 #'   replacement) from the bins that the fossil occurrence age range covers
 #'   with equal probability regardless of bin length. The `reps` argument
 #'   determines the number of times the sample process is repeated. All
 #'   replications are stored as individual elements within the returned list
 #'   with an appended `bin_assignment` and `bin_midpoint` column to the
-#'   original input `occdf`. If desired, users can easily bind this list using
+#'   original input `data`. If desired, users can easily bind this list using
 #'   \code{do.call(rbind, x)}.
 #' - Point: The "point" method randomly samples X (`reps`) amount of point age
 #'   estimates from the age range of the fossil occurrence. Sampling follows a
@@ -86,7 +86,7 @@
 #'   number of times the sample process is repeated. All replications are
 #'   stored as individual elements within the returned list with an appended
 #'   `bin_assignment` and `point_estimates` column to the original input
-#'   `occdf`. If desired, users can easily bind this list using
+#'   `data`. If desired, users can easily bind this list using
 #'   \code{do.call(rbind, x)}.
 #'
 #' @section Developer(s): Christopher D. Dean & Lewis A. Jones
@@ -94,27 +94,27 @@
 #' @importFrom stats dunif
 #' @examples
 #' #Grab internal tetrapod data
-#' occdf <- tetrapods[1:100, ]
+#' data <- tetrapods[1:100, ]
 #' bins <- time_bins()
 #'
 #' #Assign via midpoint age of fossil occurrence data
-#' ex1 <- bin_time(occdf = occdf, bins = bins, method = "mid")
+#' ex1 <- bin_time(data = data, bins = bins, method = "mid")
 #'
 #' #Assign to all bins that age range covers
-#' ex2 <- bin_time(occdf = occdf, bins = bins, method = "all")
+#' ex2 <- bin_time(data = data, bins = bins, method = "all")
 #'
 #' #Assign via majority overlap based on fossil occurrence age range
-#' ex3 <- bin_time(occdf = occdf, bins = bins, method = "majority")
+#' ex3 <- bin_time(data = data, bins = bins, method = "majority")
 #'
 #' #Assign randomly to overlapping bins based on fossil occurrence age range
-#' ex4 <- bin_time(occdf = occdf, bins = bins, method = "random", reps = 5)
+#' ex4 <- bin_time(data = data, bins = bins, method = "random", reps = 5)
 #'
 #' #Assign point estimates following a normal distribution
-#' ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5,
+#' ex5 <- bin_time(data = data, bins = bins, method = "point", reps = 5,
 #'                 fun = dnorm, mean = 0.5, sd = 0.25)
 #' @export
 bin_time <- function(
-  occdf,
+  data,
   min_ma = "min_ma",
   max_ma = "max_ma",
   bins,
@@ -123,22 +123,22 @@ bin_time <- function(
   fun = dunif,
   ...
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(occdf)
+  check_data_frame(data)
   check_data_frame(bins)
 
-  check_column_presence(occdf, min_ma)
-  check_column_presence(occdf, max_ma)
+  check_column_presence(data, min_ma)
+  check_column_presence(data, max_ma)
   check_column_presence(bins, min_ma)
   check_column_presence(bins, max_ma)
   check_column_presence(bins, "bin")
 
-  occdf_min_ma_vals <- occdf[[min_ma]]
-  occdf_max_ma_vals <- occdf[[max_ma]]
-  check_numeric(occdf_min_ma_vals, allow_na = FALSE, arg = "min_ma")
-  check_numeric(occdf_max_ma_vals, allow_na = FALSE, arg = "max_ma")
-  check_min_lower_than_max(occdf, min_ma, max_ma)
+  data_min_ma_vals <- data[[min_ma]]
+  data_max_ma_vals <- data[[max_ma]]
+  check_numeric(data_min_ma_vals, allow_na = FALSE, arg = "min_ma")
+  check_numeric(data_max_ma_vals, allow_na = FALSE, arg = "max_ma")
+  check_min_lower_than_max(data, min_ma, max_ma)
 
   method <- rlang::arg_match(
     method,
@@ -151,15 +151,15 @@ bin_time <- function(
   bins_max_ma_vals <- bins[[max_ma]]
   check_min_lower_than_max(bins, min_ma, max_ma)
 
-  if (max(occdf_max_ma_vals) > max(bins_max_ma_vals)) {
+  if (max(data_max_ma_vals) > max(bins_max_ma_vals)) {
     cli::cli_abort(
-      "Maximum age of occurrence data ({.val {max(occdf_max_ma_vals)}}) surpasses maximum age of bins ({.val {max(bins_max_ma_vals)}})."
+      "Maximum age of occurrence data ({.val {max(data_max_ma_vals)}}) surpasses maximum age of bins ({.val {max(bins_max_ma_vals)}})."
     )
   }
 
-  if (min(occdf_min_ma_vals) < min(bins_min_ma_vals)) {
+  if (min(data_min_ma_vals) < min(bins_min_ma_vals)) {
     cli::cli_abort(
-      "Minimum age of occurrence data ({.val {min(occdf_min_ma_vals)}}) is less than minimum age of bins ({.val {min(bins_min_ma_vals)}})."
+      "Minimum age of occurrence data ({.val {min(data_min_ma_vals)}}) is less than minimum age of bins ({.val {min(bins_min_ma_vals)}})."
     )
   }
 
@@ -175,14 +175,14 @@ bin_time <- function(
   #=== Reporting Info ===
 
   # Make an empty list that's the length of the occurrence dataframe.
-  bin_list <- vector("list", length = nrow(occdf))
+  bin_list <- vector("list", length = nrow(data))
 
   # For each occurrence, find all the bins that it is present within, and
   # add as elements to that part of the list.
   for (i in seq_len(nrow(bins))) {
     v <- which(
-      occdf[, max_ma, drop = TRUE] > bins[i, min_ma, drop = TRUE] &
-        occdf[, min_ma, drop = TRUE] < bins[i, max_ma, drop = TRUE]
+      data[, max_ma, drop = TRUE] > bins[i, min_ma, drop = TRUE] &
+        data[, min_ma, drop = TRUE] < bins[i, max_ma, drop = TRUE]
     )
     for (j in v) {
       bin_list[[j]] <- append(bin_list[[j]], bins$bin[i])
@@ -190,17 +190,17 @@ bin_time <- function(
   }
 
   # Generate id column for data (this is for tracking duplicate rows).
-  id <- seq_len(nrow(occdf))
-  occdf$id <- id
+  id <- seq_len(nrow(data))
+  data$id <- id
 
   # Generate empty column for recording the number of bins an occurrence
   # appears in, and empty columns for the new bin allocation and midpoint.
-  occdf$n_bins <- NA
-  occdf$bin_assignment <- NA
-  occdf$bin_midpoint <- NA
+  data$n_bins <- NA
+  data$bin_assignment <- NA
+  data$bin_midpoint <- NA
 
   # Assign number of bins per occurrence.
-  occdf$n_bins <- lengths(bin_list)
+  data$n_bins <- lengths(bin_list)
 
   # Generate midpoint ages of bins
   bins$mid_ma <- (bins[, max_ma, drop = TRUE] +
@@ -214,39 +214,39 @@ bin_time <- function(
     # If no mid point is present for occurrence age range, add one in a
     # new column.
     rmcol <- FALSE
-    if (!("mid_ma" %in% colnames(occdf))) {
-      occdf$mid_ma <- (occdf[, max_ma, drop = TRUE] +
-        occdf[, min_ma, drop = TRUE]) /
+    if (!("mid_ma" %in% colnames(data))) {
+      data$mid_ma <- (data[, max_ma, drop = TRUE] +
+        data[, min_ma, drop = TRUE]) /
         2
       rmcol <- TRUE
     }
     # Check if mid_ma equivalent to any bin boundaries
-    if (any(occdf$mid_ma %in% bins$mid_ma)) {
+    if (any(data$mid_ma %in% bins$mid_ma)) {
       warning(paste(
         "One or more occurrences have a midpoint age",
         "equivalent to a bin boundary. Binning skipped for",
         "these occurrences.",
-        "Hint: `which(is.na(occdf$bin_assignment))`."
+        "Hint: `which(is.na(data$bin_assignment))`."
       ))
     }
 
     # Assign bin based on midpoint age of the age range
     for (i in seq_len(nrow(bins))) {
       v <- which(
-        occdf$mid_ma > bins[i, min_ma, drop = TRUE] &
-          occdf$mid_ma < bins[i, max_ma, drop = TRUE]
+        data$mid_ma > bins[i, min_ma, drop = TRUE] &
+          data$mid_ma < bins[i, max_ma, drop = TRUE]
       )
-      occdf$bin_assignment[v] <- bins$bin[i]
-      occdf$bin_midpoint[v] <- bins$mid_ma[i]
+      data$bin_assignment[v] <- bins$bin[i]
+      data$bin_midpoint[v] <- bins$mid_ma[i]
     }
 
     # Remove mid_ma for fossil occurrences (if not already present as input)
     if (rmcol) {
-      occdf <- occdf[, -which(colnames(occdf) == "mid_ma")]
+      data <- data[, -which(colnames(data) == "mid_ma")]
     }
 
     # Return the dataframe and end the function.
-    return(occdf)
+    return(data)
   }
 
   #--- Method 2: Point estimates ---
@@ -272,15 +272,15 @@ bin_time <- function(
       }
     }
     # make occurrence list for filling with reps
-    occ_list <- vector("list", length = nrow(occdf))
+    occ_list <- vector("list", length = nrow(data))
 
     # For each occurrence max/min age, make probability distribution and
     # sample from it. Record that with each occurrence.
-    for (i in seq_len(nrow(occdf))) {
+    for (i in seq_len(nrow(data))) {
       #generate occurrence sequence for sampling
       occ_seq <- seq(
-        from = occdf[i, min_ma, drop = TRUE],
-        to = occdf[i, max_ma, drop = TRUE],
+        from = data[i, min_ma, drop = TRUE],
+        to = data[i, max_ma, drop = TRUE],
         by = 0.001
       )
       #generate x for input probability function
@@ -302,23 +302,23 @@ bin_time <- function(
       }
     }
 
-    occdf$point_estimates <- NA
+    data$point_estimates <- NA
     #drop cols that are not needed
-    occdf <- occdf[, -which(colnames(occdf) == "bin_midpoint")]
+    data <- data[, -which(colnames(data) == "bin_midpoint")]
 
     occ_df_list <- vector("list", length = reps)
 
     #add point estimates to each dataframe
     for (i in seq_len(reps)) {
-      occdf$point_estimates <- do.call(rbind, occ_list)[, i]
+      data$point_estimates <- do.call(rbind, occ_list)[, i]
       for (j in seq_len(nrow(bins))) {
         vec <- which(
-          occdf$point_estimates <= bins[j, max_ma, drop = TRUE] &
-            occdf$point_estimates >= bins[j, min_ma, drop = TRUE]
+          data$point_estimates <= bins[j, max_ma, drop = TRUE] &
+            data$point_estimates >= bins[j, min_ma, drop = TRUE]
         )
-        occdf$bin_assignment[vec] <- bins$bin[j]
+        data$bin_assignment[vec] <- bins$bin[j]
       }
-      occ_df_list[[i]] <- occdf
+      occ_df_list[[i]] <- data
     }
 
     #return list of data
@@ -328,31 +328,31 @@ bin_time <- function(
   #--- Method 3: All ---
   if (method == "all") {
     # Duplicate rows by number of bins.
-    occdf <- occdf[rep(seq_len(dim(occdf)[1]), occdf$n_bins), ]
+    data <- data[rep(seq_len(dim(data)[1]), data$n_bins), ]
 
     # Use id to track unique rows and update bin numbers.
     for (i in id) {
-      id_vec <- which(occdf$id == i)
-      occdf$bin_assignment[id_vec] <- bin_list[[i]]
+      id_vec <- which(data$id == i)
+      data$bin_assignment[id_vec] <- bin_list[[i]]
     }
     # Add bin midpoints to dataframe
     for (i in seq_len(nrow(bins))) {
-      vec <- which(occdf$bin_assignment == bins$bin[i])
-      occdf$bin_midpoint[vec] <- bins$mid_ma[i]
+      vec <- which(data$bin_assignment == bins$bin[i])
+      data$bin_midpoint[vec] <- bins$mid_ma[i]
     }
 
-    if (!inherits(occdf, "tbl")) {
-      rownames(occdf) <- seq_len(nrow(occdf))
+    if (!inherits(data, "tbl")) {
+      rownames(data) <- seq_len(nrow(data))
     }
 
     # Return the dataframe and end the function.
-    return(occdf)
+    return(data)
   }
 
   #--- Method 4: Majority ---
   if (method == "majority") {
     # Setup column for calculating overlap of age range with bin
-    occdf$overlap_percentage <- NA
+    data$overlap_percentage <- NA
 
     # Run across bin list
     for (i in seq_along(bin_list)) {
@@ -361,8 +361,8 @@ bin_time <- function(
 
       # Generate sequence of length 10000 for percentage calculations
       occ_seq <- seq(
-        occdf[i, min_ma, drop = TRUE],
-        occdf[i, max_ma, drop = TRUE],
+        data[i, min_ma, drop = TRUE],
+        data[i, max_ma, drop = TRUE],
         length.out = 10000
       )
 
@@ -378,17 +378,17 @@ bin_time <- function(
       }
 
       # Assign bins, bin midpoints and overlap percentage
-      occdf[i, "bin_assignment"] <- tmpbin$bin[which.max(percentage)]
-      occdf[i, "bin_midpoint"] <- tmpbin$mid_ma[which.max(percentage)]
-      occdf[i, "overlap_percentage"] <- percentage[which.max(percentage)]
+      data[i, "bin_assignment"] <- tmpbin$bin[which.max(percentage)]
+      data[i, "bin_midpoint"] <- tmpbin$mid_ma[which.max(percentage)]
+      data[i, "overlap_percentage"] <- percentage[which.max(percentage)]
     }
-    return(occdf)
+    return(data)
   }
 
   #--- Method 5: Random ---
   if (method == "random") {
     # Generate empty lists for populating
-    occ_list <- vector("list", length = nrow(occdf))
+    occ_list <- vector("list", length = nrow(data))
     occ_df_list <- vector("list", length = reps)
 
     # Randomly sample from the list of bins that occurrence appears in, and
@@ -409,17 +409,17 @@ bin_time <- function(
 
     #add point estimates to each dataframe
     for (i in 1:reps) {
-      occdf$bin_assignment <- do.call(rbind, occ_list)[, i]
-      occdf$bin_midpoint <- bins$mid_ma[
+      data$bin_assignment <- do.call(rbind, occ_list)[, i]
+      data$bin_midpoint <- bins$mid_ma[
         sapply(
-          occdf$bin_assignment,
+          data$bin_assignment,
           function(x) {
             which(bins$bin == x)
           },
           simplify = TRUE
         )
       ]
-      occ_df_list[[i]] <- occdf
+      occ_df_list[[i]] <- data
     }
     return(occ_df_list)
   }

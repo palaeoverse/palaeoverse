@@ -5,7 +5,7 @@
 \title{Calculate the geographic range of fossil taxa}
 \usage{
 tax_range_space(
-  occdf,
+  data,
   name = "genus",
   lng = "lng",
   lat = "lat",
@@ -15,7 +15,7 @@ tax_range_space(
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences. This
+\item{data}{\code{dataframe}. A dataframe of fossil occurrences. This
 dataframe should contain at least three columns: names of taxa, longitude
 and latitude (see \code{name}, \code{lng}, and \code{lat} arguments).}
 
@@ -32,7 +32,7 @@ as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
 prior to function call.}
 
 \item{method}{\code{character}. How should geographic range be calculated
-for each taxon in \code{occdf}? Four options exist in this function: "con",
+for each taxon in \code{data}? Four options exist in this function: "con",
 "lat", "gcd", and "occ". See Details for a description of each.}
 
 \item{spacing}{\code{numeric}. The desired spacing (in km) between the
@@ -78,18 +78,18 @@ Four commonly applied approaches (Darroch et al. 2020)
 are available using the \code{tax_range_space} function for calculating ranges:
 \itemize{
 \item Convex hull: the "con" method calculates the geographic range of taxa
-using a convex hull for each taxon in \code{occdf}, and calculates the area of
+using a convex hull for each taxon in \code{data}, and calculates the area of
 the convex hull (in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}) using
 \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}. The
 convex hull method works by creating a polygon that encompasses all
 occurrence points of the taxon.
 \item Latitudinal: the "lat" method calculates the palaeolatitudinal
-range of a taxon. It does so for each taxon in \code{occdf} by finding their
+range of a taxon. It does so for each taxon in \code{data} by finding their
 maximum and minimum latitudinal occurrence (from input \code{lat}).
 The palaeolatitudinal range of each taxon is also calculated (i.e. the
 difference between the minimum and maximum latitude).
 \item Maximum Great Circle Distance: the "gcd" method calculates the maximum
-Great Circle Distance between occurrences for each taxon in \code{occdf}. It does
+Great Circle Distance between occurrences for each taxon in \code{data}. It does
 so using \code{\link[geosphere:distHaversine]{geosphere::distHaversine()}}.
 This function calculates Great Circle Distance using the Haversine method
 with the radius of the Earth set to the 6378.137 km.
@@ -129,19 +129,19 @@ Bethany Allen & Christopher D. Dean
 
 \examples{
 # Grab internal data
-occdf <- tetrapods[1:100, ]
+data <- tetrapods[1:100, ]
 # Remove NAs
-occdf <- subset(occdf, !is.na(genus))
+data <- subset(data, !is.na(genus))
 # Convex hull
-ex1 <- tax_range_space(occdf = occdf, name = "genus", method = "con")
+ex1 <- tax_range_space(data = data, name = "genus", method = "con")
 # Latitudinal range
-ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
+ex2 <- tax_range_space(data = data, name = "genus", method = "lat")
 # Great Circle Distance
-ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
+ex3 <- tax_range_space(data = data, name = "genus", method = "gcd")
 # Occupied grid cells
-ex4 <- tax_range_space(occdf = occdf, name = "genus",
+ex4 <- tax_range_space(data = data, name = "genus",
                        method = "occ", spacing = 500)
 # Convex hull with coordinates
-ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
+ex5 <- tax_range_space(data = data, name = "genus", method = "con",
 coords = TRUE)
 }

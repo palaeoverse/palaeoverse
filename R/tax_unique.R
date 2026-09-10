@@ -7,23 +7,23 @@
 #' further information). This has previously been described as "cryptic
 #' diversity" (e.g. Mannion et al. 2011).
 #'
-#' @param occdf \code{dataframe}. A dataframe containing information on the
+#' @param data \code{dataframe}. A dataframe containing information on the
 #' occurrences or taxa to filter.
-#' @param binomial \code{character}. The name of the column in \code{occdf}
+#' @param binomial \code{character}. The name of the column in \code{data}
 #' containing the genus and species names of the occurrences, either in the
 #' form "genus species" or "genus_species".
-#' @param species \code{character}. The name of the column in \code{occdf}
+#' @param species \code{character}. The name of the column in \code{data}
 #' containing the species-level identifications (i.e. the specific epithet).
-#' @param genus \code{character}. The name of the column in \code{occdf}
+#' @param genus \code{character}. The name of the column in \code{data}
 #' containing the genus-level identifications.
 #' @param ... \code{character}. Other named arguments specifying columns of
 #' higher levels of taxonomy (e.g. subfamily, order, superclass). The names of
 #' the arguments will be the column names of the output, and the values of the
-#' arguments correspond to the columns of \code{occdf}. The given order of the
+#' arguments correspond to the columns of \code{data}. The given order of the
 #' arguments is the order in which they are filtered. Therefore, these arguments
 #' must be in ascending order from lowest to highest taxonomic rank (see
 #' examples below). At least one higher level of taxonomy must be specified.
-#' @param name \code{character}. The name of the column in \code{occdf}
+#' @param name \code{character}. The name of the column in \code{data}
 #' containing the taxonomic names at mixed taxonomic levels; the data column
 #' "accepted_name" in a [Paleobiology Database](https://paleobiodb.org/#/)
 #' occurrence dataframe is of this type.
@@ -36,7 +36,7 @@
 #' "species" or "genus" in the dataset (depending on the chosen resolution).
 #' The dataframe will include the taxonomic information provided into the
 #' function, as well as a column providing the 'unique' names of each taxon. If
-#' \code{append} is \code{TRUE}, the original dataframe (\code{occdf}) will be
+#' \code{append} is \code{TRUE}, the original dataframe (\code{data}) will be
 #' returned with these 'unique' names appended as a new column. Occurrences that
 #' are identified to a coarse taxonomic resolution and belong to a clade which
 #' is already represented within the dataset will have their 'unique' names
@@ -100,27 +100,27 @@
 #' @importFrom stats aggregate
 #' @examples
 #' #Retain unique species
-#' occdf <- tetrapods[1:100, ]
-#' species <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+#' data <- tetrapods[1:100, ]
+#' species <- tax_unique(data = data, genus = "genus", family = "family",
 #' order = "order", class = "class", name = "accepted_name")
 #'
 #' #Retain unique genera
-#' genera <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+#' genera <- tax_unique(data = data, genus = "genus", family = "family",
 #' order = "order", class = "class", resolution = "genus")
 #'
 #' #Append unique names to the original occurrences
-#' genera_append <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+#' genera_append <- tax_unique(data = data, genus = "genus", family = "family",
 #' order = "order", class = "class", resolution = "genus", append = TRUE)
 #'
 #' #Create dataframe from lists
-#' occdf2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
+#' data2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
 #' c("Tyrannosaurus", "Spinosaurus", NA), family = c("Tyrannosauridae",
 #' "Spinosauridae", "Diplodocidae"))
-#' dinosaur_species <- tax_unique(occdf = occdf2, species = "species", genus =
+#' dinosaur_species <- tax_unique(data = data2, species = "species", genus =
 #' "genus", family = "family")
 #'
 #' #Retain unique genera per collection with group_apply
-#' genera <- group_apply(occdf = occdf,
+#' genera <- group_apply(data = data,
 #'                      group = c("collection_no"),
 #'                      fun = tax_unique,
 #'                      genus = "genus",
@@ -132,7 +132,7 @@
 #' @export
 #'
 tax_unique <- function(
-  occdf,
+  data,
   binomial = NULL,
   species = NULL,
   genus = NULL,
@@ -141,24 +141,24 @@ tax_unique <- function(
   resolution = "species",
   append = FALSE
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(occdf)
+  check_data_frame(data)
   rlang::check_bool(append)
   rlang::check_string(resolution)
   resolution <- rlang::arg_match(resolution, values = c("species", "genus"))
 
   if (!is.null(binomial)) {
-    check_column_presence(occdf, binomial)
+    check_column_presence(data, binomial)
   }
   if (!is.null(species)) {
-    check_column_presence(occdf, species)
+    check_column_presence(data, species)
   }
   if (!is.null(genus)) {
-    check_column_presence(occdf, genus)
+    check_column_presence(data, genus)
   }
   if (!is.null(name)) {
-    check_column_presence(occdf, name)
+    check_column_presence(data, name)
   }
 
   higher_args <- list(...)
@@ -173,38 +173,38 @@ tax_unique <- function(
   for (level_label in higher_names) {
     col_name <- higher_args[[level_label]]
     rlang::check_string(col_name, arg = level_label)
-    check_column_presence(occdf, col_name)
+    check_column_presence(data, col_name)
     #Substitute labels used in PBDB downloads
-    occdf[[col_name]] <-
+    data[[col_name]] <-
       gsub(
         "NO_FAMILY_SPECIFIED|NO_ORDER_SPECIFIED|NO_CLASS_SPECIFIED",
         NA,
-        occdf[[col_name]]
+        data[[col_name]]
       )
-    if (any(grepl("[[:punct:]]", occdf[[col_name]]))) {
+    if (any(grepl("[[:punct:]]", data[[col_name]]))) {
       cli::cli_abort(
         "Column {.val {level_label}} must not contain punctuation."
       )
     }
   }
 
-  if (!is.null(genus) && any(grepl("[[:punct:]]", occdf[[genus]]))) {
+  if (!is.null(genus) && any(grepl("[[:punct:]]", data[[genus]]))) {
     cli::cli_abort("Column {.val genus} must not contain punctuation.")
   }
 
-  if (!is.null(species) && any(grepl("[[:punct:]]", occdf[[species]]))) {
+  if (!is.null(species) && any(grepl("[[:punct:]]", data[[species]]))) {
     cli::cli_abort("Column {.val species} must not contain punctuation.")
   }
 
   if (
-    !is.null(binomial) && any(grepl("[^[:alnum:][:space:]]", occdf[[binomial]]))
+    !is.null(binomial) && any(grepl("[^[:alnum:][:space:]]", data[[binomial]]))
   ) {
     cli::cli_abort(
       "Column {.val binomial} must not contain punctuation except spaces or underscores."
     )
   }
 
-  if (!is.null(name) && any(grepl("[^[:alnum:][:space:]]", occdf[[name]]))) {
+  if (!is.null(name) && any(grepl("[^[:alnum:][:space:]]", data[[name]]))) {
     cli::cli_abort(
       "Column {.val name} must not contain punctuation except spaces or underscores."
     )
@@ -235,7 +235,7 @@ tax_unique <- function(
 
   #Run function
   genus_species <- NULL
-  occurrences <- occdf[, c(binomial, species, genus, higher_cols, name)]
+  occurrences <- data[, c(binomial, species, genus, higher_cols, name)]
 
   #Rename columns
   if (!is.null(species)) {
@@ -255,7 +255,7 @@ tax_unique <- function(
 
   #Change underscores in binomials to spaces
   if (!is.null(binomial)) {
-    occurrences$binomial <- gsub("_", " ", occdf$binomial)
+    occurrences$binomial <- gsub("_", " ", data$binomial)
   }
   if (!is.null(name)) {
     occurrences$name <- gsub("_", " ", occurrences$name)
@@ -419,11 +419,11 @@ tax_unique <- function(
 
   if (append) {
     # Convert back to original dataframe
-    occdf$unique_name <- NA
+    data$unique_name <- NA
     for (i in seq_len(nrow(to_retain))) {
-      occdf$unique_name[to_retain$rows[[i]]] <- to_retain$unique_name[i]
+      data$unique_name[to_retain$rows[[i]]] <- to_retain$unique_name[i]
     }
-    return(occdf)
+    return(data)
   } else {
     row.names(to_retain) <- NULL
     return(to_retain)

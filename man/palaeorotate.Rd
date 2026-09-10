@@ -5,7 +5,7 @@
 \title{Palaeorotate fossil occurrences}
 \usage{
 palaeorotate(
-  occdf,
+  data,
   lng = "lng",
   lat = "lat",
   age = "age",
@@ -16,8 +16,8 @@ palaeorotate(
 )
 }
 \arguments{
-\item{occdf}{\code{data.frame}. Fossil occurrences to be
-palaeogeographically reconstructed. \code{occdf} should contain columns
+\item{data}{\code{data.frame}. Fossil occurrences to be
+palaeogeographically reconstructed. \code{data} should contain columns
 with longitudinal and latitudinal coordinates, as well as age estimates.
 The age of rotation should be supplied in millions of years before
 present.}
@@ -163,18 +163,18 @@ Kilian Eichenseer, Lucas Buffan & Will Gearty
 \examples{
 \dontrun{
 #Generic example with a few occurrences
-occdf <- data.frame(lng = c(2, -103, -66),
+data <- data.frame(lng = c(2, -103, -66),
                 lat = c(46, 35, -7),
                 age = c(88, 125, 200))
 
 #Calculate palaeocoordinates using reconstruction files
-ex1 <- palaeorotate(occdf = occdf, method = "grid")
+ex1 <- palaeorotate(data = data, method = "grid")
 
 #Calculate palaeocoordinates using the GPlates API
-ex2 <- palaeorotate(occdf = occdf, method = "point")
+ex2 <- palaeorotate(data = data, method = "point")
 
 #Calculate uncertainity in palaeocoordinates from models
-ex3 <- palaeorotate(occdf = occdf,
+ex3 <- palaeorotate(data = data,
                     method = "grid",
                     model = c("MERDITH2021",
                               "GOLONKA",
@@ -190,10 +190,10 @@ data(tetrapods)
 tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 
 #Rotate the data
-ex3 <- palaeorotate(occdf = tetrapods)
+ex3 <- palaeorotate(data = tetrapods)
 
 #Calculate uncertainity in palaeocoordinates from models
-ex4 <- palaeorotate(occdf = tetrapods,
+ex4 <- palaeorotate(data = tetrapods,
                     model = c("MERDITH2021",
                               "GOLONKA",
                               "PALEOMAP"),
