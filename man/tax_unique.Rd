@@ -12,7 +12,7 @@ tax_unique(
   ...,
   name = NULL,
   resolution = "species",
-  append = FALSE
+  append = TRUE
 )
 }
 \arguments{
@@ -49,15 +49,18 @@ identify unique occurrences, either "species" (the default) or "genus".}
 the unique names appended as a new column?}
 }
 \value{
-A \code{dataframe} of taxa, with each row corresponding to a unique
-"species" or "genus" in the dataset (depending on the chosen resolution).
-The dataframe will include the taxonomic information provided into the
-function, as well as a column providing the 'unique' names of each taxon. If
-\code{append} is \code{TRUE}, the original dataframe (\code{occdf}) will be
-returned with these 'unique' names appended as a new column. Occurrences that
-are identified to a coarse taxonomic resolution and belong to a clade which
+This always returns a dataframe.
+
+If \code{append} is \code{TRUE}, the original dataframe (\code{occdf})
+is returned with a new column providing the 'unique' names of each taxon
+("species" or "genus" depending on the chosen resolution). Occurrences
+that are identified to a coarse taxonomic resolution and belong to a clade which
 is already represented within the dataset will have their 'unique' names
 listed as \code{NA}.
+
+If \code{append} is \code{FALSE}, this returns a new dataframe of taxa. The
+dataframe will include the taxonomic information provided into the function,
+as well as a column providing the 'unique' names of each taxon.
 }
 \description{
 A function to filter a list of taxonomic occurrences to unique taxa of a

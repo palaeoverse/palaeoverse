@@ -7,8 +7,11 @@ guidance to update existing code.
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
-* All functions now require arguments to be fully named, except for the first 
+* All functions now require arguments to be fully named, except for the first
   argument in some cases (#216).
+
+* In `tax_unique()`, the default value of `append` is changed from `FALSE` to
+  `TRUE` (#350).
 
 ## Bug fixes
 

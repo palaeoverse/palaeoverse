@@ -32,15 +32,19 @@
 #' @param append \code{logical}. Should the original dataframe be returned with
 #' the unique names appended as a new column?
 #'
-#' @return A \code{dataframe} of taxa, with each row corresponding to a unique
-#' "species" or "genus" in the dataset (depending on the chosen resolution).
-#' The dataframe will include the taxonomic information provided into the
-#' function, as well as a column providing the 'unique' names of each taxon. If
-#' \code{append} is \code{TRUE}, the original dataframe (\code{occdf}) will be
-#' returned with these 'unique' names appended as a new column. Occurrences that
-#' are identified to a coarse taxonomic resolution and belong to a clade which
+#' @return
+#' This always returns a dataframe.
+#'
+#' If \code{append} is \code{TRUE}, the original dataframe (\code{occdf})
+#' is returned with a new column providing the 'unique' names of each taxon
+#' ("species" or "genus" depending on the chosen resolution). Occurrences
+#' that are identified to a coarse taxonomic resolution and belong to a clade which
 #' is already represented within the dataset will have their 'unique' names
 #' listed as \code{NA}.
+#'
+#' If \code{append} is \code{FALSE}, this returns a new dataframe of taxa. The
+#' dataframe will include the taxonomic information provided into the function,
+#' as well as a column providing the 'unique' names of each taxon.
 #'
 #' @details Palaeobiologists usually count unique taxa by retaining only
 #' unique occurrences identified to a given taxonomic resolution, however
@@ -139,7 +143,7 @@ tax_unique <- function(
   ...,
   name = NULL,
   resolution = "species",
-  append = FALSE
+  append = TRUE
 ) {
   ensure_args_are_named(exceptions = "occdf")
 
