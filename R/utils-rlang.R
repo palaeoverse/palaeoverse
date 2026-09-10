@@ -82,13 +82,9 @@ check_class <- function(data, column, class) {
 
 #' Check whether all values of a numeric column fall in a custom range
 #'
-#' This errors if any of the following cases:
+#' This errors if at least one value of `column` is outside the `[min:max]` range.
 #'
-#' - `column` doesn't exist in `data`
-#' - `column` isn't numeric
-#' - at least one value of `column` is outside the `[min:max]` range
-#'
-#' `NA` are considered to be outside the range.
+#' `NA` are considered to be outside of the range.
 #'
 #' @param data dataframe to check
 #' @param column A single column name to check.
