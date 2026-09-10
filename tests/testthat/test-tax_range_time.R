@@ -187,7 +187,7 @@ test_that("max ages must be larger than or equal to min ages", {
   expect_snapshot(tax_range_time(occdf), error = TRUE)
 })
 
-test_that("argument 'group' works", {
+test_that("grouping is done with group_apply()", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
@@ -195,11 +195,14 @@ test_that("argument 'group' works", {
     family = c("F1", "F1", "F1", "F2", "F2")
   )
 
+  # `group` was removed in favour of group_apply()
+  expect_snapshot(tax_range_time(occdf, group = "family"), error = TRUE)
+
   expect_equal(
-    tax_range_time(occdf, group = "family"),
+    group_apply(occdf = occdf, group = "family", fun = tax_range_time),
     data.frame(
       taxon = c("B", "A", "C", "B"),
-      taxon_id = 1:4,
+      taxon_id = c(1L, 2L, 1L, 2L),
       max_ma = c(6, 10, 3, 5),
       min_ma = c(5, 7, 2, 4),
       range_myr = c(1, 3, 1, 1),
@@ -207,15 +210,6 @@ test_that("argument 'group' works", {
       family = c("F1", "F1", "F2", "F2")
     )
   )
-
-  # input checks
-  expect_snapshot(
-    tax_range_time(occdf, group = c("genus", "min_ma")),
-    error = TRUE
-  )
-  expect_snapshot(tax_range_time(occdf, group = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, group = 1), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, group = NA), error = TRUE)
 })
 
 test_that("argument 'by' works", {

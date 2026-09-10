@@ -14,9 +14,6 @@
 #' as the minimum limit of the age range, e.g. "min_ma" (default).
 #' @param max_ma \code{character}. The name of the column you wish to be treated
 #' as the maximum limit of the age range, e.g. "max_ma" (default).
-#' @param group \code{character}. The name of the column you wish to be treated
-#' as the grouping variable, e.g. "family". If not supplied, all taxa are
-#'   treated as a single group.
 #' @param by \code{character}. How should the output be sorted?
 #' Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 #' or "name" (alphabetically by taxon names).
@@ -72,30 +69,22 @@
 #' occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 #' # Temporal range
 #' ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
-#' # Temporal range ordered by class
-#' # Update margins for plotting
-#' par(mar = c(8, 5, 6, 6))
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-#'                      plot = TRUE)
 #' # Customise appearance
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
+#' ex <- tax_range_time(occdf = occdf, name = "order",
 #'                      plot = TRUE,
 #'                      plot_args = list(ylab = "Orders",
 #'                                       pch = 21, col = "black", bg = "blue",
 #'                                       lty = 2),
 #'                      intervals = list("periods", "eras"))
-#' # Control plotting order of groups
-#' occdf$class <- factor(x = occdf$class,
-#'                       levels = c("Reptilia", "Osteichthyes"))
-#' ex <- tax_range_time(occdf = occdf, name = "order",
-#'                      group = "class", plot = TRUE)
+#' # Temporal range per class, using group_apply()
+#' ex <- group_apply(occdf = occdf, group = "class", fun = tax_range_time,
+#'                   name = "order")
 #' @export
 tax_range_time <- function(
   occdf,
   name = "genus",
   min_ma = "min_ma",
   max_ma = "max_ma",
-  group = NULL,
   by = "FAD",
   plot = FALSE,
   plot_args = NULL,
@@ -117,10 +106,6 @@ tax_range_time <- function(
   check_class(occdf, max_ma, "numeric")
   check_min_lower_than_max(occdf, min_ma, max_ma)
 
-  if (!is.null(group)) {
-    check_column_presence(occdf, group)
-  }
-
   rlang::check_string(by)
   by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
 
@@ -132,54 +117,35 @@ tax_range_time <- function(
     )
   }
 
-  # Create pseudo-group if not provided (enable group_apply with no groups)
-  if (is.null(group)) {
-    occdf$tmp_group <- 1
-    g <- "tmp_group"
-  } else {
-    g <- group
-  }
-  # Calculate ranges
-  temp_df <- group_apply(
-    occdf,
-    group = g,
-    fun = function(occdf, name, min_ma, max_ma) {
-      #=== Set-up ===
-      unique_taxa <- unique(occdf[, name, drop = TRUE])
-      # Order taxa by name
-      unique_taxa <- sort(unique_taxa)
+  #=== Set-up ===
+  unique_taxa <- unique(occdf[, name, drop = TRUE])
+  # Order taxa by name
+  unique_taxa <- sort(unique_taxa)
 
-      #=== Temporal range ===
-      # Generate dataframe for population
-      temp_df <- data.frame(
-        taxon = unique_taxa,
-        taxon_id = seq(1, length(unique_taxa), 1),
-        max_ma = rep(NA, length(unique_taxa)),
-        min_ma = rep(NA, length(unique_taxa)),
-        range_myr = rep(NA, length(unique_taxa)),
-        n_occ = rep(NA, length(unique_taxa))
-      )
-      # Run for loop across unique taxa
-      for (i in seq_along(unique_taxa)) {
-        vec <- which(occdf[, name, drop = TRUE] == unique_taxa[i])
-        temp_df$max_ma[i] <- max(occdf[vec, max_ma])
-        temp_df$min_ma[i] <- min(occdf[vec, min_ma])
-        temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]
-        temp_df$n_occ[i] <- length(vec)
-      }
-      # Should data be ordered by FAD, LAD, or name?
-      if (by == "FAD") {
-        temp_df <- temp_df[order(temp_df$max_ma), ]
-      } else if (by == "LAD") {
-        temp_df <- temp_df[order(temp_df$min_ma), ]
-      }
-      # Return dataframe
-      temp_df
-    },
-    name = name,
-    min_ma = min_ma,
-    max_ma = max_ma
+  #=== Temporal range ===
+  # Generate dataframe for population
+  temp_df <- data.frame(
+    taxon = unique_taxa,
+    taxon_id = seq(1, length(unique_taxa), 1),
+    max_ma = rep(NA, length(unique_taxa)),
+    min_ma = rep(NA, length(unique_taxa)),
+    range_myr = rep(NA, length(unique_taxa)),
+    n_occ = rep(NA, length(unique_taxa))
   )
+  # Run for loop across unique taxa
+  for (i in seq_along(unique_taxa)) {
+    vec <- which(occdf[, name, drop = TRUE] == unique_taxa[i])
+    temp_df$max_ma[i] <- max(occdf[vec, max_ma])
+    temp_df$min_ma[i] <- min(occdf[vec, min_ma])
+    temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]
+    temp_df$n_occ[i] <- length(vec)
+  }
+  # Should data be ordered by FAD, LAD, or name?
+  if (by == "FAD") {
+    temp_df <- temp_df[order(temp_df$max_ma), ]
+  } else if (by == "LAD") {
+    temp_df <- temp_df[order(temp_df$min_ma), ]
+  }
   # Assign taxon_ids
   temp_df$taxon_id <- seq_len(nrow(temp_df))
   # Round off values
@@ -238,38 +204,6 @@ tax_range_time <- function(
     axis(2, at = seq_len(nrow(temp_df)), labels = temp_df$taxon, las = 2)
     # Add yaxis title
     title(ylab = args$ylab, line = 2 + extra_margin)
-    # Groups provided?
-    if (!is.null(group)) {
-      # Calculate plotting values for groups
-      s <- split(x = temp_df, f = temp_df[, group])
-      vals_rect <- lapply(s, function(x) {
-        cbind(min(x$taxon_id), max(x$taxon_id))
-      })
-      # Define colours
-      cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
-      # Run across number of groups
-      lapply(seq_along(vals_rect), function(x) {
-        # Add background rectangles
-        rect(
-          xleft = xlim[1] * 2,
-          xright = 0,
-          ybottom = vals_rect[[x]][1] - 0.5,
-          ytop = vals_rect[[x]][2] + 0.5,
-          col = cols_rect[x]
-        )
-        # Add group labels
-        axis(
-          4,
-          at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
-          labels = names(vals_rect)[x],
-          tick = TRUE,
-          hadj = 0.5,
-          gap.axis = 10,
-          line = 0,
-          las = 3
-        )
-      })
-    }
     # Add ranges
     segments(
       x0 = temp_df$max_ma,
@@ -298,10 +232,6 @@ tax_range_time <- function(
     axis_geo(side = 1, intervals = intervals, title = args$xlab)
     # Reset par
     par(usrpar)
-  }
-  # Tidy up
-  if (is.null(group)) {
-    temp_df <- temp_df[, -which(colnames(temp_df) == "tmp_group")]
   }
   # Return dataframe
   return(temp_df)

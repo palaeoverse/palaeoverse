@@ -226,37 +226,13 @@
       ! Maximum age must be larger than or equal to minimum age.
       i Row(s) of `occdf` where "max_ma" is smaller than "min_ma": 2, 3.
 
-# argument 'group' works
+# grouping is done with group_apply()
 
     Code
-      tax_range_time(occdf, group = c("genus", "min_ma"))
+      tax_range_time(occdf, group = "family")
     Condition
       Error in `tax_range_time()`:
-      ! `group` must be a single string, not a character vector.
-
----
-
-    Code
-      tax_range_time(occdf, group = "nonexistent")
-    Condition
-      Error in `tax_range_time()`:
-      ! Column "nonexistent" not found in `occdf`.
-
----
-
-    Code
-      tax_range_time(occdf, group = 1)
-    Condition
-      Error in `tax_range_time()`:
-      ! `group` must be a single string, not the number 1.
-
----
-
-    Code
-      tax_range_time(occdf, group = NA)
-    Condition
-      Error in `tax_range_time()`:
-      ! `group` must be a single string, not `NA`.
+      ! unused argument (group = "family")
 
 # argument 'by' works
 

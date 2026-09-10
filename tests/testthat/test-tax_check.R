@@ -20,8 +20,7 @@ test_that("basic behavior works", {
         count_greater = c(2, 1),
         count_lesser = 1
       ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
+      non_letter_name = NULL
     )
   )
 
@@ -49,8 +48,8 @@ test_that("tax_check errors with unnamed args", {
   dat <- data.frame(genus = c("Automaton", "Joebloggsia"))
   expect_snapshot(tax_check(dat, "genus"), error = TRUE)
   expect_snapshot(tax_check(taxdf = dat, "genus"), error = TRUE)
-  expect_snapshot(tax_check(dat, "genus", NULL), error = TRUE)
-  expect_snapshot(tax_check(dat, "genus", group = NULL), error = TRUE)
+  expect_snapshot(tax_check(dat, "genus", 0.05), error = TRUE)
+  expect_snapshot(tax_check(dat, "genus", dis = 0.05), error = TRUE)
 })
 
 test_that("arg 'name' works", {
@@ -79,8 +78,7 @@ test_that("arg 'name' works", {
         count_greater = c(2, 1),
         count_lesser = 1
       ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
+      non_letter_name = NULL
     )
   )
 
@@ -92,7 +90,7 @@ test_that("arg 'name' works", {
   expect_snapshot(tax_check(dat, name = ""), error = TRUE)
 })
 
-test_that("arg 'group' works", {
+test_that("grouping is done with group_apply()", {
   dat <- data.frame(
     family = c(
       "Foo",
@@ -110,38 +108,35 @@ test_that("arg 'group' works", {
     )
   )
 
-  # Without "group", we would have two groups "F" and "J"
+  # `group` was removed in favour of group_apply()
+  expect_snapshot(tax_check(dat, group = "family"), error = TRUE)
+
+  # Comparisons are made within alphabetical groups "F" and "J"
   expect_equal(
-    tax_check(dat, group = "family"),
-    list(
-      synonyms = data.frame(
-        group = "Examplidae",
-        greater = "Facsimilu",
-        lesser = "Facsimilus",
-        count_greater = 2L,
-        count_lesser = 1L
-      ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
+    tax_check(dat, verbose = FALSE),
+    data.frame(
+      group = c("F", "J"),
+      greater = c("Facsimilu", "Joebloggsia"),
+      lesser = c("Facsimilus", "Joebloggia"),
+      count_greater = c(2L, 1L),
+      count_lesser = 1L
     )
   )
 
-  # Capture warning on non-letter characters
-  expect_snapshot(
-    tax_check(
-      data.frame(
-        genus = c("Automaton", "Automaton"),
-        family = c("Foo", "Examplidae2")
-      ),
-      group = "family"
+  # Within families, "Facsimilu" and "Facsimilus" are only compared inside
+  # "Examplidae", and "Joebloggsia"/"Joebloggia" are no longer compared at all
+  expect_equal(
+    group_apply(occdf = dat, group = "family", fun = tax_check,
+                verbose = FALSE),
+    data.frame(
+      group = "F",
+      greater = "Facsimilus",
+      lesser = "Facsimilu",
+      count_greater = 1L,
+      count_lesser = 1L,
+      family = "Examplidae"
     )
   )
-
-  # input checks
-  expect_snapshot(tax_check(dat, group = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_check(dat, group = 1), error = TRUE)
-  expect_snapshot(tax_check(dat, group = character(0)), error = TRUE)
-  expect_snapshot(tax_check(dat, group = ""), error = TRUE)
 })
 
 test_that("arg 'dis' works", {
@@ -167,8 +162,7 @@ test_that("arg 'dis' works", {
         count_greater = 1L,
         count_lesser = 1L
       ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
+      non_letter_name = NULL
     )
   )
 
@@ -202,8 +196,7 @@ test_that("arg 'start' works", {
         count_greater = 1L,
         count_lesser = 1L
       ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
+      non_letter_name = NULL
     )
   )
 
@@ -213,8 +206,7 @@ test_that("arg 'start' works", {
     tax_check(dat, start = 4),
     list(
       synonyms = NULL,
-      non_letter_name = NULL,
-      non_letter_group = NULL
+      non_letter_name = NULL
     )
   )
 

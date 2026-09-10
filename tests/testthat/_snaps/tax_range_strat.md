@@ -146,45 +146,13 @@
       Error in `tax_range_strat()`:
       ! Column "bed" in `occdf` must be of class <numeric>, not <logical>.
 
-# argument 'group' works
+# grouping is done with group_apply()
 
     Code
-      tax_range_strat(occdf, group = c("class", "genus"))
+      tax_range_strat(occdf, group = "class")
     Condition
       Error in `tax_range_strat()`:
-      ! `group` must be a single string, not a character vector.
-
----
-
-    Code
-      tax_range_strat(occdf, group = "test")
-    Condition
-      Error in `tax_range_strat()`:
-      ! Column "test" not found in `occdf`.
-
----
-
-    Code
-      tax_range_strat(occdf, group = character(0))
-    Condition
-      Error in `tax_range_strat()`:
-      ! `group` must be a single string, not an empty character vector.
-
----
-
-    Code
-      tax_range_strat(occdf, group = NA)
-    Condition
-      Error in `tax_range_strat()`:
-      ! `group` must be a single string, not `NA`.
-
----
-
-    Code
-      tax_range_strat(occdf, group = 1)
-    Condition
-      Error in `tax_range_strat()`:
-      ! `group` must be a single string, not the number 1.
+      ! unused argument (group = "class")
 
 # argument 'certainty' works
 

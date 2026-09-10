@@ -46,6 +46,8 @@
 #' grouping variable.
 #' - \code{\link{tax_range_space}}: return the geographic range of taxa per
 #' grouping variable.
+#' - \code{\link{tax_range_strat}}: plot the stratigraphic range of taxa per
+#' grouping variable.
 #' - \code{\link{tax_check}}: return potential spelling variations of the
 #' same taxon per grouping variable. Note: `verbose` needs to be set to FALSE.
 #'

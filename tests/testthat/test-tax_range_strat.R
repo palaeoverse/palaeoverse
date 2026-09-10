@@ -13,10 +13,8 @@ test_that("basic behavior works", {
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
-      group = NA,
       min_bin = c(1, 1, 2, 3),
-      max_bin = c(2, 4, 3, 3),
-      tmp_group = "1"
+      max_bin = c(2, 4, 3, 3)
     )
   )
 
@@ -75,10 +73,8 @@ test_that("argument 'name' works", {
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
-      group = NA,
       min_bin = c(1, 1, 2, 3),
-      max_bin = c(2, 4, 3, 3),
-      tmp_group = "1"
+      max_bin = c(2, 4, 3, 3)
     )
   )
 
@@ -110,10 +106,8 @@ test_that("argument 'level' works", {
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
-      group = NA,
       min_bin = c(1, 1, 2, 3),
-      max_bin = c(2, 4, 3, 3),
-      tmp_group = "1"
+      max_bin = c(2, 4, 3, 3)
     )
   )
 
@@ -127,7 +121,7 @@ test_that("argument 'level' works", {
   expect_snapshot(tax_range_strat(nadf), error = TRUE)
 })
 
-test_that("argument 'group' works", {
+test_that("grouping is done with group_apply()", {
   # fmt: skip
   occdf <- data.frame(
     genus = c(
@@ -142,11 +136,14 @@ test_that("argument 'group' works", {
     )
   )
 
+  # `group` was removed in favour of group_apply()
+  expect_snapshot(tax_range_strat(occdf, group = "class"), error = TRUE)
+
   # fmt: skip
   expect_equal(
-    tax_range_strat(occdf, group = "class"),
+    group_apply(occdf = occdf, group = "class", fun = tax_range_strat),
     data.frame(
-      ID = 1:6,
+      ID = c(1:2, 1:2, 1:2),
       taxon = c(
         "Anconastes", "Edaphosaurus", "Procolophon", "Araeoscelis", "Procolophon",
         "Araeoscelis"
@@ -156,21 +153,6 @@ test_that("argument 'group' works", {
       class = rep(c("Osteichthyes", "Reptilia", "Saurischia"), each = 2L)
     )
   )
-
-  # It produces the expected plot
-  expect_doppelganger("tax_range_strat() plots groups", function() {
-    tax_range_strat(occdf, group = "class")
-  })
-
-  # input checks
-  expect_snapshot(
-    tax_range_strat(occdf, group = c("class", "genus")),
-    error = TRUE
-  )
-  expect_snapshot(tax_range_strat(occdf, group = "test"), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, group = character(0)), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, group = NA), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, group = 1), error = TRUE)
 })
 
 test_that("argument 'certainty' works", {
@@ -190,12 +172,10 @@ test_that("argument 'certainty' works", {
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
-      group = NA,
       min_bin = c(1, 1, 2, 3),
       max_bin = c(2, 4, 3, 3),
       min_bin_certain = rep(c(1, 3), each = 2L),
-      max_bin_certain = c(2, 4, 3, 3),
-      tmp_group = "1"
+      max_bin_certain = c(2, 4, 3, 3)
     )
   )
 

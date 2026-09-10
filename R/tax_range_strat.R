@@ -11,9 +11,6 @@
 #' @param level \code{character}. The name of the column you wish to be treated
 #'   as the stratigraphic levels associated with each occurrence, e.g. "bed"
 #'   (default) or "height". Stratigraphic levels must be \code{numeric}.
-#' @param group \code{character}. The name of the column you wish to be treated
-#'   as the grouping variable, e.g. "family". If not supplied, all taxa are
-#'   treated as a single group.
 #' @param certainty \code{character}. The name of the column you wish to be
 #'   treated as the information on whether an identification is certain (1) or
 #'   uncertain (0). By default (\code{certainty = NULL}), no column name is
@@ -107,22 +104,18 @@
 #'                           color = c("#67C5CA", "#F2F91D"))
 #' axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
 #' title(xlab = "Taxon", line = 10.5)
-#' # Update margins for plotting
-#' par(mar = c(12, 5, 6, 2))
+#' # Plot a separate section per class, using group_apply()
 #' # Pull class data
 #' occdf$class <- tetrapods$class[1:50]
-#' # Group stratigraphic ranges by class
-#' tax_range_strat(occdf, name = "taxon", group = "class",
-#'                 certainty = "certainty", by = "name",
-#'                 plot_args = list(main = "Section A",
-#'                                  ylab = "Stratigraphic height (m)"))
+#' invisible(group_apply(occdf = occdf, group = "class",
+#'                       fun = tax_range_strat, name = "taxon",
+#'                       certainty = "certainty", by = "name"))
 #'
 #' @export
 tax_range_strat <- function(
   occdf,
   name = "genus",
   level = "bed",
-  group = NULL,
   certainty = NULL,
   by = "FAD",
   plot_args = NULL,
@@ -139,10 +132,6 @@ tax_range_strat <- function(
   check_na(occdf, name)
   check_na(occdf, level)
 
-  if (!is.null(group)) {
-    check_column_presence(occdf, group)
-  }
-
   if (!is.null(certainty)) {
     check_column_presence(occdf, certainty)
     check_na(occdf, certainty)
@@ -151,77 +140,54 @@ tax_range_strat <- function(
   rlang::check_string(by)
   by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
 
-  # Create pseudo-group if not provided (enable group_apply with no groups)
-  if (is.null(group)) {
-    occdf$tmp_group <- 1
-    g <- "tmp_group"
+  #=== Set-up ===
+  unique_taxa <- unique(occdf[, name, drop = TRUE])
+  # Order taxa by name
+  unique_taxa <- sort(unique_taxa)
+
+  #=== Stratigraphic range ===
+  # Generate dataframe for population
+  if (is.null(certainty)) {
+    ranges <- data.frame(
+      taxon = unique_taxa,
+      min_bin = NA,
+      max_bin = NA
+    )
   } else {
-    g <- group
+    ranges <- data.frame(
+      taxon = unique_taxa,
+      min_bin = NA,
+      max_bin = NA,
+      min_bin_certain = NA,
+      max_bin_certain = NA
+    )
   }
-  # Calculate ranges
-  ranges <- group_apply(
-    occdf,
-    group = g,
-    fun = function(occdf, name, level) {
-      #=== Set-up ===
-      unique_taxa <- unique(occdf[, name, drop = TRUE])
-      # Order taxa by name
-      unique_taxa <- sort(unique_taxa)
+  # Run for loop across unique taxa
+  for (i in seq_along(unique_taxa)) {
+    occ_filter <- occdf[(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
+    ranges[i, "min_bin"] <- min(occ_filter[level])
+    ranges[i, "max_bin"] <- max(occ_filter[level])
 
-      #=== Temporal range ===
-      # Generate dataframe for population
-      if (is.null(certainty)) {
-        ranges <- data.frame(
-          taxon = unique_taxa,
-          group = NA,
-          min_bin = NA,
-          max_bin = NA
-        )
-      } else {
-        ranges <- data.frame(
-          taxon = unique_taxa,
-          group = NA,
-          min_bin = NA,
-          max_bin = NA,
-          min_bin_certain = NA,
-          max_bin_certain = NA
-        )
+    # If uncertainty is used, fill second set of columns for certain IDs
+    if (!is.null(certainty)) {
+      occ_filter <- occ_filter[
+        (occ_filter[, certainty, drop = TRUE] == 1),
+      ]
+      if (nrow(occ_filter) == 0) {
+        occ_filter[1, ] <- NA
       }
-      # Run for loop across unique taxa
-      for (i in seq_along(unique_taxa)) {
-        occ_filter <- occdf[(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
-        ranges[i, 3] <- min(occ_filter[level])
-        ranges[i, 4] <- max(occ_filter[level])
-        if (!is.null(group)) {
-          ranges[i, 2] <- occ_filter[1, group]
-        }
-
-        # If uncertainty is used, fill second set of columns for certain IDs
-        if (!is.null(certainty)) {
-          occ_filter <- occ_filter[
-            (occ_filter[, certainty, drop = TRUE] == 1),
-          ]
-          if (nrow(occ_filter) == 0) {
-            occ_filter[1, ] <- NA
-          }
-          ranges[i, 5] <- min(occ_filter[level])
-          ranges[i, 6] <- max(occ_filter[level])
-        }
-      }
-      # Should data be ordered by FAD or LAD (already sorted by name)?
-      if (by == "FAD") {
-        ranges <- ranges[order(ranges$max_bin), ]
-        ranges <- ranges[order(ranges$min_bin), ]
-      } else if (by == "LAD") {
-        ranges <- ranges[order(ranges$min_bin), ]
-        ranges <- ranges[order(ranges$max_bin), ]
-      }
-      # Return dataframe
-      ranges
-    },
-    name = name,
-    level = level
-  )
+      ranges[i, "min_bin_certain"] <- min(occ_filter[level])
+      ranges[i, "max_bin_certain"] <- max(occ_filter[level])
+    }
+  }
+  # Should data be ordered by FAD or LAD (already sorted by name)?
+  if (by == "FAD") {
+    ranges <- ranges[order(ranges$max_bin), ]
+    ranges <- ranges[order(ranges$min_bin), ]
+  } else if (by == "LAD") {
+    ranges <- ranges[order(ranges$min_bin), ]
+    ranges <- ranges[order(ranges$max_bin), ]
+  }
 
   # IDs
   ID <- seq_along(seq_len(nrow(ranges)))
@@ -301,36 +267,6 @@ tax_range_strat <- function(
       plot_args
     )
   )
-  # Groups provided?
-  if (!is.null(group)) {
-    # Calculate plotting values for groups
-    s <- split(x = ranges, f = ranges[, group])
-    vals_rect <- lapply(s, function(x) cbind(min(x$ID), max(x$ID)))
-    # Define colours
-    cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
-    # Run across number of groups
-    lapply(seq_along(vals_rect), function(x) {
-      # Add background rectangles
-      rect(
-        xleft = vals_rect[[x]][1] - 0.5,
-        xright = vals_rect[[x]][2] + 0.5,
-        ybottom = 0,
-        ytop = max(ranges$max_bin) * 2,
-        col = cols_rect[x]
-      )
-      # Add group labels
-      axis(
-        3,
-        at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
-        labels = names(vals_rect)[x],
-        tick = TRUE,
-        hadj = 0.5,
-        gap.axis = 50,
-        line = 0,
-        las = 1
-      )
-    })
-  }
   # Add segments
   if (is.null(certainty)) {
     segments(
@@ -420,10 +356,6 @@ tax_range_strat <- function(
   do.call(axis, args = c(list(side = 1), x_args))
   # Add frame
   box()
-  # Tidy up
-  if (!is.null(group)) {
-    ranges$group <- NULL
-  }
   # Return invisibly (still unsure about this)
   invisible(ranges)
 }

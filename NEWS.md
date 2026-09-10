@@ -7,8 +7,11 @@ guidance to update existing code.
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
-* All functions now require arguments to be fully named, except for the first 
+* All functions now require arguments to be fully named, except for the first
   argument in some cases (#216).
+
+* The `group` argument of `tax_check()`, `tax_range_time()`, and
+  `tax_range_strat()` was removed. Use `group_apply()` instead (#351).
 
 ## Bug fixes
 

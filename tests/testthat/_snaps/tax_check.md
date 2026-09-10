@@ -13,9 +13,6 @@
       $non_letter_name
       [1] "Automaton2"
       
-      $non_letter_group
-      NULL
-      
 
 ---
 
@@ -62,7 +59,7 @@
 ---
 
     Code
-      tax_check(dat, "genus", NULL)
+      tax_check(dat, "genus", 0.05)
     Condition
       Error in `tax_check()`:
       ! All arguments must be named (except for "taxdf").
@@ -71,7 +68,7 @@
 ---
 
     Code
-      tax_check(dat, "genus", group = NULL)
+      tax_check(dat, "genus", dis = 0.05)
     Condition
       Error in `tax_check()`:
       ! All arguments must be named (except for "taxdf").
@@ -125,56 +122,13 @@
       Error in `tax_check()`:
       ! Column "" not found in `taxdf`.
 
-# arg 'group' works
+# grouping is done with group_apply()
 
     Code
-      tax_check(data.frame(genus = c("Automaton", "Automaton"), family = c("Foo",
-        "Examplidae2")), group = "family")
-    Condition
-      Warning:
-      Non-letter characters present in the group names.
-    Output
-      $synonyms
-      NULL
-      
-      $non_letter_name
-      NULL
-      
-      $non_letter_group
-      [1] "Examplidae2"
-      
-
----
-
-    Code
-      tax_check(dat, group = "nonexistent")
+      tax_check(dat, group = "family")
     Condition
       Error in `tax_check()`:
-      ! Column "nonexistent" not found in `taxdf`.
-
----
-
-    Code
-      tax_check(dat, group = 1)
-    Condition
-      Error in `tax_check()`:
-      ! `group` must be a single string, not the number 1.
-
----
-
-    Code
-      tax_check(dat, group = character(0))
-    Condition
-      Error in `tax_check()`:
-      ! `group` must be a single string, not an empty character vector.
-
----
-
-    Code
-      tax_check(dat, group = "")
-    Condition
-      Error in `tax_check()`:
-      ! Column "" not found in `taxdf`.
+      ! unused argument (group = "family")
 
 # arg 'dis' works
 
