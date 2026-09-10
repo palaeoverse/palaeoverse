@@ -7,8 +7,10 @@ guidance to update existing code.
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
-* All functions now require arguments to be fully named, except for the first 
+* All functions now require arguments to be fully named, except for the first
   argument in some cases (#216).
+
+* In `lat_bins_area()`, the argument `n` is deprecated and replaced by `n_bins` (#349).
 
 ## Bug fixes
 
