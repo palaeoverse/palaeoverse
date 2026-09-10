@@ -70,6 +70,9 @@ check_class <- function(data, column, class) {
     !inherits(values, class)
   }
   if (cond) {
+    # We don't want to use `{obj_type_friendly(values)}` here, to avoid e.g.
+    # `Column "max_ma" in `occdf` must be of class <numeric>, not a character vector.`,
+    # which would be less clear.
     cli::cli_abort(
       "Column {.val {column}} in {.arg {rlang::caller_arg(data)}} must be of class {.cls {class}}, not {.cls {class(values)}}.",
       call = rlang::caller_env()
