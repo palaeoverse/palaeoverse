@@ -5,7 +5,7 @@
 #' based on calculating the curved surface area of spherical segments bounded
 #' by two parallel discs.
 #'
-#' @param n \code{numeric}. A single numeric value defining the number of
+#' @param n_bins \code{numeric}. A single numeric value defining the number of
 #'   equal-area latitudinal bins to split the latitudinal range into (as
 #'   defined by `min` and `max`).
 #' @param min \code{numeric}. A single numeric value defining the lower limit
@@ -23,6 +23,8 @@
 #'   max (maximum latitude of the bin), area (the area of the bin in
 #'   km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}), area_prop (the
 #'   proportional area of the bin across all bins).
+#' @param n `r lifecycle::badge("deprecated")` Use `n_bins` instead.
+#'
 #' @seealso
 #' For bins with unequal area, but equal latitudinal range, see
 #'   \link{lat_bins_degrees}.
