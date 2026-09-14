@@ -24,10 +24,10 @@ exist in the data (e.g. it will store \code{lat = "lat"} if \code{"lat"} exists 
 even if \code{lat = "lat"}) isn't explicitly passed.
 
 This information is used in other \code{palaeoverse} functions so that users don't need to
-pass it everytime. All \code{palaeoverse} functions use this preference order:
+pass it every time. All \code{palaeoverse} functions use this preference order:
 \enumerate{
 \item if a value is explicitly passed in a call, e.g. \code{bin_lat(lat = "lat", ...)}, then it
-is preferrred;
+is preferred;
 \item if the value is not explicitly passed, e.g. \code{bin_lat(...)} without specifying \code{lat} then
 the function will first look for the corresponding attribute (in this case, \code{"lat"}) which
 would have been stored by \code{as_palaeo()}:

@@ -15,10 +15,10 @@
 #' even if `lat = "lat"`) isn't explicitly passed.
 #'
 #' This information is used in other `palaeoverse` functions so that users don't need to
-#' pass it everytime. All `palaeoverse` functions use this preference order:
+#' pass it every time. All `palaeoverse` functions use this preference order:
 #'
 #' 1. if a value is explicitly passed in a call, e.g. `bin_lat(lat = "lat", ...)`, then it
-#'    is preferrred;
+#'    is preferred;
 #' 2. if the value is not explicitly passed, e.g. `bin_lat(...)` without specifying `lat` then
 #'    the function will first look for the corresponding attribute (in this case, `"lat"`) which
 #'    would have been stored by `as_palaeo()`:
