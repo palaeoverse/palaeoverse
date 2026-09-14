@@ -42,6 +42,7 @@
 #' # this information (unless another value is explicitly passed in the call)
 #' bin_lat(occdf = dat, bins = bins)
 as_palaeo <- function(x, lat = "lat", lon = "lon") {
+  ensure_args_are_named(exceptions = "x")
   rlang::check_data_frame(x)
 
   if (missing(lon)) {
