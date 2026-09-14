@@ -127,19 +127,24 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
     crs = "EPSG:4326"
   )
 
+  spacing <- attr(bins, "spacing", exact = TRUE)
   h3_resolution <- attr(bins, "h3_resolution", exact = TRUE)
   avg_cendist_km <- attr(bins, "avg_cendist_km", exact = TRUE)
 
   #=== Grid binning  ===
   # Extract cell ID
-  occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = h3_resolution)
+  cell_name <- paste0("cell_ID_", spacing)
+  cent_lat_name <- paste0("cell_centroid_lng_", spacing)
+  cent_lon_name <- paste0("cell_centroid_lat_", spacing)
+
+  occdf[[cell_name]] <- h3jsr::point_to_cell(occdf, res = h3_resolution)
 
   # Extract cell centroids
-  occdf$cell_centroid_lng <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
+  occdf[[cent_lon_name]] <- sf::st_coordinates(
+    h3jsr::cell_to_point(h3_address = occdf[[cell_name]])
   )[, c("X")]
-  occdf$cell_centroid_lat <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
+  occdf[[cent_lat_name]] <- sf::st_coordinates(
+    h3jsr::cell_to_point(h3_address = occdf[[cell_name]])
   )[, c("Y")]
 
   occdf <- sf::st_drop_geometry(occdf)

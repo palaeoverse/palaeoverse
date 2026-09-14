@@ -1,6 +1,6 @@
 test_that("bin_space() works", {
   # Reduce data size for faster testing
-  occdf <- head(tetrapods, n = 100)
+  occdf <- head(tetrapods, n = 50)
 
   # We don't lose or gain observations
   expect_message(
@@ -10,15 +10,75 @@ test_that("bin_space() works", {
     ),
     "H3 resolution: 2"
   )
+
+  # three new columns: cell id, centroid lat, centroid lon
+  expect_named(
+    bin_space(occdf = occdf, bins = space_bins(250)) |>
+      suppressMessages(),
+    c(
+      names(occdf),
+      "cell_ID_250",
+      "cell_centroid_lat_250",
+      "cell_centroid_lng_250"
+    )
+  )
+})
+
+test_that("we can chain several bin_space()", {
+  # Reduce data size for faster testing
+  occdf <- head(tetrapods, n = 50)
+
   expect_message(
-    expect_equal(
-      occdf |>
-        bin_space(bins = space_bins(1000)) |>
-        bin_space(bins = space_bins(250)) |>
-        nrow(),
-      nrow(occdf)
+    expect_message(
+      expect_equal(
+        occdf |>
+          bin_space(bins = space_bins(1000)) |>
+          bin_space(bins = space_bins(250)) |>
+          nrow(),
+        nrow(occdf)
+      ),
+      "H3 resolution: 2"
     ),
     "H3 resolution: 1"
+  )
+  expect_named(
+    occdf |>
+      bin_space(bins = space_bins(1000)) |>
+      bin_space(bins = space_bins(250)) |>
+      suppressMessages(),
+    c(
+      names(occdf),
+      "cell_ID_1000",
+      "cell_centroid_lat_1000",
+      "cell_centroid_lng_1000",
+      "cell_ID_250",
+      "cell_centroid_lat_250",
+      "cell_centroid_lng_250"
+    )
+  )
+
+  # We don't need to chain from larger to smaller spacing (column ordering is the
+  # only thing that changes)
+  large_then_small <- occdf |>
+    bin_space(bins = space_bins(1000)) |>
+    bin_space(bins = space_bins(250)) |>
+    suppressMessages()
+  small_then_large <- occdf |>
+    bin_space(bins = space_bins(250)) |>
+    bin_space(bins = space_bins(1000)) |>
+    suppressMessages()
+
+  expect_equal(
+    large_then_small,
+    small_then_large[, c(
+      names(occdf),
+      "cell_ID_1000",
+      "cell_centroid_lat_1000",
+      "cell_centroid_lng_1000",
+      "cell_ID_250",
+      "cell_centroid_lat_250",
+      "cell_centroid_lng_250"
+    )]
   )
 })
 
@@ -68,12 +128,6 @@ test_that("bin_space error handling", {
     ),
     error = TRUE
   )
-
-  # TODO: should error
-  # expect_snapshot(
-  #   tetrapods |> bin_space(space_bins(1000)) |> bin_space(space_bins(1000)),
-  #   error = TRUE
-  # )
 
   # lat must be a numeric value between -90 and 90
   occdf$lat[1] <- 94
