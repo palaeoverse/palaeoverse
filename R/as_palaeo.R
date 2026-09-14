@@ -99,10 +99,16 @@ print.palaeo <- function(x, ...) {
 resolve_info <- function(data, column) {
   column_present_in_call <- column %in%
     names(rlang::call_args(rlang::caller_call()))
+  value_from_attr <- attr(data, paste0("palaeo_", column))
+
   if (isTRUE(column_present_in_call)) {
+    if (!is.null(value_from_attr)) {
+      cli::cli_inform(
+        "Overrode the data attribute {.val {paste0(\"palaeo_\", column)}}."
+      )
+    }
     return(column)
   } else {
-    value_from_attr <- attr(data, paste0("palaeo_", column))
     if (!is.null(value_from_attr)) {
       return(value_from_attr)
     } else {

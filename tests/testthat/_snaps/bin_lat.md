@@ -110,6 +110,16 @@
 ---
 
     Code
+      bin_lat(occdf = dat, bins = bins, lat = "lat")
+    Message
+      Overrode the data attribute "palaeo_lat".
+    Condition
+      Error in `bin_lat()`:
+      ! Column "lat" not found in `occdf`.
+
+---
+
+    Code
       bin_lat(occdf = dat, bins = bins)
     Condition
       Error in `bin_lat()`:

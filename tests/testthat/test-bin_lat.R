@@ -93,6 +93,13 @@ test_that("bin_lat() uses info set in as_palaeo()", {
     "Occurrences assigned to upper bin"
   )
 
+  # even if the attribute is set, we prefer explicitly passed values (leading
+  # to an error here)
+  expect_snapshot(
+    bin_lat(occdf = dat, bins = bins, lat = "lat"),
+    error = TRUE
+  )
+
   # If the attribute stored in the data disappeared then bin_lat() cannot
   # recover it
   attr(dat, "palaeo_lat") <- NULL
