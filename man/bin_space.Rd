@@ -12,25 +12,14 @@ localities) you wish to bin. This dataframe should contain the decimal
 degree coordinates of your occurrences, and they should be of
 class \code{numeric}.}
 
+\item{bins}{\code{sfc_POLYGON}. Bins that you wish to allocate fossil
+occurrences to, such as that returned by \code{\link[=space_bins]{space_bins()}}.}
+
 \item{lng}{\code{character}. The name of the column you wish to be treated
 as the input longitude (e.g. "lng" or "p_lng").}
 
 \item{lat}{\code{character}. The name of the column you wish to be treated
 as the input latitude (e.g. "lat" or "p_lat").}
-
-\item{spacing}{\code{numeric}. The desired spacing between the center of
-adjacent cells. This value should be provided in kilometres.}
-
-\item{sub_grid}{\code{numeric}. For an optional sub-grid, the desired
-spacing between the center of adjacent cells in the sub-grid.
-This value should be provided in kilometres.
-See details for information on sub-grid usage.}
-
-\item{return}{\code{logical}. Should the equal-area grid information and
-polygons be returned?}
-
-\item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
-be plotted?}
 }
 \value{
 If the \code{return} argument is set to \code{FALSE}, a dataframe is

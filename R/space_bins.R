@@ -1,3 +1,5 @@
+#' Hello
+#'
 #' @export
 space_bins <- function(spacing) {
   # `spacing` can be unnamed but we still call this to ensure that there

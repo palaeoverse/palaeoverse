@@ -7,20 +7,12 @@
 #' localities) you wish to bin. This dataframe should contain the decimal
 #' degree coordinates of your occurrences, and they should be of
 #' class `numeric`.
+#' @param bins \code{sfc_POLYGON}. Bins that you wish to allocate fossil
+#' occurrences to, such as that returned by [`space_bins()`].
 #' @param lng \code{character}. The name of the column you wish to be treated
 #' as the input longitude (e.g. "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat").
-#' @param spacing \code{numeric}. The desired spacing between the center of
-#' adjacent cells. This value should be provided in kilometres.
-#' @param sub_grid \code{numeric}. For an optional sub-grid, the desired
-#' spacing between the center of adjacent cells in the sub-grid.
-#' This value should be provided in kilometres.
-#' See details for information on sub-grid usage.
-#' @param return \code{logical}. Should the equal-area grid information and
-#' polygons be returned?
-#' @param plot \code{logical}. Should the occupied cells of the equal-area grid
-#' be plotted?
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
 #' returned of the original input `occdf` with cell information. If `return` is
