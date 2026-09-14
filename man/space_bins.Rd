@@ -2,10 +2,23 @@
 % Please edit documentation in R/space_bins.R
 \name{space_bins}
 \alias{space_bins}
-\title{Hello}
+\title{Generate space bins}
 \usage{
 space_bins(spacing)
 }
+\arguments{
+\item{spacing}{\code{numeric}. The desired spacing between the center of
+adjacent cells. This value should be provided in kilometres.}
+}
+\value{
+An object of class \code{SFC_polygon} (from the package \code{sf}) with as many
+geometries as the number of generated bins
+}
 \description{
-Hello
+A function to generate space bins that can then be used in \code{bin_space()} to
+assign fossil occurrences (or localities) to spatial bins/samples using a
+hexagonal equal-area grid.
+}
+\examples{
+space_bins(1000)
 }

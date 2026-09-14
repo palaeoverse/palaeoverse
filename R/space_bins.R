@@ -1,6 +1,18 @@
-#' Hello
+#' Generate space bins
+#'
+#' A function to generate space bins that can then be used in `bin_space()` to
+#' assign fossil occurrences (or localities) to spatial bins/samples using a
+#' hexagonal equal-area grid.
+#'
+#' @param spacing \code{numeric}. The desired spacing between the center of
+#' adjacent cells. This value should be provided in kilometres.
+#'
+#' @return An object of class `SFC_polygon` (from the package `sf`) with as many
+#' geometries as the number of generated bins
 #'
 #' @export
+#' @examples
+#' space_bins(1000)
 space_bins <- function(spacing) {
   # `spacing` can be unnamed but we still call this to ensure that there
   # is no partial matching of argument name.
