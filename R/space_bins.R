@@ -1,6 +1,7 @@
 #' @export
 space_bins <- function(spacing) {
-  # This also ensures that there is no partial matching of arg names
+  # `spacing` can be unnamed but we still call this to ensure that there
+  # is no partial matching of argument name.
   ensure_args_are_named(exceptions = "spacing")
 
   rlang::check_number_decimal(spacing, min = 0)
@@ -11,8 +12,6 @@ space_bins <- function(spacing) {
   grid <- h3jsr::h3_info_table[
     which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)),
   ]
-  # Add column grid specification
-  grid$grid <- c("primary")
 
   all_cells <- h3jsr::get_res0()
   # Get children at desired resolution
