@@ -17,3 +17,36 @@ as_palaeo(x, lat = "lat", lon = "lon")
 This function allows you to define information on your data only once so that
 it is automatically used in subsequent \code{palaeoverse} functions.
 }
+\details{
+\code{as_palaeo()} stores information in the data attributes, available via \code{attributes()}.
+It uses explicitly passed values (e.g. \code{lat = "my_lat"}) and default values if they
+exist in the data (e.g. it will store \code{lat = "lat"} if \code{"lat"} exists in the dataframe,
+even if \code{lat = "lat"}) isn't explicitly passed.
+
+This information is used in other \code{palaeoverse} functions so that users don't need to
+pass it everytime. All \code{palaeoverse} functions use this preference order:
+\enumerate{
+\item if a value is explicitly passed in a call, e.g. \code{bin_lat(lat = "lat", ...)}, then it
+is preferrred;
+\item if the value is not explicitly passed, e.g. \code{bin_lat(...)} without specifying \code{lat} then
+the function will first look for the corresponding attribute (in this case, \code{"lat"}) which
+would have been stored by \code{as_palaeo()}:
+
+a. if this attribute is found, it is used;
+b. otherwise, the default argument value is used.
+}
+}
+\examples{
+bins <- lat_bins_degrees(size = 10)
+
+# We have a dataframe where the latitude values are stored in "my_lat" column
+dat <- tetrapods[1:5, ]
+names(dat)[names(dat) == "lat"] <- "my_lat"
+
+# We can store this information in as_palaeo()
+dat <- as_palaeo(dat, lat = "my_lat")
+
+# Other palaeoverse functions that have a "lat" argument will automatically use
+# this information (unless another value is explicitly passed in the call)
+bin_lat(occdf = dat, bins = bins)
+}
