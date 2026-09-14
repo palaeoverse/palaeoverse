@@ -78,12 +78,13 @@ print.palaeo <- function(x, ...) {
     "A dataframe with {nrow(x)} row{?s} and {ncol(x)} column{?s}."
   )
   if (length(att) > 0) {
-    cli::cli_inform(
-      c(
-        "i" = "Attributes:",
-        "*" = paste0(att, ": ", att_list)
-      )
+    cli::cli_inform(c("i" = "Attributes:"))
+    # Indent the bullet points
+    d <- cli::cli_div(
+      theme = list(ul = list("margin-left" = 2, "padding-left" = 0))
     )
+    cli::cli_ul(paste0(att, ": \"", att_list, "\""))
+    cli::cli_end(d)
   }
   cat("\n")
   print.data.frame(x)

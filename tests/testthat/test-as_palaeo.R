@@ -24,6 +24,10 @@ test_that("as_palaeo() custom print method works", {
   dat <- data.frame(lat = 1, long = 2)
   dat2 <- as_palaeo(dat)
   expect_snapshot(dat2)
+
+  dat <- data.frame(lat = 1, lon = 2)
+  dat2 <- as_palaeo(dat)
+  expect_snapshot(dat2)
 })
 
 test_that("consecutive as_palaeo() work correctly", {
