@@ -497,6 +497,61 @@ test_that("arg 'append' works", {
   )
 })
 
+test_that("coarse occurrences in an already represented clade are dropped or NA", {
+  # fmt: skip
+  dinosaurs <- data.frame(
+    species = c("rex", NA, "aegyptiacus", NA),
+    genus = c("Tyrannosaurus", NA, "Spinosaurus", NA),
+    family = c("Tyrannosauridae", "Tyrannosauridae", "Spinosauridae", "Diplodocidae")
+  )
+
+  # the Tyrannosauridae occurrence without genus and species is already represented by
+  # Tyrannosaurus rex, so its unique name is NA, while Diplodocidae is the only
+  # representative of its clade and is retained
+  expect_equal(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      append = TRUE
+    ),
+    cbind(
+      dinosaurs,
+      data.frame(
+        unique_name = c(
+          "Tyrannosaurus rex",
+          NA,
+          "Spinosaurus aegyptiacus",
+          "Diplodocidae indet."
+        )
+      )
+    )
+  )
+
+  # with `append = FALSE`, the Tyrannosauridae occurrence without genus and species
+  # is dropped entirely
+  expect_equal(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      append = FALSE
+    ),
+    data.frame(
+      family = c("Spinosauridae", "Tyrannosauridae", "Diplodocidae"),
+      genus = c("Spinosaurus", "Tyrannosaurus", NA),
+      genus_species = c("Spinosaurus aegyptiacus", "Tyrannosaurus rex", NA),
+      unique_name = c(
+        "Spinosaurus aegyptiacus",
+        "Tyrannosaurus rex",
+        "Diplodocidae indet."
+      )
+    )
+  )
+})
+
 test_that("taxonomic columns must not contain punctuation", {
   # `identified_name` in the tetrapods dataset contains punctuation (e.g. "sp.")
   data("tetrapods")

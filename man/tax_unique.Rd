@@ -60,7 +60,9 @@ listed as \code{NA}.
 
 If \code{append} is \code{FALSE}, this returns a new dataframe of taxa. The
 dataframe will include the taxonomic information provided into the function,
-as well as a column providing the 'unique' names of each taxon.
+as well as a column providing the 'unique' names of each taxon. Occurrences
+that are identified to a coarse taxonomic resolution and belong to a clade which
+is already represented within the dataset are dropped.
 }
 \description{
 A function to filter a list of taxonomic occurrences to unique taxa of a

@@ -44,7 +44,9 @@
 #'
 #' If \code{append} is \code{FALSE}, this returns a new dataframe of taxa. The
 #' dataframe will include the taxonomic information provided into the function,
-#' as well as a column providing the 'unique' names of each taxon.
+#' as well as a column providing the 'unique' names of each taxon. Occurrences
+#' that are identified to a coarse taxonomic resolution and belong to a clade which
+#' is already represented within the dataset are dropped.
 #'
 #' @details Palaeobiologists usually count unique taxa by retaining only
 #' unique occurrences identified to a given taxonomic resolution, however
