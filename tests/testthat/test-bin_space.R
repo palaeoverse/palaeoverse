@@ -57,8 +57,8 @@ test_that("we can chain several bin_space()", {
     )
   )
 
-  # We don't need to chain from larger to smaller spacing (column ordering is the
-  # only thing that changes)
+  # We can chain from larger to smaller spacing, or from smaller to larger (column ordering
+  # is the only thing that changes)
   large_then_small <- occdf |>
     bin_space(bins = space_bins(1000)) |>
     bin_space(bins = space_bins(250)) |>
