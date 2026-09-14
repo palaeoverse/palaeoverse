@@ -38,8 +38,6 @@ b. otherwise, the default argument value is used.
 }
 }
 \examples{
-bins <- lat_bins_degrees(size = 10)
-
 # We have a dataframe where the latitude values are stored in "my_lat" column
 dat <- tetrapods[1:5, ]
 names(dat)[names(dat) == "lat"] <- "my_lat"
@@ -49,5 +47,6 @@ dat <- as_palaeo(dat, lat = "my_lat")
 
 # Other palaeoverse functions that have a "lat" argument will automatically use
 # this information (unless another value is explicitly passed in the call)
+bins <- lat_bins_degrees(size = 10)
 bin_lat(occdf = dat, bins = bins)
 }
