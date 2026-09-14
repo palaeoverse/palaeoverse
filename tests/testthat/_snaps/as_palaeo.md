@@ -4,7 +4,7 @@
       as_palaeo(dat, lat = "foo")
     Condition
       Error in `as_palaeo()`:
-      ! Column "foo" doesn't exist in `dat`.
+      ! Column "foo" not found in `x`.
 
 ---
 
@@ -12,7 +12,7 @@
       as_palaeo(dat, lon = "foo")
     Condition
       Error in `as_palaeo()`:
-      ! Column "foo" doesn't exist in `dat`.
+      ! Column "foo" not found in `x`.
 
 # as_palaeo() custom print method works
 

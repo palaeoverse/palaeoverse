@@ -12,14 +12,22 @@
 as_palaeo <- function(x, lat = "lat", lon = "lon") {
   rlang::check_data_frame(x)
 
-  if (!missing(lon)) {
-    check_column_presence(x, "lon")
+  if (missing(lon)) {
+    if ("lon" %in% names(x)) {
+      attr(x, "palaeo_lon") <- "lon"
+    }
+  } else {
+    check_column_presence(x, lon)
+    attr(x, "palaeo_lon") <- lon
   }
-  if (!missing(lon)) {
-    check_column_presence(x, "lon")
+  if (missing(lat)) {
+    if ("lat" %in% names(x)) {
+      attr(x, "palaeo_lat") <- "lat"
+    }
+  } else {
+    check_column_presence(x, lat)
+    attr(x, "palaeo_lat") <- lat
   }
-  attr(x, "palaeo_lon") <- lon
-  attr(x, "palaeo_lat") <- lat
 
   class(x) <- c("palaeo", class(x))
   x
