@@ -228,6 +228,15 @@
       Error in `tax_unique()`:
       ! `append` must be `TRUE` or `FALSE`, not an empty logical vector.
 
+---
+
+    Code
+      tax_unique(dinosaurs, species = "species", genus = "genus", family = "family",
+        order = "order", class = "class", append = 1)
+    Condition
+      Error in `tax_unique()`:
+      ! `append` must be `TRUE` or `FALSE`, not the number 1.
+
 # taxonomic columns must not contain punctuation
 
     Code

@@ -483,21 +483,18 @@ test_that("arg 'append' works", {
     error = TRUE
   )
 
-  # TODO: using append = 1 passes because it can be coerced to logical, but I
-  # don't think this should be allowed.
-  #
-  # expect_snapshot(
-  #   tax_unique(
-  #     dinosaurs,
-  #     species = "species",
-  #     genus = "genus",
-  #     family = "family",
-  #     order = "order",
-  #     class = "class",
-  #     append = 1
-  #   ),
-  #   error = TRUE
-  # )
+  expect_snapshot(
+    tax_unique(
+      dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class",
+      append = 1
+    ),
+    error = TRUE
+  )
 })
 
 test_that("taxonomic columns must not contain punctuation", {
