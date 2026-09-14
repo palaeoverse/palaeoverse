@@ -22,23 +22,13 @@ test_that("bin_space() works", {
   )
 })
 
-test_that("piping and not piping the first and second arguments give the same result", {
+test_that("piping and not piping the first argument give the same result", {
   occdf <- head(tetrapods, n = 100)
 
   expect_equal(
     suppressMessages(occdf |> bin_space(bins = space_bins(1000))),
     suppressMessages(bin_space(occdf, bins = space_bins(1000)))
   )
-
-  # TODO: this should work
-  # expect_equal(
-  #   suppressMessages(bins |> bin_space(occdf = occdf, space_bins(1000))),
-  #   suppressMessages(bin_space(occdf, bins = space_bins(1000)))
-  # )
-  # expect_equal(
-  #   suppressMessages(bins |> bin_space(occdf, space_bins(250))),
-  #   suppressMessages(bin_space(occdf, bins = space_bins(250)))
-  # )
 })
 
 test_that("bin_space errors with unnamed args", {

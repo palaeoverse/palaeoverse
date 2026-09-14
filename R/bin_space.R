@@ -109,7 +109,7 @@
 #' })
 #' @export
 bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
-  ensure_args_are_named(exceptions = c("occdf", "bins"))
+  ensure_args_are_named(exceptions = "occdf")
 
   check_data_frame(occdf)
   if (!inherits(bins, "palaeo_space_bins") && !inherits(bins, "sfc_POLYGON")) {
