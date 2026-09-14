@@ -41,6 +41,34 @@ test_that("basic behaviour works", {
   expect_snapshot(tax_expand_time(), error = TRUE)
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  taxdf <- data.frame(
+    name = c("A", "B"),
+    max_ma = c(150, 30),
+    min_ma = c(110, 0)
+  )
+
+  expect_equal(
+    taxdf |> tax_expand_time(),
+    tax_expand_time(taxdf)
+  )
+})
+
+test_that("tax_expand_time errors with unnamed args", {
+  taxdf <- data.frame(
+    name = c("A", "B"),
+    max_ma = c(150, 30),
+    min_ma = c(110, 0)
+  )
+  expect_snapshot(tax_expand_time(taxdf, "max_ma"), error = TRUE)
+  expect_snapshot(tax_expand_time(taxdf, "max_ma"), error = TRUE)
+  expect_snapshot(tax_expand_time(taxdf, "max_ma", "min_ma"), error = TRUE)
+  expect_snapshot(
+    tax_expand_time(taxdf, "max_ma", min_ma = "min_ma"),
+    error = TRUE
+  )
+})
+
 test_that("rows must be unique", {
   taxdf <- data.frame(
     name = c("A", "A", "C"),
@@ -153,12 +181,7 @@ test_that("args 'max_ma' and 'min_ma' work", {
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_time(
-      taxdf,
-      bins = bins,
-      max_ma = character(0),
-      min_ma = "lad"
-    ),
+    tax_expand_time(taxdf, bins = bins, max_ma = character(0), min_ma = "lad"),
     error = TRUE
   )
   expect_snapshot(
@@ -180,12 +203,7 @@ test_that("args 'max_ma' and 'min_ma' work", {
     error = TRUE
   )
   expect_snapshot(
-    tax_expand_time(
-      taxdf,
-      bins = bins,
-      max_ma = "fad",
-      min_ma = character(0)
-    ),
+    tax_expand_time(taxdf, bins = bins, max_ma = "fad", min_ma = character(0)),
     error = TRUE
   )
   expect_snapshot(

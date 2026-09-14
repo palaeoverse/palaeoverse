@@ -4,7 +4,7 @@
       group_apply(group = "cc", fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! argument "occdf" is missing, with no default
+      ! `occdf` must be of class <data.frame>, not absent.
 
 ---
 
@@ -12,7 +12,7 @@
       group_apply(occdf = 1, group = "cc", fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! `occdf` should be a dataframe
+      ! `occdf` must be of class <data.frame>, not the number 1.
 
 ---
 
@@ -20,7 +20,43 @@
       group_apply(occdf = data.frame(), group = "cc", fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! Supplied `group` is not a named column in `occdf`
+      ! Column "cc" not found in `occdf`.
+
+# group_apply errors with unnamed args
+
+    Code
+      group_apply(occdf, group = "cc", nrow)
+    Condition
+      Error in `group_apply()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      group_apply(occdf, "cc", nrow)
+    Condition
+      Error in `group_apply()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      group_apply(occdf, "cc", fun = tax_range_time, "family")
+    Condition
+      Error in `group_apply()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      group_apply(occdf, "cc", fun = tax_range_time, name = "family")
+    Condition
+      Error in `group_apply()`:
+      ! All arguments must be named (except for "occdf").
+      i Currently, there is 1 argument that should be named.
 
 # error handling for argument 'group'
 
@@ -28,7 +64,7 @@
       group_apply(occdf = occdf, fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! argument "group" is missing, with no default
+      ! `group` must be a character vector, not absent.
 
 ---
 
@@ -36,7 +72,7 @@
       group_apply(occdf = occdf, group = NULL, fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! Supplied `group` is not a named column in `occdf`
+      ! `group` must be a character vector, not `NULL`.
 
 ---
 
@@ -44,7 +80,7 @@
       group_apply(occdf = occdf, group = "foo", fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! Supplied `group` is not a named column in `occdf`
+      ! Column "foo" not found in `occdf`.
 
 ---
 
@@ -52,23 +88,31 @@
       group_apply(occdf = occdf, group = 1, fun = nrow)
     Condition
       Error in `group_apply()`:
-      ! Supplied `group` is not a named column in `occdf`
+      ! `group` must be a character vector, not the number 1.
 
 ---
 
     Code
       group_apply(occdf = occdf, group = c("cc", "foobar"), fun = nrow)
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `group_apply()`:
+      ! Column "foobar" not found in `occdf`.
+
+---
+
+    Code
+      group_apply(occdf = occdf, group = c("cc", "foobar", "foobar2"), fun = nrow)
+    Condition
+      Error in `group_apply()`:
+      ! Columns "foobar" and "foobar2" not found in `occdf`.
 
 ---
 
     Code
       group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow)
     Condition
-      Error in `[.data.frame`:
-      ! undefined columns selected
+      Error in `group_apply()`:
+      ! Column "foo" not found in `occdf`.
 
 # error handling for argument 'fun'
 
@@ -76,7 +120,7 @@
       group_apply(occdf = occdf, group = "cc", fun = "tax_range_time")
     Condition
       Error in `group_apply()`:
-      ! Supplied `fun` is not a function
+      ! `fun` must be a function, not the string "tax_range_time".
 
 ---
 
@@ -92,7 +136,7 @@
       group_apply(occdf = occdf, group = "cc", fun = tax_range_time, not_an_argument = "test")
     Condition
       Error in `group_apply()`:
-      ! `not_an_argument` is not a valid argument for the specified function
+      ! `not_an_argument` is not a valid argument for the specified function `tax_range_time()`.
 
 ---
 
@@ -101,5 +145,5 @@
         not_an_argument1 = "test", not_an_argument2 = "test")
     Condition
       Error in `group_apply()`:
-      ! `not_an_argument1`/`not_an_argument2` are not valid arguments for the specified function
+      ! `not_an_argument1` and `not_an_argument2` are not valid arguments for the specified function `tax_range_time()`.
 

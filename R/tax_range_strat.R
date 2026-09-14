@@ -161,8 +161,8 @@ tax_range_strat <- function(
   # Calculate ranges
   ranges <- group_apply(
     occdf,
-    g,
-    function(occdf, name, level) {
+    group = g,
+    fun = function(occdf, name, level) {
       #=== Set-up ===
       unique_taxa <- unique(occdf[, name, drop = TRUE])
       # Order taxa by name

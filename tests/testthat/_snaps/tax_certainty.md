@@ -22,6 +22,42 @@
       Error in `tax_certainty()`:
       ! `name` must be a single string, not absent.
 
+# tax_certainty errors with unnamed args
+
+    Code
+      tax_certainty(occdf, "identified_name")
+    Condition
+      Error in `tax_certainty()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_certainty(taxdf = occdf, "identified_name")
+    Condition
+      Error in `tax_certainty()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_certainty(occdf, "identified_name", NULL)
+    Condition
+      Error in `tax_certainty()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      tax_certainty(occdf, "identified_name", terms = NULL)
+    Condition
+      Error in `tax_certainty()`:
+      ! All arguments must be named (except for "taxdf").
+      i Currently, there is 1 argument that should be named.
+
 # tax_certainty() basic behavior
 
     Code

@@ -30,10 +30,27 @@
       Error in `phylo_check()`:
       ! argument "tree" is missing, with no default
 
+# phylo_check errors with unnamed args
+
+    Code
+      phylo_check(1, "a", "full_table")
+    Condition
+      Error in `phylo_check()`:
+      ! All arguments must be named (except for "tree").
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      phylo_check(1, list = "a", out = "full_table")
+    Condition
+      Error in `phylo_check()`:
+      ! `tree` must be of class <phylo>, not the number 1.
+
 # arg 'list' works
 
     Code
-      phylo_check(tree, c("foo.bar"))
+      phylo_check(tree, list = c("foo.bar"))
     Condition
       Error in `phylo_check()`:
       ! Taxon names in `list` must not contain punctuation other than spaces or underscores.
@@ -50,7 +67,7 @@
 # arg 'out' works
 
     Code
-      phylo_check(tree, list, out = "foo")
+      phylo_check(tree, list = list, out = "foo")
     Condition
       Error in `phylo_check()`:
       ! `out` must be one of "full_table", "diff_table", "counts", or "tree", not "foo".
@@ -58,7 +75,7 @@
 ---
 
     Code
-      phylo_check(tree, list, out = 1)
+      phylo_check(tree, list = list, out = 1)
     Condition
       Error in `phylo_check()`:
       ! `out` must be a single string, not the number 1.
@@ -66,7 +83,7 @@
 ---
 
     Code
-      phylo_check(tree, list, out = NA)
+      phylo_check(tree, list = list, out = NA)
     Condition
       Error in `phylo_check()`:
       ! `out` must be a single string, not `NA`.
@@ -74,7 +91,7 @@
 ---
 
     Code
-      phylo_check(tree, list, out = NULL)
+      phylo_check(tree, list = list, out = NULL)
     Condition
       Error in `phylo_check()`:
       ! `out` must be a single string, not `NULL`.
@@ -82,7 +99,7 @@
 ---
 
     Code
-      phylo_check(tree, list, out = c("counts", "tree"))
+      phylo_check(tree, list = list, out = c("counts", "tree"))
     Condition
       Error in `phylo_check()`:
       ! `out` must be a single string, not a character vector.
@@ -90,7 +107,7 @@
 # arg 'sort' works
 
     Code
-      phylo_check(tree, list, sort = "foo")
+      phylo_check(tree, list = list, sort = "foo")
     Condition
       Error in `phylo_check()`:
       ! `sort` must be one of "presence" or "az", not "foo".
@@ -98,7 +115,7 @@
 ---
 
     Code
-      phylo_check(tree, list, sort = 1)
+      phylo_check(tree, list = list, sort = 1)
     Condition
       Error in `phylo_check()`:
       ! `sort` must be a single string, not the number 1.
@@ -106,7 +123,7 @@
 ---
 
     Code
-      phylo_check(tree, list, sort = NA)
+      phylo_check(tree, list = list, sort = NA)
     Condition
       Error in `phylo_check()`:
       ! `sort` must be a single string, not `NA`.
@@ -114,7 +131,7 @@
 ---
 
     Code
-      phylo_check(tree, list, sort = NULL)
+      phylo_check(tree, list = list, sort = NULL)
     Condition
       Error in `phylo_check()`:
       ! `sort` must be a single string, not `NULL`.
@@ -122,7 +139,7 @@
 ---
 
     Code
-      phylo_check(tree, list, sort = c("presence", "az"))
+      phylo_check(tree, list = list, sort = c("presence", "az"))
     Condition
       Error in `phylo_check()`:
       ! `sort` must be a single string, not a character vector.

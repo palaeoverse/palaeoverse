@@ -123,6 +123,8 @@ bin_time <- function(
   fun = dunif,
   ...
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
   check_data_frame(bins)
 

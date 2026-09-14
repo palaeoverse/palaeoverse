@@ -47,6 +47,8 @@ lat_bins_degrees <- function(
   fit = FALSE,
   plot = FALSE
 ) {
+  ensure_args_are_named()
+
   rlang::check_number_decimal(size, min = 0, max = 90)
   rlang::check_number_decimal(min, min = -90, max = 90)
   rlang::check_number_decimal(max, min = -90, max = 90)

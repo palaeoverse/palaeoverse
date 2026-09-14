@@ -368,7 +368,7 @@ As you can see, the combination of `group_apply` and `tax_range_space` produces 
 
 ```{r alpha-div-plot-3}
 # Find the average geographic range size for each time interval
-space_tetrapods_mean <- group_apply(space_tetrapods, "bin_midpoint", function(df) mean(df$area))
+space_tetrapods_mean <- group_apply(space_tetrapods, group = "bin_midpoint", fun = function(df) mean(df$area))
 colnames(space_tetrapods_mean) <- c("mean_area", "bin_midpoint")
 
 # Create a plot of average range size through time
