@@ -71,22 +71,22 @@ print.palaeo <- function(x, ...) {
   att <- names(attributes(x))
   att <- att[startsWith(att, "palaeo")]
 
-  att_list <- lapply(att, function(nm) attr(x, nm))
+  att_list <- vapply(att, function(nm) attr(x, nm), FUN.VALUE = character(1))
   att[att == "palaeo_lat"] <- "Latitude"
   att[att == "palaeo_lon"] <- "Longitude"
-  names(att_list) <- paste0("- ", att, ":")
-
-  cat(
-    "A dataframe with",
-    nrow(x),
-    "rows and",
-    ncol(x),
-    "columns\n\nAttributes:"
+  cli::cli_inform(
+    "A dataframe with {nrow(x)} row{?s} and {ncol(x)} column{?s}."
   )
-  vals <- unlist(att_list)
-  df <- data.frame(vals, ...)
-  names(df) <- ""
-  print(df)
+  if (length(att) > 0) {
+    cli::cli_inform(
+      c(
+        "i" = "Attributes:",
+        "*" = paste0(att, ": ", att_list)
+      )
+    )
+  }
+  cat("\n")
+  print.data.frame(x)
 }
 
 #' Preference order:

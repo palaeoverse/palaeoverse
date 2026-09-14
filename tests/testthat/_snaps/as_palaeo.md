@@ -18,11 +18,14 @@
 
     Code
       dat2
+    Message
+      A dataframe with 1 row and 2 columns.
+      i Attributes:
+      * Latitude: lat
     Output
-      A dataframe with 1 rows and 2 columns
       
-      Attributes:               
-      - Latitude: lat
+        lat long
+      1   1    2
 
 # args must be named
 
