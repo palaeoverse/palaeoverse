@@ -41,7 +41,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
   check_data_frame(bins)
   rlang::check_bool(boundary)
 
-  lat <- resolve_info(occdf, lat, column_present_in_call = !missing(lat))
+  lat <- resolve_info(occdf, lat)
   check_column_presence(occdf, lat)
 
   check_column_presence(bins, "min")

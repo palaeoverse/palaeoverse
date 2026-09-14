@@ -66,7 +66,9 @@ print.palaeo <- function(x, ...) {
 #' 3. `column` default value in the function definition
 #'
 #' @noRd
-resolve_info <- function(data, column, column_present_in_call) {
+resolve_info <- function(data, column) {
+  column_present_in_call <- column %in%
+    names(rlang::call_args(rlang::caller_call()))
   if (isTRUE(column_present_in_call)) {
     return(column)
   } else {
