@@ -33,6 +33,7 @@ the function will first look for the corresponding attribute (in this case, \cod
 would have been stored by \code{as_palaeo()}:
 
 a. if this attribute is found, it is used;
+
 b. otherwise, the default argument value is used.
 }
 }

@@ -24,6 +24,7 @@
 #'    would have been stored by `as_palaeo()`:
 #'
 #'      a. if this attribute is found, it is used;
+#'
 #'      b. otherwise, the default argument value is used.
 #'
 #' @export
