@@ -15,8 +15,9 @@
 #' @param r \code{numeric}. The radius of the Earth in kilometres. Defaults to
 #'   the volumetric mean radius of the Earth (6371 km). Other user-specified
 #'   `r` values are accepted (e.g. equatorial radius 6378 km).
-#' @param plot \code{logical}. Should a plot of the latitudinal bins be
-#'   generated? If `TRUE`, a plot is generated. Defaults to `FALSE`.
+#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
+#'   this function instead.
+#'
 #' @return A \code{data.frame} of user-defined number of latitudinal bins. The
 #'   \code{data.frame} contains the following columns: bin (bin number), min
 #'   (minimum latitude of the bin), mid (midpoint latitude of the bin),
@@ -34,19 +35,36 @@
 #' @export
 #' @examples
 #' # Generate 12 latitudinal bins
-#' bins <- lat_bins_area(n = 12)
+#' lat_bins_area(n = 12)
+#'
 #' # Generate latitudinal bins for just the (sub-)tropics
-#' bins <- lat_bins_area(n = 6, min = -30, max = 30)
+#' lat_bins_area(n = 6, min = -30, max = 30)
+#'
 #' # Generate latitudinal bins and a plot
-#' bins <- lat_bins_area(n = 24, plot = TRUE)
-lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
+#' plot(lat_bins_area(n = 24))
+lat_bins_area <- function(
+  n = 12,
+  min = -90,
+  max = 90,
+  r = 6371,
+  plot = deprecated()
+) {
   ensure_args_are_named()
 
   rlang::check_number_whole(n, min = 1)
   rlang::check_number_decimal(max, min = -90, max = 90)
   rlang::check_number_decimal(min, min = -90, max = 90)
   rlang::check_number_decimal(r, min = 0)
-  rlang::check_bool(plot)
+
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "lat_bins_area(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   if (min >= max) {
     cli::cli_abort("{.arg min} must be less than {.arg max}.")
@@ -90,26 +108,41 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
     area_prop = band_areas_prop
   )
 
-  # plot latitudinal bins
-  if (plot) {
-    plot(
-      1,
-      type = "n",
-      xlim = c(-180, 180),
-      ylim = c(min(bins$min), max(bins$max)),
-      xlab = "Longitude (\u00B0)",
-      ylab = "Latitude (\u00B0)"
-    )
-    cols <- rep(c("#01665e", "#80cdc1"), nrow(bins))
-    for (i in seq_len(nrow(bins))) {
-      polygon(
-        x = c(-180, -180, 180, 180),
-        y = c(bins$min[i], bins$max[i], bins$max[i], bins$min[i]),
-        col = cols[i],
-        border = "black"
-      )
-    }
+  class(bins) <- c("palaeo_lat_bins_area", class(bins))
+
+  if (isTRUE(plot)) {
+    plot(bins)
   }
-  # Return bins
-  return(bins)
+
+  bins
+}
+
+#' @param x The object to plot
+#' @param y Ignored
+#' @param ... Ignored
+#'
+#' @name plot_palaeo
+#' @export
+plot.palaeo_lat_bins_area <- function(x, y, ...) {
+  # We want to pass `plot(<something>)`
+  if (missing(y)) {
+    invisible()
+  }
+  plot(
+    1,
+    type = "n",
+    xlim = c(-180, 180),
+    ylim = c(min(x$min), max(x$max)),
+    xlab = "Longitude (\u00B0)",
+    ylab = "Latitude (\u00B0)"
+  )
+  cols <- rep(c("#01665e", "#80cdc1"), nrow(x))
+  for (i in seq_len(nrow(x))) {
+    polygon(
+      x = c(-180, -180, 180, 180),
+      y = c(x$min[i], x$max[i], x$max[i], x$min[i]),
+      col = cols[i],
+      border = "black"
+    )
+  }
 }

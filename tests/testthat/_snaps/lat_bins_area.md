@@ -180,22 +180,6 @@
 ---
 
     Code
-      lat_bins_area(plot = "TRUE")
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` must be `TRUE` or `FALSE`, not the string "TRUE".
-
----
-
-    Code
-      lat_bins_area(plot = logical(0))
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
-
----
-
-    Code
       lat_bins_area(r = "Earth")
     Condition
       Error in `lat_bins_area()`:
@@ -216,4 +200,15 @@
     Condition
       Error in `lat_bins_area()`:
       ! `r` must be a number larger than or equal to 0, not the number -1.
+
+# plot is deprecated but still works
+
+    Code
+      lat_bins_area(plot = "6")
+    Condition
+      Warning:
+      The `plot` argument of `lat_bins_area()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `lat_bins_area()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
 
