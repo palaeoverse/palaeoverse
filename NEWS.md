@@ -7,8 +7,10 @@ guidance to update existing code.
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
-* All functions now require arguments to be fully named, except for the first 
+* All functions now require arguments to be fully named, except for the first
   argument in some cases (#216).
+
+* In `lat_bins_area()`, the argument `n` is deprecated and replaced by `n_bins` (#349).
 
 * In `bin_space()`, the arguments `spacing`, `sub_grid`, `return`, and `plot` have been
   removed. There is a new `bins` argument. The same functionality is made possible with
@@ -19,7 +21,7 @@ guidance to update existing code.
 * New `space_bins()` to generate spatial bins, as a complement to `time_bins()` and 
   `lat_bins_*()` functions. The output of this function can be passed to the `bins`
   argument of `bin_space()` (#344).
-
+  
 ## Bug fixes
 
 * `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).
