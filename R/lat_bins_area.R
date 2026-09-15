@@ -15,6 +15,9 @@
 #' @param r \code{numeric}. The radius of the Earth in kilometres. Defaults to
 #'   the volumetric mean radius of the Earth (6371 km). Other user-specified
 #'   `r` values are accepted (e.g. equatorial radius 6378 km).
+#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
+#'   this function instead.
+#'
 #' @return A \code{data.frame} of user-defined number of latitudinal bins. The
 #'   \code{data.frame} contains the following columns: bin (bin number), min
 #'   (minimum latitude of the bin), mid (midpoint latitude of the bin),
@@ -39,13 +42,29 @@
 #'
 #' # Generate latitudinal bins and a plot
 #' plot(lat_bins_area(n = 24))
-lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371) {
+lat_bins_area <- function(
+  n = 12,
+  min = -90,
+  max = 90,
+  r = 6371,
+  plot = deprecated()
+) {
   ensure_args_are_named()
 
   rlang::check_number_whole(n, min = 1)
   rlang::check_number_decimal(max, min = -90, max = 90)
   rlang::check_number_decimal(min, min = -90, max = 90)
   rlang::check_number_decimal(r, min = 0)
+
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "lat_bins_area(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   if (min >= max) {
     cli::cli_abort("{.arg min} must be less than {.arg max}.")
@@ -90,6 +109,11 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371) {
   )
 
   class(bins) <- c("palaeo_lat_bins_area", class(bins))
+
+  if (isTRUE(plot)) {
+    plot(bins)
+  }
+
   bins
 }
 

@@ -201,3 +201,14 @@
       Error in `lat_bins_area()`:
       ! `r` must be a number larger than or equal to 0, not the number -1.
 
+# plot is deprecated but still works
+
+    Code
+      lat_bins_area(plot = "6")
+    Condition
+      Warning:
+      The `plot` argument of `lat_bins_area()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `lat_bins_area()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
+
