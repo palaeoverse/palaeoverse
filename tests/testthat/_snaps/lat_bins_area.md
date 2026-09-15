@@ -180,22 +180,6 @@
 ---
 
     Code
-      lat_bins_area(plot = "TRUE")
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` must be `TRUE` or `FALSE`, not the string "TRUE".
-
----
-
-    Code
-      lat_bins_area(plot = logical(0))
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
-
----
-
-    Code
       lat_bins_area(r = "Earth")
     Condition
       Error in `lat_bins_area()`:
