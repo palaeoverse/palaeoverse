@@ -12,12 +12,14 @@ adjacent cells. This value should be provided in kilometres.}
 }
 \value{
 An object of class \code{SFC_polygon} (from the package \code{sf}) with as many
-geometries as the number of generated bins
+geometries as the number of generated bins.
 }
 \description{
-A function to generate space bins that can then be used in \code{bin_space()} to
+A function to generate spatial bins that can then be used in \code{bin_space()} to
 assign fossil occurrences (or localities) to spatial bins/samples using a
 hexagonal equal-area grid.
+
+This function builds a hexagonal grid using the H3 geospatial indexing.
 }
 \examples{
 space_bins(1000)
