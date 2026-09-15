@@ -8,12 +8,19 @@ bounded by two parallel discs.
 ## Usage
 
 ``` r
-lat_bins_area(n = 12, min = -90, max = 90, r = 6371, plot = FALSE)
+lat_bins_area(
+  n_bins = 12,
+  min = -90,
+  max = 90,
+  r = 6371,
+  plot = FALSE,
+  n = deprecated()
+)
 ```
 
 ## Arguments
 
-- n:
+- n_bins:
 
   `numeric`. A single numeric value defining the number of equal-area
   latitudinal bins to split the latitudinal range into (as defined by
@@ -40,6 +47,10 @@ lat_bins_area(n = 12, min = -90, max = 90, r = 6371, plot = FALSE)
   `logical`. Should a plot of the latitudinal bins be generated? If
   `TRUE`, a plot is generated. Defaults to `FALSE`.
 
+- n:
+
+  **\[deprecated\]** Use `n_bins` instead.
+
 ## Value
 
 A `data.frame` of user-defined number of latitudinal bins. The
@@ -65,9 +76,9 @@ For bins with unequal area, but equal latitudinal range, see
 
 ``` r
 # Generate 12 latitudinal bins
-bins <- lat_bins_area(n = 12)
+bins <- lat_bins_area(n_bins = 12)
 # Generate latitudinal bins for just the (sub-)tropics
-bins <- lat_bins_area(n = 6, min = -30, max = 30)
+bins <- lat_bins_area(n_bins = 6, min = -30, max = 30)
 # Generate latitudinal bins and a plot
-bins <- lat_bins_area(n = 24, plot = TRUE)
+bins <- lat_bins_area(n_bins = 24, plot = TRUE)
 ```

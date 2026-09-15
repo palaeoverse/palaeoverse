@@ -14,6 +14,11 @@ for guidance to update existing code.
   first argument in some cases
   ([\#216](https://github.com/palaeoverse/palaeoverse/issues/216)).
 
+- In
+  [`lat_bins_area()`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_area.md),
+  the argument `n` is deprecated and replaced by `n_bins`
+  ([\#349](https://github.com/palaeoverse/palaeoverse/issues/349)).
+
 ### Bug fixes
 
 - [`lat_bins_area()`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_area.md)
