@@ -51,7 +51,7 @@ Imports:
     curl,
     geosphere,
     graphics,
-    h3jsr (>= 1.3.0),
+    h3o,
     httr,
     lifecycle,
     methods,
