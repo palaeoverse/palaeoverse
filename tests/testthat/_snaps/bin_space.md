@@ -104,3 +104,27 @@
       ! All arguments must be named (except for "occdf").
       i Currently, there is 1 argument that should be named.
 
+# plot argument works
+
+    Code
+      bin_space(occdf = occdf, bins = space_bins(1000), plot = "foo")
+    Condition
+      Error in `bin_space()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "foo".
+
+---
+
+    Code
+      bin_space(occdf = occdf, bins = space_bins(1000), plot = logical(0))
+    Condition
+      Error in `bin_space()`:
+      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
+
+---
+
+    Code
+      bin_space(occdf = occdf, bins = space_bins(1000), plot = 1)
+    Condition
+      Error in `bin_space()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the number 1.
+

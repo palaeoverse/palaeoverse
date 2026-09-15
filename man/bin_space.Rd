@@ -4,7 +4,7 @@
 \alias{bin_space}
 \title{Assign fossil occurrences to spatial bins}
 \usage{
-bin_space(occdf, bins, lng = "lng", lat = "lat")
+bin_space(occdf, bins, lng = "lng", lat = "lat", plot = FALSE)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences (or
@@ -20,6 +20,9 @@ as the input longitude (e.g. "lng" or "p_lng").}
 
 \item{lat}{\code{character}. The name of the column you wish to be treated
 as the input latitude (e.g. "lat" or "p_lat").}
+
+\item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
+be plotted?}
 }
 \value{
 If the \code{return} argument is set to \code{FALSE}, a dataframe is

@@ -142,3 +142,26 @@ test_that("bin_space error handling", {
   occdf$lng[1] <- "184"
   expect_snapshot(bin_space(occdf, space_bins(1000)), error = TRUE)
 })
+
+test_that("plot argument works", {
+  # Reduce data size for faster testing
+  occdf <- head(tetrapods, n = 100)
+
+  expect_doppelganger("bin_space", {
+    out <- bin_space(occdf = occdf, bins = space_bins(1000), plot = TRUE)
+  })
+
+  # input checks
+  expect_snapshot(
+    bin_space(occdf = occdf, bins = space_bins(1000), plot = "foo"),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_space(occdf = occdf, bins = space_bins(1000), plot = logical(0)),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_space(occdf = occdf, bins = space_bins(1000), plot = 1),
+    error = TRUE
+  )
+})

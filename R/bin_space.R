@@ -13,6 +13,8 @@
 #' as the input longitude (e.g. "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat").
+#' @param plot \code{logical}. Should the occupied cells of the equal-area grid
+#' be plotted?
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
 #' returned of the original input `occdf` with cell information. If `return` is
@@ -108,7 +110,7 @@
 #' })
 #' df
 #' @export
-bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
+bin_space <- function(occdf, bins, lng = "lng", lat = "lat", plot = FALSE) {
   ensure_args_are_named(exceptions = "occdf")
 
   check_data_frame(occdf)
@@ -125,6 +127,7 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
   check_column_presence(occdf, lng)
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
+  rlang::check_bool(plot)
 
   #=== Set-up ===
   # Convert to sf object and add CRS
@@ -154,6 +157,26 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
   occdf[[cent_lat_name]] <- sf::st_coordinates(
     h3jsr::cell_to_point(h3_address = occdf[[cell_name]])
   )[, c("Y")]
+
+  # Plot data?
+  if (plot) {
+    plot(
+      bins,
+      setParUsrBB = TRUE,
+      xlab = "Longitude",
+      ylab = "Latitude",
+      axes = TRUE
+    )
+    primary <- h3jsr::cell_to_polygon(input = occdf[[cell_name]], simple = TRUE)
+    plot(
+      primary,
+      col = "#feb24c",
+      axes = TRUE,
+      ylab = "Latitude",
+      xlab = "Longitude",
+      add = TRUE
+    )
+  }
 
   occdf <- sf::st_drop_geometry(occdf)
   occdf <- data.frame(occdf)
