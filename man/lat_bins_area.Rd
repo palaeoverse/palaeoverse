@@ -4,7 +4,7 @@
 \alias{lat_bins_area}
 \title{Generate equal-area latitudinal bins}
 \usage{
-lat_bins_area(n = 12, min = -90, max = 90, r = 6371)
+lat_bins_area(n = 12, min = -90, max = 90, r = 6371, plot = deprecated())
 }
 \arguments{
 \item{n}{\code{numeric}. A single numeric value defining the number of
@@ -20,6 +20,9 @@ of the latitudinal range (defaults to 90).}
 \item{r}{\code{numeric}. The radius of the Earth in kilometres. Defaults to
 the volumetric mean radius of the Earth (6371 km). Other user-specified
 \code{r} values are accepted (e.g. equatorial radius 6378 km).}
+
+\item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
+this function instead.}
 }
 \value{
 A \code{data.frame} of user-defined number of latitudinal bins. The
