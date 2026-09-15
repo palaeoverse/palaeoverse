@@ -36,11 +36,11 @@
 #' @export
 #' @examples
 #' # Generate 12 latitudinal bins
-#' bins <- lat_bins_area(n = 12)
+#' bins <- lat_bins_area(n_bins = 12)
 #' # Generate latitudinal bins for just the (sub-)tropics
-#' bins <- lat_bins_area(n = 6, min = -30, max = 30)
+#' bins <- lat_bins_area(n_bins = 6, min = -30, max = 30)
 #' # Generate latitudinal bins and a plot
-#' bins <- lat_bins_area(n = 24, plot = TRUE)
+#' bins <- lat_bins_area(n_bins = 24, plot = TRUE)
 lat_bins_area <- function(
   n_bins = 12,
   min = -90,

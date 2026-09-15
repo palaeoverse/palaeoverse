@@ -4,7 +4,14 @@
 \alias{lat_bins_area}
 \title{Generate equal-area latitudinal bins}
 \usage{
-lat_bins_area(n_bins = 12, min = -90, max = 90, r = 6371, plot = FALSE, n)
+lat_bins_area(
+  n_bins = 12,
+  min = -90,
+  max = 90,
+  r = 6371,
+  plot = FALSE,
+  n = deprecated()
+)
 }
 \arguments{
 \item{n_bins}{\code{numeric}. A single numeric value defining the number of
@@ -52,11 +59,11 @@ Kilian Eichenseer & Bethany Allen
 
 \examples{
 # Generate 12 latitudinal bins
-bins <- lat_bins_area(n = 12)
+bins <- lat_bins_area(n_bins = 12)
 # Generate latitudinal bins for just the (sub-)tropics
-bins <- lat_bins_area(n = 6, min = -30, max = 30)
+bins <- lat_bins_area(n_bins = 6, min = -30, max = 30)
 # Generate latitudinal bins and a plot
-bins <- lat_bins_area(n = 24, plot = TRUE)
+bins <- lat_bins_area(n_bins = 24, plot = TRUE)
 }
 \seealso{
 For bins with unequal area, but equal latitudinal range, see
