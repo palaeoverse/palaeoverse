@@ -61,6 +61,22 @@
 ---
 
     Code
+      bin_space(occdf = tetrapods, spacing = -1)
+    Condition
+      Error in `bin_space()`:
+      ! `spacing` must be greater than 0.
+
+---
+
+    Code
+      bin_space(occdf = tetrapods, spacing = 0)
+    Condition
+      Error in `bin_space()`:
+      ! `spacing` must be greater than 0.
+
+---
+
+    Code
       bin_space(occdf = tetrapods, sub_grid = 1:2)
     Condition
       Error in `bin_space()`:
@@ -73,6 +89,22 @@
     Condition
       Error in `bin_space()`:
       ! `sub_grid` must be a number or `NULL`, not `NA`.
+
+---
+
+    Code
+      bin_space(occdf = tetrapods, sub_grid = -1)
+    Condition
+      Error in `bin_space()`:
+      ! `sub_grid` must be greater than 0.
+
+---
+
+    Code
+      bin_space(occdf = tetrapods, sub_grid = 0)
+    Condition
+      Error in `bin_space()`:
+      ! `sub_grid` must be greater than 0.
 
 ---
 
