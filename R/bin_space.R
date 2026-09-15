@@ -60,20 +60,27 @@
 #' occdf <- reefs[1:250, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
+#' ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
+#' head(ex1)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+#' ex2 <- occdf |>
+#'   bin_space(bins = space_bins(1000)) |>
+#'   bin_space(bins = space_bins(250))
+#'
+#' head(ex2)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
 #' occdf <- tetrapods[1:250, ]
 #'
 #' # Assign to spatial bin
-#' occdf <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
+#' occdf <- occdf |>
+#'   bin_space(bins = space_bins(1000)) |>
+#'   bin_space(bins = space_bins(250))
 #'
 #' # Get unique bins
-#' bins <- unique(occdf$cell_ID)
+#' bins <- unique(occdf$cell_ID_1000)
 #'
 #' # n reps
 #' n <- 10
@@ -82,10 +89,10 @@
 #' # Returns a list with each element a bin with respective mean genus richness
 #' df <- lapply(bins, function(x) {
 #'   # subset occdf for respective grid cell
-#'   tmp <- occdf[which(occdf$cell_ID == x), ]
+#'   tmp <- occdf[which(occdf$cell_ID_1000 == x), ]
 #'
 #'   # Which sub-grid cells are there within this bin?
-#'   sub_bin <- unique(tmp$cell_ID_sub)
+#'   sub_bin <- unique(tmp$cell_ID_250)
 #'
 #'   # Sample 1 sub-grid cell n times
 #'   s <- sample(sub_bin, size = n, replace = TRUE)
@@ -93,12 +100,13 @@
 #'   # Count the number of unique genera within each sub_grid cell for each rep
 #'   counts <- sapply(s, function(i) {
 #'     # Number of unique genera within each sample
-#'     length(unique(tmp[which(tmp$cell_ID_sub == i), ]$genus))
+#'     length(unique(tmp[which(tmp$cell_ID_250 == i), ]$genus))
 #'   })
 #'
 #'   # Mean richness across subsamples
 #'   mean(counts)
 #' })
+#' df
 #' @export
 bin_space <- function(occdf, bins, lng = "lng", lat = "lat") {
   ensure_args_are_named(exceptions = "occdf")
