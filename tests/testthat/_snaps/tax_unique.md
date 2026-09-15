@@ -56,7 +56,7 @@
       tax_unique(dinosaurs, "genus")
     Condition
       Error in `tax_unique()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -65,7 +65,7 @@
       tax_unique(dinosaurs, "genus", "species")
     Condition
       Error in `tax_unique()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -74,7 +74,7 @@
       tax_unique(dinosaurs, "genus", order = "species")
     Condition
       Error in `tax_unique()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 # tax_unique() cannot use the same column for multiple arguments

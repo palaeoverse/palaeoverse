@@ -47,7 +47,7 @@
       tax_check(dat, "genus")
     Condition
       Error in `tax_check()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -56,7 +56,7 @@
       tax_check(taxdf = dat, "genus")
     Condition
       Error in `tax_check()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -65,7 +65,7 @@
       tax_check(dat, "genus", NULL)
     Condition
       Error in `tax_check()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -74,7 +74,7 @@
       tax_check(dat, "genus", group = NULL)
     Condition
       Error in `tax_check()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 # arg 'name' works
