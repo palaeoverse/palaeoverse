@@ -240,7 +240,8 @@ This function can be especially useful for when looking at alpha diversity (loca
 ```{r}
 # Filter to genus-level:
 tet_genera <- tax_unique(occdf = maj_tetrapods, genus = "genus", family = "family",
-                         order = "order", class = "class", resolution = "genus")
+                         order = "order", class = "class", resolution = "genus",
+                         append = FALSE)
 ```
 
 We can compare this to the genera from the original dataset to see how many genera were added by using `tax_unique()`:
@@ -271,7 +272,8 @@ coll_genera <- group_apply(occdf = maj_tetrapods,
                            family = "family",
                            order = "order",
                            class = "class",
-                           resolution = "genus")
+                           resolution = "genus",
+                           append = FALSE)
 
 # See structure of the new dataframe:
 str(coll_genera)

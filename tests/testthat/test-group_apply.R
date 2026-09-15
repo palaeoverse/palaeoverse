@@ -19,7 +19,7 @@ test_that("group_apply() basic behavior", {
     data.frame(
       nrow = c(1, 5, 4, 2, 1, 1, 1, 1, 1, 9, 6, 6, 3, 6, 1, 1, 1),
       collection_no = c(
-        "13219", "22644", "22725", "22726", "12943", "13044", "13046", "13048", "13049", 
+        "13219", "22644", "22725", "22726", "12943", "13044", "13046", "13048", "13049",
         "13080", "13257", "13947", "22635", "22714", "13004", "13043", "13083"
       ),
       cc = c("CA", "RU", "UK", "UK", rep("US", 10), "ZA", "ZA", "ZA")
@@ -137,7 +137,8 @@ test_that("group_apply() puts groups last", {
       family = "family",
       order = "order",
       class = "class",
-      resolution = "genus"
+      resolution = "genus",
+      append = FALSE
     ),
     c("class", "order", "family", "genus", "unique_name", "collection_no")
   )

@@ -18,7 +18,8 @@ test_that("basic behaviour works", {
       genus = "genus",
       family = "family",
       order = "order",
-      class = "class"
+      class = "class",
+      append = FALSE
     ),
     data.frame(
       class = c("Tetanurae", "Tetanurae", NA, "Neosauropoda"),
@@ -210,7 +211,8 @@ test_that("arg 'name' works", {
       genus = "genus",
       family = "family",
       class = "class",
-      name = "accepted_name"
+      name = "accepted_name",
+      append = FALSE
     ),
     data.frame(
       class = c("Tetanurae", "Tetanurae", NA, "Neosauropoda"),
@@ -259,7 +261,8 @@ test_that("higher taxonomic levels supplied via `...` work", {
       dinosaurs,
       species = "species",
       genus = "genus",
-      family = "family"
+      family = "family",
+      append = FALSE
     ),
     data.frame(
       family = c("Spinosauridae", "Tyrannosauridae", "Diplodocidae"),
@@ -329,7 +332,8 @@ test_that("arg 'resolution' works", {
       family = "family",
       order = "order",
       class = "class",
-      resolution = "genus"
+      resolution = "genus",
+      append = FALSE
     ),
     data.frame(
       class = c("Tetanurae", "Tetanurae", NA, "Neosauropoda"),
@@ -353,7 +357,8 @@ test_that("arg 'resolution' works", {
       family = "family",
       order = "order",
       class = "class",
-      resolution = "genus"
+      resolution = "genus",
+      append = FALSE
     )$unique_name,
     c(
       "Spinosaurus sp.",
@@ -407,6 +412,27 @@ test_that("arg 'append' works", {
     class = c("Tetanurae", "Tetanurae", NA, "Neosauropoda", "Tetanurae")
   )
 
+  # default is append = TRUE
+  expect_equal(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class",
+      append = TRUE
+    ),
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class"
+    )
+  )
+
   expect_equal(
     tax_unique(
       occdf = dinosaurs,
@@ -457,21 +483,73 @@ test_that("arg 'append' works", {
     error = TRUE
   )
 
-  # TODO: using append = 1 passes because it can be coerced to logical, but I
-  # don't think this should be allowed.
-  #
-  # expect_snapshot(
-  #   tax_unique(
-  #     dinosaurs,
-  #     species = "species",
-  #     genus = "genus",
-  #     family = "family",
-  #     order = "order",
-  #     class = "class",
-  #     append = 1
-  #   ),
-  #   error = TRUE
-  # )
+  expect_snapshot(
+    tax_unique(
+      dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      order = "order",
+      class = "class",
+      append = 1
+    ),
+    error = TRUE
+  )
+})
+
+test_that("coarse occurrences in an already represented clade are dropped or NA", {
+  # fmt: skip
+  dinosaurs <- data.frame(
+    species = c("rex", NA, "aegyptiacus", NA),
+    genus = c("Tyrannosaurus", NA, "Spinosaurus", NA),
+    family = c("Tyrannosauridae", "Tyrannosauridae", "Spinosauridae", "Diplodocidae")
+  )
+
+  # the Tyrannosauridae occurrence without genus and species is already represented by
+  # Tyrannosaurus rex, so its unique name is NA, while Diplodocidae is the only
+  # representative of its clade and is retained
+  expect_equal(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      append = TRUE
+    ),
+    cbind(
+      dinosaurs,
+      data.frame(
+        unique_name = c(
+          "Tyrannosaurus rex",
+          NA,
+          "Spinosaurus aegyptiacus",
+          "Diplodocidae indet."
+        )
+      )
+    )
+  )
+
+  # with `append = FALSE`, the Tyrannosauridae occurrence without genus and species
+  # is dropped entirely
+  expect_equal(
+    tax_unique(
+      occdf = dinosaurs,
+      species = "species",
+      genus = "genus",
+      family = "family",
+      append = FALSE
+    ),
+    data.frame(
+      family = c("Spinosauridae", "Tyrannosauridae", "Diplodocidae"),
+      genus = c("Spinosaurus", "Tyrannosaurus", NA),
+      genus_species = c("Spinosaurus aegyptiacus", "Tyrannosaurus rex", NA),
+      unique_name = c(
+        "Spinosaurus aegyptiacus",
+        "Tyrannosaurus rex",
+        "Diplodocidae indet."
+      )
+    )
+  )
 })
 
 test_that("taxonomic columns must not contain punctuation", {
