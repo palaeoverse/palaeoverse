@@ -12,6 +12,16 @@ guidance to update existing code.
 
 * In `lat_bins_area()`, the argument `n` is deprecated and replaced by `n_bins` (#349).
 
+* In `bin_space()`, the arguments `spacing`, `sub_grid`, and `return` have been
+  removed. There is a new `bins` argument. The same functionality is made possible with
+  the new `space_bins()` (see "New features") (#344).
+
+## New features
+
+* New `space_bins()` to generate spatial bins, as a complement to `time_bins()` and 
+  `lat_bins_*()` functions. The output of this function can be passed to the `bins`
+  argument of `bin_space()` (#344).
+  
 ## Bug fixes
 
 * `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).
