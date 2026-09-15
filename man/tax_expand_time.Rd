@@ -5,7 +5,7 @@
 \title{Generate pseudo-occurrences from temporal range data}
 \usage{
 tax_expand_time(
-  taxdf,
+  data,
   max_ma = "max_ma",
   min_ma = "min_ma",
   bins = NULL,
@@ -15,7 +15,7 @@ tax_expand_time(
 )
 }
 \arguments{
-\item{taxdf}{\code{dataframe}. A dataframe of taxa (such as that
+\item{data}{\code{dataframe}. A dataframe of taxa (such as that
 produced by \code{\link{tax_range_time}}) with columns for the maximum and
 minimum ages (FADs and LADs). Each row should represent a unique taxon.
 Additional columns may be included (e.g. taxon names, additional taxonomy,
@@ -76,11 +76,11 @@ Lewis A. Jones
 }
 
 \examples{
-taxdf <- data.frame(name = c("A", "B", "C"),
+data <- data.frame(name = c("A", "B", "C"),
                     max_ma = c(150, 60, 30),
                     min_ma = c(110, 20, 0))
-ex <- tax_expand_time(taxdf)
+ex <- tax_expand_time(data)
 
 bins <- time_bins(scale = "GTS2012", rank = "stage")
-ex2 <- tax_expand_time(taxdf, bins = bins)
+ex2 <- tax_expand_time(data, bins = bins)
 }

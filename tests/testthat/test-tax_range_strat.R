@@ -1,15 +1,15 @@
 test_that("basic behavior works", {
   # fmt: skip
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c(
-      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
       "Edaphosaurus", "Procolophon"
     ),
     bed = c(1, 1, 2, 2, 2, 3, 3, 4),
     certainty = c(1, 1, 0, 1, 0, 1, 1, 1)
   )
   expect_equal(
-    tax_range_strat(occdf),
+    tax_range_strat(data),
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
@@ -22,7 +22,7 @@ test_that("basic behavior works", {
 
   # It produces the expected plot
   expect_doppelganger("tax_range_strat() plots", function() {
-    tax_range_strat(occdf)
+    tax_range_strat(data)
   })
 
   # input checks
@@ -34,7 +34,7 @@ test_that("basic behavior works", {
 
 test_that("piping and not piping the first argument give the same result", {
   # fmt: skip
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c(
       "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
       "Edaphosaurus", "Procolophon"
@@ -43,27 +43,27 @@ test_that("piping and not piping the first argument give the same result", {
     certainty = c(1, 1, 0, 1, 0, 1, 1, 1)
   )
   expect_equal(
-    occdf |> tax_range_strat(name = "genus"),
-    tax_range_strat(occdf, name = "genus")
+    data |> tax_range_strat(name = "genus"),
+    tax_range_strat(data, name = "genus")
   )
 })
 
 test_that("tax_range_strat errors with unnamed args", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("Anconastes", "Procolophon", "Procolophon"),
     bed = c(1, 1, 2)
   )
-  expect_snapshot(tax_range_strat(occdf, "genus"), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, "genus"), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, "genus", "bed"), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, "genus", level = "bed"), error = TRUE)
+  expect_snapshot(tax_range_strat(data, "genus"), error = TRUE)
+  expect_snapshot(tax_range_strat(data, "genus"), error = TRUE)
+  expect_snapshot(tax_range_strat(data, "genus", "bed"), error = TRUE)
+  expect_snapshot(tax_range_strat(data, "genus", level = "bed"), error = TRUE)
 })
 
 test_that("argument 'name' works", {
   # fmt: skip
-  occdf <- data.frame(
+  data <- data.frame(
     species = c(
-      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
       "Edaphosaurus", "Procolophon"
     ),
     bed = c(1, 1, 2, 2, 2, 3, 3, 4),
@@ -71,7 +71,7 @@ test_that("argument 'name' works", {
   )
 
   expect_equal(
-    tax_range_strat(occdf, name = "species"),
+    tax_range_strat(data, name = "species"),
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
@@ -85,20 +85,20 @@ test_that("argument 'name' works", {
   # input checks
   # Those give a warning instead of an error on R < 4.3
   skip_if(getRversion() < "4.3")
-  expect_snapshot(tax_range_strat(occdf, name = "test"), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, name = character(0)), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, name = NA), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, name = 1), error = TRUE)
-  nadf <- occdf
+  expect_snapshot(tax_range_strat(data, name = "test"), error = TRUE)
+  expect_snapshot(tax_range_strat(data, name = character(0)), error = TRUE)
+  expect_snapshot(tax_range_strat(data, name = NA), error = TRUE)
+  expect_snapshot(tax_range_strat(data, name = 1), error = TRUE)
+  nadf <- data
   nadf$genus[1] <- NA
   expect_snapshot(tax_range_strat(nadf), error = TRUE)
 })
 
 test_that("argument 'level' works", {
   # fmt: skip
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c(
-      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
       "Edaphosaurus", "Procolophon"
     ),
     height = c(1, 1, 2, 2, 2, 3, 3, 4),
@@ -106,7 +106,7 @@ test_that("argument 'level' works", {
   )
 
   expect_equal(
-    tax_range_strat(occdf, level = "height"),
+    tax_range_strat(data, level = "height"),
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
@@ -118,20 +118,20 @@ test_that("argument 'level' works", {
   )
 
   # input checks
-  expect_snapshot(tax_range_strat(occdf, level = "test"), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, level = character(0)), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, level = NA), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, level = 1), error = TRUE)
-  nadf <- occdf
+  expect_snapshot(tax_range_strat(data, level = "test"), error = TRUE)
+  expect_snapshot(tax_range_strat(data, level = character(0)), error = TRUE)
+  expect_snapshot(tax_range_strat(data, level = NA), error = TRUE)
+  expect_snapshot(tax_range_strat(data, level = 1), error = TRUE)
+  nadf <- data
   nadf$bed[1] <- NA
   expect_snapshot(tax_range_strat(nadf), error = TRUE)
 })
 
 test_that("argument 'group' works", {
   # fmt: skip
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c(
-      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
       "Edaphosaurus", "Procolophon"
     ),
     bed = c(1, 1, 2, 2, 2, 3, 3, 4),
@@ -144,7 +144,7 @@ test_that("argument 'group' works", {
 
   # fmt: skip
   expect_equal(
-    tax_range_strat(occdf, group = "class"),
+    tax_range_strat(data, group = "class"),
     data.frame(
       ID = 1:6,
       taxon = c(
@@ -159,25 +159,25 @@ test_that("argument 'group' works", {
 
   # It produces the expected plot
   expect_doppelganger("tax_range_strat() plots groups", function() {
-    tax_range_strat(occdf, group = "class")
+    tax_range_strat(data, group = "class")
   })
 
   # input checks
   expect_snapshot(
-    tax_range_strat(occdf, group = c("class", "genus")),
+    tax_range_strat(data, group = c("class", "genus")),
     error = TRUE
   )
-  expect_snapshot(tax_range_strat(occdf, group = "test"), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, group = character(0)), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, group = NA), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, group = 1), error = TRUE)
+  expect_snapshot(tax_range_strat(data, group = "test"), error = TRUE)
+  expect_snapshot(tax_range_strat(data, group = character(0)), error = TRUE)
+  expect_snapshot(tax_range_strat(data, group = NA), error = TRUE)
+  expect_snapshot(tax_range_strat(data, group = 1), error = TRUE)
 })
 
 test_that("argument 'certainty' works", {
   # fmt: skip
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c(
-      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
       "Edaphosaurus", "Procolophon"
     ),
     bed = c(1, 1, 2, 2, 2, 3, 3, 4),
@@ -186,7 +186,7 @@ test_that("argument 'certainty' works", {
 
   # A certainty column adds columns for the range of certain identifications
   expect_equal(
-    tax_range_strat(occdf, certainty = "certainty"),
+    tax_range_strat(data, certainty = "certainty"),
     data.frame(
       ID = 1:4,
       taxon = c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus"),
@@ -201,28 +201,28 @@ test_that("argument 'certainty' works", {
 
   # It produces the expected plot
   expect_doppelganger("tax_range_strat() does uncertainty", function() {
-    tax_range_strat(occdf, certainty = "certainty")
+    tax_range_strat(data, certainty = "certainty")
   })
 
   # input checks
   expect_snapshot(
-    tax_range_strat(occdf, certainty = c("class", "genus")),
+    tax_range_strat(data, certainty = c("class", "genus")),
     error = TRUE
   )
-  expect_snapshot(tax_range_strat(occdf, certainty = "test"), error = TRUE)
+  expect_snapshot(tax_range_strat(data, certainty = "test"), error = TRUE)
   expect_snapshot(
-    tax_range_strat(occdf, certainty = character(0)),
+    tax_range_strat(data, certainty = character(0)),
     error = TRUE
   )
-  expect_snapshot(tax_range_strat(occdf, certainty = NA), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, certainty = 1), error = TRUE)
+  expect_snapshot(tax_range_strat(data, certainty = NA), error = TRUE)
+  expect_snapshot(tax_range_strat(data, certainty = 1), error = TRUE)
 })
 
 test_that("argument 'by' works", {
   # fmt: skip
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c(
-      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
       "Edaphosaurus", "Procolophon"
     ),
     bed = c(1, 1, 2, 2, 2, 3, 3, 4),
@@ -230,43 +230,43 @@ test_that("argument 'by' works", {
   )
 
   expect_equal(
-    tax_range_strat(occdf, by = "FAD")$taxon,
+    tax_range_strat(data, by = "FAD")$taxon,
     c("Anconastes", "Procolophon", "Araeoscelis", "Edaphosaurus")
   )
   expect_equal(
-    tax_range_strat(occdf, by = "LAD")$taxon,
+    tax_range_strat(data, by = "LAD")$taxon,
     c("Anconastes", "Araeoscelis", "Edaphosaurus", "Procolophon")
   )
   # "name" sorts alphabetically by taxon name
   expect_equal(
-    tax_range_strat(occdf, by = "name")$taxon,
+    tax_range_strat(data, by = "name")$taxon,
     c("Anconastes", "Araeoscelis", "Edaphosaurus", "Procolophon")
   )
 
   # It produces the expected plot
   expect_doppelganger("tax_range_strat() sorts", function() {
-    tax_range_strat(occdf, by = "LAD")
+    tax_range_strat(data, by = "LAD")
   })
 
   # input checks
   expect_snapshot(
-    tax_range_strat(occdf, by = c("FAD", "LAD")),
+    tax_range_strat(data, by = c("FAD", "LAD")),
     error = TRUE
   )
-  expect_snapshot(tax_range_strat(occdf, by = "test"), error = TRUE)
+  expect_snapshot(tax_range_strat(data, by = "test"), error = TRUE)
   expect_snapshot(
-    tax_range_strat(occdf, by = character(0)),
+    tax_range_strat(data, by = character(0)),
     error = TRUE
   )
-  expect_snapshot(tax_range_strat(occdf, by = NA), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, by = 1), error = TRUE)
+  expect_snapshot(tax_range_strat(data, by = NA), error = TRUE)
+  expect_snapshot(tax_range_strat(data, by = 1), error = TRUE)
 })
 
 test_that("argument 'plot_args' works", {
   # fmt: skip
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c(
-      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
       "Edaphosaurus", "Procolophon"
     ),
     bed = c(1, 1, 2, 2, 2, 3, 3, 4),
@@ -275,13 +275,13 @@ test_that("argument 'plot_args' works", {
 
   # Arguments are passed to the underlying plot (e.g. the y-axis label)
   expect_doppelganger("tax_range_strat() labels", function() {
-    tax_range_strat(occdf, plot_args = list(ylab = "Height (m)"))
+    tax_range_strat(data, plot_args = list(ylab = "Height (m)"))
   })
 
   # Unsupported arguments ("type") are overridden rather than passed through
   expect_doppelganger("tax_range_strat() stops some plot_args", function() {
     tax_range_strat(
-      occdf,
+      data,
       plot_args = list(type = "line", ylab = "Height (m)"),
       x_args = list(side = 1),
       y_args = list(side = 2)

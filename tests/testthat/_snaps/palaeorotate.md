@@ -1,142 +1,142 @@
-# arg 'occdf' works
+# arg 'data' works
 
     Code
-      palaeorotate(occdf = 10)
+      palaeorotate(data = 10)
     Condition
       Error in `palaeorotate()`:
-      ! `occdf` must be of class <data.frame>, not the number 10.
+      ! `data` must be of class <data.frame>, not the number 10.
 
 ---
 
     Code
-      palaeorotate(occdf = NA)
+      palaeorotate(data = NA)
     Condition
       Error in `palaeorotate()`:
-      ! `occdf` must be of class <data.frame>, not `NA`.
+      ! `data` must be of class <data.frame>, not `NA`.
 
 ---
 
     Code
-      palaeorotate(occdf = data.frame(lng = 10, lat = 5))
+      palaeorotate(data = data.frame(lng = 10, lat = 5))
     Condition
       Error in `palaeorotate()`:
-      ! Column "age" not found in `occdf`.
+      ! Column "age" not found in `data`.
 
 # palaeorotate errors with unnamed args
 
     Code
-      palaeorotate(occdf, "lng")
+      palaeorotate(data, "lng")
     Condition
       Error in `palaeorotate()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for "data").
       i Currently, there is 1 argument that should be named.
 
 ---
 
     Code
-      palaeorotate(occdf = occdf, "lng")
+      palaeorotate(data = data, "lng")
     Condition
       Error in `palaeorotate()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for "data").
       i Currently, there is 1 argument that should be named.
 
 ---
 
     Code
-      palaeorotate(occdf, "lng", "lat")
+      palaeorotate(data, "lng", "lat")
     Condition
       Error in `palaeorotate()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for "data").
       i Currently, there are 2 arguments that should be named.
 
 ---
 
     Code
-      palaeorotate(occdf, "lng", lat = "lat")
+      palaeorotate(data, "lng", lat = "lat")
     Condition
       Error in `palaeorotate()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for "data").
       i Currently, there is 1 argument that should be named.
 
 # input checks for longitude
 
     Code
-      palaeorotate(occdf = data.frame(lng = 210, lat = 40, age = 25))
+      palaeorotate(data = data.frame(lng = 210, lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "lng" in `occdf` must be between -180 and 180.
+      ! All values of column "lng" in `data` must be between -180 and 180.
       i Value(s) outside the range: 210.
 
 ---
 
     Code
-      palaeorotate(occdf = data.frame(lng = NA, lat = 40, age = 25))
+      palaeorotate(data = data.frame(lng = NA, lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lng" in `occdf` must be <numeric>, not <logical>.
+      ! Column "lng" in `data` must be <numeric>, not <logical>.
 
 ---
 
     Code
-      palaeorotate(occdf = data.frame(lng = "a", lat = 40, age = 25))
+      palaeorotate(data = data.frame(lng = "a", lat = 40, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lng" in `occdf` must be <numeric>, not <character>.
+      ! Column "lng" in `data` must be <numeric>, not <character>.
 
 # input checks for latitude
 
     Code
-      palaeorotate(occdf = data.frame(lng = 160, lat = 200, age = 25))
+      palaeorotate(data = data.frame(lng = 160, lat = 200, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "lat" in `occdf` must be between -90 and 90.
+      ! All values of column "lat" in `data` must be between -90 and 90.
       i Value(s) outside the range: 200.
 
 ---
 
     Code
-      palaeorotate(occdf = data.frame(lng = 40, lat = NA, age = 25))
+      palaeorotate(data = data.frame(lng = 40, lat = NA, age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lat" in `occdf` must be <numeric>, not <logical>.
+      ! Column "lat" in `data` must be <numeric>, not <logical>.
 
 ---
 
     Code
-      palaeorotate(occdf = data.frame(lng = 40, lat = "a", age = 25))
+      palaeorotate(data = data.frame(lng = 40, lat = "a", age = 25))
     Condition
       Error in `palaeorotate()`:
-      ! Column "lat" in `occdf` must be <numeric>, not <character>.
+      ! Column "lat" in `data` must be <numeric>, not <character>.
 
 # input checks values for age
 
     Code
-      palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = -1))
+      palaeorotate(data = data.frame(lng = 160, lat = 40, age = -1))
     Condition
       Error in `palaeorotate()`:
-      ! All values of column "age" in `occdf` must be positive.
+      ! All values of column "age" in `data` must be positive.
       i Value(s) outside the range: -1.
 
 ---
 
     Code
-      palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = NA))
+      palaeorotate(data = data.frame(lng = 160, lat = 40, age = NA))
     Condition
       Error in `palaeorotate()`:
-      ! Column "age" in `occdf` must be <numeric>, not <logical>.
+      ! Column "age" in `data` must be <numeric>, not <logical>.
 
 ---
 
     Code
-      palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = "a"))
+      palaeorotate(data = data.frame(lng = 160, lat = 40, age = "a"))
     Condition
       Error in `palaeorotate()`:
-      ! Column "age" in `occdf` must be <numeric>, not <character>.
+      ! Column "age" in `data` must be <numeric>, not <character>.
 
 # arg 'model' works
 
     Code
-      palaeorotate(occdf = occdf, method = "point", model = NA)
+      palaeorotate(data = data, method = "point", model = NA)
     Condition
       Error in `palaeorotate()`:
       ! `model` must be a character vector, not `NA`.
@@ -144,7 +144,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, method = "point", model = character(0))
+      palaeorotate(data = data, method = "point", model = character(0))
     Condition
       Error in `palaeorotate()`:
       ! `model` must select at least one model.
@@ -152,7 +152,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, method = "point", model = "MULLER2022")
+      palaeorotate(data = data, method = "point", model = "MULLER2022")
     Condition
       Error in `palaeorotate()`:
       ! Selected model "MULLER2022" has recently been removed as it is not in a palaeomagnetic reference frame.
@@ -161,7 +161,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, method = "point", model = "GPlates")
+      palaeorotate(data = data, method = "point", model = "GPlates")
     Condition
       Error in `palaeorotate()`:
       ! `model` must be one of "MERDITH2021", "MATTHEWS2016_pmag_ref", "TorsvikCocks2017", "GOLONKA", or "PALEOMAP", not "GPlates".
@@ -169,7 +169,7 @@
 # arg 'method' works
 
     Code
-      palaeorotate(occdf = occdf, method = "foo")
+      palaeorotate(data = data, method = "foo")
     Condition
       Error in `palaeorotate()`:
       ! `method` must be one of "point" or "grid", not "foo".
@@ -177,7 +177,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, method = NA)
+      palaeorotate(data = data, method = NA)
     Condition
       Error in `palaeorotate()`:
       ! `method` must be a single string, not `NA`.
@@ -185,7 +185,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, method = character(0))
+      palaeorotate(data = data, method = character(0))
     Condition
       Error in `palaeorotate()`:
       ! `method` must be a single string, not an empty character vector.
@@ -193,7 +193,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, method = c("point", "grid"))
+      palaeorotate(data = data, method = c("point", "grid"))
     Condition
       Error in `palaeorotate()`:
       ! `method` must be a single string, not a character vector.
@@ -201,7 +201,7 @@
 # arg 'uncertainty' works
 
     Code
-      palaeorotate(occdf = dat, uncertainty = "GOONTHEN")
+      palaeorotate(data = dat, uncertainty = "GOONTHEN")
     Condition
       Error in `palaeorotate()`:
       ! `uncertainty` must be `TRUE` or `FALSE`, not the string "GOONTHEN".
@@ -209,7 +209,7 @@
 ---
 
     Code
-      palaeorotate(occdf = dat, uncertainty = character(0))
+      palaeorotate(data = dat, uncertainty = character(0))
     Condition
       Error in `palaeorotate()`:
       ! `uncertainty` must be `TRUE` or `FALSE`, not an empty character vector.
@@ -217,7 +217,7 @@
 ---
 
     Code
-      palaeorotate(occdf = dat, uncertainty = 1)
+      palaeorotate(data = dat, uncertainty = 1)
     Condition
       Error in `palaeorotate()`:
       ! `uncertainty` must be `TRUE` or `FALSE`, not the number 1.
@@ -225,7 +225,7 @@
 # arg 'round' works
 
     Code
-      palaeorotate(occdf = occdf, round = TRUE)
+      palaeorotate(data = data, round = TRUE)
     Condition
       Error in `palaeorotate()`:
       ! `round` must be a whole number or `NULL`, not `TRUE`.
@@ -233,7 +233,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, round = NA)
+      palaeorotate(data = data, round = NA)
     Condition
       Error in `palaeorotate()`:
       ! `round` must be a whole number or `NULL`, not `NA`.
@@ -241,7 +241,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, round = numeric(0))
+      palaeorotate(data = data, round = numeric(0))
     Condition
       Error in `palaeorotate()`:
       ! `round` must be a whole number or `NULL`, not an empty numeric vector.
@@ -249,7 +249,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, round = 1:2)
+      palaeorotate(data = data, round = 1:2)
     Condition
       Error in `palaeorotate()`:
       ! `round` must be a whole number or `NULL`, not an integer vector.
@@ -257,7 +257,7 @@
 # good error message if GPlates or Zenodo are not available
 
     Code
-      palaeorotate(occdf = occdf, model = "PALEOMAP")
+      palaeorotate(data = data, model = "PALEOMAP")
     Condition
       Error in `palaeorotate()`:
       ! GPlates Web Service is not available.
@@ -266,7 +266,7 @@
 ---
 
     Code
-      palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid")
+      palaeorotate(data = data, model = "PALEOMAP", method = "grid")
     Condition
       Error in `palaeorotate()`:
       ! Zenodo is not available.

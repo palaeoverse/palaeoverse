@@ -2,7 +2,7 @@
 #'
 #' A function to assign fossil occurrences to user-specified latitudinal bins.
 #'
-#' @param occdf `dataframe`. A dataframe of the fossil occurrences you
+#' @param data `dataframe`. A dataframe of the fossil occurrences you
 #' wish to bin. This dataframe should contain a column with the
 #' latitudinal coordinates of occurrence data.
 #' @param bins `dataframe`. A dataframe of the bins that you wish to
@@ -18,7 +18,7 @@
 #' If `FALSE`, occurrences will be binned into the upper bin
 #' only (i.e. highest row number).
 #'
-#' @return A dataframe of the original input `occdf` with appended
+#' @return A dataframe of the original input `data` with appended
 #' columns containing respective latitudinal bin information.
 #'
 #' @section Developer(s):
@@ -28,44 +28,44 @@
 #' @export
 #' @examples
 #' # Load occurrence data
-#' occdf <- tetrapods
+#' data <- tetrapods
 #' # Generate latitudinal bins
 #' bins <- lat_bins_degrees(size = 10)
 #' # Bin data
-#' occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
+#' data <- bin_lat(data = data, bins = bins, lat = "lat")
 #'
-bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
+bin_lat <- function(data, bins, lat = "lat", boundary = FALSE) {
   ensure_args_are_named()
 
-  check_data_frame(occdf)
+  check_data_frame(data)
   check_data_frame(bins)
   rlang::check_bool(boundary)
-  check_column_presence(occdf, lat)
+  check_column_presence(data, lat)
   check_column_presence(bins, "min")
   check_column_presence(bins, "max")
   check_column_presence(bins, "bin")
 
-  lat_vals <- occdf[[lat]]
-  check_na(occdf, lat)
-  check_range(occdf, lat, -90, 90)
+  lat_vals <- data[[lat]]
+  check_na(data, lat)
+  check_range(data, lat, -90, 90)
 
   #=== Set up ===
   # Add mid bin
   bins$mid <- (bins$max + bins$min) / 2
-  occdf$lat_bin <- NA
-  occdf$lat_max <- NA
-  occdf$lat_mid <- NA
-  occdf$lat_min <- NA
+  data$lat_bin <- NA
+  data$lat_max <- NA
+  data$lat_mid <- NA
+  data$lat_min <- NA
   #=== Assign data ===
   for (i in seq_len(nrow(bins))) {
     vec <- which(
       lat_vals <= bins$max[i] &
         lat_vals >= bins$min[i]
     )
-    occdf$lat_bin[vec] <- bins$bin[i]
-    occdf$lat_max[vec] <- bins$max[i]
-    occdf$lat_mid[vec] <- bins$mid[i]
-    occdf$lat_min[vec] <- bins$min[i]
+    data$lat_bin[vec] <- bins$bin[i]
+    data$lat_max[vec] <- bins$max[i]
+    data$lat_mid[vec] <- bins$mid[i]
+    data$lat_min[vec] <- bins$min[i]
   }
   #=== Boundary bins ===
   if (
@@ -73,7 +73,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
       any(lat_vals %in% c(bins$max, bins$min))
   ) {
     # Which occurrences fall on boundaries?
-    tmp <- occdf[which(lat_vals %in% c(bins$max, bins$min)), ]
+    tmp <- data[which(lat_vals %in% c(bins$max, bins$min)), ]
     # Reverse direction to ensure alternative bin is assigned
     for (i in rev(seq_len(nrow(bins)))) {
       vec <- which(
@@ -85,7 +85,7 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
       tmp$lat_mid[vec] <- bins$mid[i]
       tmp$lat_min[vec] <- bins$min[i]
     }
-    occdf <- rbind.data.frame(occdf, tmp)
+    data <- rbind.data.frame(data, tmp)
   }
   #=== Add warning ===
   if (
@@ -98,5 +98,5 @@ bin_lat <- function(occdf, bins, lat = "lat", boundary = FALSE) {
     ))
   }
   #=== Return data ===
-  return(occdf)
+  return(data)
 }

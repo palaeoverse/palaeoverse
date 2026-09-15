@@ -5,7 +5,7 @@
 \title{Look up geological intervals and assign geological stages}
 \usage{
 look_up(
-  occdf,
+  data,
   early_interval = "early_interval",
   late_interval = "late_interval",
   int_key = FALSE,
@@ -14,15 +14,15 @@ look_up(
 )
 }
 \arguments{
-\item{occdf}{\code{data.frame}. A dataframe of fossil occurrences or other
+\item{data}{\code{data.frame}. A dataframe of fossil occurrences or other
 geological data, with columns of class \code{character} specifying the
 earliest and the latest possible interval associated with each occurrence.}
 
-\item{early_interval}{\code{character}. Name of the column in \code{occdf} that
+\item{early_interval}{\code{character}. Name of the column in \code{data} that
 contains the earliest interval from which the occurrences are from. Defaults
 to "early_interval".}
 
-\item{late_interval}{\code{character}. Name of the column in \code{occdf} that
+\item{late_interval}{\code{character}. Name of the column in \code{data} that
 contains the latest interval from which the occurrences are from. Defaults
 to "late_interval".}
 
@@ -32,7 +32,7 @@ intervals.
 This dataframe should contain the following named columns containing
 \code{character} values: \cr
 \itemize{
-\item \code{interval_name} contains the names to be matched from \code{occdf} \cr
+\item \code{interval_name} contains the names to be matched from \code{data} \cr
 \item \code{early_stage} contains the names of the earliest stages
 corresponding to the intervals \cr
 \item \code{late_stage} contains the latest stage corresponding to the
@@ -103,33 +103,33 @@ Lewis A. Jones & Christopher D. Dean
 \examples{
 ## Just use GTS2020 (default):
 # create exemplary dataframe
-taxdf <- data.frame(name = c("A", "B", "C"),
+data <- data.frame(name = c("A", "B", "C"),
 early_interval = c("Maastrichtian", "Campanian", "Sinemurian"),
 late_interval = c("Maastrichtian", "Campanian", "Bartonian"))
 # assign stages and numerical ages
-taxdf <- look_up(taxdf)
+data <- look_up(data)
 
 ## Use exemplary int_key
 # Get internal reef data
-occdf <- reefs
+data <- reefs
  # assign stages and numerical ages
-occdf <- look_up(occdf,
+data <- look_up(data,
                 early_interval = "interval",
                 late_interval = "interval",
                 int_key = interval_key)
 
 ## Use exemplary int_key and return unassigned
 # Get internal tetrapod data
-occdf <- tetrapods
+data <- tetrapods
 # assign stages and numerical ages
-occdf <- look_up(occdf, int_key = palaeoverse::interval_key)
+data <- look_up(data, int_key = palaeoverse::interval_key)
 # return unassigned intervals
-unassigned <- look_up(occdf, int_key = palaeoverse::interval_key,
+unassigned <- look_up(data, int_key = palaeoverse::interval_key,
                       return_unassigned = TRUE)
 
 ## Use own key and GTS2012:
 # create example data
-occdf <- data.frame(
+data <- data.frame(
   stage = c("any Permian", "first Permian stage",
             "any Permian", "Roadian"))
 # create example key
@@ -138,7 +138,7 @@ interval_key <- data.frame(
   early_stage = c("Asselian", "Asselian"),
   late_stage = c("Changhsingian", "Asselian"))
 # assign stages and numerical ages:
-occdf <- look_up(occdf,
+data <- look_up(data,
                  early_interval = "stage", late_interval = "stage",
                  int_key = interval_key, assign_with_GTS = "GTS2012")
 

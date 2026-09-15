@@ -3,7 +3,7 @@
 #' A function to assign fossil occurrences (or localities) to spatial
 #' bins/samples using a hexagonal equal-area grid.
 #'
-#' @param occdf \code{dataframe}. A dataframe of the fossil occurrences (or
+#' @param data \code{dataframe}. A dataframe of the fossil occurrences (or
 #' localities) you wish to bin. This dataframe should contain the decimal
 #' degree coordinates of your occurrences, and they should be of
 #' class `numeric`.
@@ -23,8 +23,8 @@
 #' be plotted?
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
-#' returned of the original input `occdf` with cell information. If `return` is
-#' set to `TRUE`, a list is returned with both the input `occdf` and grid
+#' returned of the original input `data` with cell information. If `return` is
+#' set to `TRUE`, a list is returned with both the input `data` and grid
 #' information and polygons.
 #'
 #' @details This function assigns fossil occurrence data into
@@ -65,23 +65,23 @@
 #' data("reefs")
 #'
 #' # Reduce data for plotting
-#' occdf <- reefs[1:250, ]
+#' data <- reefs[1:250, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
+#' ex1 <- bin_space(data = data, spacing = 500, plot = TRUE)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+#' ex2 <- bin_space(data = data, spacing = 1000, sub_grid = 250, plot = TRUE)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
-#' occdf <- tetrapods[1:250, ]
+#' data <- tetrapods[1:250, ]
 #'
 #' # Assign to spatial bin
-#' occdf <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
+#' data <- bin_space(data = data, spacing = 1000, sub_grid = 250)
 #'
 #' # Get unique bins
-#' bins <- unique(occdf$cell_ID)
+#' bins <- unique(data$cell_ID)
 #'
 #' # n reps
 #' n <- 10
@@ -89,8 +89,8 @@
 #' # Rarefy data across sub-grid grid cells
 #' # Returns a list with each element a bin with respective mean genus richness
 #' df <- lapply(bins, function(x) {
-#'   # subset occdf for respective grid cell
-#'   tmp <- occdf[which(occdf$cell_ID == x), ]
+#'   # subset data for respective grid cell
+#'   tmp <- data[which(data$cell_ID == x), ]
 #'
 #'   # Which sub-grid cells are there within this bin?
 #'   sub_bin <- unique(tmp$cell_ID_sub)
@@ -109,7 +109,7 @@
 #' })
 #' @export
 bin_space <- function(
-  occdf,
+  data,
   lng = "lng",
   lat = "lat",
   spacing = 100,
@@ -117,13 +117,13 @@ bin_space <- function(
   return = FALSE,
   plot = FALSE
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(occdf)
-  check_column_presence(occdf, lat)
-  check_column_presence(occdf, lng)
-  check_range(occdf, lat, -90, 90)
-  check_range(occdf, lng, -180, 180)
+  check_data_frame(data)
+  check_column_presence(data, lat)
+  check_column_presence(data, lng)
+  check_range(data, lat, -90, 90)
+  check_range(data, lng, -180, 180)
 
   check_numeric(spacing, required_length = 1)
   check_numeric(sub_grid, allow_null = TRUE, required_length = 1)
@@ -132,8 +132,8 @@ bin_space <- function(
 
   #=== Set-up ===
   # Convert to sf object and add CRS
-  occdf <- sf::st_as_sf(
-    occdf,
+  data <- sf::st_as_sf(
+    data,
     coords = c(lng, lat),
     remove = FALSE,
     crs = "EPSG:4326"
@@ -150,14 +150,14 @@ bin_space <- function(
   grid$grid <- c("primary")
 
   # Extract cell ID
-  occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = grid$h3_resolution)
+  data$cell_ID <- h3jsr::point_to_cell(data, res = grid$h3_resolution)
 
   # Extract cell centroids
-  occdf$cell_centroid_lng <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
+  data$cell_centroid_lng <- sf::st_coordinates(
+    h3jsr::cell_to_point(h3_address = data$cell_ID)
   )[, c("X")]
-  occdf$cell_centroid_lat <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
+  data$cell_centroid_lat <- sf::st_coordinates(
+    h3jsr::cell_to_point(h3_address = data$cell_ID)
   )[, c("Y")]
 
   # Sub-grid desired?
@@ -178,21 +178,21 @@ bin_space <- function(
     # Add column grid specification
     s_grid$grid <- c("sub-grid")
     # Extract cell ID
-    occdf$cell_ID_sub <- h3jsr::point_to_cell(occdf, res = s_grid$h3_resolution)
+    data$cell_ID_sub <- h3jsr::point_to_cell(data, res = s_grid$h3_resolution)
 
     # Extract cell centroids
-    occdf$cell_centroid_lng_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
+    data$cell_centroid_lng_sub <- sf::st_coordinates(
+      h3jsr::cell_to_point(h3_address = data$cell_ID_sub)
     )[, c("X")]
-    occdf$cell_centroid_lat_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
+    data$cell_centroid_lat_sub <- sf::st_coordinates(
+      h3jsr::cell_to_point(h3_address = data$cell_ID_sub)
     )[, c("Y")]
   }
 
   # Drop geometries column
-  occdf <- sf::st_drop_geometry(occdf)
+  data <- sf::st_drop_geometry(data)
   # Format to dataframe
-  occdf <- data.frame(occdf)
+  data <- data.frame(data)
   # Get base grid
   all_cells <- h3jsr::get_res0()
   # Get children at desired resolution
@@ -205,7 +205,7 @@ bin_space <- function(
   base_grid <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
 
   # Get occupied cells
-  primary <- h3jsr::cell_to_polygon(input = occdf$cell_ID, simple = TRUE)
+  primary <- h3jsr::cell_to_polygon(input = data$cell_ID, simple = TRUE)
 
   # Plot data?
   if (plot) {
@@ -226,7 +226,7 @@ bin_space <- function(
     )
     if (!is.null(sub_grid)) {
       secondary <- h3jsr::cell_to_polygon(
-        input = occdf$cell_ID_sub,
+        input = data$cell_ID_sub,
         simple = TRUE
       )
       plot(secondary, col = "#1d91c0", add = TRUE)
@@ -236,11 +236,11 @@ bin_space <- function(
   if (return) {
     if (!is.null(sub_grid)) {
       grid <- rbind.data.frame(grid, s_grid)
-      occdf <- list(occdf, grid, base_grid, primary, secondary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid", "sub_grid")
+      data <- list(data, grid, base_grid, primary, secondary)
+      names(data) <- c("data", "grid_info", "grid_base", "grid", "sub_grid")
     } else {
-      occdf <- list(occdf, grid, base_grid, primary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
+      data <- list(data, grid, base_grid, primary)
+      names(data) <- c("data", "grid_info", "grid_base", "grid")
     }
   }
   cli::cli_inform(
@@ -253,5 +253,5 @@ bin_space <- function(
       "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
     )
   )
-  return(occdf)
+  return(data)
 }

@@ -7,7 +7,7 @@ test_bins <- data.frame(
   max_ma = c(10, 20, 30, 40, 50)
 )
 
-test_occdf <- rbind(
+test_data <- rbind(
   # Single-bin cases ------------------------------------
 
   # Falls entirely within bin 1: all methods should agree.
@@ -47,16 +47,16 @@ test_occdf <- rbind(
 ) |>
   as.data.frame()
 
-colnames(test_occdf) <- c("name", "min_ma", "max_ma")
-test_occdf$min_ma <- as.numeric(test_occdf$min_ma)
-test_occdf$max_ma <- as.numeric(test_occdf$max_ma)
+colnames(test_data) <- c("name", "min_ma", "max_ma")
+test_data$min_ma <- as.numeric(test_data$min_ma)
+test_data$max_ma <- as.numeric(test_data$max_ma)
 
 
 test_that("bin_time() works with method 'mid'", {
   # occ3's midpoint (10) equals a bin boundary, which triggers a warning and
   # returns an NA assignment
   expect_warning(
-    bin_mid <- bin_time(occdf = test_occdf, bins = test_bins, method = "mid"),
+    bin_mid <- bin_time(data = test_data, bins = test_bins, method = "mid"),
     "equivalent to a bin boundary"
   )
   expect_equal(
@@ -73,13 +73,13 @@ test_that("bin_time() works with method 'mid'", {
   )
   # TODO: regression test for https://github.com/palaeoverse/palaeoverse/issues/236
   # expect_silent(
-  #   bin_time(occdf = test_occdf[5, ], bins = test_bins, method = "mid")
+  #   bin_time(data = test_data[5, ], bins = test_bins, method = "mid")
   # )
 })
 
 test_that("bin_time() works with method 'majority'", {
   bin_majority <- bin_time(
-    occdf = test_occdf,
+    data = test_data,
     bins = test_bins,
     method = "majority"
   )
@@ -101,13 +101,13 @@ test_that("bin_time() works with method 'majority'", {
 
 test_that("piping and not piping the first argument give the same result", {
   expect_equal(
-    test_occdf |> bin_time(bins = test_bins, method = "majority"),
-    bin_time(test_occdf, bins = test_bins, method = "majority")
+    test_data |> bin_time(bins = test_bins, method = "majority"),
+    bin_time(test_data, bins = test_bins, method = "majority")
   )
 })
 
 test_that("bin_time() works with method 'all'", {
-  bin_all <- bin_time(occdf = test_occdf, bins = test_bins, method = "all")
+  bin_all <- bin_time(data = test_data, bins = test_bins, method = "all")
   # Occurrences spanning several bins are duplicated, one row per bin
   # fmt: skip
   expect_equal(
@@ -130,7 +130,7 @@ test_that("bin_time() works with method 'all'", {
 test_that("bin_time() works with method 'random'", {
   set.seed(1234)
   bin_random <- bin_time(
-    occdf = test_occdf,
+    data = test_data,
     bins = test_bins,
     method = "random",
     reps = 5
@@ -147,7 +147,7 @@ test_that("bin_time() works with method 'random'", {
       expect_s3_class(x, "data.frame")
       expect_named(
         x,
-        c(names(test_occdf), "id", "n_bins", "bin_assignment", "bin_midpoint")
+        c(names(test_data), "id", "n_bins", "bin_assignment", "bin_midpoint")
       )
 
       # Those observations are contained in a single interval so they shouldn't
@@ -193,7 +193,7 @@ test_that("bin_time() works with method 'random'", {
 test_that("bin_time() works with method 'point'", {
   set.seed(1234)
   bin_point <- bin_time(
-    occdf = test_occdf,
+    data = test_data,
     bins = test_bins,
     method = "point",
     reps = 5
@@ -211,7 +211,7 @@ test_that("bin_time() works with method 'point'", {
       expect_named(
         x,
         c(
-          names(test_occdf),
+          names(test_data),
           "id",
           "n_bins",
           "bin_assignment",
@@ -267,7 +267,7 @@ test_that("bin_time() works with method 'point'", {
 test_that("user can pass custom function to method 'point'", {
   set.seed(1234)
   bin_point <- bin_time(
-    occdf = test_occdf,
+    data = test_data,
     bins = test_bins,
     method = "point",
     reps = 5,
@@ -288,7 +288,7 @@ test_that("user can pass custom function to method 'point'", {
       expect_named(
         x,
         c(
-          names(test_occdf),
+          names(test_data),
           "id",
           "n_bins",
           "bin_assignment",
@@ -341,42 +341,42 @@ test_that("user can pass custom function to method 'point'", {
   )
 })
 
-test_that("wrong input for occdf", {
+test_that("wrong input for data", {
   # Snapshots are slightly different in older versions of R
   skip_if(getRversion() < "4.3.0")
 
-  # "occdf" must be a non-empty dataframe and must be provided
-  expect_snapshot(bin_time(occdf = c(50, 20, 10)), error = TRUE)
+  # "data" must be a non-empty dataframe and must be provided
+  expect_snapshot(bin_time(data = c(50, 20, 10)), error = TRUE)
   expect_snapshot(bin_time(bins = c(50, 20, 10)), error = TRUE)
   expect_snapshot(
-    bin_time(occdf = data.frame(), bins = c(50, 20, 10)),
+    bin_time(data = data.frame(), bins = c(50, 20, 10)),
     error = TRUE
   )
   expect_snapshot(
-    bin_time(occdf = data.frame(), bins = data.frame(), method = "mid"),
+    bin_time(data = data.frame(), bins = data.frame(), method = "mid"),
     error = TRUE
   )
   expect_snapshot(
-    bin_time(occdf = data.frame(), bins = data.frame(), method = "mid"),
+    bin_time(data = data.frame(), bins = data.frame(), method = "mid"),
     error = TRUE
   )
   expect_snapshot(
-    bin_time(occdf = test_occdf, bins = data.frame(), method = "mid"),
+    bin_time(data = test_data, bins = data.frame(), method = "mid"),
     error = TRUE
   )
   expect_snapshot(
-    bin_time(occdf = test_occdf, bins = data.frame(), method = "mid"),
+    bin_time(data = test_data, bins = data.frame(), method = "mid"),
     error = TRUE
   )
 
   # dataframe that doesn't have the expected columns
   expect_snapshot(
-    bin_time(bins = mtcars, occdf = c(50, 20, 10)),
+    bin_time(bins = mtcars, data = c(50, 20, 10)),
     error = TRUE
   )
 
-  # max must be greater than min in bins and occdf
-  occdf <- data.frame(
+  # max must be greater than min in bins and data
+  data <- data.frame(
     name = c("occ1", "occ2", "occ3"),
     min_ma = c(0, 10, 5),
     max_ma = c(10, 9, 3)
@@ -386,9 +386,9 @@ test_that("wrong input for occdf", {
     min_ma = c(0, 8, 10),
     max_ma = c(10, 9, 15)
   )
-  expect_snapshot(bin_time(occdf, bins = bins), error = TRUE)
+  expect_snapshot(bin_time(data, bins = bins), error = TRUE)
 
-  occdf <- data.frame(
+  data <- data.frame(
     name = c("occ1", "occ2", "occ3"),
     min_ma = c(0, 10, 5),
     max_ma = c(10, 11, 13)
@@ -398,11 +398,11 @@ test_that("wrong input for occdf", {
     min_ma = c(0, 10, 5),
     max_ma = c(10, 9, 3)
   )
-  expect_snapshot(bin_time(occdf, bins = bins), error = TRUE)
+  expect_snapshot(bin_time(data, bins = bins), error = TRUE)
 })
 
 test_that("wrong input for method", {
-  occdf <- tetrapods[1:5, ]
+  data <- tetrapods[1:5, ]
   bins <- data.frame(
     bin = 1:54,
     max_ma = seq(10, 540, 10),
@@ -410,13 +410,13 @@ test_that("wrong input for method", {
   )
 
   expect_snapshot(
-    bin_time(occdf = occdf, bins = bins, method = "foo"),
+    bin_time(data = data, bins = bins, method = "foo"),
     error = TRUE
   )
 })
 
 test_that("wrong input for reps", {
-  occdf <- tetrapods[1:5, ]
+  data <- tetrapods[1:5, ]
   bins <- data.frame(
     bin = 1:54,
     max_ma = seq(10, 540, 10),
@@ -424,13 +424,13 @@ test_that("wrong input for reps", {
   )
 
   expect_snapshot(
-    bin_time(occdf = occdf, bins = bins, method = "random", reps = TRUE),
+    bin_time(data = data, bins = bins, method = "random", reps = TRUE),
     error = TRUE
   )
 })
 
 test_that("wrong input for fun", {
-  occdf <- tetrapods[1:5, ]
+  data <- tetrapods[1:5, ]
   bins <- data.frame(
     bin = 1:54,
     max_ma = seq(10, 540, 10),
@@ -440,7 +440,7 @@ test_that("wrong input for fun", {
   # "fun" must be a function
   expect_snapshot(
     bin_time(
-      occdf = occdf,
+      data = data,
       bins = bins,
       method = "point",
       fun = NULL
@@ -449,7 +449,7 @@ test_that("wrong input for fun", {
   )
   expect_snapshot(
     bin_time(
-      occdf = occdf,
+      data = data,
       bins = bins,
       method = "point",
       fun = 1
@@ -460,7 +460,7 @@ test_that("wrong input for fun", {
   # "x" shouldn't be provided
   expect_snapshot(
     bin_time(
-      occdf = occdf,
+      data = data,
       bins = bins,
       method = "point",
       fun = dnorm,
@@ -472,7 +472,7 @@ test_that("wrong input for fun", {
   # "test" is an invalid arg
   expect_snapshot(
     bin_time(
-      occdf = occdf,
+      data = data,
       bins = bins,
       method = "point",
       fun = dnorm,
@@ -484,7 +484,7 @@ test_that("wrong input for fun", {
   # multiple invalid args
   expect_snapshot(
     bin_time(
-      occdf = occdf,
+      data = data,
       bins = bins,
       method = "point",
       fun = dnorm,
@@ -496,7 +496,7 @@ test_that("wrong input for fun", {
 })
 
 test_that("errors in data for min and max age", {
-  occdf <- tetrapods[1:5, ]
+  data <- tetrapods[1:5, ]
   bins <- data.frame(
     bin = 1:54,
     max_ma = seq(10, 540, 10),
@@ -504,21 +504,21 @@ test_that("errors in data for min and max age", {
   )
 
   # Min age in data cannot be less than min age of bins
-  occdf$min_ma[1] <- -5000
-  expect_snapshot(bin_time(occdf = occdf, bins = bins), error = TRUE)
+  data$min_ma[1] <- -5000
+  expect_snapshot(bin_time(data = data, bins = bins), error = TRUE)
 
   # Max age in data cannot be less than max age of bins
-  occdf$max_ma[1] <- 5000
-  expect_snapshot(bin_time(occdf = occdf, bins = bins), error = TRUE)
+  data$max_ma[1] <- 5000
+  expect_snapshot(bin_time(data = data, bins = bins), error = TRUE)
 
   # Min or max age cannot have missing values
-  occdf$max_ma[1] <- NA
-  expect_snapshot(bin_time(occdf = occdf, bins = bins), error = TRUE)
+  data$max_ma[1] <- NA
+  expect_snapshot(bin_time(data = data, bins = bins), error = TRUE)
 })
 
 # TODO: shouldn't this error?
 # test_that("arg 'fun' is only used if method is 'point'", {
-#   occdf <- tetrapods[1:5, ]
+#   data <- tetrapods[1:5, ]
 #   bins <- data.frame(
 #     bin = 1:54,
 #     max_ma = seq(10, 540, 10),
@@ -526,14 +526,14 @@ test_that("errors in data for min and max age", {
 #   )
 
 #   expect_snapshot(
-#     bin_time(occdf = occdf, bins = bins, method = "random", fun = dnorm),
+#     bin_time(data = data, bins = bins, method = "random", fun = dnorm),
 #     error = TRUE
 #   )
 # })
 
 # TODO: shouldn't this error?
 # test_that("arg 'reps' is only used if method is 'point' or 'random'", {
-#   occdf <- tetrapods[1:5, ]
+#   data <- tetrapods[1:5, ]
 #   bins <- data.frame(
 #     bin = 1:54,
 #     max_ma = seq(10, 540, 10),
@@ -541,22 +541,22 @@ test_that("errors in data for min and max age", {
 #   )
 
 #   expect_snapshot(
-#     bin_time(occdf = occdf, bins = bins, method = "all", reps = 10),
+#     bin_time(data = data, bins = bins, method = "all", reps = 10),
 #     error = TRUE
 #   )
 # })
 
 test_that("bin_time errors with unnamed args", {
   expect_snapshot(
-    bin_time(occdf = test_occdf, test_bins, method = "majority"),
+    bin_time(data = test_data, test_bins, method = "majority"),
     error = TRUE
   )
-  expect_snapshot(bin_time(test_occdf, test_bins, "majority"), error = TRUE)
+  expect_snapshot(bin_time(test_data, test_bins, "majority"), error = TRUE)
 
   # Can't pass extra unnamed args
   expect_snapshot(
     bin_time(
-      occdf = test_occdf,
+      data = test_data,
       bins = test_bins,
       method = "point",
       reps = 5,

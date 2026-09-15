@@ -1,8 +1,8 @@
 test_that("group_apply() basic behavior", {
-  occdf <- tetrapods[1:50, ]
+  data <- tetrapods[1:50, ]
 
   expect_equal(
-    group_apply(occdf = occdf, group = "cc", fun = nrow),
+    group_apply(data = data, group = "cc", fun = nrow),
     data.frame(
       nrow = c(1, 5, 6, 35, 3),
       cc = c("CA", "RU", "UK", "US", "ZA")
@@ -15,11 +15,11 @@ test_that("group_apply() basic behavior", {
   # several groups
   # fmt: skip
   expect_equal(
-    group_apply(occdf = occdf, group = c("collection_no", "cc"), fun = nrow),
+    group_apply(data = data, group = c("collection_no", "cc"), fun = nrow),
     data.frame(
       nrow = c(1, 5, 4, 2, 1, 1, 1, 1, 1, 9, 6, 6, 3, 6, 1, 1, 1),
       collection_no = c(
-        "13219", "22644", "22725", "22726", "12943", "13044", "13046", "13048", "13049", 
+        "13219", "22644", "22725", "22726", "12943", "13044", "13046", "13048", "13049",
         "13080", "13257", "13947", "22635", "22714", "13004", "13043", "13083"
       ),
       cc = c("CA", "RU", "UK", "UK", rep("US", 10), "ZA", "ZA", "ZA")
@@ -27,7 +27,7 @@ test_that("group_apply() basic behavior", {
   )
 })
 
-test_that("error handling for argument 'occdf'", {
+test_that("error handling for argument 'data'", {
   # Snapshots are slightly different in older versions of R
   skip_if(getRversion() < "4.3.0")
 
@@ -36,52 +36,52 @@ test_that("error handling for argument 'occdf'", {
     error = TRUE
   )
   expect_snapshot(
-    group_apply(occdf = 1, group = "cc", fun = nrow),
+    group_apply(data = 1, group = "cc", fun = nrow),
     error = TRUE
   )
   expect_snapshot(
-    group_apply(occdf = data.frame(), group = "cc", fun = nrow),
+    group_apply(data = data.frame(), group = "cc", fun = nrow),
     error = TRUE
   )
 })
 
 test_that("piping and not piping the first argument give the same result", {
-  occdf <- tetrapods[1:50, ]
+  data <- tetrapods[1:50, ]
 
   expect_equal(
-    group_apply(occdf, group = "cc", fun = nrow),
-    occdf |> group_apply(group = "cc", fun = nrow)
+    group_apply(data, group = "cc", fun = nrow),
+    data |> group_apply(group = "cc", fun = nrow)
   )
 })
 
 test_that("group_apply errors with unnamed args", {
-  occdf <- tetrapods[1:50, ]
+  data <- tetrapods[1:50, ]
 
-  expect_snapshot(group_apply(occdf, group = "cc", nrow), error = TRUE)
-  expect_snapshot(group_apply(occdf, "cc", nrow), error = TRUE)
+  expect_snapshot(group_apply(data, group = "cc", nrow), error = TRUE)
+  expect_snapshot(group_apply(data, "cc", nrow), error = TRUE)
   expect_snapshot(
-    group_apply(occdf, "cc", fun = tax_range_time, "family"),
+    group_apply(data, "cc", fun = tax_range_time, "family"),
     error = TRUE
   )
 
   # `name` isn't a proper argument of `group_apply()` but we still catch that it is named
   expect_snapshot(
-    group_apply(occdf, "cc", fun = tax_range_time, name = "family"),
+    group_apply(data, "cc", fun = tax_range_time, name = "family"),
     error = TRUE
   )
 })
 
 test_that("group_apply() accepts functions that return less or more rows than in the input", {
-  occdf <- tetrapods[1:100, ]
-  occdf <- subset(occdf, !is.na(genus))
+  data <- tetrapods[1:100, ]
+  data <- subset(data, !is.na(genus))
   expect_equal(
-    nrow(group_apply(occdf = occdf, group = "cc", fun = tax_range_time)),
+    nrow(group_apply(data = data, group = "cc", fun = tax_range_time)),
     48
   )
   expect_equal(
     nrow(
       group_apply(
-        occdf = occdf,
+        data = data,
         group = "cc",
         fun = tax_range_time,
         name = "family"
@@ -92,7 +92,7 @@ test_that("group_apply() accepts functions that return less or more rows than in
   expect_equal(
     nrow(
       group_apply(
-        occdf = occdf,
+        data = data,
         group = c("collection_no", "cc"),
         fun = tax_range_time
       )
@@ -103,7 +103,7 @@ test_that("group_apply() accepts functions that return less or more rows than in
   # can return no rows at all
   expect_null(
     group_apply(
-      occdf = occdf,
+      data = data,
       group = "collection_no",
       fun = tax_check,
       verbose = FALSE
@@ -112,25 +112,25 @@ test_that("group_apply() accepts functions that return less or more rows than in
 })
 
 test_that("group_apply() puts groups last", {
-  occdf <- tetrapods[1:100, ]
-  occdf <- subset(occdf, !is.na(genus))
+  data <- tetrapods[1:100, ]
+  data <- subset(data, !is.na(genus))
 
   # Single group
   expect_named(
-    group_apply(occdf = occdf, group = "cc", fun = nrow),
+    group_apply(data = data, group = "cc", fun = nrow),
     c("nrow", "cc")
   )
 
   # Several groups
   expect_named(
-    group_apply(occdf = occdf, group = c("cc", "formation"), fun = nrow),
+    group_apply(data = data, group = c("cc", "formation"), fun = nrow),
     c("nrow", "cc", "formation")
   )
 
   # Hits the "list" branch in group_apply()
   expect_named(
     group_apply(
-      occdf = occdf,
+      data = data,
       group = "collection_no",
       fun = tax_unique,
       genus = "genus",
@@ -143,7 +143,7 @@ test_that("group_apply() puts groups last", {
   )
   expect_named(
     group_apply(
-      occdf = occdf,
+      data = data,
       group = c("cc", "formation"),
       fun = tax_range_time
     ),
@@ -164,27 +164,27 @@ test_that("error handling for argument 'group'", {
   # Snapshots are slightly different in older versions of R
   skip_if(getRversion() < "4.3.0")
 
-  occdf <- tetrapods[1:50, ]
-  expect_snapshot(group_apply(occdf = occdf, fun = nrow), error = TRUE)
+  data <- tetrapods[1:50, ]
+  expect_snapshot(group_apply(data = data, fun = nrow), error = TRUE)
   expect_snapshot(
-    group_apply(occdf = occdf, group = NULL, fun = nrow),
+    group_apply(data = data, group = NULL, fun = nrow),
     error = TRUE
   )
   expect_snapshot(
-    group_apply(occdf = occdf, group = "foo", fun = nrow),
+    group_apply(data = data, group = "foo", fun = nrow),
     error = TRUE
   )
   expect_snapshot(
-    group_apply(occdf = occdf, group = 1, fun = nrow),
+    group_apply(data = data, group = 1, fun = nrow),
     error = TRUE
   )
   expect_snapshot(
-    group_apply(occdf = occdf, group = c("cc", "foobar"), fun = nrow),
+    group_apply(data = data, group = c("cc", "foobar"), fun = nrow),
     error = TRUE
   )
   expect_snapshot(
     group_apply(
-      occdf = occdf,
+      data = data,
       group = c("cc", "foobar", "foobar2"),
       fun = nrow
     ),
@@ -200,7 +200,7 @@ test_that("error handling for argument 'group'", {
   # Fixed in https://github.com/palaeoverse/palaeoverse/pull/181
   foo <- mtcars
   expect_snapshot(
-    group_apply(occdf = occdf, group = c("cc", "foo"), fun = nrow),
+    group_apply(data = data, group = c("cc", "foo"), fun = nrow),
     error = TRUE
   )
 })
@@ -209,13 +209,13 @@ test_that("error handling for argument 'fun'", {
   # Snapshots are slightly different in older versions of R
   skip_if(getRversion() < "4.3.0")
 
-  occdf <- tetrapods
-  occdf <- subset(occdf, !is.na(genus))
+  data <- tetrapods
+  data <- subset(data, !is.na(genus))
 
   # quoted function name isn't accepted
   expect_snapshot(
     group_apply(
-      occdf = occdf,
+      data = data,
       group = "cc",
       fun = "tax_range_time"
     ),
@@ -223,13 +223,13 @@ test_that("error handling for argument 'fun'", {
   )
   # unknown function
   expect_snapshot(
-    group_apply(occdf = occdf, group = "cc", fun = foobar),
+    group_apply(data = data, group = "cc", fun = foobar),
     error = TRUE
   )
   # one unknown arg
   expect_snapshot(
     group_apply(
-      occdf = occdf,
+      data = data,
       group = "cc",
       fun = tax_range_time,
       not_an_argument = "test"
@@ -239,7 +239,7 @@ test_that("error handling for argument 'fun'", {
   # multiple unknown args
   expect_snapshot(
     group_apply(
-      occdf = occdf,
+      data = data,
       group = "cc",
       fun = tax_range_time,
       not_an_argument1 = "test",

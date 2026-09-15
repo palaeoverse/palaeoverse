@@ -6,8 +6,8 @@
 #' palaeocoordinates based on its current geographic position and age
 #' estimate.
 #'
-#' @param occdf \code{data.frame}. Fossil occurrences to be
-#'   palaeogeographically reconstructed. \code{occdf} should contain columns
+#' @param data \code{data.frame}. Fossil occurrences to be
+#'   palaeogeographically reconstructed. \code{data} should contain columns
 #'   with longitudinal and latitudinal coordinates, as well as age estimates.
 #'   The age of rotation should be supplied in millions of years before
 #'   present.
@@ -130,18 +130,18 @@
 #' @examples
 #' \dontrun{
 #' #Generic example with a few occurrences
-#' occdf <- data.frame(lng = c(2, -103, -66),
+#' data <- data.frame(lng = c(2, -103, -66),
 #'                 lat = c(46, 35, -7),
 #'                 age = c(88, 125, 200))
 #'
 #' #Calculate palaeocoordinates using reconstruction files
-#' ex1 <- palaeorotate(occdf = occdf, method = "grid")
+#' ex1 <- palaeorotate(data = data, method = "grid")
 #'
 #' #Calculate palaeocoordinates using the GPlates API
-#' ex2 <- palaeorotate(occdf = occdf, method = "point")
+#' ex2 <- palaeorotate(data = data, method = "point")
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
-#' ex3 <- palaeorotate(occdf = occdf,
+#' ex3 <- palaeorotate(data = data,
 #'                     method = "grid",
 #'                     model = c("MERDITH2021",
 #'                               "GOLONKA",
@@ -157,10 +157,10 @@
 #' tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 #'
 #' #Rotate the data
-#' ex3 <- palaeorotate(occdf = tetrapods)
+#' ex3 <- palaeorotate(data = tetrapods)
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
-#' ex4 <- palaeorotate(occdf = tetrapods,
+#' ex4 <- palaeorotate(data = tetrapods,
 #'                     model = c("MERDITH2021",
 #'                               "GOLONKA",
 #'                               "PALEOMAP"),
@@ -168,7 +168,7 @@
 #' }
 #' @export
 palaeorotate <- function(
-  occdf,
+  data,
   lng = "lng",
   lat = "lat",
   age = "age",
@@ -177,22 +177,22 @@ palaeorotate <- function(
   uncertainty = TRUE,
   round = 3
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
   # This is used in error messages to report in which function call the error occurred. We save it
   # here so that we don't need to use e.g. `rlang::caller_env(4)` when running `cli::cli_abort()`
   # in `tryCatch()`.
   caller_env <- rlang::current_env()
 
-  check_data_frame(occdf)
+  check_data_frame(data)
 
-  check_column_presence(occdf, lng)
-  check_column_presence(occdf, lat)
-  check_column_presence(occdf, age)
+  check_column_presence(data, lng)
+  check_column_presence(data, lat)
+  check_column_presence(data, age)
 
-  check_range(occdf, lat, -90, 90)
-  check_range(occdf, lng, -180, 180)
-  check_range(occdf, age, 0, Inf)
+  check_range(data, lat, -90, 90)
+  check_range(data, lng, -180, 180)
+  check_range(data, age, 0, Inf)
 
   rlang::check_string(method)
   method <- rlang::arg_match(method, values = c("point", "grid"))
@@ -234,19 +234,19 @@ palaeorotate <- function(
   # If only one model selected, add column of model name and set uncertainty
   # to FALSE
   if (length(model) == 1) {
-    occdf$rot_model <- model
+    data$rot_model <- model
     uncertainty <- FALSE
   }
 
   # Should coordinates be rounded off?
   if (!is.null(round)) {
-    occdf[, c(lng, lat, age)] <- round(
-      occdf[, c(lng, lat, age)],
+    data[, c(lng, lat, age)] <- round(
+      data[, c(lng, lat, age)],
       digits = round
     )
   }
   # Unique localities for rotating
-  coords <- unique(occdf[, c(lng, lat, age)])
+  coords <- unique(data[, c(lng, lat, age)])
   # Add columns for populating
   uni_ages <- unique(coords[, age, drop = TRUE])
 
@@ -299,12 +299,12 @@ palaeorotate <- function(
       }
     }
     # Calculate rotation ages for data
-    occdf$rot_age <- round(occdf[, age, drop = TRUE], digits = 0)
+    data$rot_age <- round(data[, age, drop = TRUE], digits = 0)
 
     # Set-up
     # Convert to sf object and add CRS
-    occdf_sf <- st_as_sf(
-      x = occdf,
+    data_sf <- st_as_sf(
+      x = data,
       coords = c(lng, lat),
       remove = FALSE,
       crs = "EPSG:4326"
@@ -312,7 +312,7 @@ palaeorotate <- function(
 
     # Match points with cells
     h3 <- point_to_cell(
-      input = occdf_sf,
+      input = data_sf,
       res = 3, # Grid resolution
       simple = TRUE
     )
@@ -321,7 +321,7 @@ palaeorotate <- function(
     # Create df
     xy <- data.frame(h3 = h3, rot_lng = xy[, 1], rot_lat = xy[, 2])
     # Bind rotation coordinates
-    occdf <- cbind.data.frame(occdf, xy)
+    data <- cbind.data.frame(data, xy)
     # Assign model coordinates
     for (m in model) {
       # Load reconstruction files
@@ -330,14 +330,14 @@ palaeorotate <- function(
       colnames(prm)[which(colnames(prm) %in% c("lng", "lat"))] <-
         c("lng_0", "lat_0")
       # Extract coordinates
-      row_match <- match(x = occdf$h3, table = prm$h3)
+      row_match <- match(x = data$h3, table = prm$h3)
 
-      p_lng <- sapply(seq_len(nrow(occdf)), function(i) {
-        prm[row_match[i], c(paste0("lng_", occdf$rot_age[i]))]
+      p_lng <- sapply(seq_len(nrow(data)), function(i) {
+        prm[row_match[i], c(paste0("lng_", data$rot_age[i]))]
       })
 
-      p_lat <- sapply(seq_len(nrow(occdf)), function(i) {
-        prm[row_match[i], c(paste0("lat_", occdf$rot_age[i]))]
+      p_lat <- sapply(seq_len(nrow(data)), function(i) {
+        prm[row_match[i], c(paste0("lat_", data$rot_age[i]))]
       })
 
       # Replace NULL values
@@ -348,15 +348,15 @@ palaeorotate <- function(
       }
       # Assign to columns
       if (length(model) > 1) {
-        occdf[, paste0("p_lng_", m)] <- unlist(p_lng)
-        occdf[, paste0("p_lat_", m)] <- unlist(p_lat)
+        data[, paste0("p_lng_", m)] <- unlist(p_lng)
+        data[, paste0("p_lat_", m)] <- unlist(p_lat)
       } else {
-        occdf$p_lng <- unlist(p_lng)
-        occdf$p_lat <- unlist(p_lat)
+        data$p_lng <- unlist(p_lng)
+        data$p_lat <- unlist(p_lat)
       }
     }
     # Drop h3 column
-    occdf <- occdf[, -which(colnames(occdf) == "h3")]
+    data <- data[, -which(colnames(data) == "h3")]
   }
 
   # Point rotations ---------------------------------------------------------
@@ -413,12 +413,12 @@ palaeorotate <- function(
       "_",
       coords[, age, drop = TRUE]
     )
-    occdf$match <- paste0(
-      occdf[, lng, drop = TRUE],
+    data$match <- paste0(
+      data[, lng, drop = TRUE],
       "_",
-      occdf[, lat, drop = TRUE],
+      data[, lat, drop = TRUE],
       "_",
-      occdf[, age, drop = TRUE]
+      data[, age, drop = TRUE]
     )
     # Prepare points query
     # Split dataframe by age
@@ -497,12 +497,12 @@ palaeorotate <- function(
     # Match data
     for (i in seq_along(multi_model)) {
       x <- multi_model[[i]]
-      mch <- match(x = occdf$match, table = x$match)
-      occdf[, colnames(x)] <- x[mch, ]
+      mch <- match(x = data$match, table = x$match)
+      data[, colnames(x)] <- x[mch, ]
     }
 
     # Drop match column
-    occdf <- occdf[, -which(colnames(occdf) == "match"), drop = TRUE]
+    data <- data[, -which(colnames(data) == "match"), drop = TRUE]
   }
 
   # Uncertainty calculation -------------------------------------------------
@@ -510,8 +510,8 @@ palaeorotate <- function(
     # Calculate uncertainty (range)
     lng_nme <- paste0("p_lng_", model)
     lat_nme <- paste0("p_lat_", model)
-    uncertain_lng <- occdf[, lng_nme, drop = TRUE]
-    uncertain_lat <- occdf[, lat_nme, drop = TRUE]
+    uncertain_lng <- data[, lng_nme, drop = TRUE]
+    uncertain_lat <- data[, lat_nme, drop = TRUE]
 
     # Calculate palaeolatitudinal range
     range_p_lat <- vector("numeric")
@@ -549,7 +549,7 @@ palaeorotate <- function(
       }
     }
     # Bind data
-    occdf <- cbind.data.frame(occdf, range_p_lat, max_dist)
+    data <- cbind.data.frame(data, range_p_lat, max_dist)
   }
 
   # Wrap up -----------------------------------------------------------------
@@ -558,7 +558,7 @@ palaeorotate <- function(
   } else {
     cnames <- c("p_lng", "p_lat")
   }
-  if (anyNA(occdf[, cnames])) {
+  if (anyNA(data[, cnames])) {
     cli::cli_warn(
       c(
         "Palaeocoordinates could not be reconstructed for all points.",
@@ -567,5 +567,5 @@ palaeorotate <- function(
     )
   }
   # Return data
-  return(occdf)
+  return(data)
 }

@@ -4,10 +4,10 @@
 \alias{group_apply}
 \title{Apply a function over grouping(s) of data}
 \usage{
-group_apply(occdf, group, fun, ...)
+group_apply(data, group, fun, ...)
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences or taxa,
+\item{data}{\code{dataframe}. A dataframe of fossil occurrences or taxa,
 as relevant to the desired function.
 This dataframe must contain the grouping variables and the necessary
 variables for the function you wish to call (see function-specific
@@ -19,7 +19,7 @@ one grouping variable will produce an output containing subgroups for each
 unique combination of values.}
 
 \item{fun}{\code{function}. The function you wish to apply to
-\code{occdf}. See details for compatible functions.}
+\code{data}. See details for compatible functions.}
 
 \item{...}{Additional arguments available in the called
 function. These arguments may be required for function arguments
@@ -77,13 +77,13 @@ Kilian Eichenseer & Bethany Allen
 \examples{
 # Examples
 # Get tetrapods data
-occdf <- tetrapods[1:100, ]
+data <- tetrapods[1:100, ]
 # Remove NA data
-occdf <- subset(occdf, !is.na(genus))
+data <- subset(data, !is.na(genus))
 # Count number of occurrences from each country
-ex1 <- group_apply(occdf = occdf, group = "cc", fun = nrow)
+ex1 <- group_apply(data = data, group = "cc", fun = nrow)
 # Unique genera per collection with group_apply and input arguments
-ex2 <- group_apply(occdf = occdf,
+ex2 <- group_apply(data = data,
                    group = "collection_no",
                    fun = tax_unique,
                    genus = "genus",
@@ -92,14 +92,14 @@ ex2 <- group_apply(occdf = occdf,
                    class = "class",
                    resolution = "genus")
 # Use multiple variables (number of occurrences per collection and formation)
-ex3 <- group_apply(occdf = occdf,
+ex3 <- group_apply(data = data,
                    group = c("collection_no", "formation"),
                    fun = nrow)
 # Compute counts of occurrences per latitudinal bin
 # Set up lat bins
 bins <- lat_bins_degrees()
 # bin occurrences
-occdf <- bin_lat(occdf = occdf, bins = bins)
+data <- bin_lat(data = data, bins = bins)
 # Calculate number of occurrences per bin
-ex4 <- group_apply(occdf = occdf, group = "lat_bin", fun = nrow)
+ex4 <- group_apply(data = data, group = "lat_bin", fun = nrow)
 }

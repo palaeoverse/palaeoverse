@@ -9,7 +9,7 @@
 #' where the row representing a taxon must be replicated for each latitudinal
 #' bin through which the taxon ranges.
 #'
-#' @param taxdf \code{dataframe}. A dataframe of taxa (such as the
+#' @param data \code{dataframe}. A dataframe of taxa (such as the
 #' output of the 'lat' method in \code{\link{tax_range_space}}) with columns
 #' containing latitudinal range data (maximum and minimum latitude). Column
 #' names are assumed to be "max_lat" and "min_lat", but may be updated via the
@@ -37,35 +37,35 @@
 #' @export
 #' @examples
 #' bins <- lat_bins_degrees()
-#' taxdf <- data.frame(name = c("A", "B", "C"),
+#' data <- data.frame(name = c("A", "B", "C"),
 #'                     max_lat = c(60, 20, -10),
 #'                     min_lat = c(20, -40, -60))
-#' ex <- tax_expand_lat(taxdf = taxdf,
+#' ex <- tax_expand_lat(data = data,
 #'                      bins = bins,
 #'                      max_lat = "max_lat",
 #'                      min_lat = "min_lat")
 tax_expand_lat <- function(
-  taxdf,
+  data,
   bins,
   max_lat = "max_lat",
   min_lat = "min_lat"
 ) {
-  ensure_args_are_named(exceptions = "taxdf")
+  ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(taxdf)
+  check_data_frame(data)
   check_data_frame(bins)
 
   check_column_presence(bins, "bin")
   check_column_presence(bins, "max")
   check_column_presence(bins, "min")
-  check_column_presence(taxdf, max_lat)
-  check_column_presence(taxdf, min_lat)
+  check_column_presence(data, max_lat)
+  check_column_presence(data, min_lat)
 
-  check_range(taxdf, min_lat, -90, 90)
-  check_range(taxdf, max_lat, -90, 90)
+  check_range(data, min_lat, -90, 90)
+  check_range(data, max_lat, -90, 90)
 
   rows_with_max_lat_smaller_than_min_lat <- which(
-    taxdf[, max_lat, drop = TRUE] < taxdf[, min_lat, drop = TRUE]
+    data[, max_lat, drop = TRUE] < data[, min_lat, drop = TRUE]
   )
   if (length(rows_with_max_lat_smaller_than_min_lat) > 0) {
     truncated <- if (length(rows_with_max_lat_smaller_than_min_lat) > 5) {
@@ -85,15 +85,15 @@ tax_expand_lat <- function(
     )
   }
 
-  if (anyDuplicated(taxdf) > 0) {
-    cli::cli_abort("{.arg taxdf} must not have duplicated rows.")
+  if (anyDuplicated(data) > 0) {
+    cli::cli_abort("{.arg data} must not have duplicated rows.")
   }
 
   # Replicate taxon rows for each lat bin they span
   dat_list <- lapply(seq_len(nrow(bins)), function(i) {
-    int_tax <- taxdf[
-      taxdf[, min_lat, drop = TRUE] < bins$max[i] &
-        taxdf[, max_lat, drop = TRUE] > bins$min[i],
+    int_tax <- data[
+      data[, min_lat, drop = TRUE] < bins$max[i] &
+        data[, max_lat, drop = TRUE] > bins$min[i],
     ]
     if (nrow(int_tax) == 0) {
       return(NULL)
