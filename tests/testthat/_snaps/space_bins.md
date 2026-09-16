@@ -49,7 +49,7 @@
     Condition
       Error in `space_bins()`:
       ! Argument names must be fully written.
-      i Partially matched argument name: "sp"
+      i Partially matched argument name: `sp`
 
 # space_bins errors with wrong inputs
 
@@ -65,7 +65,15 @@
       space_bins(spacing = -1)
     Condition
       Error in `space_bins()`:
-      ! `spacing` must be a number larger than or equal to 0, not the number -1.
+      ! `spacing` must be greater than 0.
+
+---
+
+    Code
+      space_bins(spacing = 0)
+    Condition
+      Error in `space_bins()`:
+      ! `spacing` must be greater than 0.
 
 ---
 

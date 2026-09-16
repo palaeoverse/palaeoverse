@@ -21,7 +21,10 @@ space_bins <- function(spacing) {
   # is no partial matching of argument name.
   ensure_args_are_named(exceptions = "spacing")
 
-  rlang::check_number_decimal(spacing, min = 0)
+  rlang::check_number_decimal(spacing)
+  if (spacing <= 0) {
+    cli::cli_abort("{.arg spacing} must be greater than 0.")
+  }
 
   # Generate equal area hexagonal grid
   # Which resolution should be used based on input distance/spacing?

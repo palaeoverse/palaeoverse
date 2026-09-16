@@ -18,6 +18,7 @@ test_that("partial matching of argument names is forbidden", {
 test_that("space_bins errors with wrong inputs", {
   expect_snapshot(space_bins(spacing = "10"), error = TRUE)
   expect_snapshot(space_bins(spacing = -1), error = TRUE)
+  expect_snapshot(space_bins(spacing = 0), error = TRUE)
   expect_snapshot(space_bins(spacing = numeric(0)), error = TRUE)
   expect_snapshot(space_bins(spacing = NULL), error = TRUE)
   expect_snapshot(space_bins(spacing = NA), error = TRUE)

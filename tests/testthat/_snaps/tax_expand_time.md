@@ -36,7 +36,7 @@
       tax_expand_time(taxdf, "max_ma")
     Condition
       Error in `tax_expand_time()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -45,7 +45,7 @@
       tax_expand_time(taxdf, "max_ma")
     Condition
       Error in `tax_expand_time()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -54,7 +54,7 @@
       tax_expand_time(taxdf, "max_ma", "min_ma")
     Condition
       Error in `tax_expand_time()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -63,7 +63,7 @@
       tax_expand_time(taxdf, "max_ma", min_ma = "min_ma")
     Condition
       Error in `tax_expand_time()`:
-      ! All arguments must be named (except for "taxdf").
+      ! All arguments must be named (except for `taxdf`).
       i Currently, there is 1 argument that should be named.
 
 # rows must be unique
