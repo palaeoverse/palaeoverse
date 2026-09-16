@@ -211,7 +211,6 @@ tax_check <- function(
     ))
   )])
 
-  # NULL if no matches present
   if (nrow(out) == 0) {
     out <- data.frame(
       group = character(0),
@@ -220,9 +219,8 @@ tax_check <- function(
       count_greater = integer(0),
       count_lesser = integer(0)
     )
-
-    # else reorder rows so the more frequent synonym is in the first column
   } else {
+    # reorder rows so the more frequent synonym is in the first column
     mins <- apply(out[, 4:5], 1, which.min) - 1
     maxs <- abs(mins - 1)
     fq1 <- unlist(out[, 4:5])[seq_along(maxs) + (maxs * length(maxs))]
