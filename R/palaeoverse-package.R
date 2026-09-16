@@ -8,8 +8,3 @@
 #' @importFrom utils head
 ## usethis namespace: end
 NULL
-
-#' S3 methods for `plot()` for various `palaeoverse` objects
-#'
-#' @name plot_palaeo
-NULL

@@ -2,9 +2,12 @@
 % Please edit documentation in R/lat_bins_area.R
 \name{lat_bins_area}
 \alias{lat_bins_area}
+\alias{plot.palaeo_lat_bins_area}
 \title{Generate equal-area latitudinal bins}
 \usage{
 lat_bins_area(n = 12, min = -90, max = 90, r = 6371, plot = deprecated())
+
+\method{plot}{palaeo_lat_bins_area}(x, y, ...)
 }
 \arguments{
 \item{n}{\code{numeric}. A single numeric value defining the number of
@@ -23,6 +26,12 @@ the volumetric mean radius of the Earth (6371 km). Other user-specified
 
 \item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
 this function instead.}
+
+\item{x}{The object to plot}
+
+\item{y}{Ignored}
+
+\item{...}{Ignored}
 }
 \value{
 A \code{data.frame} of user-defined number of latitudinal bins. The

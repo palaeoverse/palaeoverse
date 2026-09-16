@@ -121,7 +121,7 @@ lat_bins_area <- function(
 #' @param y Ignored
 #' @param ... Ignored
 #'
-#' @name plot_palaeo
+#' @name lat_bins_area
 #' @export
 plot.palaeo_lat_bins_area <- function(x, y, ...) {
   # We want to pass `plot(<something>)`
