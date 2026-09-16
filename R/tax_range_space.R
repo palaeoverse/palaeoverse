@@ -122,6 +122,8 @@ tax_range_space <- function(
   spacing = 100,
   coords = FALSE
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
 
   check_column_presence(occdf, name)
@@ -132,6 +134,8 @@ tax_range_space <- function(
   check_na(occdf, lat)
   check_na(occdf, lng)
 
+  check_class(occdf, lat, "numeric")
+  check_class(occdf, lng, "numeric")
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
 

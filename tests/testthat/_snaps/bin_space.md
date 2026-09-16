@@ -4,7 +4,7 @@
       bin_space(occdf, "lng")
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -13,7 +13,7 @@
       bin_space(occdf = occdf, "lng")
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -22,7 +22,7 @@
       bin_space(occdf, "lng", "lat")
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -31,7 +31,7 @@
       bin_space(occdf, "lng", lat = "lat")
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for "occdf").
+      ! All arguments must be named (except for `occdf`).
       i Currently, there is 1 argument that should be named.
 
 # bin_space error handling
@@ -48,7 +48,7 @@
       bin_space(occdf = tetrapods, spacing = NA)
     Condition
       Error in `bin_space()`:
-      ! `spacing` must be a numeric value, not `NA`.
+      ! `spacing` must be a number, not `NA`.
 
 ---
 
@@ -56,7 +56,23 @@
       bin_space(occdf = tetrapods, spacing = 1:2)
     Condition
       Error in `bin_space()`:
-      ! `spacing` must be of length 1, not 2.
+      ! `spacing` must be a number, not an integer vector.
+
+---
+
+    Code
+      bin_space(occdf = tetrapods, spacing = -1)
+    Condition
+      Error in `bin_space()`:
+      ! `spacing` must be greater than 0.
+
+---
+
+    Code
+      bin_space(occdf = tetrapods, spacing = 0)
+    Condition
+      Error in `bin_space()`:
+      ! `spacing` must be greater than 0.
 
 ---
 
@@ -64,7 +80,7 @@
       bin_space(occdf = tetrapods, sub_grid = 1:2)
     Condition
       Error in `bin_space()`:
-      ! `sub_grid` must be of length 1, not 2.
+      ! `sub_grid` must be a number or `NULL`, not an integer vector.
 
 ---
 
@@ -72,7 +88,23 @@
       bin_space(occdf = tetrapods, spacing = 1000, sub_grid = NA)
     Condition
       Error in `bin_space()`:
-      ! `sub_grid` must be a numeric value or `NULL`, not `NA`.
+      ! `sub_grid` must be a number or `NULL`, not `NA`.
+
+---
+
+    Code
+      bin_space(occdf = tetrapods, sub_grid = -1)
+    Condition
+      Error in `bin_space()`:
+      ! `sub_grid` must be greater than 0.
+
+---
+
+    Code
+      bin_space(occdf = tetrapods, sub_grid = 0)
+    Condition
+      Error in `bin_space()`:
+      ! `sub_grid` must be greater than 0.
 
 ---
 
@@ -114,7 +146,7 @@
       bin_space(occdf = occdf)
     Condition
       Error in `bin_space()`:
-      ! Column "lat" in `occdf` must be <numeric>, not <character>.
+      ! Column "lat" in `occdf` must be of class <numeric>, not <character>.
 
 ---
 
@@ -131,5 +163,5 @@
       bin_space(occdf = occdf)
     Condition
       Error in `bin_space()`:
-      ! Column "lng" in `occdf` must be <numeric>, not <character>.
+      ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
 

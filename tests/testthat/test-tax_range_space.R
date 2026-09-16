@@ -30,6 +30,29 @@ test_that("tax_range_space() works", {
   expect_snapshot(tax_range_space(occdf = "a"), error = TRUE)
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  occdf <- data.frame(
+    genus = c("A", "A", "A", "A", "B", "B", "C"),
+    lng = c(0, 10, 10, 0, 30, 40, 100),
+    lat = c(0, 0, 10, 10, 45, 50, -10)
+  )
+  expect_equal(
+    occdf |> tax_range_space(name = "genus"),
+    tax_range_space(occdf, name = "genus")
+  )
+})
+
+test_that("tax_range_space errors with unnamed args", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B"),
+    lng = c(0, 10, 30),
+    lat = c(0, 0, 45)
+  )
+  expect_snapshot(tax_range_space(occdf, "genus"), error = TRUE)
+  expect_snapshot(tax_range_space(occdf, "genus", "lng"), error = TRUE)
+  expect_snapshot(tax_range_space(occdf, "genus", lng = "lng"), error = TRUE)
+})
+
 test_that("argument 'name' works", {
   occdf <- data.frame(
     species = c("A", "A", "A", "A", "B", "B", "C"),

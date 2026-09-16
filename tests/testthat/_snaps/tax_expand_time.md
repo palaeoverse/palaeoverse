@@ -30,6 +30,42 @@
       Error in `tax_expand_time()`:
       ! `taxdf` must be of class <data.frame>, not absent.
 
+# tax_expand_time errors with unnamed args
+
+    Code
+      tax_expand_time(taxdf, "max_ma")
+    Condition
+      Error in `tax_expand_time()`:
+      ! All arguments must be named (except for `taxdf`).
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_expand_time(taxdf, "max_ma")
+    Condition
+      Error in `tax_expand_time()`:
+      ! All arguments must be named (except for `taxdf`).
+      i Currently, there is 1 argument that should be named.
+
+---
+
+    Code
+      tax_expand_time(taxdf, "max_ma", "min_ma")
+    Condition
+      Error in `tax_expand_time()`:
+      ! All arguments must be named (except for `taxdf`).
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      tax_expand_time(taxdf, "max_ma", min_ma = "min_ma")
+    Condition
+      Error in `tax_expand_time()`:
+      ! All arguments must be named (except for `taxdf`).
+      i Currently, there is 1 argument that should be named.
+
 # rows must be unique
 
     Code
@@ -174,7 +210,7 @@
       tax_expand_time(taxdf, scale = "foo")
     Condition
       Error:
-      ! `name` does not match a built-in or Macrostrat time scale.
+      ! `scale` must match a built-in or Macrostrat time scale.
 
 ---
 

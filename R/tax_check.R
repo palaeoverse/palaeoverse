@@ -89,6 +89,8 @@ tax_check <- function(
   dis = 0.05,
   start = 1
 ) {
+  ensure_args_are_named(exceptions = "taxdf")
+
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
   check_data_frame(taxdf)

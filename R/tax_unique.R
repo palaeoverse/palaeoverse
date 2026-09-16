@@ -141,6 +141,8 @@ tax_unique <- function(
   resolution = "species",
   append = FALSE
 ) {
+  ensure_args_are_named(exceptions = "occdf")
+
   check_data_frame(occdf)
   rlang::check_bool(append)
   rlang::check_string(resolution)

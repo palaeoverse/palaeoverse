@@ -45,6 +45,32 @@ test_that("error handling for argument 'occdf'", {
   )
 })
 
+test_that("piping and not piping the first argument give the same result", {
+  occdf <- tetrapods[1:50, ]
+
+  expect_equal(
+    group_apply(occdf, group = "cc", fun = nrow),
+    occdf |> group_apply(group = "cc", fun = nrow)
+  )
+})
+
+test_that("group_apply errors with unnamed args", {
+  occdf <- tetrapods[1:50, ]
+
+  expect_snapshot(group_apply(occdf, group = "cc", nrow), error = TRUE)
+  expect_snapshot(group_apply(occdf, "cc", nrow), error = TRUE)
+  expect_snapshot(
+    group_apply(occdf, "cc", fun = tax_range_time, "family"),
+    error = TRUE
+  )
+
+  # `name` isn't a proper argument of `group_apply()` but we still catch that it is named
+  expect_snapshot(
+    group_apply(occdf, "cc", fun = tax_range_time, name = "family"),
+    error = TRUE
+  )
+})
+
 test_that("group_apply() accepts functions that return less or more rows than in the input", {
   occdf <- tetrapods[1:100, ]
   occdf <- subset(occdf, !is.na(genus))
@@ -154,6 +180,14 @@ test_that("error handling for argument 'group'", {
   )
   expect_snapshot(
     group_apply(occdf = occdf, group = c("cc", "foobar"), fun = nrow),
+    error = TRUE
+  )
+  expect_snapshot(
+    group_apply(
+      occdf = occdf,
+      group = c("cc", "foobar", "foobar2"),
+      fun = nrow
+    ),
     error = TRUE
   )
 
