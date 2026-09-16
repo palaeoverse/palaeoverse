@@ -5,12 +5,19 @@
 \alias{plot.palaeo_lat_bins_area}
 \title{Generate equal-area latitudinal bins}
 \usage{
-lat_bins_area(n = 12, min = -90, max = 90, r = 6371, plot = deprecated())
+lat_bins_area(
+  n_bins = 12,
+  min = -90,
+  max = 90,
+  r = 6371,
+  n = deprecated(),
+  plot = deprecated()
+)
 
 \method{plot}{palaeo_lat_bins_area}(x, y, ...)
 }
 \arguments{
-\item{n}{\code{numeric}. A single numeric value defining the number of
+\item{n_bins}{\code{numeric}. A single numeric value defining the number of
 equal-area latitudinal bins to split the latitudinal range into (as
 defined by \code{min} and \code{max}).}
 
@@ -23,6 +30,8 @@ of the latitudinal range (defaults to 90).}
 \item{r}{\code{numeric}. The radius of the Earth in kilometres. Defaults to
 the volumetric mean radius of the Earth (6371 km). Other user-specified
 \code{r} values are accepted (e.g. equatorial radius 6378 km).}
+
+\item{n}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{n_bins} instead.}
 
 \item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
 this function instead.}
@@ -59,13 +68,13 @@ Kilian Eichenseer & Bethany Allen
 
 \examples{
 # Generate 12 latitudinal bins
-lat_bins_area(n = 12)
+lat_bins_area(n_bins = 12)
 
 # Generate latitudinal bins for just the (sub-)tropics
-lat_bins_area(n = 6, min = -30, max = 30)
+lat_bins_area(n_bins = 6, min = -30, max = 30)
 
 # Generate latitudinal bins and a plot
-plot(lat_bins_area(n = 24))
+plot(lat_bins_area(n_bins = 24))
 }
 \seealso{
 For bins with unequal area, but equal latitudinal range, see

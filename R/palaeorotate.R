@@ -190,6 +190,9 @@ palaeorotate <- function(
   check_column_presence(occdf, lat)
   check_column_presence(occdf, age)
 
+  check_class(occdf, lat, "numeric")
+  check_class(occdf, lng, "numeric")
+  check_class(occdf, age, "numeric")
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
   check_range(occdf, age, 0, Inf)

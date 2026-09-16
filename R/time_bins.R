@@ -143,18 +143,23 @@ time_bins <- function(
   }
 
   rlang::check_number_whole(n_bins, min = 1, allow_null = TRUE)
-  check_numeric(assign, allow_null = TRUE)
   rlang::check_bool(plot)
 
-  if (is.numeric(assign) && any(assign < 0)) {
-    cli::cli_abort(
-      c(
-        "Age estimates for {.arg assign} must be non-negative values.",
-        "i" = "You can transform your data using {.fun abs}."
+  if (!is.null(assign)) {
+    if (!is.numeric(assign) || length(assign) == 0) {
+      cli::cli_abort(
+        "{.arg assign} must be of class <numeric> or `NULL`, not {obj_type_friendly(assign)}."
       )
-    )
+    }
+    if (any(assign < 0)) {
+      cli::cli_abort(
+        c(
+          "Age estimates for {.arg assign} must be non-negative values.",
+          "i" = "You can transform your data using {.fun abs}."
+        )
+      )
+    }
   }
-
   if (is.data.frame(scale)) {
     check_column_presence(scale, "interval_name")
     check_column_presence(scale, "max_ma")

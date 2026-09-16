@@ -69,11 +69,15 @@ test_that("bin_space error handling", {
   expect_snapshot(bin_space(occdf = matrix(tetrapods)), error = TRUE)
   expect_snapshot(bin_space(occdf = tetrapods, spacing = NA), error = TRUE)
   expect_snapshot(bin_space(occdf = tetrapods, spacing = 1:2), error = TRUE)
+  expect_snapshot(bin_space(occdf = tetrapods, spacing = -1), error = TRUE)
+  expect_snapshot(bin_space(occdf = tetrapods, spacing = 0), error = TRUE)
   expect_snapshot(bin_space(occdf = tetrapods, sub_grid = 1:2), error = TRUE)
   expect_snapshot(
     bin_space(occdf = tetrapods, spacing = 1000, sub_grid = NA),
     error = TRUE
   )
+  expect_snapshot(bin_space(occdf = tetrapods, sub_grid = -1), error = TRUE)
+  expect_snapshot(bin_space(occdf = tetrapods, sub_grid = 0), error = TRUE)
   expect_snapshot(bin_space(occdf = tetrapods, return = "TRUE"), error = TRUE)
 
   # wrong columns

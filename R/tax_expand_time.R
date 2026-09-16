@@ -69,6 +69,8 @@ tax_expand_time <- function(
   check_column_presence(taxdf, max_ma)
   check_column_presence(taxdf, min_ma)
 
+  check_class(taxdf, min_ma, "numeric")
+  check_class(taxdf, max_ma, "numeric")
   check_range(taxdf, min_ma, 0, Inf)
   check_range(taxdf, max_ma, 0, Inf)
 
