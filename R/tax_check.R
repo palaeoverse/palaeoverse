@@ -198,18 +198,9 @@ tax_check <- function(
   # format initial results data.frame from list
   out <- sp[!unlist(lapply(sp, is.null))]
   out <- as.data.frame(do.call(rbind, out))
-  out$f1 <- as.vector(table(taxdf2[, "name"])[match(
-    out$V1,
-    names(table(
-      taxdf2[, "name"]
-    ))
-  )])
-  out$f2 <- as.vector(table(taxdf2[, "name"])[match(
-    out$V2,
-    names(table(
-      taxdf2[, "name"]
-    ))
-  )])
+  tab_name <- table(taxdf2[, "name"])
+  out$f1 <- as.vector(tab_name[match(out$V1, names(tab_name))])
+  out$f2 <- as.vector(tab_name[match(out$V2, names(tab_name))])
 
   if (nrow(out) == 0) {
     out <- data.frame(
