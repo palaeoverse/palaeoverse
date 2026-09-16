@@ -49,8 +49,8 @@ lat_bins_area <- function(
   min = -90,
   max = 90,
   r = 6371,
-  n = deprecated(),
-  plot = deprecated()
+  plot = deprecated(),
+  n = deprecated()
 ) {
   ensure_args_are_named()
 

@@ -10,8 +10,8 @@ lat_bins_area(
   min = -90,
   max = 90,
   r = 6371,
-  n = deprecated(),
-  plot = deprecated()
+  plot = deprecated(),
+  n = deprecated()
 )
 
 \method{plot}{palaeo_lat_bins_area}(x, y, ...)
@@ -31,10 +31,10 @@ of the latitudinal range (defaults to 90).}
 the volumetric mean radius of the Earth (6371 km). Other user-specified
 \code{r} values are accepted (e.g. equatorial radius 6378 km).}
 
-\item{n}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{n_bins} instead.}
-
 \item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
 this function instead.}
+
+\item{n}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{n_bins} instead.}
 
 \item{x}{The object to plot}
 

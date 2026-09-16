@@ -50,6 +50,12 @@ test_that("lat_bins_area errors with wrong inputs", {
   expect_snapshot(lat_bins_area(r = -1), error = TRUE)
 })
 
+test_that("lat_bins_area plotting works", {
+  expect_doppelganger("lat_bins_area", function() {
+    plot(lat_bins_area(n_bins = 12))
+  })
+})
+
 test_that("n is deprecated but still works", {
   # deprecated
   expect_snapshot(lat_bins_area(n = 6))
@@ -66,16 +72,11 @@ test_that("n is deprecated but still works", {
   expect_snapshot(lat_bins_area(n_bins = 6, n = 6), error = TRUE)
 })
 
-test_that("lat_bins_area plotting works", {
-  expect_doppelganger("lat_bins_area", function() {
-    plot(lat_bins_area(n = 12))
-  })
-})
 
 test_that("plot is deprecated but still works", {
   expect_doppelganger("lat_bins_area_deprecated", function() {
     expect_warning(
-      lat_bins_area(n = 12, plot = TRUE),
+      lat_bins_area(n_bins = 12, plot = TRUE),
       "is deprecated as of palaeoverse 2.0.0",
       fixed = TRUE
     )
