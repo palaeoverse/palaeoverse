@@ -1,4 +1,4 @@
-#' Generate space bins
+#' Generate spatial bins
 #'
 #' @description
 #' A function to generate spatial bins that can then be used in `bin_space()` to

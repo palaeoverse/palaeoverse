@@ -2,7 +2,7 @@
 % Please edit documentation in R/space_bins.R
 \name{space_bins}
 \alias{space_bins}
-\title{Generate space bins}
+\title{Generate spatial bins}
 \usage{
 space_bins(spacing)
 }
