@@ -131,7 +131,6 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat", plot = FALSE) {
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
 
-  rlang::check_bool(return)
   rlang::check_bool(plot)
 
   #=== Set-up ===
