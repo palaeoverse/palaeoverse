@@ -1,4 +1,4 @@
-test_that("basic behavior works", {
+test_that("basic behaviour works", {
   dat <- data.frame(
     genus = c(
       "Automaton",
@@ -23,8 +23,11 @@ test_that("basic behavior works", {
 
   # Capture warning on non-letter characters
   expect_snapshot(
-    tax_check(data.frame(genus = c("Automaton", "Automaton2")))
+    x <- tax_check(data.frame(genus = c("Automaton", "Automaton2")))
   )
+  expect_equal(nrow(x), 1)
+  expect_equal(attr(x, "non_letter_name"), "Automaton2")
+  expect_null(attr(x, "non_letter_group"))
 
   # input checks
   expect_snapshot(tax_check(data.frame()), error = TRUE)
@@ -116,7 +119,7 @@ test_that("arg 'group' works", {
 
   # Capture warning on non-letter characters
   expect_snapshot(
-    tax_check(
+    x <- tax_check(
       data.frame(
         genus = c("Automaton", "Automaton"),
         family = c("Foo", "Examplidae2")
@@ -124,6 +127,9 @@ test_that("arg 'group' works", {
       group = "family"
     )
   )
+  expect_equal(nrow(x), 0)
+  expect_equal(attr(x, "non_letter_group"), "Examplidae2")
+  expect_null(attr(x, "non_letter_name"))
 
   # input checks
   expect_snapshot(tax_check(dat, group = "nonexistent"), error = TRUE)

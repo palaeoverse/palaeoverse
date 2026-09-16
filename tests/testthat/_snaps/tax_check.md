@@ -1,14 +1,11 @@
-# basic behavior works
+# basic behaviour works
 
     Code
-      tax_check(data.frame(genus = c("Automaton", "Automaton2")))
+      x <- tax_check(data.frame(genus = c("Automaton", "Automaton2")))
     Condition
       Warning:
       Some names had non-letter characters.
       i See which ones with `attr(<output>, "non_letter_name")`.
-    Output
-        group   greater     lesser count_greater count_lesser
-      1     A Automaton Automaton2             1            1
 
 ---
 
@@ -121,15 +118,12 @@
 # arg 'group' works
 
     Code
-      tax_check(data.frame(genus = c("Automaton", "Automaton"), family = c("Foo",
+      x <- tax_check(data.frame(genus = c("Automaton", "Automaton"), family = c("Foo",
         "Examplidae2")), group = "family")
     Condition
       Warning:
       Some groups had non-letter characters.
       i See which ones with `attr(<output>, "non_letter_group")`.
-    Output
-      [1] group         greater       lesser        count_greater count_lesser 
-      <0 rows> (or 0-length row.names)
 
 ---
 
