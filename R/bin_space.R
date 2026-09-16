@@ -118,7 +118,7 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat", plot = FALSE) {
     cli::cli_abort(
       c(
         "{.arg bins} must be of class {.cls palaeo_space_bins} or {.cls sfc_POLYGON}.",
-        "i" = "Hint: you can create space bins with {.fn space_bins}."
+        "i" = "Hint: you can create spatial bins with {.fn space_bins}."
       )
     )
   }

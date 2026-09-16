@@ -49,7 +49,7 @@
     Condition
       Error in `bin_space()`:
       ! `bins` must be of class <palaeo_space_bins> or <sfc_POLYGON>.
-      i Hint: you can create space bins with `space_bins()`.
+      i Hint: you can create spatial bins with `space_bins()`.
 
 ---
 
@@ -58,7 +58,7 @@
     Condition
       Error in `bin_space()`:
       ! `bins` must be of class <palaeo_space_bins> or <sfc_POLYGON>.
-      i Hint: you can create space bins with `space_bins()`.
+      i Hint: you can create spatial bins with `space_bins()`.
 
 ---
 
