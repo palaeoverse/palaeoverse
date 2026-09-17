@@ -40,7 +40,8 @@ this function instead.}
 
 \item{y}{Ignored}
 
-\item{...}{Ignored}
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
+already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}, \code{xlab}, \code{ylab}.}
 }
 \value{
 A \code{data.frame} of user-defined number of latitudinal bins. The

@@ -135,8 +135,8 @@ lat_bins_area <- function(
 
 #' @param x The object to plot
 #' @param y Ignored
-#' @param ... Extra arguments passed to `plot()`. The following arguments are already set
-#' internally and must not be specified here: `type`, `xlim`, `ylim`, `xlab`, `ylab`.
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
+#' already set internally and must not be specified here: `type`, `xlim`, `ylim`, `xlab`, `ylab`.
 #'
 #' @name lat_bins_area
 #' @export
