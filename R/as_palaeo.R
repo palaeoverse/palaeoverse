@@ -104,7 +104,7 @@ resolve_info <- function(data, column) {
   if (isTRUE(column_present_in_call)) {
     if (!is.null(value_from_attr)) {
       cli::cli_inform(
-        "Overrode the data attribute {.val {paste0(\"palaeoverse_\", column)}}."
+        "Preferring user input {.arg {column}} over data attribute {.val {paste0(\"palaeoverse_\", column)}}."
       )
     }
     return(column)

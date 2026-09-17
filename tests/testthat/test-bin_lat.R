@@ -102,7 +102,7 @@ test_that("bin_lat() uses info set in as_palaeo()", {
 
   # If the attribute stored in the data disappeared then bin_lat() cannot
   # recover it
-  attr(dat, "palaeo_lat") <- NULL
+  attr(dat, "palaeoverse_lat") <- NULL
   expect_snapshot(
     bin_lat(occdf = dat, bins = bins),
     error = TRUE
