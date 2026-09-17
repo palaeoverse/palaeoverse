@@ -4,7 +4,7 @@
       as_palaeo(dat, lat = "foo")
     Condition
       Error in `as_palaeo()`:
-      ! Column "foo" not found in `x`.
+      ! Column "foo" not found in `data`.
 
 ---
 
@@ -12,7 +12,7 @@
       as_palaeo(dat, lon = "foo")
     Condition
       Error in `as_palaeo()`:
-      ! Column "foo" not found in `x`.
+      ! Column "foo" not found in `data`.
 
 # as_palaeo() custom print method works
 
@@ -47,7 +47,7 @@
       as_palaeo(dat, "foo")
     Condition
       Error in `as_palaeo()`:
-      ! All arguments must be named (except for `x`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -56,15 +56,15 @@
       as_palaeo(dat, "foo", lat = "bar")
     Condition
       Error in `as_palaeo()`:
-      ! All arguments must be named (except for `x`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 ---
 
     Code
-      as_palaeo(x = dat, "foo", lat = "bar")
+      as_palaeo(data = dat, "foo", lat = "bar")
     Condition
       Error in `as_palaeo()`:
-      ! All arguments must be named (except for `x`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 

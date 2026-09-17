@@ -4,7 +4,7 @@
 #' This function allows you to define information on your data only once so that
 #' it is automatically used in subsequent `palaeoverse` functions.
 #'
-#' @param x Dataframe
+#' @param data Dataframe
 #' @param lat Name of the column that contains the latitude.
 #' @param lon Name of the column that contains the longitude.
 #'
@@ -41,29 +41,29 @@
 #' # this information (unless another value is explicitly passed in the call)
 #' bins <- lat_bins_degrees(size = 10)
 #' bin_lat(occdf = dat, bins = bins)
-as_palaeo <- function(x, lat = "lat", lon = "lon") {
-  ensure_args_are_named(exceptions = "x")
-  check_data_frame(x)
+as_palaeo <- function(data, lat = "lat", lon = "lon") {
+  ensure_args_are_named(exceptions = "data")
+  check_data_frame(data)
 
   if (missing(lon)) {
-    if ("lon" %in% names(x)) {
-      attr(x, "palaeo_lon") <- "lon"
+    if ("lon" %in% names(data)) {
+      attr(data, "palaeo_lon") <- "lon"
     }
   } else {
-    check_column_presence(x, lon)
-    attr(x, "palaeo_lon") <- lon
+    check_column_presence(data, lon)
+    attr(data, "palaeo_lon") <- lon
   }
   if (missing(lat)) {
-    if ("lat" %in% names(x)) {
-      attr(x, "palaeo_lat") <- "lat"
+    if ("lat" %in% names(data)) {
+      attr(data, "palaeo_lat") <- "lat"
     }
   } else {
-    check_column_presence(x, lat)
-    attr(x, "palaeo_lat") <- lat
+    check_column_presence(data, lat)
+    attr(data, "palaeo_lat") <- lat
   }
 
-  class(x) <- c("palaeo", class(x))
-  x
+  class(data) <- c("palaeo", class(data))
+  data
 }
 
 #' @export

@@ -51,5 +51,5 @@ test_that("args must be named", {
   dat <- data.frame(lat = 1, long = 2)
   expect_snapshot(as_palaeo(dat, "foo"), error = TRUE)
   expect_snapshot(as_palaeo(dat, "foo", lat = "bar"), error = TRUE)
-  expect_snapshot(as_palaeo(x = dat, "foo", lat = "bar"), error = TRUE)
+  expect_snapshot(as_palaeo(data = dat, "foo", lat = "bar"), error = TRUE)
 })

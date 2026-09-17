@@ -4,10 +4,10 @@
 \alias{as_palaeo}
 \title{Create a \code{palaeo} object to store information on your data}
 \usage{
-as_palaeo(x, lat = "lat", lon = "lon")
+as_palaeo(data, lat = "lat", lon = "lon")
 }
 \arguments{
-\item{x}{Dataframe}
+\item{data}{Dataframe}
 
 \item{lat}{Name of the column that contains the latitude.}
 
