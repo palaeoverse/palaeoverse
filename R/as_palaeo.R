@@ -62,12 +62,12 @@ as_palaeo <- function(data, lat = "lat", lon = "lon") {
     attr(data, "palaeoverse_lat") <- lat
   }
 
-  class(data) <- c("palaeo", class(data))
+  class(data) <- c("palaeoverse_data", class(data))
   data
 }
 
 #' @export
-print.palaeo <- function(x, ...) {
+print.palaeoverse_data <- function(x, ...) {
   att <- names(attributes(x))
   att <- att[startsWith(att, "palaeo")]
 
