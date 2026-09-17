@@ -124,7 +124,7 @@ lat_bins_area <- function(
     area_prop = band_areas_prop
   )
 
-  class(bins) <- c("palaeo_lat_bins_area", class(bins))
+  class(bins) <- c("palaeoverse_lat_bins_area", class(bins))
 
   if (isTRUE(plot)) {
     plot(bins)
@@ -133,14 +133,14 @@ lat_bins_area <- function(
   bins
 }
 
-#' @param x An object of class `"palaeo_lat_bins_area"` (created by `lat_bins_area()`).
+#' @param x An object of class `"palaeoverse_lat_bins_area"` (created by `lat_bins_area()`).
 #' @param y Ignored
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
 #' already set internally and must not be specified here: `type`, `xlim`, `ylim`, `xlab`, `ylab`.
 #'
 #' @name lat_bins_area
 #' @export
-plot.palaeo_lat_bins_area <- function(x, y, ...) {
+plot.palaeoverse_lat_bins_area <- function(x, y, ...) {
   # We want to pass `plot(<something>)`
   if (missing(y)) {
     invisible()
@@ -153,7 +153,7 @@ plot.palaeo_lat_bins_area <- function(x, y, ...) {
     if (length(forbidden) > 0) {
       cli::cli_abort(
         c(
-          "{cli::qty(forbidden)} Cannot pass argument{?s} {.arg {forbidden}} when calling {.fn plot} on an object of class {.cls palaeo_lat_bins_area}.",
+          "{cli::qty(forbidden)} Cannot pass argument{?s} {.arg {forbidden}} when calling {.fn plot} on an object of class {.cls palaeoverse_lat_bins_area}.",
           "i" = "{cli::qty(forbidden)}{?This/These} argument{?s} {?is/are} already set by `plot()` internally."
         )
       )

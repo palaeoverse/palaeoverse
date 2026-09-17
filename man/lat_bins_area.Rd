@@ -2,7 +2,7 @@
 % Please edit documentation in R/lat_bins_area.R
 \name{lat_bins_area}
 \alias{lat_bins_area}
-\alias{plot.palaeo_lat_bins_area}
+\alias{plot.palaeoverse_lat_bins_area}
 \title{Generate equal-area latitudinal bins}
 \usage{
 lat_bins_area(
@@ -14,7 +14,7 @@ lat_bins_area(
   n = deprecated()
 )
 
-\method{plot}{palaeo_lat_bins_area}(x, y, ...)
+\method{plot}{palaeoverse_lat_bins_area}(x, y, ...)
 }
 \arguments{
 \item{n_bins}{\code{numeric}. A single numeric value defining the number of
@@ -36,7 +36,7 @@ this function instead.}
 
 \item{n}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{n_bins} instead.}
 
-\item{x}{An object of class \code{"palaeo_lat_bins_area"} (created by \code{lat_bins_area()}).}
+\item{x}{An object of class \code{"palaeoverse_lat_bins_area"} (created by \code{lat_bins_area()}).}
 
 \item{y}{Ignored}
 
