@@ -102,12 +102,7 @@ test_that("group_apply() accepts functions that return less or more rows than in
 
   # can return no rows at all
   expect_null(
-    group_apply(
-      occdf = occdf,
-      group = "collection_no",
-      fun = tax_check,
-      verbose = FALSE
-    )
+    group_apply(occdf = occdf, group = "collection_no", fun = tax_check)
   )
 })
 
