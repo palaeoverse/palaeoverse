@@ -201,6 +201,33 @@
       Error in `lat_bins_area()`:
       ! `r` must be a number larger than or equal to 0, not the number -1.
 
+# lat_bins_area plotting works
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlab = "foo")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `xlab` when calling `plot()` on an object of class <palaeo_lat_bins_area>.
+      i These arguments are already set by `plot()` internally.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlab = "foo", ylab = "bar")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `xlab` and `ylab` when calling `plot()` on an object of class <palaeo_lat_bins_area>.
+      i These arguments are already set by `plot()` internally.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlab = "foo", ylab = "bar", xlim = 1)
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `xlab`, `ylab`, and `xlim` when calling `plot()` on an object of class <palaeo_lat_bins_area>.
+      i These arguments are already set by `plot()` internally.
+
 # n is deprecated but still works
 
     Code

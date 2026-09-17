@@ -135,7 +135,8 @@ lat_bins_area <- function(
 
 #' @param x The object to plot
 #' @param y Ignored
-#' @param ... Ignored
+#' @param ... Extra arguments passed to `plot()`. The following arguments are already set
+#' internally and must not be specified here: `type`, `xlim`, `ylim`, `xlab`, `ylab`.
 #'
 #' @name lat_bins_area
 #' @export
@@ -144,13 +145,28 @@ plot.palaeo_lat_bins_area <- function(x, y, ...) {
   if (missing(y)) {
     invisible()
   }
+
+  dots <- list(...)
+  if (length(dots) > 0) {
+    nms <- names(dots)
+    if (any(nms %in% c("type", "xlim", "ylim", "xlab", "ylab"))) {
+      cli::cli_abort(
+        c(
+          "{cli::qty(nms)} Cannot pass argument{?s} {.arg {nms}} when calling {.fn plot} on an object of class {.cls palaeo_lat_bins_area}.",
+          "i" = "These arguments are already set by `plot()` internally."
+        )
+      )
+    }
+  }
+
   plot(
     1,
     type = "n",
     xlim = c(-180, 180),
     ylim = c(min(x$min), max(x$max)),
     xlab = "Longitude (\u00B0)",
-    ylab = "Latitude (\u00B0)"
+    ylab = "Latitude (\u00B0)",
+    ...
   )
   cols <- rep(c("#01665e", "#80cdc1"), nrow(x))
   for (i in seq_len(nrow(x))) {

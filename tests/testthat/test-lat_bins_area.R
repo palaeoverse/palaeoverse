@@ -54,6 +54,19 @@ test_that("lat_bins_area plotting works", {
   expect_doppelganger("lat_bins_area", function() {
     plot(lat_bins_area(n_bins = 12))
   })
+  expect_doppelganger("lat_bins_area-extra_args", function() {
+    plot(lat_bins_area(n_bins = 12), sub = "A subtitle")
+  })
+
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), xlab = "foo"), error = TRUE)
+  expect_snapshot(
+    plot(lat_bins_area(n_bins = 12), xlab = "foo", ylab = "bar"),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(lat_bins_area(n_bins = 12), xlab = "foo", ylab = "bar", xlim = 1),
+    error = TRUE
+  )
 })
 
 test_that("n is deprecated but still works", {
