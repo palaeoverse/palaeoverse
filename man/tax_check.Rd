@@ -63,8 +63,8 @@ comparisons will still be made within alphabetical groups of taxa which lack
 higher taxonomic affiliations. The function also performs a check for
 non-letter characters which are not expected to be present in
 correctly-formatted taxon names. Names and groups that contain non-letter
-characters can be found with \verb{attr(<output> "non_letter_name")} and
-\verb{attr(<output> "non_letter_group")} respectively.
+characters can be found with \verb{attr(<output>, "non_letter_name")} and
+\verb{attr(<output>, "non_letter_group")} respectively.
 
 Comparisons are performed using the Jaro dissimilarity metric via
 \code{\link[stringdist:stringdistmatrix]{stringdist::stringdistmatrix()}}.
