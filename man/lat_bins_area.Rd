@@ -14,7 +14,14 @@ lat_bins_area(
   n = deprecated()
 )
 
-\method{plot}{palaeoverse_lat_bins_area}(x, y, ...)
+\method{plot}{palaeoverse_lat_bins_area}(
+  x,
+  y,
+  ...,
+  col = c("#01665e", "#80cdc1"),
+  xlab = "Longitude (°)",
+  ylab = "Latitude (°)"
+)
 }
 \arguments{
 \item{n_bins}{\code{numeric}. A single numeric value defining the number of
@@ -41,7 +48,13 @@ this function instead.}
 \item{y}{Ignored}
 
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
-already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}, \code{xlab}, \code{ylab}.}
+already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}.}
+
+\item{col}{Character vector of length 2 indicating the colours to use for the stripes.}
+
+\item{xlab}{Title of the x-axis.}
+
+\item{ylab}{Title of the y-axis.}
 }
 \value{
 A \code{data.frame} of user-defined number of latitudinal bins. The

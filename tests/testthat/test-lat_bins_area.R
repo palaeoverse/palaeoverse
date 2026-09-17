@@ -58,21 +58,37 @@ test_that("lat_bins_area plotting works", {
     plot(lat_bins_area(n_bins = 12), sub = "A subtitle")
   })
 
-  expect_snapshot(plot(lat_bins_area(n_bins = 12), xlab = "foo"), error = TRUE)
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), 1), error = TRUE)
+
+  # Plotting options that cannot be changed
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), xlim = "foo"), error = TRUE)
   expect_snapshot(
-    plot(lat_bins_area(n_bins = 12), xlab = "foo", ylab = "bar"),
+    plot(lat_bins_area(n_bins = 12), xlim = "foo", ylim = "bar"),
     error = TRUE
   )
   expect_snapshot(
-    plot(lat_bins_area(n_bins = 12), xlab = "foo", ylab = "bar", xlim = 1),
+    plot(lat_bins_area(n_bins = 12), xlim = "foo", ylim = "bar", type = "l"),
     error = TRUE
   )
 
   # only one of the extra args is disallowed
   expect_snapshot(
-    plot(lat_bins_area(n_bins = 12), xlab = "foo", sub = "bar"),
+    plot(lat_bins_area(n_bins = 12), xlim = "foo", sub = "bar"),
     error = TRUE
   )
+})
+
+test_that("lat_bins_area plotting with extra args works", {
+  expect_doppelganger("lat_bins_area-colour", function() {
+    plot(lat_bins_area(n_bins = 12), col = c("red", "blue"))
+  })
+  expect_doppelganger("lat_bins_area-axis", function() {
+    plot(lat_bins_area(n_bins = 12), xlab = "x axis", ylab = "y axis")
+  })
+
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), col = "foo"), error = TRUE)
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), col = 1), error = TRUE)
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), col = NA), error = TRUE)
 })
 
 test_that("n is deprecated but still works", {

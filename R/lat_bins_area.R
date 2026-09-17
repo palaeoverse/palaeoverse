@@ -136,20 +136,37 @@ lat_bins_area <- function(
 #' @param x An object of class `"palaeoverse_lat_bins_area"` (created by `lat_bins_area()`).
 #' @param y Ignored
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
-#' already set internally and must not be specified here: `type`, `xlim`, `ylim`, `xlab`, `ylab`.
+#' already set internally and must not be specified here: `type`, `xlim`, `ylim`.
+#' @param col Character vector of length 2 indicating the colours to use for the stripes.
+#' @param xlab Title of the x-axis.
+#' @param ylab Title of the y-axis.
 #'
 #' @name lat_bins_area
 #' @export
-plot.palaeoverse_lat_bins_area <- function(x, y, ...) {
-  # We want to pass `plot(<something>)`
-  if (missing(y)) {
-    invisible()
+plot.palaeoverse_lat_bins_area <- function(
+  x,
+  y,
+  ...,
+  col = c("#01665e", "#80cdc1"),
+  xlab = "Longitude (\u00B0)",
+  ylab = "Latitude (\u00B0)"
+) {
+  if (!missing(y)) {
+    cli::cli_abort(
+      "Argument {.arg y} is not used when calling {.fn plot} on an object of class {.cls palaeoverse_lat_bins_area}."
+    )
+  }
+
+  if (length(col) != 2 || !is.character(col)) {
+    cli::cli_abort(
+      "Argument {.arg col} must be an object of class {.cls character} of length 2, not {obj_type_friendly(col)}."
+    )
   }
 
   dots <- list(...)
   if (length(dots) > 0) {
     nms <- names(dots)
-    forbidden <- nms[nms %in% c("type", "xlim", "ylim", "xlab", "ylab")]
+    forbidden <- nms[nms %in% c("type", "xlim", "ylim")]
     if (length(forbidden) > 0) {
       cli::cli_abort(
         c(
@@ -165,11 +182,11 @@ plot.palaeoverse_lat_bins_area <- function(x, y, ...) {
     type = "n",
     xlim = c(-180, 180),
     ylim = c(min(x$min), max(x$max)),
-    xlab = "Longitude (\u00B0)",
-    ylab = "Latitude (\u00B0)",
+    xlab = xlab,
+    ylab = ylab,
     ...
   )
-  cols <- rep(c("#01665e", "#80cdc1"), nrow(x))
+  cols <- rep(col, nrow(x))
   for (i in seq_len(nrow(x))) {
     polygon(
       x = c(-180, -180, 180, 180),
