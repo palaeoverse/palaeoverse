@@ -2,16 +2,16 @@ test_that("as_palaeo() sets default values as attributes only if they exist in t
   dat <- data.frame(lat = 1, long = 2)
   dat2 <- as_palaeo(dat)
 
-  expect_equal(attr(dat2, "palaeo_lat"), "lat")
-  expect_null(attr(dat2, "palaeo_lon"))
+  expect_equal(attr(dat2, "palaeoverse_lat"), "lat")
+  expect_null(attr(dat2, "palaeoverse_lon"))
 })
 
 test_that("as_palaeo() uses provided values", {
   dat <- data.frame(my_lat = 1, my_lon = 2)
   dat2 <- as_palaeo(dat, lat = "my_lat", lon = "my_lon")
 
-  expect_equal(attr(dat2, "palaeo_lat"), "my_lat")
-  expect_equal(attr(dat2, "palaeo_lon"), "my_lon")
+  expect_equal(attr(dat2, "palaeoverse_lat"), "my_lat")
+  expect_equal(attr(dat2, "palaeoverse_lon"), "my_lon")
 })
 
 test_that("as_palaeo() errors if provided values don't exist in the data", {
@@ -37,14 +37,14 @@ test_that("consecutive as_palaeo() work correctly", {
 
   # palaeo_lat was added by the first as_palaeo()
   # palaeo_lon was added by the second as_palaeo()
-  expect_equal(attr(dat, "palaeo_lat"), "lat")
-  expect_equal(attr(dat, "palaeo_lon"), "long")
+  expect_equal(attr(dat, "palaeoverse_lat"), "lat")
+  expect_equal(attr(dat, "palaeoverse_lon"), "long")
 
   # Can overwrite an attribute previously set
   names(dat)[names(dat) == "lat"] <- "my_lat"
   dat <- as_palaeo(dat, lat = "my_lat")
-  expect_equal(attr(dat, "palaeo_lat"), "my_lat")
-  expect_equal(attr(dat, "palaeo_lon"), "long")
+  expect_equal(attr(dat, "palaeoverse_lat"), "my_lat")
+  expect_equal(attr(dat, "palaeoverse_lon"), "long")
 })
 
 test_that("args must be named", {

@@ -47,19 +47,19 @@ as_palaeo <- function(data, lat = "lat", lon = "lon") {
 
   if (missing(lon)) {
     if ("lon" %in% names(data)) {
-      attr(data, "palaeo_lon") <- "lon"
+      attr(data, "palaeoverse_lon") <- "lon"
     }
   } else {
     check_column_presence(data, lon)
-    attr(data, "palaeo_lon") <- lon
+    attr(data, "palaeoverse_lon") <- lon
   }
   if (missing(lat)) {
     if ("lat" %in% names(data)) {
-      attr(data, "palaeo_lat") <- "lat"
+      attr(data, "palaeoverse_lat") <- "lat"
     }
   } else {
     check_column_presence(data, lat)
-    attr(data, "palaeo_lat") <- lat
+    attr(data, "palaeoverse_lat") <- lat
   }
 
   class(data) <- c("palaeo", class(data))
@@ -72,8 +72,8 @@ print.palaeo <- function(x, ...) {
   att <- att[startsWith(att, "palaeo")]
 
   att_list <- vapply(att, function(nm) attr(x, nm), FUN.VALUE = character(1))
-  att[att == "palaeo_lat"] <- "Latitude"
-  att[att == "palaeo_lon"] <- "Longitude"
+  att[att == "palaeoverse_lat"] <- "Latitude"
+  att[att == "palaeoverse_lon"] <- "Longitude"
   cli::cli_inform(
     "A dataframe with {nrow(x)} row{?s} and {ncol(x)} column{?s}."
   )
@@ -99,12 +99,12 @@ print.palaeo <- function(x, ...) {
 resolve_info <- function(data, column) {
   column_present_in_call <- column %in%
     names(rlang::call_args(rlang::caller_call()))
-  value_from_attr <- attr(data, paste0("palaeo_", column))
+  value_from_attr <- attr(data, paste0("palaeoverse_", column))
 
   if (isTRUE(column_present_in_call)) {
     if (!is.null(value_from_attr)) {
       cli::cli_inform(
-        "Overrode the data attribute {.val {paste0(\"palaeo_\", column)}}."
+        "Overrode the data attribute {.val {paste0(\"palaeoverse_\", column)}}."
       )
     }
     return(column)
