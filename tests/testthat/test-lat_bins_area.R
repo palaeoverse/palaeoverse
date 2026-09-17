@@ -67,6 +67,12 @@ test_that("lat_bins_area plotting works", {
     plot(lat_bins_area(n_bins = 12), xlab = "foo", ylab = "bar", xlim = 1),
     error = TRUE
   )
+
+  # only one of the extra args is disallowed
+  expect_snapshot(
+    plot(lat_bins_area(n_bins = 12), xlab = "foo", sub = "bar"),
+    error = TRUE
+  )
 })
 
 test_that("n is deprecated but still works", {

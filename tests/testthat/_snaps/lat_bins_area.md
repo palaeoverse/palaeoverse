@@ -208,7 +208,7 @@
     Condition
       Error in `plot()`:
       ! Cannot pass argument `xlab` when calling `plot()` on an object of class <palaeo_lat_bins_area>.
-      i These arguments are already set by `plot()` internally.
+      i This argument is already set by `plot()` internally.
 
 ---
 
@@ -227,6 +227,15 @@
       Error in `plot()`:
       ! Cannot pass arguments `xlab`, `ylab`, and `xlim` when calling `plot()` on an object of class <palaeo_lat_bins_area>.
       i These arguments are already set by `plot()` internally.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlab = "foo", sub = "bar")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `xlab` when calling `plot()` on an object of class <palaeo_lat_bins_area>.
+      i This argument is already set by `plot()` internally.
 
 # n is deprecated but still works
 

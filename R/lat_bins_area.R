@@ -149,11 +149,12 @@ plot.palaeo_lat_bins_area <- function(x, y, ...) {
   dots <- list(...)
   if (length(dots) > 0) {
     nms <- names(dots)
-    if (any(nms %in% c("type", "xlim", "ylim", "xlab", "ylab"))) {
+    forbidden <- nms[nms %in% c("type", "xlim", "ylim", "xlab", "ylab")]
+    if (length(forbidden) > 0) {
       cli::cli_abort(
         c(
-          "{cli::qty(nms)} Cannot pass argument{?s} {.arg {nms}} when calling {.fn plot} on an object of class {.cls palaeo_lat_bins_area}.",
-          "i" = "These arguments are already set by `plot()` internally."
+          "{cli::qty(forbidden)} Cannot pass argument{?s} {.arg {forbidden}} when calling {.fn plot} on an object of class {.cls palaeo_lat_bins_area}.",
+          "i" = "{cli::qty(forbidden)}{?This/These} argument{?s} {?is/are} already set by `plot()` internally."
         )
       )
     }
