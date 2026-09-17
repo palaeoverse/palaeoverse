@@ -47,7 +47,7 @@
       as_palaeo(dat, "foo")
     Condition
       Error in `as_palaeo()`:
-      ! All arguments must be named (except for "x").
+      ! All arguments must be named (except for `x`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -56,7 +56,7 @@
       as_palaeo(dat, "foo", lat = "bar")
     Condition
       Error in `as_palaeo()`:
-      ! All arguments must be named (except for "x").
+      ! All arguments must be named (except for `x`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -65,6 +65,6 @@
       as_palaeo(x = dat, "foo", lat = "bar")
     Condition
       Error in `as_palaeo()`:
-      ! All arguments must be named (except for "x").
+      ! All arguments must be named (except for `x`).
       i Currently, there is 1 argument that should be named.
 
