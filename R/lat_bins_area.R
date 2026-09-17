@@ -133,7 +133,7 @@ lat_bins_area <- function(
   bins
 }
 
-#' @param x The object to plot
+#' @param x An object of class `"palaeo_lat_bins_area"` (created by `lat_bins_area()`).
 #' @param y Ignored
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
 #' already set internally and must not be specified here: `type`, `xlim`, `ylim`, `xlab`, `ylab`.

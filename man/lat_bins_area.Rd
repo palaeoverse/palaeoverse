@@ -36,7 +36,7 @@ this function instead.}
 
 \item{n}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{n_bins} instead.}
 
-\item{x}{The object to plot}
+\item{x}{An object of class \code{"palaeo_lat_bins_area"} (created by \code{lat_bins_area()}).}
 
 \item{y}{Ignored}
 
