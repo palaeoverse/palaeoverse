@@ -134,12 +134,12 @@ lat_bins_area <- function(
 }
 
 #' @param x An object of class `"palaeoverse_lat_bins_area"` (created by `lat_bins_area()`).
-#' @param y Ignored
+#' @param y Ignored.
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
 #' already set internally and must not be specified here: `type`, `xlim`, `ylim`.
-#' @param col Character vector of length 2 indicating the colours to use for the stripes.
-#' @param xlab Title of the x-axis.
-#' @param ylab Title of the y-axis.
+#' @param col `character`. Character vector of length 2 indicating the colours to use for the bins.
+#' @param xlab `character`. Title of the x-axis.
+#' @param ylab `character`. Title of the y-axis.
 #'
 #' @name lat_bins_area
 #' @export

@@ -45,16 +45,16 @@ this function instead.}
 
 \item{x}{An object of class \code{"palaeoverse_lat_bins_area"} (created by \code{lat_bins_area()}).}
 
-\item{y}{Ignored}
+\item{y}{Ignored.}
 
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
 already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}.}
 
-\item{col}{Character vector of length 2 indicating the colours to use for the stripes.}
+\item{col}{\code{character}. Character vector of length 2 indicating the colours to use for the bins.}
 
-\item{xlab}{Title of the x-axis.}
+\item{xlab}{\code{character}. Title of the x-axis.}
 
-\item{ylab}{Title of the y-axis.}
+\item{ylab}{\code{character}. Title of the y-axis.}
 }
 \value{
 A \code{data.frame} of user-defined number of latitudinal bins. The
