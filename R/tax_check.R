@@ -26,19 +26,19 @@
 #' the first letter of synonyms must match).
 #'
 #' @return A `data.frame` with each row reporting a pair of potential synonyms
-#' (this `data.frame` can have zero rows), and with the following columns:
+#' (this `data.frame` can have zero rows) with the following columns:
 #'
-#' - `"group"` contains the higher group in which they occur (alphabetical groupings
+#' - `"group"` contains the grouping variable in which they occur (alphabetical groupings
 #'   if `group` is not provided).
-#' - `"greater"` contains the most common synonym in each pair
-#' - `"lesser"` contains the least common synonym in each pair
+#' - `"greater"` contains the most common synonym in each pair.
+#' - `"lesser"` contains the least common synonym in each pair.
 #' - `"count_greater"` and `"count_lesser"` contain the respective counts of each
 #'   synonym in a pair.
 #'
-#' This `data.frame` has two attributes:
+#' This `data.frame` may also have the following attributes if non-letter names and/or groups are detected:
 #'
 #' - `non_letter_name` is a vector of taxon names which contain non-letter characters,
-#'   or `NULL` if none were detected
+#'   or `NULL` if none were detected.
 #' - `non_letter_group` is a vector of taxon groups which contain non-letter characters, or
 #'   `NULL` if none were detected.
 #'

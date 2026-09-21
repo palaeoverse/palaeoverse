@@ -34,20 +34,20 @@ the first letter of synonyms must match).}
 }
 \value{
 A \code{data.frame} with each row reporting a pair of potential synonyms
-(this \code{data.frame} can have zero rows), and with the following columns:
+(this \code{data.frame} can have zero rows) with the following columns:
 \itemize{
-\item \code{"group"} contains the higher group in which they occur (alphabetical groupings
+\item \code{"group"} contains the grouping variable in which they occur (alphabetical groupings
 if \code{group} is not provided).
-\item \code{"greater"} contains the most common synonym in each pair
-\item \code{"lesser"} contains the least common synonym in each pair
+\item \code{"greater"} contains the most common synonym in each pair.
+\item \code{"lesser"} contains the least common synonym in each pair.
 \item \code{"count_greater"} and \code{"count_lesser"} contain the respective counts of each
 synonym in a pair.
 }
 
-This \code{data.frame} has two attributes:
+This \code{data.frame} may also have the following attributes if non-letter names and/or groups are detected:
 \itemize{
 \item \code{non_letter_name} is a vector of taxon names which contain non-letter characters,
-or \code{NULL} if none were detected
+or \code{NULL} if none were detected.
 \item \code{non_letter_group} is a vector of taxon groups which contain non-letter characters, or
 \code{NULL} if none were detected.
 }
