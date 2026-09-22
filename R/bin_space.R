@@ -19,8 +19,7 @@
 #' See details for information on sub-grid usage.
 #' @param return \code{logical}. Should the equal-area grid information and
 #' polygons be returned?
-#' @param plot \code{logical}. Should the occupied cells of the equal-area grid
-#' be plotted?
+#' @inheritParams lat_bins_area
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
 #' returned of the original input `occdf` with cell information. If `return` is
@@ -68,10 +67,12 @@
 #' occdf <- reefs[1:250, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
+#' ex1 <- bin_space(occdf = occdf, spacing = 500)
+#' plot(ex1)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+#' ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
+#' plot(ex2)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
@@ -115,7 +116,7 @@ bin_space <- function(
   spacing = 100,
   sub_grid = NULL,
   return = FALSE,
-  plot = FALSE
+  plot = deprecated()
 ) {
   ensure_args_are_named(exceptions = "occdf")
 
@@ -137,7 +138,16 @@ bin_space <- function(
     cli::cli_abort("{.arg sub_grid} must be greater than 0.")
   }
   rlang::check_bool(return)
-  rlang::check_bool(plot)
+
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "bin_space(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   #=== Set-up ===
   # Convert to sf object and add CRS
@@ -216,40 +226,24 @@ bin_space <- function(
   # Get occupied cells
   primary <- h3jsr::cell_to_polygon(input = occdf$cell_ID, simple = TRUE)
 
-  # Plot data?
-  if (plot) {
-    plot(
-      base_grid,
-      setParUsrBB = TRUE,
-      xlab = "Longitude",
-      ylab = "Latitude",
-      axes = TRUE
+  if (!is.null(sub_grid)) {
+    secondary <- h3jsr::cell_to_polygon(
+      input = occdf$cell_ID_sub,
+      simple = TRUE
     )
-    plot(
-      primary,
-      col = "#feb24c",
-      axes = TRUE,
-      ylab = "Latitude",
-      xlab = "Longitude",
-      add = TRUE
-    )
-    if (!is.null(sub_grid)) {
-      secondary <- h3jsr::cell_to_polygon(
-        input = occdf$cell_ID_sub,
-        simple = TRUE
-      )
-      plot(secondary, col = "#1d91c0", add = TRUE)
-    }
   }
+
+  output <- occdf
+
   # Should the grid be returned?
   if (return) {
     if (!is.null(sub_grid)) {
       grid <- rbind.data.frame(grid, s_grid)
-      occdf <- list(occdf, grid, base_grid, primary, secondary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid", "sub_grid")
+      output <- list(occdf, grid, base_grid, primary, secondary)
+      names(output) <- c("occdf", "grid_info", "grid_base", "grid", "sub_grid")
     } else {
-      occdf <- list(occdf, grid, base_grid, primary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
+      output <- list(occdf, grid, base_grid, primary)
+      names(output) <- c("occdf", "grid_info", "grid_base", "grid")
     }
   }
   cli::cli_inform(
@@ -262,5 +256,52 @@ bin_space <- function(
       "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
     )
   )
-  return(occdf)
+
+  class(output) <- c("palaeoverse_bin_space", class(output))
+  attr(output, "palaeoverse_base_grid") <- base_grid
+  attr(output, "palaeoverse_primary") <- primary
+  if (exists("secondary")) {
+    attr(output, "palaeoverse_secondary") <- secondary
+  }
+
+  if (isTRUE(plot)) {
+    plot(output)
+  }
+
+  return(output)
+}
+
+#' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
+#' @param ... Extra arguments passed to [`plot()`][base::plot].
+#' @inheritParams lat_bins_area
+#'
+#' @name bin_space
+#' @export
+plot.palaeoverse_bin_space <- function(
+  x,
+  ...,
+  xlab = "Longitude",
+  ylab = "Latitude"
+) {
+  base_grid <- attr(x, "palaeoverse_base_grid")
+  primary <- attr(x, "palaeoverse_primary")
+  secondary <- attr(x, "palaeoverse_secondary")
+  plot(
+    base_grid,
+    setParUsrBB = TRUE,
+    xlab = xlab,
+    ylab = ylab,
+    axes = TRUE
+  )
+  plot(
+    primary,
+    col = "#feb24c",
+    axes = TRUE,
+    xlab = xlab,
+    ylab = ylab,
+    add = TRUE
+  )
+  if (!is.null(secondary)) {
+    plot(secondary, col = "#1d91c0", add = TRUE)
+  }
 }

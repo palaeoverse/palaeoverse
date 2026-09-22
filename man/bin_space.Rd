@@ -2,6 +2,7 @@
 % Please edit documentation in R/bin_space.R
 \name{bin_space}
 \alias{bin_space}
+\alias{plot.palaeoverse_bin_space}
 \title{Assign fossil occurrences to spatial bins}
 \usage{
 bin_space(
@@ -11,8 +12,10 @@ bin_space(
   spacing = 100,
   sub_grid = NULL,
   return = FALSE,
-  plot = FALSE
+  plot = deprecated()
 )
+
+\method{plot}{palaeoverse_bin_space}(x, ..., xlab = "Longitude", ylab = "Latitude")
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences (or
@@ -37,8 +40,16 @@ See details for information on sub-grid usage.}
 \item{return}{\code{logical}. Should the equal-area grid information and
 polygons be returned?}
 
-\item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
-be plotted?}
+\item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
+this function instead.}
+
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.}
+
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}.}
+
+\item{xlab}{\code{character}. The x-axis title.}
+
+\item{ylab}{\code{character}. The y-axis title.}
 }
 \value{
 If the \code{return} argument is set to \code{FALSE}, a dataframe is
@@ -95,10 +106,12 @@ data("reefs")
 occdf <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
-ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
+ex1 <- bin_space(occdf = occdf, spacing = 500)
+plot(ex1)
 
 # Bin data using a hexagonal equal-area grid and sub-grid
-ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
+plot(ex2)
 
 # EXAMPLE: rarefy
 # Load data

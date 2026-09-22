@@ -165,3 +165,14 @@
       Error in `bin_space()`:
       ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
 
+# plot is deprecated but still works
+
+    Code
+      bin_space(occdf = dat, spacing = 1000, plot = "6")
+    Condition
+      Warning:
+      The `plot` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `bin_space()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
+
