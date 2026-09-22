@@ -133,8 +133,7 @@ lat_bins_area <- function(
   bins
 }
 
-#' @param x An object of class `"palaeoverse_lat_bins_area"` (created by `lat_bins_area()`).
-#' @param y Ignored.
+#' @param x `data.frame`. An object of class `"palaeoverse_lat_bins_area"` created by `lat_bins_area()`.
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
 #' already set internally and must not be specified here: `type`, `xlim`, `ylim`.
 #' @param col `character`. Character vector of length 2 indicating the colours to use for the bins.
@@ -145,18 +144,11 @@ lat_bins_area <- function(
 #' @export
 plot.palaeoverse_lat_bins_area <- function(
   x,
-  y,
   ...,
   col = c("#01665e", "#80cdc1"),
   xlab = "Longitude (\u00B0)",
   ylab = "Latitude (\u00B0)"
 ) {
-  if (!missing(y)) {
-    cli::cli_abort(
-      "Argument {.arg y} is not used when calling {.fn plot} on an object of class {.cls palaeoverse_lat_bins_area}."
-    )
-  }
-
   if (length(col) != 2 || !is.character(col)) {
     cli::cli_abort(
       "Argument {.arg col} must be an object of class {.cls character} of length 2, not {obj_type_friendly(col)}."

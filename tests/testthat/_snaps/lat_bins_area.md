@@ -204,14 +204,6 @@
 # lat_bins_area plotting works
 
     Code
-      plot(lat_bins_area(n_bins = 12), 1)
-    Condition
-      Error in `plot()`:
-      ! Argument `y` is not used when calling `plot()` on an object of class <palaeoverse_lat_bins_area>.
-
----
-
-    Code
       plot(lat_bins_area(n_bins = 12), xlim = "foo")
     Condition
       Error in `plot()`:

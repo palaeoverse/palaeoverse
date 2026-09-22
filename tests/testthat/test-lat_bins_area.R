@@ -58,8 +58,6 @@ test_that("lat_bins_area plotting works", {
     plot(lat_bins_area(n_bins = 12), sub = "A subtitle")
   })
 
-  expect_snapshot(plot(lat_bins_area(n_bins = 12), 1), error = TRUE)
-
   # Plotting options that cannot be changed
   expect_snapshot(plot(lat_bins_area(n_bins = 12), xlim = "foo"), error = TRUE)
   expect_snapshot(

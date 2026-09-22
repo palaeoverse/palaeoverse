@@ -16,7 +16,6 @@ lat_bins_area(
 
 \method{plot}{palaeoverse_lat_bins_area}(
   x,
-  y,
   ...,
   col = c("#01665e", "#80cdc1"),
   xlab = "Longitude (°)",
@@ -43,9 +42,7 @@ this function instead.}
 
 \item{n}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{n_bins} instead.}
 
-\item{x}{An object of class \code{"palaeoverse_lat_bins_area"} (created by \code{lat_bins_area()}).}
-
-\item{y}{Ignored.}
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_lat_bins_area"} created by \code{lat_bins_area()}.}
 
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
 already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}.}
