@@ -47,11 +47,11 @@ this function instead.}
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
 already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}.}
 
-\item{col}{\code{character}. Character vector of length 2 indicating the colours to use for the bins.}
+\item{col}{\code{character}. A character vector of length 2 indicating the colours to use for the bins.}
 
-\item{xlab}{\code{character}. Title of the x-axis.}
+\item{xlab}{\code{character}. The x-axis title.}
 
-\item{ylab}{\code{character}. Title of the y-axis.}
+\item{ylab}{\code{character}. The y-axis title.}
 }
 \value{
 A \code{data.frame} of user-defined number of latitudinal bins. The
