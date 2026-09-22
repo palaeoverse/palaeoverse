@@ -42,7 +42,9 @@
 #'   user-input `data.frame`. If a `data.frame` is provided, it must contain
 #'   at least the following named columns: "interval_name", "max_ma", and
 #'   "min_ma". As such, age data should be provided in Ma.
-#' @param plot \code{logical}. Should a plot of time bins be generated?
+#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
+#'   this function instead.
+#'
 #' @importFrom graphics polygon title
 #' @importFrom stats sd
 #' @importFrom curl nslookup
@@ -88,17 +90,20 @@
 #' @export
 #' @examples
 #' #Using numeric age
-#' ex1 <- time_bins(interval = 10, plot = TRUE)
+#' ex1 <- time_bins(interval = 10)
+#' plot(ex1)
 #'
 #' #Using numeric age range
-#' ex2 <- time_bins(interval = c(50, 100), plot = TRUE)
+#' ex2 <- time_bins(interval = c(50, 100))
+#' plot(ex2)
 #'
 #' #Using a single interval name
-#' ex3 <- time_bins(interval = c("Maastrichtian"), plot = TRUE)
+#' ex3 <- time_bins(interval = c("Maastrichtian"))
+#' plot(ex3)
 #'
 #' #Using a range of intervals and near-equal duration bins
-#' ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"),
-#'                  size = 10, plot = TRUE)
+#' ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"), size = 10)
+#' plot(ex4)
 #'
 #' #Assign bins based on given age estimates
 #' ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
@@ -108,7 +113,8 @@
 #' scale <- data.frame(interval_name = 1:5,
 #'                     min_ma = c(0, 18, 32, 38, 45),
 #'                     max_ma = c(18, 32, 38, 45, 53))
-#' ex6 <- time_bins(scale = scale, size = 20, plot = TRUE)
+#' ex6 <- time_bins(scale = scale, size = 20)
+#' plot(ex6)
 #'
 #' #Use North American land mammal ages from Macrostrat and specify a desired
 #' #number of bins
@@ -121,7 +127,7 @@ time_bins <- function(
   n_bins = NULL,
   assign = NULL,
   scale = "GTS2020",
-  plot = FALSE
+  plot = deprecated()
 ) {
   ensure_args_are_named()
 
@@ -143,7 +149,16 @@ time_bins <- function(
   }
 
   rlang::check_number_whole(n_bins, min = 1, allow_null = TRUE)
-  rlang::check_bool(plot)
+
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "time_bins(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   if (!is.null(assign)) {
     if (!is.numeric(assign) || length(assign) == 0) {
@@ -477,37 +492,21 @@ time_bins <- function(
       )
     )
   }
-  # Plot data? -----------------------------------------------------------
-  if (plot) {
-    if (is.numeric(size) || is.numeric(n_bins)) {
-      df$colour <- c("#80cdc1")
-      df$font <- c("black")
-    }
-    plot(
-      1,
-      type = "n",
-      xlim = c(max(df$max_ma), min(df$min_ma)),
-      ylim = c(0, max(df$duration_myr)),
-      xlab = "Time (Ma)",
-      ylab = "Duration (Myr)"
-    )
-    for (i in seq_len(length.out = nrow(df))) {
-      polygon(
-        x = c(df$min_ma[i], df$max_ma[i], df$max_ma[i], df$min_ma[i]),
-        y = c(0, 0, df$duration_myr[i], df$duration_myr[i]),
-        col = df$colour[i]
-      )
-    }
-    if (is.numeric(size) || is.numeric(n_bins)) {
-      title(paste0(
-        "Mean bin length = ",
-        round(mean_duration, digits = 2),
-        " (standard deviation = ",
-        round(sd_duration, digits = 2),
-        ")"
-      ))
-    }
+
+  class(df) <- c("palaeoverse_time_bins", class(df))
+  attr(df, "palaeoverse_n_bins") <- n_bins
+  attr(df, "palaeoverse_size") <- size
+  if (exists("mean_duration")) {
+    attr(df, "palaeoverse_mean_duration") <- mean_duration
   }
+  if (exists("mean_duration")) {
+    attr(df, "palaeoverse_sd_duration") <- sd_duration
+  }
+
+  if (isTRUE(plot)) {
+    plot(df)
+  }
+
   # Assign data? ---------------------------------------------------------
   if (!is.null(assign)) {
     if (is.numeric(assign)) {
@@ -538,4 +537,50 @@ time_bins <- function(
   df$bin <- seq_len(nrow(df))
   row.names(df) <- NULL
   return(df)
+}
+
+#' @param x `data.frame`. An object of class `"palaeoverse_time_bins"` created by `time_bins()`.
+#' @inheritParams lat_bins_area
+#'
+#' @name time_bins
+#' @export
+plot.palaeoverse_time_bins <- function(
+  x,
+  ...,
+  xlab = "Time (Ma)",
+  ylab = "Duration (Myr)"
+) {
+  n_bins <- attr(x, "palaeoverse_n_bins")
+  size <- attr(x, "palaeoverse_size")
+  mean_duration <- attr(x, "palaeoverse_mean_duration")
+  sd_duration <- attr(x, "palaeoverse_sd_duration")
+
+  if (is.numeric(size) || is.numeric(n_bins)) {
+    x$colour <- c("#80cdc1")
+    x$font <- c("black")
+  }
+  plot(
+    1,
+    type = "n",
+    xlim = c(max(x$max_ma), min(x$min_ma)),
+    ylim = c(0, max(x$duration_myr)),
+    xlab = xlab,
+    ylab = ylab
+  )
+  for (i in seq_len(length.out = nrow(x))) {
+    polygon(
+      x = c(x$min_ma[i], x$max_ma[i], x$max_ma[i], x$min_ma[i]),
+      y = c(0, 0, x$duration_myr[i], x$duration_myr[i]),
+      col = x$colour[i]
+    )
+  }
+  if (is.numeric(size) || is.numeric(n_bins)) {
+    title(paste0(
+      "Mean bin length = ",
+      round(mean_duration, digits = 2),
+      " (standard deviation = ",
+      round(sd_duration, digits = 2),
+      ")"
+    ))
+  }
 }
