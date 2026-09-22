@@ -42,8 +42,7 @@
 #'   user-input `data.frame`. If a `data.frame` is provided, it must contain
 #'   at least the following named columns: "interval_name", "max_ma", and
 #'   "min_ma". As such, age data should be provided in Ma.
-#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
-#'   this function instead.
+#' @inheritParams lat_bins_area
 #'
 #' @importFrom graphics polygon title
 #' @importFrom stats sd
