@@ -21,8 +21,7 @@
 #'   \code{data.frame} contains the following columns: bin (bin number), min
 #'   (minimum latitude of the bin), mid (midpoint latitude of
 #'   the bin), max (maximum latitude of the bin).
-#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
-#'   this function instead.
+#' @inheritParams lat_bins_area
 #' @seealso
 #' For equal-area latitudinal bins, see \link{lat_bins_area}.
 #' @importFrom graphics polygon abline title
