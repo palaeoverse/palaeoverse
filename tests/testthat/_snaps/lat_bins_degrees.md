@@ -175,38 +175,6 @@
       Error in `lat_bins_degrees()`:
       ! `fit` must be `TRUE` or `FALSE`, not a logical vector.
 
-# argument 'plot' works
-
-    Code
-      lat_bins_degrees(plot = 100)
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must be `TRUE` or `FALSE`, not the number 100.
-
----
-
-    Code
-      lat_bins_degrees(plot = logical(0))
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
-
----
-
-    Code
-      lat_bins_degrees(plot = NA)
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must be `TRUE` or `FALSE`, not `NA`.
-
----
-
-    Code
-      lat_bins_degrees(plot = c(TRUE, TRUE))
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must be `TRUE` or `FALSE`, not a logical vector.
-
 # lat_bins errors with unnamed args
 
     Code
@@ -242,4 +210,39 @@
       Error in `lat_bins_degrees()`:
       ! All arguments must be named.
       i Currently, there are 2 arguments that should be named.
+
+# lat_bins_degrees plotting with extra args works
+
+    Code
+      plot(lat_bins_degrees(size = 40), col = "foo")
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not the string "foo".
+
+---
+
+    Code
+      plot(lat_bins_degrees(size = 40), col = 1)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not the number 1.
+
+---
+
+    Code
+      plot(lat_bins_degrees(size = 40), col = NA)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not `NA`.
+
+# plot is deprecated but still works
+
+    Code
+      lat_bins_degrees(plot = "6")
+    Condition
+      Warning:
+      The `plot` argument of `lat_bins_degrees()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `lat_bins_degrees()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
 

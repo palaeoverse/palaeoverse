@@ -10,7 +10,8 @@ test_that("argument 'size' works", {
       min = c(30, -10, -50, -90),
       mid = c(50, 10, -30, -70),
       max = c(70, 30, -10, -50)
-    )
+    ),
+    ignore_attr = TRUE
   )
   expect_snapshot(lat_bins_degrees(size = 100), error = TRUE)
   expect_snapshot(lat_bins_degrees(size = numeric(0)), error = TRUE)
@@ -25,7 +26,8 @@ test_that("arguments 'min' and 'max' work", {
       min = c(50, 10, -30),
       mid = c(70, 30, -10),
       max = c(90, 50, 10)
-    )
+    ),
+    ignore_attr = TRUE
   )
   expect_equal(
     lat_bins_degrees(size = 40, max = 10),
@@ -34,7 +36,8 @@ test_that("arguments 'min' and 'max' work", {
       min = c(-50, -90),
       mid = c(-30, -70),
       max = c(-10, -50)
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # TODO: this looks suspicious, "min", "mid", and "max" should be column names?
@@ -72,7 +75,8 @@ test_that("argument 'fit' works", {
         min = c(54, 18, -18, -54, -90),
         mid = c(72, 36, 0, -36, -72),
         max = c(90, 54, 18, -18, -54)
-      )
+      ),
+      ignore_attr = TRUE
     ),
     "Bin size set to 36 degrees to fit latitudinal range."
   )
@@ -82,25 +86,50 @@ test_that("argument 'fit' works", {
   expect_snapshot(lat_bins_degrees(fit = c(TRUE, TRUE)), error = TRUE)
 })
 
-test_that("argument 'plot' works", {
-  expect_doppelganger("lat_bins_degrees", function() {
-    lat_bins_degrees(size = 40, plot = TRUE)
-  })
-  expect_message(
-    expect_doppelganger("lat_bins_degrees with fit", function() {
-      lat_bins_degrees(size = 40, fit = TRUE, plot = TRUE)
-    }),
-    "Bin size set to 36 degrees to fit latitudinal range."
-  )
-  expect_snapshot(lat_bins_degrees(plot = 100), error = TRUE)
-  expect_snapshot(lat_bins_degrees(plot = logical(0)), error = TRUE)
-  expect_snapshot(lat_bins_degrees(plot = NA), error = TRUE)
-  expect_snapshot(lat_bins_degrees(plot = c(TRUE, TRUE)), error = TRUE)
-})
-
 test_that("lat_bins errors with unnamed args", {
   expect_snapshot(lat_bins_degrees(10, -90), error = TRUE)
   expect_snapshot(lat_bins_degrees(size = 10, -90), error = TRUE)
   expect_snapshot(lat_bins_degrees(10, -90, 90), error = TRUE)
   expect_snapshot(lat_bins_degrees(10, -90, max = 90), error = TRUE)
+})
+
+test_that("argument 'plot' works", {
+  expect_doppelganger("lat_bins_degrees", function() {
+    plot(lat_bins_degrees(size = 40))
+  })
+  expect_message(
+    expect_doppelganger("lat_bins_degrees with fit", function() {
+      plot(lat_bins_degrees(size = 40, fit = TRUE))
+    }),
+    "Bin size set to 36 degrees to fit latitudinal range."
+  )
+})
+
+test_that("lat_bins_degrees plotting with extra args works", {
+  expect_doppelganger("lat_bins_degrees-colour", function() {
+    plot(lat_bins_degrees(size = 40), col = c("red", "blue"))
+  })
+  expect_doppelganger("lat_bins_degrees-axis", function() {
+    plot(lat_bins_degrees(size = 40), xlab = "x axis", ylab = "y axis")
+  })
+
+  expect_snapshot(
+    plot(lat_bins_degrees(size = 40), col = "foo"),
+    error = TRUE
+  )
+  expect_snapshot(plot(lat_bins_degrees(size = 40), col = 1), error = TRUE)
+  expect_snapshot(plot(lat_bins_degrees(size = 40), col = NA), error = TRUE)
+})
+
+test_that("plot is deprecated but still works", {
+  expect_doppelganger("lat_bins_degrees_deprecated", function() {
+    expect_warning(
+      lat_bins_degrees(size = 12, plot = TRUE),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
+    )
+  })
+
+  # still input checking
+  expect_snapshot(lat_bins_degrees(plot = "6"), error = TRUE)
 })

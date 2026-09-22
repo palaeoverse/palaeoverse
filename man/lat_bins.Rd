@@ -23,8 +23,8 @@ set to the nearest integer which is divisible by the user-input range.
 If \code{fit = FALSE}, and bin size is not divisible into the range, the
 upper part of the latitudinal range will be missing.}
 
-\item{plot}{\code{logical}. Should a plot of the latitudinal bins be
-generated? If \code{TRUE}, a plot is generated. Defaults to \code{FALSE}.}
+\item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
+this function instead.}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
