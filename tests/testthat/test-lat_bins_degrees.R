@@ -1,10 +1,24 @@
 test_that("lat_bins_degrees() basic usage works", {
-  expect_snapshot(lat_bins_degrees())
+  bins <- lat_bins_degrees()
+  expect_equal(
+    bins,
+    data.frame(
+      bin = 1:18,
+      min = seq(80, -90, by = -10),
+      mid = seq(85, -85, by = -10),
+      max = seq(90, -80, by = -10)
+    ),
+    ignore_attr = TRUE
+  )
+  expect_s3_class(bins, "palaeoverse_lat_bins_degrees")
+  expect_equal(attr(bins, "palaeoverse_lat_bins_degrees_size"), 10)
+  expect_false(attr(bins, "palaeoverse_lat_bins_degrees_fit"))
 })
 
 test_that("argument 'size' works", {
+  bins <- lat_bins_degrees(size = 40)
   expect_equal(
-    lat_bins_degrees(size = 40),
+    bins,
     data.frame(
       bin = 1:4,
       min = c(30, -10, -50, -90),
@@ -13,6 +27,10 @@ test_that("argument 'size' works", {
     ),
     ignore_attr = TRUE
   )
+  expect_s3_class(bins, "palaeoverse_lat_bins_degrees")
+  expect_equal(attr(bins, "palaeoverse_lat_bins_degrees_size"), 40)
+  expect_false(attr(bins, "palaeoverse_lat_bins_degrees_fit"))
+
   expect_snapshot(lat_bins_degrees(size = 100), error = TRUE)
   expect_snapshot(lat_bins_degrees(size = numeric(0)), error = TRUE)
   expect_snapshot(lat_bins_degrees(size = c(10, 20)), error = TRUE)
@@ -68,18 +86,23 @@ test_that("arguments 'min' and 'max' work", {
 
 test_that("argument 'fit' works", {
   expect_message(
-    expect_equal(
-      lat_bins_degrees(size = 40, fit = TRUE),
-      data.frame(
-        bin = 1:5,
-        min = c(54, 18, -18, -54, -90),
-        mid = c(72, 36, 0, -36, -72),
-        max = c(90, 54, 18, -18, -54)
-      ),
-      ignore_attr = TRUE
-    ),
+    bins <- lat_bins_degrees(size = 40, fit = TRUE),
     "Bin size set to 36 degrees to fit latitudinal range."
   )
+  expect_equal(
+    bins,
+    data.frame(
+      bin = 1:5,
+      min = c(54, 18, -18, -54, -90),
+      mid = c(72, 36, 0, -36, -72),
+      max = c(90, 54, 18, -18, -54)
+    ),
+    ignore_attr = TRUE
+  )
+  expect_s3_class(bins, "palaeoverse_lat_bins_degrees")
+  expect_equal(attr(bins, "palaeoverse_lat_bins_degrees_size"), 36)
+  expect_true(attr(bins, "palaeoverse_lat_bins_degrees_fit"))
+
   expect_snapshot(lat_bins_degrees(fit = 100), error = TRUE)
   expect_snapshot(lat_bins_degrees(fit = logical(0)), error = TRUE)
   expect_snapshot(lat_bins_degrees(fit = NA), error = TRUE)
