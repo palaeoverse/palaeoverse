@@ -194,7 +194,7 @@ check_forbidden_plot_args <- function(..., forbidden, class) {
       cli::cli_abort(
         c(
           "{cli::qty(forbidden)} Cannot pass argument{?s} {.arg {forbidden}} when calling {.fn plot} on an object of class {.cls {class}}.",
-          "i" = "{cli::qty(forbidden)}{?This/These} argument{?s} {?is/are} already set by `plot()` internally."
+          "i" = "{cli::qty(forbidden)}{?This/These} argument{?s} {?is/are} already set by {.fn plot} internally."
         ),
         call = rlang::caller_env()
       )
