@@ -395,6 +395,15 @@
       Error in `time_bins()`:
       ! Column "interval_name" not found in `scale`.
 
+# lat_bins_degrees plotting with extra args works
+
+    Code
+      plot(time_bins(interval = "Mesozoic"), type = "foo", xlim = "foo", ylim = "foo")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `type`, `xlim`, and `ylim` when calling `plot()` on an object of class <palaeoverse_time_bins>.
+      i These arguments are already set by `plot()` internally.
+
 # plot is deprecated but still works
 
     Code

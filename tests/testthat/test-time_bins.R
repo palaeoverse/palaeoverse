@@ -495,6 +495,17 @@ test_that("lat_bins_degrees plotting with extra args works", {
   expect_doppelganger("lat_bins_degrees-axis", function() {
     plot(time_bins(interval = "Mesozoic"), xlab = "x axis", ylab = "y axis")
   })
+
+  # forbidden args
+  expect_snapshot(
+    plot(
+      time_bins(interval = "Mesozoic"),
+      type = "foo",
+      xlim = "foo",
+      ylim = "foo"
+    ),
+    error = TRUE
+  )
 })
 
 test_that("plot is deprecated but still works", {

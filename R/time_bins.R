@@ -493,13 +493,13 @@ time_bins <- function(
   }
 
   class(df) <- c("palaeoverse_time_bins", class(df))
-  attr(df, "palaeoverse_n_bins") <- n_bins
-  attr(df, "palaeoverse_size") <- size
+  attr(df, "palaeoverse_time_bins_n_bins") <- n_bins
+  attr(df, "palaeoverse_time_bins_size") <- size
   if (exists("mean_duration")) {
-    attr(df, "palaeoverse_mean_duration") <- mean_duration
+    attr(df, "palaeoverse_time_bins_mean_duration") <- mean_duration
   }
   if (exists("mean_duration")) {
-    attr(df, "palaeoverse_sd_duration") <- sd_duration
+    attr(df, "palaeoverse_time_bins_sd_duration") <- sd_duration
   }
 
   if (isTRUE(plot)) {
@@ -549,10 +549,16 @@ plot.palaeoverse_time_bins <- function(
   xlab = "Time (Ma)",
   ylab = "Duration (Myr)"
 ) {
-  n_bins <- attr(x, "palaeoverse_n_bins")
-  size <- attr(x, "palaeoverse_size")
-  mean_duration <- attr(x, "palaeoverse_mean_duration")
-  sd_duration <- attr(x, "palaeoverse_sd_duration")
+  check_forbidden_plot_args(
+    ...,
+    forbidden = c("type", "xlim", "ylim"),
+    class = "palaeoverse_time_bins"
+  )
+
+  n_bins <- attr(x, "palaeoverse_time_bins_n_bins")
+  size <- attr(x, "palaeoverse_time_bins_size")
+  mean_duration <- attr(x, "palaeoverse_time_bins_mean_duration")
+  sd_duration <- attr(x, "palaeoverse_time_bins_sd_duration")
 
   if (is.numeric(size) || is.numeric(n_bins)) {
     x$colour <- c("#80cdc1")
