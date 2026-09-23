@@ -1,7 +1,9 @@
 test_that("time_bins() default behaviour", {
   res <- time_bins()
 
+  expect_s3_class(res, "palaeoverse_time_bins")
   expect_s3_class(res, "data.frame")
+
   expect_equal(nrow(res), 102)
   expect_named(
     res,
