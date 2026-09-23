@@ -210,6 +210,15 @@
       Error in `plot()`:
       ! Argument `col` must be an object of class <character> of length 2, not `NA`.
 
+---
+
+    Code
+      plot(lat_bins_degrees(size = 40), type = "foo", xlim = "foo", ylim = "foo")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `type`, `xlim`, and `ylim` when calling `plot()` on an object of class <palaeoverse_lat_bins_degrees>.
+      i These arguments are already set by `plot()` internally.
+
 # plot is deprecated but still works
 
     Code

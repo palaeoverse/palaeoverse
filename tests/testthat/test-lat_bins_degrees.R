@@ -142,6 +142,12 @@ test_that("lat_bins_degrees plotting with extra args works", {
   )
   expect_snapshot(plot(lat_bins_degrees(size = 40), col = 1), error = TRUE)
   expect_snapshot(plot(lat_bins_degrees(size = 40), col = NA), error = TRUE)
+
+  # forbidden args
+  expect_snapshot(
+    plot(lat_bins_degrees(size = 40), type = "foo", xlim = "foo", ylim = "foo"),
+    error = TRUE
+  )
 })
 
 test_that("plot is deprecated but still works", {
