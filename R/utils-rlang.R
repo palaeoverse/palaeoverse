@@ -189,7 +189,7 @@ check_forbidden_plot_args <- function(..., forbidden, class) {
   dots <- list(...)
   if (length(dots) > 0) {
     nms <- names(dots)
-    forbidden <- nms[nms %in% c("type", "xlim", "ylim")]
+    forbidden <- nms[nms %in% forbidden]
     if (length(forbidden) > 0) {
       cli::cli_abort(
         c(
