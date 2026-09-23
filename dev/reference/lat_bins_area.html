@@ -74,8 +74,17 @@ by two parallel discs.</p>
 <span>  min <span class="op">=</span> <span class="op">-</span><span class="fl">90</span>,</span>
 <span>  max <span class="op">=</span> <span class="fl">90</span>,</span>
 <span>  r <span class="op">=</span> <span class="fl">6371</span>,</span>
-<span>  plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  n <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'palaeoverse_lat_bins_area'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#01665e"</span>, <span class="st">"#80cdc1"</span><span class="op">)</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Longitude (°)"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Latitude (°)"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -106,12 +115,33 @@ the volumetric mean radius of the Earth (6371 km). Other user-specified
 
 
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
-<dd><p><code>logical</code>. Should a plot of the latitudinal bins be
-generated? If <code>TRUE</code>, a plot is generated. Defaults to <code>FALSE</code>.</p></dd>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> on the output of
+this function instead.</p></dd>
 
 
 <dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use <code>n_bins</code> instead.</p></dd>
+
+
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p><code>data.frame</code>. An object of class <code>"palaeoverse_lat_bins_area"</code> created by <code>lat_bins_area()</code>.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Extra arguments passed to <code><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot()</a></code>. The following arguments are
+already set internally and must not be specified here: <code>type</code>, <code>xlim</code>, <code>ylim</code>.</p></dd>
+
+
+<dt id="arg-col">col<a class="anchor" aria-label="anchor" href="#arg-col"></a></dt>
+<dd><p><code>character</code>. A character vector of length 2 indicating the colours to use for the bins.</p></dd>
+
+
+<dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
+<dd><p><code>character</code>. The x-axis title.</p></dd>
+
+
+<dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
+<dd><p><code>character</code>. The y-axis title.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -144,11 +174,33 @@ proportional area of the bin across all bins).</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate 12 latitudinal bins</span></span></span>
-<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">lat_bins_area</span><span class="op">(</span>n_bins <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">lat_bins_area</span><span class="op">(</span>n_bins <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    bin        min        mid        max         area  area_prop</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    1  56.442690  73.221345  90.000000 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2  41.810315  49.126503  56.442690 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    3  30.000000  35.905157  41.810315 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    4  19.471221  24.735610  30.000000 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    5   9.594068  14.532644  19.471221 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    6   0.000000   4.797034   9.594068 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    7  -9.594068  -4.797034   0.000000 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    8 -19.471221 -14.532644  -9.594068 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    9 -30.000000 -24.735610 -19.471221 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  10 -41.810315 -35.905157 -30.000000 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  11 -56.442690 -49.126503 -41.810315 4.250537e+13 0.08333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  12 -90.000000 -73.221345 -56.442690 4.250537e+13 0.08333333</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Generate latitudinal bins for just the (sub-)tropics</span></span></span>
-<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">lat_bins_area</span><span class="op">(</span>n_bins <span class="op">=</span> <span class="fl">6</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">30</span>, max <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">lat_bins_area</span><span class="op">(</span>n_bins <span class="op">=</span> <span class="fl">6</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">30</span>, max <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   bin        min        mid        max         area area_prop</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1  19.471221  24.735610  30.000000 4.250537e+13 0.1666667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2   9.594068  14.532644  19.471221 4.250537e+13 0.1666667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3   0.000000   4.797034   9.594068 4.250537e+13 0.1666667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4  -9.594068  -4.797034   0.000000 4.250537e+13 0.1666667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 -19.471221 -14.532644  -9.594068 4.250537e+13 0.1666667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 -30.000000 -24.735610 -19.471221 4.250537e+13 0.1666667</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Generate latitudinal bins and a plot</span></span></span>
-<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">lat_bins_area</span><span class="op">(</span>n_bins <span class="op">=</span> <span class="fl">24</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">lat_bins_area</span><span class="op">(</span>n_bins <span class="op">=</span> <span class="fl">24</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="lat_bins_area-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

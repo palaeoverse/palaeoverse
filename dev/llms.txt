@@ -144,6 +144,7 @@ Functions to support further functionality.
 - [`lat_bins()`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins.md)
   **\[deprecated\]** : Generate equal-width latitudinal bins
 - [`lat_bins_area()`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_area.md)
+  [`plot(`*`<palaeoverse_lat_bins_area>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_area.md)
   : Generate equal-area latitudinal bins
 - [`lat_bins_degrees()`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_degrees.md)
   : Generate equal-width latitudinal bins
