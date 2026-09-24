@@ -127,7 +127,7 @@ bin_space <- function(
   if (lifecycle::is_present(spacing)) {
     cli::cli_abort(
       c(
-        "The {.arg spacing} argument of {.fn bin_space} is no longer used.",
+        "The {.arg spacing} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
         "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
       )
     )
@@ -135,7 +135,7 @@ bin_space <- function(
   if (lifecycle::is_present(sub_grid)) {
     cli::cli_abort(
       c(
-        "The {.arg sub_grid} argument of {.fn bin_space} is no longer used.",
+        "The {.arg sub_grid} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
         "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
       )
     )
@@ -143,7 +143,7 @@ bin_space <- function(
   if (lifecycle::is_present(return)) {
     cli::cli_abort(
       c(
-        "The {.arg return} argument of {.fn bin_space} is no longer used.",
+        "The {.arg return} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
         "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
       )
     )

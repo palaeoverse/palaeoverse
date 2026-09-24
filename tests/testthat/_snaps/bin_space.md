@@ -134,7 +134,7 @@
       bin_space(tetrapods, spacing = 1000)
     Condition
       Error in `bin_space()`:
-      ! The `spacing` argument of `bin_space()` is no longer used.
+      ! The `spacing` argument of `bin_space()` is no longer used as of palaeoverse 2.0.0.
       i Pass the output of `space_bins()` to the `bins` argument instead.
 
 ---
@@ -143,7 +143,7 @@
       bin_space(tetrapods, sub_grid = 1000)
     Condition
       Error in `bin_space()`:
-      ! The `sub_grid` argument of `bin_space()` is no longer used.
+      ! The `sub_grid` argument of `bin_space()` is no longer used as of palaeoverse 2.0.0.
       i Pass the output of `space_bins()` to the `bins` argument instead.
 
 ---
@@ -152,6 +152,6 @@
       bin_space(tetrapods, return = TRUE)
     Condition
       Error in `bin_space()`:
-      ! The `return` argument of `bin_space()` is no longer used.
+      ! The `return` argument of `bin_space()` is no longer used as of palaeoverse 2.0.0.
       i Pass the output of `space_bins()` to the `bins` argument instead.
 
