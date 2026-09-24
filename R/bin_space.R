@@ -195,7 +195,6 @@ bin_space <- function(
 
   spacing <- attr(bins, "spacing", exact = TRUE)
   h3_resolution <- attr(bins, "h3_resolution", exact = TRUE)
-  avg_cendist_km <- attr(bins, "avg_cendist_km", exact = TRUE)
 
   #=== Grid binning  ===
   # Extract cell ID
@@ -235,16 +234,5 @@ bin_space <- function(
 
   occdf <- sf::st_drop_geometry(occdf)
   occdf <- data.frame(occdf)
-
-  cli::cli_inform(
-    c(
-      paste0(
-        "Average spacing between adjacent cells in the primary grid was set to ",
-        round(avg_cendist_km[1], digits = 2),
-        " km. "
-      ),
-      "i" = paste0("\nH3 resolution: ", h3_resolution[1])
-    )
-  )
   occdf
 }

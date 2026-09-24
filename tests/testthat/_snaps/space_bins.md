@@ -2,6 +2,9 @@
 
     Code
       space_bins(spacing = 1000)
+    Message
+      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i H3 resolution: 1
     Output
       Geometry set for 842 features 
       Geometry type: eo_space_bins
@@ -20,6 +23,9 @@
 
     Code
       space_bins(spacing = 1000.2)
+    Message
+      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i H3 resolution: 1
     Output
       Geometry set for 842 features 
       Geometry type: eo_space_bins

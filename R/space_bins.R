@@ -43,10 +43,20 @@ space_bins <- function(spacing) {
   # Get base cells
   out <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
 
+  cli::cli_inform(
+    c(
+      paste0(
+        "Average spacing between adjacent cells in the primary grid was set to ",
+        round(grid$avg_cendist_km[1], digits = 2),
+        " km. "
+      ),
+      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
+    )
+  )
+
   class(out) <- c("palaeo_space_bins", class(out))
   attr(out, "spacing") <- spacing
   attr(out, "h3_resolution") <- grid$h3_resolution
-  attr(out, "avg_cendist_km") <- grid$avg_cendist_km
 
   out
 }
