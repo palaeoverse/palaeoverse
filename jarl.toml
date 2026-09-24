@@ -1,13 +1,8 @@
 [lint]
-extend-select = ["quotes", "TESTTHAT"]
+extend-select = ["quotes", "unused_object", "TESTTHAT"]
 ignore = ["expect_type"]
 fixable = ["ALL"]
 fix-roxygen = true
-
-# TODO: this should be enabled when false positives are addressed upstream
-# https://github.com/r-lib/tree-sitter-r/issues/189
-# [lint.assignment]
-# operator = "<-"
 
 [lint.quotes]
 quote = "double"
