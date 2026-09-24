@@ -202,15 +202,15 @@ bin_space <- function(
   cent_lat_name <- paste0("cell_centroid_lng_", spacing)
   cent_lon_name <- paste0("cell_centroid_lat_", spacing)
 
+  # Point -> cell
+  # Cell -> find centroid
+  # Add centroid coords to the data
   occdf[[cell_name]] <- h3jsr::point_to_cell(occdf, res = h3_resolution)
-
-  # Extract cell centroids
-  occdf[[cent_lon_name]] <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf[[cell_name]])
-  )[, c("X")]
-  occdf[[cent_lat_name]] <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf[[cell_name]])
-  )[, c("Y")]
+  coords <- sf::st_coordinates(h3jsr::cell_to_point(
+    h3_address = occdf[[cell_name]]
+  ))
+  occdf[[cent_lon_name]] <- coords[, "X"]
+  occdf[[cent_lat_name]] <- coords[, "Y"]
 
   # Plot data?
   if (plot) {
