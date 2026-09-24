@@ -15,6 +15,12 @@
 #' as the input latitude (e.g. "lat" or "p_lat").
 #' @param plot \code{logical}. Should the occupied cells of the equal-area grid
 #' be plotted?
+#' @param spacing This argument is no longer used. Pass the output of `space_bins()`
+#' to the `bins` argument instead.
+#' @param sub_grid This argument is no longer used. Pass the output of `space_bins()`
+#' to the `bins` argument instead.
+#' @param return This argument is no longer used. Pass the output of `space_bins()`
+#' to the `bins` argument instead.
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
 #' returned of the original input `occdf` with cell information. If `return` is
@@ -110,8 +116,42 @@
 #' })
 #' df
 #' @export
-bin_space <- function(occdf, bins, lng = "lng", lat = "lat", plot = FALSE) {
+bin_space <- function(
+  occdf,
+  bins,
+  lng = "lng",
+  lat = "lat",
+  plot = FALSE,
+  spacing,
+  sub_grid,
+  return
+) {
   ensure_args_are_named(exceptions = "occdf")
+
+  if (lifecycle::is_present(spacing)) {
+    cli::cli_abort(
+      c(
+        "The {.arg spacing} argument of {.fn bin_space} is no longer used.",
+        "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
+      )
+    )
+  }
+  if (lifecycle::is_present(sub_grid)) {
+    cli::cli_abort(
+      c(
+        "The {.arg sub_grid} argument of {.fn bin_space} is no longer used.",
+        "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
+      )
+    )
+  }
+  if (lifecycle::is_present(return)) {
+    cli::cli_abort(
+      c(
+        "The {.arg return} argument of {.fn bin_space} is no longer used.",
+        "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
+      )
+    )
+  }
 
   check_data_frame(occdf)
   if (!inherits(bins, "palaeo_space_bins") && !inherits(bins, "sfc_POLYGON")) {
@@ -195,5 +235,5 @@ bin_space <- function(occdf, bins, lng = "lng", lat = "lat", plot = FALSE) {
       "i" = paste0("\nH3 resolution: ", h3_resolution[1])
     )
   )
-  return(occdf)
+  occdf
 }

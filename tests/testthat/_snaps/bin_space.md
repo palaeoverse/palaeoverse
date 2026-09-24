@@ -128,3 +128,30 @@
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not the number 1.
 
+# using defunct arguments gives a good error message
+
+    Code
+      bin_space(tetrapods, spacing = 1000)
+    Condition
+      Error in `bin_space()`:
+      ! The `spacing` argument of `bin_space()` is no longer used.
+      i Pass the output of `space_bins()` to the `bins` argument instead.
+
+---
+
+    Code
+      bin_space(tetrapods, sub_grid = 1000)
+    Condition
+      Error in `bin_space()`:
+      ! The `sub_grid` argument of `bin_space()` is no longer used.
+      i Pass the output of `space_bins()` to the `bins` argument instead.
+
+---
+
+    Code
+      bin_space(tetrapods, return = TRUE)
+    Condition
+      Error in `bin_space()`:
+      ! The `return` argument of `bin_space()` is no longer used.
+      i Pass the output of `space_bins()` to the `bins` argument instead.
+

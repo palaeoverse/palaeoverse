@@ -165,3 +165,18 @@ test_that("plot argument works", {
     error = TRUE
   )
 })
+
+test_that("using defunct arguments gives a good error message", {
+  expect_snapshot(
+    bin_space(tetrapods, spacing = 1000),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_space(tetrapods, sub_grid = 1000),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_space(tetrapods, return = TRUE),
+    error = TRUE
+  )
+})
