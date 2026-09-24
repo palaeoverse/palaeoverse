@@ -33,8 +33,10 @@ as the input latitude (e.g. "lat" or "p_lat").}
 \item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
 be plotted?}
 
-\item{spacing, sub_grid, return}{These arguments are no longer used. Pass the
-output of \code{space_bins()} to the \code{bins} argument instead.}
+\item{spacing, sub_grid}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Pass the output of \code{space_bins()}
+to the \code{bins} argument instead.}
+
+\item{return}{This argument is no longer used and doesn't have a replacement.}
 }
 \value{
 If the \code{return} argument is set to \code{FALSE}, a dataframe is

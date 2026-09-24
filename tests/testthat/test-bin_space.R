@@ -166,15 +166,55 @@ test_that("plot argument works", {
   )
 })
 
+test_that("spacing and sub_grid still work but are deprecated", {
+  # Reduce data size for faster testing
+  occdf <- head(tetrapods, n = 100)
+
+  expect_snapshot(
+    expect_equal(
+      bin_space(occdf = occdf, spacing = 1000, plot = FALSE),
+      bin_space(occdf = occdf, bins = space_bins(1000), plot = FALSE)
+    )
+  )
+
+  expected_multi_grid <- occdf |>
+    bin_space(bins = space_bins(1000), plot = FALSE) |>
+    bin_space(bins = space_bins(500), plot = FALSE) |>
+    suppressMessages()
+
+  expected_multi_grid[, c(
+    "cell_ID_1000",
+    "cell_centroid_lat_1000",
+    "cell_centroid_lng_1000"
+  )] <- NULL
+
+  expect_snapshot(
+    expect_equal(
+      bin_space(occdf = occdf, spacing = 1000, sub_grid = 500, plot = FALSE),
+      expected_multi_grid
+    )
+  )
+
+  # still check inputs
+  expect_snapshot(
+    bin_space(occdf = occdf, spacing = "1000", plot = FALSE),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_space(occdf = occdf, spacing = -1, plot = FALSE),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_space(occdf = occdf, spacing = 1000, sub_grid = "1000", plot = FALSE),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_space(occdf = occdf, spacing = 1000, sub_grid = -1, plot = FALSE),
+    error = TRUE
+  )
+})
+
 test_that("using defunct arguments gives a good error message", {
-  expect_snapshot(
-    bin_space(tetrapods, spacing = 1000),
-    error = TRUE
-  )
-  expect_snapshot(
-    bin_space(tetrapods, sub_grid = 1000),
-    error = TRUE
-  )
   expect_snapshot(
     bin_space(tetrapods, return = TRUE),
     error = TRUE

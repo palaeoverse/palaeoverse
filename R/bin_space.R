@@ -15,8 +15,9 @@
 #' as the input latitude (e.g. "lat" or "p_lat").
 #' @param plot \code{logical}. Should the occupied cells of the equal-area grid
 #' be plotted?
-#' @param spacing,sub_grid,return These arguments are no longer used. Pass the
-#' output of `space_bins()` to the `bins` argument instead.
+#' @param spacing,sub_grid `r lifecycle::badge("deprecated")` Pass the output of `space_bins()`
+#' to the `bins` argument instead.
+#' @param return This argument is no longer used and doesn't have a replacement.
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
 #' returned of the original input `occdf` with cell information. If `return` is
@@ -124,22 +125,6 @@ bin_space <- function(
 ) {
   ensure_args_are_named(exceptions = "occdf")
 
-  if (lifecycle::is_present(spacing)) {
-    cli::cli_abort(
-      c(
-        "The {.arg spacing} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
-        "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
-      )
-    )
-  }
-  if (lifecycle::is_present(sub_grid)) {
-    cli::cli_abort(
-      c(
-        "The {.arg sub_grid} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
-        "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
-      )
-    )
-  }
   if (lifecycle::is_present(return)) {
     cli::cli_abort(
       c(
@@ -150,6 +135,35 @@ bin_space <- function(
   }
 
   check_data_frame(occdf)
+
+  if (lifecycle::is_present(spacing)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "bin_space(spacing)",
+      "space_bins()",
+      always = TRUE
+    )
+    rlang::check_number_decimal(spacing)
+    if (spacing <= 0) {
+      cli::cli_abort("{.arg spacing} must be greater than 0.")
+    }
+    bins <- space_bins(spacing)
+  }
+
+  if (lifecycle::is_present(sub_grid)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "bin_space(sub_grid)",
+      "space_bins()",
+      always = TRUE
+    )
+    rlang::check_number_decimal(sub_grid, allow_null = TRUE)
+    if (!is.null(sub_grid) && sub_grid <= 0) {
+      cli::cli_abort("{.arg sub_grid} must be greater than 0.")
+    }
+    bins <- space_bins(sub_grid)
+  }
+
   if (!inherits(bins, "palaeo_space_bins") && !inherits(bins, "sfc_POLYGON")) {
     cli::cli_abort(
       c(

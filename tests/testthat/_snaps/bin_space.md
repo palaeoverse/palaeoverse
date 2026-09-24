@@ -128,25 +128,88 @@
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not the number 1.
 
+# spacing and sub_grid still work but are deprecated
+
+    Code
+      expect_equal(bin_space(occdf = occdf, spacing = 1000, plot = FALSE), bin_space(
+        occdf = occdf, bins = space_bins(1000), plot = FALSE))
+    Condition
+      Warning:
+      The `spacing` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `space_bins()` instead.
+    Message
+      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i H3 resolution: 1
+      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i H3 resolution: 1
+
+---
+
+    Code
+      expect_equal(bin_space(occdf = occdf, spacing = 1000, sub_grid = 500, plot = FALSE),
+      expected_multi_grid)
+    Condition
+      Warning:
+      The `spacing` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `space_bins()` instead.
+      Warning:
+      The `sub_grid` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `space_bins()` instead.
+    Message
+      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i H3 resolution: 1
+
+---
+
+    Code
+      bin_space(occdf = occdf, spacing = "1000", plot = FALSE)
+    Condition
+      Warning:
+      The `spacing` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `space_bins()` instead.
+      Error in `bin_space()`:
+      ! `spacing` must be a number, not the string "1000".
+
+---
+
+    Code
+      bin_space(occdf = occdf, spacing = -1, plot = FALSE)
+    Condition
+      Warning:
+      The `spacing` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `space_bins()` instead.
+      Error in `bin_space()`:
+      ! `spacing` must be greater than 0.
+
+---
+
+    Code
+      bin_space(occdf = occdf, spacing = 1000, sub_grid = "1000", plot = FALSE)
+    Condition
+      Warning:
+      The `spacing` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `space_bins()` instead.
+      Warning:
+      The `sub_grid` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `space_bins()` instead.
+      Error in `bin_space()`:
+      ! `sub_grid` must be a number or `NULL`, not the string "1000".
+
+---
+
+    Code
+      bin_space(occdf = occdf, spacing = 1000, sub_grid = -1, plot = FALSE)
+    Condition
+      Warning:
+      The `spacing` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `space_bins()` instead.
+      Warning:
+      The `sub_grid` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `space_bins()` instead.
+      Error in `bin_space()`:
+      ! `sub_grid` must be greater than 0.
+
 # using defunct arguments gives a good error message
-
-    Code
-      bin_space(tetrapods, spacing = 1000)
-    Condition
-      Error in `bin_space()`:
-      ! The `spacing` argument of `bin_space()` is no longer used as of palaeoverse 2.0.0.
-      i Pass the output of `space_bins()` to the `bins` argument instead.
-
----
-
-    Code
-      bin_space(tetrapods, sub_grid = 1000)
-    Condition
-      Error in `bin_space()`:
-      ! The `sub_grid` argument of `bin_space()` is no longer used as of palaeoverse 2.0.0.
-      i Pass the output of `space_bins()` to the `bins` argument instead.
-
----
 
     Code
       bin_space(tetrapods, return = TRUE)
