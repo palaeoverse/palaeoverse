@@ -17,7 +17,8 @@
 #' be plotted?
 #' @param spacing,sub_grid `r lifecycle::badge("deprecated")` Pass the output of `space_bins()`
 #' to the `bins` argument instead.
-#' @param return This argument is no longer used and doesn't have a replacement.
+#' @param return `r lifecycle::badge("deprecated")` This argument is no longer used
+#' and doesn't have a replacement.
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
 #' returned of the original input `occdf` with cell information. If `return` is
