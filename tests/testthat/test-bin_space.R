@@ -131,16 +131,16 @@ test_that("bin_space error handling", {
 
   # lat must be a numeric value between -90 and 90
   occdf$lat[1] <- 94
-  expect_snapshot(bin_space(occdf, space_bins(1000)), error = TRUE)
+  expect_snapshot(bin_space(occdf, bins = space_bins(1000)), error = TRUE)
   occdf$lat[1] <- "94"
-  expect_snapshot(bin_space(occdf, space_bins(1000)), error = TRUE)
+  expect_snapshot(bin_space(occdf, bins = space_bins(1000)), error = TRUE)
 
   # lng must be a numeric value between -180 and 180
   occdf <- tetrapods
   occdf$lng[1] <- 184
-  expect_snapshot(bin_space(occdf, space_bins(1000)), error = TRUE)
+  expect_snapshot(bin_space(occdf, bins = space_bins(1000)), error = TRUE)
   occdf$lng[1] <- "184"
-  expect_snapshot(bin_space(occdf, space_bins(1000)), error = TRUE)
+  expect_snapshot(bin_space(occdf, bins = space_bins(1000)), error = TRUE)
 })
 
 test_that("plot argument works", {

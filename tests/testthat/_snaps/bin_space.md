@@ -71,38 +71,36 @@
 ---
 
     Code
-      bin_space(occdf, space_bins(1000))
+      bin_space(occdf, bins = space_bins(1000))
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for `occdf`).
-      i Currently, there is 1 argument that should be named.
+      ! All values of column "lat" in `occdf` must be between -90 and 90.
+      i Value(s) outside the range: 94.
 
 ---
 
     Code
-      bin_space(occdf, space_bins(1000))
+      bin_space(occdf, bins = space_bins(1000))
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for `occdf`).
-      i Currently, there is 1 argument that should be named.
+      ! Column "lat" in `occdf` must be of class <numeric>, not <character>.
 
 ---
 
     Code
-      bin_space(occdf, space_bins(1000))
+      bin_space(occdf, bins = space_bins(1000))
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for `occdf`).
-      i Currently, there is 1 argument that should be named.
+      ! All values of column "lng" in `occdf` must be between -180 and 180.
+      i Value(s) outside the range: 184.
 
 ---
 
     Code
-      bin_space(occdf, space_bins(1000))
+      bin_space(occdf, bins = space_bins(1000))
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for `occdf`).
-      i Currently, there is 1 argument that should be named.
+      ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
 
 # plot argument works
 
