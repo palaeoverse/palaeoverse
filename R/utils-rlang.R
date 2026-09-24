@@ -176,9 +176,9 @@ check_min_lower_than_max <- function(data, min_column, max_column) {
 #' These arguments are forbidden because we use them internally in the `plot()` method
 #' and changing them would completely change the output.
 #'
-#' @param ... `plot()` arguments passed by the user that we don't specifically handle in
+#' @param ... `plot()` arguments passed by the user that we don't explicitly handle in
 #' our `plot()` method.
-#' @param forbidden Character vector indicating which of these `plot` arguments cannot be
+#' @param forbidden Character vector indicating which `plot` arguments cannot be
 #' specified by the user.
 #' @param class Name of the class to use in the error message. This is the class that the
 #' `plot()` method uses, e.g. if this function is called in `plot.xyz()` then this argument

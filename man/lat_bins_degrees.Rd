@@ -53,7 +53,7 @@ already set internally and must not be specified here: \code{type}, \code{xlim},
 \item{ylab}{\code{character}. The y-axis title.}
 }
 \value{
-A \code{dataframe} of latitudinal bins of user-defined size. The
+A \code{data.frame} of latitudinal bins of user-defined size. The
 \code{data.frame} contains the following columns: bin (bin number), min
 (minimum latitude of the bin), mid (midpoint latitude of
 the bin), max (maximum latitude of the bin).
@@ -75,14 +75,17 @@ Bethany Allen
 }
 
 \examples{
-# Generate 20 degrees latitudinal bins
-bins <- lat_bins_degrees(size = 20)
+# Generate 25 degrees latitudinal bins
+lat_bins_degrees(size = 25)
 
 # Generate latitudinal bins with closest fit to 13 degrees
-bins <- lat_bins_degrees(size = 13, fit = TRUE)
+lat_bins_degrees(size = 13, fit = TRUE)
 
 # Generate latitudinal bins for defined latitudinal range
-bins <- lat_bins_degrees(size = 10, min = -50, max = 50)
+lat_bins_degrees(size = 10, min = -50, max = 50)
+
+# Plot latitudinal bins
+plot(lat_bins_degrees(size = 20))
 }
 \seealso{
 For equal-area latitudinal bins, see \link{lat_bins_area}.

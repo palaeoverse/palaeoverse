@@ -17,7 +17,7 @@
 #' set to the nearest integer which is divisible by the user-input range.
 #' If \code{fit = FALSE}, and bin size is not divisible into the range, the
 #' upper part of the latitudinal range will be missing.
-#' @return A \code{dataframe} of latitudinal bins of user-defined size. The
+#' @return A \code{data.frame} of latitudinal bins of user-defined size. The
 #'   \code{data.frame} contains the following columns: bin (bin number), min
 #'   (minimum latitude of the bin), mid (midpoint latitude of
 #'   the bin), max (maximum latitude of the bin).
@@ -31,14 +31,17 @@
 #' Bethany Allen
 #' @export
 #' @examples
-#' # Generate 20 degrees latitudinal bins
-#' bins <- lat_bins_degrees(size = 20)
+#' # Generate 25 degrees latitudinal bins
+#' lat_bins_degrees(size = 25)
 #'
 #' # Generate latitudinal bins with closest fit to 13 degrees
-#' bins <- lat_bins_degrees(size = 13, fit = TRUE)
+#' lat_bins_degrees(size = 13, fit = TRUE)
 #'
 #' # Generate latitudinal bins for defined latitudinal range
-#' bins <- lat_bins_degrees(size = 10, min = -50, max = 50)
+#' lat_bins_degrees(size = 10, min = -50, max = 50)
+#'
+#' # Plot latitudinal bins
+#' plot(lat_bins_degrees(size = 20))
 lat_bins_degrees <- function(
   size = 10,
   min = -90,
