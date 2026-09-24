@@ -7,20 +7,18 @@
 #' localities) you wish to bin. This dataframe should contain the decimal
 #' degree coordinates of your occurrences, and they should be of
 #' class `numeric`.
+#' @param bins \code{sfc_POLYGON}. Bins that you wish to allocate fossil
+#' occurrences to, such as that returned by [`space_bins()`].
 #' @param lng \code{character}. The name of the column you wish to be treated
 #' as the input longitude (e.g. "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat").
-#' @param spacing \code{numeric}. The desired spacing between the center of
-#' adjacent cells. This value should be provided in kilometres.
-#' @param sub_grid \code{numeric}. For an optional sub-grid, the desired
-#' spacing between the center of adjacent cells in the sub-grid.
-#' This value should be provided in kilometres.
-#' See details for information on sub-grid usage.
-#' @param return \code{logical}. Should the equal-area grid information and
-#' polygons be returned?
 #' @param plot \code{logical}. Should the occupied cells of the equal-area grid
 #' be plotted?
+#' @param spacing,sub_grid `r lifecycle::badge("deprecated")` Pass the output of `space_bins()`
+#' to the `bins` argument instead.
+#' @param return `r lifecycle::badge("deprecated")` This argument is no longer used
+#' and doesn't have a replacement.
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
 #' returned of the original input `occdf` with cell information. If `return` is
@@ -68,20 +66,27 @@
 #' occdf <- reefs[1:250, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
+#' ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
+#' head(ex1)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+#' ex2 <- occdf |>
+#'   bin_space(bins = space_bins(1000)) |>
+#'   bin_space(bins = space_bins(250))
+#'
+#' head(ex2)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
 #' occdf <- tetrapods[1:250, ]
 #'
-#' # Assign to spatial bin
-#' occdf <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
+#' # Assign to spatial bins and sub-bins
+#' occdf <- occdf |>
+#'   bin_space(bins = space_bins(1000)) |>
+#'   bin_space(bins = space_bins(250))
 #'
 #' # Get unique bins
-#' bins <- unique(occdf$cell_ID)
+#' bins <- unique(occdf$cell_ID_1000)
 #'
 #' # n reps
 #' n <- 10
@@ -90,10 +95,10 @@
 #' # Returns a list with each element a bin with respective mean genus richness
 #' df <- lapply(bins, function(x) {
 #'   # subset occdf for respective grid cell
-#'   tmp <- occdf[which(occdf$cell_ID == x), ]
+#'   tmp <- occdf[which(occdf$cell_ID_1000 == x), ]
 #'
 #'   # Which sub-grid cells are there within this bin?
-#'   sub_bin <- unique(tmp$cell_ID_sub)
+#'   sub_bin <- unique(tmp$cell_ID_250)
 #'
 #'   # Sample 1 sub-grid cell n times
 #'   s <- sample(sub_bin, size = n, replace = TRUE)
@@ -101,25 +106,74 @@
 #'   # Count the number of unique genera within each sub_grid cell for each rep
 #'   counts <- sapply(s, function(i) {
 #'     # Number of unique genera within each sample
-#'     length(unique(tmp[which(tmp$cell_ID_sub == i), ]$genus))
+#'     length(unique(tmp[which(tmp$cell_ID_250 == i), ]$genus))
 #'   })
 #'
 #'   # Mean richness across subsamples
 #'   mean(counts)
 #' })
+#' df
 #' @export
 bin_space <- function(
   occdf,
+  bins,
   lng = "lng",
   lat = "lat",
-  spacing = 100,
-  sub_grid = NULL,
-  return = FALSE,
-  plot = FALSE
+  plot = FALSE,
+  spacing,
+  sub_grid,
+  return
 ) {
   ensure_args_are_named(exceptions = "occdf")
 
+  if (lifecycle::is_present(return)) {
+    cli::cli_abort(
+      c(
+        "The {.arg return} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
+        "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
+      )
+    )
+  }
+
   check_data_frame(occdf)
+
+  if (lifecycle::is_present(spacing)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "bin_space(spacing)",
+      "space_bins()",
+      always = TRUE
+    )
+    rlang::check_number_decimal(spacing)
+    if (spacing <= 0) {
+      cli::cli_abort("{.arg spacing} must be greater than 0.")
+    }
+    bins <- space_bins(spacing)
+  }
+
+  if (lifecycle::is_present(sub_grid)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "bin_space(sub_grid)",
+      "space_bins()",
+      always = TRUE
+    )
+    rlang::check_number_decimal(sub_grid, allow_null = TRUE)
+    if (!is.null(sub_grid) && sub_grid <= 0) {
+      cli::cli_abort("{.arg sub_grid} must be greater than 0.")
+    }
+    bins <- space_bins(sub_grid)
+  }
+
+  if (!inherits(bins, "palaeo_space_bins") && !inherits(bins, "sfc_POLYGON")) {
+    cli::cli_abort(
+      c(
+        "{.arg bins} must be of class {.cls palaeo_space_bins} or {.cls sfc_POLYGON}.",
+        "i" = "Hint: you can create spatial bins with {.fn space_bins}."
+      )
+    )
+  }
+
   check_column_presence(occdf, lat)
   check_column_presence(occdf, lng)
 
@@ -128,15 +182,6 @@ bin_space <- function(
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
 
-  rlang::check_number_decimal(spacing)
-  if (spacing <= 0) {
-    cli::cli_abort("{.arg spacing} must be greater than 0.")
-  }
-  rlang::check_number_decimal(sub_grid, allow_null = TRUE)
-  if (!is.null(sub_grid) && sub_grid <= 0) {
-    cli::cli_abort("{.arg sub_grid} must be greater than 0.")
-  }
-  rlang::check_bool(return)
   rlang::check_bool(plot)
 
   #=== Set-up ===
@@ -148,83 +193,35 @@ bin_space <- function(
     crs = "EPSG:4326"
   )
 
+  spacing <- attr(bins, "spacing", exact = TRUE)
+  h3_resolution <- attr(bins, "h3_resolution", exact = TRUE)
+
   #=== Grid binning  ===
-  # Generate equal area hexagonal grid
-  # Which resolution should be used based on input distance/spacing?
-  # Use the h3jsr::h3_info_table to calculate resolution
-  grid <- h3jsr::h3_info_table[
-    which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)),
-  ]
-  # Add column grid specification
-  grid$grid <- c("primary")
-
   # Extract cell ID
-  occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = grid$h3_resolution)
+  cell_name <- paste0("cell_ID_", spacing)
+  cent_lat_name <- paste0("cell_centroid_lng_", spacing)
+  cent_lon_name <- paste0("cell_centroid_lat_", spacing)
 
-  # Extract cell centroids
-  occdf$cell_centroid_lng <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
-  )[, c("X")]
-  occdf$cell_centroid_lat <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
-  )[, c("Y")]
-
-  # Sub-grid desired?
-  if (!is.null(sub_grid)) {
-    s_grid <- h3jsr::h3_info_table[
-      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - sub_grid)),
-    ]
-    # Throw error if grids are the same
-    if (grid$h3_resolution == s_grid$h3_resolution) {
-      cli::cli_abort(
-        c(
-          "{.arg spacing} and {.arg sub_grid} values result in the same resolution.",
-          "i" = "Update {.arg spacing} and/or {.arg sub_grid} accordingly."
-        )
-      )
-    }
-
-    # Add column grid specification
-    s_grid$grid <- c("sub-grid")
-    # Extract cell ID
-    occdf$cell_ID_sub <- h3jsr::point_to_cell(occdf, res = s_grid$h3_resolution)
-
-    # Extract cell centroids
-    occdf$cell_centroid_lng_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
-    )[, c("X")]
-    occdf$cell_centroid_lat_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
-    )[, c("Y")]
-  }
-
-  # Drop geometries column
-  occdf <- sf::st_drop_geometry(occdf)
-  # Format to dataframe
-  occdf <- data.frame(occdf)
-  # Get base grid
-  all_cells <- h3jsr::get_res0()
-  # Get children at desired resolution
-  children <- h3jsr::get_children(
-    h3_address = all_cells,
-    res = grid$h3_resolution,
-    simple = TRUE
-  )
-  # Get base cells
-  base_grid <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
-
-  # Get occupied cells
-  primary <- h3jsr::cell_to_polygon(input = occdf$cell_ID, simple = TRUE)
+  # Point -> cell
+  # Cell -> find centroid
+  # Add centroid coords to the data
+  occdf[[cell_name]] <- h3jsr::point_to_cell(occdf, res = h3_resolution)
+  coords <- sf::st_coordinates(h3jsr::cell_to_point(
+    h3_address = occdf[[cell_name]]
+  ))
+  occdf[[cent_lon_name]] <- coords[, "X"]
+  occdf[[cent_lat_name]] <- coords[, "Y"]
 
   # Plot data?
   if (plot) {
     plot(
-      base_grid,
+      bins,
       setParUsrBB = TRUE,
       xlab = "Longitude",
       ylab = "Latitude",
       axes = TRUE
     )
+    primary <- h3jsr::cell_to_polygon(input = occdf[[cell_name]], simple = TRUE)
     plot(
       primary,
       col = "#feb24c",
@@ -233,34 +230,9 @@ bin_space <- function(
       xlab = "Longitude",
       add = TRUE
     )
-    if (!is.null(sub_grid)) {
-      secondary <- h3jsr::cell_to_polygon(
-        input = occdf$cell_ID_sub,
-        simple = TRUE
-      )
-      plot(secondary, col = "#1d91c0", add = TRUE)
-    }
   }
-  # Should the grid be returned?
-  if (return) {
-    if (!is.null(sub_grid)) {
-      grid <- rbind.data.frame(grid, s_grid)
-      occdf <- list(occdf, grid, base_grid, primary, secondary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid", "sub_grid")
-    } else {
-      occdf <- list(occdf, grid, base_grid, primary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
-    }
-  }
-  cli::cli_inform(
-    c(
-      paste0(
-        "Average spacing between adjacent cells in the primary grid was set to ",
-        round(grid$avg_cendist_km[1], digits = 2),
-        " km. "
-      ),
-      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
-    )
-  )
-  return(occdf)
+
+  occdf <- sf::st_drop_geometry(occdf)
+  occdf <- data.frame(occdf)
+  occdf
 }
