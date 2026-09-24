@@ -76,7 +76,7 @@
 #' # Load data
 #' occdf <- tetrapods[1:250, ]
 #'
-#' # Assign to spatial bin
+#' # Assign to spatial bins and sub-bins
 #' occdf <- occdf |>
 #'   bin_space(bins = space_bins(1000)) |>
 #'   bin_space(bins = space_bins(250))
