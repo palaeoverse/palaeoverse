@@ -33,14 +33,8 @@ as the input latitude (e.g. "lat" or "p_lat").}
 \item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
 be plotted?}
 
-\item{spacing}{This argument is no longer used. Pass the output of \code{space_bins()}
-to the \code{bins} argument instead.}
-
-\item{sub_grid}{This argument is no longer used. Pass the output of \code{space_bins()}
-to the \code{bins} argument instead.}
-
-\item{return}{This argument is no longer used. Pass the output of \code{space_bins()}
-to the \code{bins} argument instead.}
+\item{spacing, sub_grid, return}{These arguments are no longer used. Pass the
+output of \code{space_bins()} to the \code{bins} argument instead.}
 }
 \value{
 If the \code{return} argument is set to \code{FALSE}, a dataframe is

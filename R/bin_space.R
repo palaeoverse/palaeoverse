@@ -15,12 +15,8 @@
 #' as the input latitude (e.g. "lat" or "p_lat").
 #' @param plot \code{logical}. Should the occupied cells of the equal-area grid
 #' be plotted?
-#' @param spacing This argument is no longer used. Pass the output of `space_bins()`
-#' to the `bins` argument instead.
-#' @param sub_grid This argument is no longer used. Pass the output of `space_bins()`
-#' to the `bins` argument instead.
-#' @param return This argument is no longer used. Pass the output of `space_bins()`
-#' to the `bins` argument instead.
+#' @param spacing,sub_grid,return These arguments are no longer used. Pass the
+#' output of `space_bins()` to the `bins` argument instead.
 #'
 #' @return If the `return` argument is set to `FALSE`, a dataframe is
 #' returned of the original input `occdf` with cell information. If `return` is
