@@ -15,8 +15,9 @@
 #' @param r \code{numeric}. The radius of the Earth in kilometres. Defaults to
 #'   the volumetric mean radius of the Earth (6371 km). Other user-specified
 #'   `r` values are accepted (e.g. equatorial radius 6378 km).
-#' @param plot \code{logical}. Should a plot of the latitudinal bins be
-#'   generated? If `TRUE`, a plot is generated. Defaults to `FALSE`.
+#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
+#'   this function instead.
+#'
 #' @return A \code{data.frame} of user-defined number of latitudinal bins. The
 #'   \code{data.frame} contains the following columns: bin (bin number), min
 #'   (minimum latitude of the bin), mid (midpoint latitude of the bin),
@@ -36,17 +37,19 @@
 #' @export
 #' @examples
 #' # Generate 12 latitudinal bins
-#' bins <- lat_bins_area(n_bins = 12)
+#' lat_bins_area(n_bins = 12)
+#'
 #' # Generate latitudinal bins for just the (sub-)tropics
-#' bins <- lat_bins_area(n_bins = 6, min = -30, max = 30)
+#' lat_bins_area(n_bins = 6, min = -30, max = 30)
+#'
 #' # Generate latitudinal bins and a plot
-#' bins <- lat_bins_area(n_bins = 24, plot = TRUE)
+#' plot(lat_bins_area(n_bins = 24))
 lat_bins_area <- function(
   n_bins = 12,
   min = -90,
   max = 90,
   r = 6371,
-  plot = FALSE,
+  plot = deprecated(),
   n = deprecated()
 ) {
   ensure_args_are_named()
@@ -66,7 +69,16 @@ lat_bins_area <- function(
   rlang::check_number_decimal(max, min = -90, max = 90)
   rlang::check_number_decimal(min, min = -90, max = 90)
   rlang::check_number_decimal(r, min = 0)
-  rlang::check_bool(plot)
+
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "lat_bins_area(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   if (min >= max) {
     cli::cli_abort("{.arg min} must be less than {.arg max}.")
@@ -112,26 +124,67 @@ lat_bins_area <- function(
     area_prop = band_areas_prop
   )
 
-  # plot latitudinal bins
-  if (plot) {
-    plot(
-      1,
-      type = "n",
-      xlim = c(-180, 180),
-      ylim = c(min(bins$min), max(bins$max)),
-      xlab = "Longitude (\u00B0)",
-      ylab = "Latitude (\u00B0)"
+  class(bins) <- c("palaeoverse_lat_bins_area", class(bins))
+
+  if (isTRUE(plot)) {
+    plot(bins)
+  }
+
+  bins
+}
+
+#' @param x `data.frame`. An object of class `"palaeoverse_lat_bins_area"` created by `lat_bins_area()`.
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
+#' already set internally and must not be specified here: `type`, `xlim`, `ylim`.
+#' @param col `character`. A character vector of length 2 indicating the colours to use for the bins.
+#' @param xlab `character`. The x-axis title.
+#' @param ylab `character`. The y-axis title.
+#'
+#' @name lat_bins_area
+#' @export
+plot.palaeoverse_lat_bins_area <- function(
+  x,
+  ...,
+  col = c("#01665e", "#80cdc1"),
+  xlab = "Longitude (\u00B0)",
+  ylab = "Latitude (\u00B0)"
+) {
+  if (length(col) != 2 || !is.character(col)) {
+    cli::cli_abort(
+      "Argument {.arg col} must be an object of class {.cls character} of length 2, not {obj_type_friendly(col)}."
     )
-    cols <- rep(c("#01665e", "#80cdc1"), nrow(bins))
-    for (i in seq_len(nrow(bins))) {
-      polygon(
-        x = c(-180, -180, 180, 180),
-        y = c(bins$min[i], bins$max[i], bins$max[i], bins$min[i]),
-        col = cols[i],
-        border = "black"
+  }
+
+  dots <- list(...)
+  if (length(dots) > 0) {
+    nms <- names(dots)
+    forbidden <- nms[nms %in% c("type", "xlim", "ylim")]
+    if (length(forbidden) > 0) {
+      cli::cli_abort(
+        c(
+          "{cli::qty(forbidden)} Cannot pass argument{?s} {.arg {forbidden}} when calling {.fn plot} on an object of class {.cls palaeoverse_lat_bins_area}.",
+          "i" = "{cli::qty(forbidden)}{?This/These} argument{?s} {?is/are} already set by `plot()` internally."
+        )
       )
     }
   }
-  # Return bins
-  return(bins)
+
+  plot(
+    1,
+    type = "n",
+    xlim = c(-180, 180),
+    ylim = c(min(x$min), max(x$max)),
+    xlab = xlab,
+    ylab = ylab,
+    ...
+  )
+  cols <- rep(col, nrow(x))
+  for (i in seq_len(nrow(x))) {
+    polygon(
+      x = c(-180, -180, 180, 180),
+      y = c(x$min[i], x$max[i], x$max[i], x$min[i]),
+      col = cols[i],
+      border = "black"
+    )
+  }
 }

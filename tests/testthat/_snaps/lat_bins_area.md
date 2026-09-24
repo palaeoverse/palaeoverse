@@ -180,22 +180,6 @@
 ---
 
     Code
-      lat_bins_area(plot = "TRUE")
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` must be `TRUE` or `FALSE`, not the string "TRUE".
-
----
-
-    Code
-      lat_bins_area(plot = logical(0))
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
-
----
-
-    Code
       lat_bins_area(r = "Earth")
     Condition
       Error in `lat_bins_area()`:
@@ -216,6 +200,66 @@
     Condition
       Error in `lat_bins_area()`:
       ! `r` must be a number larger than or equal to 0, not the number -1.
+
+# lat_bins_area plotting works
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlim = "foo")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `xlim` when calling `plot()` on an object of class <palaeoverse_lat_bins_area>.
+      i This argument is already set by `plot()` internally.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlim = "foo", ylim = "bar")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `xlim` and `ylim` when calling `plot()` on an object of class <palaeoverse_lat_bins_area>.
+      i These arguments are already set by `plot()` internally.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlim = "foo", ylim = "bar", type = "l")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `xlim`, `ylim`, and `type` when calling `plot()` on an object of class <palaeoverse_lat_bins_area>.
+      i These arguments are already set by `plot()` internally.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlim = "foo", sub = "bar")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `xlim` when calling `plot()` on an object of class <palaeoverse_lat_bins_area>.
+      i This argument is already set by `plot()` internally.
+
+# lat_bins_area plotting with extra args works
+
+    Code
+      plot(lat_bins_area(n_bins = 12), col = "foo")
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not the string "foo".
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), col = 1)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not the number 1.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), col = NA)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not `NA`.
 
 # n is deprecated but still works
 
@@ -255,4 +299,15 @@
       i Please use the `n_bins` argument instead.
       Error in `lat_bins_area()`:
       ! Exactly one of `n` or `n_bins` must be supplied.
+
+# plot is deprecated but still works
+
+    Code
+      lat_bins_area(plot = "6")
+    Condition
+      Warning:
+      The `plot` argument of `lat_bins_area()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `lat_bins_area()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
 
