@@ -94,8 +94,6 @@ lat_bins_degrees <- function(
   df <- cbind.data.frame(bin, df)
 
   class(df) <- c("palaeoverse_lat_bins_degrees", class(df))
-  attr(df, "palaeoverse_lat_bins_degrees_fit") <- fit
-  attr(df, "palaeoverse_lat_bins_degrees_size") <- size
 
   if (isTRUE(plot)) {
     plot(df)
@@ -172,11 +170,5 @@ plot.palaeoverse_lat_bins_degrees <- function(
       col = cols[i],
       border = "black"
     )
-  }
-  if (isTRUE(attr(x, "palaeoverse_lat_bins_degrees_fit"))) {
-    title(paste0(
-      "Bin size set to ",
-      attr(x, "palaeoverse_lat_bins_degrees_size")
-    ))
   }
 }

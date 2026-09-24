@@ -11,8 +11,6 @@ test_that("lat_bins_degrees() basic usage works", {
     ignore_attr = TRUE
   )
   expect_s3_class(bins, "palaeoverse_lat_bins_degrees")
-  expect_equal(attr(bins, "palaeoverse_lat_bins_degrees_size"), 10)
-  expect_false(attr(bins, "palaeoverse_lat_bins_degrees_fit"))
 })
 
 test_that("argument 'size' works", {
@@ -28,8 +26,6 @@ test_that("argument 'size' works", {
     ignore_attr = TRUE
   )
   expect_s3_class(bins, "palaeoverse_lat_bins_degrees")
-  expect_equal(attr(bins, "palaeoverse_lat_bins_degrees_size"), 40)
-  expect_false(attr(bins, "palaeoverse_lat_bins_degrees_fit"))
 
   expect_snapshot(lat_bins_degrees(size = 100), error = TRUE)
   expect_snapshot(lat_bins_degrees(size = numeric(0)), error = TRUE)
@@ -100,8 +96,6 @@ test_that("argument 'fit' works", {
     ignore_attr = TRUE
   )
   expect_s3_class(bins, "palaeoverse_lat_bins_degrees")
-  expect_equal(attr(bins, "palaeoverse_lat_bins_degrees_size"), 36)
-  expect_true(attr(bins, "palaeoverse_lat_bins_degrees_fit"))
 
   expect_snapshot(lat_bins_degrees(fit = 100), error = TRUE)
   expect_snapshot(lat_bins_degrees(fit = logical(0)), error = TRUE)
@@ -120,6 +114,7 @@ test_that("argument 'plot' works", {
   expect_doppelganger("lat_bins_degrees", function() {
     plot(lat_bins_degrees(size = 40))
   })
+
   expect_message(
     expect_doppelganger("lat_bins_degrees with fit", function() {
       plot(lat_bins_degrees(size = 40, fit = TRUE))
