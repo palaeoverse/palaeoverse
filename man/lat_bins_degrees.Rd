@@ -2,9 +2,24 @@
 % Please edit documentation in R/lat_bins_degrees.R
 \name{lat_bins_degrees}
 \alias{lat_bins_degrees}
+\alias{plot.palaeoverse_lat_bins_degrees}
 \title{Generate equal-width latitudinal bins}
 \usage{
-lat_bins_degrees(size = 10, min = -90, max = 90, fit = FALSE, plot = FALSE)
+lat_bins_degrees(
+  size = 10,
+  min = -90,
+  max = 90,
+  fit = FALSE,
+  plot = deprecated()
+)
+
+\method{plot}{palaeoverse_lat_bins_degrees}(
+  x,
+  ...,
+  col = c("#01665e", "#80cdc1"),
+  xlab = "Longitude (°)",
+  ylab = "Latitude (°)"
+)
 }
 \arguments{
 \item{size}{\code{numeric}. A single numeric value defining the width of the
@@ -23,11 +38,22 @@ set to the nearest integer which is divisible by the user-input range.
 If \code{fit = FALSE}, and bin size is not divisible into the range, the
 upper part of the latitudinal range will be missing.}
 
-\item{plot}{\code{logical}. Should a plot of the latitudinal bins be
-generated? If \code{TRUE}, a plot is generated. Defaults to \code{FALSE}.}
+\item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
+this function instead.}
+
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_lat_bins_degrees"} created by \code{lat_bins_degrees()}.}
+
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
+already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}.}
+
+\item{col}{\code{character}. A character vector of length 2 indicating the colours to use for the bins.}
+
+\item{xlab}{\code{character}. The x-axis title.}
+
+\item{ylab}{\code{character}. The y-axis title.}
 }
 \value{
-A \code{dataframe} of latitudinal bins of user-defined size. The
+A \code{data.frame} of latitudinal bins of user-defined size. The
 \code{data.frame} contains the following columns: bin (bin number), min
 (minimum latitude of the bin), mid (midpoint latitude of
 the bin), max (maximum latitude of the bin).
@@ -49,14 +75,17 @@ Bethany Allen
 }
 
 \examples{
-# Generate 20 degrees latitudinal bins
-bins <- lat_bins_degrees(size = 20)
+# Generate 25 degrees latitudinal bins
+lat_bins_degrees(size = 25)
 
 # Generate latitudinal bins with closest fit to 13 degrees
-bins <- lat_bins_degrees(size = 13, fit = TRUE)
+lat_bins_degrees(size = 13, fit = TRUE)
 
 # Generate latitudinal bins for defined latitudinal range
-bins <- lat_bins_degrees(size = 10, min = -50, max = 50)
+lat_bins_degrees(size = 10, min = -50, max = 50)
+
+# Plot latitudinal bins
+plot(lat_bins_degrees(size = 20))
 }
 \seealso{
 For equal-area latitudinal bins, see \link{lat_bins_area}.
