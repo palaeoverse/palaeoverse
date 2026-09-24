@@ -12,8 +12,8 @@ guidance to update existing code.
 
 * In `lat_bins_area()`, the argument `n` is deprecated and replaced by `n_bins` (#349).
 
-* In `bin_space()`, the arguments `spacing`, `sub_grid`, and `return` have been
-  removed. There is a new `bins` argument. The same functionality is made possible with
+* In `bin_space()`, the arguments `spacing`, `sub_grid`, and `return` are deprecated. 
+  and a new argument `bins` is added. The same functionality is made possible with
   the new `space_bins()` (see "New features") (#344).
 
 ## New features
