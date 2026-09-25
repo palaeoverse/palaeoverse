@@ -1,7 +1,9 @@
 test_that("time_bins() default behaviour", {
   res <- time_bins()
 
+  expect_s3_class(res, "palaeoverse_time_bins")
   expect_s3_class(res, "data.frame")
+
   expect_equal(nrow(res), 102)
   expect_named(
     res,
@@ -41,7 +43,8 @@ test_that("arg 'interval' works", {
       abbr = "M",
       colour = "#F2FA8C",
       font = "black"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   expect_equal(
@@ -57,7 +60,8 @@ test_that("arg 'interval' works", {
       abbr = "T",
       colour = "#FFFF66",
       font = "black"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # numeric age range
@@ -83,7 +87,8 @@ test_that("arg 'interval' works", {
       abbr = c("F", "S2", "S3", "S4", "W"),
       colour = c("#99B575", "#A6BA80", "#A6C583", "#B3CA8E", "#B3D492"),
       font = "black"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # input checks
@@ -102,7 +107,7 @@ test_that("arg 'interval' works", {
   # numeric interval
   expect_snapshot(time_bins(interval = data.frame()), error = TRUE)
   expect_snapshot(time_bins(interval = 1:3), error = TRUE)
-  expect_snapshot(time_bins(interval = -1, plot = TRUE), error = TRUE)
+  expect_snapshot(time_bins(interval = -1), error = TRUE)
   expect_snapshot(time_bins(interval = 700), error = TRUE)
   expect_snapshot(time_bins(interval = numeric(0)), error = TRUE)
   expect_snapshot(time_bins(interval = c(10000, 100)), error = TRUE)
@@ -134,7 +139,8 @@ test_that("arg 'rank' works", {
       abbr = c("Tr", "J", "K"),
       colour = c("#812B92", "#34B2C9", "#7FC64E"),
       font = c("white", "black", "black")
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # name + eon
@@ -151,7 +157,8 @@ test_that("arg 'rank' works", {
       abbr = "P",
       colour = "#9AD9DD",
       font = "black"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # name + era
@@ -168,7 +175,8 @@ test_that("arg 'rank' works", {
       abbr = "M",
       colour = "#67C5CA",
       font = "black"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # name + stage
@@ -185,7 +193,8 @@ test_that("arg 'rank' works", {
       abbr = "A",
       colour = "#CCEA97",
       font = "black"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # name + epoch
@@ -202,7 +211,8 @@ test_that("arg 'rank' works", {
       abbr = c("LC", "UC", "P"),
       colour = c("#8CCD57", "#A6D84A", "#FDA75F"),
       font = "black"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # numeric + period
@@ -225,7 +235,8 @@ test_that("arg 'rank' works", {
       abbr = c("J", "K", "Pg", "Ng", "Q"),
       colour = c("#34B2C9", "#7FC64E", "#FD9A52", "#FFE619", "#F9F97F"),
       font = "black"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # input checks
@@ -265,7 +276,8 @@ test_that("arg 'size' works", {
           "Tournaisian, Visean, Serpukhovian, Bashkirian, Moscovian, Kasimovian, Gzhelian, Asselian, Sakmarian, Artinskian, Kungurian, Roadian, Wordian, Capitanian, Wuchiapingian, Changhsingian, Induan, Olenekian, Anisian, Ladinian, Carnian, Norian, Rhaetian, Hettangian, Sinemurian, Pliensbachian",
           "Toarcian, Aalenian, Bajocian, Bathonian, Callovian, Oxfordian, Kimmeridgian, Tithonian, Berriasian, Valanginian, Hauterivian, Barremian, Aptian, Albian, Cenomanian, Turonian, Coniacian, Santonian, Campanian, Maastrichtian, Danian, Selandian, Thanetian, Ypresian, Lutetian, Bartonian, Priabonian, Rupelian, Chattian, Aquitanian, Burdigalian, Langhian, Serravallian, Tortonian, Messinian, Zanclean, Piacenzian, Gelasian, Calabrian, Chibanian, Upper Pleistocene, Greenlandian, Northgrippian, Meghalayan"
         )
-      )
+      ),
+    ignore_attr = TRUE
     ),
     "Target duration of equal length time bins was set to 200 Myr"
   )
@@ -331,7 +343,8 @@ test_that("arg 'n_bins' works", {
           "Paleogene",
           "Neogene, Quaternary"
         )
-      )
+      ),
+      ignore_attr = TRUE
     ),
     "Number of equal length time bins was set to 4"
   )
@@ -343,7 +356,7 @@ test_that("arg 'n_bins' works", {
   expect_message({
     bins_size <- time_bins(size = 50)
   })
-  expect_equal(bins_n, bins_size)
+  expect_equal(bins_n, bins_size, ignore_attr = TRUE)
 
   # input checks
   expect_snapshot(
@@ -426,7 +439,8 @@ test_that("arg 'scale' works", {
         duration_myr = c(8, 13, 14, 18),
         grouping_rank = "user",
         intervals = c("5", "4, 3", "2", "1")
-      )
+      ),
+      ignore_attr = TRUE
     ),
     "Target duration of equal length time bins was set to 15 Myr"
   )
@@ -466,7 +480,8 @@ test_that("arg 'scale' works with macrostrat", {
           "Duchesnean, Chadronian, Orellan, Whitneyan, Arikareean",
           "Hemingfordian, Barstovian, Clarendonian, Hemphillian, Blancan, Irvingtonian, Rancholabrean"
         )
-      )
+      ),
+      ignore_attr = TRUE
     ),
     "Target duration of equal length time bins was set to 20 Myr"
   )
@@ -474,16 +489,38 @@ test_that("arg 'scale' works with macrostrat", {
 
 test_that("arg 'plot' works", {
   expect_doppelganger("time_bins() basic", function() {
-    time_bins(interval = "Mesozoic", plot = TRUE)
+    plot(time_bins(interval = "Mesozoic"))
+  })
+})
+
+test_that("lat_bins_degrees plotting with extra args works", {
+  expect_doppelganger("lat_bins_degrees-axis", function() {
+    plot(time_bins(interval = "Mesozoic"), xlab = "x axis", ylab = "y axis")
   })
 
-  # input checks
-  expect_snapshot(time_bins(interval = "Mesozoic", plot = "TRUE"), error = TRUE)
-  expect_snapshot(time_bins(interval = "Mesozoic", plot = NA), error = TRUE)
+  # forbidden args
   expect_snapshot(
-    time_bins(interval = "Mesozoic", plot = logical(0)),
+    plot(
+      time_bins(interval = "Mesozoic"),
+      type = "foo",
+      xlim = "foo",
+      ylim = "foo"
+    ),
     error = TRUE
   )
+})
+
+test_that("plot is deprecated but still works", {
+  expect_doppelganger("lat_bins_degrees_deprecated", function() {
+    expect_warning(
+      time_bins(interval = "Mesozoic", plot = TRUE),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
+    )
+  })
+
+  # still input checking
+  expect_snapshot(time_bins(plot = "6"), error = TRUE)
 })
 
 test_that("good error message if Macrostrat is down", {

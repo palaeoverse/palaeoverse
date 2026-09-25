@@ -116,7 +116,7 @@
 ---
 
     Code
-      time_bins(interval = -1, plot = TRUE)
+      time_bins(interval = -1)
     Condition
       Error in `time_bins()`:
       ! Minimum `interval` value (-1) is less than the minimum available interval (0).
@@ -395,29 +395,25 @@
       Error in `time_bins()`:
       ! Column "interval_name" not found in `scale`.
 
-# arg 'plot' works
+# lat_bins_degrees plotting with extra args works
 
     Code
-      time_bins(interval = "Mesozoic", plot = "TRUE")
+      plot(time_bins(interval = "Mesozoic"), type = "foo", xlim = "foo", ylim = "foo")
     Condition
-      Error in `time_bins()`:
-      ! `plot` must be `TRUE` or `FALSE`, not the string "TRUE".
+      Error in `plot()`:
+      ! Cannot pass arguments `type`, `xlim`, and `ylim` when calling `plot()` on an object of class <palaeoverse_time_bins>.
+      i These arguments are already set by `plot()` internally.
 
----
+# plot is deprecated but still works
 
     Code
-      time_bins(interval = "Mesozoic", plot = NA)
+      time_bins(plot = "6")
     Condition
+      Warning:
+      The `plot` argument of `time_bins()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
       Error in `time_bins()`:
-      ! `plot` must be `TRUE` or `FALSE`, not `NA`.
-
----
-
-    Code
-      time_bins(interval = "Mesozoic", plot = logical(0))
-    Condition
-      Error in `time_bins()`:
-      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
 
 # good error message if Macrostrat is down
 
