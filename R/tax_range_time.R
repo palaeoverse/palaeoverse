@@ -202,12 +202,14 @@ tax_range_time <- function(
   }
 
   class(temp_df) <- c("palaeoverse_tax_range_time", class(temp_df))
-  attr(temp_df, "palaeoverse_tax_range_time_group") <- group
   if (isTRUE(plot)) {
     if (is.null(plot_args)) {
-      plot(temp_df, intervals = intervals)
+      plot(temp_df, group = group, intervals = intervals)
     } else {
-      do.call("plot", c(list(x = temp_df, intervals = intervals), plot_args))
+      do.call(
+        "plot",
+        c(list(x = temp_df, group = group, intervals = intervals), plot_args)
+      )
     }
   }
 
@@ -260,7 +262,7 @@ plot.palaeoverse_tax_range_time <- function(
     class = "palaeoverse_tax_range_time"
   )
 
-  group <- attr(x, "palaeoverse_tax_range_time_group")
+  group <- list(...)[["group"]]
 
   # Collect usr par for resetting
   usrpar <- par(no.readonly = TRUE)
