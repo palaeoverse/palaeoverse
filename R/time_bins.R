@@ -44,7 +44,6 @@
 #'   "min_ma". As such, age data should be provided in Ma.
 #' @inheritParams lat_bins_area
 #'
-#' @importFrom graphics polygon title
 #' @importFrom stats sd
 #' @importFrom curl nslookup
 #' @importFrom grDevices col2rgb
@@ -493,15 +492,6 @@ time_bins <- function(
   }
 
   class(df) <- c("palaeoverse_time_bins", class(df))
-  attr(df, "palaeoverse_time_bins_n_bins") <- n_bins
-  attr(df, "palaeoverse_time_bins_size") <- size
-  if (exists("mean_duration")) {
-    attr(df, "palaeoverse_time_bins_mean_duration") <- mean_duration
-  }
-  if (exists("mean_duration")) {
-    attr(df, "palaeoverse_time_bins_sd_duration") <- sd_duration
-  }
-
   if (isTRUE(plot)) {
     plot(df)
   }
@@ -542,6 +532,7 @@ time_bins <- function(
 #' @inheritParams lat_bins_area
 #'
 #' @name time_bins
+#' @importFrom graphics polygon
 #' @export
 plot.palaeoverse_time_bins <- function(
   x,
@@ -555,14 +546,11 @@ plot.palaeoverse_time_bins <- function(
     class = "palaeoverse_time_bins"
   )
 
-  n_bins <- attr(x, "palaeoverse_time_bins_n_bins")
-  size <- attr(x, "palaeoverse_time_bins_size")
-  mean_duration <- attr(x, "palaeoverse_time_bins_mean_duration")
-  sd_duration <- attr(x, "palaeoverse_time_bins_sd_duration")
-
-  if (is.numeric(size) || is.numeric(n_bins)) {
-    x$colour <- c("#80cdc1")
-    x$font <- c("black")
+  if (!"colour" %in% names(x)) {
+    x$colour <- "#80cdc1"
+  }
+  if (!"colour" %in% names(x)) {
+    x$font <- "black"
   }
   plot(
     1,
@@ -570,7 +558,8 @@ plot.palaeoverse_time_bins <- function(
     xlim = c(max(x$max_ma), min(x$min_ma)),
     ylim = c(0, max(x$duration_myr)),
     xlab = xlab,
-    ylab = ylab
+    ylab = ylab,
+    ...
   )
   for (i in seq_len(length.out = nrow(x))) {
     polygon(
@@ -578,14 +567,5 @@ plot.palaeoverse_time_bins <- function(
       y = c(0, 0, x$duration_myr[i], x$duration_myr[i]),
       col = x$colour[i]
     )
-  }
-  if (is.numeric(size) || is.numeric(n_bins)) {
-    title(paste0(
-      "Mean bin length = ",
-      round(mean_duration, digits = 2),
-      " (standard deviation = ",
-      round(sd_duration, digits = 2),
-      ")"
-    ))
   }
 }
