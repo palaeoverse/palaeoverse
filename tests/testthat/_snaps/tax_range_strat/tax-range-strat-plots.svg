@@ -54,10 +54,10 @@
 <line x1='295.56' y1='502.56' x2='295.56' y2='509.76' style='stroke-width: 0.75;' />
 <line x1='453.24' y1='502.56' x2='453.24' y2='509.76' style='stroke-width: 0.75;' />
 <line x1='610.92' y1='502.56' x2='610.92' y2='509.76' style='stroke-width: 0.75;' />
-<text transform='translate(142.01,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.73px' lengthAdjust='spacingAndGlyphs'>Anconastes</text>
-<text transform='translate(299.69,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='67.39px' lengthAdjust='spacingAndGlyphs'>Procolophon</text>
-<text transform='translate(457.37,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.04px' lengthAdjust='spacingAndGlyphs'>Araeoscelis</text>
-<text transform='translate(615.05,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='77.41px' lengthAdjust='spacingAndGlyphs'>Edaphosaurus</text>
+<text x='137.88' y='528.48' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='62.73px' lengthAdjust='spacingAndGlyphs'>Anconastes</text>
+<text x='295.56' y='528.48' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='67.39px' lengthAdjust='spacingAndGlyphs'>Procolophon</text>
+<text x='453.24' y='528.48' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='62.04px' lengthAdjust='spacingAndGlyphs'>Araeoscelis</text>
+<text x='610.92' y='528.48' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='77.41px' lengthAdjust='spacingAndGlyphs'>Edaphosaurus</text>
 <polygon points='59.04,502.56 689.76,502.56 689.76,59.04 59.04,59.04 ' style='stroke-width: 0.75; fill: none;' />
 </g>
 </svg>

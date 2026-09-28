@@ -17,13 +17,9 @@ test_that("basic behavior works", {
       min_bin = c(1, 1, 2, 3),
       max_bin = c(2, 4, 3, 3),
       tmp_group = "1"
-    )
+    ),
+    ignore_attr = TRUE
   )
-
-  # It produces the expected plot
-  expect_doppelganger("tax_range_strat() plots", function() {
-    tax_range_strat(occdf)
-  })
 
   # input checks
   expect_snapshot(tax_range_strat(data.frame()), error = TRUE)
@@ -79,7 +75,8 @@ test_that("argument 'name' works", {
       min_bin = c(1, 1, 2, 3),
       max_bin = c(2, 4, 3, 3),
       tmp_group = "1"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # input checks
@@ -114,7 +111,8 @@ test_that("argument 'level' works", {
       min_bin = c(1, 1, 2, 3),
       max_bin = c(2, 4, 3, 3),
       tmp_group = "1"
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # input checks
@@ -154,13 +152,9 @@ test_that("argument 'group' works", {
       min_bin = c(1, 3, 1, 2, 2, 3),
       max_bin = c(2, 3, 4, 2, 2, 3),
       class = rep(c("Osteichthyes", "Reptilia", "Saurischia"), each = 2L)
-    )
+    ),
+    ignore_attr = TRUE
   )
-
-  # It produces the expected plot
-  expect_doppelganger("tax_range_strat() plots groups", function() {
-    tax_range_strat(occdf, group = "class")
-  })
 
   # input checks
   expect_snapshot(
@@ -196,13 +190,9 @@ test_that("argument 'certainty' works", {
       min_bin_certain = rep(c(1, 3), each = 2L),
       max_bin_certain = c(2, 4, 3, 3),
       tmp_group = "1"
-    )
+    ),
+    ignore_attr = TRUE
   )
-
-  # It produces the expected plot
-  expect_doppelganger("tax_range_strat() does uncertainty", function() {
-    tax_range_strat(occdf, certainty = "certainty")
-  })
 
   # input checks
   expect_snapshot(
@@ -242,12 +232,6 @@ test_that("argument 'by' works", {
     tax_range_strat(occdf, by = "name")$taxon,
     c("Anconastes", "Araeoscelis", "Edaphosaurus", "Procolophon")
   )
-
-  # It produces the expected plot
-  expect_doppelganger("tax_range_strat() sorts", function() {
-    tax_range_strat(occdf, by = "LAD")
-  })
-
   # input checks
   expect_snapshot(
     tax_range_strat(occdf, by = c("FAD", "LAD")),
@@ -262,7 +246,38 @@ test_that("argument 'by' works", {
   expect_snapshot(tax_range_strat(occdf, by = 1), error = TRUE)
 })
 
-test_that("argument 'plot_args' works", {
+test_that("plotting works", {
+  # fmt: skip
+  occdf <- data.frame(
+    genus = c(
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
+      "Edaphosaurus", "Procolophon"
+    ),
+    bed = c(1, 1, 2, 2, 2, 3, 3, 4),
+    certainty = c(1, 1, 0, 1, 0, 1, 1, 1),
+    class = c(
+      "Osteichthyes", "Reptilia", "Saurischia", "Osteichthyes", "Reptilia", "Saurischia",
+      "Osteichthyes", "Reptilia"
+    )
+  )
+
+  expect_doppelganger("tax_range_strat() plots", function() {
+    plot(tax_range_strat(occdf))
+  })
+
+  expect_doppelganger("tax_range_strat() plots groups", function() {
+    plot(tax_range_strat(occdf, group = "class"))
+  })
+
+  expect_doppelganger("tax_range_strat() plots uncertainty", function() {
+    plot(tax_range_strat(occdf, certainty = "certainty"))
+  })
+  expect_doppelganger("tax_range_strat() plots sort", function() {
+    plot(tax_range_strat(occdf, by = "LAD"))
+  })
+})
+
+test_that("plotting works with extra args", {
   # fmt: skip
   occdf <- data.frame(
     genus = c(
@@ -275,16 +290,6 @@ test_that("argument 'plot_args' works", {
 
   # Arguments are passed to the underlying plot (e.g. the y-axis label)
   expect_doppelganger("tax_range_strat() labels", function() {
-    tax_range_strat(occdf, plot_args = list(ylab = "Height (m)"))
-  })
-
-  # Unsupported arguments ("type") are overridden rather than passed through
-  expect_doppelganger("tax_range_strat() stops some plot_args", function() {
-    tax_range_strat(
-      occdf,
-      plot_args = list(type = "line", ylab = "Height (m)"),
-      x_args = list(side = 1),
-      y_args = list(side = 2)
-    )
+    plot(tax_range_strat(occdf), ylab = "Height (m)")
   })
 })

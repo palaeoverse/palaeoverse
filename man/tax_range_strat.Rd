@@ -2,6 +2,7 @@
 % Please edit documentation in R/tax_range_strat.R
 \name{tax_range_strat}
 \alias{tax_range_strat}
+\alias{plot.palaeoverse_tax_range_strat}
 \title{Generate a stratigraphic section plot}
 \usage{
 tax_range_strat(
@@ -11,9 +12,24 @@ tax_range_strat(
   group = NULL,
   certainty = NULL,
   by = "FAD",
-  plot_args = NULL,
-  x_args = NULL,
-  y_args = NULL
+  plot_args = deprecated(),
+  x_args = deprecated(),
+  y_args = deprecated()
+)
+
+\method{plot}{palaeoverse_tax_range_strat}(
+  x,
+  ...,
+  intervals = "periods",
+  main = "Temporal range of taxa",
+  xlab = "",
+  ylab = "Bed number",
+  col = c("black", "black"),
+  bg = c("black", "white"),
+  pch = c(19, 21),
+  cex = c(1, 1),
+  lty = c(1, 2),
+  lwd = c(1.5, 1.5)
 )
 }
 \arguments{
@@ -44,25 +60,46 @@ circle and joined with dashed lines.}
 (first appearance; default), "LAD" (last appearance), or "name"
 (alphabetically by taxon names).}
 
-\item{plot_args}{A list of optional arguments that are passed directly to
-\code{\link[graphics:plot]{graphics::plot()}}. Subsets of these arguments are also passed to
-\code{\link[graphics:segments]{graphics::segments()}} and \code{\link[graphics:points]{graphics::points()}} (see Details). Useful
-arguments include \code{xlab} (the x-axis label), \code{ylab} (the y-axis label,
-default is "Bed number"), \code{main} (the plot title), \code{xlim} (the x-axis
-limits), and \code{ylim} (the y-axis limits). The \code{axes} and \code{type} arguments
-are not supported and will be overridden.}
+\item{plot_args, x_args, y_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
+output of this function instead.}
 
-\item{x_args}{A list of optional arguments that are passed directly to
-\code{\link[=axis]{axis()}} when generating the x-axis. Useful arguments include \code{font} (e.g.,
-\code{3} is italic) and \code{las} (label orientation). The \code{side} argument is not
-supported and will be overridden. If the \code{at} and \code{labels} arguments are
-not specified, the x-axis tick labels will be set to the taxon names.}
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_strat"} created by \code{tax_range_strat()}.}
 
-\item{y_args}{A list of optional arguments that are passed directly to
-\code{\link[=axis]{axis()}} when generating the y-axis. Useful arguments include \code{font} (e.g.,
-\code{3} is italic) and \code{las} (label orientation). The \code{side} argument is not
-supported and will be overridden. If the \code{at} argument is not specified, it
-will be set to a vector of the unique values from the \code{level} column.}
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
+already set internally and must not be specified here: \code{xlim}, \code{ylim}, \code{xaxt}, \code{yaxt}, \code{yaxs}.}
+
+\item{intervals}{\code{character}. The time interval information used to
+plot the x-axis: either A) a \code{character} string indicating a rank of
+intervals from the built-in \link{GTS2020}, B) a \code{character}
+string indicating a \code{data.frame} hosted by
+\href{https://macrostrat.org}{Macrostrat} (see \link{time_bins}), or C)
+a custom \code{data.frame} of time interval boundaries (see \link{axis_geo}
+Details). A list of strings or data.frames can be supplied to add
+multiple time scales to the same side of the plot (see \link{axis_geo}
+Details). Defaults to \code{"periods"}.}
+
+\item{main}{\code{character}. The plot title.}
+
+\item{xlab}{\code{character}. The x-axis title.}
+
+\item{ylab}{\code{character}. The y-axis title.}
+
+\item{col}{\code{character}. The colour of the range segments and points.}
+
+\item{bg}{\code{character}. The background (fill) colour of the points, only
+used for \code{pch} values 21 to 25.}
+
+\item{pch}{\code{numeric}. The symbol used for the first and last appearance
+points (see \code{\link[graphics:points]{graphics::points()}}).}
+
+\item{cex}{\code{numeric}. The size of the points.}
+
+\item{lty}{\code{numeric}. The line type of the range segments (see
+\code{\link[graphics:par]{graphics::par()}}).}
+
+\item{lwd}{\code{numeric}. The line width of the range segments.}
+
+\item{axes}{\code{logical}. Should the axes be drawn?}
 }
 \value{
 Invisibly returns a \code{data.frame} of the calculated taxonomic
