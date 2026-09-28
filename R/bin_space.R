@@ -289,7 +289,7 @@ plot.palaeoverse_bin_space <- function(
   check_forbidden_plot_args(
     ...,
     forbidden = "setParUsrBB",
-    class = "palaeoverse_time_bins"
+    class = "palaeoverse_bin_space"
   )
 
   base_grid <- attr(x, "palaeoverse_base_grid")

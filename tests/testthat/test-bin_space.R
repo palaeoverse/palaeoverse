@@ -134,6 +134,12 @@ test_that("bin_space plotting with extra args works", {
       "set to 725.17 km"
     )
   })
+
+  # forbidden args
+  expect_snapshot(
+    plot(bin_space(occdf = dat, spacing = 1000), setParUsrBB = FALSE),
+    error = TRUE
+  )
 })
 
 test_that("plot is deprecated but still works", {

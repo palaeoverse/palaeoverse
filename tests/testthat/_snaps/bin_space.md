@@ -165,6 +165,18 @@
       Error in `bin_space()`:
       ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
 
+# bin_space plotting with extra args works
+
+    Code
+      plot(bin_space(occdf = dat, spacing = 1000), setParUsrBB = FALSE)
+    Message
+      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i H3 resolution: 1
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `setParUsrBB` when calling `plot()` on an object of class <palaeoverse_bin_space>.
+      i This argument is already set by `plot()` internally.
+
 # plot is deprecated but still works
 
     Code
