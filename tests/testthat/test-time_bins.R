@@ -493,9 +493,13 @@ test_that("arg 'plot' works", {
   })
 })
 
-test_that("lat_bins_degrees plotting with extra args works", {
-  expect_doppelganger("lat_bins_degrees-axis", function() {
+test_that("time_bins plotting with extra args works", {
+  expect_doppelganger("time_bins-axis", function() {
     plot(time_bins(interval = "Mesozoic"), xlab = "x axis", ylab = "y axis")
+  })
+  # `main` is passed through `...`
+  expect_doppelganger("time_bins-dots", function() {
+    plot(time_bins(interval = "Mesozoic"), main = "hello there")
   })
 
   # forbidden args
@@ -511,7 +515,7 @@ test_that("lat_bins_degrees plotting with extra args works", {
 })
 
 test_that("plot is deprecated but still works", {
-  expect_doppelganger("lat_bins_degrees_deprecated", function() {
+  expect_doppelganger("time_bins_deprecated", function() {
     expect_warning(
       time_bins(interval = "Mesozoic", plot = TRUE),
       "is deprecated as of palaeoverse 2.0.0",

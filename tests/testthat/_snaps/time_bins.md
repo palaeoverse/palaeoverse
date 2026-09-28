@@ -395,7 +395,7 @@
       Error in `time_bins()`:
       ! Column "interval_name" not found in `scale`.
 
-# lat_bins_degrees plotting with extra args works
+# time_bins plotting with extra args works
 
     Code
       plot(time_bins(interval = "Mesozoic"), type = "foo", xlim = "foo", ylim = "foo")
