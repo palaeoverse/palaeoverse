@@ -66,13 +66,30 @@ this function instead.}
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_time"} created by \code{tax_range_time()}.}
 
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
-already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}.}
+already set internally and must not be specified here: \code{xlim}, \code{ylim}, \code{xaxt}, \code{yaxt}, \code{yaxs}.}
+
+\item{main}{\code{character}. The plot title.}
 
 \item{xlab}{\code{character}. The x-axis title.}
 
 \item{ylab}{\code{character}. The y-axis title.}
 
-\item{col}{\code{character}. A character vector of length 2 indicating the colours to use for the bins.}
+\item{col}{\code{character}. The colour of the range segments and points.}
+
+\item{bg}{\code{character}. The background (fill) colour of the points, only
+used for \code{pch} values 21 to 25.}
+
+\item{pch}{\code{numeric}. The symbol used for the first and last appearance
+points (see \code{\link[graphics:points]{graphics::points()}}).}
+
+\item{cex}{\code{numeric}. The size of the points.}
+
+\item{lty}{\code{numeric}. The line type of the range segments (see
+\code{\link[graphics:par]{graphics::par()}}).}
+
+\item{lwd}{\code{numeric}. The line width of the range segments.}
+
+\item{axes}{\code{logical}. Should the axes be drawn?}
 
 \item{intervals}{\code{character}. The time interval information used to
 plot the x-axis: either A) a \code{character} string indicating a rank of
@@ -82,7 +99,7 @@ string indicating a \code{data.frame} hosted by
 a custom \code{data.frame} of time interval boundaries (see \link{axis_geo}
 Details). A list of strings or data.frames can be supplied to add
 multiple time scales to the same side of the plot (see \link{axis_geo}
-Details). Defaults to "periods".}
+Details). Defaults to \code{"periods"}.}
 }
 \value{
 A \code{data.frame} containing the following columns:

@@ -218,7 +218,20 @@ tax_range_time <- function(
 
 
 #' @param x `data.frame`. An object of class `"palaeoverse_tax_range_time"` created by `tax_range_time()`.
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
+#' already set internally and must not be specified here: `xlim`, `ylim`, `xaxt`, `yaxt`, `yaxs`.
 #' @inheritParams lat_bins_area
+#' @param main `character`. The plot title.
+#' @param col `character`. The colour of the range segments and points.
+#' @param bg `character`. The background (fill) colour of the points, only
+#'   used for `pch` values 21 to 25.
+#' @param pch `numeric`. The symbol used for the first and last appearance
+#'   points (see [graphics::points()]).
+#' @param cex `numeric`. The size of the points.
+#' @param lty `numeric`. The line type of the range segments (see
+#'   [graphics::par()]).
+#' @param lwd `numeric`. The line width of the range segments.
+#' @param axes `logical`. Should the axes be drawn?
 #' @param intervals `character`. The time interval information used to
 #'   plot the x-axis: either A) a `character` string indicating a rank of
 #'   intervals from the built-in [GTS2020], B) a `character`
