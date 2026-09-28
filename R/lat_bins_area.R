@@ -29,7 +29,7 @@
 #' @seealso
 #' For bins with unequal area, but equal latitudinal range, see
 #'   \link{lat_bins_degrees}.
-#' @importFrom graphics polygon abline title
+#' @importFrom graphics polygon
 #' @section Developer(s):
 #'   Lewis A. Jones & Kilian Eichenseer
 #' @section Reviewer(s):

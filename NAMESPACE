@@ -39,7 +39,6 @@ importFrom(grDevices,
   col2rgb
 )
 importFrom(graphics,
-  abline,
   axis,
   box,
   clip,
