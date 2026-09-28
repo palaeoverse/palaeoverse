@@ -288,7 +288,7 @@ plot.palaeoverse_bin_space <- function(
 ) {
   check_forbidden_plot_args(
     ...,
-    forbidden = c("setParUsrBB"),
+    forbidden = "setParUsrBB",
     class = "palaeoverse_time_bins"
   )
 
