@@ -5,8 +5,9 @@ test_that("basic behaviour works", {
     min_ma = c(9, 7, 5, 4, 2)
   )
 
+  out <- tax_range_time(occdf)
   expect_equal(
-    tax_range_time(occdf),
+    out,
     data.frame(
       taxon = c("C", "B", "A"),
       taxon_id = 1:3,
@@ -17,6 +18,7 @@ test_that("basic behaviour works", {
     ),
     ignore_attr = TRUE
   )
+  expect_s3_class(out, "palaeoverse_tax_range_time")
 
   # input checks
   expect_snapshot(tax_range_time(occdf = data.frame()), error = TRUE)
