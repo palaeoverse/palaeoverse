@@ -130,6 +130,10 @@ test_that("lat_bins_degrees plotting with extra args works", {
   expect_doppelganger("lat_bins_degrees-axis", function() {
     plot(lat_bins_degrees(size = 40), xlab = "x axis", ylab = "y axis")
   })
+  # `main` is passed through `...`
+  expect_doppelganger("lat_bins_degrees-dots", function() {
+    plot(lat_bins_degrees(size = 40), main = "hello there")
+  })
 
   expect_snapshot(
     plot(lat_bins_degrees(size = 40), col = "foo"),

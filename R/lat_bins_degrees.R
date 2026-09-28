@@ -160,7 +160,8 @@ plot.palaeoverse_lat_bins_degrees <- function(
     xlim = c(-180, 180),
     ylim = c(min(x$min), max(x$max)),
     xlab = xlab,
-    ylab = ylab
+    ylab = ylab,
+    ...
   )
   cols <- rep(col, nrow(x))
   for (i in seq_len(nrow(x))) {
