@@ -491,13 +491,13 @@ test_that("arg 'plot' works", {
   expect_doppelganger("time_bins() basic", function() {
     plot(time_bins(interval = "Mesozoic"))
   })
-  expect_doppelganger("time_bins-equal-size", function() {
+  expect_doppelganger("time_bins-size", function() {
     expect_message(
       plot(time_bins(interval = "Mesozoic", size = 10)),
       "Target duration of equal length"
     )
   })
-  expect_doppelganger("time_bins-equal-size-2", function() {
+  expect_doppelganger("time_bins-n-bins", function() {
     expect_message(
       plot(time_bins(interval = "Mesozoic", n_bins = 5)),
       "Number of equal length time bins"
