@@ -24,7 +24,7 @@
 #' @inheritParams lat_bins_area
 #' @seealso
 #' For equal-area latitudinal bins, see \link{lat_bins_area}.
-#' @importFrom graphics polygon abline title
+#' @importFrom graphics polygon
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
