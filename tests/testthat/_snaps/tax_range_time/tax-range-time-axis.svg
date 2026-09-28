@@ -24,10 +24,10 @@
 <line x1='67.71' y1='428.64' x2='60.51' y2='428.64' style='stroke-width: 0.75;' />
 <line x1='67.71' y1='280.80' x2='60.51' y2='280.80' style='stroke-width: 0.75;' />
 <line x1='67.71' y1='132.96' x2='60.51' y2='132.96' style='stroke-width: 0.75;' />
-<text x='53.31' y='432.77' text-anchor='end' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>A</text>
+<text x='53.31' y='432.77' text-anchor='end' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>C</text>
 <text x='53.31' y='284.93' text-anchor='end' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>B</text>
-<text x='53.31' y='137.09' text-anchor='end' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>C</text>
-<text transform='translate(27.36,280.80) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='33.36px' lengthAdjust='spacingAndGlyphs'>Taxon</text>
+<text x='53.31' y='137.09' text-anchor='end' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>A</text>
+<text transform='translate(27.36,280.80) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.69px' lengthAdjust='spacingAndGlyphs'>y axis</text>
 </g>
 <defs>
   <clipPath id='cpNjcuNzF8Njg5Ljc2fDU5LjA0fDUwMi41Ng=='>
@@ -35,15 +35,15 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpNjcuNzF8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
-<line x1='90.75' y1='428.64' x2='306.74' y2='428.64' style='stroke-width: 0.75;' />
+<line x1='594.72' y1='428.64' x2='666.72' y2='428.64' style='stroke-width: 0.75;' />
 <line x1='378.73' y1='280.80' x2='522.73' y2='280.80' style='stroke-width: 0.75;' />
-<line x1='594.72' y1='132.96' x2='666.72' y2='132.96' style='stroke-width: 0.75;' />
-<circle cx='90.75' cy='428.64' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
+<line x1='90.75' y1='132.96' x2='306.74' y2='132.96' style='stroke-width: 0.75;' />
+<circle cx='594.72' cy='428.64' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
 <circle cx='378.73' cy='280.80' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='594.72' cy='132.96' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='306.74' cy='428.64' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='90.75' cy='132.96' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='666.72' cy='428.64' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
 <circle cx='522.73' cy='280.80' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='666.72' cy='132.96' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='306.74' cy='132.96' r='1.80' style='stroke-width: 0.75; fill: #000000;' />
 </g>
 <defs>
   <clipPath id='cpNjcuNzF8Njg5Ljc2fDUwMi41Nnw1MjQuNzQ='>
@@ -72,7 +72,7 @@
 <text x='378.73' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>6</text>
 <text x='522.73' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>4</text>
 <text x='666.72' y='550.66' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>2</text>
-<text x='378.73' y='579.46' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='54.67px' lengthAdjust='spacingAndGlyphs'>Time (Ma)</text>
+<text x='378.73' y='579.46' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='30.69px' lengthAdjust='spacingAndGlyphs'>x axis</text>
 </g>
 <defs>
   <clipPath id='cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng=='>

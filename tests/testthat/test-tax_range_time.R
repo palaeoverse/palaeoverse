@@ -14,7 +14,8 @@ test_that("basic behaviour works", {
       min_ma = c(2, 4, 7),
       range_myr = c(1, 2, 3),
       n_occ = c(1L, 2L, 2L)
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # input checks
@@ -32,8 +33,8 @@ test_that("piping and not piping the first argument give the same result", {
   )
 
   expect_equal(
-    occdf |> tax_range_time(name = "genus", plot = FALSE),
-    tax_range_time(occdf, name = "genus", plot = FALSE)
+    occdf |> tax_range_time(name = "genus"),
+    tax_range_time(occdf, name = "genus")
   )
 })
 
@@ -67,7 +68,8 @@ test_that("argument 'name' works", {
       min_ma = c(2, 4, 7),
       range_myr = c(1, 2, 3),
       n_occ = c(1L, 2L, 2L)
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # the "name" column must not contain NA values
@@ -108,7 +110,8 @@ test_that("argument 'max_ma' works", {
       min_ma = c(2, 4, 7),
       range_myr = c(1, 2, 3),
       n_occ = c(1L, 2L, 2L)
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # input checks
@@ -151,7 +154,8 @@ test_that("argument 'min_ma' works", {
       min_ma = c(2, 4, 7),
       range_myr = c(1, 2, 3),
       n_occ = c(1L, 2L, 2L)
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # input checks
@@ -205,7 +209,8 @@ test_that("argument 'group' works", {
       range_myr = c(1, 3, 1, 1),
       n_occ = c(1L, 2L, 1L, 1L),
       family = c("F1", "F1", "F2", "F2")
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # input checks
@@ -234,7 +239,8 @@ test_that("argument 'by' works", {
       min_ma = c(2, 4, 7),
       range_myr = c(1, 2, 3),
       n_occ = c(1L, 2L, 2L)
-    )
+    ),
+    ignore_attr = TRUE
   )
   expect_equal(
     tax_range_time(occdf, by = "LAD"),
@@ -245,7 +251,8 @@ test_that("argument 'by' works", {
       min_ma = c(2, 4, 7),
       range_myr = c(1, 2, 3),
       n_occ = c(1L, 2L, 2L)
-    )
+    ),
+    ignore_attr = TRUE
   )
   expect_equal(
     tax_range_time(occdf, by = "name"),
@@ -256,7 +263,8 @@ test_that("argument 'by' works", {
       min_ma = c(7, 4, 2),
       range_myr = c(3, 2, 1),
       n_occ = c(2L, 2L, 1L)
-    )
+    ),
+    ignore_attr = TRUE
   )
 
   # input checks
@@ -276,60 +284,96 @@ test_that("argument 'plot' works", {
     min_ma = c(9, 7, 5, 4, 2)
   )
 
-  # The returned data.frame is identical whether or not a plot is produced
-  expect_equal(
-    tax_range_time(occdf, plot = TRUE),
-    tax_range_time(occdf, plot = FALSE)
-  )
-
   expect_doppelganger("tax_range_time() works", function() {
-    tax_range_time(occdf)
+    plot(tax_range_time(occdf))
   })
   expect_doppelganger("tax_range_time() works with LAD sorting", function() {
-    tax_range_time(occdf, by = "LAD")
+    plot(tax_range_time(occdf, by = "LAD"))
   })
   expect_doppelganger("tax_range_time() works with name sorting", function() {
-    tax_range_time(occdf, by = "name")
+    plot(tax_range_time(occdf, by = "name"))
   })
-
-  # input checks
-  expect_snapshot(tax_range_time(occdf, plot = "test"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, plot = NA), error = TRUE)
 })
 
-test_that("argument 'plot_args' works", {
+test_that("tax_range_time plotting with extra args works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
-
-  # Passing plot_args does not change the returned data.frame
-  expect_equal(
-    tax_range_time(occdf, plot = TRUE, plot_args = list(ylab = "Taxa")),
-    tax_range_time(occdf, plot = FALSE)
-  )
-
-  expect_doppelganger("tax_range_time() works with plot args", function() {
-    tax_range_time(occdf, plot_args = list(ylab = "Taxa"))
+  expect_doppelganger("tax_range_time-axis", function() {
+    plot(tax_range_time(occdf), xlab = "x axis", ylab = "y axis")
   })
 
-  # input checks
-  expect_snapshot(tax_range_time(occdf, plot_args = "test"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, plot_args = NA), error = TRUE)
+  # TODO: I couldn't find an argument that actually affects the plot
+  # expect_doppelganger("tax_range_time-dots", function() {
+  #   plot(tax_range_time(occdf), cex = 10)
+  # })
+
+  # forbidden args
+  expect_snapshot(
+    plot(
+      tax_range_time(occdf),
+      xlim = 1,
+      ylim = 1,
+      xaxt = 1,
+      yaxt = 1,
+      yaxs = 1
+    ),
+    error = TRUE
+  )
 })
+
+test_that("plot is deprecated but still works", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    max_ma = c(10, 8, 6, 5, 3),
+    min_ma = c(9, 7, 5, 4, 2)
+  )
+  expect_doppelganger("tax_range_time-plot-deprecated", function() {
+    expect_warning(
+      tax_range_time(occdf, plot = TRUE),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
+    )
+  })
+
+  # still input checking
+  expect_snapshot(tax_range_time(occdf, plot = "6"), error = TRUE)
+})
+
+test_that("plot_args is deprecated but still works", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    max_ma = c(10, 8, 6, 5, 3),
+    min_ma = c(9, 7, 5, 4, 2)
+  )
+  expect_doppelganger("tax_range_time_plot-args-deprecated", function() {
+    expect_warning(
+      expect_warning(
+        tax_range_time(
+          occdf,
+          plot = TRUE,
+          plot_args = list(xlab = "x axis", ylab = "y axis")
+        ),
+        "is deprecated as of palaeoverse 2.0.0",
+        fixed = TRUE
+      ),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
+    )
+  })
+
+  # still input checking
+  expect_snapshot(tax_range_time(occdf, plot_args = 1), error = TRUE)
+})
+
 
 test_that("argument 'intervals' works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
-  )
-
-  # Passing intervals does not change the returned data.frame
-  expect_equal(
-    tax_range_time(occdf, plot = TRUE, intervals = "epochs"),
-    tax_range_time(occdf, plot = FALSE)
   )
 
   # input checks
