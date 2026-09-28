@@ -111,13 +111,26 @@ test_that("argument 'plot' works", {
 
 test_that("bin_space plotting with extra args works", {
   dat <- reefs[1:50, ]
-  expect_doppelganger("bin_space-axis", function() {
+  expect_doppelganger("bin_space-axis-labels", function() {
     expect_message(
       plot(
         bin_space(occdf = dat, spacing = 1000),
         xlab = "x axis",
         ylab = "y axis"
       ),
+      "set to 725.17 km"
+    )
+  })
+  expect_doppelganger("bin_space-axes", function() {
+    expect_message(
+      plot(bin_space(occdf = dat, spacing = 1000), axes = FALSE),
+      "set to 725.17 km"
+    )
+  })
+  # `main` is passed through `...`
+  expect_doppelganger("bin_space-dots", function() {
+    expect_message(
+      plot(bin_space(occdf = dat, spacing = 1000), main = "hello there"),
       "set to 725.17 km"
     )
   })
