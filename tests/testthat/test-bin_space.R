@@ -102,17 +102,23 @@ test_that("bin_space error handling", {
 test_that("argument 'plot' works", {
   dat <- reefs[1:50, ]
   expect_doppelganger("bin_space", function() {
-    plot(bin_space(occdf = dat, spacing = 1000))
+    expect_message(
+      plot(bin_space(occdf = dat, spacing = 1000)),
+      "set to 725.17 km"
+    )
   })
 })
 
 test_that("bin_space plotting with extra args works", {
   dat <- reefs[1:50, ]
   expect_doppelganger("bin_space-axis", function() {
-    plot(
-      bin_space(occdf = dat, spacing = 1000),
-      xlab = "x axis",
-      ylab = "y axis"
+    expect_message(
+      plot(
+        bin_space(occdf = dat, spacing = 1000),
+        xlab = "x axis",
+        ylab = "y axis"
+      ),
+      "set to 725.17 km"
     )
   })
 })
@@ -120,10 +126,13 @@ test_that("bin_space plotting with extra args works", {
 test_that("plot is deprecated but still works", {
   dat <- reefs[1:50, ]
   expect_doppelganger("bin_space_deprecated", function() {
-    expect_warning(
-      bin_space(occdf = dat, spacing = 1000, plot = TRUE),
-      "is deprecated as of palaeoverse 2.0.0",
-      fixed = TRUE
+    expect_message(
+      expect_warning(
+        bin_space(occdf = dat, spacing = 1000, plot = TRUE),
+        "is deprecated as of palaeoverse 2.0.0",
+        fixed = TRUE
+      ),
+      "set to 725.17 km"
     )
   })
 

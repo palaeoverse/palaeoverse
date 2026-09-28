@@ -15,7 +15,7 @@ bin_space(
   plot = deprecated()
 )
 
-\method{plot}{palaeoverse_bin_space}(x, ..., xlab = "Longitude", ylab = "Latitude")
+\method{plot}{palaeoverse_bin_space}(x, ..., xlab = "Longitude", ylab = "Latitude", axis = TRUE)
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences (or
@@ -45,11 +45,14 @@ this function instead.}
 
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.}
 
-\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}.}
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call to
+first layer (which draws the grid), not to the second one that fills the areas.}
 
 \item{xlab}{\code{character}. The x-axis title.}
 
 \item{ylab}{\code{character}. The y-axis title.}
+
+\item{axis}{\code{logical}. Whether to draw the axis.}
 }
 \value{
 If the \code{return} argument is set to \code{FALSE}, a dataframe is

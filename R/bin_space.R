@@ -272,7 +272,9 @@ bin_space <- function(
 }
 
 #' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
-#' @param ... Extra arguments passed to [`plot()`][base::plot].
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
+#' first layer (which draws the grid), not to the second one that fills the areas.
+#' @param axes `logical`. Whether to draw the grid axes.
 #' @inheritParams lat_bins_area
 #'
 #' @name bin_space
@@ -281,8 +283,15 @@ plot.palaeoverse_bin_space <- function(
   x,
   ...,
   xlab = "Longitude",
-  ylab = "Latitude"
+  ylab = "Latitude",
+  axes = TRUE
 ) {
+  check_forbidden_plot_args(
+    ...,
+    forbidden = c("setParUsrBB"),
+    class = "palaeoverse_time_bins"
+  )
+
   base_grid <- attr(x, "palaeoverse_base_grid")
   primary <- attr(x, "palaeoverse_primary")
   secondary <- attr(x, "palaeoverse_secondary")
@@ -291,7 +300,8 @@ plot.palaeoverse_bin_space <- function(
     setParUsrBB = TRUE,
     xlab = xlab,
     ylab = ylab,
-    axes = TRUE
+    axes = axes,
+    ...
   )
   plot(
     primary,
