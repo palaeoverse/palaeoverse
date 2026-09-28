@@ -29,7 +29,6 @@
 #' @seealso
 #' For bins with unequal area, but equal latitudinal range, see
 #'   \link{lat_bins_degrees}.
-#' @importFrom graphics polygon
 #' @section Developer(s):
 #'   Lewis A. Jones & Kilian Eichenseer
 #' @section Reviewer(s):
@@ -141,6 +140,7 @@ lat_bins_area <- function(
 #' @param ylab `character`. The y-axis title.
 #'
 #' @name lat_bins_area
+#' @importFrom graphics polygon
 #' @export
 plot.palaeoverse_lat_bins_area <- function(
   x,

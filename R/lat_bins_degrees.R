@@ -24,7 +24,6 @@
 #' @inheritParams lat_bins_area
 #' @seealso
 #' For equal-area latitudinal bins, see \link{lat_bins_area}.
-#' @importFrom graphics polygon
 #' @section Developer(s):
 #' Lewis A. Jones
 #' @section Reviewer(s):
@@ -134,6 +133,7 @@ lat_bins <- function(
 #' @inheritParams lat_bins_area
 #'
 #' @name lat_bins_degrees
+#' @importFrom graphics polygon
 #' @export
 plot.palaeoverse_lat_bins_degrees <- function(
   x,
