@@ -12,7 +12,7 @@ tax_range_time(
   max_ma = "max_ma",
   group = NULL,
   by = "FAD",
-  intervals = "periods",
+  intervals = deprecated(),
   plot = deprecated(),
   plot_args = deprecated()
 )
@@ -20,6 +20,7 @@ tax_range_time(
 \method{plot}{palaeoverse_tax_range_time}(
   x,
   ...,
+  intervals = "periods",
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",
@@ -56,18 +57,11 @@ treated as a single group.}
 Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 or "name" (alphabetically by taxon names).}
 
-\item{intervals}{\code{character}. The time interval information used to
-plot the x-axis: either A) a \code{character} string indicating a rank of
-intervals from the built-in \code{\link{GTS2020}}, B) a \code{character}
-string indicating a \code{data.frame} hosted by
-\href{https://macrostrat.org}{Macrostrat} (see \code{\link{time_bins}}), or C)
-a custom \code{data.frame} of time interval boundaries (see \link{axis_geo}
-Details). A list of strings or data.frames can be supplied to add
-multiple time scales to the same side of the plot (see \link{axis_geo}
-Details). Defaults to "periods".}
-
-\item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
+\item{intervals, }{plot,plot_args \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
 output of this function instead.}
+
+\item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
+this function instead.}
 
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_time"} created by \code{tax_range_time()}.}
 
@@ -79,6 +73,16 @@ already set internally and must not be specified here: \code{type}, \code{xlim},
 \item{ylab}{\code{character}. The y-axis title.}
 
 \item{col}{\code{character}. A character vector of length 2 indicating the colours to use for the bins.}
+
+\item{intervals}{\code{character}. The time interval information used to
+plot the x-axis: either A) a \code{character} string indicating a rank of
+intervals from the built-in \link{GTS2020}, B) a \code{character}
+string indicating a \code{data.frame} hosted by
+\href{https://macrostrat.org}{Macrostrat} (see \link{time_bins}), or C)
+a custom \code{data.frame} of time interval boundaries (see \link{axis_geo}
+Details). A list of strings or data.frames can be supplied to add
+multiple time scales to the same side of the plot (see \link{axis_geo}
+Details). Defaults to "periods".}
 }
 \value{
 A \code{data.frame} containing the following columns:

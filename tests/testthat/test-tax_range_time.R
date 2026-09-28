@@ -379,37 +379,20 @@ test_that("argument 'intervals' works", {
   )
 
   # input checks
-
-  # TODO: currently these do not work because they produce the plot and then throw the error.
-  # The fact that they still create a plot doesn't play nicely with expect_snapshot().
-  # The validation of "intervals" should come earlier in the function, before creating the plot.
-
+  expect_snapshot(
+    plot(tax_range_time(occdf), intervals = c("genus", "min_ma")),
+    error = TRUE
+  )
   # expect_snapshot(
-  #   tax_range_time(occdf, plot = TRUE, intervals = c("genus", "min_ma")),
+  #   plot(tax_range_time(occdf), intervals = "nonexistent"),
   #   error = TRUE
   # )
-  # expect_snapshot(
-  #   tax_range_time(occdf, plot = TRUE, intervals = "nonexistent"),
-  #   error = TRUE
-  # )
-  # expect_snapshot(
-  #   tax_range_time(occdf, plot = TRUE, intervals = 1),
-  #   error = TRUE
-  # )
-  # expect_snapshot(
-  #   tax_range_time(occdf, plot = TRUE, intervals = NA),
-  #   error = TRUE
-  # )
-
-  # TODO: should these error if plot = FALSE since intervals would be irrelevant in this case?
-  # expect_snapshot(
-  #   tax_range_time(occdf, intervals = c("genus", "min_ma")),
-  #   error = TRUE
-  # )
-  # expect_snapshot(
-  #   tax_range_time(occdf, intervals = "nonexistent"),
-  #   error = TRUE
-  # )
-  # expect_snapshot(tax_range_time(occdf, intervals = 1), error = TRUE)
-  # expect_snapshot(tax_range_time(occdf, intervals = NA), error = TRUE)
+  expect_snapshot(
+    plot(tax_range_time(occdf), intervals = 1),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(tax_range_time(occdf), intervals = NA),
+    error = TRUE
+  )
 })

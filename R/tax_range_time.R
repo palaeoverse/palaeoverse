@@ -218,15 +218,15 @@ tax_range_time <- function(
 
 #' @param x `data.frame`. An object of class `"palaeoverse_tax_range_time"` created by `tax_range_time()`.
 #' @inheritParams lat_bins_area
-#' @param intervals \code{character}. The time interval information used to
-#'   plot the x-axis: either A) a \code{character} string indicating a rank of
-#'   intervals from the built-in \code{\link{GTS2020}}, B) a \code{character}
-#'   string indicating a \code{data.frame} hosted by
-#'   [Macrostrat](https://macrostrat.org) (see \code{\link{time_bins}}), or C)
-#'   a custom \code{data.frame} of time interval boundaries (see [axis_geo]
+#' @param intervals `character`. The time interval information used to
+#'   plot the x-axis: either A) a `character` string indicating a rank of
+#'   intervals from the built-in [GTS2020], B) a `character`
+#'   string indicating a `data.frame` hosted by
+#'   [Macrostrat](https://macrostrat.org) (see [time_bins]), or C)
+#'   a custom `data.frame` of time interval boundaries (see [axis_geo]
 #'   Details). A list of strings or data.frames can be supplied to add
 #'   multiple time scales to the same side of the plot (see [axis_geo]
-#'   Details). Defaults to "periods".
+#'   Details). Defaults to `"periods"`.
 #'
 #' @name tax_range_time
 #' @importFrom graphics points strwidth
@@ -246,6 +246,15 @@ plot.palaeoverse_tax_range_time <- function(
   lwd = 1,
   axes = TRUE
 ) {
+  if (
+    !(is.character(intervals) && length(intervals) == 1) &&
+      !is.data.frame(intervals)
+  ) {
+    cli::cli_abort(
+      "{.arg intervals} must be of class {.cls character} or {.cls data.frame}."
+    )
+  }
+
   check_forbidden_plot_args(
     ...,
     forbidden = c("xlim", "ylim", "xaxt", "yaxt", "yaxs"),
@@ -253,6 +262,8 @@ plot.palaeoverse_tax_range_time <- function(
   )
 
   group <- attr(x, "palaeoverse_tax_range_time_group")
+
+  # For backward compatibility. Remove when `intervals` is removed from `tax_range_time()`.
   if (!is.null(attr(x, "palaeoverse_tax_range_time_intervals"))) {
     intervals <- attr(x, "palaeoverse_tax_range_time_intervals")
   }

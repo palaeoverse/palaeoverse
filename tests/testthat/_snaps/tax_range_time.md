@@ -321,3 +321,27 @@
       Error in `tax_range_time()`:
       ! `plot_args` must be of class <list> or `NULL`, not the number 1.
 
+# argument 'intervals' works
+
+    Code
+      plot(tax_range_time(occdf), intervals = c("genus", "min_ma"))
+    Condition
+      Error in `plot()`:
+      ! `intervals` must be of class <character> or <data.frame>.
+
+---
+
+    Code
+      plot(tax_range_time(occdf), intervals = 1)
+    Condition
+      Error in `plot()`:
+      ! `intervals` must be of class <character> or <data.frame>.
+
+---
+
+    Code
+      plot(tax_range_time(occdf), intervals = NA)
+    Condition
+      Error in `plot()`:
+      ! `intervals` must be of class <character> or <data.frame>.
+
