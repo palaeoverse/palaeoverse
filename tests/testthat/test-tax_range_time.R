@@ -311,10 +311,10 @@ test_that("tax_range_time plotting with extra args works", {
     plot(tax_range_time(occdf), xlab = "x axis", ylab = "y axis")
   })
 
-  # TODO: I couldn't find an argument that actually affects the plot
-  # expect_doppelganger("tax_range_time-dots", function() {
-  #   plot(tax_range_time(occdf), cex = 10)
-  # })
+  # `cex.main` is passed through `...`
+  expect_doppelganger("tax_range_time-dots", function() {
+    plot(tax_range_time(occdf), cex.main = 4)
+  })
 
   # forbidden args
   expect_snapshot(
