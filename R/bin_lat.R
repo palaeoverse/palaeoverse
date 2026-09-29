@@ -45,9 +45,10 @@ bin_lat <- function(data, bins, lat = "lat", boundary = FALSE) {
   check_column_presence(bins, "max")
   check_column_presence(bins, "bin")
 
-  lat_vals <- data[[lat]]
-  check_na(data, lat)
-  check_range(data, lat, -90, 90)
+  lat_vals <- occdf[[lat]]
+  check_na(occdf, lat)
+  check_class(occdf, lat, "numeric")
+  check_range(occdf, lat, -90, 90)
 
   #=== Set up ===
   # Add mid bin

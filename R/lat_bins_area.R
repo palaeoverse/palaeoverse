@@ -5,7 +5,7 @@
 #' based on calculating the curved surface area of spherical segments bounded
 #' by two parallel discs.
 #'
-#' @param n \code{numeric}. A single numeric value defining the number of
+#' @param n_bins \code{numeric}. A single numeric value defining the number of
 #'   equal-area latitudinal bins to split the latitudinal range into (as
 #'   defined by `min` and `max`).
 #' @param min \code{numeric}. A single numeric value defining the lower limit
@@ -15,18 +15,20 @@
 #' @param r \code{numeric}. The radius of the Earth in kilometres. Defaults to
 #'   the volumetric mean radius of the Earth (6371 km). Other user-specified
 #'   `r` values are accepted (e.g. equatorial radius 6378 km).
-#' @param plot \code{logical}. Should a plot of the latitudinal bins be
-#'   generated? If `TRUE`, a plot is generated. Defaults to `FALSE`.
+#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
+#'   this function instead.
+#'
 #' @return A \code{data.frame} of user-defined number of latitudinal bins. The
 #'   \code{data.frame} contains the following columns: bin (bin number), min
 #'   (minimum latitude of the bin), mid (midpoint latitude of the bin),
 #'   max (maximum latitude of the bin), area (the area of the bin in
 #'   km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}), area_prop (the
 #'   proportional area of the bin across all bins).
+#' @param n `r lifecycle::badge("deprecated")` Use `n_bins` instead.
+#'
 #' @seealso
 #' For bins with unequal area, but equal latitudinal range, see
 #'   \link{lat_bins_degrees}.
-#' @importFrom graphics polygon abline title
 #' @section Developer(s):
 #'   Lewis A. Jones & Kilian Eichenseer
 #' @section Reviewer(s):
@@ -34,19 +36,48 @@
 #' @export
 #' @examples
 #' # Generate 12 latitudinal bins
-#' bins <- lat_bins_area(n = 12)
+#' lat_bins_area(n_bins = 12)
+#'
 #' # Generate latitudinal bins for just the (sub-)tropics
-#' bins <- lat_bins_area(n = 6, min = -30, max = 30)
+#' lat_bins_area(n_bins = 6, min = -30, max = 30)
+#'
 #' # Generate latitudinal bins and a plot
-#' bins <- lat_bins_area(n = 24, plot = TRUE)
-lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
+#' plot(lat_bins_area(n_bins = 24))
+lat_bins_area <- function(
+  n_bins = 12,
+  min = -90,
+  max = 90,
+  r = 6371,
+  plot = deprecated(),
+  n = deprecated()
+) {
   ensure_args_are_named()
 
-  rlang::check_number_whole(n, min = 1)
+  if (lifecycle::is_present(n)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "lat_bins_area(n)",
+      "lat_bins_area(n_bins)",
+      always = TRUE
+    )
+    rlang::check_exclusive(n, n_bins)
+    n_bins <- n
+  }
+
+  rlang::check_number_whole(n_bins, min = 1)
   rlang::check_number_decimal(max, min = -90, max = 90)
   rlang::check_number_decimal(min, min = -90, max = 90)
   rlang::check_number_decimal(r, min = 0)
-  rlang::check_bool(plot)
+
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "lat_bins_area(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   if (min >= max) {
     cli::cli_abort("{.arg min} must be less than {.arg max}.")
@@ -60,16 +91,18 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
   sin_max_lat <- sin(max * pi / 180)
 
   # indices to divide the area into n parts
-  indices <- n:0
+  indices <- n_bins:0
 
   # latitudes of bin boundaries in radians
-  latitudes_rad <- asin(sin_min_lat + indices / n * (sin_max_lat - sin_min_lat))
+  latitudes_rad <- asin(
+    sin_min_lat + indices / n_bins * (sin_max_lat - sin_min_lat)
+  )
 
   # latitudes of bin boundaries in degrees
   latitudes <- latitudes_rad * 180 / pi
 
   # vertical sine span of the bands on the surface of the sphere
-  sine_spans <- sin(latitudes_rad[-(n + 1)]) - sin(latitudes_rad[-1])
+  sine_spans <- sin(latitudes_rad[-(n_bins + 1)]) - sin(latitudes_rad[-1])
 
   # absolute surface area for each band
   band_areas <- 2 * pi * r^2 * sine_spans
@@ -78,38 +111,72 @@ lat_bins_area <- function(n = 12, min = -90, max = 90, r = 6371, plot = FALSE) {
   band_areas_prop <- sine_spans / (sin_max_lat - sin_min_lat)
 
   # midpoint for each band
-  mid_points <- (latitudes[-(n + 1)] + latitudes[-1]) / 2
+  mid_points <- (latitudes[-(n_bins + 1)] + latitudes[-1]) / 2
 
   # populate data frame
   bins <- data.frame(
-    bin = 1:n,
+    bin = 1:n_bins,
     min = latitudes[-1],
     mid = mid_points,
-    max = latitudes[-(n + 1)],
+    max = latitudes[-(n_bins + 1)],
     area = band_areas,
     area_prop = band_areas_prop
   )
 
-  # plot latitudinal bins
-  if (plot) {
-    plot(
-      1,
-      type = "n",
-      xlim = c(-180, 180),
-      ylim = c(min(bins$min), max(bins$max)),
-      xlab = "Longitude (\u00B0)",
-      ylab = "Latitude (\u00B0)"
-    )
-    cols <- rep(c("#01665e", "#80cdc1"), nrow(bins))
-    for (i in seq_len(nrow(bins))) {
-      polygon(
-        x = c(-180, -180, 180, 180),
-        y = c(bins$min[i], bins$max[i], bins$max[i], bins$min[i]),
-        col = cols[i],
-        border = "black"
-      )
-    }
+  class(bins) <- c("palaeoverse_lat_bins_area", class(bins))
+
+  if (isTRUE(plot)) {
+    plot(bins)
   }
-  # Return bins
-  return(bins)
+
+  bins
+}
+
+#' @param x `data.frame`. An object of class `"palaeoverse_lat_bins_area"` created by `lat_bins_area()`.
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
+#' already set internally and must not be specified here: `type`, `xlim`, `ylim`.
+#' @param col `character`. A character vector of length 2 indicating the colours to use for the bins.
+#' @param xlab `character`. The x-axis title.
+#' @param ylab `character`. The y-axis title.
+#'
+#' @name lat_bins_area
+#' @importFrom graphics polygon
+#' @export
+plot.palaeoverse_lat_bins_area <- function(
+  x,
+  ...,
+  col = c("#01665e", "#80cdc1"),
+  xlab = "Longitude (\u00B0)",
+  ylab = "Latitude (\u00B0)"
+) {
+  if (length(col) != 2 || !is.character(col)) {
+    cli::cli_abort(
+      "Argument {.arg col} must be an object of class {.cls character} of length 2, not {obj_type_friendly(col)}."
+    )
+  }
+
+  check_forbidden_plot_args(
+    ...,
+    forbidden = c("type", "xlim", "ylim"),
+    class = "palaeoverse_lat_bins_area"
+  )
+
+  plot(
+    1,
+    type = "n",
+    xlim = c(-180, 180),
+    ylim = c(min(x$min), max(x$max)),
+    xlab = xlab,
+    ylab = ylab,
+    ...
+  )
+  cols <- rep(col, nrow(x))
+  for (i in seq_len(nrow(x))) {
+    polygon(
+      x = c(-180, -180, 180, 180),
+      y = c(x$min[i], x$max[i], x$max[i], x$min[i]),
+      col = cols[i],
+      border = "black"
+    )
+  }
 }

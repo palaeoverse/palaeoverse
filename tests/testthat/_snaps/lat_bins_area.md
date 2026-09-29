@@ -20,7 +20,7 @@
 ---
 
     Code
-      lat_bins_area(n = 6)
+      lat_bins_area(n_bins = 6)
     Output
         bin       min       mid       max         area area_prop
       1   1  41.81031  65.90516  90.00000 8.501075e+13 0.1666667
@@ -33,7 +33,7 @@
 ---
 
     Code
-      lat_bins_area(n = 6, min = 0, max = 90)
+      lat_bins_area(n_bins = 6, min = 0, max = 90)
     Output
         bin       min       mid       max         area area_prop
       1   1 56.442690 73.221345 90.000000 4.250537e+13 0.1666667
@@ -63,7 +63,7 @@
 ---
 
     Code
-      lat_bins_area(n = 10, 1)
+      lat_bins_area(n_bins = 10, 1)
     Condition
       Error in `lat_bins_area()`:
       ! All arguments must be named.
@@ -94,7 +94,7 @@
     Condition
       Error in `lat_bins_area()`:
       ! Argument names must be fully written.
-      i Partially matched argument name: "mi"
+      i Partially matched argument name: `mi`
 
 ---
 
@@ -103,39 +103,39 @@
     Condition
       Error in `lat_bins_area()`:
       ! Argument names must be fully written.
-      i Partially matched argument names: "mi" and "ma"
+      i Partially matched argument names: `mi` and `ma`
 
 # lat_bins_area errors with wrong inputs
 
     Code
-      lat_bins_area(n = "10")
+      lat_bins_area(n_bins = "10")
     Condition
       Error in `lat_bins_area()`:
-      ! `n` must be a whole number, not the string "10".
+      ! `n_bins` must be a whole number, not the string "10".
 
 ---
 
     Code
-      lat_bins_area(n = -1)
+      lat_bins_area(n_bins = -1)
     Condition
       Error in `lat_bins_area()`:
-      ! `n` must be a whole number larger than or equal to 1, not the number -1.
+      ! `n_bins` must be a whole number larger than or equal to 1, not the number -1.
 
 ---
 
     Code
-      lat_bins_area(n = numeric(0))
+      lat_bins_area(n_bins = numeric(0))
     Condition
       Error in `lat_bins_area()`:
-      ! `n` must be a whole number, not an empty numeric vector.
+      ! `n_bins` must be a whole number, not an empty numeric vector.
 
 ---
 
     Code
-      lat_bins_area(n = 3.5)
+      lat_bins_area(n_bins = 3.5)
     Condition
       Error in `lat_bins_area()`:
-      ! `n` must be a whole number, not the number 3.5.
+      ! `n_bins` must be a whole number, not the number 3.5.
 
 ---
 
@@ -180,22 +180,6 @@
 ---
 
     Code
-      lat_bins_area(plot = "TRUE")
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` must be `TRUE` or `FALSE`, not the string "TRUE".
-
----
-
-    Code
-      lat_bins_area(plot = logical(0))
-    Condition
-      Error in `lat_bins_area()`:
-      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
-
----
-
-    Code
       lat_bins_area(r = "Earth")
     Condition
       Error in `lat_bins_area()`:
@@ -216,4 +200,114 @@
     Condition
       Error in `lat_bins_area()`:
       ! `r` must be a number larger than or equal to 0, not the number -1.
+
+# lat_bins_area plotting works
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlim = "foo")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `xlim` when calling `plot()` on an object of class <palaeoverse_lat_bins_area>.
+      i This argument is already set by `plot()` internally.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlim = "foo", ylim = "bar")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `xlim` and `ylim` when calling `plot()` on an object of class <palaeoverse_lat_bins_area>.
+      i These arguments are already set by `plot()` internally.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlim = "foo", ylim = "bar", type = "l")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `xlim`, `ylim`, and `type` when calling `plot()` on an object of class <palaeoverse_lat_bins_area>.
+      i These arguments are already set by `plot()` internally.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), xlim = "foo", sub = "bar")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `xlim` when calling `plot()` on an object of class <palaeoverse_lat_bins_area>.
+      i This argument is already set by `plot()` internally.
+
+# lat_bins_area plotting with extra args works
+
+    Code
+      plot(lat_bins_area(n_bins = 12), col = "foo")
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not the string "foo".
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), col = 1)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not the number 1.
+
+---
+
+    Code
+      plot(lat_bins_area(n_bins = 12), col = NA)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not `NA`.
+
+# n is deprecated but still works
+
+    Code
+      lat_bins_area(n = 6)
+    Condition
+      Warning:
+      The `n` argument of `lat_bins_area()` is deprecated as of palaeoverse 2.0.0.
+      i Please use the `n_bins` argument instead.
+    Output
+        bin       min       mid       max         area area_prop
+      1   1  41.81031  65.90516  90.00000 8.501075e+13 0.1666667
+      2   2  19.47122  30.64077  41.81031 8.501075e+13 0.1666667
+      3   3   0.00000   9.73561  19.47122 8.501075e+13 0.1666667
+      4   4 -19.47122  -9.73561   0.00000 8.501075e+13 0.1666667
+      5   5 -41.81031 -30.64077 -19.47122 8.501075e+13 0.1666667
+      6   6 -90.00000 -65.90516 -41.81031 8.501075e+13 0.1666667
+
+---
+
+    Code
+      lat_bins_area(n = "6")
+    Condition
+      Warning:
+      The `n` argument of `lat_bins_area()` is deprecated as of palaeoverse 2.0.0.
+      i Please use the `n_bins` argument instead.
+      Error in `lat_bins_area()`:
+      ! `n_bins` must be a whole number, not the string "6".
+
+---
+
+    Code
+      lat_bins_area(n_bins = 6, n = 6)
+    Condition
+      Warning:
+      The `n` argument of `lat_bins_area()` is deprecated as of palaeoverse 2.0.0.
+      i Please use the `n_bins` argument instead.
+      Error in `lat_bins_area()`:
+      ! Exactly one of `n` or `n_bins` must be supplied.
+
+# plot is deprecated but still works
+
+    Code
+      lat_bins_area(plot = "6")
+    Condition
+      Warning:
+      The `plot` argument of `lat_bins_area()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `lat_bins_area()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
 

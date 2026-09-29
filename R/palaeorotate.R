@@ -190,9 +190,12 @@ palaeorotate <- function(
   check_column_presence(data, lat)
   check_column_presence(data, age)
 
-  check_range(data, lat, -90, 90)
-  check_range(data, lng, -180, 180)
-  check_range(data, age, 0, Inf)
+  check_class(occdf, lat, "numeric")
+  check_class(occdf, lng, "numeric")
+  check_class(occdf, age, "numeric")
+  check_range(occdf, lat, -90, 90)
+  check_range(occdf, lng, -180, 180)
+  check_range(occdf, age, 0, Inf)
 
   rlang::check_string(method)
   method <- rlang::arg_match(method, values = c("point", "grid"))

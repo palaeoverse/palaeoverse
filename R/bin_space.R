@@ -119,14 +119,23 @@ bin_space <- function(
 ) {
   ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(data)
-  check_column_presence(data, lat)
-  check_column_presence(data, lng)
-  check_range(data, lat, -90, 90)
-  check_range(data, lng, -180, 180)
+  check_data_frame(occdf)
+  check_column_presence(occdf, lat)
+  check_column_presence(occdf, lng)
 
-  check_numeric(spacing, required_length = 1)
-  check_numeric(sub_grid, allow_null = TRUE, required_length = 1)
+  check_class(occdf, lat, "numeric")
+  check_class(occdf, lng, "numeric")
+  check_range(occdf, lat, -90, 90)
+  check_range(occdf, lng, -180, 180)
+
+  rlang::check_number_decimal(spacing)
+  if (spacing <= 0) {
+    cli::cli_abort("{.arg spacing} must be greater than 0.")
+  }
+  rlang::check_number_decimal(sub_grid, allow_null = TRUE)
+  if (!is.null(sub_grid) && sub_grid <= 0) {
+    cli::cli_abort("{.arg sub_grid} must be greater than 0.")
+  }
   rlang::check_bool(return)
   rlang::check_bool(plot)
 
