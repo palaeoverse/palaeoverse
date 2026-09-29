@@ -68,6 +68,11 @@ as_palaeo <- function(data, lat = "lat", lon = "lon") {
 
 #' @export
 print.palaeoverse_data <- function(x, ...) {
+  # Large dataframes can have many rows and/or columns and entirely fill the console.
+  # We want attributes to be visible to the users so we print them at the end
+  print.data.frame(x)
+  cat("\n")
+
   att <- names(attributes(x))
   att <- att[startsWith(att, "palaeo")]
 
@@ -86,8 +91,6 @@ print.palaeoverse_data <- function(x, ...) {
     cli::cli_ul(paste0(att, ": \"", att_list, "\""))
     cli::cli_end(d)
   }
-  cat("\n")
-  print.data.frame(x)
 }
 
 #' Preference order:
