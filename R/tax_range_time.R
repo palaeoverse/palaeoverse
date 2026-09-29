@@ -20,7 +20,7 @@
 #' @param by \code{character}. How should the output be sorted?
 #' Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 #' or "name" (alphabetically by taxon names).
-#' @param plot,plot_args `r lifecycle::badge("deprecated")` Use `plot()` on the
+#' @param intervals,plot,plot_args `r lifecycle::badge("deprecated")` Use `plot()` on the
 #'   output of this function instead.
 #'
 #' @return A \code{data.frame} containing the following columns:
@@ -76,9 +76,9 @@ tax_range_time <- function(
   max_ma = "max_ma",
   group = NULL,
   by = "FAD",
-  intervals = deprecated(),
   plot = deprecated(),
-  plot_args = deprecated()
+  plot_args = deprecated(),
+  intervals = deprecated()
 ) {
   ensure_args_are_named(exceptions = "occdf")
 
