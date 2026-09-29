@@ -50,10 +50,20 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
-<polygon points='82.40,157.60 82.40,75.47 666.40,75.47 666.40,157.60 ' style='stroke-width: 0.75; fill: #01665E;' />
-<polygon points='82.40,239.73 82.40,157.60 666.40,157.60 666.40,239.73 ' style='stroke-width: 0.75; fill: #80CDC1;' />
-<polygon points='82.40,321.87 82.40,239.73 666.40,239.73 666.40,321.87 ' style='stroke-width: 0.75; fill: #01665E;' />
-<polygon points='82.40,404.00 82.40,321.87 666.40,321.87 666.40,404.00 ' style='stroke-width: 0.75; fill: #80CDC1;' />
-<polygon points='82.40,486.13 82.40,404.00 666.40,404.00 666.40,486.13 ' style='stroke-width: 0.75; fill: #01665E;' />
+<polygon points='82.40,102.84 82.40,75.47 666.40,75.47 666.40,102.84 ' style='stroke-width: 0.75; fill: #01665E;' />
+<polygon points='82.40,130.22 82.40,102.84 666.40,102.84 666.40,130.22 ' style='stroke-width: 0.75; fill: #80CDC1;' />
+<polygon points='82.40,157.60 82.40,130.22 666.40,130.22 666.40,157.60 ' style='stroke-width: 0.75; fill: #01665E;' />
+<polygon points='82.40,184.98 82.40,157.60 666.40,157.60 666.40,184.98 ' style='stroke-width: 0.75; fill: #80CDC1;' />
+<polygon points='82.40,212.36 82.40,184.98 666.40,184.98 666.40,212.36 ' style='stroke-width: 0.75; fill: #01665E;' />
+<polygon points='82.40,239.73 82.40,212.36 666.40,212.36 666.40,239.73 ' style='stroke-width: 0.75; fill: #80CDC1;' />
+<polygon points='82.40,267.11 82.40,239.73 666.40,239.73 666.40,267.11 ' style='stroke-width: 0.75; fill: #01665E;' />
+<polygon points='82.40,294.49 82.40,267.11 666.40,267.11 666.40,294.49 ' style='stroke-width: 0.75; fill: #80CDC1;' />
+<polygon points='82.40,321.87 82.40,294.49 666.40,294.49 666.40,321.87 ' style='stroke-width: 0.75; fill: #01665E;' />
+<polygon points='82.40,349.24 82.40,321.87 666.40,321.87 666.40,349.24 ' style='stroke-width: 0.75; fill: #80CDC1;' />
+<polygon points='82.40,376.62 82.40,349.24 666.40,349.24 666.40,376.62 ' style='stroke-width: 0.75; fill: #01665E;' />
+<polygon points='82.40,404.00 82.40,376.62 666.40,376.62 666.40,404.00 ' style='stroke-width: 0.75; fill: #80CDC1;' />
+<polygon points='82.40,431.38 82.40,404.00 666.40,404.00 666.40,431.38 ' style='stroke-width: 0.75; fill: #01665E;' />
+<polygon points='82.40,458.76 82.40,431.38 666.40,431.38 666.40,458.76 ' style='stroke-width: 0.75; fill: #80CDC1;' />
+<polygon points='82.40,486.13 82.40,458.76 666.40,458.76 666.40,486.13 ' style='stroke-width: 0.75; fill: #01665E;' />
 </g>
 </svg>
