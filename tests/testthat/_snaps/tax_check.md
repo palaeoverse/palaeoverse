@@ -125,12 +125,24 @@
       Error in `tax_check()`:
       ! Column "" not found in `taxdf`.
 
-# arg 'group' works
+# arg 'group' is deprecated but still works
+
+    Code
+      invisible(tax_check(dat, group = "family"))
+    Condition
+      Warning:
+      The `group` argument of `tax_check()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
+
+---
 
     Code
       tax_check(data.frame(genus = c("Automaton", "Automaton"), family = c("Foo",
         "Examplidae2")), group = "family")
     Condition
+      Warning:
+      The `group` argument of `tax_check()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Warning:
       Non-letter characters present in the group names.
     Output
@@ -149,6 +161,9 @@
     Code
       tax_check(dat, group = "nonexistent")
     Condition
+      Warning:
+      The `group` argument of `tax_check()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Error in `tax_check()`:
       ! Column "nonexistent" not found in `taxdf`.
 
@@ -157,6 +172,9 @@
     Code
       tax_check(dat, group = 1)
     Condition
+      Warning:
+      The `group` argument of `tax_check()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Error in `tax_check()`:
       ! `group` must be a single string, not the number 1.
 
@@ -165,6 +183,9 @@
     Code
       tax_check(dat, group = character(0))
     Condition
+      Warning:
+      The `group` argument of `tax_check()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Error in `tax_check()`:
       ! `group` must be a single string, not an empty character vector.
 
@@ -173,6 +194,9 @@
     Code
       tax_check(dat, group = "")
     Condition
+      Warning:
+      The `group` argument of `tax_check()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Error in `tax_check()`:
       ! Column "" not found in `taxdf`.
 

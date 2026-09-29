@@ -14,9 +14,8 @@
 #' as the minimum limit of the age range, e.g. "min_ma" (default).
 #' @param max_ma \code{character}. The name of the column you wish to be treated
 #' as the maximum limit of the age range, e.g. "max_ma" (default).
-#' @param group \code{character}. The name of the column you wish to be treated
-#' as the grouping variable, e.g. "family". If not supplied, all taxa are
-#'   treated as a single group.
+#' @param group `r lifecycle::badge("deprecated")` Use [group_apply()] with
+#'   this function instead (see examples).
 #' @param by \code{character}. How should the output be sorted?
 #' Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 #' or "name" (alphabetically by taxon names).
@@ -72,30 +71,23 @@
 #' occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 #' # Temporal range
 #' ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
-#' # Temporal range ordered by class
-#' # Update margins for plotting
-#' par(mar = c(8, 5, 6, 6))
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-#'                      plot = TRUE)
 #' # Customise appearance
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
+#' ex <- tax_range_time(occdf = occdf, name = "order",
 #'                      plot = TRUE,
 #'                      plot_args = list(ylab = "Orders",
 #'                                       pch = 21, col = "black", bg = "blue",
 #'                                       lty = 2),
 #'                      intervals = list("periods", "eras"))
-#' # Control plotting order of groups
-#' occdf$class <- factor(x = occdf$class,
-#'                       levels = c("Reptilia", "Osteichthyes"))
-#' ex <- tax_range_time(occdf = occdf, name = "order",
-#'                      group = "class", plot = TRUE)
+#' # Temporal range per class
+#' ex <- group_apply(occdf = occdf, group = "class", fun = tax_range_time,
+#'                   name = "order")
 #' @export
 tax_range_time <- function(
   occdf,
   name = "genus",
   min_ma = "min_ma",
   max_ma = "max_ma",
-  group = NULL,
+  group = deprecated(),
   by = "FAD",
   plot = FALSE,
   plot_args = NULL,
@@ -117,6 +109,16 @@ tax_range_time <- function(
   check_class(occdf, max_ma, "numeric")
   check_min_lower_than_max(occdf, min_ma, max_ma)
 
+  if (lifecycle::is_present(group)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "tax_range_time(group)",
+      "group_apply()",
+      always = TRUE
+    )
+  } else {
+    group <- NULL
+  }
   if (!is.null(group)) {
     check_column_presence(occdf, group)
   }

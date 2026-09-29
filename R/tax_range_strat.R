@@ -11,9 +11,8 @@
 #' @param level \code{character}. The name of the column you wish to be treated
 #'   as the stratigraphic levels associated with each occurrence, e.g. "bed"
 #'   (default) or "height". Stratigraphic levels must be \code{numeric}.
-#' @param group \code{character}. The name of the column you wish to be treated
-#'   as the grouping variable, e.g. "family". If not supplied, all taxa are
-#'   treated as a single group.
+#' @param group `r lifecycle::badge("deprecated")` Use [group_apply()] with
+#'   this function instead (see examples).
 #' @param certainty \code{character}. The name of the column you wish to be
 #'   treated as the information on whether an identification is certain (1) or
 #'   uncertain (0). By default (\code{certainty = NULL}), no column name is
@@ -107,22 +106,18 @@
 #'                           color = c("#67C5CA", "#F2F91D"))
 #' axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
 #' title(xlab = "Taxon", line = 10.5)
-#' # Update margins for plotting
-#' par(mar = c(12, 5, 6, 2))
 #' # Pull class data
 #' occdf$class <- tetrapods$class[1:50]
-#' # Group stratigraphic ranges by class
-#' tax_range_strat(occdf, name = "taxon", group = "class",
-#'                 certainty = "certainty", by = "name",
-#'                 plot_args = list(main = "Section A",
-#'                                  ylab = "Stratigraphic height (m)"))
+#' # Plot stratigraphic ranges per class (one plot per class)
+#' ex <- group_apply(occdf, group = "class", fun = tax_range_strat,
+#'                   name = "taxon", certainty = "certainty", by = "name")
 #'
 #' @export
 tax_range_strat <- function(
   occdf,
   name = "genus",
   level = "bed",
-  group = NULL,
+  group = deprecated(),
   certainty = NULL,
   by = "FAD",
   plot_args = NULL,
@@ -139,6 +134,16 @@ tax_range_strat <- function(
   check_na(occdf, name)
   check_na(occdf, level)
 
+  if (lifecycle::is_present(group)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "tax_range_strat(group)",
+      "group_apply()",
+      always = TRUE
+    )
+  } else {
+    group <- NULL
+  }
   if (!is.null(group)) {
     check_column_presence(occdf, group)
   }

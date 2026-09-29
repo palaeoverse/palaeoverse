@@ -1,20 +1,18 @@
 #' Taxonomic spell check
 #'
 #' A function to check for and count potential spelling variations of the same
-#' taxon. Spelling variations are checked within alphabetical groups (default),
-#' or within higher taxonomic groups if provided.
+#' taxon. Spelling variations are checked within alphabetical groups. To check
+#' spelling variations within higher taxonomic groups, use [group_apply()]
+#' (see examples).
 #'
 #' @param taxdf \code{data.frame}. A dataframe with named columns containing
-#' taxon names (e.g. "species", "genus"). An optional column
-#' containing the groups (e.g. "family", "order") which taxon names
-#' belong to may also be provided (see `group` for details).
-#' NA values or empty strings in the name and group columns (i.e. "" and " ")
+#' taxon names (e.g. "species", "genus").
+#' NA values or empty strings in the name column (i.e. "" and " ")
 #' are ignored.
 #' @param name \code{character}. The column name of the taxon names you wish
 #' to check (e.g. "genus").
-#' @param group \code{character}. The column name of the higher taxonomic
-#' assignments in `taxdf` you wish to group by. If `NULL` (default), name
-#' comparison will be conducted within alphabetical groups.
+#' @param group `r lifecycle::badge("deprecated")` Use [group_apply()] with
+#' this function instead (see examples).
 #' @param dis \code{numeric}. The dissimilarity threshold: a value greater than
 #' 0 (completely dissimilar), and less than 1 (completely similar).
 #' Potential synonyms above this threshold are not returned.
@@ -31,8 +29,7 @@
 #' @return If verbose = `TRUE` (default), a \code{list} with three elements. The
 #' first element in the list (synonyms) is a \code{data.frame} with each row
 #' reporting a pair of potential synonyms. The first column "group" contains the
-#' higher group in which they occur (alphabetical groupings if `group` is
-#' not provided). The second column "greater" contains the most common synonym
+#' alphabetical group in which they occur. The second column "greater" contains the most common synonym
 #' in each pair. The third column "lesser" contains the least common synonym in
 #' each pair. The third and fourth column (`count_greater`, `count_lesser`)
 #' contain the respective counts of each synonym in a pair. If no matches were
@@ -44,9 +41,7 @@
 #' \code{data.frame} as described above is returned, or `NULL` if no matches
 #' were found.
 #'
-#' @details When higher taxonomy is provided, but some entries are missing,
-#' comparisons will still be made within alphabetical groups of taxa which lack
-#' higher taxonomic affiliations. The function also performs a check for
+#' @details The function also performs a check for
 #' non-letter characters which are not expected to be present in
 #' correctly-formatted taxon names. This detection may be made available to the
 #' user via the `verbose` argument. Comparisons are performed using the
@@ -77,15 +72,16 @@
 #' data("tetrapods")
 #' # Check taxon names alphabetically
 #' ex1 <- tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
-#' # Check taxon names by group
-#' ex2 <- tax_check(taxdf = tetrapods, name = "genus",
-#'                  group = "family", dis = 0.1)
+#' # Check taxon names within each family
+#' occdf <- subset(tetrapods, !is.na(genus))
+#' ex2 <- group_apply(occdf = occdf, group = "family", fun = tax_check,
+#'                    name = "genus", dis = 0.1, verbose = FALSE)
 #' }
 #' @export
 tax_check <- function(
   taxdf,
   name = "genus",
-  group = NULL,
+  group = deprecated(),
   dis = 0.05,
   start = 1,
   verbose = TRUE
@@ -107,6 +103,16 @@ tax_check <- function(
     )
   }
 
+  if (lifecycle::is_present(group)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "tax_check(group)",
+      "group_apply()",
+      always = TRUE
+    )
+  } else {
+    group <- NULL
+  }
   # groups: If not NULL, a 1L character vector denoting a character column
   # in taxdf
   if (!is.null(group)) {

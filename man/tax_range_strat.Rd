@@ -8,7 +8,7 @@ tax_range_strat(
   occdf,
   name = "genus",
   level = "bed",
-  group = NULL,
+  group = deprecated(),
   certainty = NULL,
   by = "FAD",
   plot_args = NULL,
@@ -28,9 +28,8 @@ as the input names, e.g. "genus" (default).}
 as the stratigraphic levels associated with each occurrence, e.g. "bed"
 (default) or "height". Stratigraphic levels must be \code{numeric}.}
 
-\item{group}{\code{character}. The name of the column you wish to be treated
-as the grouping variable, e.g. "family". If not supplied, all taxa are
-treated as a single group.}
+\item{group}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{\link[=group_apply]{group_apply()}} with
+this function instead (see examples).}
 
 \item{certainty}{\code{character}. The name of the column you wish to be
 treated as the information on whether an identification is certain (1) or
@@ -141,14 +140,10 @@ eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
                           color = c("#67C5CA", "#F2F91D"))
 axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
 title(xlab = "Taxon", line = 10.5)
-# Update margins for plotting
-par(mar = c(12, 5, 6, 2))
 # Pull class data
 occdf$class <- tetrapods$class[1:50]
-# Group stratigraphic ranges by class
-tax_range_strat(occdf, name = "taxon", group = "class",
-                certainty = "certainty", by = "name",
-                plot_args = list(main = "Section A",
-                                 ylab = "Stratigraphic height (m)"))
+# Plot stratigraphic ranges per class (one plot per class)
+ex <- group_apply(occdf, group = "class", fun = tax_range_strat,
+                  name = "taxon", certainty = "certainty", by = "name")
 
 }

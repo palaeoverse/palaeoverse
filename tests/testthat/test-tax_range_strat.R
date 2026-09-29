@@ -127,7 +127,39 @@ test_that("argument 'level' works", {
   expect_snapshot(tax_range_strat(nadf), error = TRUE)
 })
 
-test_that("argument 'group' works", {
+test_that("works with group_apply()", {
+  # fmt: skip
+  occdf <- data.frame(
+    genus = c(
+      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis",
+      "Edaphosaurus", "Procolophon"
+    ),
+    bed = c(1, 1, 2, 2, 2, 3, 3, 4),
+    class = c(
+      "Osteichthyes", "Reptilia", "Saurischia", "Osteichthyes", "Reptilia", "Saurischia",
+      "Osteichthyes", "Reptilia"
+    )
+  )
+
+  # fmt: skip
+  expect_equal(
+    group_apply(occdf, group = "class", fun = tax_range_strat),
+    data.frame(
+      ID = c(1L, 2L, 1L, 2L, 1L, 2L),
+      taxon = c(
+        "Anconastes", "Edaphosaurus", "Procolophon", "Araeoscelis", "Procolophon",
+        "Araeoscelis"
+      ),
+      group = NA,
+      min_bin = c(1, 3, 1, 2, 2, 3),
+      max_bin = c(2, 3, 4, 2, 2, 3),
+      tmp_group = "1",
+      class = rep(c("Osteichthyes", "Reptilia", "Saurischia"), each = 2L)
+    )
+  )
+})
+
+test_that("argument 'group' is deprecated but still works", {
   # fmt: skip
   occdf <- data.frame(
     genus = c(
@@ -143,23 +175,31 @@ test_that("argument 'group' works", {
   )
 
   # fmt: skip
-  expect_equal(
-    tax_range_strat(occdf, group = "class"),
-    data.frame(
-      ID = 1:6,
-      taxon = c(
-        "Anconastes", "Edaphosaurus", "Procolophon", "Araeoscelis", "Procolophon",
-        "Araeoscelis"
-      ),
-      min_bin = c(1, 3, 1, 2, 2, 3),
-      max_bin = c(2, 3, 4, 2, 2, 3),
-      class = rep(c("Osteichthyes", "Reptilia", "Saurischia"), each = 2L)
-    )
+  expect_warning(
+    expect_equal(
+      tax_range_strat(occdf, group = "class"),
+      data.frame(
+        ID = 1:6,
+        taxon = c(
+          "Anconastes", "Edaphosaurus", "Procolophon", "Araeoscelis", "Procolophon",
+          "Araeoscelis"
+        ),
+        min_bin = c(1, 3, 1, 2, 2, 3),
+        max_bin = c(2, 3, 4, 2, 2, 3),
+        class = rep(c("Osteichthyes", "Reptilia", "Saurischia"), each = 2L)
+      )
+    ),
+    "is deprecated as of palaeoverse 2.0.0",
+    fixed = TRUE
   )
 
   # It produces the expected plot
   expect_doppelganger("tax_range_strat() plots groups", function() {
-    tax_range_strat(occdf, group = "class")
+    expect_warning(
+      tax_range_strat(occdf, group = "class"),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
+    )
   })
 
   # input checks

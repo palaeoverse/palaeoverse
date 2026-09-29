@@ -92,7 +92,39 @@ test_that("arg 'name' works", {
   expect_snapshot(tax_check(dat, name = ""), error = TRUE)
 })
 
-test_that("arg 'group' works", {
+test_that("works with group_apply()", {
+  dat <- data.frame(
+    family = c(
+      "Foo",
+      "Examplidae",
+      "Examplidae",
+      "Examplidae",
+      "Taxonidae"
+    ),
+    genus = c(
+      "Joebloggsia",
+      "Joebloggia",
+      "Facsimilus",
+      "Facsimilu",
+      "Facsimilu"
+    )
+  )
+
+  # "Joebloggsia" and "Joebloggia" are in different families
+  expect_equal(
+    group_apply(dat, group = "family", fun = tax_check, verbose = FALSE),
+    data.frame(
+      group = "F",
+      greater = "Facsimilus",
+      lesser = "Facsimilu",
+      count_greater = 1L,
+      count_lesser = 1L,
+      family = "Examplidae"
+    )
+  )
+})
+
+test_that("arg 'group' is deprecated but still works", {
   dat <- data.frame(
     family = c(
       "Foo",
@@ -111,19 +143,23 @@ test_that("arg 'group' works", {
   )
 
   # Without "group", we would have two groups "F" and "J"
-  expect_equal(
-    tax_check(dat, group = "family"),
-    list(
-      synonyms = data.frame(
-        group = "Examplidae",
-        greater = "Facsimilu",
-        lesser = "Facsimilus",
-        count_greater = 2L,
-        count_lesser = 1L
-      ),
-      non_letter_name = NULL,
-      non_letter_group = NULL
-    )
+  expect_warning(
+    expect_equal(
+      tax_check(dat, group = "family"),
+      list(
+        synonyms = data.frame(
+          group = "Examplidae",
+          greater = "Facsimilu",
+          lesser = "Facsimilus",
+          count_greater = 2L,
+          count_lesser = 1L
+        ),
+        non_letter_name = NULL,
+        non_letter_group = NULL
+      )
+    ),
+    "as of palaeoverse 2.0.0",
+    fixed = TRUE
   )
 
   # Capture warning on non-letter characters

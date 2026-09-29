@@ -12,6 +12,9 @@ guidance to update existing code.
 
 * In `lat_bins_area()`, the argument `n` is deprecated and replaced by `n_bins` (#349).
 
+* In `tax_check()`, `tax_range_strat()` and `tax_range_time()`, the argument
+  `group` is deprecated. Use `group_apply()` with these functions instead.
+
 ## Bug fixes
 
 * `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).

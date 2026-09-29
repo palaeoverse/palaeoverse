@@ -44,6 +44,8 @@
 #' variable.
 #' - \code{\link{tax_range_time}}: return the temporal range of taxa per
 #' grouping variable.
+#' - \code{\link{tax_range_strat}}: plot and return the stratigraphic range of
+#' taxa per grouping variable.
 #' - \code{\link{tax_range_space}}: return the geographic range of taxa per
 #' grouping variable.
 #' - \code{\link{tax_check}}: return potential spelling variations of the

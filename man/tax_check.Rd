@@ -7,7 +7,7 @@
 tax_check(
   taxdf,
   name = "genus",
-  group = NULL,
+  group = deprecated(),
   dis = 0.05,
   start = 1,
   verbose = TRUE
@@ -15,18 +15,15 @@ tax_check(
 }
 \arguments{
 \item{taxdf}{\code{data.frame}. A dataframe with named columns containing
-taxon names (e.g. "species", "genus"). An optional column
-containing the groups (e.g. "family", "order") which taxon names
-belong to may also be provided (see \code{group} for details).
-NA values or empty strings in the name and group columns (i.e. "" and " ")
+taxon names (e.g. "species", "genus").
+NA values or empty strings in the name column (i.e. "" and " ")
 are ignored.}
 
 \item{name}{\code{character}. The column name of the taxon names you wish
 to check (e.g. "genus").}
 
-\item{group}{\code{character}. The column name of the higher taxonomic
-assignments in \code{taxdf} you wish to group by. If \code{NULL} (default), name
-comparison will be conducted within alphabetical groups.}
+\item{group}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{\link[=group_apply]{group_apply()}} with
+this function instead (see examples).}
 
 \item{dis}{\code{numeric}. The dissimilarity threshold: a value greater than
 0 (completely dissimilar), and less than 1 (completely similar).
@@ -47,8 +44,7 @@ reported if such characters are detected in the taxon names.}
 If verbose = \code{TRUE} (default), a \code{list} with three elements. The
 first element in the list (synonyms) is a \code{data.frame} with each row
 reporting a pair of potential synonyms. The first column "group" contains the
-higher group in which they occur (alphabetical groupings if \code{group} is
-not provided). The second column "greater" contains the most common synonym
+alphabetical group in which they occur. The second column "greater" contains the most common synonym
 in each pair. The third column "lesser" contains the least common synonym in
 each pair. The third and fourth column (\code{count_greater}, \code{count_lesser})
 contain the respective counts of each synonym in a pair. If no matches were
@@ -62,13 +58,12 @@ were found.
 }
 \description{
 A function to check for and count potential spelling variations of the same
-taxon. Spelling variations are checked within alphabetical groups (default),
-or within higher taxonomic groups if provided.
+taxon. Spelling variations are checked within alphabetical groups. To check
+spelling variations within higher taxonomic groups, use \code{\link[=group_apply]{group_apply()}}
+(see examples).
 }
 \details{
-When higher taxonomy is provided, but some entries are missing,
-comparisons will still be made within alphabetical groups of taxa which lack
-higher taxonomic affiliations. The function also performs a check for
+The function also performs a check for
 non-letter characters which are not expected to be present in
 correctly-formatted taxon names. This detection may be made available to the
 user via the \code{verbose} argument. Comparisons are performed using the
@@ -105,8 +100,9 @@ Lewis A. Jones, Kilian Eichenseer & Christopher D. Dean
 data("tetrapods")
 # Check taxon names alphabetically
 ex1 <- tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
-# Check taxon names by group
-ex2 <- tax_check(taxdf = tetrapods, name = "genus",
-                 group = "family", dis = 0.1)
+# Check taxon names within each family
+occdf <- subset(tetrapods, !is.na(genus))
+ex2 <- group_apply(occdf = occdf, group = "family", fun = tax_check,
+                   name = "genus", dis = 0.1, verbose = FALSE)
 }
 }

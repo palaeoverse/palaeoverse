@@ -187,7 +187,7 @@ test_that("max ages must be larger than or equal to min ages", {
   expect_snapshot(tax_range_time(occdf), error = TRUE)
 })
 
-test_that("argument 'group' works", {
+test_that("works with group_apply()", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
@@ -196,16 +196,42 @@ test_that("argument 'group' works", {
   )
 
   expect_equal(
-    tax_range_time(occdf, group = "family"),
+    group_apply(occdf, group = "family", fun = tax_range_time),
     data.frame(
       taxon = c("B", "A", "C", "B"),
-      taxon_id = 1:4,
+      taxon_id = c(1L, 2L, 1L, 2L),
       max_ma = c(6, 10, 3, 5),
       min_ma = c(5, 7, 2, 4),
       range_myr = c(1, 3, 1, 1),
       n_occ = c(1L, 2L, 1L, 1L),
       family = c("F1", "F1", "F2", "F2")
     )
+  )
+})
+
+test_that("argument 'group' is deprecated but still works", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    max_ma = c(10, 8, 6, 5, 3),
+    min_ma = c(9, 7, 5, 4, 2),
+    family = c("F1", "F1", "F1", "F2", "F2")
+  )
+
+  expect_warning(
+    expect_equal(
+      tax_range_time(occdf, group = "family"),
+      data.frame(
+        taxon = c("B", "A", "C", "B"),
+        taxon_id = 1:4,
+        max_ma = c(6, 10, 3, 5),
+        min_ma = c(5, 7, 2, 4),
+        range_myr = c(1, 3, 1, 1),
+        n_occ = c(1L, 2L, 1L, 1L),
+        family = c("F1", "F1", "F2", "F2")
+      )
+    ),
+    "deprecated as of palaeoverse 2.0.0",
+    fixed = TRUE
   )
 
   # input checks

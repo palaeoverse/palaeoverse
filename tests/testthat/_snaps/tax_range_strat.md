@@ -146,11 +146,14 @@
       Error in `tax_range_strat()`:
       ! Column "bed" in `occdf` must be of class <numeric>, not <logical>.
 
-# argument 'group' works
+# argument 'group' is deprecated but still works
 
     Code
       tax_range_strat(occdf, group = c("class", "genus"))
     Condition
+      Warning:
+      The `group` argument of `tax_range_strat()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Error in `tax_range_strat()`:
       ! `group` must be a single string, not a character vector.
 
@@ -159,6 +162,9 @@
     Code
       tax_range_strat(occdf, group = "test")
     Condition
+      Warning:
+      The `group` argument of `tax_range_strat()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Error in `tax_range_strat()`:
       ! Column "test" not found in `occdf`.
 
@@ -167,6 +173,9 @@
     Code
       tax_range_strat(occdf, group = character(0))
     Condition
+      Warning:
+      The `group` argument of `tax_range_strat()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Error in `tax_range_strat()`:
       ! `group` must be a single string, not an empty character vector.
 
@@ -175,6 +184,9 @@
     Code
       tax_range_strat(occdf, group = NA)
     Condition
+      Warning:
+      The `group` argument of `tax_range_strat()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Error in `tax_range_strat()`:
       ! `group` must be a single string, not `NA`.
 
@@ -183,6 +195,9 @@
     Code
       tax_range_strat(occdf, group = 1)
     Condition
+      Warning:
+      The `group` argument of `tax_range_strat()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `group_apply()` instead.
       Error in `tax_range_strat()`:
       ! `group` must be a single string, not the number 1.
 
