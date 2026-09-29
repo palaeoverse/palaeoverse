@@ -15,7 +15,7 @@ time_bins(
   plot = deprecated()
 )
 
-\method{plot}{palaeoverse_time_bins}(x, ..., xlab = "Time (Ma)", ylab = "Duration (Myr)")
+\method{plot}{palaeoverse_time_bins}(x, ..., xlab = "Time (Ma)", ylab = "Duration (Myr)", col = "#80cdc1")
 }
 \arguments{
 \item{interval}{\code{character or numeric}. Interval name available in
@@ -64,6 +64,9 @@ already set internally and must not be specified here: \code{type}, \code{xlim},
 \item{xlab}{\code{character}. The x-axis title.}
 
 \item{ylab}{\code{character}. The y-axis title.}
+
+\item{col}{\code{character}. Colour of all bars. This is only used if the output of \code{time_bins()}
+doesn't contain a column \code{colour}, e.g. with \code{time_bins(interval = "Mesozoic", size = 10)}.}
 }
 \value{
 A \code{data.frame} of time bins for the specified intervals or a

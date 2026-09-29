@@ -509,6 +509,9 @@ test_that("time_bins plotting with extra args works", {
   expect_doppelganger("time_bins-axis", function() {
     plot(time_bins(interval = "Mesozoic"), xlab = "x axis", ylab = "y axis")
   })
+  expect_doppelganger("time_bins-colour", function() {
+    plot(time_bins(interval = "Mesozoic", size = 10), col = "red")
+  })
   # `main` is passed through `...`
   expect_doppelganger("time_bins-dots", function() {
     plot(time_bins(interval = "Mesozoic"), main = "hello there")

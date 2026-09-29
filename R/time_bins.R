@@ -530,6 +530,8 @@ time_bins <- function(
 
 #' @param x `data.frame`. An object of class `"palaeoverse_time_bins"` created by `time_bins()`.
 #' @inheritParams lat_bins_area
+#' @param col `character`. Colour of all bars. This is only used if the output of `time_bins()`
+#'   doesn't contain a column `colour`, e.g. with `time_bins(interval = "Mesozoic", size = 10)`.
 #'
 #' @name time_bins
 #' @importFrom graphics polygon
@@ -538,7 +540,8 @@ plot.palaeoverse_time_bins <- function(
   x,
   ...,
   xlab = "Time (Ma)",
-  ylab = "Duration (Myr)"
+  ylab = "Duration (Myr)",
+  col = "#80cdc1"
 ) {
   check_forbidden_plot_args(
     ...,
@@ -547,10 +550,7 @@ plot.palaeoverse_time_bins <- function(
   )
 
   if (!"colour" %in% names(x)) {
-    x$colour <- "#80cdc1"
-  }
-  if (!"colour" %in% names(x)) {
-    x$font <- "black"
+    x$colour <- col
   }
   plot(
     1,
