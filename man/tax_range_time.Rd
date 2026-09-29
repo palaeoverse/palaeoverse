@@ -61,7 +61,7 @@ or "name" (alphabetically by taxon names).}
 \code{character} string indicating a rank of intervals from the built-in \link{GTS2020}, B) a \code{character}
 string indicating a \code{data.frame} hosted by \href{https://macrostrat.org}{Macrostrat} (see \link{time_bins}),
 or C) a custom \code{data.frame} of time interval boundaries (see \link{axis_geo} Details). A list of strings
-or data.frames can be supplied to add#'   multiple time scales to the same side of the plot (see
+or data.frames can be supplied to add multiple time scales to the same side of the plot (see
 \link{axis_geo} Details). Defaults to \code{"periods"}.}
 
 \item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the

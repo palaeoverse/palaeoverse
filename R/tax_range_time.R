@@ -232,7 +232,7 @@ tax_range_time <- function(
 #' `character` string indicating a rank of intervals from the built-in [GTS2020], B) a `character`
 #' string indicating a `data.frame` hosted by [Macrostrat](https://macrostrat.org) (see [time_bins]),
 #' or C) a custom `data.frame` of time interval boundaries (see [axis_geo] Details). A list of strings
-#'  or data.frames can be supplied to add#'   multiple time scales to the same side of the plot (see
+#'  or data.frames can be supplied to add multiple time scales to the same side of the plot (see
 #' [axis_geo] Details). Defaults to `"periods"`.
 #'
 #' @name tax_range_time
