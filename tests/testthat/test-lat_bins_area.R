@@ -45,9 +45,6 @@ test_that("lat_bins_area errors with wrong inputs", {
 
   expect_snapshot(lat_bins_area(min = 90, max = -90), error = TRUE)
 
-  expect_snapshot(lat_bins_area(plot = "TRUE"), error = TRUE)
-  expect_snapshot(lat_bins_area(plot = logical(0)), error = TRUE)
-
   expect_snapshot(lat_bins_area(r = "Earth"), error = TRUE)
   expect_snapshot(lat_bins_area(r = numeric(0)), error = TRUE)
   expect_snapshot(lat_bins_area(r = -1), error = TRUE)
@@ -55,8 +52,41 @@ test_that("lat_bins_area errors with wrong inputs", {
 
 test_that("lat_bins_area plotting works", {
   expect_doppelganger("lat_bins_area", function() {
-    lat_bins_area(n_bins = 12, plot = TRUE)
+    plot(lat_bins_area(n_bins = 12))
   })
+  expect_doppelganger("lat_bins_area-extra_args", function() {
+    plot(lat_bins_area(n_bins = 12), sub = "A subtitle")
+  })
+
+  # Plotting options that cannot be changed
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), xlim = "foo"), error = TRUE)
+  expect_snapshot(
+    plot(lat_bins_area(n_bins = 12), xlim = "foo", ylim = "bar"),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(lat_bins_area(n_bins = 12), xlim = "foo", ylim = "bar", type = "l"),
+    error = TRUE
+  )
+
+  # only one of the extra args is disallowed
+  expect_snapshot(
+    plot(lat_bins_area(n_bins = 12), xlim = "foo", sub = "bar"),
+    error = TRUE
+  )
+})
+
+test_that("lat_bins_area plotting with extra args works", {
+  expect_doppelganger("lat_bins_area-colour", function() {
+    plot(lat_bins_area(n_bins = 12), col = c("red", "blue"))
+  })
+  expect_doppelganger("lat_bins_area-axis", function() {
+    plot(lat_bins_area(n_bins = 12), xlab = "x axis", ylab = "y axis")
+  })
+
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), col = "foo"), error = TRUE)
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), col = 1), error = TRUE)
+  expect_snapshot(plot(lat_bins_area(n_bins = 12), col = NA), error = TRUE)
 })
 
 test_that("n is deprecated but still works", {
@@ -73,4 +103,18 @@ test_that("n is deprecated but still works", {
 
   # can't specify both n and n_bins
   expect_snapshot(lat_bins_area(n_bins = 6, n = 6), error = TRUE)
+})
+
+
+test_that("plot is deprecated but still works", {
+  expect_doppelganger("lat_bins_area_deprecated", function() {
+    expect_warning(
+      lat_bins_area(n_bins = 12, plot = TRUE),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
+    )
+  })
+
+  # still input checking
+  expect_snapshot(lat_bins_area(plot = "6"), error = TRUE)
 })
