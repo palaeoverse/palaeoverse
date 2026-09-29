@@ -57,15 +57,12 @@ treated as a single group.}
 Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 or "name" (alphabetically by taxon names).}
 
-\item{intervals}{\code{character}. The time interval information used to
-plot the x-axis: either A) a \code{character} string indicating a rank of
-intervals from the built-in \link{GTS2020}, B) a \code{character}
-string indicating a \code{data.frame} hosted by
-\href{https://macrostrat.org}{Macrostrat} (see \link{time_bins}), or C)
-a custom \code{data.frame} of time interval boundaries (see \link{axis_geo}
-Details). A list of strings or data.frames can be supplied to add
-multiple time scales to the same side of the plot (see \link{axis_geo}
-Details). Defaults to \code{"periods"}.}
+\item{intervals}{\code{character}. The time interval information used to plot the x-axis: either A) a
+\code{character} string indicating a rank of intervals from the built-in \link{GTS2020}, B) a \code{character}
+string indicating a \code{data.frame} hosted by \href{https://macrostrat.org}{Macrostrat} (see \link{time_bins}),
+or C) a custom \code{data.frame} of time interval boundaries (see \link{axis_geo} Details). A list of strings
+or data.frames can be supplied to add#'   multiple time scales to the same side of the plot (see
+\link{axis_geo} Details). Defaults to \code{"periods"}.}
 
 \item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
 output of this function instead.}
@@ -83,16 +80,13 @@ already set internally and must not be specified here: \code{xlim}, \code{ylim},
 
 \item{col}{\code{character}. The colour of the range segments and points.}
 
-\item{bg}{\code{character}. The background (fill) colour of the points, only
-used for \code{pch} values 21 to 25.}
+\item{bg}{\code{character}. The background (fill) colour of the points, only used for \code{pch} values 21 to 25.}
 
-\item{pch}{\code{numeric}. The symbol used for the first and last appearance
-points (see \code{\link[graphics:points]{graphics::points()}}).}
+\item{pch}{\code{numeric}. The symbol used for the first and last appearance points (see \code{\link[graphics:points]{graphics::points()}}).}
 
 \item{cex}{\code{numeric}. The size of the points.}
 
-\item{lty}{\code{numeric}. The line type of the range segments (see
-\code{\link[graphics:par]{graphics::par()}}).}
+\item{lty}{\code{numeric}. The line type of the range segments (see \code{\link[graphics:par]{graphics::par()}}).}
 
 \item{lwd}{\code{numeric}. The line width of the range segments.}
 

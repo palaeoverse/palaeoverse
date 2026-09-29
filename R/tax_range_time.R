@@ -223,24 +223,18 @@ tax_range_time <- function(
 #' @inheritParams lat_bins_area
 #' @param main `character`. The plot title.
 #' @param col `character`. The colour of the range segments and points.
-#' @param bg `character`. The background (fill) colour of the points, only
-#'   used for `pch` values 21 to 25.
-#' @param pch `numeric`. The symbol used for the first and last appearance
-#'   points (see [graphics::points()]).
+#' @param bg `character`. The background (fill) colour of the points, only used for `pch` values 21 to 25.
+#' @param pch `numeric`. The symbol used for the first and last appearance points (see [graphics::points()]).
 #' @param cex `numeric`. The size of the points.
-#' @param lty `numeric`. The line type of the range segments (see
-#'   [graphics::par()]).
+#' @param lty `numeric`. The line type of the range segments (see [graphics::par()]).
 #' @param lwd `numeric`. The line width of the range segments.
 #' @param axes `logical`. Should the axes be drawn?
-#' @param intervals `character`. The time interval information used to
-#'   plot the x-axis: either A) a `character` string indicating a rank of
-#'   intervals from the built-in [GTS2020], B) a `character`
-#'   string indicating a `data.frame` hosted by
-#'   [Macrostrat](https://macrostrat.org) (see [time_bins]), or C)
-#'   a custom `data.frame` of time interval boundaries (see [axis_geo]
-#'   Details). A list of strings or data.frames can be supplied to add
-#'   multiple time scales to the same side of the plot (see [axis_geo]
-#'   Details). Defaults to `"periods"`.
+#' @param intervals `character`. The time interval information used to plot the x-axis: either A) a
+#' `character` string indicating a rank of intervals from the built-in [GTS2020], B) a `character`
+#' string indicating a `data.frame` hosted by [Macrostrat](https://macrostrat.org) (see [time_bins]),
+#' or C) a custom `data.frame` of time interval boundaries (see [axis_geo] Details). A list of strings
+#'  or data.frames can be supplied to add#'   multiple time scales to the same side of the plot (see
+#' [axis_geo] Details). Defaults to `"periods"`.
 #'
 #' @name tax_range_time
 #' @importFrom graphics points strwidth
