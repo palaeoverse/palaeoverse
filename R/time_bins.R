@@ -57,7 +57,7 @@
 #'   min_ma, duration_myr, abbr (interval abbreviation), colour and font
 #'   (colour). If `size` or `n_bins` is specified, the time bins
 #'   \code{data.frame} contains the following columns: bin, max_ma, mid_ma,
-#'   min_ma, duration_myr, grouping_rank, intervals, colour and font.
+#'   min_ma, duration_myr, grouping_rank, and intervals.
 #'
 #' @details This function uses either the Geological Time Scale 2020,
 #'   Geological Time Scale 2012, a valid timescale from
