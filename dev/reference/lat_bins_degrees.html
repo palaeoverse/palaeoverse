@@ -69,7 +69,22 @@ which is divisible into this range.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lat_bins_degrees</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">90</span>, max <span class="op">=</span> <span class="fl">90</span>, fit <span class="op">=</span> <span class="cn">FALSE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lat_bins_degrees</span><span class="op">(</span></span>
+<span>  size <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  min <span class="op">=</span> <span class="op">-</span><span class="fl">90</span>,</span>
+<span>  max <span class="op">=</span> <span class="fl">90</span>,</span>
+<span>  fit <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'palaeoverse_lat_bins_degrees'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#01665e"</span>, <span class="st">"#80cdc1"</span><span class="op">)</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Longitude (°)"</span>,</span>
+<span>  ylab <span class="op">=</span> <span class="st">"Latitude (°)"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -101,13 +116,34 @@ upper part of the latitudinal range will be missing.</p></dd>
 
 
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
-<dd><p><code>logical</code>. Should a plot of the latitudinal bins be
-generated? If <code>TRUE</code>, a plot is generated. Defaults to <code>FALSE</code>.</p></dd>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> on the output of
+this function instead.</p></dd>
+
+
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p><code>data.frame</code>. An object of class <code>"palaeoverse_lat_bins_degrees"</code> created by <code>lat_bins_degrees()</code>.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Extra arguments passed to <code><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot()</a></code>. The following arguments are
+already set internally and must not be specified here: <code>type</code>, <code>xlim</code>, <code>ylim</code>.</p></dd>
+
+
+<dt id="arg-col">col<a class="anchor" aria-label="anchor" href="#arg-col"></a></dt>
+<dd><p><code>character</code>. A character vector of length 2 indicating the colours to use for the bins.</p></dd>
+
+
+<dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
+<dd><p><code>character</code>. The x-axis title.</p></dd>
+
+
+<dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
+<dd><p><code>character</code>. The y-axis title.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>dataframe</code> of latitudinal bins of user-defined size. The
+    <p>A <code>data.frame</code> of latitudinal bins of user-defined size. The
 <code>data.frame</code> contains the following columns: bin (bin number), min
 (minimum latitude of the bin), mid (midpoint latitude of
 the bin), max (maximum latitude of the bin).</p>
@@ -131,15 +167,54 @@ the bin), max (maximum latitude of the bin).</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate 20 degrees latitudinal bins</span></span></span>
-<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">lat_bins_degrees</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate 25 degrees latitudinal bins</span></span></span>
+<span class="r-in"><span><span class="fu">lat_bins_degrees</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   bin min   mid max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1  60  72.5  85</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2  35  47.5  60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3  10  22.5  35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 -15  -2.5  10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 -40 -27.5 -15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 -65 -52.5 -40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 -90 -77.5 -65</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Generate latitudinal bins with closest fit to 13 degrees</span></span></span>
-<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">lat_bins_degrees</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">13</span>, fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">lat_bins_degrees</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">13</span>, fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Bin size set to 12 degrees to fit latitudinal range.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    bin min mid max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    1  78  84  90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2  66  72  78</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    3  54  60  66</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    4  42  48  54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    5  30  36  42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    6  18  24  30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    7   6  12  18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    8  -6   0   6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    9 -18 -12  -6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  10 -30 -24 -18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  11 -42 -36 -30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  12 -54 -48 -42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13  13 -66 -60 -54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  14 -78 -72 -66</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15  15 -90 -84 -78</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Generate latitudinal bins for defined latitudinal range</span></span></span>
-<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">lat_bins_degrees</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">50</span>, max <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">lat_bins_degrees</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">50</span>, max <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    bin min mid max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    1  40  45  50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2  30  35  40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    3  20  25  30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    4  10  15  20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    5   0   5  10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    6 -10  -5   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    7 -20 -15 -10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    8 -30 -25 -20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    9 -40 -35 -30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  10 -50 -45 -40</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot latitudinal bins</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">lat_bins_degrees</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="lat_bins_degrees-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

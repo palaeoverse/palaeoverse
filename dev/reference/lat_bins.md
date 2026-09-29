@@ -40,5 +40,6 @@ lat_bins(size = 10, min = -90, max = 90, fit = FALSE, plot = FALSE)
 
 - plot:
 
-  `logical`. Should a plot of the latitudinal bins be generated? If
-  `TRUE`, a plot is generated. Defaults to `FALSE`.
+  **\[deprecated\]** Use
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html) on the output
+  of this function instead.

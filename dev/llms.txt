@@ -147,6 +147,7 @@ Functions to support further functionality.
   [`plot(`*`<palaeoverse_lat_bins_area>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_area.md)
   : Generate equal-area latitudinal bins
 - [`lat_bins_degrees()`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_degrees.md)
+  [`plot(`*`<palaeoverse_lat_bins_degrees>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_degrees.md)
   : Generate equal-width latitudinal bins
 - [`time_bins()`](https://palaeoverse.palaeoverse.org/dev/reference/time_bins.md)
   : Generate time bins
