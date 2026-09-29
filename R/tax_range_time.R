@@ -30,7 +30,7 @@
 #' returned.
 #'
 #' This \code{data.frame} has two attributes `palaeoverse_tax_range_time_group`
-#' and `palaeoverse_tax_range_time_intervals` that are only for internal use and
+#' and `palaeoverse_tax_range_time_intervals` that are for internal use only and
 #' shouldn't be relied upon.
 #'
 #' @details The temporal range(s) of taxa are calculated by extracting all

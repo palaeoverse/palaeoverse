@@ -100,7 +100,7 @@ range (\code{range_myr}), and number of occurrences per taxon (\code{n_occ}) is
 returned.
 
 This \code{data.frame} has two attributes \code{palaeoverse_tax_range_time_group}
-and \code{palaeoverse_tax_range_time_intervals} that are only for internal use and
+and \code{palaeoverse_tax_range_time_intervals} that are for internal use only and
 shouldn't be relied upon.
 }
 \description{
