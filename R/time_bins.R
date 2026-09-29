@@ -531,7 +531,7 @@ time_bins <- function(
 #' @param x `data.frame`. An object of class `"palaeoverse_time_bins"` created by `time_bins()`.
 #' @inheritParams lat_bins_area
 #' @param col `character`. Colour of all bars. This is only used if the output of `time_bins()`
-#'   doesn't contain a column `colour`, e.g. with `time_bins(interval = "Mesozoic", size = 10)`.
+#' doesn't contain a column `colour`, e.g. with `time_bins(interval = "Mesozoic", size = 10)`.
 #'
 #' @name time_bins
 #' @importFrom graphics polygon
