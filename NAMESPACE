@@ -2,6 +2,7 @@
 
 S3method(plot,palaeoverse_bin_space)
 S3method(plot,palaeoverse_lat_bins_area)
+S3method(plot,palaeoverse_lat_bins_degrees)
 export(axis_geo)
 export(axis_geo_phylo)
 export(bin_lat)
@@ -39,7 +40,6 @@ importFrom(grDevices,
   col2rgb
 )
 importFrom(graphics,
-  abline,
   axis,
   box,
   clip,
