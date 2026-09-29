@@ -2,6 +2,8 @@
 
 S3method(plot,palaeoverse_lat_bins_area)
 S3method(plot,palaeoverse_lat_bins_degrees)
+S3method(print,palaeoverse_data)
+export(as_palaeo)
 export(axis_geo)
 export(axis_geo_phylo)
 export(bin_lat)
