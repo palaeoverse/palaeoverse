@@ -5,7 +5,7 @@ test_that("bin_space() works", {
   # We don't lose or gain observations
   expect_message(
     expect_equal(
-      nrow(bin_space(occdf = occdf, spacing = 250, plot = TRUE)),
+      nrow(bin_space(occdf = occdf, spacing = 250)),
       nrow(occdf)
     ),
     "H3 resolution: 2"
@@ -13,7 +13,7 @@ test_that("bin_space() works", {
   expect_message(
     expect_equal(
       nrow(
-        bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+        bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
       ),
       nrow(occdf)
     ),
@@ -23,20 +23,14 @@ test_that("bin_space() works", {
   # Check output type
   expect_message(
     expect_type(
-      bin_space(occdf = occdf, spacing = 250, return = TRUE, plot = TRUE),
+      bin_space(occdf = occdf, spacing = 250, return = TRUE),
       "list"
     ),
     "H3 resolution: 2"
   )
   expect_message(
     expect_type(
-      bin_space(
-        occdf = occdf,
-        spacing = 500,
-        sub_grid = 200,
-        return = TRUE,
-        plot = TRUE
-      ),
+      bin_space(occdf = occdf, spacing = 500, sub_grid = 200, return = TRUE),
       "list"
     ),
     "H3 resolution: 1"
@@ -103,4 +97,67 @@ test_that("bin_space error handling", {
   expect_snapshot(bin_space(occdf = occdf), error = TRUE)
   occdf$lng[1] <- "184"
   expect_snapshot(bin_space(occdf = occdf), error = TRUE)
+})
+
+test_that("argument 'plot' works", {
+  dat <- reefs[1:50, ]
+  expect_doppelganger("bin_space", function() {
+    expect_message(
+      plot(bin_space(occdf = dat, spacing = 1000)),
+      "set to 725.17 km"
+    )
+  })
+})
+
+test_that("bin_space plotting with extra args works", {
+  dat <- reefs[1:50, ]
+  expect_doppelganger("bin_space-axis-labels", function() {
+    expect_message(
+      plot(
+        bin_space(occdf = dat, spacing = 1000),
+        xlab = "x axis",
+        ylab = "y axis"
+      ),
+      "set to 725.17 km"
+    )
+  })
+  expect_doppelganger("bin_space-axes", function() {
+    expect_message(
+      plot(bin_space(occdf = dat, spacing = 1000), axes = FALSE),
+      "set to 725.17 km"
+    )
+  })
+  # `main` is passed through `...`
+  expect_doppelganger("bin_space-dots", function() {
+    expect_message(
+      plot(bin_space(occdf = dat, spacing = 1000), main = "hello there"),
+      "set to 725.17 km"
+    )
+  })
+
+  # forbidden args
+  expect_snapshot(
+    plot(bin_space(occdf = dat, spacing = 1000), setParUsrBB = FALSE),
+    error = TRUE
+  )
+})
+
+test_that("plot is deprecated but still works", {
+  dat <- reefs[1:50, ]
+  expect_doppelganger("bin_space_deprecated", function() {
+    expect_message(
+      expect_warning(
+        bin_space(occdf = dat, spacing = 1000, plot = TRUE),
+        "is deprecated as of palaeoverse 2.0.0",
+        fixed = TRUE
+      ),
+      "set to 725.17 km"
+    )
+  })
+
+  # still input checking
+  expect_snapshot(
+    bin_space(occdf = dat, spacing = 1000, plot = "6"),
+    error = TRUE
+  )
 })
