@@ -99,7 +99,7 @@
 ---
 
     Code
-      bin_time(occdf = occdf, bins = bins, method = "random", reps = 0)
+      bin_time(data = data, bins = bins, method = "random", reps = 0)
     Condition
       Error in `bin_time()`:
       ! `reps` must be a whole number larger than or equal to 1, not the number 0.
@@ -107,7 +107,7 @@
 ---
 
     Code
-      bin_time(occdf = occdf, bins = bins, method = "random", reps = 1.5)
+      bin_time(data = data, bins = bins, method = "random", reps = 1.5)
     Condition
       Error in `bin_time()`:
       ! `reps` must be a whole number, not the number 1.5.
@@ -115,7 +115,7 @@
 ---
 
     Code
-      bin_time(occdf = occdf, bins = bins, method = "random", reps = NA)
+      bin_time(data = data, bins = bins, method = "random", reps = NA)
     Condition
       Error in `bin_time()`:
       ! `reps` must be a whole number, not `NA`.
@@ -185,7 +185,7 @@
       bin_time(data = data, bins = bins)
     Condition
       Error in `bin_time()`:
-      ! Column "max_ma" in `occdf` must not have missing values.
+      ! Column "max_ma" in `data` must not have missing values.
 
 # bin_time errors with unnamed args
 
@@ -193,7 +193,7 @@
       bin_time(data = test_data, test_bins, method = "majority")
     Condition
       Error in `bin_time()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -202,7 +202,7 @@
       bin_time(test_data, test_bins, "majority")
     Condition
       Error in `bin_time()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -212,6 +212,6 @@
         0.5, 0.25)
     Condition
       Error in `bin_time()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there are 2 arguments that should be named.
 

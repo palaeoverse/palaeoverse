@@ -119,14 +119,14 @@ bin_space <- function(
 ) {
   ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(occdf)
-  check_column_presence(occdf, lat)
-  check_column_presence(occdf, lng)
+  check_data_frame(data)
+  check_column_presence(data, lat)
+  check_column_presence(data, lng)
 
-  check_class(occdf, lat, "numeric")
-  check_class(occdf, lng, "numeric")
-  check_range(occdf, lat, -90, 90)
-  check_range(occdf, lng, -180, 180)
+  check_class(data, lat, "numeric")
+  check_class(data, lng, "numeric")
+  check_range(data, lat, -90, 90)
+  check_range(data, lng, -180, 180)
 
   rlang::check_number_decimal(spacing)
   if (spacing <= 0) {

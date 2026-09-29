@@ -4,7 +4,7 @@
       bin_space(data, "lng")
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -13,7 +13,7 @@
       bin_space(data = data, "lng")
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -22,7 +22,7 @@
       bin_space(data, "lng", "lat")
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -31,7 +31,7 @@
       bin_space(data, "lng", lat = "lat")
     Condition
       Error in `bin_space()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 # bin_space error handling
@@ -61,7 +61,7 @@
 ---
 
     Code
-      bin_space(occdf = tetrapods, spacing = -1)
+      bin_space(data = tetrapods, spacing = -1)
     Condition
       Error in `bin_space()`:
       ! `spacing` must be greater than 0.
@@ -69,7 +69,7 @@
 ---
 
     Code
-      bin_space(occdf = tetrapods, spacing = 0)
+      bin_space(data = tetrapods, spacing = 0)
     Condition
       Error in `bin_space()`:
       ! `spacing` must be greater than 0.
@@ -93,7 +93,7 @@
 ---
 
     Code
-      bin_space(occdf = tetrapods, sub_grid = -1)
+      bin_space(data = tetrapods, sub_grid = -1)
     Condition
       Error in `bin_space()`:
       ! `sub_grid` must be greater than 0.
@@ -101,7 +101,7 @@
 ---
 
     Code
-      bin_space(occdf = tetrapods, sub_grid = 0)
+      bin_space(data = tetrapods, sub_grid = 0)
     Condition
       Error in `bin_space()`:
       ! `sub_grid` must be greater than 0.
@@ -146,7 +146,7 @@
       bin_space(data = data)
     Condition
       Error in `bin_space()`:
-      ! Column "lat" in `occdf` must be of class <numeric>, not <character>.
+      ! Column "lat" in `data` must be of class <numeric>, not <character>.
 
 ---
 
@@ -163,5 +163,5 @@
       bin_space(data = data)
     Condition
       Error in `bin_space()`:
-      ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
+      ! Column "lng" in `data` must be of class <numeric>, not <character>.
 

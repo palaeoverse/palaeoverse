@@ -69,10 +69,10 @@ tax_expand_time <- function(
   check_column_presence(data, max_ma)
   check_column_presence(data, min_ma)
 
-  check_class(taxdf, min_ma, "numeric")
-  check_class(taxdf, max_ma, "numeric")
-  check_range(taxdf, min_ma, 0, Inf)
-  check_range(taxdf, max_ma, 0, Inf)
+  check_class(data, min_ma, "numeric")
+  check_class(data, max_ma, "numeric")
+  check_range(data, min_ma, 0, Inf)
+  check_range(data, max_ma, 0, Inf)
 
   rlang::check_bool(ext_orig)
 

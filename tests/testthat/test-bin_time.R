@@ -428,15 +428,15 @@ test_that("wrong input for reps", {
     error = TRUE
   )
   expect_snapshot(
-    bin_time(occdf = occdf, bins = bins, method = "random", reps = 0),
+    bin_time(data = data, bins = bins, method = "random", reps = 0),
     error = TRUE
   )
   expect_snapshot(
-    bin_time(occdf = occdf, bins = bins, method = "random", reps = 1.5),
+    bin_time(data = data, bins = bins, method = "random", reps = 1.5),
     error = TRUE
   )
   expect_snapshot(
-    bin_time(occdf = occdf, bins = bins, method = "random", reps = NA),
+    bin_time(data = data, bins = bins, method = "random", reps = NA),
     error = TRUE
   )
 })

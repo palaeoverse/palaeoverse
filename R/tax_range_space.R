@@ -134,10 +134,10 @@ tax_range_space <- function(
   check_na(data, lat)
   check_na(data, lng)
 
-  check_class(occdf, lat, "numeric")
-  check_class(occdf, lng, "numeric")
-  check_range(occdf, lat, -90, 90)
-  check_range(occdf, lng, -180, 180)
+  check_class(data, lat, "numeric")
+  check_class(data, lng, "numeric")
+  check_range(data, lat, -90, 90)
+  check_range(data, lng, -180, 180)
 
   rlang::check_number_decimal(spacing)
   rlang::check_bool(coords)
