@@ -7,6 +7,11 @@ guidance to update existing code.
 
 * `palaeoverse` requires R >= 4.1.0 (#181).
 
+## Breaking changes
+
+* In `tax_check()`, the argument `verbose` is removed and `tax_check()` always returns
+  a `data.frame` with attributes `non_letter_name` and `non_letter_group` (#342).
+  
 * All functions now require arguments to be fully named, except for the first
   argument in some cases (#216).
 
