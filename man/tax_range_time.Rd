@@ -140,9 +140,9 @@ ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 plot(ex)
 
 # Customise appearance
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-                     intervals = list("periods", "eras"))
-plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2)
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
+     intervals = list("periods", "eras"))
 
 # Control plotting order of groups
 occdf$class <- factor(x = occdf$class,

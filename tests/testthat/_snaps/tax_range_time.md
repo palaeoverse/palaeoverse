@@ -327,7 +327,7 @@
       plot(tax_range_time(occdf), intervals = c("genus", "min_ma"))
     Condition
       Error in `plot()`:
-      ! `intervals` must be of class <character> or <data.frame>.
+      ! `intervals` must be of class <character>, <data.frame>, or a list of <character> or <data.frame>.
 
 ---
 
@@ -335,7 +335,7 @@
       plot(tax_range_time(occdf), intervals = 1)
     Condition
       Error in `plot()`:
-      ! `intervals` must be of class <character> or <data.frame>.
+      ! `intervals` must be of class <character>, <data.frame>, or a list of <character> or <data.frame>.
 
 ---
 
@@ -343,5 +343,5 @@
       plot(tax_range_time(occdf), intervals = NA)
     Condition
       Error in `plot()`:
-      ! `intervals` must be of class <character> or <data.frame>.
+      ! `intervals` must be of class <character>, <data.frame>, or a list of <character> or <data.frame>.
 

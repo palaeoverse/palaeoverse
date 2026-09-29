@@ -59,9 +59,9 @@
 #' plot(ex)
 #'
 #' # Customise appearance
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-#'                      intervals = list("periods", "eras"))
-#' plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2)
+#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+#' plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
+#'      intervals = list("periods", "eras"))
 #'
 #' # Control plotting order of groups
 #' occdf$class <- factor(x = occdf$class,
@@ -253,12 +253,17 @@ plot.palaeoverse_tax_range_time <- function(
   lwd = 1,
   axes = TRUE
 ) {
+  list_of_character_or_dataframe <- function(x) {
+    all(vapply(x, is.character, logical(1))) ||
+      all(vapply(x, is.dataframe, logical(1)))
+  }
   if (
-    !(is.character(intervals) && length(intervals) == 1) &&
+    !(is.list(intervals) && list_of_character_or_dataframe(intervals)) &&
+      !(is.character(intervals) && length(intervals) == 1) &&
       !is.data.frame(intervals)
   ) {
     cli::cli_abort(
-      "{.arg intervals} must be of class {.cls character} or {.cls data.frame}."
+      "{.arg intervals} must be of class {.cls character}, {.cls data.frame}, or a list of {.cls character} or {.cls data.frame}."
     )
   }
 
