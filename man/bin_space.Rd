@@ -5,7 +5,7 @@
 \title{Assign fossil occurrences to spatial bins}
 \usage{
 bin_space(
-  occdf,
+  data,
   lng = "lng",
   lat = "lat",
   spacing = 100,
@@ -15,7 +15,7 @@ bin_space(
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences (or
+\item{data}{\code{dataframe}. A dataframe of the fossil occurrences (or
 localities) you wish to bin. This dataframe should contain the decimal
 degree coordinates of your occurrences, and they should be of
 class \code{numeric}.}
@@ -42,8 +42,8 @@ be plotted?}
 }
 \value{
 If the \code{return} argument is set to \code{FALSE}, a dataframe is
-returned of the original input \code{occdf} with cell information. If \code{return} is
-set to \code{TRUE}, a list is returned with both the input \code{occdf} and grid
+returned of the original input \code{data} with cell information. If \code{return} is
+set to \code{TRUE}, a list is returned with both the input \code{data} and grid
 information and polygons.
 }
 \description{
@@ -92,23 +92,23 @@ Bethany Allen & Kilian Eichenseer
 data("reefs")
 
 # Reduce data for plotting
-occdf <- reefs[1:250, ]
+data <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
-ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
+ex1 <- bin_space(data = data, spacing = 500, plot = TRUE)
 
 # Bin data using a hexagonal equal-area grid and sub-grid
-ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+ex2 <- bin_space(data = data, spacing = 1000, sub_grid = 250, plot = TRUE)
 
 # EXAMPLE: rarefy
 # Load data
-occdf <- tetrapods[1:250, ]
+data <- tetrapods[1:250, ]
 
 # Assign to spatial bin
-occdf <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
+data <- bin_space(data = data, spacing = 1000, sub_grid = 250)
 
 # Get unique bins
-bins <- unique(occdf$cell_ID)
+bins <- unique(data$cell_ID)
 
 # n reps
 n <- 10
@@ -116,8 +116,8 @@ n <- 10
 # Rarefy data across sub-grid grid cells
 # Returns a list with each element a bin with respective mean genus richness
 df <- lapply(bins, function(x) {
-  # subset occdf for respective grid cell
-  tmp <- occdf[which(occdf$cell_ID == x), ]
+  # subset data for respective grid cell
+  tmp <- data[which(data$cell_ID == x), ]
 
   # Which sub-grid cells are there within this bin?
   sub_bin <- unique(tmp$cell_ID_sub)

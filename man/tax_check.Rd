@@ -5,7 +5,7 @@
 \title{Taxonomic spell check}
 \usage{
 tax_check(
-  taxdf,
+  data,
   name = "genus",
   group = NULL,
   dis = 0.05,
@@ -14,7 +14,7 @@ tax_check(
 )
 }
 \arguments{
-\item{taxdf}{\code{data.frame}. A dataframe with named columns containing
+\item{data}{\code{data.frame}. A dataframe with named columns containing
 taxon names (e.g. "species", "genus"). An optional column
 containing the groups (e.g. "family", "order") which taxon names
 belong to may also be provided (see \code{group} for details).
@@ -25,7 +25,7 @@ are ignored.}
 to check (e.g. "genus").}
 
 \item{group}{\code{character}. The column name of the higher taxonomic
-assignments in \code{taxdf} you wish to group by. If \code{NULL} (default), name
+assignments in \code{data} you wish to group by. If \code{NULL} (default), name
 comparison will be conducted within alphabetical groups.}
 
 \item{dis}{\code{numeric}. The dissimilarity threshold: a value greater than
@@ -104,9 +104,9 @@ Lewis A. Jones, Kilian Eichenseer & Christopher D. Dean
 # load occurrence data
 data("tetrapods")
 # Check taxon names alphabetically
-ex1 <- tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
+ex1 <- tax_check(data = tetrapods, name = "genus", dis = 0.1)
 # Check taxon names by group
-ex2 <- tax_check(taxdf = tetrapods, name = "genus",
+ex2 <- tax_check(data = tetrapods, name = "genus",
                  group = "family", dis = 0.1)
 }
 }
