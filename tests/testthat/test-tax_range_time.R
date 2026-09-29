@@ -283,7 +283,8 @@ test_that("argument 'plot' works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
-    min_ma = c(9, 7, 5, 4, 2)
+    min_ma = c(9, 7, 5, 4, 2),
+    family = c("F1", "F1", "F1", "F2", "F2")
   )
 
   expect_doppelganger("tax_range_time() works", function() {
@@ -294,6 +295,9 @@ test_that("argument 'plot' works", {
   })
   expect_doppelganger("tax_range_time() works with name sorting", function() {
     plot(tax_range_time(occdf, by = "name"))
+  })
+  expect_doppelganger("tax_range_time() works with group", function() {
+    plot(tax_range_time(occdf, group = "family"))
   })
 })
 
@@ -330,11 +334,19 @@ test_that("plot is deprecated but still works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
-    min_ma = c(9, 7, 5, 4, 2)
+    min_ma = c(9, 7, 5, 4, 2),
+    family = c("F1", "F1", "F1", "F2", "F2")
   )
   expect_doppelganger("tax_range_time-plot-deprecated", function() {
     expect_warning(
       tax_range_time(occdf, plot = TRUE),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
+    )
+  })
+  expect_doppelganger("tax_range_time()-plot-deprecated-group", function() {
+    expect_warning(
+      tax_range_time(occdf, group = "family", plot = TRUE),
       "is deprecated as of palaeoverse 2.0.0",
       fixed = TRUE
     )
