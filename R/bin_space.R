@@ -258,10 +258,10 @@ bin_space <- function(
   )
 
   class(output) <- c("palaeoverse_bin_space", class(output))
-  attr(output, "palaeoverse_base_grid") <- base_grid
-  attr(output, "palaeoverse_primary") <- primary
+  attr(output, "palaeoverse_bin_space_base_grid") <- base_grid
+  attr(output, "palaeoverse_bin_space_primary") <- primary
   if (exists("secondary")) {
-    attr(output, "palaeoverse_secondary") <- secondary
+    attr(output, "palaeoverse_bin_space_secondary") <- secondary
   }
 
   if (isTRUE(plot)) {
@@ -292,9 +292,9 @@ plot.palaeoverse_bin_space <- function(
     class = "palaeoverse_bin_space"
   )
 
-  base_grid <- attr(x, "palaeoverse_base_grid")
-  primary <- attr(x, "palaeoverse_primary")
-  secondary <- attr(x, "palaeoverse_secondary")
+  base_grid <- attr(x, "palaeoverse_bin_space_base_grid")
+  primary <- attr(x, "palaeoverse_bin_space_primary")
+  secondary <- attr(x, "palaeoverse_bin_space_secondary")
   plot(
     base_grid,
     setParUsrBB = TRUE,
