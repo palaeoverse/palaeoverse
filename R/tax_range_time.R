@@ -255,7 +255,7 @@ plot.palaeoverse_tax_range_time <- function(
 ) {
   list_of_character_or_dataframe <- function(x) {
     all(vapply(x, is.character, logical(1))) ||
-      all(vapply(x, is.dataframe, logical(1)))
+      all(vapply(x, is.data.frame, logical(1)))
   }
   if (
     !(is.list(intervals) && list_of_character_or_dataframe(intervals)) &&
