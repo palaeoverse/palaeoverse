@@ -98,6 +98,10 @@ unique taxa (\code{taxon}), taxon ID (\code{taxon_id}), first appearance of taxo
 (\code{max_ma}), last appearance of taxon (\code{min_ma}), duration of temporal
 range (\code{range_myr}), and number of occurrences per taxon (\code{n_occ}) is
 returned.
+
+This \code{data.frame} has two attributes \code{palaeoverse_tax_range_time_group}
+and \code{palaeoverse_tax_range_time_intervals} that are only for internal use and
+shouldn't be relied upon.
 }
 \description{
 A function to calculate the temporal range of fossil taxa from occurrence
