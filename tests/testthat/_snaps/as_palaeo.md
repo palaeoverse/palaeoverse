@@ -41,6 +41,22 @@
         * Longitude: "lon"
         * Latitude: "lat"
 
+---
+
+    Code
+      dat2
+    Output
+      # A tibble: 1 x 2
+          lat   lon
+        <dbl> <dbl>
+      1     1     2
+      
+    Message
+      A dataframe with 1 row and 2 columns.
+      i Attributes:
+        * Longitude: "lon"
+        * Latitude: "lat"
+
 # args must be named
 
     Code

@@ -70,7 +70,7 @@ as_palaeo <- function(data, lat = "lat", lon = "lon") {
 print.palaeoverse_data <- function(x, ...) {
   # Large dataframes can have many rows and/or columns and entirely fill the console.
   # We want attributes to be visible to the users so we print them at the end
-  print.data.frame(x)
+  NextMethod("print", "x")
   cat("\n")
 
   att <- names(attributes(x))
