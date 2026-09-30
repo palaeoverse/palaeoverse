@@ -87,14 +87,11 @@ occdf <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
 ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
-head(ex1)
 
 # Bin data using a hexagonal equal-area grid and sub-grid
 ex2 <- occdf |>
   bin_space(bins = space_bins(spacing = 1000)) |>
   bin_space(bins = space_bins(spacing = 250))
-
-head(ex2)
 
 # EXAMPLE: rarefy
 # Load data
