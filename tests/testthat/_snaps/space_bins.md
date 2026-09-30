@@ -88,7 +88,7 @@
       Error in `space_bins()`:
       ! `spacing` must be a number, not `NA`.
 
----
+# arg resolution works
 
     Code
       space_bins(resolution = 1)
