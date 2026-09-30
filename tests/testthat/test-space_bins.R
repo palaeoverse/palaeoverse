@@ -11,7 +11,7 @@ test_that("arg spacing works", {
   expect_snapshot(space_bins(spacing = NA), error = TRUE)
 })
 
-test_that("arg spacing works", {
+test_that("arg resolution works", {
   expect_snapshot(space_bins(resolution = 1))
 
   expect_snapshot(space_bins(resolution = 16), error = TRUE)
