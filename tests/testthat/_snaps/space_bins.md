@@ -92,9 +92,6 @@
 
     Code
       space_bins(resolution = 1)
-    Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
-      i H3 resolution: 1
     Output
       Geometry set for 842 features 
       Geometry type: eoverse_space_bins
