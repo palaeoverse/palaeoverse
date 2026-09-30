@@ -226,6 +226,8 @@ tax_range_time <- function(
 #' @inheritParams lat_bins_area
 #' @param main `character`. The plot title.
 #' @param col `character`. The colour of the range segments and points.
+#' @param col.group `character`. The background colours to use when `x` has groups. Must of the same length
+#' as the number of unique groups.
 #' @param bg `character`. The background (fill) colour of the points, only used for `pch` values 21 to 25.
 #' @param pch `numeric`. The symbol used for the first and last appearance points (see [graphics::points()]).
 #' @param cex `numeric`. The size of the points.
@@ -251,6 +253,7 @@ plot.palaeoverse_tax_range_time <- function(
   xlab = "Time (Ma)",
   ylab = "Taxon",
   col = "black",
+  col.group = c("grey85", "grey95"),
   bg = "black",
   pch = 20,
   cex = 1,
@@ -280,6 +283,16 @@ plot.palaeoverse_tax_range_time <- function(
   )
 
   group <- attr(x, "palaeoverse_tax_range_time_group")
+
+  if (!is.null(group)) {
+    n_groups <- length(unique(x[[group]]))
+    if (length(col.group) != n_groups) {
+      cli::cli_abort(
+        "Length of {.arg col.group} ({.val {length(col.group)}}) must be equal to the number of unique groups in the data ({.val {n_groups}})."
+      )
+    }
+  }
+
   if (missing(intervals)) {
     intervals <- attr(x, "palaeoverse_tax_range_time_intervals")
   }
@@ -322,7 +335,7 @@ plot.palaeoverse_tax_range_time <- function(
       cbind(min(x$taxon_id), max(x$taxon_id))
     })
     # Define colours
-    cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
+    cols_rect <- rep(col.group, times = length(vals_rect) / 2)
     # Run across number of groups
     lapply(seq_along(vals_rect), function(x) {
       # Add background rectangles

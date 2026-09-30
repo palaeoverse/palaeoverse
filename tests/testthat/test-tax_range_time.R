@@ -305,7 +305,8 @@ test_that("tax_range_time plotting with extra args works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
-    min_ma = c(9, 7, 5, 4, 2)
+    min_ma = c(9, 7, 5, 4, 2),
+    family = c("F1", "F1", "F1", "F2", "F3")
   )
   expect_doppelganger("tax_range_time-many-args", function() {
     plot(
@@ -327,6 +328,18 @@ test_that("tax_range_time plotting with extra args works", {
   expect_doppelganger("tax_range_time-dots", function() {
     plot(tax_range_time(occdf), cex.main = 4)
   })
+
+  # `col.group` must be of the same length as the number of groups
+  expect_doppelganger("tax_range_time-col-group", function() {
+    plot(
+      tax_range_time(occdf, group = "family"),
+      col.group = c("red", "blue", "green")
+    )
+  })
+  expect_snapshot(
+    plot(tax_range_time(occdf, group = "family"), col.group = c("red", "blue")),
+    error = TRUE
+  )
 
   # forbidden args
   expect_snapshot(

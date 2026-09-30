@@ -293,6 +293,14 @@
 # tax_range_time plotting with extra args works
 
     Code
+      plot(tax_range_time(occdf, group = "family"), col.group = c("red", "blue"))
+    Condition
+      Error in `plot()`:
+      ! Length of `col.group` (2) must be equal to the number of unique groups in the data (3).
+
+---
+
+    Code
       plot(tax_range_time(occdf), xlim = 1, ylim = 1, xaxt = 1, yaxt = 1, yaxs = 1)
     Condition
       Error in `plot()`:

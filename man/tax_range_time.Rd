@@ -25,6 +25,7 @@ tax_range_time(
   xlab = "Time (Ma)",
   ylab = "Taxon",
   col = "black",
+  col.group = c("grey85", "grey95"),
   bg = "black",
   pch = 20,
   cex = 1,
@@ -80,6 +81,9 @@ already set internally and must not be specified here: \code{xlim}, \code{ylim}.
 \item{ylab}{\code{character}. The y-axis title.}
 
 \item{col}{\code{character}. The colour of the range segments and points.}
+
+\item{col.group}{\code{character}. The background colours to use when \code{x} has groups. Must of the same length
+as the number of unique groups.}
 
 \item{bg}{\code{character}. The background (fill) colour of the points, only used for \code{pch} values 21 to 25.}
 
