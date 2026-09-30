@@ -4,11 +4,14 @@
 \alias{space_bins}
 \title{Generate spatial bins}
 \usage{
-space_bins(spacing)
+space_bins(spacing, resolution)
 }
 \arguments{
 \item{spacing}{\code{numeric}. The desired spacing between the center of
 adjacent cells. This value should be provided in kilometres.}
+
+\item{resolution}{\code{numeric}. The desired H3 resolution. Must be a whole
+number between 0 and 15.}
 }
 \value{
 An object of class \code{SFC_polygon} (from the package \code{sf}) with as many
