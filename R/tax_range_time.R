@@ -20,18 +20,8 @@
 #' @param by \code{character}. How should the output be sorted?
 #' Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 #' or "name" (alphabetically by taxon names).
-#' @param plot \code{logical}. Should a plot of the ranges be generated?
-#' @param plot_args \code{list}. A list of optional arguments relevant to
-#'   plotting. See Details for options.
-#' @param intervals \code{character}. The time interval information used to
-#'   plot the x-axis: either A) a \code{character} string indicating a rank of
-#'   intervals from the built-in \code{\link{GTS2020}}, B) a \code{character}
-#'   string indicating a \code{data.frame} hosted by
-#'   [Macrostrat](https://macrostrat.org) (see \code{\link{time_bins}}), or C)
-#'   a custom \code{data.frame} of time interval boundaries (see [axis_geo]
-#'   Details). A list of strings or data.frames can be supplied to add
-#'   multiple time scales to the same side of the plot (see [axis_geo]
-#'   Details). Defaults to "periods".
+#' @param plot,plot_args `r lifecycle::badge("deprecated")` Use `plot()` on the
+#'   output of this function instead.
 #'
 #' @return A \code{data.frame} containing the following columns:
 #' unique taxa (`taxon`), taxon ID (`taxon_id`), first appearance of taxon
@@ -39,22 +29,15 @@
 #' range (`range_myr`), and number of occurrences per taxon (`n_occ`) is
 #' returned.
 #'
+#' This \code{data.frame} has two attributes `palaeoverse_tax_range_time_group`
+#' and `palaeoverse_tax_range_time_intervals` that are for internal use only and
+#' shouldn't be relied upon.
+#'
 #' @details The temporal range(s) of taxa are calculated by extracting all
 #'   unique taxa (`name` column) from the input `occdf`, and checking their
 #'   first and last appearance. The temporal duration of each taxon is also
 #'   calculated. If the input data columns contain NAs, these must be
-#'   removed prior to function call. A plot of the temporal range of each
-#'   taxon is also returned if `plot = TRUE`. Customisable argument options
-#'   (i.e. [graphics::par()]) to pass to `plot_args` as a list (and their
-#'   defaults) for plotting include:
-#'   - xlab = "Time (Ma)"
-#'   - ylab = "Taxon ID"
-#'   - col = "black"
-#'   - bg = "black"
-#'   - pch = 20
-#'   - cex = 1
-#'   - lty = 1
-#'   - lwd = 1
+#'   removed prior to function call.
 #'
 #' Note: this function provides output based solely on the user input data.
 #' The true duration of a taxon is likely confounded by uncertainty in
@@ -64,31 +47,31 @@
 #' Lewis A. Jones
 #' @section Reviewer(s):
 #' Bethany Allen, Christopher D. Dean & Kilian Eichenseer
-#' @importFrom graphics points strwidth
 #' @examples
 #' # Grab internal data
 #' occdf <- tetrapods
 #' # Remove NAs
 #' occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 #' # Temporal range
-#' ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
+#' ex <- tax_range_time(occdf = occdf, name = "order")
+#' plot(ex)
+#'
 #' # Temporal range ordered by class
 #' # Update margins for plotting
 #' par(mar = c(8, 5, 6, 6))
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-#'                      plot = TRUE)
+#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+#' plot(ex)
+#'
 #' # Customise appearance
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-#'                      plot = TRUE,
-#'                      plot_args = list(ylab = "Orders",
-#'                                       pch = 21, col = "black", bg = "blue",
-#'                                       lty = 2),
-#'                      intervals = list("periods", "eras"))
+#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+#' plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
+#'      intervals = list("periods", "eras"))
+#'
 #' # Control plotting order of groups
 #' occdf$class <- factor(x = occdf$class,
 #'                       levels = c("Reptilia", "Osteichthyes"))
-#' ex <- tax_range_time(occdf = occdf, name = "order",
-#'                      group = "class", plot = TRUE)
+#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+#' plot(ex)
 #' @export
 tax_range_time <- function(
   occdf,
@@ -97,9 +80,9 @@ tax_range_time <- function(
   max_ma = "max_ma",
   group = NULL,
   by = "FAD",
-  plot = FALSE,
-  plot_args = NULL,
-  intervals = "periods"
+  plot = deprecated(),
+  plot_args = deprecated(),
+  intervals = deprecated()
 ) {
   ensure_args_are_named(exceptions = "occdf")
 
@@ -124,12 +107,39 @@ tax_range_time <- function(
   rlang::check_string(by)
   by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
 
-  rlang::check_bool(plot)
-
-  if (!is.null(plot_args) && !is.list(plot_args)) {
-    cli::cli_abort(
-      "{.arg plot_args} must be of class {.cls list} or {.code NULL}, not {obj_type_friendly(plot_args)}."
+  if (lifecycle::is_present(intervals)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "tax_range_time(intervals)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
     )
+  } else {
+    intervals <- "periods"
+  }
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "tax_range_time(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
+  if (lifecycle::is_present(plot_args)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "tax_range_time(plot_args)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    if (!is.null(plot_args) && !is.list(plot_args)) {
+      cli::cli_abort(
+        "{.arg plot_args} must be of class {.cls list} or {.code NULL}, not {obj_type_friendly(plot_args)}."
+      )
+    }
+  } else {
+    plot_args <- NULL
   }
 
   # Create pseudo-group if not provided (enable group_apply with no groups)
@@ -190,119 +200,191 @@ tax_range_time <- function(
   # Remove row names
   row.names(temp_df) <- NULL
 
-  #=== Plotting ===
-  if (plot) {
-    # Default plot args
-    args <- list(
-      main = "Temporal range of taxa",
-      xlab = "Time (Ma)",
-      ylab = "Taxon",
-      col = "black",
-      bg = "black",
-      pch = 20,
-      cex = 1,
-      lty = 1,
-      lwd = 1
-    )
-    # Update any provided
-    rpl <- match(names(plot_args), names(args))
-    if (length(rpl) != 0) {
-      args[rpl] <- plot_args
-    }
-    # Collect usr par for resetting
-    usrpar <- par(no.readonly = TRUE)
-    # Estimate max label width
-    max_label_width <- max(strwidth(temp_df$taxon, units = "inches"))
-    # Convert inches to lines (approximate conversion factor: 0.2)
-    extra_margin <- max_label_width / 0.2
-    # Update left margin (add extra space, default is 4)
-    par(mar = usrpar$mar + c(0, extra_margin, 0, 0))
-    # Define plot lims
-    xlim <- c(max(temp_df$max_ma), min(temp_df$min_ma))
-    ylim <- c(0.5, nrow(temp_df) + 0.5)
-    # Base plot
-    plot(
-      x = NA,
-      y = NA,
-      xlim = xlim,
-      ylim = ylim,
-      xlab = NA,
-      ylab = NA,
-      main = args$main,
-      xaxt = "n",
-      yaxt = "n",
-      yaxs = "i",
-      axes = TRUE
-    )
-    # Add ylabels
-    axis(2, at = seq_len(nrow(temp_df)), labels = temp_df$taxon, las = 2)
-    # Add yaxis title
-    title(ylab = args$ylab, line = 2 + extra_margin)
-    # Groups provided?
-    if (!is.null(group)) {
-      # Calculate plotting values for groups
-      s <- split(x = temp_df, f = temp_df[, group])
-      vals_rect <- lapply(s, function(x) {
-        cbind(min(x$taxon_id), max(x$taxon_id))
-      })
-      # Define colours
-      cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
-      # Run across number of groups
-      lapply(seq_along(vals_rect), function(x) {
-        # Add background rectangles
-        rect(
-          xleft = xlim[1] * 2,
-          xright = 0,
-          ybottom = vals_rect[[x]][1] - 0.5,
-          ytop = vals_rect[[x]][2] + 0.5,
-          col = cols_rect[x]
-        )
-        # Add group labels
-        axis(
-          4,
-          at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
-          labels = names(vals_rect)[x],
-          tick = TRUE,
-          hadj = 0.5,
-          gap.axis = 10,
-          line = 0,
-          las = 3
-        )
-      })
-    }
-    # Add ranges
-    segments(
-      x0 = temp_df$max_ma,
-      x1 = temp_df$min_ma,
-      y0 = temp_df$taxon_id,
-      col = args$col,
-      lty = args$lty,
-      lwd = args$lwd
-    )
-    points(
-      x = temp_df$max_ma,
-      y = temp_df$taxon_id,
-      pch = args$pch,
-      col = args$col,
-      bg = args$bg,
-      cex = args$cex
-    )
-    points(
-      x = temp_df$min_ma,
-      y = temp_df$taxon_id,
-      pch = args$pch,
-      col = args$col,
-      bg = args$bg,
-      cex = args$cex
-    )
-    axis_geo(side = 1, intervals = intervals, title = args$xlab)
-    # Reset par
-    par(usrpar)
-  }
   # Tidy up
   if (is.null(group)) {
     temp_df <- temp_df[, -which(colnames(temp_df) == "tmp_group")]
   }
-  # Return dataframe
+
+  class(temp_df) <- c("palaeoverse_tax_range_time", class(temp_df))
+  attr(temp_df, "palaeoverse_tax_range_time_group") <- group
+  attr(temp_df, "palaeoverse_tax_range_time_intervals") <- intervals
+  if (isTRUE(plot)) {
+    if (is.null(plot_args)) {
+      plot(temp_df)
+    } else {
+      do.call("plot", c(list(x = temp_df), plot_args))
+    }
+  }
+
   return(temp_df)
+}
+
+
+#' @param x `data.frame`. An object of class `"palaeoverse_tax_range_time"` created by `tax_range_time()`.
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
+#' already set internally and must not be specified here: `xlim`, `ylim`.
+#' @inheritParams lat_bins_area
+#' @param main `character`. The plot title.
+#' @param col `character`. The colour of the range segments and points.
+#' @param col.group `character`. The background colours to use when `x` has groups. Must of the same length
+#' as the number of unique groups.
+#' @param bg `character`. The background (fill) colour of the points, only used for `pch` values 21 to 25.
+#' @param pch `numeric`. The symbol used for the first and last appearance points (see [graphics::points()]).
+#' @param cex `numeric`. The size of the points.
+#' @param lty `numeric`. The line type of the range segments (see [graphics::par()]).
+#' @param lwd `numeric`. The line width of the range segments.
+#' @param axes `logical`. Should the axes be drawn?
+#' @param yaxs `character`. The style of y-axis interval calculation (see [graphics::par()]).
+#' @param intervals `character`. The time interval information used to plot the x-axis: either A) a
+#' `character` string indicating a rank of intervals from the built-in [GTS2020], B) a `character`
+#' string indicating a `data.frame` hosted by [Macrostrat](https://macrostrat.org) (see [time_bins]),
+#' or C) a custom `data.frame` of time interval boundaries (see [axis_geo] Details). A list of strings
+#'  or data.frames can be supplied to add multiple time scales to the same side of the plot (see
+#' [axis_geo] Details). Defaults to `"periods"`.
+#'
+#' @name tax_range_time
+#' @importFrom graphics points strwidth
+#' @export
+plot.palaeoverse_tax_range_time <- function(
+  x,
+  ...,
+  intervals = "periods",
+  main = "Temporal range of taxa",
+  xlab = "Time (Ma)",
+  ylab = "Taxon",
+  col = "black",
+  col.group = c("grey85", "grey95"),
+  bg = "black",
+  pch = 20,
+  cex = 1,
+  lty = 1,
+  lwd = 1,
+  axes = TRUE,
+  yaxs = "i"
+) {
+  list_of_character_or_dataframe <- function(x) {
+    all(vapply(x, is.character, logical(1))) ||
+      all(vapply(x, is.data.frame, logical(1)))
+  }
+  if (
+    !(is.list(intervals) && list_of_character_or_dataframe(intervals)) &&
+      !(is.character(intervals) && length(intervals) == 1) &&
+      !is.data.frame(intervals)
+  ) {
+    cli::cli_abort(
+      "{.arg intervals} must be of class {.cls character}, {.cls data.frame}, or a list of {.cls character} or {.cls data.frame}."
+    )
+  }
+
+  check_forbidden_plot_args(
+    ...,
+    forbidden = c("xlim", "ylim", "xaxt", "yaxt"),
+    class = "palaeoverse_tax_range_time"
+  )
+
+  group <- attr(x, "palaeoverse_tax_range_time_group")
+
+  if (!is.null(group)) {
+    n_groups <- length(unique(x[[group]]))
+    if (length(col.group) != n_groups) {
+      cli::cli_abort(
+        "Length of {.arg col.group} ({.val {length(col.group)}}) must be equal to the number of unique groups in the data ({.val {n_groups}})."
+      )
+    }
+  }
+
+  if (missing(intervals)) {
+    intervals <- attr(x, "palaeoverse_tax_range_time_intervals")
+  }
+
+  # Collect usr par for resetting
+  usrpar <- par(no.readonly = TRUE)
+  # Estimate max label width
+  max_label_width <- max(strwidth(x$taxon, units = "inches"))
+  # Convert inches to lines (approximate conversion factor: 0.2)
+  extra_margin <- max_label_width / 0.2
+  # Update left margin (add extra space, default is 4)
+  par(mar = usrpar$mar + c(0, extra_margin, 0, 0))
+  # Define plot lims
+  xlim <- c(max(x$max_ma), min(x$min_ma))
+  ylim <- c(0.5, nrow(x) + 0.5)
+  # Base plot
+  plot(
+    x = NA,
+    y = NA,
+    xlim = xlim,
+    ylim = ylim,
+    xlab = NA,
+    ylab = NA,
+    main = main,
+    xaxt = "n",
+    yaxt = "n",
+    yaxs = yaxs,
+    axes = axes,
+    ...
+  )
+  # Add ylabels
+  axis(2, at = seq_len(nrow(x)), labels = x$taxon, las = 2)
+  # Add yaxis title
+  title(ylab = ylab, line = 2 + extra_margin)
+  # Groups provided?
+  if (!is.null(group)) {
+    # Calculate plotting values for groups
+    s <- split(x = x, f = x[, group])
+    vals_rect <- lapply(s, function(x) {
+      cbind(min(x$taxon_id), max(x$taxon_id))
+    })
+    # Define colours
+    cols_rect <- rep(col.group, times = length(vals_rect) / 2)
+    # Run across number of groups
+    lapply(seq_along(vals_rect), function(x) {
+      # Add background rectangles
+      rect(
+        xleft = xlim[1] * 2,
+        xright = 0,
+        ybottom = vals_rect[[x]][1] - 0.5,
+        ytop = vals_rect[[x]][2] + 0.5,
+        col = cols_rect[x]
+      )
+      # Add group labels
+      axis(
+        4,
+        at = ((min(vals_rect[[x]]) + max(vals_rect[[x]])) / 2),
+        labels = names(vals_rect)[x],
+        tick = TRUE,
+        hadj = 0.5,
+        gap.axis = 10,
+        line = 0,
+        las = 3
+      )
+    })
+  }
+  # Add ranges
+  segments(
+    x0 = x$max_ma,
+    x1 = x$min_ma,
+    y0 = x$taxon_id,
+    col = col,
+    lty = lty,
+    lwd = lwd
+  )
+  points(
+    x = x$max_ma,
+    y = x$taxon_id,
+    pch = pch,
+    col = col,
+    bg = bg,
+    cex = cex
+  )
+  points(
+    x = x$min_ma,
+    y = x$taxon_id,
+    pch = pch,
+    col = col,
+    bg = bg,
+    cex = cex
+  )
+  axis_geo(side = 1, intervals = intervals, title = xlab)
+  # Reset par
+  par(usrpar)
 }

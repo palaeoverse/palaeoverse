@@ -290,35 +290,66 @@
       Error in `tax_range_time()`:
       ! `by` must be a single string, not `NA`.
 
-# argument 'plot' works
+# tax_range_time plotting with extra args works
 
     Code
-      tax_range_time(occdf, plot = "test")
+      plot(tax_range_time(occdf, group = "family"), col.group = c("red", "blue"))
     Condition
-      Error in `tax_range_time()`:
-      ! `plot` must be `TRUE` or `FALSE`, not the string "test".
+      Error in `plot()`:
+      ! Length of `col.group` (2) must be equal to the number of unique groups in the data (3).
 
 ---
 
     Code
-      tax_range_time(occdf, plot = NA)
+      plot(tax_range_time(occdf), xlim = 1, ylim = 1, xaxt = 1, yaxt = 1, yaxs = 1)
     Condition
-      Error in `tax_range_time()`:
-      ! `plot` must be `TRUE` or `FALSE`, not `NA`.
+      Error in `plot()`:
+      ! Cannot pass arguments `xlim`, `ylim`, `xaxt`, and `yaxt` when calling `plot()` on an object of class <palaeoverse_tax_range_time>.
+      i These arguments are already set by `plot()` internally.
 
-# argument 'plot_args' works
+# plot is deprecated but still works
 
     Code
-      tax_range_time(occdf, plot_args = "test")
+      tax_range_time(occdf, plot = "6")
     Condition
+      Warning:
+      The `plot` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
       Error in `tax_range_time()`:
-      ! `plot_args` must be of class <list> or `NULL`, not the string "test".
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
+
+# plot_args is deprecated but still works
+
+    Code
+      tax_range_time(occdf, plot_args = 1)
+    Condition
+      Warning:
+      The `plot_args` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `tax_range_time()`:
+      ! `plot_args` must be of class <list> or `NULL`, not the number 1.
+
+# argument 'intervals' works
+
+    Code
+      plot(tax_range_time(occdf), intervals = c("genus", "min_ma"))
+    Condition
+      Error in `plot()`:
+      ! `intervals` must be of class <character>, <data.frame>, or a list of <character> or <data.frame>.
 
 ---
 
     Code
-      tax_range_time(occdf, plot_args = NA)
+      plot(tax_range_time(occdf), intervals = 1)
     Condition
-      Error in `tax_range_time()`:
-      ! `plot_args` must be of class <list> or `NULL`, not `NA`.
+      Error in `plot()`:
+      ! `intervals` must be of class <character>, <data.frame>, or a list of <character> or <data.frame>.
+
+---
+
+    Code
+      plot(tax_range_time(occdf), intervals = NA)
+    Condition
+      Error in `plot()`:
+      ! `intervals` must be of class <character>, <data.frame>, or a list of <character> or <data.frame>.
 
