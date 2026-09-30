@@ -12,12 +12,16 @@
 #' @param resolution \code{numeric}. The desired H3 resolution. Must be a whole
 #' number between 0 and 15.
 #'
-#' @return An object of class `SFC_polygon` (from the package `sf`) with as many
-#' geometries as the number of generated bins.
+#' @return An object of class `palaeoverse_space_bins` and `SFC_polygon` (from the
+#' package `sf`). This object can be passed to the `bins` argument in `bin_space()`
+#' to assign occurrences to these bins.
+#'
+#' This object also has an attribute `h3_resolution` that is used internally and
+#' shouldn't be relied upon.
 #'
 #' @export
 #' @examples
-#' space_bins(1000)
+#' space_bins(spacing = 1000)
 space_bins <- function(spacing, resolution) {
   ensure_args_are_named()
   rlang::check_exclusive(spacing, resolution)
