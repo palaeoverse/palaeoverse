@@ -5,7 +5,7 @@ test_that("bin_space() works", {
   # We don't lose or gain observations
   expect_message(
     expect_equal(
-      nrow(bin_space(occdf = occdf, bins = space_bins(250))),
+      nrow(bin_space(occdf = occdf, bins = space_bins(spacing = 250))),
       nrow(occdf)
     ),
     "H3 resolution: 2"
@@ -13,7 +13,7 @@ test_that("bin_space() works", {
 
   # three new columns: cell id, centroid lat, centroid lon
   expect_named(
-    bin_space(occdf = occdf, bins = space_bins(250)) |>
+    bin_space(occdf = occdf, bins = space_bins(spacing = 250)) |>
       suppressMessages(),
     c(
       names(occdf),
@@ -32,8 +32,8 @@ test_that("we can chain several bin_space()", {
     expect_message(
       expect_equal(
         occdf |>
-          bin_space(bins = space_bins(1000)) |>
-          bin_space(bins = space_bins(250)) |>
+          bin_space(bins = space_bins(spacing = 1000)) |>
+          bin_space(bins = space_bins(spacing = 250)) |>
           nrow(),
         nrow(occdf)
       ),
@@ -43,8 +43,8 @@ test_that("we can chain several bin_space()", {
   )
   expect_named(
     occdf |>
-      bin_space(bins = space_bins(1000)) |>
-      bin_space(bins = space_bins(250)) |>
+      bin_space(bins = space_bins(spacing = 1000)) |>
+      bin_space(bins = space_bins(spacing = 250)) |>
       suppressMessages(),
     c(
       names(occdf),
@@ -60,12 +60,12 @@ test_that("we can chain several bin_space()", {
   # We can chain from larger to smaller spacing, or from smaller to larger (column ordering
   # is the only thing that changes)
   large_then_small <- occdf |>
-    bin_space(bins = space_bins(1000)) |>
-    bin_space(bins = space_bins(250)) |>
+    bin_space(bins = space_bins(spacing = 1000)) |>
+    bin_space(bins = space_bins(spacing = 250)) |>
     suppressMessages()
   small_then_large <- occdf |>
-    bin_space(bins = space_bins(250)) |>
-    bin_space(bins = space_bins(1000)) |>
+    bin_space(bins = space_bins(spacing = 250)) |>
+    bin_space(bins = space_bins(spacing = 1000)) |>
     suppressMessages()
 
   expect_equal(
@@ -86,25 +86,28 @@ test_that("piping and not piping the first argument give the same result", {
   occdf <- head(tetrapods, n = 100)
 
   expect_equal(
-    suppressMessages(occdf |> bin_space(bins = space_bins(1000))),
-    suppressMessages(bin_space(occdf, bins = space_bins(1000)))
+    suppressMessages(occdf |> bin_space(bins = space_bins(spacing = 1000))),
+    suppressMessages(bin_space(occdf, bins = space_bins(spacing = 1000)))
   )
 })
 
 test_that("bin_space errors with unnamed args", {
   occdf <- head(tetrapods, n = 100)
 
-  expect_snapshot(bin_space(occdf, space_bins(1000), "lng"), error = TRUE)
   expect_snapshot(
-    bin_space(occdf = occdf, space_bins(1000), "lng"),
+    bin_space(occdf, space_bins(spacing = 1000), "lng"),
     error = TRUE
   )
   expect_snapshot(
-    bin_space(occdf, space_bins(1000), "lng", "lat"),
+    bin_space(occdf = occdf, space_bins(spacing = 1000), "lng"),
     error = TRUE
   )
   expect_snapshot(
-    bin_space(occdf, space_bins(1000), "lng", lat = "lat"),
+    bin_space(occdf, space_bins(spacing = 1000), "lng", "lat"),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_space(occdf, space_bins(spacing = 1000), "lng", lat = "lat"),
     error = TRUE
   )
 })
@@ -122,7 +125,7 @@ test_that("bin_space error handling", {
   expect_snapshot(
     bin_space(
       occdf = tetrapods,
-      bins = space_bins(1000),
+      bins = space_bins(spacing = 1000),
       lng = "long",
       lat = "latit"
     ),
@@ -131,16 +134,28 @@ test_that("bin_space error handling", {
 
   # lat must be a numeric value between -90 and 90
   occdf$lat[1] <- 94
-  expect_snapshot(bin_space(occdf, bins = space_bins(1000)), error = TRUE)
+  expect_snapshot(
+    bin_space(occdf, bins = space_bins(spacing = 1000)),
+    error = TRUE
+  )
   occdf$lat[1] <- "94"
-  expect_snapshot(bin_space(occdf, bins = space_bins(1000)), error = TRUE)
+  expect_snapshot(
+    bin_space(occdf, bins = space_bins(spacing = 1000)),
+    error = TRUE
+  )
 
   # lng must be a numeric value between -180 and 180
   occdf <- tetrapods
   occdf$lng[1] <- 184
-  expect_snapshot(bin_space(occdf, bins = space_bins(1000)), error = TRUE)
+  expect_snapshot(
+    bin_space(occdf, bins = space_bins(spacing = 1000)),
+    error = TRUE
+  )
   occdf$lng[1] <- "184"
-  expect_snapshot(bin_space(occdf, bins = space_bins(1000)), error = TRUE)
+  expect_snapshot(
+    bin_space(occdf, bins = space_bins(spacing = 1000)),
+    error = TRUE
+  )
 })
 
 test_that("plot argument works", {
@@ -148,20 +163,28 @@ test_that("plot argument works", {
   occdf <- head(tetrapods, n = 100)
 
   expect_doppelganger("bin_space", {
-    out <- bin_space(occdf = occdf, bins = space_bins(1000), plot = TRUE)
+    out <- bin_space(
+      occdf = occdf,
+      bins = space_bins(spacing = 1000),
+      plot = TRUE
+    )
   })
 
   # input checks
   expect_snapshot(
-    bin_space(occdf = occdf, bins = space_bins(1000), plot = "foo"),
+    bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = "foo"),
     error = TRUE
   )
   expect_snapshot(
-    bin_space(occdf = occdf, bins = space_bins(1000), plot = logical(0)),
+    bin_space(
+      occdf = occdf,
+      bins = space_bins(spacing = 1000),
+      plot = logical(0)
+    ),
     error = TRUE
   )
   expect_snapshot(
-    bin_space(occdf = occdf, bins = space_bins(1000), plot = 1),
+    bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = 1),
     error = TRUE
   )
 })
@@ -173,13 +196,13 @@ test_that("spacing and sub_grid still work but are deprecated", {
   expect_snapshot(
     expect_equal(
       bin_space(occdf = occdf, spacing = 1000, plot = FALSE),
-      bin_space(occdf = occdf, bins = space_bins(1000), plot = FALSE)
+      bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = FALSE)
     )
   )
 
   expected_multi_grid <- occdf |>
-    bin_space(bins = space_bins(1000), plot = FALSE) |>
-    bin_space(bins = space_bins(500), plot = FALSE) |>
+    bin_space(bins = space_bins(spacing = 1000), plot = FALSE) |>
+    bin_space(bins = space_bins(spacing = 500), plot = FALSE) |>
     suppressMessages()
 
   expected_multi_grid[, c(

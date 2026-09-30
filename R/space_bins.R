@@ -69,6 +69,7 @@ space_bins <- function(spacing, resolution) {
     )
   )
 
+  class(out) <- c("palaeoverse_space_bins", class(out))
   if (!missing(spacing)) {
     attr(out, "spacing") <- spacing
   }

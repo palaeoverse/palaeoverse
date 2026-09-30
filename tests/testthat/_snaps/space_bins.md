@@ -7,7 +7,7 @@
       i H3 resolution: 1
     Output
       Geometry set for 842 features 
-      Geometry type: POLYGON
+      Geometry type: eoverse_space_bins
       Dimension:     XY
       Bounding box:  xmin: -179.7613 ymin: -87.80824 xmax: 179.9534 ymax: 87.82362
       Geodetic CRS:  WGS 84
@@ -28,7 +28,7 @@
       i H3 resolution: 1
     Output
       Geometry set for 842 features 
-      Geometry type: POLYGON
+      Geometry type: eoverse_space_bins
       Dimension:     XY
       Bounding box:  xmin: -179.7613 ymin: -87.80824 xmax: 179.9534 ymax: 87.82362
       Geodetic CRS:  WGS 84
@@ -97,7 +97,7 @@
       i H3 resolution: 1
     Output
       Geometry set for 842 features 
-      Geometry type: POLYGON
+      Geometry type: eoverse_space_bins
       Dimension:     XY
       Bounding box:  xmin: -179.7613 ymin: -87.80824 xmax: 179.9534 ymax: 87.82362
       Geodetic CRS:  WGS 84

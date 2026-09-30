@@ -1,7 +1,7 @@
 # bin_space errors with unnamed args
 
     Code
-      bin_space(occdf, space_bins(1000), "lng")
+      bin_space(occdf, space_bins(spacing = 1000), "lng")
     Condition
       Error in `bin_space()`:
       ! All arguments must be named (except for `occdf`).
@@ -10,7 +10,7 @@
 ---
 
     Code
-      bin_space(occdf = occdf, space_bins(1000), "lng")
+      bin_space(occdf = occdf, space_bins(spacing = 1000), "lng")
     Condition
       Error in `bin_space()`:
       ! All arguments must be named (except for `occdf`).
@@ -19,7 +19,7 @@
 ---
 
     Code
-      bin_space(occdf, space_bins(1000), "lng", "lat")
+      bin_space(occdf, space_bins(spacing = 1000), "lng", "lat")
     Condition
       Error in `bin_space()`:
       ! All arguments must be named (except for `occdf`).
@@ -28,7 +28,7 @@
 ---
 
     Code
-      bin_space(occdf, space_bins(1000), "lng", lat = "lat")
+      bin_space(occdf, space_bins(spacing = 1000), "lng", lat = "lat")
     Condition
       Error in `bin_space()`:
       ! All arguments must be named (except for `occdf`).
@@ -48,8 +48,8 @@
       bin_space(occdf = tetrapods, bins = NA)
     Condition
       Error in `bin_space()`:
-      ! `bins` must be of class <palaeo_space_bins> or <sfc_POLYGON>.
-      i Hint: you can create spatial bins with `space_bins()`.
+      ! `bins` must be of class <palaeoverse_space_bins>.
+      i Hint: use `space_bins()` to create the spatial bins.
 
 ---
 
@@ -57,13 +57,14 @@
       bin_space(occdf = tetrapods, bins = 1:2)
     Condition
       Error in `bin_space()`:
-      ! `bins` must be of class <palaeo_space_bins> or <sfc_POLYGON>.
-      i Hint: you can create spatial bins with `space_bins()`.
+      ! `bins` must be of class <palaeoverse_space_bins>.
+      i Hint: use `space_bins()` to create the spatial bins.
 
 ---
 
     Code
-      bin_space(occdf = tetrapods, bins = space_bins(1000), lng = "long", lat = "latit")
+      bin_space(occdf = tetrapods, bins = space_bins(spacing = 1000), lng = "long",
+      lat = "latit")
     Message
       Average spacing between adjacent cells in the primary grid was set to 725.17 km.
       i H3 resolution: 1
@@ -74,7 +75,7 @@
 ---
 
     Code
-      bin_space(occdf, bins = space_bins(1000))
+      bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
       Average spacing between adjacent cells in the primary grid was set to 725.17 km.
       i H3 resolution: 1
@@ -86,7 +87,7 @@
 ---
 
     Code
-      bin_space(occdf, bins = space_bins(1000))
+      bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
       Average spacing between adjacent cells in the primary grid was set to 725.17 km.
       i H3 resolution: 1
@@ -97,7 +98,7 @@
 ---
 
     Code
-      bin_space(occdf, bins = space_bins(1000))
+      bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
       Average spacing between adjacent cells in the primary grid was set to 725.17 km.
       i H3 resolution: 1
@@ -109,7 +110,7 @@
 ---
 
     Code
-      bin_space(occdf, bins = space_bins(1000))
+      bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
       Average spacing between adjacent cells in the primary grid was set to 725.17 km.
       i H3 resolution: 1
@@ -120,7 +121,7 @@
 # plot argument works
 
     Code
-      bin_space(occdf = occdf, bins = space_bins(1000), plot = "foo")
+      bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = "foo")
     Message
       Average spacing between adjacent cells in the primary grid was set to 725.17 km.
       i H3 resolution: 1
@@ -131,7 +132,7 @@
 ---
 
     Code
-      bin_space(occdf = occdf, bins = space_bins(1000), plot = logical(0))
+      bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = logical(0))
     Message
       Average spacing between adjacent cells in the primary grid was set to 725.17 km.
       i H3 resolution: 1
@@ -142,7 +143,7 @@
 ---
 
     Code
-      bin_space(occdf = occdf, bins = space_bins(1000), plot = 1)
+      bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = 1)
     Message
       Average spacing between adjacent cells in the primary grid was set to 725.17 km.
       i H3 resolution: 1
@@ -154,7 +155,7 @@
 
     Code
       expect_equal(bin_space(occdf = occdf, spacing = 1000, plot = FALSE), bin_space(
-        occdf = occdf, bins = space_bins(1000), plot = FALSE))
+        occdf = occdf, bins = space_bins(spacing = 1000), plot = FALSE))
     Condition
       Warning:
       The `spacing` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.

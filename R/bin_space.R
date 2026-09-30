@@ -7,8 +7,8 @@
 #' localities) you wish to bin. This dataframe should contain the decimal
 #' degree coordinates of your occurrences, and they should be of
 #' class `numeric`.
-#' @param bins \code{sfc_POLYGON}. Bins that you wish to allocate fossil
-#' occurrences to, such as that returned by [`space_bins()`].
+#' @param bins \code{palaeoverse_space_bins}. Bins that you wish to allocate
+#' fossil occurrences to. This must be an object created by [`space_bins()`].
 #' @param lng \code{character}. The name of the column you wish to be treated
 #' as the input longitude (e.g. "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
@@ -148,7 +148,7 @@ bin_space <- function(
     if (spacing <= 0) {
       cli::cli_abort("{.arg spacing} must be greater than 0.")
     }
-    bins <- space_bins(spacing)
+    bins <- space_bins(spacing = spacing)
   }
 
   if (lifecycle::is_present(sub_grid)) {
@@ -162,14 +162,14 @@ bin_space <- function(
     if (!is.null(sub_grid) && sub_grid <= 0) {
       cli::cli_abort("{.arg sub_grid} must be greater than 0.")
     }
-    bins <- space_bins(sub_grid)
+    bins <- space_bins(spacing = sub_grid)
   }
 
-  if (!inherits(bins, "palaeo_space_bins") && !inherits(bins, "sfc_POLYGON")) {
+  if (!inherits(bins, "palaeoverse_space_bins")) {
     cli::cli_abort(
       c(
-        "{.arg bins} must be of class {.cls palaeo_space_bins} or {.cls sfc_POLYGON}.",
-        "i" = "Hint: you can create spatial bins with {.fn space_bins}."
+        "{.arg bins} must be of class {.cls palaeoverse_space_bins}.",
+        "i" = "Hint: use {.fn space_bins} to create the spatial bins."
       )
     )
   }
