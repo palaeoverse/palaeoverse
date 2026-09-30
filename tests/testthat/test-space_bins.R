@@ -1,6 +1,7 @@
 test_that("arg spacing works", {
   expect_snapshot(space_bins(spacing = 1000))
   expect_snapshot(space_bins(spacing = 1000.2))
+  expect_s3_class(space_bins(spacing = 1000), "palaeoverse_space_bins")
 
   expect_snapshot(space_bins(spacing = "10"), error = TRUE)
   expect_snapshot(space_bins(spacing = -1), error = TRUE)
