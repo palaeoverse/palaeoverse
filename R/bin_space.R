@@ -20,10 +20,15 @@
 #' @param return `r lifecycle::badge("deprecated")` This argument is no longer used
 #' and doesn't have a replacement.
 #'
-#' @return If the `return` argument is set to `FALSE`, a dataframe is
-#' returned of the original input `occdf` with cell information. If `return` is
-#' set to `TRUE`, a list is returned with both the input `occdf` and grid
-#' information and polygons.
+#' @return A `data.frame` with the original input data and three extra columns:
+#'
+#' - `cell_id_{resolution}`: the H3 cell ID that contains the row coordinates;
+#' - `cell_centroid_lat_{resolution}`: the latitude of the H3 cell's centroid;
+#' - `cell_centroid_lng_{resolution}`: the longitude of the H3 cell's centroid;
+#'
+#' In these three column names, `{resolution}` corresponds to the H3 resolution that
+#' is used. For instance, using `space_bins(spacing = 250)` corresponds to an H3
+#' resolution equal to 2, so the column name for the cell ID will be `"cell_id_2"`.
 #'
 #' @details This function assigns fossil occurrence data into
 #' equal-area grid cells using discrete hexagonal grids via the
@@ -193,14 +198,13 @@ bin_space <- function(
     crs = "EPSG:4326"
   )
 
-  spacing <- attr(bins, "spacing", exact = TRUE)
   h3_resolution <- attr(bins, "h3_resolution", exact = TRUE)
 
   #=== Grid binning  ===
   # Extract cell ID
-  cell_name <- paste0("cell_ID_", spacing)
-  cent_lat_name <- paste0("cell_centroid_lng_", spacing)
-  cent_lon_name <- paste0("cell_centroid_lat_", spacing)
+  cell_name <- paste0("cell_ID_", h3_resolution)
+  cent_lat_name <- paste0("cell_centroid_lng_", h3_resolution)
+  cent_lon_name <- paste0("cell_centroid_lat_", h3_resolution)
 
   # Point -> cell
   # Cell -> find centroid

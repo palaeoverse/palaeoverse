@@ -40,10 +40,16 @@ to the \code{bins} argument instead.}
 and doesn't have a replacement.}
 }
 \value{
-If the \code{return} argument is set to \code{FALSE}, a dataframe is
-returned of the original input \code{occdf} with cell information. If \code{return} is
-set to \code{TRUE}, a list is returned with both the input \code{occdf} and grid
-information and polygons.
+A \code{data.frame} with the original input data and three extra columns:
+\itemize{
+\item \verb{cell_id_\{resolution\}}: the H3 cell ID that contains the row coordinates;
+\item \verb{cell_centroid_lat_\{resolution\}}: the latitude of the H3 cell's centroid;
+\item \verb{cell_centroid_lng_\{resolution\}}: the longitude of the H3 cell's centroid;
+}
+
+In these three column names, \code{{resolution}} corresponds to the H3 resolution that
+is used. For instance, using \code{space_bins(spacing = 250)} corresponds to an H3
+resolution equal to 2, so the column name for the cell ID will be \code{"cell_id_2"}.
 }
 \description{
 A function to assign fossil occurrences (or localities) to spatial

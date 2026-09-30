@@ -17,9 +17,9 @@ test_that("bin_space() works", {
       suppressMessages(),
     c(
       names(occdf),
-      "cell_ID_250",
-      "cell_centroid_lat_250",
-      "cell_centroid_lng_250"
+      "cell_ID_2",
+      "cell_centroid_lat_2",
+      "cell_centroid_lng_2"
     )
   )
 })
@@ -48,12 +48,12 @@ test_that("we can chain several bin_space()", {
       suppressMessages(),
     c(
       names(occdf),
-      "cell_ID_1000",
-      "cell_centroid_lat_1000",
-      "cell_centroid_lng_1000",
-      "cell_ID_250",
-      "cell_centroid_lat_250",
-      "cell_centroid_lng_250"
+      "cell_ID_1",
+      "cell_centroid_lat_1",
+      "cell_centroid_lng_1",
+      "cell_ID_2",
+      "cell_centroid_lat_2",
+      "cell_centroid_lng_2"
     )
   )
 
@@ -72,12 +72,12 @@ test_that("we can chain several bin_space()", {
     large_then_small,
     small_then_large[, c(
       names(occdf),
-      "cell_ID_1000",
-      "cell_centroid_lat_1000",
-      "cell_centroid_lng_1000",
-      "cell_ID_250",
-      "cell_centroid_lat_250",
-      "cell_centroid_lng_250"
+      "cell_ID_1",
+      "cell_centroid_lat_1",
+      "cell_centroid_lng_1",
+      "cell_ID_2",
+      "cell_centroid_lat_2",
+      "cell_centroid_lng_2"
     )]
   )
 })
