@@ -205,12 +205,6 @@ test_that("spacing and sub_grid still work but are deprecated", {
     bin_space(bins = space_bins(spacing = 500), plot = FALSE) |>
     suppressMessages()
 
-  expected_multi_grid[, c(
-    "cell_ID_1000",
-    "cell_centroid_lat_1000",
-    "cell_centroid_lng_1000"
-  )] <- NULL
-
   expect_snapshot(
     expect_equal(
       bin_space(occdf = occdf, spacing = 1000, sub_grid = 500, plot = FALSE),
