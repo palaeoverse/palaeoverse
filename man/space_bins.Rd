@@ -8,21 +8,20 @@ space_bins(spacing, resolution)
 }
 \arguments{
 \item{spacing}{\code{numeric}. The desired spacing between the center of
-adjacent cells. This value should be provided in kilometres.}
+adjacent cells. This value should be provided in kilometres. Cannot be used
+if \code{resolution} is used.}
 
 \item{resolution}{\code{numeric}. The desired H3 resolution. Must be a whole
-number between 0 and 15.}
+number between 0 and 15. Cannot be used if \code{spacing} is used.}
 }
 \value{
-An object of class \code{palaeoverse_space_bins} and \code{SFC_polygon} (from the
-package \code{sf}). This object can be passed to the \code{bins} argument in \code{bin_space()}
-to assign occurrences to these bins.
-
-This object also has an attribute \code{h3_resolution} that is used internally and
+An object of class \code{palaeoverse_space_bins}. This object can be passed
+to the \code{bins} argument in \code{\link[=bin_space]{bin_space()}} to assign occurrences to these bins.
+This object has an attribute \code{h3_resolution} that is used internally and
 shouldn't be relied upon.
 }
 \description{
-A function to generate spatial bins that can then be used in \code{bin_space()} to
+A function to generate spatial bins that can then be used in \code{\link[=bin_space]{bin_space()}} to
 assign fossil occurrences (or localities) to spatial bins/samples using a
 hexagonal equal-area grid.
 

@@ -1,22 +1,21 @@
 #' Generate spatial bins
 #'
 #' @description
-#' A function to generate spatial bins that can then be used in `bin_space()` to
+#' A function to generate spatial bins that can then be used in [`bin_space()`] to
 #' assign fossil occurrences (or localities) to spatial bins/samples using a
 #' hexagonal equal-area grid.
 #'
 #' This function builds a hexagonal grid using the H3 geospatial indexing.
 #'
 #' @param spacing \code{numeric}. The desired spacing between the center of
-#' adjacent cells. This value should be provided in kilometres.
+#' adjacent cells. This value should be provided in kilometres. Cannot be used
+#' if `resolution` is used.
 #' @param resolution \code{numeric}. The desired H3 resolution. Must be a whole
-#' number between 0 and 15.
+#' number between 0 and 15. Cannot be used if `spacing` is used.
 #'
-#' @return An object of class `palaeoverse_space_bins` and `SFC_polygon` (from the
-#' package `sf`). This object can be passed to the `bins` argument in `bin_space()`
-#' to assign occurrences to these bins.
-#'
-#' This object also has an attribute `h3_resolution` that is used internally and
+#' @return An object of class `palaeoverse_space_bins`. This object can be passed
+#' to the `bins` argument in [`bin_space()`] to assign occurrences to these bins.
+#' This object has an attribute `h3_resolution` that is used internally and
 #' shouldn't be relied upon.
 #'
 #' @export
