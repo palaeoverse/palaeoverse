@@ -22,6 +22,8 @@
 #' @export
 #' @examples
 #' space_bins(spacing = 1000)
+#'
+#' space_bins(resolution = 1)
 space_bins <- function(spacing, resolution) {
   ensure_args_are_named()
   rlang::check_exclusive(spacing, resolution)

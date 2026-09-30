@@ -105,8 +105,8 @@ head(ex1)
 
 # Bin data using a hexagonal equal-area grid and sub-grid
 ex2 <- occdf |>
-  bin_space(bins = space_bins(1000)) |>
-  bin_space(bins = space_bins(250))
+  bin_space(bins = space_bins(spacing = 1000)) |>
+  bin_space(bins = space_bins(spacing = 250))
 
 head(ex2)
 
@@ -116,8 +116,8 @@ occdf <- tetrapods[1:250, ]
 
 # Assign to spatial bins and sub-bins
 occdf <- occdf |>
-  bin_space(bins = space_bins(1000)) |>
-  bin_space(bins = space_bins(250))
+  bin_space(bins = space_bins(spacing = 1000)) |>
+  bin_space(bins = space_bins(spacing = 250))
 
 # Get unique bins
 bins <- unique(occdf$cell_ID_1000)

@@ -30,4 +30,6 @@ This function builds a hexagonal grid using the H3 geospatial indexing.
 }
 \examples{
 space_bins(spacing = 1000)
+
+space_bins(resolution = 1)
 }
