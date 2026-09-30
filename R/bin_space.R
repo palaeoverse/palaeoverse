@@ -19,7 +19,7 @@
 #' are no longer used and  don't have a replacement. Pass the output of `space_bins()`
 #' to the `bins` argument instead.
 #'
-#' @return A `data.frame` with the original input data and three extra columns:
+#' @return A `data.frame` with the original input data and three new columns:
 #'
 #' - `cell_id_{resolution}`: the H3 cell ID that contains the row coordinates;
 #' - `cell_centroid_lat_{resolution}`: the latitude of the H3 cell's centroid;
@@ -35,19 +35,7 @@
 #' [Uber's H3](https://h3geo.org/docs/) library, a geospatial indexing system
 #' that partitions the world into hexagonal cells. In H3, 16 different
 #' resolutions are available
-#' ([see here](https://h3geo.org/docs/core-library/restable/)). In the
-#' implementation of the `bin_space()` function, the resolution is defined by
-#' the user-input `spacing` which represents the distance between the centroid
-#' of adjacent cells. Using this distance, the function identifies which
-#' resolution is most similar to the input `spacing`, and uses this resolution.
-#'
-#' Additional functionality allows the user to simultaneously assign occurrence
-#' data to equal-area grid cells of a finer-scale grid (i.e. a ‘sub-grid’)
-#' within the primary grid via the `sub_grid` argument. This might be desirable
-#' for users to evaluate the differences in the amount of area occupied by
-#' occurrences within their primary grid cells. This functionality also allows
-#' the user to easily rarefy across sub-grid cells within primary cells to
-#' further standardise spatial sampling (see example for basic implementation).
+#' ([see here](https://h3geo.org/docs/core-library/restable/)).
 #'
 #' Note: prior to implementation, coordinate reference system (CRS) for input
 #' data is defined as EPSG:4326 (World Geodetic System
@@ -90,7 +78,7 @@
 #'   bin_space(bins = space_bins(spacing = 250))
 #'
 #' # Get unique bins
-#' bins <- unique(occdf$cell_ID_1000)
+#' bins <- unique(occdf$cell_ID_1)
 #'
 #' # n reps
 #' n <- 10
@@ -99,10 +87,10 @@
 #' # Returns a list with each element a bin with respective mean genus richness
 #' df <- lapply(bins, function(x) {
 #'   # subset occdf for respective grid cell
-#'   tmp <- occdf[which(occdf$cell_ID_1000 == x), ]
+#'   tmp <- occdf[which(occdf$cell_ID_1 == x), ]
 #'
 #'   # Which sub-grid cells are there within this bin?
-#'   sub_bin <- unique(tmp$cell_ID_250)
+#'   sub_bin <- unique(tmp$cell_ID_2)
 #'
 #'   # Sample 1 sub-grid cell n times
 #'   s <- sample(sub_bin, size = n, replace = TRUE)
@@ -110,7 +98,7 @@
 #'   # Count the number of unique genera within each sub_grid cell for each rep
 #'   counts <- sapply(s, function(i) {
 #'     # Number of unique genera within each sample
-#'     length(unique(tmp[which(tmp$cell_ID_250 == i), ]$genus))
+#'     length(unique(tmp[which(tmp$cell_ID_2 == i), ]$genus))
 #'   })
 #'
 #'   # Mean richness across subsamples
