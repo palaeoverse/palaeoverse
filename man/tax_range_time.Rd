@@ -30,7 +30,8 @@ tax_range_time(
   cex = 1,
   lty = 1,
   lwd = 1,
-  axes = TRUE
+  axes = TRUE,
+  yaxs = "i"
 )
 }
 \arguments{
@@ -70,7 +71,7 @@ or data.frames can be supplied to add multiple time scales to the same side of t
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_time"} created by \code{tax_range_time()}.}
 
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
-already set internally and must not be specified here: \code{xlim}, \code{ylim}, \code{xaxt}, \code{yaxt}, \code{yaxs}.}
+already set internally and must not be specified here: \code{xlim}, \code{ylim}.}
 
 \item{main}{\code{character}. The plot title.}
 
@@ -91,6 +92,8 @@ already set internally and must not be specified here: \code{xlim}, \code{ylim},
 \item{lwd}{\code{numeric}. The line width of the range segments.}
 
 \item{axes}{\code{logical}. Should the axes be drawn?}
+
+\item{yaxs}{\code{character}. The style of y-axis interval calculation (see \code{\link[graphics:par]{graphics::par()}}).}
 }
 \value{
 A \code{data.frame} containing the following columns:

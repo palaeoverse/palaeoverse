@@ -222,7 +222,7 @@ tax_range_time <- function(
 
 #' @param x `data.frame`. An object of class `"palaeoverse_tax_range_time"` created by `tax_range_time()`.
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
-#' already set internally and must not be specified here: `xlim`, `ylim`, `xaxt`, `yaxt`, `yaxs`.
+#' already set internally and must not be specified here: `xlim`, `ylim`.
 #' @inheritParams lat_bins_area
 #' @param main `character`. The plot title.
 #' @param col `character`. The colour of the range segments and points.
@@ -232,6 +232,7 @@ tax_range_time <- function(
 #' @param lty `numeric`. The line type of the range segments (see [graphics::par()]).
 #' @param lwd `numeric`. The line width of the range segments.
 #' @param axes `logical`. Should the axes be drawn?
+#' @param yaxs `character`. The style of y-axis interval calculation (see [graphics::par()]).
 #' @param intervals `character`. The time interval information used to plot the x-axis: either A) a
 #' `character` string indicating a rank of intervals from the built-in [GTS2020], B) a `character`
 #' string indicating a `data.frame` hosted by [Macrostrat](https://macrostrat.org) (see [time_bins]),
@@ -255,7 +256,8 @@ plot.palaeoverse_tax_range_time <- function(
   cex = 1,
   lty = 1,
   lwd = 1,
-  axes = TRUE
+  axes = TRUE,
+  yaxs = "i"
 ) {
   list_of_character_or_dataframe <- function(x) {
     all(vapply(x, is.character, logical(1))) ||
@@ -273,7 +275,7 @@ plot.palaeoverse_tax_range_time <- function(
 
   check_forbidden_plot_args(
     ...,
-    forbidden = c("xlim", "ylim", "xaxt", "yaxt", "yaxs"),
+    forbidden = c("xlim", "ylim", "xaxt", "yaxt"),
     class = "palaeoverse_tax_range_time"
   )
 
@@ -304,7 +306,7 @@ plot.palaeoverse_tax_range_time <- function(
     main = main,
     xaxt = "n",
     yaxt = "n",
-    yaxs = "i",
+    yaxs = yaxs,
     axes = axes,
     ...
   )

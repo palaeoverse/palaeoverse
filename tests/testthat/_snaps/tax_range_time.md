@@ -296,7 +296,7 @@
       plot(tax_range_time(occdf), xlim = 1, ylim = 1, xaxt = 1, yaxt = 1, yaxs = 1)
     Condition
       Error in `plot()`:
-      ! Cannot pass arguments `xlim`, `ylim`, `xaxt`, `yaxt`, and `yaxs` when calling `plot()` on an object of class <palaeoverse_tax_range_time>.
+      ! Cannot pass arguments `xlim`, `ylim`, `xaxt`, and `yaxt` when calling `plot()` on an object of class <palaeoverse_tax_range_time>.
       i These arguments are already set by `plot()` internally.
 
 # plot is deprecated but still works

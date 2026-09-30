@@ -318,7 +318,8 @@ test_that("tax_range_time plotting with extra args works", {
       lwd = 5,
       cex = 6,
       pch = 21,
-      axes = FALSE
+      axes = FALSE,
+      yaxs = "r"
     )
   })
 
