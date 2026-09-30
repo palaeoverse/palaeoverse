@@ -307,8 +307,19 @@ test_that("tax_range_time plotting with extra args works", {
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
-  expect_doppelganger("tax_range_time-axis", function() {
-    plot(tax_range_time(occdf), xlab = "x axis", ylab = "y axis")
+  expect_doppelganger("tax_range_time-many-args", function() {
+    plot(
+      tax_range_time(occdf),
+      xlab = "x axis",
+      ylab = "y axis",
+      col = "red",
+      bg = "grey",
+      lty = 3,
+      lwd = 5,
+      cex = 6,
+      pch = 21,
+      axes = FALSE
+    )
   })
 
   # `cex.main` is passed through `...`
