@@ -34,7 +34,7 @@ as the input latitude (e.g. "lat" or "p_lat").}
 be plotted?}
 
 \item{spacing, sub_grid, return}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} These arguments
-are no longer used and  don't have a replacement. Pass the output of \code{space_bins()}
+are no longer used and don't have a replacement. Pass the output of \code{space_bins()}
 to the \code{bins} argument instead.}
 }
 \value{
@@ -46,7 +46,7 @@ A \code{data.frame} with the original input data and three new columns:
 }
 
 In these three column names, \code{{resolution}} corresponds to the H3 resolution that
-is used. For instance, using \code{space_bins(spacing = 250)} corresponds to an H3
+is used. For instance, using \code{bins = space_bins(spacing = 250)} corresponds to an H3
 resolution equal to 2, so the column name for the cell ID will be \code{"cell_id_2"}.
 }
 \description{
