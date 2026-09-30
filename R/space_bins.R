@@ -13,6 +13,12 @@
 #' @param resolution \code{numeric}. The desired H3 resolution. Must be a whole
 #' number between 0 and 15. Cannot be used if `spacing` is used.
 #'
+#' @details
+#' `spacing` represents the distance between the centroid of adjacent cells.
+#' Using this distance, the function identifies which resolution is most similar
+#' to the input `spacing`, and uses this resolution. Using `resolution` to directly
+#' pass an H3 resolution is a way to bypass this step.
+#'
 #' @return An object of class `palaeoverse_space_bins`. This object can be passed
 #' to the `bins` argument in [`bin_space()`] to assign occurrences to these bins.
 #' This object has an attribute `h3_resolution` that is used internally and

@@ -27,6 +27,12 @@ hexagonal equal-area grid.
 
 This function builds a hexagonal grid using the H3 geospatial indexing.
 }
+\details{
+\code{spacing} represents the distance between the centroid of adjacent cells.
+Using this distance, the function identifies which resolution is most similar
+to the input \code{spacing}, and uses this resolution. Using \code{resolution} to directly
+pass an H3 resolution is a way to bypass this step.
+}
 \examples{
 space_bins(spacing = 1000)
 
