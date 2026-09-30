@@ -24,6 +24,7 @@
 #' This object has an attribute `h3_resolution` that is used internally and
 #' shouldn't be relied upon.
 #'
+#' @seealso [`bin_space()`]
 #' @export
 #' @examples
 #' space_bins(spacing = 1000)

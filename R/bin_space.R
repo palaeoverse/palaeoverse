@@ -50,6 +50,7 @@
 #' Bethany Allen & Kilian Eichenseer
 #' @importFrom sf st_as_sf st_drop_geometry
 #' @importFrom h3jsr point_to_cell cell_to_point cell_to_polygon
+#' @seealso [`space_bins()`]
 #' @examples
 #' # Get internal data
 #' data("reefs")

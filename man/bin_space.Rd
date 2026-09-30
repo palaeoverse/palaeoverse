@@ -134,3 +134,6 @@ df <- lapply(bins, function(x) {
 })
 df
 }
+\seealso{
+\code{\link[=space_bins]{space_bins()}}
+}

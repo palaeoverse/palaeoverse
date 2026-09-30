@@ -38,3 +38,6 @@ space_bins(spacing = 1000)
 
 space_bins(resolution = 1)
 }
+\seealso{
+\code{\link[=bin_space]{bin_space()}}
+}
