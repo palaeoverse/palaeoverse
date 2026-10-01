@@ -557,7 +557,7 @@ plot.palaeoverse_time_bins <- function(
   } else {
     if (!(length(col) %in% c(1, nrow(x))) || !is.character(col)) {
       cli::cli_abort(
-        "Argument {.arg col} must be of length 1 or {nrow(x)} (the numbers of rows in {.arg x})."
+        "Argument {.arg col} must be of class {.cls character} and of length 1 or {nrow(x)} (the number of rows in {.arg x})."
       )
     }
     if (length(col) == 1) {

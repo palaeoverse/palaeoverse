@@ -401,7 +401,7 @@
       plot(dat, col = c("red", "blue"))
     Condition
       Error in `plot()`:
-      ! Argument `col` must be of length 1 or 19 (the numbers of rows in `x`).
+      ! Argument `col` must be of class <character> and of length 1 or 19 (the number of rows in `x`).
 
 ---
 
