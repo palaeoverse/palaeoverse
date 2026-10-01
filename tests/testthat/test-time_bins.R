@@ -275,7 +275,9 @@ test_that("arg 'size' works", {
           "Fortunian, Stage 2, Stage 3, Stage 4, Wuliuan, Drumian, Guzhangian, Paibian, Jiangshanian, Stage 10, Tremadocian, Floian, Dapingian, Darriwilian, Sandbian, Katian, Hirnantian, Rhuddanian, Aeronian, Telychian, Sheinwoodian, Homerian, Gorstian, Ludfordian, Pridoli, Lochkovian, Pragian, Emsian, Eifelian, Givetian, Frasnian, Famennian",
           "Tournaisian, Visean, Serpukhovian, Bashkirian, Moscovian, Kasimovian, Gzhelian, Asselian, Sakmarian, Artinskian, Kungurian, Roadian, Wordian, Capitanian, Wuchiapingian, Changhsingian, Induan, Olenekian, Anisian, Ladinian, Carnian, Norian, Rhaetian, Hettangian, Sinemurian, Pliensbachian",
           "Toarcian, Aalenian, Bajocian, Bathonian, Callovian, Oxfordian, Kimmeridgian, Tithonian, Berriasian, Valanginian, Hauterivian, Barremian, Aptian, Albian, Cenomanian, Turonian, Coniacian, Santonian, Campanian, Maastrichtian, Danian, Selandian, Thanetian, Ypresian, Lutetian, Bartonian, Priabonian, Rupelian, Chattian, Aquitanian, Burdigalian, Langhian, Serravallian, Tortonian, Messinian, Zanclean, Piacenzian, Gelasian, Calabrian, Chibanian, Upper Pleistocene, Greenlandian, Northgrippian, Meghalayan"
-        )
+        ),
+        colour = "#80cdc1",
+        font = "black"
       ),
     ignore_attr = TRUE
     ),
@@ -342,7 +344,9 @@ test_that("arg 'n_bins' works", {
           "Cretaceous",
           "Paleogene",
           "Neogene, Quaternary"
-        )
+        ),
+        colour = "#80cdc1",
+        font = "black"
       ),
       ignore_attr = TRUE
     ),
@@ -438,7 +442,9 @@ test_that("arg 'scale' works", {
         min_ma = c(45, 32, 18, 0),
         duration_myr = c(8, 13, 14, 18),
         grouping_rank = "user",
-        intervals = c("5", "4, 3", "2", "1")
+        intervals = c("5", "4, 3", "2", "1"),
+        colour = "#80cdc1",
+        font = "black"
       ),
       ignore_attr = TRUE
     ),
@@ -479,7 +485,9 @@ test_that("arg 'scale' works with macrostrat", {
           "Puercan, Torrejonian, Tiffanian, Clarkforkian, Wasatchian, Bridgerian, Uintan",
           "Duchesnean, Chadronian, Orellan, Whitneyan, Arikareean",
           "Hemingfordian, Barstovian, Clarendonian, Hemphillian, Blancan, Irvingtonian, Rancholabrean"
-        )
+        ),
+        colour = "#80cdc1",
+        font = "black"
       ),
       ignore_attr = TRUE
     ),
@@ -512,6 +520,15 @@ test_that("time_bins plotting with extra args works", {
   expect_doppelganger("time_bins-colour", function() {
     plot(time_bins(interval = "Mesozoic", size = 10), col = "red")
   })
+  dat <- time_bins(interval = "Mesozoic", size = 10)
+  expect_doppelganger("time_bins-colour-vector", function() {
+    plot(dat, col = rep(c("red", "blue"), length.out = nrow(dat)))
+  })
+  expect_snapshot(
+    plot(dat, col = c("red", "blue")),
+    error = TRUE
+  )
+
   # `main` is passed through `...`
   expect_doppelganger("time_bins-dots", function() {
     plot(time_bins(interval = "Mesozoic"), main = "hello there")

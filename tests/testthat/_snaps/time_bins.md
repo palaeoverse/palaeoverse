@@ -398,6 +398,14 @@
 # time_bins plotting with extra args works
 
     Code
+      plot(dat, col = c("red", "blue"))
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be of length 1 or 19 (the numbers of rows in `x`).
+
+---
+
+    Code
       plot(time_bins(interval = "Mesozoic"), type = "foo", xlim = "foo", ylim = "foo")
     Condition
       Error in `plot()`:

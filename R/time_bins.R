@@ -55,9 +55,7 @@
 #'   if `assign` is specified. By default, the time bins \code{data.frame}
 #'   contains the following columns: bin, interval_name, rank, max_ma, mid_ma,
 #'   min_ma, duration_myr, abbr (interval abbreviation), colour and font
-#'   (colour). If `size` or `n_bins` is specified, the time bins
-#'   \code{data.frame} contains the following columns: bin, max_ma, mid_ma,
-#'   min_ma, duration_myr, grouping_rank, and intervals.
+#'   (colour).
 #'
 #' @details This function uses either the Geological Time Scale 2020,
 #'   Geological Time Scale 2012, a valid timescale from
@@ -491,6 +489,12 @@ time_bins <- function(
     )
   }
 
+  # Always return colour and font
+  if (is.numeric(size) || is.numeric(n_bins)) {
+    df$colour <- c("#80cdc1")
+    df$font <- c("black")
+  }
+
   class(df) <- c("palaeoverse_time_bins", class(df))
   if (isTRUE(plot)) {
     plot(df)
@@ -530,9 +534,8 @@ time_bins <- function(
 
 #' @param x `data.frame`. An object of class `"palaeoverse_time_bins"` created by `time_bins()`.
 #' @inheritParams lat_bins_area
-#' @param col `character`. Colour of all bars. This is only used if the output of `time_bins()`
-#' doesn't contain a column `colour`, e.g. with `time_bins(interval = "Mesozoic", size = 10)`.
-#'
+#' @param col `character`. Colour(s) of the bars. Must be of length 1 (in which case all bars have the
+#' same colour) or of length equal to the number of rows of `x`.
 #' @name time_bins
 #' @importFrom graphics polygon
 #' @export
@@ -541,7 +544,7 @@ plot.palaeoverse_time_bins <- function(
   ...,
   xlab = "Time (Ma)",
   ylab = "Duration (Myr)",
-  col = "#80cdc1"
+  col = NULL
 ) {
   check_forbidden_plot_args(
     ...,
@@ -549,9 +552,19 @@ plot.palaeoverse_time_bins <- function(
     class = "palaeoverse_time_bins"
   )
 
-  if (!"colour" %in% names(x)) {
-    x$colour <- col
+  if (missing(col)) {
+    col <- x[["colour"]]
+  } else {
+    if (!(length(col) %in% c(1, nrow(x))) || !is.character(col)) {
+      cli::cli_abort(
+        "Argument {.arg col} must be of length 1 or {nrow(x)} (the numbers of rows in {.arg x})."
+      )
+    }
+    if (length(col) == 1) {
+      col <- rep(col, nrow(x))
+    }
   }
+
   plot(
     1,
     type = "n",
@@ -565,7 +578,7 @@ plot.palaeoverse_time_bins <- function(
     polygon(
       x = c(x$min_ma[i], x$max_ma[i], x$max_ma[i], x$min_ma[i]),
       y = c(0, 0, x$duration_myr[i], x$duration_myr[i]),
-      col = x$colour[i]
+      col = col[i]
     )
   }
 }

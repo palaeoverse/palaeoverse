@@ -15,7 +15,7 @@ time_bins(
   plot = deprecated()
 )
 
-\method{plot}{palaeoverse_time_bins}(x, ..., xlab = "Time (Ma)", ylab = "Duration (Myr)", col = "#80cdc1")
+\method{plot}{palaeoverse_time_bins}(x, ..., xlab = "Time (Ma)", ylab = "Duration (Myr)", col = NULL)
 }
 \arguments{
 \item{interval}{\code{character or numeric}. Interval name available in
@@ -65,8 +65,8 @@ already set internally and must not be specified here: \code{type}, \code{xlim},
 
 \item{ylab}{\code{character}. The y-axis title.}
 
-\item{col}{\code{character}. Colour of all bars. This is only used if the output of \code{time_bins()}
-doesn't contain a column \code{colour}, e.g. with \code{time_bins(interval = "Mesozoic", size = 10)}.}
+\item{col}{\code{character}. Colour(s) of the bars. Must be of length 1 (in which case all bars have the
+same colour) or of length equal to the number of rows of \code{x}.}
 }
 \value{
 A \code{data.frame} of time bins for the specified intervals or a
@@ -75,9 +75,7 @@ vector (bin number) of binned age estimates (midpoint of specified bins)
 if \code{assign} is specified. By default, the time bins \code{data.frame}
 contains the following columns: bin, interval_name, rank, max_ma, mid_ma,
 min_ma, duration_myr, abbr (interval abbreviation), colour and font
-(colour). If \code{size} or \code{n_bins} is specified, the time bins
-\code{data.frame} contains the following columns: bin, max_ma, mid_ma,
-min_ma, duration_myr, grouping_rank, and intervals.
+(colour).
 }
 \description{
 A function to generate time bins for a given study interval and geological
