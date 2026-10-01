@@ -2,6 +2,7 @@
 % Please edit documentation in R/time_bins.R
 \name{time_bins}
 \alias{time_bins}
+\alias{plot.palaeoverse_time_bins}
 \title{Generate time bins}
 \usage{
 time_bins(
@@ -11,8 +12,10 @@ time_bins(
   n_bins = NULL,
   assign = NULL,
   scale = "GTS2020",
-  plot = FALSE
+  plot = deprecated()
 )
+
+\method{plot}{palaeoverse_time_bins}(x, ..., xlab = "Time (Ma)", ylab = "Duration (Myr)", col = NULL)
 }
 \arguments{
 \item{interval}{\code{character or numeric}. Interval name available in
@@ -50,7 +53,21 @@ user-input \code{data.frame}. If a \code{data.frame} is provided, it must contai
 at least the following named columns: "interval_name", "max_ma", and
 "min_ma". As such, age data should be provided in Ma.}
 
-\item{plot}{\code{logical}. Should a plot of time bins be generated?}
+\item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
+this function instead.}
+
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_time_bins"} created by \code{time_bins()}.}
+
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
+already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}.}
+
+\item{xlab}{\code{character}. The x-axis title.}
+
+\item{ylab}{\code{character}. The y-axis title.}
+
+\item{col}{\code{character}. Colour(s) of the bars. Must be of length 1 (in which case all bars have the
+same colour) or of length equal to the number of rows of \code{x}. If this argument is not explicitly
+provided, values of the \code{colour} column in \code{x} will be used.}
 }
 \value{
 A \code{data.frame} of time bins for the specified intervals or a
@@ -59,9 +76,7 @@ vector (bin number) of binned age estimates (midpoint of specified bins)
 if \code{assign} is specified. By default, the time bins \code{data.frame}
 contains the following columns: bin, interval_name, rank, max_ma, mid_ma,
 min_ma, duration_myr, abbr (interval abbreviation), colour and font
-(colour). If \code{size} or \code{n_bins} is specified, the time bins
-\code{data.frame} contains the following columns: bin, max_ma, mid_ma,
-min_ma, duration_myr, grouping_rank, intervals, colour and font.
+(colour).
 }
 \description{
 A function to generate time bins for a given study interval and geological
@@ -116,17 +131,20 @@ Kilian Eichenseer & William Gearty
 
 \examples{
 #Using numeric age
-ex1 <- time_bins(interval = 10, plot = TRUE)
+ex1 <- time_bins(interval = 10)
+plot(ex1)
 
 #Using numeric age range
-ex2 <- time_bins(interval = c(50, 100), plot = TRUE)
+ex2 <- time_bins(interval = c(50, 100))
+plot(ex2)
 
 #Using a single interval name
-ex3 <- time_bins(interval = c("Maastrichtian"), plot = TRUE)
+ex3 <- time_bins(interval = c("Maastrichtian"))
+plot(ex3)
 
 #Using a range of intervals and near-equal duration bins
-ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"),
-                 size = 10, plot = TRUE)
+ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"), size = 10)
+plot(ex4)
 
 #Assign bins based on given age estimates
 ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
@@ -136,7 +154,8 @@ ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
 scale <- data.frame(interval_name = 1:5,
                     min_ma = c(0, 18, 32, 38, 45),
                     max_ma = c(18, 32, 38, 45, 53))
-ex6 <- time_bins(scale = scale, size = 20, plot = TRUE)
+ex6 <- time_bins(scale = scale, size = 20)
+plot(ex6)
 
 #Use North American land mammal ages from Macrostrat and specify a desired
 #number of bins
