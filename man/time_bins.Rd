@@ -66,7 +66,8 @@ already set internally and must not be specified here: \code{type}, \code{xlim},
 \item{ylab}{\code{character}. The y-axis title.}
 
 \item{col}{\code{character}. Colour(s) of the bars. Must be of length 1 (in which case all bars have the
-same colour) or of length equal to the number of rows of \code{x}.}
+same colour) or of length equal to the number of rows of \code{x}. If this argument is not explicitly
+provided, values of the \code{colour} column in \code{x} will be used.}
 }
 \value{
 A \code{data.frame} of time bins for the specified intervals or a

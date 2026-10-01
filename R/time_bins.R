@@ -535,7 +535,8 @@ time_bins <- function(
 #' @param x `data.frame`. An object of class `"palaeoverse_time_bins"` created by `time_bins()`.
 #' @inheritParams lat_bins_area
 #' @param col `character`. Colour(s) of the bars. Must be of length 1 (in which case all bars have the
-#' same colour) or of length equal to the number of rows of `x`.
+#' same colour) or of length equal to the number of rows of `x`. If this argument is not explicitly
+#' provided, values of the `colour` column in `x` will be used.
 #' @name time_bins
 #' @importFrom graphics polygon
 #' @export
