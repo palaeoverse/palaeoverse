@@ -5,10 +5,10 @@
         spacing = 900))
     Message
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
       Overwriting columns "cell_ID_1", "cell_centroid_lng_1", and "cell_centroid_lat_1".
 
@@ -81,7 +81,7 @@
       lat = "latit")
     Message
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -93,7 +93,7 @@
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -106,7 +106,7 @@
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -118,7 +118,7 @@
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -131,7 +131,7 @@
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -143,7 +143,7 @@
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = "foo")
     Message
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -155,7 +155,7 @@
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = logical(0))
     Message
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -167,7 +167,7 @@
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = 1)
     Message
       i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 km².
+      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:

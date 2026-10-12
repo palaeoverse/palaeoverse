@@ -118,7 +118,7 @@ space_bins <- function(resolution, spacing, area) {
     "i" = paste0(
       "Average cell area: ",
       format(round(grid$avg_area_sqkm[1], digits = 2), big.mark = ","),
-      " km²."
+      " sq. km."
     )
   )
 
