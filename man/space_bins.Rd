@@ -29,6 +29,27 @@ assign fossil occurrences (or localities) to spatial bins.
 Using this distance, the function identifies which resolution is most similar
 to the input \code{spacing}, and uses this resolution. Using \code{resolution} to directly
 pass an H3 resolution is a way to bypass this step.
+
+The table below shows, for each H3 resolution, the number of cells covering
+the globe and their average area (source: \url{https://h3geo.org/docs/core-library/restable}). This information is also available via \code{h3jsr::h3_info_table}.\tabular{rrr}{
+   Resolution \tab Number of cells \tab Average area (km²) \cr
+   0 \tab 122 \tab 4,357,449.42 \cr
+   1 \tab 842 \tab 609,788.44 \cr
+   2 \tab 5,882 \tab 86,801.78 \cr
+   3 \tab 41,162 \tab 12,393.43 \cr
+   4 \tab 288,122 \tab 1,770.35 \cr
+   5 \tab 2,016,842 \tab 252.90 \cr
+   6 \tab 14,117,882 \tab 36.13 \cr
+   7 \tab 98,825,162 \tab 5.16 \cr
+   8 \tab 691,776,122 \tab 0.737 \cr
+   9 \tab 4,842,432,842 \tab 0.105 \cr
+   10 \tab 33,897,029,882 \tab 0.0150 \cr
+   11 \tab 237,279,209,162 \tab 0.00215 \cr
+   12 \tab 1,660,954,464,122 \tab 0.000307 \cr
+   13 \tab 11,626,681,248,842 \tab 0.0000439 \cr
+   14 \tab 81,386,768,741,882 \tab 0.00000627 \cr
+   15 \tab 569,707,381,193,162 \tab 0.000000895 \cr
+}
 }
 \examples{
 space_bins(spacing = 1000)

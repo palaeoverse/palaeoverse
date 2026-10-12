@@ -17,6 +17,28 @@
 #' to the input `spacing`, and uses this resolution. Using `resolution` to directly
 #' pass an H3 resolution is a way to bypass this step.
 #'
+#' The table below shows, for each H3 resolution, the number of cells covering
+#' the globe and their average area (source: <https://h3geo.org/docs/core-library/restable>). This information is also available via `h3jsr::h3_info_table`.
+#'
+#' | Resolution | Number of cells | Average area (km²) |
+#' |---:|---:|---:|
+#' | 0 | 122 | 4,357,449.42 |
+#' | 1 | 842 | 609,788.44 |
+#' | 2 | 5,882 | 86,801.78 |
+#' | 3 | 41,162 | 12,393.43 |
+#' | 4 | 288,122 | 1,770.35 |
+#' | 5 | 2,016,842 | 252.90 |
+#' | 6 | 14,117,882 | 36.13 |
+#' | 7 | 98,825,162 | 5.16 |
+#' | 8 | 691,776,122 | 0.737 |
+#' | 9 | 4,842,432,842 | 0.105 |
+#' | 10 | 33,897,029,882 | 0.0150 |
+#' | 11 | 237,279,209,162 | 0.00215 |
+#' | 12 | 1,660,954,464,122 | 0.000307 |
+#' | 13 | 11,626,681,248,842 | 0.0000439 |
+#' | 14 | 81,386,768,741,882 | 0.00000627 |
+#' | 15 | 569,707,381,193,162 | 0.000000895 |
+#'
 #' @return An object of class `palaeoverse_space_bins`. This object can be passed
 #' to the `bins` argument in [`bin_space()`] to assign occurrences (or any set of
 #' coordinates)  to these bins. This object has an attribute `h3_resolution` that
