@@ -26,7 +26,7 @@
 #' and the average spacing between the centroids of adjacent cells. This
 #' information is also available via `h3jsr::h3_info_table`.
 #'
-#' | Resolution | Number of cells | Average area (km²) | Average spacing (km) |
+#' | Resolution | Number of cells | Average area (sq. km) | Average spacing (km) |
 #' |---:|---:|---:|---:|
 #' | 0 | 122 | 4,357,449.42 | 1,918.61 |
 #' | 1 | 842 | 609,788.44 | 725.17 |
