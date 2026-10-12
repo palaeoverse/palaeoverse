@@ -41,7 +41,7 @@ directly pass an H3 resolution is a way to bypass this step.
 The table below shows, for each H3 resolution, the number of cells covering
 the globe, their average area (source: \url{https://h3geo.org/docs/core-library/restable}),
 and the average spacing between the centroids of adjacent cells. This
-information is also available via \code{h3jsr::h3_info_table}.\tabular{rrrr}{
+information is also available via \link[h3jsr:h3_info_table]{h3jsr::h3_info_table}.\tabular{rrrr}{
    Resolution \tab Number of cells \tab Average area (sq. km) \tab Average spacing (km) \cr
    0 \tab 122 \tab 4,357,449.42 \tab 1,918.61 \cr
    1 \tab 842 \tab 609,788.44 \tab 725.17 \cr

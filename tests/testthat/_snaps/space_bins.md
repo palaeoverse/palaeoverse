@@ -3,9 +3,9 @@
     Code
       space_bins(spacing = 1000)
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Output
       Geometry set for 842 features 
       Geometry type: eoverse_space_bins
@@ -25,9 +25,9 @@
     Code
       space_bins(spacing = 1000.2)
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Output
       Geometry set for 842 features 
       Geometry type: eoverse_space_bins
@@ -95,6 +95,7 @@
     Code
       space_bins(resolution = 1)
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
     Output
@@ -172,9 +173,9 @@
     Code
       space_bins(area = 1e+05)
     Message
+      i H3 resolution: 2
       i Average spacing between adjacent cells: 274.09 km.
       i Average cell area: 86,801.78 sq. km.
-      i H3 resolution: 2
     Output
       Geometry set for 5882 features 
       Geometry type: eoverse_space_bins

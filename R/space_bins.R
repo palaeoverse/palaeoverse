@@ -24,7 +24,7 @@
 #' The table below shows, for each H3 resolution, the number of cells covering
 #' the globe, their average area (source: <https://h3geo.org/docs/core-library/restable>),
 #' and the average spacing between the centroids of adjacent cells. This
-#' information is also available via `h3jsr::h3_info_table`.
+#' information is also available via [h3jsr::h3_info_table].
 #'
 #' | Resolution | Number of cells | Average area (sq. km) | Average spacing (km) |
 #' |---:|---:|---:|---:|
@@ -109,7 +109,8 @@ space_bins <- function(resolution, spacing, area) {
 
   out <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
 
-  msg <- c(
+  cli::cli_inform(c(
+    "i" = paste0("H3 resolution: ", grid$h3_resolution[1]),
     "i" = paste0(
       "Average spacing between adjacent cells: ",
       format(round(grid$avg_cendist_km[1], digits = 2), big.mark = ","),
@@ -120,21 +121,7 @@ space_bins <- function(resolution, spacing, area) {
       format(round(grid$avg_area_sqkm[1], digits = 2), big.mark = ","),
       " sq. km."
     )
-  )
-
-  if (!missing(spacing)) {
-    cli::cli_inform(c(
-      msg,
-      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
-    ))
-  } else if (!missing(area)) {
-    cli::cli_inform(c(
-      msg,
-      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
-    ))
-  } else {
-    cli::cli_inform(msg)
-  }
+  ))
 
   class(out) <- c("palaeoverse_space_bins", class(out))
   attr(out, "h3_resolution") <- grid$h3_resolution
