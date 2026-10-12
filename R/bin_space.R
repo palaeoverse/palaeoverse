@@ -30,8 +30,8 @@
 #' is used. For instance, using `bins = space_bins(spacing = 250)` results in an H3
 #' resolution equal to 2, so the column name for the cell ID will be `"cell_id_2"`.
 #'
-#' Calling `bin_space()` several times can overwrite existing cell columns, for instance
-#' if two calls to `space_bins()` result in the same resolution.
+#' Calling `bin_space()` several times can overwrite existing cell columns if `bins`
+#' uses the same resolution as existing columns.
 #'
 #' @details This function assigns fossil occurrence data into
 #' equal-area grid cells using discrete hexagonal grids via the

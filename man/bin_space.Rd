@@ -50,8 +50,8 @@ In these three column names, \code{{resolution}} corresponds to the H3 resolutio
 is used. For instance, using \code{bins = space_bins(spacing = 250)} results in an H3
 resolution equal to 2, so the column name for the cell ID will be \code{"cell_id_2"}.
 
-Calling \code{bin_space()} several times can overwrite existing cell columns, for instance
-if two calls to \code{space_bins()} result in the same resolution.
+Calling \code{bin_space()} several times can overwrite existing cell columns if \code{bins}
+uses the same resolution as existing columns.
 }
 \description{
 A function to assign fossil occurrences (or localities) to spatial
