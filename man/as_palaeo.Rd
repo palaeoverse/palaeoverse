@@ -4,7 +4,7 @@
 \alias{as_palaeo}
 \title{Create a \code{palaeo} object to store information on your data}
 \usage{
-as_palaeo(data, lat = "lat", lon = "lon")
+as_palaeo(data, lat, lon)
 }
 \arguments{
 \item{data}{Dataframe}
@@ -19,9 +19,8 @@ it is automatically used in subsequent \code{palaeoverse} functions.
 }
 \details{
 \code{as_palaeo()} stores information in the data attributes, available via \code{attributes()}.
-It uses explicitly passed values (e.g. \code{lat = "my_lat"}) and default values if they
-exist in the data (e.g. it will store \code{lat = "lat"} if \code{"lat"} exists in the dataframe,
-even if \code{lat = "lat"}) isn't explicitly passed.
+All arguments must be explicitly passed. You can find pre-filled templates for common
+data sources in the "Templates" section below.
 
 This information is used in other \code{palaeoverse} functions so that users don't need to
 pass it every time. All \code{palaeoverse} functions use this preference order:
@@ -37,13 +36,29 @@ a. if this attribute is found, it is used;
 b. otherwise, the default argument value is used.
 }
 }
+\section{Templates}{
+
+We provide pre-filled templates for common data sources. You can use these templates in your
+code but you should ensure that they match your data.
+
+\strong{Paleobiology Database (PBDB)}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{as_palaeo(data, lat = "lat", lon = "lng")
+}\if{html}{\out{</div>}}
+
+\strong{Darwin Core (e.g. GBIF)}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{as_palaeo(data, lat = "decimalLatitude", lon = "decimalLongitude")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 # We have a dataframe where the latitude values are stored in "my_lat" column
 dat <- tetrapods[1:5, ]
 names(dat)[names(dat) == "lat"] <- "my_lat"
 
 # We can store this information in as_palaeo()
-dat <- as_palaeo(dat, lat = "my_lat")
+dat <- as_palaeo(dat, lat = "my_lat", lon = "lng")
 
 # Other palaeoverse functions that have a "lat" argument will automatically use
 # this information (unless another value is explicitly passed in the call)

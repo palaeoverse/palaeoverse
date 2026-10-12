@@ -10,9 +10,8 @@
 #'
 #' @details
 #' `as_palaeo()` stores information in the data attributes, available via `attributes()`.
-#' It uses explicitly passed values (e.g. `lat = "my_lat"`) and default values if they
-#' exist in the data (e.g. it will store `lat = "lat"` if `"lat"` exists in the dataframe,
-#' even if `lat = "lat"`) isn't explicitly passed.
+#' All arguments must be explicitly passed. You can find pre-filled templates for common
+#' data sources in the "Templates" section below.
 #'
 #' This information is used in other `palaeoverse` functions so that users don't need to
 #' pass it every time. All `palaeoverse` functions use this preference order:
@@ -27,6 +26,22 @@
 #'
 #'      b. otherwise, the default argument value is used.
 #'
+#' @section Templates:
+#' We provide pre-filled templates for common data sources. You can use these templates in your
+#' code but you should ensure that they match your data.
+#'
+#' **Paleobiology Database (PBDB)**
+#'
+#' ```r
+#' as_palaeo(data, lat = "lat", lon = "lng")
+#' ```
+#'
+#' **Darwin Core (e.g. GBIF)**
+#'
+#' ```r
+#' as_palaeo(data, lat = "decimalLatitude", lon = "decimalLongitude")
+#' ```
+#'
 #' @export
 #'
 #' @examples
@@ -35,32 +50,39 @@
 #' names(dat)[names(dat) == "lat"] <- "my_lat"
 #'
 #' # We can store this information in as_palaeo()
-#' dat <- as_palaeo(dat, lat = "my_lat")
+#' dat <- as_palaeo(dat, lat = "my_lat", lon = "lng")
 #'
 #' # Other palaeoverse functions that have a "lat" argument will automatically use
 #' # this information (unless another value is explicitly passed in the call)
 #' bins <- lat_bins_degrees(size = 10)
 #' bin_lat(occdf = dat, bins = bins)
-as_palaeo <- function(data, lat = "lat", lon = "lon") {
+as_palaeo <- function(data, lat, lon) {
   ensure_args_are_named(exceptions = "data")
-  check_data_frame(data)
 
-  if (missing(lon)) {
-    if ("lon" %in% names(data)) {
-      attr(data, "palaeoverse_lon") <- "lon"
-    }
-  } else {
-    check_column_presence(data, lon)
-    attr(data, "palaeoverse_lon") <- lon
+  # All arguments must be provided
+  missing_args <- setdiff(names(formals()), names(match.call())[-1])
+  if (length(missing_args) > 0) {
+    n_more <- length(missing_args) - 5
+    more <- if (n_more > 0) paste0(" (and ", n_more, " more)") else ""
+    to_report <- cli::cli_vec(
+      head(missing_args, n = 5),
+      list(`vec-last` = ", ", `vec-sep2` = ", ")
+    )
+    cli::cli_abort(
+      c(
+        "All arguments must be provided.",
+        "x" = "{cli::qty(to_report)}Missing argument{?s}: {.arg {to_report}}{more}.",
+        "i" = "You can find pre-filled templates at {.help as_palaeo}."
+      )
+    )
   }
-  if (missing(lat)) {
-    if ("lat" %in% names(data)) {
-      attr(data, "palaeoverse_lat") <- "lat"
-    }
-  } else {
-    check_column_presence(data, lat)
-    attr(data, "palaeoverse_lat") <- lat
-  }
+
+  check_data_frame(data)
+  check_column_presence(data, lon)
+  check_column_presence(data, lat)
+
+  attr(data, "palaeoverse_lon") <- lon
+  attr(data, "palaeoverse_lat") <- lat
 
   class(data) <- c("palaeoverse_data", class(data))
   data

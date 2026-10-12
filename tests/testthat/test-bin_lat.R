@@ -87,7 +87,7 @@ test_that("bin_lat() uses info set in as_palaeo()", {
 
   # after as_palaeo(), bin_lat() knows that it needs to check whether
   # the data has an attribute for latitude
-  dat <- as_palaeo(dat, lat = "my_lat")
+  dat <- as_palaeo(dat, lat = "my_lat", lon = "lng")
   expect_warning(
     expect_no_error(bin_lat(occdf = dat, bins = bins)),
     "Occurrences assigned to upper bin"
