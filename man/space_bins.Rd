@@ -27,8 +27,9 @@ implementation might change in the future, hence this attribute shouldn't be
 relied upon.
 }
 \description{
-A function to generate spatial hexagonal equal-area grid cells using the \href{https://h3geo.org/}{H3 discrete global grid system}. These can then be used in \code{\link[=bin_space]{bin_space()}} to
-assign fossil occurrences (or localities) to spatial bins.
+A function to generate spatial hexagonal equal-area grid cells (i.e. bins) using the
+\href{https://h3geo.org/}{H3 discrete global grid system}. These can then be used in
+\code{\link[=bin_space]{bin_space()}} to assign fossil occurrences (or localities) to spatial bins.
 }
 \details{
 \code{spacing} represents the distance between the centroids of adjacent cells.

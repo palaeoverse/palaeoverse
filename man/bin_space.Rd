@@ -55,7 +55,7 @@ if two calls to \code{space_bins()} result in the same resolution.
 }
 \description{
 A function to assign fossil occurrences (or localities) to spatial
-bins/samples using a hexagonal equal-area grid.
+bins (i.e. cells) using a hexagonal equal-area grid.
 }
 \details{
 This function assigns fossil occurrence data into

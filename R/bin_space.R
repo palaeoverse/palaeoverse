@@ -1,7 +1,7 @@
 #' Assign fossil occurrences to spatial bins
 #'
 #' A function to assign fossil occurrences (or localities) to spatial
-#' bins/samples using a hexagonal equal-area grid.
+#' bins (i.e. cells) using a hexagonal equal-area grid.
 #'
 #' @param occdf \code{dataframe}. A dataframe of the fossil occurrences (or
 #' localities) you wish to bin. This dataframe should contain the decimal

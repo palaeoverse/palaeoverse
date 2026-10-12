@@ -1,9 +1,9 @@
 #' Generate H3 spatial bins
 #'
 #' @description
-#' A function to generate spatial hexagonal equal-area grid cells using the [H3 discrete
-#' global grid system](https://h3geo.org/). These can then be used in [`bin_space()`] to
-#' assign fossil occurrences (or localities) to spatial bins.
+#' A function to generate spatial hexagonal equal-area grid cells (i.e. bins) using the
+#' [H3 discrete global grid system](https://h3geo.org/). These can then be used in
+#' [`bin_space()`] to assign fossil occurrences (or localities) to spatial bins.
 #'
 #' @param resolution \code{numeric}. The desired H3 resolution. Must be a whole
 #' number between 0 and 15. Cannot be used if `spacing` or `area` is used.
