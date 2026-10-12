@@ -4,12 +4,12 @@
       out <- bin_space(bin_space(occdf, bins = space_bins(spacing = 1000)), bins = space_bins(
         spacing = 900))
     Message
-      i Average spacing between adjacent cells: 725.17 km.
-      i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
       Overwriting columns "cell_ID_1", "cell_centroid_lat_1", and "cell_centroid_lng_1".
 
 # bin_space errors with unnamed args
@@ -80,9 +80,9 @@
       bin_space(occdf = tetrapods, bins = space_bins(spacing = 1000), lng = "long",
       lat = "latit")
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Condition
       Error in `bin_space()`:
       ! Column "latit" not found in `occdf`.
@@ -92,9 +92,9 @@
     Code
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Condition
       Error in `bin_space()`:
       ! All values of column "lat" in `occdf` must be between -90 and 90.
@@ -105,9 +105,9 @@
     Code
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Condition
       Error in `bin_space()`:
       ! Column "lat" in `occdf` must be of class <numeric>, not <character>.
@@ -117,9 +117,9 @@
     Code
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Condition
       Error in `bin_space()`:
       ! All values of column "lng" in `occdf` must be between -180 and 180.
@@ -130,9 +130,9 @@
     Code
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Condition
       Error in `bin_space()`:
       ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
@@ -142,9 +142,9 @@
     Code
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = "foo")
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Condition
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not the string "foo".
@@ -154,9 +154,9 @@
     Code
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = logical(0))
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Condition
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
@@ -166,9 +166,9 @@
     Code
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = 1)
     Message
+      i H3 resolution: 1
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
-      i H3 resolution: 1
     Condition
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not the number 1.
