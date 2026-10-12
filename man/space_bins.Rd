@@ -2,7 +2,7 @@
 % Please edit documentation in R/space_bins.R
 \name{space_bins}
 \alias{space_bins}
-\title{Generate spatial bins}
+\title{Generate H3 spatial bins}
 \usage{
 space_bins(resolution, spacing, area)
 }
@@ -36,24 +36,26 @@ compared to the average cell area of each resolution. Using \code{resolution} to
 directly pass an H3 resolution is a way to bypass this step.
 
 The table below shows, for each H3 resolution, the number of cells covering
-the globe and their average area (source: \url{https://h3geo.org/docs/core-library/restable}). This information is also available via \code{h3jsr::h3_info_table}.\tabular{rrr}{
-   Resolution \tab Number of cells \tab Average area (km²) \cr
-   0 \tab 122 \tab 4,357,449.42 \cr
-   1 \tab 842 \tab 609,788.44 \cr
-   2 \tab 5,882 \tab 86,801.78 \cr
-   3 \tab 41,162 \tab 12,393.43 \cr
-   4 \tab 288,122 \tab 1,770.35 \cr
-   5 \tab 2,016,842 \tab 252.90 \cr
-   6 \tab 14,117,882 \tab 36.13 \cr
-   7 \tab 98,825,162 \tab 5.16 \cr
-   8 \tab 691,776,122 \tab 0.737 \cr
-   9 \tab 4,842,432,842 \tab 0.105 \cr
-   10 \tab 33,897,029,882 \tab 0.0150 \cr
-   11 \tab 237,279,209,162 \tab 0.00215 \cr
-   12 \tab 1,660,954,464,122 \tab 0.000307 \cr
-   13 \tab 11,626,681,248,842 \tab 0.0000439 \cr
-   14 \tab 81,386,768,741,882 \tab 0.00000627 \cr
-   15 \tab 569,707,381,193,162 \tab 0.000000895 \cr
+the globe, their average area (source: \url{https://h3geo.org/docs/core-library/restable}),
+and the average spacing between the centroids of adjacent cells. This
+information is also available via \code{h3jsr::h3_info_table}.\tabular{rrrr}{
+   Resolution \tab Number of cells \tab Average area (km²) \tab Average spacing (km) \cr
+   0 \tab 122 \tab 4,357,449.42 \tab 1,918.61 \cr
+   1 \tab 842 \tab 609,788.44 \tab 725.17 \cr
+   2 \tab 5,882 \tab 86,801.78 \tab 274.09 \cr
+   3 \tab 41,162 \tab 12,393.43 \tab 103.60 \cr
+   4 \tab 288,122 \tab 1,770.35 \tab 39.16 \cr
+   5 \tab 2,016,842 \tab 252.90 \tab 14.80 \cr
+   6 \tab 14,117,882 \tab 36.13 \tab 5.59 \cr
+   7 \tab 98,825,162 \tab 5.16 \tab 2.11 \cr
+   8 \tab 691,776,122 \tab 0.737 \tab 0.799 \cr
+   9 \tab 4,842,432,842 \tab 0.105 \tab 0.302 \cr
+   10 \tab 33,897,029,882 \tab 0.0150 \tab 0.114 \cr
+   11 \tab 237,279,209,162 \tab 0.00215 \tab 0.0431 \cr
+   12 \tab 1,660,954,464,122 \tab 0.000307 \tab 0.0163 \cr
+   13 \tab 11,626,681,248,842 \tab 0.0000439 \tab 0.00617 \cr
+   14 \tab 81,386,768,741,882 \tab 0.00000627 \tab 0.00234 \cr
+   15 \tab 569,707,381,193,162 \tab 0.000000895 \tab 0.000883 \cr
 }
 }
 \examples{
