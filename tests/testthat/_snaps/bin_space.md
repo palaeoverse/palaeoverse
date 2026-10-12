@@ -10,7 +10,7 @@
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
       i H3 resolution: 1
-      Overwriting columns "cell_ID_1", "cell_centroid_lng_1", and "cell_centroid_lat_1".
+      Overwriting columns "cell_ID_1", "cell_centroid_lat_1", and "cell_centroid_lng_1".
 
 # bin_space errors with unnamed args
 

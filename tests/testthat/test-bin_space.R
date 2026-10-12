@@ -18,8 +18,8 @@ test_that("bin_space() works", {
     c(
       names(occdf),
       "cell_ID_2",
-      "cell_centroid_lat_2",
-      "cell_centroid_lng_2"
+      "cell_centroid_lng_2",
+      "cell_centroid_lat_2"
     )
   )
 })
@@ -49,11 +49,11 @@ test_that("we can chain several bin_space()", {
     c(
       names(occdf),
       "cell_ID_1",
-      "cell_centroid_lat_1",
       "cell_centroid_lng_1",
+      "cell_centroid_lat_1",
       "cell_ID_2",
-      "cell_centroid_lat_2",
-      "cell_centroid_lng_2"
+      "cell_centroid_lng_2",
+      "cell_centroid_lat_2"
     )
   )
 
@@ -73,11 +73,11 @@ test_that("we can chain several bin_space()", {
     small_then_large[, c(
       names(occdf),
       "cell_ID_1",
-      "cell_centroid_lat_1",
       "cell_centroid_lng_1",
+      "cell_centroid_lat_1",
       "cell_ID_2",
-      "cell_centroid_lat_2",
-      "cell_centroid_lng_2"
+      "cell_centroid_lng_2",
+      "cell_centroid_lat_2"
     )]
   )
 })
@@ -93,7 +93,7 @@ test_that("bin_space() overwrites existing cell columns", {
   )
   expect_named(
     out,
-    c(names(occdf), "cell_ID_1", "cell_centroid_lat_1", "cell_centroid_lng_1")
+    c(names(occdf), "cell_ID_1", "cell_centroid_lng_1", "cell_centroid_lat_1")
   )
 })
 

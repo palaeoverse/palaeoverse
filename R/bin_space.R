@@ -179,8 +179,8 @@ bin_space <- function(
   #=== Grid binning  ===
   # Extract cell ID
   cell_name <- paste0("cell_ID_", h3_resolution)
-  cent_lat_name <- paste0("cell_centroid_lng_", h3_resolution)
-  cent_lon_name <- paste0("cell_centroid_lat_", h3_resolution)
+  cent_lat_name <- paste0("cell_centroid_lat_", h3_resolution)
+  cent_lon_name <- paste0("cell_centroid_lng_", h3_resolution)
 
   overwritten <- intersect(
     c(cell_name, cent_lat_name, cent_lon_name),
