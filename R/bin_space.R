@@ -182,14 +182,12 @@ bin_space <- function(
   cent_lat_name <- paste0("cell_centroid_lng_", h3_resolution)
   cent_lon_name <- paste0("cell_centroid_lat_", h3_resolution)
 
-  if (cell_name %in% names(occdf)) {
-    cli::cli_inform("Overwriting column {.val {cell_name}}.")
-  }
-  if (cent_lat_name %in% names(occdf)) {
-    cli::cli_inform("Overwriting column {.val {cent_lat_name}}.")
-  }
-  if (cent_lon_name %in% names(occdf)) {
-    cli::cli_inform("Overwriting column {.val {cent_lon_name}}.")
+  overwritten <- intersect(
+    c(cell_name, cent_lat_name, cent_lon_name),
+    names(occdf)
+  )
+  if (length(overwritten) > 0) {
+    cli::cli_inform("Overwriting column{?s} {.val {overwritten}}.")
   }
 
   # Point -> cell
