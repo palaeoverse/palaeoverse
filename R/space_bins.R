@@ -48,7 +48,9 @@
 #' @return An object of class `palaeoverse_space_bins`. This object can be passed
 #' to the `bins` argument in [`bin_space()`] to assign occurrences (or any set of
 #' coordinates)  to these bins. This object has an attribute `h3_resolution` that
-#' is used internally and shouldn't be relied upon.
+#' is used internally to automatically name columns in `bin_space()`. This internal
+#' implementation might change in the future, hence this attribute shouldn't be
+#' relied upon.
 #'
 #' @seealso [`bin_space()`]
 #' @export

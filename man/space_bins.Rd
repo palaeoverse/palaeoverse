@@ -22,7 +22,9 @@ is used.}
 An object of class \code{palaeoverse_space_bins}. This object can be passed
 to the \code{bins} argument in \code{\link[=bin_space]{bin_space()}} to assign occurrences (or any set of
 coordinates)  to these bins. This object has an attribute \code{h3_resolution} that
-is used internally and shouldn't be relied upon.
+is used internally to automatically name columns in \code{bin_space()}. This internal
+implementation might change in the future, hence this attribute shouldn't be
+relied upon.
 }
 \description{
 A function to generate spatial hexagonal equal-area grid cells using the \href{https://h3geo.org/}{H3 discrete global grid system}. These can then be used in \code{\link[=bin_space]{bin_space()}} to
