@@ -204,6 +204,11 @@ maj_tetrapods <- bin_space(occdf = maj_tetrapods,
                            lat = "p_lat",
                            bins = space_bins(spacing = 100))
 
+# `space_bins()` creates cells using the H3 geospatial indexing system, which works
+# with 16 resolutions. `spacing = 100` results in a resolution equal to 3, so the 
+# new "cell" column names are suffixed with "_3".
+colnames(maj_tetrapods)
+
 # Show the first 6 rows of the new columns added using `bin_space`.
 head(maj_tetrapods[, c("cell_ID_3", "cell_centroid_lng_3", "cell_centroid_lat_3")])
 ```
