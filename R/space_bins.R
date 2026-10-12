@@ -84,5 +84,5 @@ space_bins <- function(spacing, resolution) {
   class(out) <- c("palaeoverse_space_bins", class(out))
   attr(out, "h3_resolution") <- grid$h3_resolution
 
-  out
+  return(out)
 }
