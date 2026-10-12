@@ -4,15 +4,15 @@
 \alias{space_bins}
 \title{Generate spatial bins}
 \usage{
-space_bins(spacing, resolution)
+space_bins(resolution, spacing)
 }
 \arguments{
+\item{resolution}{\code{numeric}. The desired H3 resolution. Must be a whole
+number between 0 and 15. Cannot be used if \code{spacing} is used.}
+
 \item{spacing}{\code{numeric}. The desired spacing between the centre of
 adjacent cells. This value should be provided in kilometres. Cannot be used
 if \code{resolution} is used.}
-
-\item{resolution}{\code{numeric}. The desired H3 resolution. Must be a whole
-number between 0 and 15. Cannot be used if \code{spacing} is used.}
 }
 \value{
 An object of class \code{palaeoverse_space_bins}. This object can be passed

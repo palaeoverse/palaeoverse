@@ -5,11 +5,11 @@
 #' global grid system](https://h3geo.org/). These can then be used in [`bin_space()`] to
 #' assign fossil occurrences (or localities) to spatial bins.
 #'
+#' @param resolution \code{numeric}. The desired H3 resolution. Must be a whole
+#' number between 0 and 15. Cannot be used if `spacing` is used.
 #' @param spacing \code{numeric}. The desired spacing between the centre of
 #' adjacent cells. This value should be provided in kilometres. Cannot be used
 #' if `resolution` is used.
-#' @param resolution \code{numeric}. The desired H3 resolution. Must be a whole
-#' number between 0 and 15. Cannot be used if `spacing` is used.
 #'
 #' @details
 #' `spacing` represents the distance between the centroids of adjacent cells.
@@ -28,7 +28,7 @@
 #' space_bins(spacing = 1000)
 #'
 #' space_bins(resolution = 1)
-space_bins <- function(spacing, resolution) {
+space_bins <- function(resolution, spacing) {
   ensure_args_are_named()
   rlang::check_exclusive(spacing, resolution)
 
@@ -65,7 +65,7 @@ space_bins <- function(spacing, resolution) {
     res = grid$h3_resolution,
     simple = TRUE
   )
-  # Get base cells
+
   out <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
 
   if (!missing(spacing)) {
