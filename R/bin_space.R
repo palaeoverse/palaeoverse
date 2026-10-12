@@ -35,8 +35,7 @@
 #' \code{\link[h3jsr]{h3jsr}} package. This package relies on
 #' [Uber's H3](https://h3geo.org/docs/) library, a geospatial indexing system
 #' that partitions the world into hexagonal cells. In H3, 16 different
-#' resolutions are available
-#' ([see here](https://h3geo.org/docs/core-library/restable/)).
+#' resolutions are available (see the 'Details' section of [`space_bins()`]).
 #'
 #' Note: prior to implementation, coordinate reference system (CRS) for input
 #' data is defined as EPSG:4326 (World Geodetic System

@@ -60,8 +60,7 @@ equal-area grid cells using discrete hexagonal grids via the
 \code{\link[h3jsr]{h3jsr}} package. This package relies on
 \href{https://h3geo.org/docs/}{Uber's H3} library, a geospatial indexing system
 that partitions the world into hexagonal cells. In H3, 16 different
-resolutions are available
-(\href{https://h3geo.org/docs/core-library/restable/}{see here}).
+resolutions are available (see the 'Details' section of \code{\link[=space_bins]{space_bins()}}).
 
 Note: prior to implementation, coordinate reference system (CRS) for input
 data is defined as EPSG:4326 (World Geodetic System
