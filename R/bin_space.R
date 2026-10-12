@@ -119,29 +119,15 @@ bin_space <- function(
 ) {
   ensure_args_are_named(exceptions = "occdf")
 
-  if (lifecycle::is_present(return)) {
-    cli::cli_abort(
-      c(
-        "The {.arg return} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
-        "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
+  for (arg in c("return", "spacing", "sub_grid")) {
+    if (arg %in% names(match.call())) {
+      cli::cli_abort(
+        c(
+          "The {.arg {arg}} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
+          "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
+        )
       )
-    )
-  }
-  if (lifecycle::is_present(spacing)) {
-    cli::cli_abort(
-      c(
-        "The {.arg spacing} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
-        "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
-      )
-    )
-  }
-  if (lifecycle::is_present(sub_grid)) {
-    cli::cli_abort(
-      c(
-        "The {.arg sub_grid} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
-        "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
-      )
-    )
+    }
   }
 
   check_data_frame(occdf)
