@@ -4,15 +4,19 @@
 \alias{space_bins}
 \title{Generate spatial bins}
 \usage{
-space_bins(resolution, spacing)
+space_bins(resolution, spacing, area)
 }
 \arguments{
 \item{resolution}{\code{numeric}. The desired H3 resolution. Must be a whole
-number between 0 and 15. Cannot be used if \code{spacing} is used.}
+number between 0 and 15. Cannot be used if \code{spacing} or \code{area} is used.}
 
 \item{spacing}{\code{numeric}. The desired spacing between the centre of
 adjacent cells. This value should be provided in kilometres. Cannot be used
-if \code{resolution} is used.}
+if \code{resolution} or \code{area} is used.}
+
+\item{area}{\code{numeric}. The desired area of each cell. This value should
+be provided in square kilometres. Cannot be used if \code{resolution} or \code{spacing}
+is used.}
 }
 \value{
 An object of class \code{palaeoverse_space_bins}. This object can be passed
@@ -27,8 +31,9 @@ assign fossil occurrences (or localities) to spatial bins.
 \details{
 \code{spacing} represents the distance between the centroids of adjacent cells.
 Using this distance, the function identifies which resolution is most similar
-to the input \code{spacing}, and uses this resolution. Using \code{resolution} to directly
-pass an H3 resolution is a way to bypass this step.
+to the input \code{spacing}, and uses this resolution. Similarly, \code{area} is
+compared to the average cell area of each resolution. Using \code{resolution} to
+directly pass an H3 resolution is a way to bypass this step.
 
 The table below shows, for each H3 resolution, the number of cells covering
 the globe and their average area (source: \url{https://h3geo.org/docs/core-library/restable}). This information is also available via \code{h3jsr::h3_info_table}.\tabular{rrr}{
@@ -53,6 +58,8 @@ the globe and their average area (source: \url{https://h3geo.org/docs/core-libra
 }
 \examples{
 space_bins(spacing = 1000)
+
+space_bins(area = 100000)
 
 space_bins(resolution = 1)
 }

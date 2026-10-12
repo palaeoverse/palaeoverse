@@ -23,9 +23,20 @@ test_that("arg resolution works", {
   expect_snapshot(space_bins(resolution = NA), error = TRUE)
 })
 
-test_that("space_bins() must take one of spacing or resolution", {
+test_that("arg area works", {
+  expect_snapshot(space_bins(area = 100000))
+  expect_equal(attr(space_bins(area = 100000), "h3_resolution"), 2)
+
+  expect_snapshot(space_bins(area = "10"), error = TRUE)
+  expect_snapshot(space_bins(area = -1), error = TRUE)
+  expect_snapshot(space_bins(area = 0), error = TRUE)
+  expect_snapshot(space_bins(area = NA), error = TRUE)
+})
+
+test_that("space_bins() must take one of spacing, resolution, or area", {
   expect_snapshot(space_bins(), error = TRUE)
   expect_snapshot(space_bins(spacing = 1000, resolution = 1), error = TRUE)
+  expect_snapshot(space_bins(spacing = 1000, area = 100000), error = TRUE)
 })
 
 test_that("space_bins() forbids unnamed args", {
