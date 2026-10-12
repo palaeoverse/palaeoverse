@@ -1,10 +1,10 @@
 #' Assign fossil occurrences to spatial bins
 #'
-#' A function to assign fossil occurrences (or localities) to spatial
+#' A function to assign fossil occurrences (or any set of coordinates) to spatial
 #' bins (i.e. cells) using a hexagonal equal-area grid.
 #'
-#' @param occdf \code{dataframe}. A dataframe of the fossil occurrences (or
-#' localities) you wish to bin. This dataframe should contain the decimal
+#' @param occdf \code{data.frame}. A dataframe of the fossil occurrences (or
+#' any set of coordinates) you wish to bin. This dataframe should contain the decimal
 #' degree coordinates of your occurrences, and they should be of
 #' class `numeric`.
 #' @param bins \code{sfc_POLYGON}. An object of class \code{palaeoverse_space_bins}
@@ -22,15 +22,15 @@
 #'
 #' @return A `data.frame` with the original input data and three new columns:
 #'
-#' - `cell_id_{resolution}`: the H3 cell ID that contains the row coordinates;
-#' - `cell_centroid_lat_{resolution}`: the latitude of the H3 cell's centroid;
-#' - `cell_centroid_lng_{resolution}`: the longitude of the H3 cell's centroid;
+#' - `cell_id_{h3_resolution}`: the ID of the H3 cell that contains the row coordinates
+#' - `cell_centroid_lat_{h3_resolution}`: the latitude of the H3 cell's centroid
+#' - `cell_centroid_lng_{h3_resolution}`: the longitude of the H3 cell's centroid
 #'
-#' In these three column names, `{resolution}` corresponds to the H3 resolution that
+#' In these three column names, `{h3_resolution}` corresponds to the H3 resolution that
 #' is used. For instance, using `bins = space_bins(spacing = 250)` results in an H3
 #' resolution equal to 2, so the column name for the cell ID will be `"cell_id_2"`.
 #'
-#' Calling `bin_space()` several times can overwrite existing cell columns if `bins`
+#' Note: calling `bin_space()` several times can overwrite existing cell columns if `bins`
 #' uses the same resolution as existing columns.
 #'
 #' @details This function assigns fossil occurrence data into

@@ -16,8 +16,8 @@ bin_space(
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences (or
-localities) you wish to bin. This dataframe should contain the decimal
+\item{occdf}{\code{data.frame}. A dataframe of the fossil occurrences (or
+any set of coordinates) you wish to bin. This dataframe should contain the decimal
 degree coordinates of your occurrences, and they should be of
 class \code{numeric}.}
 
@@ -41,20 +41,20 @@ to the \code{bins} argument instead.}
 \value{
 A \code{data.frame} with the original input data and three new columns:
 \itemize{
-\item \verb{cell_id_\{resolution\}}: the H3 cell ID that contains the row coordinates;
-\item \verb{cell_centroid_lat_\{resolution\}}: the latitude of the H3 cell's centroid;
-\item \verb{cell_centroid_lng_\{resolution\}}: the longitude of the H3 cell's centroid;
+\item \verb{cell_id_\{h3_resolution\}}: the ID of the H3 cell that contains the row coordinates
+\item \verb{cell_centroid_lat_\{h3_resolution\}}: the latitude of the H3 cell's centroid
+\item \verb{cell_centroid_lng_\{h3_resolution\}}: the longitude of the H3 cell's centroid
 }
 
-In these three column names, \code{{resolution}} corresponds to the H3 resolution that
+In these three column names, \code{{h3_resolution}} corresponds to the H3 resolution that
 is used. For instance, using \code{bins = space_bins(spacing = 250)} results in an H3
 resolution equal to 2, so the column name for the cell ID will be \code{"cell_id_2"}.
 
-Calling \code{bin_space()} several times can overwrite existing cell columns if \code{bins}
+Note: calling \code{bin_space()} several times can overwrite existing cell columns if \code{bins}
 uses the same resolution as existing columns.
 }
 \description{
-A function to assign fossil occurrences (or localities) to spatial
+A function to assign fossil occurrences (or any set of coordinates) to spatial
 bins (i.e. cells) using a hexagonal equal-area grid.
 }
 \details{
