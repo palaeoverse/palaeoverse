@@ -27,7 +27,7 @@
 #' - `cell_centroid_lng_{resolution}`: the longitude of the H3 cell's centroid;
 #'
 #' In these three column names, `{resolution}` corresponds to the H3 resolution that
-#' is used. For instance, using `bins = space_bins(spacing = 250)` corresponds to an H3
+#' is used. For instance, using `bins = space_bins(spacing = 250)` results in an H3
 #' resolution equal to 2, so the column name for the cell ID will be `"cell_id_2"`.
 #'
 #' @details This function assigns fossil occurrence data into

@@ -47,7 +47,7 @@ A \code{data.frame} with the original input data and three new columns:
 }
 
 In these three column names, \code{{resolution}} corresponds to the H3 resolution that
-is used. For instance, using \code{bins = space_bins(spacing = 250)} corresponds to an H3
+is used. For instance, using \code{bins = space_bins(spacing = 250)} results in an H3
 resolution equal to 2, so the column name for the cell ID will be \code{"cell_id_2"}.
 }
 \description{
