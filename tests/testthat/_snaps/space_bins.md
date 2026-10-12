@@ -120,7 +120,7 @@
       space_bins(resolution = 15.1)
     Condition
       Error in `space_bins()`:
-      ! `resolution` must be a whole number between 0 and 15.
+      ! `resolution` must be a whole number, not the number 15.1.
 
 ---
 
@@ -128,7 +128,7 @@
       space_bins(resolution = "10")
     Condition
       Error in `space_bins()`:
-      ! `resolution` must be a number, not the string "10".
+      ! `resolution` must be a whole number, not the string "10".
 
 ---
 
@@ -144,7 +144,7 @@
       space_bins(resolution = numeric(0))
     Condition
       Error in `space_bins()`:
-      ! `resolution` must be a number, not an empty numeric vector.
+      ! `resolution` must be a whole number, not an empty numeric vector.
 
 ---
 
@@ -152,7 +152,7 @@
       space_bins(resolution = NULL)
     Condition
       Error in `space_bins()`:
-      ! `resolution` must be a number, not `NULL`.
+      ! `resolution` must be a whole number, not `NULL`.
 
 ---
 
@@ -160,7 +160,7 @@
       space_bins(resolution = NA)
     Condition
       Error in `space_bins()`:
-      ! `resolution` must be a number, not `NA`.
+      ! `resolution` must be a whole number, not `NA`.
 
 # space_bins() must take one of spacing or resolution
 

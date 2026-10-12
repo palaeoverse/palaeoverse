@@ -38,7 +38,7 @@ space_bins <- function(spacing, resolution) {
       cli::cli_abort("{.arg spacing} must be greater than 0.")
     }
   } else {
-    rlang::check_number_decimal(resolution)
+    rlang::check_number_whole(resolution)
     if (!resolution %in% 0:15) {
       cli::cli_abort(
         "{.arg resolution} must be a whole number between 0 and 15."
