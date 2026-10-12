@@ -7,7 +7,7 @@
 space_bins(spacing, resolution)
 }
 \arguments{
-\item{spacing}{\code{numeric}. The desired spacing between the center of
+\item{spacing}{\code{numeric}. The desired spacing between the centre of
 adjacent cells. This value should be provided in kilometres. Cannot be used
 if \code{resolution} is used.}
 
@@ -16,19 +16,16 @@ number between 0 and 15. Cannot be used if \code{spacing} is used.}
 }
 \value{
 An object of class \code{palaeoverse_space_bins}. This object can be passed
-to the \code{bins} argument in \code{\link[=bin_space]{bin_space()}} to assign occurrences to these bins.
-This object has an attribute \code{h3_resolution} that is used internally and
-shouldn't be relied upon.
+to the \code{bins} argument in \code{\link[=bin_space]{bin_space()}} to assign occurrences (or any set of
+coordinates)  to these bins. This object has an attribute \code{h3_resolution} that
+is used internally and shouldn't be relied upon.
 }
 \description{
-A function to generate spatial bins that can then be used in \code{\link[=bin_space]{bin_space()}} to
-assign fossil occurrences (or localities) to spatial bins/samples using a
-hexagonal equal-area grid.
-
-This function builds a hexagonal grid using the H3 geospatial indexing.
+A function to generate spatial hexagonal equal-area grid cells using the \href{https://h3geo.org/}{H3 discrete global grid system}. These can then be used in \code{\link[=bin_space]{bin_space()}} to
+assign fossil occurrences (or localities) to spatial bins.
 }
 \details{
-\code{spacing} represents the distance between the centroid of adjacent cells.
+\code{spacing} represents the distance between the centroids of adjacent cells.
 Using this distance, the function identifies which resolution is most similar
 to the input \code{spacing}, and uses this resolution. Using \code{resolution} to directly
 pass an H3 resolution is a way to bypass this step.

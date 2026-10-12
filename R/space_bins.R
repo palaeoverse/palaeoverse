@@ -1,28 +1,26 @@
 #' Generate spatial bins
 #'
 #' @description
-#' A function to generate spatial bins that can then be used in [`bin_space()`] to
-#' assign fossil occurrences (or localities) to spatial bins/samples using a
-#' hexagonal equal-area grid.
+#' A function to generate spatial hexagonal equal-area grid cells using the [H3 discrete
+#' global grid system](https://h3geo.org/). These can then be used in [`bin_space()`] to
+#' assign fossil occurrences (or localities) to spatial bins.
 #'
-#' This function builds a hexagonal grid using the H3 geospatial indexing.
-#'
-#' @param spacing \code{numeric}. The desired spacing between the center of
+#' @param spacing \code{numeric}. The desired spacing between the centre of
 #' adjacent cells. This value should be provided in kilometres. Cannot be used
 #' if `resolution` is used.
 #' @param resolution \code{numeric}. The desired H3 resolution. Must be a whole
 #' number between 0 and 15. Cannot be used if `spacing` is used.
 #'
 #' @details
-#' `spacing` represents the distance between the centroid of adjacent cells.
+#' `spacing` represents the distance between the centroids of adjacent cells.
 #' Using this distance, the function identifies which resolution is most similar
 #' to the input `spacing`, and uses this resolution. Using `resolution` to directly
 #' pass an H3 resolution is a way to bypass this step.
 #'
 #' @return An object of class `palaeoverse_space_bins`. This object can be passed
-#' to the `bins` argument in [`bin_space()`] to assign occurrences to these bins.
-#' This object has an attribute `h3_resolution` that is used internally and
-#' shouldn't be relied upon.
+#' to the `bins` argument in [`bin_space()`] to assign occurrences (or any set of
+#' coordinates)  to these bins. This object has an attribute `h3_resolution` that
+#' is used internally and shouldn't be relied upon.
 #'
 #' @seealso [`bin_space()`]
 #' @export
