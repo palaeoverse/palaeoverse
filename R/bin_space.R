@@ -30,6 +30,9 @@
 #' is used. For instance, using `bins = space_bins(spacing = 250)` results in an H3
 #' resolution equal to 2, so the column name for the cell ID will be `"cell_id_2"`.
 #'
+#' Calling `bin_space()` several times can overwrite existing cell columns, for instance
+#' if two calls to `space_bins()` result in the same resolution.
+#'
 #' @details This function assigns fossil occurrence data into
 #' equal-area grid cells using discrete hexagonal grids via the
 #' \code{\link[h3jsr]{h3jsr}} package. This package relies on
@@ -178,6 +181,16 @@ bin_space <- function(
   cell_name <- paste0("cell_ID_", h3_resolution)
   cent_lat_name <- paste0("cell_centroid_lng_", h3_resolution)
   cent_lon_name <- paste0("cell_centroid_lat_", h3_resolution)
+
+  if (cell_name %in% names(occdf)) {
+    cli::cli_inform("Overwriting column {.val {cell_name}}.")
+  }
+  if (cent_lat_name %in% names(occdf)) {
+    cli::cli_inform("Overwriting column {.val {cent_lat_name}}.")
+  }
+  if (cent_lon_name %in% names(occdf)) {
+    cli::cli_inform("Overwriting column {.val {cent_lon_name}}.")
+  }
 
   # Point -> cell
   # Cell -> find centroid

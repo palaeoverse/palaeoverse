@@ -82,6 +82,21 @@ test_that("we can chain several bin_space()", {
   )
 })
 
+test_that("bin_space() overwrites existing cell columns", {
+  # Reduce data size for faster testing
+  occdf <- head(tetrapods, n = 50)
+
+  expect_snapshot(
+    out <- occdf |>
+      bin_space(bins = space_bins(spacing = 1000)) |>
+      bin_space(bins = space_bins(spacing = 900))
+  )
+  expect_named(
+    out,
+    c(names(occdf), "cell_ID_1", "cell_centroid_lat_1", "cell_centroid_lng_1")
+  )
+})
+
 test_that("piping and not piping the first argument give the same result", {
   occdf <- head(tetrapods, n = 100)
 
