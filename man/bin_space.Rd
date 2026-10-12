@@ -21,8 +21,9 @@ localities) you wish to bin. This dataframe should contain the decimal
 degree coordinates of your occurrences, and they should be of
 class \code{numeric}.}
 
-\item{bins}{\code{palaeoverse_space_bins}. Bins that you wish to allocate
-fossil occurrences to. This must be an object created by \code{\link[=space_bins]{space_bins()}}.}
+\item{bins}{\code{sfc_POLYGON}. An object of class \code{palaeoverse_space_bins}
+created by \code{\link[=space_bins]{space_bins()}}, corresponding to the bins that you wish to allocate
+fossil occurrences to.}
 
 \item{lng}{\code{character}. The name of the column you wish to be treated
 as the input longitude (e.g. "lng" or "p_lng").}
