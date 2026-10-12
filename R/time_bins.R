@@ -115,7 +115,7 @@
 #' #Use North American land mammal ages from Macrostrat and specify a desired
 #' #number of bins
 #' ex7 <- time_bins(scale = "North American land mammal ages", n_bins = 7)
-#'
+#' plot(ex7)
 time_bins <- function(
   interval = "Phanerozoic",
   rank = "stage",
