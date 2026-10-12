@@ -3,7 +3,8 @@
     Code
       space_bins(spacing = 1000)
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Output
       Geometry set for 842 features 
@@ -24,7 +25,8 @@
     Code
       space_bins(spacing = 1000.2)
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Output
       Geometry set for 842 features 
@@ -92,6 +94,9 @@
 
     Code
       space_bins(resolution = 1)
+    Message
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
     Output
       Geometry set for 842 features 
       Geometry type: eoverse_space_bins
@@ -167,7 +172,8 @@
     Code
       space_bins(area = 1e+05)
     Message
-      Average cell area in the primary grid was set to 86801.78 km².
+      i Average spacing between adjacent cells: 274.09 km.
+      i Average cell area: 86,801.78 km².
       i H3 resolution: 2
     Output
       Geometry set for 5882 features 

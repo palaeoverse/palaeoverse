@@ -66,7 +66,8 @@
       bin_space(occdf = tetrapods, bins = space_bins(spacing = 1000), lng = "long",
       lat = "latit")
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -77,7 +78,8 @@
     Code
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -89,7 +91,8 @@
     Code
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -100,7 +103,8 @@
     Code
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -112,7 +116,8 @@
     Code
       bin_space(occdf, bins = space_bins(spacing = 1000))
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -123,7 +128,8 @@
     Code
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = "foo")
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -134,7 +140,8 @@
     Code
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = logical(0))
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:
@@ -145,7 +152,8 @@
     Code
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = 1)
     Message
-      Average spacing between adjacent cells in the primary grid was set to 725.17 km.
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 km².
       i H3 resolution: 1
     Condition
       Error in `bin_space()`:

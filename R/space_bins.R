@@ -107,28 +107,31 @@ space_bins <- function(resolution, spacing, area) {
 
   out <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
 
+  msg <- c(
+    "i" = paste0(
+      "Average spacing between adjacent cells: ",
+      format(round(grid$avg_cendist_km[1], digits = 2), big.mark = ","),
+      " km."
+    ),
+    "i" = paste0(
+      "Average cell area: ",
+      format(round(grid$avg_area_sqkm[1], digits = 2), big.mark = ","),
+      " km²."
+    )
+  )
+
   if (!missing(spacing)) {
-    cli::cli_inform(
-      c(
-        paste0(
-          "Average spacing between adjacent cells in the primary grid was set to ",
-          round(grid$avg_cendist_km[1], digits = 2),
-          " km. "
-        ),
-        "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
-      )
-    )
+    cli::cli_inform(c(
+      msg,
+      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
+    ))
   } else if (!missing(area)) {
-    cli::cli_inform(
-      c(
-        paste0(
-          "Average cell area in the primary grid was set to ",
-          round(grid$avg_area_sqkm[1], digits = 2),
-          " km². "
-        ),
-        "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
-      )
-    )
+    cli::cli_inform(c(
+      msg,
+      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
+    ))
+  } else {
+    cli::cli_inform(msg)
   }
 
   class(out) <- c("palaeoverse_space_bins", class(out))
