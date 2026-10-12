@@ -2,6 +2,7 @@
 
 S3method(plot,palaeoverse_lat_bins_area)
 S3method(plot,palaeoverse_lat_bins_degrees)
+S3method(plot,palaeoverse_time_bins)
 export(axis_geo)
 export(axis_geo_phylo)
 export(bin_lat)
@@ -53,8 +54,7 @@ importFrom(graphics,
   segments,
   strheight,
   strwidth,
-  text,
-  title
+  text
 )
 importFrom(h3jsr,
   cell_to_point,
