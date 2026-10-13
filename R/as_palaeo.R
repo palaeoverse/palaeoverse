@@ -116,28 +116,31 @@ print.palaeoverse_data <- function(x, ...) {
 }
 
 #' Preference order:
-#' 1. `column` explicitly passed by user
+#' 1. `arg` explicitly passed by user
 #' 2. value stored in the data attribute
-#' 3. `column` default value in the function definition
+#' 3. `arg` default value in the function definition
 #'
 #' @noRd
-resolve_info <- function(data, column) {
-  column_present_in_call <- column %in%
-    names(rlang::call_args(rlang::caller_call()))
-  value_from_attr <- attr(data, paste0("palaeoverse_", column))
+resolve_info <- function(data, arg) {
+  arg_name <- rlang::caller_arg(arg)
+  arg_val <- arg
 
-  if (isTRUE(column_present_in_call)) {
+  arg_present_in_call <- arg_name %in%
+    names(rlang::call_args(rlang::caller_call()))
+  value_from_attr <- attr(data, paste0("palaeoverse_", arg_name))
+
+  if (isTRUE(arg_present_in_call)) {
     if (!is.null(value_from_attr)) {
       cli::cli_inform(
-        "Preferring user input {.arg {column}} over data attribute {.val {paste0(\"palaeoverse_\", column)}}."
+        "Using user input {.arg {arg_name}} ({.val {arg_val}}) instead of {.arg {arg_name}} value set in {.fn as_palaeo} ({.val {value_from_attr}})."
       )
     }
-    return(column)
+    return(arg_val)
   } else {
     if (!is.null(value_from_attr)) {
       return(value_from_attr)
     } else {
-      return(column)
+      return(arg_val)
     }
   }
 }

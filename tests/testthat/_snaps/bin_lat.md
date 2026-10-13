@@ -110,12 +110,12 @@
 ---
 
     Code
-      bin_lat(occdf = dat, bins = bins, lat = "lat")
+      bin_lat(occdf = dat, bins = bins, lat = "another_lat")
     Message
-      Preferring user input `lat` over data attribute "palaeoverse_lat".
+      Using user input `lat` ("another_lat") instead of `lat` value set in `as_palaeo()` ("my_lat").
     Condition
       Error in `bin_lat()`:
-      ! Column "lat" not found in `occdf`.
+      ! Column "another_lat" not found in `occdf`.
 
 ---
 

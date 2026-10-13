@@ -96,7 +96,7 @@ test_that("bin_lat() uses info set in as_palaeo()", {
   # even if the attribute is set, we prefer explicitly passed values (leading
   # to an error here)
   expect_snapshot(
-    bin_lat(occdf = dat, bins = bins, lat = "lat"),
+    bin_lat(occdf = dat, bins = bins, lat = "another_lat"),
     error = TRUE
   )
 
