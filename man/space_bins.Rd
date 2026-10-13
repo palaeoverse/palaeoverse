@@ -21,8 +21,9 @@ is used.}
 \value{
 An object of class \code{palaeoverse_space_bins}. This object can be passed
 to the \code{bins} argument in \code{\link[=bin_space]{bin_space()}} to assign occurrences (or any set of
-coordinates)  to these bins. This object has an attribute \code{h3_resolution} that
-is currently used internally by \code{bin_space()} to name columns automatically, but
+coordinates)  to these bins. Under the hood, this is an \code{sfc_POLYGON} with CRS
+EPSG:4326 (WGS 1984). This object has an attribute \code{h3_resolution} that is
+currently used internally by \code{bin_space()} to name columns automatically, but
 may change in future releases.
 }
 \description{

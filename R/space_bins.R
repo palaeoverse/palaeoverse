@@ -49,8 +49,9 @@
 #'
 #' @return An object of class `palaeoverse_space_bins`. This object can be passed
 #' to the `bins` argument in [`bin_space()`] to assign occurrences (or any set of
-#' coordinates)  to these bins. This object has an attribute `h3_resolution` that
-#' is currently used internally by `bin_space()` to name columns automatically, but
+#' coordinates)  to these bins. Under the hood, this is an `sfc_POLYGON` with CRS
+#' EPSG:4326 (WGS 1984). This object has an attribute `h3_resolution` that is
+#' currently used internally by `bin_space()` to name columns automatically, but
 #' may change in future releases.
 #'
 #' @seealso [`bin_space()`]
