@@ -55,8 +55,8 @@
     Message
       A dataframe with 1 row and 2 columns.
       i Attributes:
-        * Longitude: "long"
-        * Latitude: "lat"
+        * lon: "long"
+        * lat: "lat"
 
 ---
 
@@ -69,8 +69,8 @@
     Message
       A dataframe with 1 row and 2 columns.
       i Attributes:
-        * Longitude: "lon"
-        * Latitude: "lat"
+        * lon: "lon"
+        * lat: "lat"
 
 ---
 
@@ -85,8 +85,8 @@
     Message
       A dataframe with 1 row and 2 columns.
       i Attributes:
-        * Longitude: "lon"
-        * Latitude: "lat"
+        * lon: "lon"
+        * lat: "lat"
 
 # args must be named
 

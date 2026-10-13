@@ -99,8 +99,7 @@ print.palaeoverse_data <- function(x, ...) {
   att <- att[startsWith(att, "palaeo")]
 
   att_list <- vapply(att, function(nm) attr(x, nm), FUN.VALUE = character(1))
-  att[att == "palaeoverse_lat"] <- "Latitude"
-  att[att == "palaeoverse_lon"] <- "Longitude"
+  att <- gsub("^palaeoverse\\_", "", att)
   cli::cli_inform(
     "A dataframe with {nrow(x)} row{?s} and {ncol(x)} column{?s}."
   )
