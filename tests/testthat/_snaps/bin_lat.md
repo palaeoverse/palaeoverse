@@ -112,7 +112,7 @@
     Code
       bin_lat(occdf = dat, bins = bins, lat = "another_lat")
     Message
-      Using function input `lat` ("another_lat") instead of `lat` value set in `as_palaeo()` ("my_lat").
+      i Using function input `lat` ("another_lat") instead of `lat` value set in `as_palaeo()` ("my_lat").
     Condition
       Error in `bin_lat()`:
       ! Column "another_lat" not found in `occdf`.
