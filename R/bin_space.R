@@ -1,7 +1,8 @@
 #' Assign fossil occurrences to spatial bins
 #'
 #' A function to assign fossil occurrences (or any set of coordinates) to spatial
-#' bins (i.e. cells) using a hexagonal equal-area grid.
+#' bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
+#' [`space_bins()`], which creates the spatial bins required in the `bins` argument.
 #'
 #' @param occdf \code{data.frame}. A dataframe of the fossil occurrences (or
 #' any set of coordinates) you wish to bin. This dataframe should contain the decimal

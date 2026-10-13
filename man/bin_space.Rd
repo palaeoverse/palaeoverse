@@ -55,7 +55,8 @@ uses the same resolution as existing columns.
 }
 \description{
 A function to assign fossil occurrences (or any set of coordinates) to spatial
-bins (i.e. cells) using a hexagonal equal-area grid.
+bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
+\code{\link[=space_bins]{space_bins()}}, which creates the spatial bins required in the \code{bins} argument.
 }
 \details{
 This function assigns fossil occurrence data into

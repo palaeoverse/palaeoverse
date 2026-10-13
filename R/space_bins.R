@@ -15,11 +15,13 @@
 #' is used.
 #'
 #' @details
-#' `spacing` represents the distance between the centroids of adjacent cells.
-#' Using this distance, the function identifies which resolution is most similar
-#' to the input `spacing`, and uses this resolution. Similarly, `area` is
-#' compared to the average cell area of each resolution. Using `resolution` to
-#' directly pass an H3 resolution is a way to bypass this step.
+#' The [H3 discrete global grid system](https://h3geo.org/) uses fixed resolutions, which
+#' can be directly set by passing an H3 resolution level (0-15) to `resolution`. Alternatively,
+#' resolution can be inferred from a target `spacing` or `area`. `spacing` is defined as the
+#' distance between the centroids of adjacent cells; the function compares the input spacing
+#' to the average centroid distance at each H3 resolution and selects the closest match.
+#' Likewise, a target `area` is compared to the average cell area at each resolution, and
+#' the nearest resolution is used.
 #'
 #' The table below shows, for each H3 resolution, the number of cells covering
 #' the globe, their average area (source: <https://h3geo.org/docs/core-library/restable>),
@@ -48,9 +50,8 @@
 #' @return An object of class `palaeoverse_space_bins`. This object can be passed
 #' to the `bins` argument in [`bin_space()`] to assign occurrences (or any set of
 #' coordinates)  to these bins. This object has an attribute `h3_resolution` that
-#' is used internally to automatically name columns in `bin_space()`. This internal
-#' implementation might change in the future, hence this attribute shouldn't be
-#' relied upon.
+#' is currently used internally by `bin_space()` to name columns automatically, but
+#' may change in future releases.
 #'
 #' @seealso [`bin_space()`]
 #' @export

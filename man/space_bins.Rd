@@ -22,9 +22,8 @@ is used.}
 An object of class \code{palaeoverse_space_bins}. This object can be passed
 to the \code{bins} argument in \code{\link[=bin_space]{bin_space()}} to assign occurrences (or any set of
 coordinates)  to these bins. This object has an attribute \code{h3_resolution} that
-is used internally to automatically name columns in \code{bin_space()}. This internal
-implementation might change in the future, hence this attribute shouldn't be
-relied upon.
+is currently used internally by \code{bin_space()} to name columns automatically, but
+may change in future releases.
 }
 \description{
 A function to generate spatial hexagonal equal-area grid cells (i.e. bins) using the
@@ -32,11 +31,13 @@ A function to generate spatial hexagonal equal-area grid cells (i.e. bins) using
 \code{\link[=bin_space]{bin_space()}} to assign fossil occurrences (or localities) to spatial bins.
 }
 \details{
-\code{spacing} represents the distance between the centroids of adjacent cells.
-Using this distance, the function identifies which resolution is most similar
-to the input \code{spacing}, and uses this resolution. Similarly, \code{area} is
-compared to the average cell area of each resolution. Using \code{resolution} to
-directly pass an H3 resolution is a way to bypass this step.
+The \href{https://h3geo.org/}{H3 discrete global grid system} uses fixed resolutions, which
+can be directly set by passing an H3 resolution level (0-15) to \code{resolution}. Alternatively,
+resolution can be inferred from a target \code{spacing} or \code{area}. \code{spacing} is defined as the
+distance between the centroids of adjacent cells; the function compares the input spacing
+to the average centroid distance at each H3 resolution and selects the closest match.
+Likewise, a target \code{area} is compared to the average cell area at each resolution, and
+the nearest resolution is used.
 
 The table below shows, for each H3 resolution, the number of cells covering
 the globe, their average area (source: \url{https://h3geo.org/docs/core-library/restable}),
