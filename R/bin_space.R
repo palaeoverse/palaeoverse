@@ -216,7 +216,8 @@ bin_space <- function(
 #' are drawn on top, which requires the package `rnaturalearthdata`.
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
 #' first layer of each globe (which draws the grid), not to the following ones that fill the
-#' cells. By default, the grid is drawn with `border = "grey80"`. The following arguments are
+#' cells. By default, the grid is drawn with `border = "grey80"`. `main` is used as the title of
+#' the whole figure rather than of each globe. The following arguments are
 #' already set internally and must not be specified here: `add`.
 #' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
 #' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
@@ -267,9 +268,18 @@ plot.palaeoverse_bin_space <- function(x, ..., col = NULL) {
   })
   continents <- sf::st_geometry(rnaturalearthdata::coastline110)
 
+  dots <- list(...)
+  main <- dots$main
+  dots$main <- NULL
+
+  # Outer margin on top for the title of the whole figure
+  old_par <- graphics::par(oma = c(0, 0, if (is.null(main)) 0 else 2, 0))
   # Two globes on top and one centred below
   graphics::layout(matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE))
-  on.exit(graphics::layout(1))
+  on.exit({
+    graphics::layout(1)
+    graphics::par(old_par)
+  })
 
   # Globe centres as c(longitude, latitude), the third one being on Mexico
   centres <- list(c(0, 0), c(180, 0), c(-102, 23))
@@ -293,12 +303,16 @@ plot.palaeoverse_bin_space <- function(x, ..., col = NULL) {
       plot,
       utils::modifyList(
         list(project(base_grid), border = "grey80"),
-        list(...)
+        dots
       )
     )
     for (i in seq_along(cells)) {
       plot(project(cells[[i]]), col = col[i], add = TRUE)
     }
     plot(project(continents), add = TRUE)
+  }
+
+  if (!is.null(main)) {
+    graphics::title(main = main, outer = TRUE)
   }
 }
