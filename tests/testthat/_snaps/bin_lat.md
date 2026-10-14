@@ -99,3 +99,29 @@
       ! All values of column "lat" in `occdf` must be between -90 and 90.
       i Value(s) outside the range: 91.
 
+# bin_lat() uses info set in as_palaeoverse()
+
+    Code
+      bin_lat(occdf = dat, bins = bins)
+    Condition
+      Error in `bin_lat()`:
+      ! Column "lat" not found in `occdf`.
+
+---
+
+    Code
+      bin_lat(occdf = dat, bins = bins, lat = "another_lat")
+    Message
+      i Using function input `lat` ("another_lat") instead of `lat` value set in `as_palaeoverse()` ("my_lat").
+    Condition
+      Error in `bin_lat()`:
+      ! Column "another_lat" not found in `occdf`.
+
+---
+
+    Code
+      bin_lat(occdf = dat, bins = bins)
+    Condition
+      Error in `bin_lat()`:
+      ! Column "lat" not found in `occdf`.
+
