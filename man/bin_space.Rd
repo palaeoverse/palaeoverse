@@ -50,7 +50,8 @@ are drawn on top, which requires the package \code{rnaturalearthdata}.}
 
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call to
 first layer of each globe (which draws the grid), not to the following ones that fill the
-cells. By default, the grid is drawn with \code{border = "grey80"}. The following arguments are
+cells. By default, the grid is drawn with \code{border = "grey80"}. \code{main} is used as the title of
+the whole figure rather than of each globe. The following arguments are
 already set internally and must not be specified here: \code{add}.}
 
 \item{col}{\code{character}. Colour(s) of the occupied cells. Must be of length 1 (in which case
