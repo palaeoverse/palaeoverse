@@ -91,7 +91,7 @@ Not bad (*n* = `r nrow(palaeoverse::reefs)`), that's quite a bit of data to play
 ```{r echo = TRUE, eval = TRUE}
 # How many reefs per interval?
 # Let's group by the interval column to test
-reef_counts <- group_apply(occdf = reefs, group = "interval", fun = nrow)
+reef_counts <- group_apply(data = reefs, group = "interval", fun = nrow)
 head(reef_counts)
 ```
 
@@ -101,7 +101,7 @@ Oh dear, we've just hit a common issue... our reef data does not conform to a co
 # Load the interval key
 data("interval_key")
 # Assign a common time scale based on an interval key
-reefs <- look_up(occdf = reefs,
+reefs <- look_up(data = reefs,
                  early_interval = "interval",
                  late_interval = "interval",
                  int_key = interval_key)
@@ -128,20 +128,20 @@ colnames(reefs)[which(colnames(reefs) == "interval_min_ma")] <- "min_ma"
 # Five methods exist in bin_time for binning occurrence data
 # You can see details on each via ?bin_time
 # Bin by midpoint age
-bin_time(occdf = reefs, bins = bins, method = "mid")
+bin_time(data = reefs, bins = bins, method = "mid")
 # Bin by overlap majority
-bin_time(occdf = reefs, bins = bins, method = "majority")
+bin_time(data = reefs, bins = bins, method = "majority")
 # Bin into every bin within age range
-bin_time(occdf = reefs, bins = bins, method = "all")
+bin_time(data = reefs, bins = bins, method = "all")
 # Bin randomly into bins within age range (equal probability)
-bin_time(occdf = reefs, bins = bins, method = "random", reps = 10)
+bin_time(data = reefs, bins = bins, method = "random", reps = 10)
 # Bin randomly into bins within age range (uniform probability)
-bin_time(occdf = reefs, bins = bins, method = "point", reps = 10)
+bin_time(data = reefs, bins = bins, method = "point", reps = 10)
 ```
 
 ```{r echo = TRUE, eval = TRUE}
 # Let's go with "all" for this example!
-reefs <- bin_time(occdf = reefs, bins = bins, method = "all")
+reefs <- bin_time(data = reefs, bins = bins, method = "all")
 ```
 
 Note that the number of rows of `reefs` have now increased. This is because the "all" method in `bin_time` duplicates an occurrence for every bin the age range overlaps with.
@@ -150,7 +150,7 @@ Let's check those reef numbers through time again using our binned data:
 
 ```{r echo = TRUE, eval = TRUE}
 # Count number of occurrences per interval
-reefs_time <- group_apply(occdf = reefs, group = "interval_mid_ma", fun = nrow)
+reefs_time <- group_apply(data = reefs, group = "interval_mid_ma", fun = nrow)
 # Check output
 head(reefs_time)
 ```
@@ -174,11 +174,11 @@ You would (and should) of course want to explore your data a little more than th
 
 When studying modern latitudinal trends (e.g. in biodiversity), researchers can use the geographic coordinates of their samples to conduct analyses. However, as the continents shift through time, palaeobiologists must reconstruct the palaeogeographic coordinates of fossil localities. To do so, plate rotation models are used (e.g. the PALEOMAP model) to rotate the modern coordinates of fossil localities to their location at time of deposition. The `palaeorotate` function allows the user to do so using either the 'point' or 'grid' method. The first approach makes use of the GPlates Web Service and allows point data to be rotated to specific ages using the available models (see the [GPlates Web Service documentation](https://gwsdoc.gplates.org)). The second approach uses reconstruction files of pre-generated palaeocoordinates to spatiotemporally link occurrences' modern coordinates and age estimates with their respective palaeocoordinates. Let's give it a shot:
 
-<!-- 
+<!--
 The following four chunks are here to handle the absence or the presence of an RDS file
 containing the results of palaeorotate():
 - if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
-- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS
 -->
 
 ```{r echo = FALSE, eval = TRUE}
@@ -187,7 +187,7 @@ rds_point_paleomap_reefs_exists <- file.exists("_data/palaeorotate_point_paleoma
 
 ```{r echo = TRUE, eval = !rds_point_paleomap_reefs_exists}
 # Palaeorotate occurrences
-reefs <- palaeorotate(occdf = reefs, age = "bin_midpoint",
+reefs <- palaeorotate(data = reefs, age = "bin_midpoint",
                       method = "point", model = "PALEOMAP")
 ```
 
@@ -247,11 +247,11 @@ axis_geo(side = 1, intervals = "periods")
 
 That's definitely much clearer! Should we stop there? Well... how about one last thing... let's consider how plate rotation model choice might impact these results using three different models: GOLONKA, PALEOMAP, and MERDITH2021 (Wright et al. 2013; Scotese & Wright, 2018; Merdith et al. 2021).
 
-<!-- 
+<!--
 The following four chunks are here to handle the absence or the presence of an RDS file
 containing the results of palaeorotate():
 - if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
-- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS
 -->
 
 ```{r echo = FALSE, eval = TRUE}
@@ -263,7 +263,7 @@ rds_point_multi_models_exists <- file.exists("_data/palaeorotate_point_multi_mod
 # First, let's define the models...
 models <- c("GOLONKA", "PALEOMAP", "MERDITH2021")
 # And now palaeorotate!
-reefs <- palaeorotate(occdf = reefs, age = "bin_midpoint",
+reefs <- palaeorotate(data = reefs, age = "bin_midpoint",
                       method = "point", model = models)
 ```
 
@@ -289,14 +289,14 @@ Now we've palaeorotated our data, let's repeat what we did earlier and calculate
 ```{r, reefs-max-multi, echo = TRUE, eval = TRUE}
 # Let's code a little helper function to begin with.
 # This is generally useful when repeating code several times!
-p_lat_max <- function(occdf, midpoint, p_lat) {
+p_lat_max <- function(data, midpoint, p_lat) {
   # Get absolute palaeolatitudes
-  occdf[, p_lat] <- abs(occdf[, p_lat])
+  data[, p_lat] <- abs(data[, p_lat])
   # Extract unique bin midpoints
-  midpoints <- sort(unique(occdf[, midpoint]))
+  midpoints <- sort(unique(data[, midpoint]))
   # Calculate maximum palaeolatitude for each bin
   lat_max <- sapply(X = midpoints, FUN = function(x) {
-    max(occdf[which(occdf[, midpoint] == x), ][, p_lat], na.rm = TRUE)
+    max(data[which(data[, midpoint] == x), ][, p_lat], na.rm = TRUE)
   })
   # Bind data
   lat_max <- cbind.data.frame(midpoints, lat_max)
@@ -304,13 +304,13 @@ p_lat_max <- function(occdf, midpoint, p_lat) {
   return(lat_max)
 }
 # Calculate maximum palaeolatitude of reefs for each time bin for each model
-paleomap <- p_lat_max(occdf = reefs,
+paleomap <- p_lat_max(data = reefs,
                       midpoint = "bin_midpoint",
                       p_lat = "p_lat_PALEOMAP")
-golonka <- p_lat_max(occdf = reefs,
+golonka <- p_lat_max(data = reefs,
                      midpoint = "bin_midpoint",
                      p_lat = "p_lat_GOLONKA")
-merdith <- p_lat_max(occdf = reefs,
+merdith <- p_lat_max(data = reefs,
                      midpoint = "bin_midpoint",
                      p_lat = "p_lat_MERDITH2021")
 # Set up plot

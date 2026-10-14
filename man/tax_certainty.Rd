@@ -4,10 +4,10 @@
 \alias{tax_certainty}
 \title{Classify the certainty of taxonomic identifications}
 \usage{
-tax_certainty(taxdf, name, terms = NULL, certainty = c(1, 0), append = TRUE)
+tax_certainty(data, name, terms = NULL, certainty = c(1, 0), append = TRUE)
 }
 \arguments{
-\item{taxdf}{\code{data.frame}. A \code{data.frame} with a named column
+\item{data}{\code{data.frame}. A \code{data.frame} with a named column
 containing the taxonomic names to be checked.}
 
 \item{name}{\code{character}. The column name of the taxonomic names you
@@ -26,13 +26,13 @@ how certainty should be coded. The first element of the vector denotes
 status (default: 0).}
 
 \item{append}{\code{logical}. If \code{TRUE} (default), the returned object
-is a \code{data.frame} consisting of the input \code{taxdf} with a column
+is a \code{data.frame} consisting of the input \code{data} with a column
 denoting the taxonomic "certainty" appended. If \code{FALSE}, a two-column
 \code{data.frame} containing the input \code{name} and the taxonomic
 identification certainty status is returned.}
 }
 \value{
-When \code{append} is \code{TRUE}, the input \code{taxdf} with an
+When \code{append} is \code{TRUE}, the input \code{data} with an
 appended "certainty" column classifying each taxon (default). When
 \code{append} is \code{FALSE}, a two-column \code{data.frame} with input \code{name}
 and 'certainty' column classifying each taxon.
@@ -102,16 +102,16 @@ Lewis A. Jones, Bethany J. Allen, & William Gearty
 \examples{
 # Get internal data
 data(tetrapods)
-occdf <- tetrapods[1:100, ]
+data <- tetrapods[1:100, ]
 # Summarise taxonomic certainty
-certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+certainty <- tax_certainty(data = data, name = "identified_name",
                            append = FALSE)
 # Append uncertainty to dataframe
-certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+certainty <- tax_certainty(data = data, name = "identified_name",
                            certainty = c("certain", "uncertain"),
                            append = TRUE)
 # Turn off subspecies- and species-level screening terms (genus-level data)
-certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+certainty <- tax_certainty(data = data, name = "identified_name",
                            terms = list(subspecies = NULL, species = NULL),
                            certainty = c("certain", "uncertain"),
                            append = FALSE)

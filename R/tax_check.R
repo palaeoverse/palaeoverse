@@ -4,7 +4,7 @@
 #' taxon. Spelling variations are checked within alphabetical groups (default),
 #' or within higher taxonomic groups if provided.
 #'
-#' @param taxdf \code{data.frame}. A dataframe with named columns containing
+#' @param data \code{data.frame}. A dataframe with named columns containing
 #' taxon names (e.g. "species", "genus"). An optional column
 #' containing the groups (e.g. "family", "order") which taxon names
 #' belong to may also be provided (see `group` for details).
@@ -13,7 +13,7 @@
 #' @param name \code{character}. The column name of the taxon names you wish
 #' to check (e.g. "genus").
 #' @param group \code{character}. The column name of the higher taxonomic
-#' assignments in `taxdf` you wish to group by. If `NULL` (default), name
+#' assignments in `data` you wish to group by. If `NULL` (default), name
 #' comparison will be conducted within alphabetical groups.
 #' @param dis \code{numeric}. The dissimilarity threshold: a value greater than
 #' 0 (completely dissimilar), and less than 1 (completely similar).
@@ -76,45 +76,45 @@
 #' # load occurrence data
 #' data("tetrapods")
 #' # Check taxon names alphabetically
-#' ex1 <- tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
+#' ex1 <- tax_check(data = tetrapods, name = "genus", dis = 0.1)
 #' # Check taxon names by group
-#' ex2 <- tax_check(taxdf = tetrapods, name = "genus",
+#' ex2 <- tax_check(data = tetrapods, name = "genus",
 #'                  group = "family", dis = 0.1)
 #' }
 #' @export
 tax_check <- function(
-  taxdf,
+  data,
   name = "genus",
   group = NULL,
   dis = 0.05,
   start = 1,
   verbose = TRUE
 ) {
-  ensure_args_are_named(exceptions = "taxdf")
+  ensure_args_are_named(exceptions = "data")
 
   # ARGUMENT CHECKS --------------------------------------------------------- #
 
-  check_data_frame(taxdf)
-  check_column_presence(taxdf, name)
+  check_data_frame(data)
+  check_column_presence(data, name)
 
   # Replace missing values with NA
-  taxdf[grep("^$|^\\s+$", taxdf[, name, drop = TRUE]), name] <- NA
+  data[grep("^$|^\\s+$", data[, name, drop = TRUE]), name] <- NA
 
-  check_class(taxdf, name, "character")
-  if (all(is.na(taxdf[, name, drop = TRUE]))) {
+  check_class(data, name, "character")
+  if (all(is.na(data[, name, drop = TRUE]))) {
     cli::cli_abort(
-      "Column {.val {name}} in {.arg taxdf} must have at least one entry that is not NA or empty."
+      "Column {.val {name}} in {.arg data} must have at least one entry that is not NA or empty."
     )
   }
 
   # groups: If not NULL, a 1L character vector denoting a character column
-  # in taxdf
+  # in data
   if (!is.null(group)) {
-    check_column_presence(taxdf, group)
-    check_class(taxdf, group, "character")
-    group <- gsub("^$|^\\s+$", NA, taxdf[, group, drop = TRUE])
+    check_column_presence(data, group)
+    check_class(data, group, "character")
+    group <- gsub("^$|^\\s+$", NA, data[, group, drop = TRUE])
   } else {
-    group <- substring(taxdf[, name, drop = TRUE], 1, 1)
+    group <- substring(data[, name, drop = TRUE], 1, 1)
   }
 
   # dis: a 1L numeric > 0 and < 1
@@ -134,7 +134,7 @@ tax_check <- function(
     gp <- NULL
   }
 
-  nm <- unique(grep("[^[:alpha:] ]", taxdf[, name, drop = TRUE], value = TRUE))
+  nm <- unique(grep("[^[:alpha:] ]", data[, name, drop = TRUE], value = TRUE))
   if (length(nm) != 0) {
     cli::cli_warn("Non-letter characters present in the taxon names.")
   } else {
@@ -144,21 +144,21 @@ tax_check <- function(
   # FORMAT INPUT DATA ------------------------------------------------------- #
 
   # names data.frame, drop missing names, fill missing groups alphabetically
-  taxdf <- taxdf2 <- data.frame(
+  data <- data2 <- data.frame(
     group = group,
-    name = taxdf[, name, drop = TRUE]
+    name = data[, name, drop = TRUE]
   )
-  taxdf <- taxdf[!duplicated(taxdf), , drop = FALSE]
-  taxdf <- taxdf[!is.na(taxdf[, "name", drop = TRUE]), , drop = FALSE]
-  no_group <- which(is.na(taxdf[, "group", drop = TRUE]))
-  taxdf[no_group, "group"] <- substring(taxdf[no_group, "name"], 1, 1)
+  data <- data[!duplicated(data), , drop = FALSE]
+  data <- data[!is.na(data[, "name", drop = TRUE]), , drop = FALSE]
+  no_group <- which(is.na(data[, "group", drop = TRUE]))
+  data[no_group, "group"] <- substring(data[no_group, "name"], 1, 1)
 
   # RUN GROUPWISE COMPARISONS ----------------------------------------------- #
 
   # apply the comparison procedure group wise
-  sp <- lapply(unique(taxdf[, "group", drop = TRUE]), function(y) {
+  sp <- lapply(unique(data[, "group", drop = TRUE]), function(y) {
     # all taxon names which belong to group y
-    ob <- taxdf[taxdf[, "group", drop = TRUE] == y, "name"]
+    ob <- data[data[, "group", drop = TRUE] == y, "name"]
 
     # if there is are not multiple names in the group, skip
     if (length(ob) < 2) {
@@ -211,16 +211,16 @@ tax_check <- function(
   # format initial results data.frame from list
   err <- sp[!unlist(lapply(sp, is.null))]
   err <- as.data.frame(do.call(rbind, err))
-  err$f1 <- as.vector(table(taxdf2[, "name"])[match(
+  err$f1 <- as.vector(table(data2[, "name"])[match(
     err$V1,
     names(table(
-      taxdf2[, "name"]
+      data2[, "name"]
     ))
   )])
-  err$f2 <- as.vector(table(taxdf2[, "name"])[match(
+  err$f2 <- as.vector(table(data2[, "name"])[match(
     err$V2,
     names(table(
-      taxdf2[, "name"]
+      data2[, "name"]
     ))
   )])
 
