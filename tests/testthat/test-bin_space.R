@@ -173,15 +173,79 @@ test_that("bin_space error handling", {
   )
 })
 
-test_that("plot argument works", {
+test_that("plot() works", {
   # Reduce data size for faster testing
   occdf <- head(tetrapods, n = 100)
 
-  expect_doppelganger("bin_space", {
-    out <- bin_space(
-      occdf = occdf,
-      bins = space_bins(spacing = 1000),
-      plot = TRUE
+  expect_doppelganger("bin_space", function() {
+    expect_message(
+      plot(bin_space(occdf = occdf, bins = space_bins(spacing = 1000))),
+      "H3 resolution: 1"
+    )
+  })
+})
+
+test_that("plot() works with several resolutions", {
+  occdf <- head(tetrapods, n = 100)
+
+  expect_doppelganger("bin_space-two-resolutions", function() {
+    occdf |>
+      bin_space(bins = space_bins(resolution = 2)) |>
+      bin_space(bins = space_bins(resolution = 1)) |>
+      suppressMessages() |>
+      plot()
+  })
+  expect_doppelganger("bin_space-three-resolutions", function() {
+    occdf |>
+      bin_space(bins = space_bins(resolution = 1)) |>
+      bin_space(bins = space_bins(resolution = 2)) |>
+      bin_space(bins = space_bins(resolution = 3)) |>
+      suppressMessages() |>
+      plot()
+  })
+
+  # No cell columns
+  out <- suppressMessages(
+    bin_space(occdf = occdf, bins = space_bins(resolution = 1))
+  )
+  out$cell_ID_1 <- NULL
+  expect_snapshot(plot(out), error = TRUE)
+})
+
+test_that("bin_space plotting with extra args works", {
+  occdf <- head(tetrapods, n = 100)
+  out <- suppressMessages(
+    bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
+  )
+
+  expect_doppelganger("bin_space-axis-labels", function() {
+    plot(out, xlab = "x axis", ylab = "y axis")
+  })
+  expect_doppelganger("bin_space-axes", function() {
+    plot(out, axes = FALSE)
+  })
+  # `main` is passed through `...`
+  expect_doppelganger("bin_space-dots", function() {
+    plot(out, main = "hello there")
+  })
+
+  # forbidden args
+  expect_snapshot(plot(out, setParUsrBB = FALSE), error = TRUE)
+})
+
+test_that("plot is deprecated but still works", {
+  occdf <- head(tetrapods, n = 100)
+
+  expect_doppelganger("bin_space_deprecated", function() {
+    expect_warning(
+      bin_space(
+        occdf = occdf,
+        bins = space_bins(spacing = 1000),
+        plot = TRUE
+      ) |>
+        suppressMessages(),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
     )
   })
 

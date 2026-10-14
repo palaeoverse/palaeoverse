@@ -137,7 +137,24 @@
       Error in `bin_space()`:
       ! Column "lng" in `occdf` must be of class <numeric>, not <character>.
 
-# plot argument works
+# plot() works with several resolutions
+
+    Code
+      plot(out)
+    Condition
+      Error in `plot()`:
+      ! `x` must contain at least one column named "cell_ID_<resolution>".
+
+# bin_space plotting with extra args works
+
+    Code
+      plot(out, setParUsrBB = FALSE)
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `setParUsrBB` when calling `plot()` on an object of class <palaeoverse_bin_space>.
+      i This argument is already set by `plot()` internally.
+
+# plot is deprecated but still works
 
     Code
       bin_space(occdf = occdf, bins = space_bins(spacing = 1000), plot = "foo")
@@ -146,6 +163,9 @@
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
     Condition
+      Warning:
+      The `plot` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not the string "foo".
 
@@ -158,6 +178,9 @@
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
     Condition
+      Warning:
+      The `plot` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
 
@@ -170,6 +193,9 @@
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
     Condition
+      Warning:
+      The `plot` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not the number 1.
 

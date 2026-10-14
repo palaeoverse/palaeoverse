@@ -2,6 +2,7 @@
 % Please edit documentation in R/bin_space.R
 \name{bin_space}
 \alias{bin_space}
+\alias{plot.palaeoverse_bin_space}
 \title{Assign fossil occurrences to spatial bins}
 \usage{
 bin_space(
@@ -9,11 +10,13 @@ bin_space(
   bins,
   lng = "lng",
   lat = "lat",
-  plot = FALSE,
+  plot = deprecated(),
   spacing,
   sub_grid,
   return
 )
+
+\method{plot}{palaeoverse_bin_space}(x, ..., xlab = "Longitude", ylab = "Latitude", axes = TRUE)
 }
 \arguments{
 \item{occdf}{\code{data.frame}. A dataframe of the fossil occurrences (or
@@ -31,12 +34,25 @@ as the input longitude (e.g. "lng" or "p_lng").}
 \item{lat}{\code{character}. The name of the column you wish to be treated
 as the input latitude (e.g. "lat" or "p_lat").}
 
-\item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
-be plotted?}
+\item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
+this function instead.}
 
 \item{spacing, sub_grid, return}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} These arguments
 are no longer used and don't have a replacement. Pass the output of \code{space_bins()}
 to the \code{bins} argument instead.}
+
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.
+The base grid uses the coarsest resolution among the \verb{cell_ID_*} columns, and the occupied
+cells of every resolution are drawn on top of it (coarsest first).}
+
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call to
+first layer (which draws the grid), not to the following ones that fill the cells.}
+
+\item{xlab}{\code{character}. The x-axis title.}
+
+\item{ylab}{\code{character}. The y-axis title.}
+
+\item{axes}{\code{logical}. Whether to draw the grid axes.}
 }
 \value{
 A \code{data.frame} with the original input data and three new columns:
@@ -91,11 +107,13 @@ occdf <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
 ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
+plot(ex1)
 
 # Bin data using a hexagonal equal-area grid and sub-grid
 ex2 <- occdf |>
   bin_space(bins = space_bins(spacing = 1000)) |>
   bin_space(bins = space_bins(spacing = 250))
+plot(ex2)
 
 # EXAMPLE: rarefy
 # Load data

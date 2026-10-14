@@ -15,8 +15,8 @@
 #' as the input longitude (e.g. "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat").
-#' @param plot \code{logical}. Should the occupied cells of the equal-area grid
-#' be plotted?
+#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
+#' this function instead.
 #' @param spacing,sub_grid,return `r lifecycle::badge("deprecated")` These arguments
 #' are no longer used and don't have a replacement. Pass the output of `space_bins()`
 #' to the `bins` argument instead.
@@ -64,11 +64,13 @@
 #'
 #' # Bin data using a hexagonal equal-area grid
 #' ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
+#' plot(ex1)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
 #' ex2 <- occdf |>
 #'   bin_space(bins = space_bins(spacing = 1000)) |>
 #'   bin_space(bins = space_bins(spacing = 250))
+#' plot(ex2)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
@@ -113,7 +115,7 @@ bin_space <- function(
   bins,
   lng = "lng",
   lat = "lat",
-  plot = FALSE,
+  plot = deprecated(),
   spacing,
   sub_grid,
   return
@@ -150,7 +152,15 @@ bin_space <- function(
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
 
-  rlang::check_bool(plot)
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "bin_space(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   #=== Set-up ===
   # Convert to sf object and add CRS
@@ -187,27 +197,69 @@ bin_space <- function(
   occdf[[cent_lon_name]] <- coords[, "X"]
   occdf[[cent_lat_name]] <- coords[, "Y"]
 
-  # Plot data?
-  if (plot) {
-    plot(
-      bins,
-      setParUsrBB = TRUE,
-      xlab = "Longitude",
-      ylab = "Latitude",
-      axes = TRUE
-    )
-    primary <- h3jsr::cell_to_polygon(input = occdf[[cell_name]], simple = TRUE)
-    plot(
-      primary,
-      col = "#feb24c",
-      axes = TRUE,
-      ylab = "Latitude",
-      xlab = "Longitude",
-      add = TRUE
-    )
-  }
-
   occdf <- sf::st_drop_geometry(occdf)
   occdf <- data.frame(occdf)
+  class(occdf) <- c("palaeoverse_bin_space", class(occdf))
+
+  if (isTRUE(plot)) {
+    plot(occdf)
+  }
+
   occdf
+}
+
+#' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
+#' The base grid uses the least precise resolution among the `cell_ID_*` columns, and the occupied
+#' cells of every resolution are drawn on top of it.
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
+#' first layer (which draws the grid), not to the following ones that fill the cells.
+#' @param xlab `character`. The x-axis title.
+#' @param ylab `character`. The y-axis title.
+#' @param axes `logical`. Whether to draw the grid axes.
+#'
+#' @name bin_space
+#' @export
+plot.palaeoverse_bin_space <- function(
+  x,
+  ...,
+  xlab = "Longitude",
+  ylab = "Latitude",
+  axes = TRUE
+) {
+  check_forbidden_plot_args(
+    ...,
+    forbidden = "setParUsrBB",
+    class = "palaeoverse_bin_space"
+  )
+
+  cell_cols <- grep("^cell_ID_([0-9]|1[0-5])$", names(x), value = TRUE)
+  if (length(cell_cols) == 0) {
+    cli::cli_abort(
+      "{.arg x} must contain at least one column named {.val cell_ID_<resolution>}."
+    )
+  }
+  resolutions <- sort(as.integer(sub("cell_ID_", "", cell_cols, fixed = TRUE)))
+
+  base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
+  plot(
+    base_grid,
+    setParUsrBB = TRUE,
+    xlab = xlab,
+    ylab = ylab,
+    axes = axes,
+    ...
+  )
+
+  # Coarsest cells first so that finer cells are drawn on top
+  cols <- c("#feb24c", "#1d91c0")
+  if (length(resolutions) > length(cols)) {
+    cols <- grDevices::hcl.colors(length(resolutions), "YlGnBu", rev = TRUE)
+  }
+  for (i in seq_along(resolutions)) {
+    cells <- h3jsr::cell_to_polygon(
+      input = unique(x[[paste0("cell_ID_", resolutions[i])]]),
+      simple = TRUE
+    )
+    plot(cells, col = cols[i], add = TRUE)
+  }
 }
