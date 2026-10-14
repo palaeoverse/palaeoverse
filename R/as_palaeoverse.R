@@ -1,4 +1,4 @@
-#' Create a `palaeo` object to store information on your data
+#' Create a `palaeoverse_data` object to store information on your data
 #'
 #' @description
 #' This function allows you to define information on your data only once so that
