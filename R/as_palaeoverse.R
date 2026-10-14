@@ -77,13 +77,6 @@ as_palaeoverse <- function(data, lat, lon) {
     )
   }
 
-  # We don't accumulate "palaeoverse_data" classes.
-  # We don't need to remove the previous "palaeoverse_" attributes because they will
-  # all be overwritten (since all arguments must be provided).
-  if (inherits(data, "palaeoverse_data")) {
-    class(data) <- setdiff(class(data), "palaeoverse_data")
-  }
-
   check_data_frame(data)
   check_column_presence(data, lon)
   check_column_presence(data, lat)
@@ -91,7 +84,10 @@ as_palaeoverse <- function(data, lat, lon) {
   attr(data, "palaeoverse_lon") <- lon
   attr(data, "palaeoverse_lat") <- lat
 
-  class(data) <- c("palaeoverse_data", class(data))
+  # We don't accumulate "palaeoverse_data" classes.
+  if (!inherits(data, "palaeoverse_data")) {
+    class(data) <- c("palaeoverse_data", class(data))
+  }
   data
 }
 
