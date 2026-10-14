@@ -210,12 +210,12 @@ bin_space <- function(
 
 #' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
 #' The base grid uses the least precise resolution among the `cell_ID_*` columns, and the occupied
-#' cells of every resolution are drawn on top of it. The globe is shown as two hemispheres
-#' (centred on longitudes 0 and 180) using an orthographic projection, which avoids distorting
-#' cells that cross the antimeridian or cover the poles. Present-day continent borders are drawn on
-#' top, which requires the package `rnaturalearthdata`.
+#' cells of every resolution are drawn on top of it. The world is shown as three globes (centred on
+#' longitude 0, longitude 180, and Mexico) using an orthographic projection, which avoids
+#' distorting cells that cross the antimeridian or cover the poles. Present-day continent borders
+#' are drawn on top, which requires the package `rnaturalearthdata`.
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
-#' first layer of each hemisphere (which draws the grid), not to the following ones that fill the
+#' first layer of each globe (which draws the grid), not to the following ones that fill the
 #' cells. By default, the grid is drawn with `border = "grey80"`. The following arguments are
 #' already set internally and must not be specified here: `add`.
 #' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
@@ -255,7 +255,7 @@ plot.palaeoverse_bin_space <- function(x, ..., col = NULL) {
   }
 
   base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
-  # `st_crop()` doesn't support the `palaeoverse_space_bins` subclass
+  # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
   class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
 
   # Coarsest cells first so that finer cells are drawn on top
@@ -267,39 +267,38 @@ plot.palaeoverse_bin_space <- function(x, ..., col = NULL) {
   })
   continents <- sf::st_geometry(rnaturalearthdata::coastline110)
 
-  old_par <- graphics::par(mfrow = c(1, 2))
-  on.exit(graphics::par(old_par))
+  # Two globes on top and one centred below
+  graphics::layout(matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE))
+  on.exit(graphics::layout(1))
 
-  # Crop each hemisphere before projecting it so that the far side isn't drawn
-  hemispheres <- list(
-    list(lon = 0, xmin = -90, xmax = 90),
-    list(lon = 180, xmin = 90, xmax = -90)
-  )
-  project <- function(geom, hemi) {
-    geom <- sf::st_crop(
-      geom,
-      xmin = hemi$xmin,
-      xmax = hemi$xmax,
-      ymin = -90,
-      ymax = 90
+  # Globe centres as c(longitude, latitude), the third one being on Mexico
+  centres <- list(c(0, 0), c(180, 0), c(-102, 23))
+  # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
+  # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
+  for (centre in centres) {
+    hemisphere <- sf::st_buffer(
+      sf::st_sfc(sf::st_point(centre), crs = "EPSG:4326"),
+      dist = 0.999 * pi / 2 * 6371008,
+      max_cells = 10000
     )
-    sf::st_transform(
-      geom,
-      crs = paste0("+proj=ortho +lat_0=0 +lon_0=", hemi$lon)
-    )
-  }
-  for (hemi in hemispheres) {
+    project <- function(geom) {
+      sf::st_transform(
+        sf::st_intersection(geom, hemisphere),
+        crs = paste0("+proj=ortho +lon_0=", centre[1], " +lat_0=", centre[2])
+      )
+    }
+
     # Light grid by default so that continents and occupied cells stand out
     do.call(
       plot,
       utils::modifyList(
-        list(project(base_grid, hemi), border = "grey80"),
+        list(project(base_grid), border = "grey80"),
         list(...)
       )
     )
     for (i in seq_along(cells)) {
-      plot(project(cells[[i]], hemi), col = col[i], add = TRUE)
+      plot(project(cells[[i]]), col = col[i], add = TRUE)
     }
-    plot(project(continents, hemi), add = TRUE)
+    plot(project(continents), add = TRUE)
   }
 }

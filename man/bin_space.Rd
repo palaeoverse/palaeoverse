@@ -43,13 +43,13 @@ to the \code{bins} argument instead.}
 
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.
 The base grid uses the least precise resolution among the \verb{cell_ID_*} columns, and the occupied
-cells of every resolution are drawn on top of it. The globe is shown as two hemispheres
-(centred on longitudes 0 and 180) using an orthographic projection, which avoids distorting
-cells that cross the antimeridian or cover the poles. Present-day continent borders are drawn on
-top, which requires the package \code{rnaturalearthdata}.}
+cells of every resolution are drawn on top of it. The world is shown as three globes (centred on
+longitude 0, longitude 180, and Mexico) using an orthographic projection, which avoids
+distorting cells that cross the antimeridian or cover the poles. Present-day continent borders
+are drawn on top, which requires the package \code{rnaturalearthdata}.}
 
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call to
-first layer of each hemisphere (which draws the grid), not to the following ones that fill the
+first layer of each globe (which draws the grid), not to the following ones that fill the
 cells. By default, the grid is drawn with \code{border = "grey80"}. The following arguments are
 already set internally and must not be specified here: \code{add}.}
 
