@@ -2,9 +2,12 @@
 % Please edit documentation in R/space_bins.R
 \name{space_bins}
 \alias{space_bins}
+\alias{plot.palaeoverse_space_bins}
 \title{Generate H3 spatial bins}
 \usage{
 space_bins(resolution, spacing, area)
+
+\method{plot}{palaeoverse_space_bins}(x, ...)
 }
 \arguments{
 \item{resolution}{\code{numeric}. The desired H3 resolution. Must be a whole
@@ -17,6 +20,18 @@ if \code{resolution} or \code{area} is used.}
 \item{area}{\code{numeric}. The desired area of each cell. This value should
 be provided in square kilometres. Cannot be used if \code{resolution} or \code{spacing}
 is used.}
+
+\item{x}{An object of class \code{"palaeoverse_space_bins"} created by \code{space_bins()}. The world
+is shown as three globes (centred on longitude 0, longitude 180, and Mexico) using an
+orthographic projection, which avoids distorting cells that cross the antimeridian or cover
+the poles. Present-day continent borders are drawn on top, which requires the package
+\code{rnaturalearthdata}.}
+
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call to
+first layer of each globe (which draws the grid), not to the one that draws the continent
+borders. By default, the grid is drawn with \code{border = "grey80"}. \code{main} is used as the title
+of the whole figure rather than of each globe. The following arguments are already set
+internally and must not be specified here: \code{add}.}
 }
 \value{
 An object of class \code{palaeoverse_space_bins}. This object can be passed
@@ -69,6 +84,8 @@ space_bins(spacing = 1000)
 space_bins(area = 100000)
 
 space_bins(resolution = 1)
+
+plot(space_bins(resolution = 1))
 }
 \seealso{
 \code{\link[=bin_space]{bin_space()}}

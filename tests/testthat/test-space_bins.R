@@ -46,3 +46,17 @@ test_that("space_bins() forbids unnamed args", {
 test_that("partial matching of argument names is forbidden", {
   expect_snapshot(space_bins(sp = 1000), error = TRUE)
 })
+
+test_that("plot() works", {
+  skip_if_not_installed("rnaturalearthdata")
+  out <- suppressMessages(space_bins(resolution = 1))
+
+  expect_doppelganger("space_bins", function() plot(out))
+  # `main` is passed through `...`
+  expect_doppelganger("space_bins-dots", function() {
+    plot(out, main = "hello there")
+  })
+
+  # forbidden args
+  expect_snapshot(plot(out, add = TRUE), error = TRUE)
+})

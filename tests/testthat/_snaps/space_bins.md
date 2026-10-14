@@ -266,3 +266,12 @@
       ! Argument names must be fully written.
       i Partially matched argument name: `sp`
 
+# plot() works
+
+    Code
+      plot(out, add = TRUE)
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `add` when calling `plot()` on an object of class <palaeoverse_space_bins>.
+      i This argument is already set by `plot()` internally.
+
