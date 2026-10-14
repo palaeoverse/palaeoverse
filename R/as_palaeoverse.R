@@ -9,7 +9,7 @@
 #' @param lon Name of the column that contains the longitude.
 #'
 #' @details
-#' `as_palaeo()` stores information in the data attributes, available via `attributes()`.
+#' `as_palaeoverse()` stores information in the data attributes, available via `attributes()`.
 #' All arguments must be explicitly passed. You can find pre-filled templates for common
 #' data sources in the "Templates" section below.
 #'
@@ -20,7 +20,7 @@
 #'    is preferred;
 #' 2. if the value is not explicitly passed, e.g. `bin_lat(...)` without specifying `lat` then
 #'    the function will first look for the corresponding attribute (in this case, `"lat"`) which
-#'    would have been stored by `as_palaeo()`:
+#'    would have been stored by `as_palaeoverse()`:
 #'
 #'      a. if this attribute is found, it is used;
 #'
@@ -33,13 +33,13 @@
 #' **Paleobiology Database (PBDB)**
 #'
 #' ```r
-#' as_palaeo(data, lat = "lat", lon = "lng")
+#' as_palaeoverse(data, lat = "lat", lon = "lng")
 #' ```
 #'
 #' **Darwin Core (e.g. GBIF)**
 #'
 #' ```r
-#' as_palaeo(data, lat = "decimalLatitude", lon = "decimalLongitude")
+#' as_palaeoverse(data, lat = "decimalLatitude", lon = "decimalLongitude")
 #' ```
 #'
 #' @export
@@ -49,14 +49,14 @@
 #' dat <- tetrapods[1:5, ]
 #' names(dat)[names(dat) == "lat"] <- "my_lat"
 #'
-#' # We can store this information in as_palaeo()
-#' dat <- as_palaeo(dat, lat = "my_lat", lon = "lng")
+#' # We can store this information in as_palaeoverse()
+#' dat <- as_palaeoverse(dat, lat = "my_lat", lon = "lng")
 #'
 #' # Other palaeoverse functions that have a "lat" argument will automatically use
 #' # this information (unless another value is explicitly passed in the call)
 #' bins <- lat_bins_degrees(size = 10)
 #' bin_lat(occdf = dat, bins = bins)
-as_palaeo <- function(data, lat, lon) {
+as_palaeoverse <- function(data, lat, lon) {
   ensure_args_are_named(exceptions = "data")
 
   # All arguments must be provided
@@ -72,7 +72,7 @@ as_palaeo <- function(data, lat, lon) {
       c(
         "All arguments must be provided.",
         "x" = "{cli::qty(to_report)}Missing argument{?s}: {.arg {to_report}}{more}.",
-        "i" = "You can find pre-filled templates at {.help as_palaeo}."
+        "i" = "You can find pre-filled templates at {.help as_palaeoverse}."
       )
     )
   }
@@ -132,7 +132,7 @@ resolve_info <- function(data, arg) {
     if (!is.null(value_from_attr)) {
       cli::cli_inform(
         c(
-          "i" = "Using function input {.arg {arg_name}} ({.val {arg_val}}) instead of {.arg {arg_name}} value set in {.fn as_palaeo} ({.val {value_from_attr}})."
+          "i" = "Using function input {.arg {arg_name}} ({.val {arg_val}}) instead of {.arg {arg_name}} value set in {.fn as_palaeoverse} ({.val {value_from_attr}})."
         )
       )
     }
