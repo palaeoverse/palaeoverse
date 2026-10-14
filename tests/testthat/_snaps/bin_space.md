@@ -148,10 +148,10 @@
 # bin_space plotting with extra args works
 
     Code
-      plot(out, setParUsrBB = FALSE)
+      plot(out, add = TRUE)
     Condition
       Error in `plot()`:
-      ! Cannot pass argument `setParUsrBB` when calling `plot()` on an object of class <palaeoverse_bin_space>.
+      ! Cannot pass argument `add` when calling `plot()` on an object of class <palaeoverse_bin_space>.
       i This argument is already set by `plot()` internally.
 
 # bin_space plotting with custom colours works

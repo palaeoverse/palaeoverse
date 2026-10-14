@@ -174,6 +174,7 @@ test_that("bin_space error handling", {
 })
 
 test_that("plot() works", {
+  skip_if_not_installed("rnaturalearthdata")
   # Reduce data size for faster testing
   occdf <- head(tetrapods, n = 100)
 
@@ -184,6 +185,7 @@ test_that("plot() works", {
 })
 
 test_that("plot() works with several resolutions", {
+  skip_if_not_installed("rnaturalearthdata")
   occdf <- head(tetrapods, n = 100)
 
   expect_doppelganger("bin_space-two-resolutions", function() {
@@ -211,27 +213,23 @@ test_that("plot() works with several resolutions", {
 })
 
 test_that("bin_space plotting with extra args works", {
+  skip_if_not_installed("rnaturalearthdata")
   occdf <- head(tetrapods, n = 100)
   out <- suppressMessages(
     bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
   )
 
-  expect_doppelganger("bin_space-axis-labels", function() {
-    plot(out, xlab = "x axis", ylab = "y axis")
-  })
-  expect_doppelganger("bin_space-axes", function() {
-    plot(out, axes = FALSE)
-  })
   # `main` is passed through `...`
   expect_doppelganger("bin_space-dots", function() {
     plot(out, main = "hello there")
   })
 
   # forbidden args
-  expect_snapshot(plot(out, setParUsrBB = FALSE), error = TRUE)
+  expect_snapshot(plot(out, add = TRUE), error = TRUE)
 })
 
 test_that("bin_space plotting with custom colours works", {
+  skip_if_not_installed("rnaturalearthdata")
   occdf <- head(tetrapods, n = 100)
   out <- occdf |>
     bin_space(bins = space_bins(resolution = 1)) |>
@@ -250,6 +248,7 @@ test_that("bin_space plotting with custom colours works", {
 })
 
 test_that("plot is deprecated but still works", {
+  skip_if_not_installed("rnaturalearthdata")
   occdf <- head(tetrapods, n = 100)
 
   expect_doppelganger("bin_space_deprecated", function() {

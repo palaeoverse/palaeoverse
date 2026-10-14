@@ -210,31 +210,30 @@ bin_space <- function(
 
 #' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
 #' The base grid uses the least precise resolution among the `cell_ID_*` columns, and the occupied
-#' cells of every resolution are drawn on top of it.
+#' cells of every resolution are drawn on top of it. The globe is shown as two hemispheres
+#' (centred on longitudes 0 and 180) using an orthographic projection, which avoids distorting
+#' cells that cross the antimeridian or cover the poles. Present-day continent borders are drawn on
+#' top, which requires the package `rnaturalearthdata`.
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
-#' first layer (which draws the grid), not to the following ones that fill the cells. The
-#' following arguments are already set internally and must not be specified here: `setParUsrBB`.
+#' first layer of each hemisphere (which draws the grid), not to the following ones that fill the
+#' cells. By default, the grid is drawn with `border = "grey80"`. The following arguments are
+#' already set internally and must not be specified here: `add`.
 #' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
 #' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
 #' ordered from the least to the most precise resolution. By default, colours are taken in order
 #' from the colour-blind friendly Okabe-Ito palette (see [grDevices::palette.colors()]).
-#' @inheritParams lat_bins_area
-#' @param axes `logical`. Whether to draw the grid axes.
 #'
 #' @name bin_space
 #' @export
-plot.palaeoverse_bin_space <- function(
-  x,
-  ...,
-  col = NULL,
-  xlab = "Longitude",
-  ylab = "Latitude",
-  axes = TRUE
-) {
+plot.palaeoverse_bin_space <- function(x, ..., col = NULL) {
   check_forbidden_plot_args(
     ...,
-    forbidden = "setParUsrBB",
+    forbidden = "add",
     class = "palaeoverse_bin_space"
+  )
+  rlang::check_installed(
+    "rnaturalearthdata",
+    reason = "to plot the output of `bin_space()`."
   )
 
   cell_cols <- grep("^cell_ID_([0-9]|1[0-5])$", names(x), value = TRUE)
@@ -256,21 +255,51 @@ plot.palaeoverse_bin_space <- function(
   }
 
   base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
-  plot(
-    base_grid,
-    setParUsrBB = TRUE,
-    xlab = xlab,
-    ylab = ylab,
-    axes = axes,
-    ...
-  )
+  # `st_crop()` doesn't support the `palaeoverse_space_bins` subclass
+  class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
 
   # Coarsest cells first so that finer cells are drawn on top
-  for (i in seq_along(resolutions)) {
-    cells <- h3jsr::cell_to_polygon(
-      input = unique(x[[paste0("cell_ID_", resolutions[i])]]),
+  cells <- lapply(resolutions, function(res) {
+    h3jsr::cell_to_polygon(
+      input = unique(x[[paste0("cell_ID_", res)]]),
       simple = TRUE
     )
-    plot(cells, col = col[i], add = TRUE)
+  })
+  continents <- sf::st_geometry(rnaturalearthdata::coastline110)
+
+  old_par <- graphics::par(mfrow = c(1, 2))
+  on.exit(graphics::par(old_par))
+
+  # Crop each hemisphere before projecting it so that the far side isn't drawn
+  hemispheres <- list(
+    list(lon = 0, xmin = -90, xmax = 90),
+    list(lon = 180, xmin = 90, xmax = -90)
+  )
+  project <- function(geom, hemi) {
+    geom <- sf::st_crop(
+      geom,
+      xmin = hemi$xmin,
+      xmax = hemi$xmax,
+      ymin = -90,
+      ymax = 90
+    )
+    sf::st_transform(
+      geom,
+      crs = paste0("+proj=ortho +lat_0=0 +lon_0=", hemi$lon)
+    )
+  }
+  for (hemi in hemispheres) {
+    # Light grid by default so that continents and occupied cells stand out
+    do.call(
+      plot,
+      utils::modifyList(
+        list(project(base_grid, hemi), border = "grey80"),
+        list(...)
+      )
+    )
+    for (i in seq_along(cells)) {
+      plot(project(cells[[i]], hemi), col = col[i], add = TRUE)
+    }
+    plot(project(continents, hemi), add = TRUE)
   }
 }
