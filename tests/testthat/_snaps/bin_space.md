@@ -154,6 +154,22 @@
       ! Cannot pass argument `setParUsrBB` when calling `plot()` on an object of class <palaeoverse_bin_space>.
       i This argument is already set by `plot()` internally.
 
+# bin_space plotting with custom colours works
+
+    Code
+      plot(out, col = c("red", "blue", "green"))
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be of class <character> and of length 1 or 2 (i.e. the number of resolutions in `x`).
+
+---
+
+    Code
+      plot(out, col = 1)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be of class <character> and of length 1 or 2 (i.e. the number of resolutions in `x`).
+
 # plot is deprecated but still works
 
     Code

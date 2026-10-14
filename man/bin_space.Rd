@@ -16,7 +16,7 @@ bin_space(
   return
 )
 
-\method{plot}{palaeoverse_bin_space}(x, ..., xlab = "Longitude", ylab = "Latitude", axes = TRUE)
+\method{plot}{palaeoverse_bin_space}(x, ..., col = NULL, xlab = "Longitude", ylab = "Latitude", axes = TRUE)
 }
 \arguments{
 \item{occdf}{\code{data.frame}. A dataframe of the fossil occurrences (or
@@ -42,11 +42,17 @@ are no longer used and don't have a replacement. Pass the output of \code{space_
 to the \code{bins} argument instead.}
 
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.
-The base grid uses the coarsest resolution among the \verb{cell_ID_*} columns, and the occupied
-cells of every resolution are drawn on top of it (coarsest first).}
+The base grid uses the least precise resolution among the \verb{cell_ID_*} columns, and the occupied
+cells of every resolution are drawn on top of it.}
 
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call to
-first layer (which draws the grid), not to the following ones that fill the cells.}
+first layer (which draws the grid), not to the following ones that fill the cells. The
+following arguments are already set internally and must not be specified here: \code{setParUsrBB}.}
+
+\item{col}{\code{character}. Colour(s) of the occupied cells. Must be of length 1 (in which case
+all resolutions have the same colour) or of length equal to the number of resolutions in \code{x},
+ordered from the least to the most precise resolution. By default, colours are taken in order
+from the colour-blind friendly Okabe-Ito palette (see \code{\link[grDevices:palette.colors]{grDevices::palette.colors()}}).}
 
 \item{xlab}{\code{character}. The x-axis title.}
 

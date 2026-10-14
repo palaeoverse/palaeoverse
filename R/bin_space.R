@@ -212,9 +212,13 @@ bin_space <- function(
 #' The base grid uses the least precise resolution among the `cell_ID_*` columns, and the occupied
 #' cells of every resolution are drawn on top of it.
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
-#' first layer (which draws the grid), not to the following ones that fill the cells.
-#' @param xlab `character`. The x-axis title.
-#' @param ylab `character`. The y-axis title.
+#' first layer (which draws the grid), not to the following ones that fill the cells. The
+#' following arguments are already set internally and must not be specified here: `setParUsrBB`.
+#' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
+#' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
+#' ordered from the least to the most precise resolution. By default, colours are taken in order
+#' from the colour-blind friendly Okabe-Ito palette (see [grDevices::palette.colors()]).
+#' @inheritParams lat_bins_area
 #' @param axes `logical`. Whether to draw the grid axes.
 #'
 #' @name bin_space
@@ -222,6 +226,7 @@ bin_space <- function(
 plot.palaeoverse_bin_space <- function(
   x,
   ...,
+  col = NULL,
   xlab = "Longitude",
   ylab = "Latitude",
   axes = TRUE
@@ -239,6 +244,16 @@ plot.palaeoverse_bin_space <- function(
     )
   }
   resolutions <- sort(as.integer(sub("cell_ID_", "", cell_cols, fixed = TRUE)))
+  n_res <- length(resolutions)
+
+  if (is.null(col)) {
+    # Drop black, which is the first colour of Okabe-Ito
+    col <- unname(grDevices::palette.colors(palette = "Okabe-Ito"))[-1]
+  } else if (!(length(col) %in% c(1, n_res)) || !is.character(col)) {
+    cli::cli_abort(
+      "Argument {.arg col} must be of class {.cls character} and of length 1 or {n_res} (i.e. the number of resolutions in {.arg x})."
+    )
+  }
 
   base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
   plot(
@@ -251,15 +266,11 @@ plot.palaeoverse_bin_space <- function(
   )
 
   # Coarsest cells first so that finer cells are drawn on top
-  cols <- c("#feb24c", "#1d91c0")
-  if (length(resolutions) > length(cols)) {
-    cols <- grDevices::hcl.colors(length(resolutions), "YlGnBu", rev = TRUE)
-  }
   for (i in seq_along(resolutions)) {
     cells <- h3jsr::cell_to_polygon(
       input = unique(x[[paste0("cell_ID_", resolutions[i])]]),
       simple = TRUE
     )
-    plot(cells, col = cols[i], add = TRUE)
+    plot(cells, col = col[i], add = TRUE)
   }
 }

@@ -177,12 +177,10 @@ test_that("plot() works", {
   # Reduce data size for faster testing
   occdf <- head(tetrapods, n = 100)
 
-  expect_doppelganger("bin_space", function() {
-    expect_message(
-      plot(bin_space(occdf = occdf, bins = space_bins(spacing = 1000))),
-      "H3 resolution: 1"
-    )
-  })
+  out <- suppressMessages(
+    bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
+  )
+  expect_doppelganger("bin_space", function() plot(out))
 })
 
 test_that("plot() works with several resolutions", {
@@ -231,6 +229,24 @@ test_that("bin_space plotting with extra args works", {
 
   # forbidden args
   expect_snapshot(plot(out, setParUsrBB = FALSE), error = TRUE)
+})
+
+test_that("bin_space plotting with custom colours works", {
+  occdf <- head(tetrapods, n = 100)
+  out <- occdf |>
+    bin_space(bins = space_bins(resolution = 1)) |>
+    bin_space(bins = space_bins(resolution = 2)) |>
+    suppressMessages()
+
+  expect_doppelganger("bin_space-colour", function() {
+    plot(out, col = "red")
+  })
+  expect_doppelganger("bin_space-colour-vector", function() {
+    plot(out, col = c("red", "blue"))
+  })
+
+  expect_snapshot(plot(out, col = c("red", "blue", "green")), error = TRUE)
+  expect_snapshot(plot(out, col = 1), error = TRUE)
 })
 
 test_that("plot is deprecated but still works", {
