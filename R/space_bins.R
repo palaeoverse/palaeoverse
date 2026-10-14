@@ -62,6 +62,8 @@
 #' space_bins(area = 100000)
 #'
 #' space_bins(resolution = 1)
+#'
+#' plot(space_bins(resolution = 1))
 space_bins <- function(resolution, spacing, area) {
   ensure_args_are_named()
   rlang::check_exclusive(spacing, resolution, area)
@@ -129,4 +131,75 @@ space_bins <- function(resolution, spacing, area) {
   attr(out, "h3_resolution") <- grid$h3_resolution
 
   return(out)
+}
+
+#' @param x An object of class `"palaeoverse_space_bins"` created by `space_bins()`. The world
+#' is shown as three globes (centred on longitude 0, longitude 180, and Mexico) using an
+#' orthographic projection, which avoids distorting cells that cross the antimeridian or cover
+#' the poles. Present-day continent borders are drawn on top, which requires the package
+#' `rnaturalearthdata`.
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
+#' first layer of each globe (which draws the grid), not to the one that draws the continent
+#' borders. By default, the grid is drawn with `border = "grey80"`. `main` is used as the title
+#' of the whole figure rather than of each globe. The following arguments are already set
+#' internally and must not be specified here: `add`.
+#'
+#' @name space_bins
+#' @export
+plot.palaeoverse_space_bins <- function(x, ...) {
+  check_forbidden_plot_args(
+    ...,
+    forbidden = "add",
+    class = "palaeoverse_space_bins"
+  )
+  rlang::check_installed(
+    "rnaturalearthdata",
+    reason = "to plot the output of `space_bins()`."
+  )
+
+  # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
+  class(x) <- setdiff(class(x), "palaeoverse_space_bins")
+  continents <- sf::st_geometry(rnaturalearthdata::coastline110)
+
+  dots <- list(...)
+  main <- dots$main
+  dots$main <- NULL
+
+  # Outer margin on top for the title of the whole figure
+  old_par <- graphics::par(oma = c(0, 0, if (is.null(main)) 0 else 2, 0))
+  # Two globes on top and one centred below
+  graphics::layout(matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE))
+  on.exit({
+    graphics::layout(1)
+    graphics::par(old_par)
+  })
+
+  # Globe centres as c(longitude, latitude), the third one being on Mexico
+  centres <- list(c(0, 0), c(180, 0), c(-102, 23))
+  # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
+  # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
+  for (centre in centres) {
+    hemisphere <- sf::st_buffer(
+      sf::st_sfc(sf::st_point(centre), crs = "EPSG:4326"),
+      dist = 0.999 * pi / 2 * 6371008,
+      max_cells = 10000
+    )
+    project <- function(geom) {
+      sf::st_transform(
+        sf::st_intersection(geom, hemisphere),
+        crs = paste0("+proj=ortho +lon_0=", centre[1], " +lat_0=", centre[2])
+      )
+    }
+
+    # Light grid by default so that continents stand out
+    do.call(
+      plot,
+      utils::modifyList(list(project(x), border = "grey80"), dots)
+    )
+    plot(project(continents), add = TRUE)
+  }
+
+  if (!is.null(main)) {
+    graphics::title(main = main, outer = TRUE)
+  }
 }
