@@ -19,6 +19,21 @@ test_that("as_palaeoverse() errors if provided values don't exist in the data", 
   expect_snapshot(as_palaeoverse(dat, lat = "lat", lon = "foo"), error = TRUE)
 })
 
+test_that("calling as_palaeoverse() several times works", {
+  dat <- data.frame(lat = 1, lon = 2)
+  dat <- as_palaeoverse(dat, lat = "lat", lon = "lon")
+
+  names(dat) <- c("lat2", "lon2")
+  dat <- as_palaeoverse(dat, lat = "lat2", lon = "lon2")
+
+  # jarl-ignore expect_s3_class: we want to test that "palaeoverse_data" is not
+  # duplicated, which wouldn't be possible with expect_s3_class().
+  expect_equal(class(dat), c("palaeoverse_data", "data.frame"))
+
+  expect_equal(attr(dat, "palaeoverse_lat"), "lat2")
+  expect_equal(attr(dat, "palaeoverse_lon"), "lon2")
+})
+
 test_that("as_palaeoverse() custom print method works", {
   dat <- data.frame(lat = 1, long = 2)
   dat2 <- as_palaeoverse(dat, lat = "lat", lon = "long")
