@@ -64,11 +64,11 @@ information is also available via \link[h3jsr:h3_info_table]{h3jsr::h3_info_tabl
 }
 }
 \examples{
+space_bins(resolution = 1)
+
 space_bins(spacing = 1000)
 
 space_bins(area = 100000)
-
-space_bins(resolution = 1)
 }
 \seealso{
 \code{\link[=bin_space]{bin_space()}}
