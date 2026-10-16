@@ -2,6 +2,7 @@
 % Please edit documentation in R/bin_space.R
 \name{bin_space}
 \alias{bin_space}
+\alias{plot.palaeoverse_bin_space}
 \title{Assign fossil occurrences to spatial bins}
 \usage{
 bin_space(
@@ -9,11 +10,13 @@ bin_space(
   bins,
   lng = "lng",
   lat = "lat",
-  plot = FALSE,
+  plot = deprecated(),
   spacing,
   sub_grid,
   return
 )
+
+\method{plot}{palaeoverse_bin_space}(x, ..., col = NULL)
 }
 \arguments{
 \item{occdf}{\code{data.frame}. A dataframe of the fossil occurrences (or
@@ -31,12 +34,30 @@ as the input longitude (e.g. "lng" or "p_lng").}
 \item{lat}{\code{character}. The name of the column you wish to be treated
 as the input latitude (e.g. "lat" or "p_lat").}
 
-\item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
-be plotted?}
+\item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
+this function instead.}
 
 \item{spacing, sub_grid, return}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} These arguments
 are no longer used and don't have a replacement. Pass the output of \code{space_bins()}
 to the \code{bins} argument instead.}
+
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.
+The base grid uses the least precise resolution among the \verb{cell_ID_*} columns, and the occupied
+cells of every resolution are drawn on top of it. The world is shown as three globes (centred on
+longitude 0, longitude 180, and Mexico) using an orthographic projection, which avoids
+distorting cells that cross the antimeridian or cover the poles. Present-day continent borders
+are drawn on top, which requires the package \code{rnaturalearthdata}.}
+
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call to
+first layer of each globe (which draws the grid), not to the following ones that fill the
+cells. By default, the grid is drawn with \code{border = "grey80"}. \code{main} is used as the title of
+the whole figure rather than of each globe. The following arguments are
+already set internally and must not be specified here: \code{add}.}
+
+\item{col}{\code{character}. Colour(s) of the occupied cells. Must be of length 1 (in which case
+all resolutions have the same colour) or of length equal to the number of resolutions in \code{x},
+ordered from the least to the most precise resolution. By default, colours are taken in order
+from the colour-blind friendly Okabe-Ito palette (see \code{\link[grDevices:palette.colors]{grDevices::palette.colors()}}).}
 }
 \value{
 A \code{data.frame} with the original input data and three new columns:
@@ -91,11 +112,13 @@ occdf <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
 ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
+plot(ex1)
 
 # Bin data using a hexagonal equal-area grid and sub-grid
 ex2 <- occdf |>
   bin_space(bins = space_bins(spacing = 1000)) |>
   bin_space(bins = space_bins(spacing = 250))
+plot(ex2)
 
 # EXAMPLE: rarefy
 # Load data

@@ -15,8 +15,8 @@
 #' as the input longitude (e.g. "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat").
-#' @param plot \code{logical}. Should the occupied cells of the equal-area grid
-#' be plotted?
+#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
+#' this function instead.
 #' @param spacing,sub_grid,return `r lifecycle::badge("deprecated")` These arguments
 #' are no longer used and don't have a replacement. Pass the output of `space_bins()`
 #' to the `bins` argument instead.
@@ -64,11 +64,13 @@
 #'
 #' # Bin data using a hexagonal equal-area grid
 #' ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
+#' plot(ex1)
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
 #' ex2 <- occdf |>
 #'   bin_space(bins = space_bins(spacing = 1000)) |>
 #'   bin_space(bins = space_bins(spacing = 250))
+#' plot(ex2)
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
@@ -113,7 +115,7 @@ bin_space <- function(
   bins,
   lng = "lng",
   lat = "lat",
-  plot = FALSE,
+  plot = deprecated(),
   spacing,
   sub_grid,
   return
@@ -150,7 +152,15 @@ bin_space <- function(
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
 
-  rlang::check_bool(plot)
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "bin_space(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   #=== Set-up ===
   # Convert to sf object and add CRS
@@ -187,27 +197,122 @@ bin_space <- function(
   occdf[[cent_lon_name]] <- coords[, "X"]
   occdf[[cent_lat_name]] <- coords[, "Y"]
 
-  # Plot data?
-  if (plot) {
-    plot(
-      bins,
-      setParUsrBB = TRUE,
-      xlab = "Longitude",
-      ylab = "Latitude",
-      axes = TRUE
+  occdf <- sf::st_drop_geometry(occdf)
+  occdf <- data.frame(occdf)
+  class(occdf) <- c("palaeoverse_bin_space", class(occdf))
+
+  if (isTRUE(plot)) {
+    plot(occdf)
+  }
+
+  occdf
+}
+
+#' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
+#' The base grid uses the least precise resolution among the `cell_ID_*` columns, and the occupied
+#' cells of every resolution are drawn on top of it. The world is shown as three globes (centred on
+#' longitude 0, longitude 180, and Mexico) using an orthographic projection, which avoids
+#' distorting cells that cross the antimeridian or cover the poles. Present-day continent borders
+#' are drawn on top, which requires the package `rnaturalearthdata`.
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
+#' first layer of each globe (which draws the grid), not to the following ones that fill the
+#' cells. By default, the grid is drawn with `border = "grey80"`. `main` is used as the title of
+#' the whole figure rather than of each globe. The following arguments are
+#' already set internally and must not be specified here: `add`.
+#' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
+#' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
+#' ordered from the least to the most precise resolution. By default, colours are taken in order
+#' from the colour-blind friendly Okabe-Ito palette (see [grDevices::palette.colors()]).
+#'
+#' @name bin_space
+#' @export
+plot.palaeoverse_bin_space <- function(x, ..., col = NULL) {
+  check_forbidden_plot_args(
+    ...,
+    forbidden = "add",
+    class = "palaeoverse_bin_space"
+  )
+  rlang::check_installed(
+    "rnaturalearthdata",
+    reason = "to plot the output of `bin_space()`."
+  )
+
+  cell_cols <- grep("^cell_ID_([0-9]|1[0-5])$", names(x), value = TRUE)
+  if (length(cell_cols) == 0) {
+    cli::cli_abort(
+      "{.arg x} must contain at least one column named {.val cell_ID_<resolution>}."
     )
-    primary <- h3jsr::cell_to_polygon(input = occdf[[cell_name]], simple = TRUE)
-    plot(
-      primary,
-      col = "#feb24c",
-      axes = TRUE,
-      ylab = "Latitude",
-      xlab = "Longitude",
-      add = TRUE
+  }
+  resolutions <- sort(as.integer(sub("cell_ID_", "", cell_cols, fixed = TRUE)))
+  n_res <- length(resolutions)
+
+  if (is.null(col)) {
+    # Drop black, which is the first colour of Okabe-Ito
+    col <- unname(grDevices::palette.colors(palette = "Okabe-Ito"))[-1]
+  } else if (!(length(col) %in% c(1, n_res)) || !is.character(col)) {
+    cli::cli_abort(
+      "Argument {.arg col} must be of class {.cls character} and of length 1 or {n_res} (i.e. the number of resolutions in {.arg x})."
     )
   }
 
-  occdf <- sf::st_drop_geometry(occdf)
-  occdf <- data.frame(occdf)
-  occdf
+  base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
+  # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
+  class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
+
+  # Coarsest cells first so that finer cells are drawn on top
+  cells <- lapply(resolutions, function(res) {
+    h3jsr::cell_to_polygon(
+      input = unique(x[[paste0("cell_ID_", res)]]),
+      simple = TRUE
+    )
+  })
+  continents <- sf::st_geometry(rnaturalearthdata::coastline110)
+
+  dots <- list(...)
+  main <- dots$main
+  dots$main <- NULL
+
+  # Outer margin on top for the title of the whole figure
+  old_par <- graphics::par(oma = c(0, 0, if (is.null(main)) 0 else 2, 0))
+  # Two globes on top and one centred below
+  graphics::layout(matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE))
+  on.exit({
+    graphics::layout(1)
+    graphics::par(old_par)
+  })
+
+  # Globe centres as c(longitude, latitude), the third one being on Mexico
+  centres <- list(c(0, 0), c(180, 0), c(-102, 23))
+  # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
+  # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
+  for (centre in centres) {
+    hemisphere <- sf::st_buffer(
+      sf::st_sfc(sf::st_point(centre), crs = "EPSG:4326"),
+      dist = 0.999 * pi / 2 * 6371008,
+      max_cells = 10000
+    )
+    project <- function(geom) {
+      sf::st_transform(
+        sf::st_intersection(geom, hemisphere),
+        crs = paste0("+proj=ortho +lon_0=", centre[1], " +lat_0=", centre[2])
+      )
+    }
+
+    # Light grid by default so that continents and occupied cells stand out
+    do.call(
+      plot,
+      utils::modifyList(
+        list(project(base_grid), border = "grey80"),
+        dots
+      )
+    )
+    for (i in seq_along(cells)) {
+      plot(project(cells[[i]]), col = col[i], add = TRUE)
+    }
+    plot(project(continents), add = TRUE)
+  }
+
+  if (!is.null(main)) {
+    graphics::title(main = main, outer = TRUE)
+  }
 }

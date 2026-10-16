@@ -173,15 +173,94 @@ test_that("bin_space error handling", {
   )
 })
 
-test_that("plot argument works", {
+test_that("plot() works", {
+  skip_if_not_installed("rnaturalearthdata")
   # Reduce data size for faster testing
   occdf <- head(tetrapods, n = 100)
 
-  expect_doppelganger("bin_space", {
-    out <- bin_space(
-      occdf = occdf,
-      bins = space_bins(spacing = 1000),
-      plot = TRUE
+  out <- suppressMessages(
+    bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
+  )
+  expect_doppelganger("bin_space", function() plot(out))
+})
+
+test_that("plot() works with several resolutions", {
+  skip_if_not_installed("rnaturalearthdata")
+  occdf <- head(tetrapods, n = 100)
+
+  expect_doppelganger("bin_space-two-resolutions", function() {
+    occdf |>
+      bin_space(bins = space_bins(resolution = 2)) |>
+      bin_space(bins = space_bins(resolution = 1)) |>
+      suppressMessages() |>
+      plot()
+  })
+  expect_doppelganger("bin_space-three-resolutions", function() {
+    occdf |>
+      bin_space(bins = space_bins(resolution = 1)) |>
+      bin_space(bins = space_bins(resolution = 2)) |>
+      bin_space(bins = space_bins(resolution = 3)) |>
+      suppressMessages() |>
+      plot()
+  })
+
+  # No cell columns
+  out <- suppressMessages(
+    bin_space(occdf = occdf, bins = space_bins(resolution = 1))
+  )
+  out$cell_ID_1 <- NULL
+  expect_snapshot(plot(out), error = TRUE)
+})
+
+test_that("bin_space plotting with extra args works", {
+  skip_if_not_installed("rnaturalearthdata")
+  occdf <- head(tetrapods, n = 100)
+  out <- suppressMessages(
+    bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
+  )
+
+  # `main` is passed through `...`
+  expect_doppelganger("bin_space-dots", function() {
+    plot(out, main = "hello there")
+  })
+
+  # forbidden args
+  expect_snapshot(plot(out, add = TRUE), error = TRUE)
+})
+
+test_that("bin_space plotting with custom colours works", {
+  skip_if_not_installed("rnaturalearthdata")
+  occdf <- head(tetrapods, n = 100)
+  out <- occdf |>
+    bin_space(bins = space_bins(resolution = 1)) |>
+    bin_space(bins = space_bins(resolution = 2)) |>
+    suppressMessages()
+
+  expect_doppelganger("bin_space-colour", function() {
+    plot(out, col = "red")
+  })
+  expect_doppelganger("bin_space-colour-vector", function() {
+    plot(out, col = c("red", "blue"))
+  })
+
+  expect_snapshot(plot(out, col = c("red", "blue", "green")), error = TRUE)
+  expect_snapshot(plot(out, col = 1), error = TRUE)
+})
+
+test_that("plot is deprecated but still works", {
+  skip_if_not_installed("rnaturalearthdata")
+  occdf <- head(tetrapods, n = 100)
+
+  expect_doppelganger("bin_space_deprecated", function() {
+    expect_warning(
+      bin_space(
+        occdf = occdf,
+        bins = space_bins(spacing = 1000),
+        plot = TRUE
+      ) |>
+        suppressMessages(),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
     )
   })
 
