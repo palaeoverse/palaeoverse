@@ -29,7 +29,6 @@
 #' @seealso
 #' For bins with unequal area, but equal latitudinal range, see
 #'   \link{lat_bins_degrees}.
-#' @importFrom graphics polygon abline title
 #' @section Developer(s):
 #'   Lewis A. Jones & Kilian Eichenseer
 #' @section Reviewer(s):
@@ -141,6 +140,7 @@ lat_bins_area <- function(
 #' @param ylab `character`. The y-axis title.
 #'
 #' @name lat_bins_area
+#' @importFrom graphics polygon
 #' @export
 plot.palaeoverse_lat_bins_area <- function(
   x,
@@ -155,19 +155,11 @@ plot.palaeoverse_lat_bins_area <- function(
     )
   }
 
-  dots <- list(...)
-  if (length(dots) > 0) {
-    nms <- names(dots)
-    forbidden <- nms[nms %in% c("type", "xlim", "ylim")]
-    if (length(forbidden) > 0) {
-      cli::cli_abort(
-        c(
-          "{cli::qty(forbidden)} Cannot pass argument{?s} {.arg {forbidden}} when calling {.fn plot} on an object of class {.cls palaeoverse_lat_bins_area}.",
-          "i" = "{cli::qty(forbidden)}{?This/These} argument{?s} {?is/are} already set by `plot()` internally."
-        )
-      )
-    }
-  }
+  check_forbidden_plot_args(
+    ...,
+    forbidden = c("type", "xlim", "ylim"),
+    class = "palaeoverse_lat_bins_area"
+  )
 
   plot(
     1,

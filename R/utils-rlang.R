@@ -171,7 +171,6 @@ check_min_lower_than_max <- function(data, min_column, max_column) {
   }
 }
 
-
 #' Check whether a call to one of our `plot()` methods contains forbidden arguments
 #'
 #' These arguments are forbidden because we use them internally in the `plot()` method
