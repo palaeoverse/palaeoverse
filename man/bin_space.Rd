@@ -41,7 +41,7 @@ to the \code{bins} argument instead.}
 \value{
 A \code{data.frame} with the original input data and three new columns:
 \itemize{
-\item \verb{cell_id_\{h3_resolution\}}: the ID of the H3 cell that contains the row coordinates
+\item \verb{cell_id_\{h3_resolution\}}: the ID of the H3 cell that contains the row's coordinates
 \item \verb{cell_centroid_lat_\{h3_resolution\}}: the latitude of the H3 cell's centroid
 \item \verb{cell_centroid_lng_\{h3_resolution\}}: the longitude of the H3 cell's centroid
 }
@@ -56,7 +56,7 @@ uses the same resolution as existing columns.
 \description{
 A function to assign fossil occurrences (or any set of coordinates) to spatial
 bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
-\code{\link[=space_bins]{space_bins()}}, which creates the spatial bins required in the \code{bins} argument.
+\code{\link[=space_bins]{space_bins()}}, which creates the spatial bins required by the \code{bins} argument.
 }
 \details{
 This function assigns fossil occurrence data into
