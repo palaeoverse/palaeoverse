@@ -355,6 +355,20 @@ test_that("tax_range_time plotting with extra args works", {
   )
 })
 
+test_that("plotting with custom axis_geo() call works", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    max_ma = c(10, 8, 6, 5, 3),
+    min_ma = c(9, 7, 5, 4, 2)
+  )
+  expect_doppelganger("tax_range_time-custom-axis-geo", function() {
+    plot(
+      tax_range_time(occdf),
+      intervals = axis_geo(intervals = "epoch", fill = "red", abbr = FALSE)
+    )
+  })
+})
+
 test_that("plot is deprecated but still works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
@@ -407,8 +421,20 @@ test_that("plot_args is deprecated but still works", {
   expect_snapshot(tax_range_time(occdf, plot_args = 1), error = TRUE)
 })
 
+test_that("argument 'intervals' is hard deprecated", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    max_ma = c(10, 8, 6, 5, 3),
+    min_ma = c(9, 7, 5, 4, 2)
+  )
 
-test_that("argument 'intervals' works", {
+  expect_snapshot(
+    tax_range_time(occdf, intervals = c("genus", "min_ma")),
+    error = TRUE
+  )
+})
+
+test_that("plot argument 'intervals' works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
@@ -420,16 +446,19 @@ test_that("argument 'intervals' works", {
     plot(tax_range_time(occdf), intervals = c("genus", "min_ma")),
     error = TRUE
   )
-  # expect_snapshot(
-  #   plot(tax_range_time(occdf), intervals = "nonexistent"),
-  #   error = TRUE
-  # )
   expect_snapshot(
-    plot(tax_range_time(occdf), intervals = 1),
+    plot(
+      tax_range_time(occdf),
+      intervals = axis_geo(intervals = "nonexistent")
+    ),
     error = TRUE
   )
   expect_snapshot(
-    plot(tax_range_time(occdf), intervals = NA),
+    plot(tax_range_time(occdf), intervals = axis_geo(intervals = 1)),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(tax_range_time(occdf), intervals = axis_geo(intervals = NA)),
     error = TRUE
   )
 })

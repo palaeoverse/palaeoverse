@@ -108,14 +108,12 @@ tax_range_time <- function(
   by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
 
   if (lifecycle::is_present(intervals)) {
-    lifecycle::deprecate_warn(
-      "2.0.0",
-      "tax_range_time(intervals)",
-      I("`plot()` on the output of this function"),
-      always = TRUE
+    cli::cli_abort(
+      c(
+        "The argument {.arg intervals} has been removed in {.pkg palaeoverse} 2.0.0.",
+        "i" = "Use {.code plot(intervals =)} on the output of this function instead."
+      )
     )
-  } else {
-    intervals <- "periods"
   }
   if (lifecycle::is_present(plot)) {
     lifecycle::deprecate_warn(
@@ -207,7 +205,6 @@ tax_range_time <- function(
 
   class(temp_df) <- c("palaeoverse_tax_range_time", class(temp_df))
   attr(temp_df, "palaeoverse_tax_range_time_group") <- group
-  attr(temp_df, "palaeoverse_tax_range_time_intervals") <- intervals
   if (isTRUE(plot)) {
     if (is.null(plot_args)) {
       plot(temp_df)
@@ -227,12 +224,7 @@ tax_range_time <- function(
 #' @param main `character`. The plot title.
 #' @param col.group `character`. The background colours to use when `x` has groups. Must of the same length
 #' as the number of unique groups.
-#' @param intervals `character`. The time interval information used to plot the x-axis: either A) a
-#' `character` string indicating a rank of intervals from the built-in [GTS2020], B) a `character`
-#' string indicating a `data.frame` hosted by [Macrostrat](https://macrostrat.org) (see [time_bins]),
-#' or C) a custom `data.frame` of time interval boundaries (see [axis_geo] Details). A list of strings
-#'  or data.frames can be supplied to add multiple time scales to the same side of the plot (see
-#' [axis_geo] Details). Defaults to `"periods"`.
+#' @param intervals A call to [`axis_geo()`] to add the geological timescale at the bottom of the plot.
 #'
 #' @details
 #' The following graphical parameters have default values that differ from base R:
@@ -247,25 +239,45 @@ tax_range_time <- function(
 plot.palaeoverse_tax_range_time <- function(
   x,
   ...,
-  intervals = "periods",
+  intervals = axis_geo(side = 1, intervals = "periods", title = xlab),
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",
   col.group = c("grey85", "grey95")
 ) {
-  list_of_character_or_dataframe <- function(x) {
-    all(vapply(x, is.character, logical(1))) ||
-      all(vapply(x, is.data.frame, logical(1)))
-  }
+  intervals_expr <- substitute(intervals)
   if (
-    !(is.list(intervals) && list_of_character_or_dataframe(intervals)) &&
-      !(is.character(intervals) && length(intervals) == 1) &&
-      !is.data.frame(intervals)
+    !rlang::is_call(intervals_expr) ||
+      !identical(rlang::call_name(intervals_expr), "axis_geo")
   ) {
     cli::cli_abort(
-      "{.arg intervals} must be of class {.cls character}, {.cls data.frame}, or a list of {.cls character} or {.cls data.frame}."
+      "{.arg intervals} must be a call to {.fn axis_geo}, not {.code {rlang::expr_deparse(intervals_expr)}}."
     )
   }
+
+  # Early check so that we can throw an error early instead of having some elements
+  # being plotted and then throw an error. The `intervals` expression is evaluated
+  # on a throwaway device so that the promise itself is only forced on the final plot.
+  caller_env <- rlang::current_env()
+  tryCatch(
+    {
+      cur_dev <- grDevices::dev.cur()
+      grDevices::pdf(NULL)
+      plot.new()
+      intervals
+    },
+    error = function(e) {
+      cli::cli_abort(
+        "Error in {.code {rlang::expr_deparse(intervals_expr)}}.",
+        parent = e,
+        call = caller_env
+      )
+    },
+    finally = {
+      grDevices::dev.off()
+      if (cur_dev > 1) grDevices::dev.set(cur_dev)
+    }
+  )
 
   check_forbidden_plot_args(
     ...,
@@ -292,10 +304,6 @@ plot.palaeoverse_tax_range_time <- function(
         "Length of {.arg col.group} ({.val {length(col.group)}}) must be equal to the number of unique groups in the data ({.val {n_groups}})."
       )
     }
-  }
-
-  if (missing(intervals)) {
-    intervals <- attr(x, "palaeoverse_tax_range_time_intervals")
   }
 
   # Collect usr par for resetting
@@ -373,7 +381,7 @@ plot.palaeoverse_tax_range_time <- function(
   )
   do.call(points, c(list(x = x$max_ma, y = x$taxon_id), points_args))
   do.call(points, c(list(x = x$min_ma, y = x$taxon_id), points_args))
-  axis_geo(side = 1, intervals = intervals, title = xlab)
+  eval(intervals_expr)
   # Reset par
   par(usrpar)
 }

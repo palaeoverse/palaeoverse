@@ -329,27 +329,58 @@
       Error in `tax_range_time()`:
       ! `plot_args` must be of class <list> or `NULL`, not the number 1.
 
-# argument 'intervals' works
+# argument 'intervals' is hard deprecated
+
+    Code
+      tax_range_time(occdf, intervals = c("genus", "min_ma"))
+    Condition
+      Error in `tax_range_time()`:
+      ! The argument `intervals` has been removed in palaeoverse 2.0.0.
+      i Use `plot(intervals =)` on the output of this function instead.
+
+# plot argument 'intervals' works
 
     Code
       plot(tax_range_time(occdf), intervals = c("genus", "min_ma"))
     Condition
       Error in `plot()`:
-      ! `intervals` must be of class <character>, <data.frame>, or a list of <character> or <data.frame>.
+      ! `intervals` must be a call to `axis_geo()`, not `c("genus", "min_ma")`.
 
 ---
 
     Code
-      plot(tax_range_time(occdf), intervals = 1)
+      plot(tax_range_time(occdf), intervals = axis_geo(intervals = "nonexistent"))
     Condition
       Error in `plot()`:
-      ! `intervals` must be of class <character>, <data.frame>, or a list of <character> or <data.frame>.
+      ! Error in `axis_geo(intervals = "nonexistent")`.
+      Caused by error:
+      ! `scale` must match a built-in or Macrostrat time scale.
 
 ---
 
     Code
-      plot(tax_range_time(occdf), intervals = NA)
+      plot(tax_range_time(occdf), intervals = axis_geo(intervals = 1))
     Condition
       Error in `plot()`:
-      ! `intervals` must be of class <character>, <data.frame>, or a list of <character> or <data.frame>.
+      ! Error in `axis_geo(intervals = 1)`.
+      Caused by error in `time_bins()`:
+      ! `scale` must be one of the following, not the number 1:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale
+      * a <data.frame>
+      > See `time_bins()` (`?palaeoverse::time_bins()`) for more details.
+
+---
+
+    Code
+      plot(tax_range_time(occdf), intervals = axis_geo(intervals = NA))
+    Condition
+      Error in `plot()`:
+      ! Error in `axis_geo(intervals = NA)`.
+      Caused by error in `time_bins()`:
+      ! `scale` must be one of the following, not `NA`:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale
+      * a <data.frame>
+      > See `time_bins()` (`?palaeoverse::time_bins()`) for more details.
 

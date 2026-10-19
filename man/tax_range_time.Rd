@@ -20,7 +20,7 @@ tax_range_time(
 \method{plot}{palaeoverse_tax_range_time}(
   x,
   ...,
-  intervals = "periods",
+  intervals = axis_geo(side = 1, intervals = "periods", title = xlab),
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",
@@ -54,12 +54,7 @@ or "name" (alphabetically by taxon names).}
 \item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
 output of this function instead.}
 
-\item{intervals}{\code{character}. The time interval information used to plot the x-axis: either A) a
-\code{character} string indicating a rank of intervals from the built-in \link{GTS2020}, B) a \code{character}
-string indicating a \code{data.frame} hosted by \href{https://macrostrat.org}{Macrostrat} (see \link{time_bins}),
-or C) a custom \code{data.frame} of time interval boundaries (see \link{axis_geo} Details). A list of strings
-or data.frames can be supplied to add multiple time scales to the same side of the plot (see
-\link{axis_geo} Details). Defaults to \code{"periods"}.}
+\item{intervals}{A call to \code{\link[=axis_geo]{axis_geo()}} to add the geological timescale at the bottom of the plot.}
 
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_time"} created by \code{tax_range_time()}.}
 
