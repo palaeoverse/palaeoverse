@@ -235,10 +235,6 @@ tax_range_time <- function(
 #' [axis_geo] Details). Defaults to `"periods"`.
 #'
 #' @details
-#' The graphical parameters `col`, `bg`, `pch` and `cex` passed in `...` are applied to the
-#' first and last appearance points, and `col`, `lty` and `lwd` to the range segments. Any
-#' other argument in `...` is passed to [`plot()`][base::plot].
-#'
 #' The following graphical parameters have default values that differ from base R:
 #'
 #' - `bg = "black"`: the background (fill) colour of the points, only used for `pch` values 21 to 25.

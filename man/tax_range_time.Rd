@@ -101,10 +101,6 @@ Note: this function provides output based solely on the user input data.
 The true duration of a taxon is likely confounded by uncertainty in
 dating occurrences, and incomplete sampling and preservation.
 
-The graphical parameters \code{col}, \code{bg}, \code{pch} and \code{cex} passed in \code{...} are applied to the
-first and last appearance points, and \code{col}, \code{lty} and \code{lwd} to the range segments. Any
-other argument in \code{...} is passed to \code{\link[base:plot]{plot()}}.
-
 The following graphical parameters have default values that differ from base R:
 \itemize{
 \item \code{bg = "black"}: the background (fill) colour of the points, only used for \code{pch} values 21 to 25.
