@@ -3,7 +3,7 @@
 **Authors:** [The Palaeoverse Development
 Team](https://palaeoverse.org/about/about-us)
 
-**Last updated:** 2026-10-12
+**Last updated:** 2026-10-19
 
 ## Introduction
 
@@ -164,6 +164,14 @@ bins <- time_bins(interval = c("Carboniferous", "Permian"),
                   rank = "stage",
                   scale = "GTS2012",
                   plot = FALSE)
+```
+
+    ## Warning: The `plot` argument of `time_bins()` is deprecated as of palaeoverse 2.0.0.
+    ## ℹ Please use `plot()` on the output of this function instead.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
+
+``` r
 
 head(bins)
 ```
@@ -358,25 +366,51 @@ system](https://h3geo.org/)).
 maj_tetrapods <- bin_space(occdf = maj_tetrapods,
                            lng = "p_lng",
                            lat = "p_lat",
-                           spacing = 100)
+                           bins = space_bins(spacing = 100))
 ```
 
-    ## Average spacing between adjacent cells in the primary grid was set to 103.6 km.
     ## ℹ H3 resolution: 3
+    ## ℹ Average spacing between adjacent cells: 103.6 km.
+    ## ℹ Average cell area: 12,393.43 sq. km.
+
+``` r
+
+# `space_bins()` creates cells using the H3 geospatial indexing system, which works
+# with 16 resolutions. `spacing = 100` results in a resolution equal to 3, so the 
+# new "cell" column names are suffixed with "_3".
+colnames(maj_tetrapods)
+```
+
+    ##  [1] "occurrence_no"       "collection_no"       "identified_name"    
+    ##  [4] "identified_rank"     "accepted_name"       "accepted_rank"      
+    ##  [7] "early_interval"      "late_interval"       "old_max_ma"         
+    ## [10] "old_min_ma"          "phylum"              "class"              
+    ## [13] "order"               "family"              "genus"              
+    ## [16] "abund_value"         "abund_unit"          "lng"                
+    ## [19] "lat"                 "collection_name"     "cc"                 
+    ## [22] "formation"           "stratgroup"          "member"             
+    ## [25] "zone"                "lithology1"          "environment"        
+    ## [28] "pres_mode"           "taxon_environment"   "motility"           
+    ## [31] "life_habit"          "diet"                "early_stage"        
+    ## [34] "late_stage"          "max_ma"              "interval_mid_ma"    
+    ## [37] "min_ma"              "id"                  "n_bins"             
+    ## [40] "bin_assignment"      "bin_midpoint"        "overlap_percentage" 
+    ## [43] "rot_model"           "p_lng"               "p_lat"              
+    ## [46] "cell_ID_3"           "cell_centroid_lng_3" "cell_centroid_lat_3"
 
 ``` r
 
 # Show the first 6 rows of the new columns added using `bin_space`.
-head(maj_tetrapods[, c("cell_ID", "cell_centroid_lng", "cell_centroid_lat")])
+head(maj_tetrapods[, c("cell_ID_3", "cell_centroid_lng_3", "cell_centroid_lat_3")])
 ```
 
-    ##           cell_ID cell_centroid_lng cell_centroid_lat
-    ## 1 8380d4fffffffff         -38.83199        3.04111345
-    ## 2 83dd68fffffffff         -34.66666      -59.09848198
-    ## 4 837c65fffffffff         -29.87643       -0.04859754
-    ## 5 837c40fffffffff         -27.94272        3.31086571
-    ## 6 837c64fffffffff         -28.90531       -0.63974717
-    ## 7 837da3fffffffff         -16.16673       -6.15422544
+    ##         cell_ID_3 cell_centroid_lng_3 cell_centroid_lat_3
+    ## 1 8380d4fffffffff           -38.83199          3.04111345
+    ## 2 83dd68fffffffff           -34.66666        -59.09848198
+    ## 4 837c65fffffffff           -29.87643         -0.04859754
+    ## 5 837c40fffffffff           -27.94272          3.31086571
+    ## 6 837c64fffffffff           -28.90531         -0.63974717
+    ## 7 837da3fffffffff           -16.16673         -6.15422544
 
 `bin_space` adds some new columns, including one with the unique grid
 cell ID, as well as latitudinal and longitudinal coordinates for the
@@ -392,7 +426,7 @@ varies through time.
 midpoints <- sort(unique(maj_tetrapods$bin_midpoint))
 
 # Calculate the number of unique cells in each time bin
-unique_cells <- unique(maj_tetrapods[, c("bin_midpoint", "cell_ID")])
+unique_cells <- unique(maj_tetrapods[, c("bin_midpoint", "cell_ID_3")])
 spat.cov <- group_apply(unique_cells, group = "bin_midpoint", fun = nrow)
 ```
 

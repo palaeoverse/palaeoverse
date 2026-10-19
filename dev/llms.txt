@@ -149,7 +149,10 @@ Functions to support further functionality.
 - [`lat_bins_degrees()`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_degrees.md)
   [`plot(`*`<palaeoverse_lat_bins_degrees>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_degrees.md)
   : Generate equal-width latitudinal bins
+- [`space_bins()`](https://palaeoverse.palaeoverse.org/dev/reference/space_bins.md)
+  : Generate H3 spatial bins
 - [`time_bins()`](https://palaeoverse.palaeoverse.org/dev/reference/time_bins.md)
+  [`plot(`*`<palaeoverse_time_bins>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/time_bins.md)
   : Generate time bins
 - [`group_apply()`](https://palaeoverse.palaeoverse.org/dev/reference/group_apply.md)
   : Apply a function over grouping(s) of data

@@ -61,6 +61,11 @@ https://goatcounter.com/help/domains
 <ul><li><p><code>palaeoverse</code> requires R &gt;= 4.1.0 (<a href="https://github.com/palaeoverse/palaeoverse/issues/181" class="external-link">#181</a>).</p></li>
 <li><p>All functions now require arguments to be fully named, except for the first argument in some cases (<a href="https://github.com/palaeoverse/palaeoverse/issues/216" class="external-link">#216</a>).</p></li>
 <li><p>In <code><a href="../reference/lat_bins_area.html">lat_bins_area()</a></code>, the argument <code>n</code> is deprecated and replaced by <code>n_bins</code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/349" class="external-link">#349</a>).</p></li>
+<li><p>In <code><a href="../reference/bin_space.html">bin_space()</a></code>, the arguments <code>spacing</code>, <code>sub_grid</code>, and <code>return</code> are deprecated. and a new argument <code>bins</code> is added. The same functionality is made possible with the new <code><a href="../reference/space_bins.html">space_bins()</a></code> (see “New features”) (<a href="https://github.com/palaeoverse/palaeoverse/issues/344" class="external-link">#344</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>New <code><a href="../reference/space_bins.html">space_bins()</a></code> to generate spatial bins. The output of this function can be passed to the <code>bins</code> argument of <code><a href="../reference/bin_space.html">bin_space()</a></code> (<a href="https://github.com/palaeoverse/palaeoverse/issues/344" class="external-link">#344</a>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>

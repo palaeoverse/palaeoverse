@@ -19,6 +19,24 @@ for guidance to update existing code.
   the argument `n` is deprecated and replaced by `n_bins`
   ([\#349](https://github.com/palaeoverse/palaeoverse/issues/349)).
 
+- In
+  [`bin_space()`](https://palaeoverse.palaeoverse.org/dev/reference/bin_space.md),
+  the arguments `spacing`, `sub_grid`, and `return` are deprecated. and
+  a new argument `bins` is added. The same functionality is made
+  possible with the new
+  [`space_bins()`](https://palaeoverse.palaeoverse.org/dev/reference/space_bins.md)
+  (see “New features”)
+  ([\#344](https://github.com/palaeoverse/palaeoverse/issues/344)).
+
+### New features
+
+- New
+  [`space_bins()`](https://palaeoverse.palaeoverse.org/dev/reference/space_bins.md)
+  to generate spatial bins. The output of this function can be passed to
+  the `bins` argument of
+  [`bin_space()`](https://palaeoverse.palaeoverse.org/dev/reference/bin_space.md)
+  ([\#344](https://github.com/palaeoverse/palaeoverse/issues/344)).
+
 ### Bug fixes
 
 - [`lat_bins_area()`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_area.md)

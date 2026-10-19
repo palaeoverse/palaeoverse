@@ -24,8 +24,11 @@ time_bins(
   n_bins = NULL,
   assign = NULL,
   scale = "GTS2020",
-  plot = FALSE
+  plot = deprecated()
 )
+
+# S3 method for class 'palaeoverse_time_bins'
+plot(x, ..., xlab = "Time (Ma)", ylab = "Duration (Myr)", col = NULL)
 ```
 
 ## Arguments
@@ -81,7 +84,36 @@ time_bins(
 
 - plot:
 
-  `logical`. Should a plot of time bins be generated?
+  **\[deprecated\]** Use
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html) on the output
+  of this function instead.
+
+- x:
+
+  `data.frame`. An object of class `"palaeoverse_time_bins"` created by
+  `time_bins()`.
+
+- ...:
+
+  Extra arguments passed to
+  [`plot()`](https://rdrr.io/r/base/plot.html). The following arguments
+  are already set internally and must not be specified here: `type`,
+  `xlim`, `ylim`.
+
+- xlab:
+
+  `character`. The x-axis title.
+
+- ylab:
+
+  `character`. The y-axis title.
+
+- col:
+
+  `character`. Colour(s) of the bars. Must be of length 1 (in which case
+  all bars have the same colour) or of length equal to the number of
+  rows of `x`. If this argument is not explicitly provided, values of
+  the `colour` column in `x` will be used.
 
 ## Value
 
@@ -90,10 +122,7 @@ A `data.frame` of time bins for the specified intervals or a list with a
 binned age estimates (midpoint of specified bins) if `assign` is
 specified. By default, the time bins `data.frame` contains the following
 columns: bin, interval_name, rank, max_ma, mid_ma, min_ma, duration_myr,
-abbr (interval abbreviation), colour and font (colour). If `size` or
-`n_bins` is specified, the time bins `data.frame` contains the following
-columns: bin, max_ma, mid_ma, min_ma, duration_myr, grouping_rank,
-intervals, colour and font.
+abbr (interval abbreviation), colour and font (colour).
 
 ## Details
 
@@ -135,24 +164,27 @@ Kilian Eichenseer & William Gearty
 
 ``` r
 #Using numeric age
-ex1 <- time_bins(interval = 10, plot = TRUE)
+ex1 <- time_bins(interval = 10)
+plot(ex1)
 
 
 #Using numeric age range
-ex2 <- time_bins(interval = c(50, 100), plot = TRUE)
+ex2 <- time_bins(interval = c(50, 100))
+plot(ex2)
 
 
 #Using a single interval name
-ex3 <- time_bins(interval = c("Maastrichtian"), plot = TRUE)
+ex3 <- time_bins(interval = c("Maastrichtian"))
+plot(ex3)
 
 
 #Using a range of intervals and near-equal duration bins
-ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"),
-                 size = 10, plot = TRUE)
+ex4 <- time_bins(interval = c("Fortunian", "Meghalayan"), size = 10)
 #> Target duration of equal length time bins was set to 10 Myr.
 #> ℹ 54 time bins were generated.
 #> ℹ Mean length: 10.02 Myr
 #> ℹ Standard deviation: 2.4 Myr
+plot(ex4)
 
 
 #Assign bins based on given age estimates
@@ -163,11 +195,12 @@ ex5 <- time_bins(interval = c("Fortunian", "Meghalayan"),
 scale <- data.frame(interval_name = 1:5,
                     min_ma = c(0, 18, 32, 38, 45),
                     max_ma = c(18, 32, 38, 45, 53))
-ex6 <- time_bins(scale = scale, size = 20, plot = TRUE)
+ex6 <- time_bins(scale = scale, size = 20)
 #> Target duration of equal length time bins was set to 20 Myr.
 #> ℹ 3 time bins were generated.
 #> ℹ Mean length: 17.67 Myr
 #> ℹ Standard deviation: 2.52 Myr
+plot(ex6)
 
 
 #Use North American land mammal ages from Macrostrat and specify a desired
@@ -177,4 +210,5 @@ ex7 <- time_bins(scale = "North American land mammal ages", n_bins = 7)
 #> ℹ 7 time bins were generated.
 #> ℹ Mean length: 9.43 Myr
 #> ℹ Standard deviation: 1.19 Myr
+plot(ex7)
 ```
