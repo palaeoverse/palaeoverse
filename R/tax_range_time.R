@@ -22,6 +22,8 @@
 #' or "name" (alphabetically by taxon names).
 #' @param plot,plot_args `r lifecycle::badge("deprecated")` Use `plot()` on the
 #'   output of this function instead.
+#' @param intervals `r lifecycle::badge("deprecated")` Use the argument `axis_geo`
+#' in `plot()` on the output of this function instead.
 #'
 #' @return A \code{data.frame} containing the following columns:
 #' unique taxa (`taxon`), taxon ID (`taxon_id`), first appearance of taxon
@@ -238,7 +240,11 @@ tax_range_time <- function(
 plot.palaeoverse_tax_range_time <- function(
   x,
   ...,
-  axis_geo = palaeoverse::axis_geo(side = 1, intervals = "periods", title = xlab),
+  axis_geo = palaeoverse::axis_geo(
+    side = 1,
+    intervals = "periods",
+    title = xlab
+  ),
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",

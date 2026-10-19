@@ -54,6 +54,9 @@ or "name" (alphabetically by taxon names).}
 \item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
 output of this function instead.}
 
+\item{intervals}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use the argument \code{axis_geo}
+in \code{plot()} on the output of this function instead.}
+
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_time"} created by \code{tax_range_time()}.}
 
 \item{...}{Extra graphical parameters (see Details). The following arguments are already set internally
