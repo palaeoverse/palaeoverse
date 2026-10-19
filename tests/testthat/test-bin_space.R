@@ -247,6 +247,25 @@ test_that("bin_space plotting with custom colours works", {
   expect_snapshot(plot(out, col = 1), error = TRUE)
 })
 
+test_that("bin_space plotting with custom centres works", {
+  skip_if_not_installed("rnaturalearthdata")
+  occdf <- head(tetrapods, n = 100)
+  out <- suppressMessages(
+    bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
+  )
+
+  expect_doppelganger("bin_space-one-centre", function() {
+    plot(out, centres = list(c(45, 10)))
+  })
+  expect_doppelganger("bin_space-four-centres", function() {
+    plot(out, centres = list(c(0, 0), c(0, 180), c(90, 0), c(-90, 0)))
+  })
+
+  expect_snapshot(plot(out, centres = c(0, 0)), error = TRUE)
+  expect_snapshot(plot(out, centres = rep(list(c(0, 0)), 5)), error = TRUE)
+  expect_snapshot(plot(out, centres = list(c(100, 0))), error = TRUE)
+})
+
 test_that("plot is deprecated but still works", {
   skip_if_not_installed("rnaturalearthdata")
   occdf <- head(tetrapods, n = 100)

@@ -210,10 +210,10 @@ bin_space <- function(
 
 #' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
 #' The base grid uses the least precise resolution among the `cell_ID_*` columns, and the occupied
-#' cells of every resolution are drawn on top of it. The world is shown as three globes (centred on
-#' longitude 0, longitude 180, and Mexico) using an orthographic projection, which avoids
-#' distorting cells that cross the antimeridian or cover the poles. Present-day continent borders
-#' are drawn on top, which requires the package `rnaturalearthdata`.
+#' cells of every resolution are drawn on top of it. The world is shown as one or several globes
+#' (see `centres`) using an orthographic projection, which avoids distorting cells that cross the
+#' antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
+#' the package `rnaturalearthdata`.
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
 #' first layer of each globe (which draws the grid), not to the following ones that fill the
 #' cells. By default, the grid is drawn with `border = "grey80"`. `main` is used as the title of
@@ -223,10 +223,18 @@ bin_space <- function(
 #' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
 #' ordered from the least to the most precise resolution. By default, colours are taken in order
 #' from the colour-blind friendly Okabe-Ito palette (see [grDevices::palette.colors()]).
+#' @param centres `list`. Centres of the globes, each given as a numeric vector
+#' `c(latitude, longitude)` in decimal degrees. One globe is drawn per centre, with a maximum of
+#' four globes. By default, three globes are centred on longitude 0, longitude 180, and Mexico.
 #'
 #' @name bin_space
 #' @export
-plot.palaeoverse_bin_space <- function(x, ..., col = NULL) {
+plot.palaeoverse_bin_space <- function(
+  x,
+  ...,
+  col = NULL,
+  centres = list(c(0, 0), c(0, 180), c(23, -102))
+) {
   check_forbidden_plot_args(
     ...,
     forbidden = "add",
@@ -255,6 +263,28 @@ plot.palaeoverse_bin_space <- function(x, ..., col = NULL) {
     )
   }
 
+  valid_centre <- function(centre) {
+    is.numeric(centre) &&
+      length(centre) == 2 &&
+      !anyNA(centre) &&
+      abs(centre[1]) <= 90 &&
+      abs(centre[2]) <= 180
+  }
+  if (
+    !is.list(centres) ||
+      !all(vapply(centres, valid_centre, logical(1)))
+  ) {
+    cli::cli_abort(
+      "Argument {.arg centres} must be a list of numeric vectors {.code c(lat, lon)}, with latitudes between -90 and 90 and longitudes between -180 and 180."
+    )
+  }
+
+  if (!(length(centres) %in% 1:4)) {
+    cli::cli_abort(
+      "Argument {.arg centres} can take 4 points at most (currently it has {length(centres)})."
+    )
+  }
+
   base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
   # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
   class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
@@ -272,20 +302,28 @@ plot.palaeoverse_bin_space <- function(x, ..., col = NULL) {
   main <- dots$main
   dots$main <- NULL
 
-  # Outer margin on top for the title of the whole figure
-  old_par <- graphics::par(oma = c(0, 0, if (is.null(main)) 0 else 2, 0))
-  # Two globes on top and one centred below
-  graphics::layout(matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE))
+  # Outer margin on top for the title of the whole figure, small inner margins to keep globes close
+  old_par <- graphics::par(
+    oma = c(0, 0, if (is.null(main)) 0 else 2, 0),
+    mar = rep(0.5, 4)
+  )
+  # With three globes, two on top and one centred below
+  graphics::layout(switch(
+    length(centres),
+    matrix(1),
+    matrix(1:2, nrow = 1),
+    matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE),
+    matrix(1:4, nrow = 2, byrow = TRUE)
+  ))
   on.exit({
     graphics::layout(1)
     graphics::par(old_par)
   })
 
-  # Globe centres as c(longitude, latitude), the third one being on Mexico
-  centres <- list(c(0, 0), c(180, 0), c(-102, 23))
   # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
   # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
   for (centre in centres) {
+    centre <- rev(centre)
     hemisphere <- sf::st_buffer(
       sf::st_sfc(sf::st_point(centre), crs = "EPSG:4326"),
       dist = 0.999 * pi / 2 * 6371008,

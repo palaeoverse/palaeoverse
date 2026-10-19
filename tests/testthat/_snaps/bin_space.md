@@ -170,6 +170,30 @@
       Error in `plot()`:
       ! Argument `col` must be of class <character> and of length 1 or 2 (i.e. the number of resolutions in `x`).
 
+# bin_space plotting with custom centres works
+
+    Code
+      plot(out, centres = c(0, 0))
+    Condition
+      Error in `plot()`:
+      ! Argument `centres` must be a list of numeric vectors `c(lat, lon)`, with latitudes between -90 and 90 and longitudes between -180 and 180.
+
+---
+
+    Code
+      plot(out, centres = rep(list(c(0, 0)), 5))
+    Condition
+      Error in `plot()`:
+      ! Argument `centres` can take 4 points at most (currently it has 5).
+
+---
+
+    Code
+      plot(out, centres = list(c(100, 0)))
+    Condition
+      Error in `plot()`:
+      ! Argument `centres` must be a list of numeric vectors `c(lat, lon)`, with latitudes between -90 and 90 and longitudes between -180 and 180.
+
 # plot is deprecated but still works
 
     Code
