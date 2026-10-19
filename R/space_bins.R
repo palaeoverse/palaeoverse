@@ -28,24 +28,28 @@
 #' and the average spacing between the centroids of adjacent cells. This
 #' information is also available via [h3jsr::h3_info_table].
 #'
-#' | Resolution | Number of cells | Average area (sq. km) | Average spacing (km) |
-#' |---:|---:|---:|---:|
-#' | 0 | 122 | 4,357,449.42 | 1,918.61 |
-#' | 1 | 842 | 609,788.44 | 725.17 |
-#' | 2 | 5,882 | 86,801.78 | 274.09 |
-#' | 3 | 41,162 | 12,393.43 | 103.60 |
-#' | 4 | 288,122 | 1,770.35 | 39.16 |
-#' | 5 | 2,016,842 | 252.90 | 14.80 |
-#' | 6 | 14,117,882 | 36.13 | 5.59 |
-#' | 7 | 98,825,162 | 5.16 | 2.11 |
-#' | 8 | 691,776,122 | 0.737 | 0.799 |
-#' | 9 | 4,842,432,842 | 0.105 | 0.302 |
-#' | 10 | 33,897,029,882 | 0.0150 | 0.114 |
-#' | 11 | 237,279,209,162 | 0.00215 | 0.0431 |
-#' | 12 | 1,660,954,464,122 | 0.000307 | 0.0163 |
-#' | 13 | 11,626,681,248,842 | 0.0000439 | 0.00617 |
-#' | 14 | 81,386,768,741,882 | 0.00000627 | 0.00234 |
-#' | 15 | 569,707,381,193,162 | 0.000000895 | 0.000883 |
+#' ```{r, echo = FALSE, results = "asis"}
+#' # Values >= 1 are rounded to two decimals, smaller values to three significant digits
+#' fmt <- function(x) {
+#'   ifelse(
+#'     x >= 1,
+#'     formatC(x, format = "f", digits = 2, big.mark = ","),
+#'     formatC(x, format = "fg", digits = 3, flag = "#")
+#'   )
+#' }
+#' tab <- h3jsr::h3_info_table
+#' cat(
+#'   "| Resolution | Number of cells | Average area (sq. km) | Average spacing (km) |",
+#'   "|---:|---:|---:|---:|",
+#'   paste0(
+#'     "| ", tab$h3_resolution,
+#'     " | ", formatC(tab$total_unique_indexes, format = "f", digits = 0, big.mark = ","),
+#'     " | ", fmt(tab$avg_area_sqkm),
+#'     " | ", fmt(tab$avg_cendist_km), " |"
+#'   ),
+#'   sep = "\n"
+#' )
+#' ```
 #'
 #' @return An object of class `palaeoverse_space_bins`. This object can be passed
 #' to the `bins` argument in [`bin_space()`] to assign occurrences (or any set of
