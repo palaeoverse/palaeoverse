@@ -221,26 +221,29 @@ tax_range_time <- function(
 
 
 #' @param x `data.frame`. An object of class `"palaeoverse_tax_range_time"` created by `tax_range_time()`.
-#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following arguments are
-#' already set internally and must not be specified here: `xlim`, `ylim`.
+#' @param ... Extra graphical parameters (see Details). The following arguments are already set internally
+#' and must not be specified here: `xlim`, `ylim`, `xaxt`, `yaxt`.
 #' @inheritParams lat_bins_area
 #' @param main `character`. The plot title.
-#' @param col `character`. The colour of the range segments and points.
 #' @param col.group `character`. The background colours to use when `x` has groups. Must of the same length
 #' as the number of unique groups.
-#' @param bg `character`. The background (fill) colour of the points, only used for `pch` values 21 to 25.
-#' @param pch `numeric`. The symbol used for the first and last appearance points (see [graphics::points()]).
-#' @param cex `numeric`. The size of the points.
-#' @param lty `numeric`. The line type of the range segments (see [graphics::par()]).
-#' @param lwd `numeric`. The line width of the range segments.
-#' @param axes `logical`. Should the axes be drawn?
-#' @param yaxs `character`. The style of y-axis interval calculation (see [graphics::par()]).
 #' @param intervals `character`. The time interval information used to plot the x-axis: either A) a
 #' `character` string indicating a rank of intervals from the built-in [GTS2020], B) a `character`
 #' string indicating a `data.frame` hosted by [Macrostrat](https://macrostrat.org) (see [time_bins]),
 #' or C) a custom `data.frame` of time interval boundaries (see [axis_geo] Details). A list of strings
 #'  or data.frames can be supplied to add multiple time scales to the same side of the plot (see
 #' [axis_geo] Details). Defaults to `"periods"`.
+#'
+#' @details
+#' The graphical parameters `col`, `bg`, `pch` and `cex` passed in `...` are applied to the
+#' first and last appearance points, and `col`, `lty` and `lwd` to the range segments. Any
+#' other argument in `...` is passed to [`plot()`][base::plot].
+#'
+#' The following graphical parameters have default values that differ from base R:
+#'
+#' - `bg = "black"`: the background (fill) colour of the points, only used for `pch` values 21 to 25.
+#' - `pch = 20`: the symbol used for the first and last appearance points (see [graphics::points()]).
+#' - `yaxs = "i"`: the style of y-axis interval calculation (see [graphics::par()]).
 #'
 #' @name tax_range_time
 #' @importFrom graphics points strwidth
@@ -252,15 +255,7 @@ plot.palaeoverse_tax_range_time <- function(
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",
-  col = "black",
-  col.group = c("grey85", "grey95"),
-  bg = "black",
-  pch = 20,
-  cex = 1,
-  lty = 1,
-  lwd = 1,
-  axes = TRUE,
-  yaxs = "i"
+  col.group = c("grey85", "grey95")
 ) {
   list_of_character_or_dataframe <- function(x) {
     all(vapply(x, is.character, logical(1))) ||
@@ -282,6 +277,16 @@ plot.palaeoverse_tax_range_time <- function(
     class = "palaeoverse_tax_range_time"
   )
 
+  args <- list(...)
+  if (!"bg" %in% names(args)) {
+    args[["bg"]] <- "black"
+  }
+  if (!"pch" %in% names(args)) {
+    args[["pch"]] <- 20
+  }
+  if (!"yaxs" %in% names(args)) {
+    args[["yaxs"]] <- "i"
+  }
   group <- attr(x, "palaeoverse_tax_range_time_group")
 
   if (!is.null(group)) {
@@ -309,19 +314,23 @@ plot.palaeoverse_tax_range_time <- function(
   xlim <- c(max(x$max_ma), min(x$min_ma))
   ylim <- c(0.5, nrow(x) + 0.5)
   # Base plot
-  plot(
-    x = NA,
-    y = NA,
-    xlim = xlim,
-    ylim = ylim,
-    xlab = NA,
-    ylab = NA,
-    main = main,
-    xaxt = "n",
-    yaxt = "n",
-    yaxs = yaxs,
-    axes = axes,
-    ...
+  do.call(
+    plot,
+    c(
+      list(
+        x = NA,
+        y = NA,
+        xlim = xlim,
+        ylim = ylim,
+        xlab = NA,
+        ylab = NA,
+        main = main,
+        xaxt = "n",
+        yaxt = "n"
+      ),
+      # These arguments are used later, not in the first plot()
+      args[!rlang::names2(args) %in% c("col", "bg", "pch", "cex", "lty", "lwd")]
+    )
   )
   # Add ylabels
   axis(2, at = seq_len(nrow(x)), labels = x$taxon, las = 2)
@@ -360,30 +369,14 @@ plot.palaeoverse_tax_range_time <- function(
     })
   }
   # Add ranges
-  segments(
-    x0 = x$max_ma,
-    x1 = x$min_ma,
-    y0 = x$taxon_id,
-    col = col,
-    lty = lty,
-    lwd = lwd
+  segments_args <- args[rlang::names2(args) %in% c("col", "lty", "lwd")]
+  points_args <- args[rlang::names2(args) %in% c("col", "bg", "pch", "cex")]
+  do.call(
+    segments,
+    c(list(x0 = x$max_ma, x1 = x$min_ma, y0 = x$taxon_id), segments_args)
   )
-  points(
-    x = x$max_ma,
-    y = x$taxon_id,
-    pch = pch,
-    col = col,
-    bg = bg,
-    cex = cex
-  )
-  points(
-    x = x$min_ma,
-    y = x$taxon_id,
-    pch = pch,
-    col = col,
-    bg = bg,
-    cex = cex
-  )
+  do.call(points, c(list(x = x$max_ma, y = x$taxon_id), points_args))
+  do.call(points, c(list(x = x$min_ma, y = x$taxon_id), points_args))
   axis_geo(side = 1, intervals = intervals, title = xlab)
   # Reset par
   par(usrpar)

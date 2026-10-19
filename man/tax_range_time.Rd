@@ -24,15 +24,7 @@ tax_range_time(
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",
-  col = "black",
-  col.group = c("grey85", "grey95"),
-  bg = "black",
-  pch = 20,
-  cex = 1,
-  lty = 1,
-  lwd = 1,
-  axes = TRUE,
-  yaxs = "i"
+  col.group = c("grey85", "grey95")
 )
 }
 \arguments{
@@ -71,8 +63,8 @@ or data.frames can be supplied to add multiple time scales to the same side of t
 
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_time"} created by \code{tax_range_time()}.}
 
-\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
-already set internally and must not be specified here: \code{xlim}, \code{ylim}.}
+\item{...}{Extra graphical parameters (see Details). The following arguments are already set internally
+and must not be specified here: \code{xlim}, \code{ylim}, \code{xaxt}, \code{yaxt}.}
 
 \item{main}{\code{character}. The plot title.}
 
@@ -80,24 +72,8 @@ already set internally and must not be specified here: \code{xlim}, \code{ylim}.
 
 \item{ylab}{\code{character}. The y-axis title.}
 
-\item{col}{\code{character}. The colour of the range segments and points.}
-
 \item{col.group}{\code{character}. The background colours to use when \code{x} has groups. Must of the same length
 as the number of unique groups.}
-
-\item{bg}{\code{character}. The background (fill) colour of the points, only used for \code{pch} values 21 to 25.}
-
-\item{pch}{\code{numeric}. The symbol used for the first and last appearance points (see \code{\link[graphics:points]{graphics::points()}}).}
-
-\item{cex}{\code{numeric}. The size of the points.}
-
-\item{lty}{\code{numeric}. The line type of the range segments (see \code{\link[graphics:par]{graphics::par()}}).}
-
-\item{lwd}{\code{numeric}. The line width of the range segments.}
-
-\item{axes}{\code{logical}. Should the axes be drawn?}
-
-\item{yaxs}{\code{character}. The style of y-axis interval calculation (see \code{\link[graphics:par]{graphics::par()}}).}
 }
 \value{
 A \code{data.frame} containing the following columns:
@@ -124,6 +100,17 @@ removed prior to function call.
 Note: this function provides output based solely on the user input data.
 The true duration of a taxon is likely confounded by uncertainty in
 dating occurrences, and incomplete sampling and preservation.
+
+The graphical parameters \code{col}, \code{bg}, \code{pch} and \code{cex} passed in \code{...} are applied to the
+first and last appearance points, and \code{col}, \code{lty} and \code{lwd} to the range segments. Any
+other argument in \code{...} is passed to \code{\link[base:plot]{plot()}}.
+
+The following graphical parameters have default values that differ from base R:
+\itemize{
+\item \code{bg = "black"}: the background (fill) colour of the points, only used for \code{pch} values 21 to 25.
+\item \code{pch = 20}: the symbol used for the first and last appearance points (see \code{\link[graphics:points]{graphics::points()}}).
+\item \code{yaxs = "i"}: the style of y-axis interval calculation (see \code{\link[graphics:par]{graphics::par()}}).
+}
 }
 \section{Developer(s)}{
 

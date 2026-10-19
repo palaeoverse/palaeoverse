@@ -279,7 +279,7 @@ test_that("argument 'by' works", {
   expect_snapshot(tax_range_time(occdf, by = NA), error = TRUE)
 })
 
-test_that("argument 'plot' works", {
+test_that("plotting works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
