@@ -64,15 +64,11 @@ information is also available via \link[h3jsr:h3_info_table]{h3jsr::h3_info_tabl
 }
 }
 \examples{
-\dontshow{if (requireNamespace("rnaturalearthdata", quietly = TRUE)) withAutoprint(\{ # examplesIf}
-bins <- space_bins(resolution = 1)
-bins
-plot(bins)
+space_bins(resolution = 1)
 
 space_bins(spacing = 1000)
 
 space_bins(area = 100000)
-\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=bin_space]{bin_space()}}
