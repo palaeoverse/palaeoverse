@@ -20,7 +20,7 @@ tax_range_time(
 \method{plot}{palaeoverse_tax_range_time}(
   x,
   ...,
-  intervals = axis_geo(side = 1, intervals = "periods", title = xlab),
+  axis_geo = palaeoverse::axis_geo(side = 1, intervals = "periods", title = xlab),
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",
@@ -54,12 +54,12 @@ or "name" (alphabetically by taxon names).}
 \item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
 output of this function instead.}
 
-\item{intervals}{A call to \code{\link[=axis_geo]{axis_geo()}} to add the geological timescale at the bottom of the plot.}
-
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_time"} created by \code{tax_range_time()}.}
 
 \item{...}{Extra graphical parameters (see Details). The following arguments are already set internally
 and must not be specified here: \code{xlim}, \code{ylim}, \code{xaxt}, \code{yaxt}.}
+
+\item{axis_geo}{A call to \code{\link[=axis_geo]{axis_geo()}} to add the geological timescale at the bottom of the plot.}
 
 \item{main}{\code{character}. The plot title.}
 
@@ -130,7 +130,7 @@ plot(ex)
 # Customise appearance
 ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
-     intervals = axis_geo(intervals = "eras", abbr = FALSE))
+     axis_geo = axis_geo(intervals = "eras", abbr = FALSE))
 
 # Control plotting order of groups
 occdf$class <- factor(x = occdf$class,
