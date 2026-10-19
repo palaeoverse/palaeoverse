@@ -77,9 +77,8 @@ unique taxa (\code{taxon}), taxon ID (\code{taxon_id}), first appearance of taxo
 range (\code{range_myr}), and number of occurrences per taxon (\code{n_occ}) is
 returned.
 
-This \code{data.frame} has two attributes \code{palaeoverse_tax_range_time_group}
-and \code{palaeoverse_tax_range_time_intervals} that are for internal use only and
-shouldn't be relied upon.
+This \code{data.frame} has an attribute \code{palaeoverse_tax_range_time_group}
+that is for internal use only.
 }
 \description{
 A function to calculate the temporal range of fossil taxa from occurrence
@@ -131,7 +130,7 @@ plot(ex)
 # Customise appearance
 ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
-     intervals = list("periods", "eras"))
+     intervals = axis_geo(intervals = "eras", abbr = FALSE))
 
 # Control plotting order of groups
 occdf$class <- factor(x = occdf$class,

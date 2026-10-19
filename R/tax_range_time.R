@@ -29,9 +29,8 @@
 #' range (`range_myr`), and number of occurrences per taxon (`n_occ`) is
 #' returned.
 #'
-#' This \code{data.frame} has two attributes `palaeoverse_tax_range_time_group`
-#' and `palaeoverse_tax_range_time_intervals` that are for internal use only and
-#' shouldn't be relied upon.
+#' This \code{data.frame} has an attribute `palaeoverse_tax_range_time_group`
+#' that is for internal use only.
 #'
 #' @details The temporal range(s) of taxa are calculated by extracting all
 #'   unique taxa (`name` column) from the input `occdf`, and checking their
@@ -65,7 +64,7 @@
 #' # Customise appearance
 #' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 #' plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
-#'      intervals = list("periods", "eras"))
+#'      intervals = axis_geo(intervals = "eras", abbr = FALSE))
 #'
 #' # Control plotting order of groups
 #' occdf$class <- factor(x = occdf$class,
