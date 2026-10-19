@@ -104,6 +104,7 @@ Bethany Allen & Kilian Eichenseer
 }
 
 \examples{
+\dontshow{if (requireNamespace("rnaturalearthdata", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Get internal data
 data("reefs")
 
@@ -157,6 +158,7 @@ df <- lapply(bins, function(x) {
   mean(counts)
 })
 df
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=space_bins]{space_bins()}}

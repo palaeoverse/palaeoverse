@@ -60,8 +60,10 @@
 #'
 #' @seealso [`bin_space()`]
 #' @export
-#' @examples
-#' space_bins(resolution = 1)
+#' @examplesIf requireNamespace("rnaturalearthdata", quietly = TRUE)
+#' bins <- space_bins(resolution = 1)
+#' bins
+#' plot(bins)
 #'
 #' space_bins(spacing = 1000)
 #'
