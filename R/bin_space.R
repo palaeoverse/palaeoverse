@@ -2,7 +2,7 @@
 #'
 #' A function to assign fossil occurrences (or any set of coordinates) to spatial
 #' bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
-#' [`space_bins()`], which creates the spatial bins required in the `bins` argument.
+#' [`space_bins()`], which creates the spatial bins required by the `bins` argument.
 #'
 #' @param occdf \code{data.frame}. A dataframe of the fossil occurrences (or
 #' any set of coordinates) you wish to bin. This dataframe should contain the decimal
@@ -23,7 +23,7 @@
 #'
 #' @return A `data.frame` with the original input data and three new columns:
 #'
-#' - `cell_id_{h3_resolution}`: the ID of the H3 cell that contains the row coordinates
+#' - `cell_id_{h3_resolution}`: the ID of the H3 cell that contains the row's coordinates
 #' - `cell_centroid_lat_{h3_resolution}`: the latitude of the H3 cell's centroid
 #' - `cell_centroid_lng_{h3_resolution}`: the longitude of the H3 cell's centroid
 #'
