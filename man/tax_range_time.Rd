@@ -20,7 +20,7 @@ tax_range_time(
 \method{plot}{palaeoverse_tax_range_time}(
   x,
   ...,
-  axis_geo = palaeoverse::axis_geo(side = 1, intervals = "periods", title = xlab),
+  axis = palaeoverse::axis_geo(side = 1, intervals = "periods", title = xlab),
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",
@@ -54,7 +54,7 @@ or "name" (alphabetically by taxon names).}
 \item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
 output of this function instead.}
 
-\item{intervals}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use the argument \code{axis_geo}
+\item{intervals}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use the argument \code{axis}
 in \code{plot()} on the output of this function instead.}
 
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_time"} created by \code{tax_range_time()}.}
@@ -62,7 +62,9 @@ in \code{plot()} on the output of this function instead.}
 \item{...}{Extra graphical parameters (see Details). The following arguments are already set internally
 and must not be specified here: \code{xlim}, \code{ylim}, \code{xaxt}, \code{yaxt}.}
 
-\item{axis_geo}{A call to \code{\link[=axis_geo]{axis_geo()}} to add the geological timescale at the bottom of the plot.}
+\item{axis}{A function call drawing the x-axis, such as \code{\link[=axis_geo]{axis_geo()}}
+(default) to add the geological timescale at the bottom of the plot, or
+\code{\link[graphics:axis]{graphics::axis()}}.}
 
 \item{main}{\code{character}. The plot title.}
 
@@ -133,7 +135,7 @@ plot(ex)
 # Customise appearance
 ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
-     axis_geo = axis_geo(intervals = "eras", abbr = FALSE))
+     axis = axis_geo(intervals = "eras", abbr = FALSE))
 
 # Control plotting order of groups
 occdf$class <- factor(x = occdf$class,

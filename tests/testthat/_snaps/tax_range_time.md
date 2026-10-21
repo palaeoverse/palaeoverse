@@ -336,20 +336,20 @@
     Condition
       Error in `tax_range_time()`:
       ! The argument `intervals` has been removed in palaeoverse 2.0.0.
-      i Use `plot(axis_geo =)` on the output of this function instead.
+      i Use `plot(axis =)` on the output of this function instead.
 
-# plot argument 'axis_geo' works
+# plot argument 'axis' works
 
     Code
-      plot(tax_range_time(occdf), axis_geo = c("genus", "min_ma"))
+      plot(tax_range_time(occdf), axis = "periods")
     Condition
       Error in `plot()`:
-      ! `axis_geo` must be a call to `axis_geo()`, not `c("genus", "min_ma")`.
+      ! `axis` must be a function call, not `"periods"`.
 
 ---
 
     Code
-      plot(tax_range_time(occdf), axis_geo = axis_geo(intervals = "nonexistent"))
+      plot(tax_range_time(occdf), axis = axis_geo(intervals = "nonexistent"))
     Condition
       Error in `plot()`:
       ! Error in `axis_geo(intervals = "nonexistent")`.
@@ -359,7 +359,7 @@
 ---
 
     Code
-      plot(tax_range_time(occdf), axis_geo = axis_geo(intervals = 1))
+      plot(tax_range_time(occdf), axis = axis_geo(intervals = 1))
     Condition
       Error in `plot()`:
       ! Error in `axis_geo(intervals = 1)`.
@@ -373,7 +373,7 @@
 ---
 
     Code
-      plot(tax_range_time(occdf), axis_geo = axis_geo(intervals = NA))
+      plot(tax_range_time(occdf), axis = axis_geo(intervals = NA))
     Condition
       Error in `plot()`:
       ! Error in `axis_geo(intervals = NA)`.

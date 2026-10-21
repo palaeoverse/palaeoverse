@@ -22,7 +22,7 @@
 #' or "name" (alphabetically by taxon names).
 #' @param plot,plot_args `r lifecycle::badge("deprecated")` Use `plot()` on the
 #'   output of this function instead.
-#' @param intervals `r lifecycle::badge("deprecated")` Use the argument `axis_geo`
+#' @param intervals `r lifecycle::badge("deprecated")` Use the argument `axis`
 #' in `plot()` on the output of this function instead.
 #'
 #' @return A \code{data.frame} containing the following columns:
@@ -66,7 +66,7 @@
 #' # Customise appearance
 #' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 #' plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
-#'      axis_geo = axis_geo(intervals = "eras", abbr = FALSE))
+#'      axis = axis_geo(intervals = "eras", abbr = FALSE))
 #'
 #' # Control plotting order of groups
 #' occdf$class <- factor(x = occdf$class,
@@ -112,7 +112,7 @@ tax_range_time <- function(
     cli::cli_abort(
       c(
         "The argument {.arg intervals} has been removed in {.pkg palaeoverse} 2.0.0.",
-        "i" = "Use {.code plot(axis_geo =)} on the output of this function instead."
+        "i" = "Use {.code plot(axis =)} on the output of this function instead."
       )
     )
   }
@@ -225,7 +225,9 @@ tax_range_time <- function(
 #' @param main `character`. The plot title.
 #' @param col.group `character`. The background colours to use when `x` has groups. Must of the same length
 #' as the number of unique groups.
-#' @param axis_geo A call to [`axis_geo()`] to add the geological timescale at the bottom of the plot.
+#' @param axis A function call drawing the x-axis, such as [`axis_geo()`]
+#' (default) to add the geological timescale at the bottom of the plot, or
+#' [graphics::axis()].
 #'
 #' @details
 #' The following graphical parameters have default values that differ from base R:
@@ -240,7 +242,7 @@ tax_range_time <- function(
 plot.palaeoverse_tax_range_time <- function(
   x,
   ...,
-  axis_geo = palaeoverse::axis_geo(
+  axis = palaeoverse::axis_geo(
     side = 1,
     intervals = "periods",
     title = xlab
@@ -250,18 +252,15 @@ plot.palaeoverse_tax_range_time <- function(
   ylab = "Taxon",
   col.group = c("grey85", "grey95")
 ) {
-  axis_geo_expr <- substitute(axis_geo)
-  if (
-    !rlang::is_call(axis_geo_expr) ||
-      !identical(rlang::call_name(axis_geo_expr), "axis_geo")
-  ) {
+  axis_expr <- substitute(axis)
+  if (!rlang::is_call(axis_expr)) {
     cli::cli_abort(
-      "{.arg axis_geo} must be a call to {.fn axis_geo}, not {.code {rlang::expr_deparse(axis_geo_expr)}}."
+      "{.arg axis} must be a function call, not {.code {rlang::expr_deparse(axis_expr)}}."
     )
   }
 
   # Early check so that we can throw an error early instead of having some elements
-  # being plotted and then throw an error. The `axis_geo` expression is evaluated
+  # being plotted and then throw an error. The `axis` expression is evaluated
   # on a throwaway device so that the promise itself is only forced on the final plot.
   caller_env <- rlang::current_env()
   tryCatch(
@@ -269,11 +268,11 @@ plot.palaeoverse_tax_range_time <- function(
       cur_dev <- grDevices::dev.cur()
       grDevices::pdf(NULL)
       plot.new()
-      axis_geo
+      axis
     },
     error = function(e) {
       cli::cli_abort(
-        "Error in {.code {rlang::expr_deparse(axis_geo_expr)}}.",
+        "Error in {.code {rlang::expr_deparse(axis_expr)}}.",
         parent = e,
         call = caller_env
       )
@@ -386,7 +385,7 @@ plot.palaeoverse_tax_range_time <- function(
   )
   do.call(points, c(list(x = x$max_ma, y = x$taxon_id), points_args))
   do.call(points, c(list(x = x$min_ma, y = x$taxon_id), points_args))
-  eval(axis_geo_expr)
+  eval(axis_expr)
   # Reset par
   par(usrpar)
 }

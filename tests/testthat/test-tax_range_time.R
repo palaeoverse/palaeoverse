@@ -364,7 +364,13 @@ test_that("plotting with custom axis_geo() call works", {
   expect_doppelganger("tax_range_time-custom-axis-geo", function() {
     plot(
       tax_range_time(occdf),
-      axis_geo = axis_geo(intervals = "epoch", fill = "red", abbr = FALSE)
+      axis = axis_geo(intervals = "epoch", fill = "red", abbr = FALSE)
+    )
+  })
+  expect_doppelganger("tax_range_time-custom-axis", function() {
+    plot(
+      tax_range_time(occdf),
+      axis = axis(1, lty = "dashed", lwd = 5, col = "red")
     )
   })
 })
@@ -434,7 +440,7 @@ test_that("argument 'intervals' is hard deprecated", {
   )
 })
 
-test_that("plot argument 'axis_geo' works", {
+test_that("plot argument 'axis' works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
@@ -443,22 +449,22 @@ test_that("plot argument 'axis_geo' works", {
 
   # input checks
   expect_snapshot(
-    plot(tax_range_time(occdf), axis_geo = c("genus", "min_ma")),
+    plot(tax_range_time(occdf), axis = "periods"),
     error = TRUE
   )
   expect_snapshot(
     plot(
       tax_range_time(occdf),
-      axis_geo = axis_geo(intervals = "nonexistent")
+      axis = axis_geo(intervals = "nonexistent")
     ),
     error = TRUE
   )
   expect_snapshot(
-    plot(tax_range_time(occdf), axis_geo = axis_geo(intervals = 1)),
+    plot(tax_range_time(occdf), axis = axis_geo(intervals = 1)),
     error = TRUE
   )
   expect_snapshot(
-    plot(tax_range_time(occdf), axis_geo = axis_geo(intervals = NA)),
+    plot(tax_range_time(occdf), axis = axis_geo(intervals = NA)),
     error = TRUE
   )
 })
