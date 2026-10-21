@@ -173,15 +173,15 @@
 # bin_space plotting with custom centres works
 
     Code
-      plot(out, centres = c(0, 0))
+      plot(out, centres = c(lat = 0, lon = 0))
     Condition
       Error in `plot()`:
-      ! Argument `centres` must be a list of numeric vectors `c(lat, lon)`, with latitudes between -90 and 90 and longitudes between -180 and 180.
+      ! Argument `centres` must be a list, not a double vector.
 
 ---
 
     Code
-      plot(out, centres = rep(list(c(0, 0)), 5))
+      plot(out, centres = rep(list(c(lat = 0, lon = 0)), 5))
     Condition
       Error in `plot()`:
       ! Argument `centres` can take 4 points at most (currently it has 5).
@@ -189,10 +189,68 @@
 ---
 
     Code
-      plot(out, centres = list(c(100, 0)))
+      plot(out, centres = list(c(lat = 100, lon = 0)))
     Condition
       Error in `plot()`:
-      ! Argument `centres` must be a list of numeric vectors `c(lat, lon)`, with latitudes between -90 and 90 and longitudes between -180 and 180.
+      ! Each element of `centres` must be either:
+      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
+
+---
+
+    Code
+      plot(out, centres = list(c(45, 10)))
+    Condition
+      Error in `plot()`:
+      ! Each element of `centres` must be either:
+      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
+
+# bin_space plotting with bounding boxes works
+
+    Code
+      plot(out, centres = list(c(xmin = 40, xmax = -10, ymin = 30, ymax = 60)))
+    Condition
+      Error in `plot()`:
+      ! Bounding boxes in `centres` must have `xmin < xmax` and `ymin < ymax`.
+
+---
+
+    Code
+      plot(out, centres = list(c(xmin = -10, xmax = 40, ymin = 60, ymax = 30)))
+    Condition
+      Error in `plot()`:
+      ! Bounding boxes in `centres` must have `xmin < xmax` and `ymin < ymax`.
+
+---
+
+    Code
+      plot(out, centres = list(c(xmin = -10, xmax = 40, ymin = 30, ymax = 100)))
+    Condition
+      Error in `plot()`:
+      ! Each element of `centres` must be either:
+      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
+
+---
+
+    Code
+      plot(out, centres = list(c(foo = -10, xmax = 40, ymin = 30, ymax = 80)))
+    Condition
+      Error in `plot()`:
+      ! Each element of `centres` must be either:
+      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
+
+---
+
+    Code
+      plot(out, centres = list(c(-10, 40, 30, 60)))
+    Condition
+      Error in `plot()`:
+      ! Each element of `centres` must be either:
+      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
 
 # plot is deprecated but still works
 

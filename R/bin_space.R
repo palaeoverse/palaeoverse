@@ -214,7 +214,7 @@ bin_space <- function(
 #' (see `centres`) using an orthographic projection, which avoids distorting cells that cross the
 #' antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
 #' the package `rnaturalearthdata`.
-#' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call to
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call for the
 #' first layer of each globe (which draws the grid), not to the following ones that fill the
 #' cells. By default, the grid is drawn with `border = "grey80"`. `main` is used as the title of
 #' the whole figure rather than of each globe. The following arguments are
@@ -223,9 +223,15 @@ bin_space <- function(
 #' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
 #' ordered from the least to the most precise resolution. By default, colours are taken in order
 #' from the colour-blind friendly Okabe-Ito palette (see [grDevices::palette.colors()]).
-#' @param centres `list`. Centres of the globes, each given as a numeric vector
-#' `c(latitude, longitude)` in decimal degrees. One globe is drawn per centre, with a maximum of
-#' four globes. By default, three globes are centred on longitude 0, longitude 180, and Mexico.
+#' @param centres `list`. Views to draw, with a maximum of four. Each element is a named numeric
+#' vector in decimal degrees, either:
+#' - `c(lat = , lon = )`: the whole globe centred on this point;
+#' - `c(xmin = , xmax = , ymin = , ymax = )`: a bounding box (in longitude for `x` and latitude for
+#'   `y`), centred on its midpoint. Only the grid cells in this box are drawn, which is faster than
+#'   drawing the whole globe for fine resolutions. `xmin` must be lower than `xmax`, so boxes
+#'   can't cross the antimeridian.
+#'
+#' By default, three globes are centred on longitude 0, longitude 180, and Mexico.
 #'
 #' @name bin_space
 #' @export
@@ -233,7 +239,11 @@ plot.palaeoverse_bin_space <- function(
   x,
   ...,
   col = NULL,
-  centres = list(c(0, 0), c(0, 180), c(23, -102))
+  centres = list(
+    c(lat = 0, lon = 0),
+    c(lat = 0, lon = 180),
+    c(lat = 23, lon = -102)
+  )
 ) {
   check_forbidden_plot_args(
     ...,
@@ -264,18 +274,43 @@ plot.palaeoverse_bin_space <- function(
   }
 
   valid_centre <- function(centre) {
-    is.numeric(centre) &&
-      length(centre) == 2 &&
-      !anyNA(centre) &&
-      abs(centre[1]) <= 90 &&
-      abs(centre[2]) <= 180
+    if (!is.numeric(centre) || anyNA(centre) || is.null(names(centre))) {
+      return(FALSE)
+    }
+    nms <- sort(names(centre))
+    if (identical(nms, c("lat", "lon"))) {
+      abs(centre[["lat"]]) <= 90 && abs(centre[["lon"]]) <= 180
+    } else if (identical(nms, c("xmax", "xmin", "ymax", "ymin"))) {
+      all(abs(centre[c("xmin", "xmax")]) <= 180) &&
+        all(abs(centre[c("ymin", "ymax")]) <= 90)
+    } else {
+      FALSE
+    }
   }
-  if (
-    !is.list(centres) ||
-      !all(vapply(centres, valid_centre, logical(1)))
-  ) {
+  if (!is.list(centres)) {
     cli::cli_abort(
-      "Argument {.arg centres} must be a list of numeric vectors {.code c(lat, lon)}, with latitudes between -90 and 90 and longitudes between -180 and 180."
+      "Argument {.arg centres} must be a list, not {.obj_type_friendly {centres}}."
+    )
+  }
+  if (!all(vapply(centres, valid_centre, logical(1)))) {
+    cli::cli_abort(c(
+      "Each element of {.arg centres} must be either:",
+      "*" = "a named numeric vector {.code c(lat = , lon = )}, with latitude between -90 and 90 and longitude between -180 and 180;",
+      "*" = "a named numeric vector {.code c(xmin = , xmax = , ymin = , ymax = )}, with longitudes between -180 and 180 and latitudes between -90 and 90."
+    ))
+  }
+  bad_bbox <- vapply(
+    centres,
+    function(centre) {
+      length(centre) == 4 &&
+        (centre[["xmin"]] >= centre[["xmax"]] ||
+          centre[["ymin"]] >= centre[["ymax"]])
+    },
+    logical(1)
+  )
+  if (any(bad_bbox)) {
+    cli::cli_abort(
+      "Bounding boxes in {.arg centres} must have {.code xmin < xmax} and {.code ymin < ymax}."
     )
   }
 
@@ -285,9 +320,8 @@ plot.palaeoverse_bin_space <- function(
     )
   }
 
-  base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
-  # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
-  class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
+  # Only built if a globe needs it
+  base_grid <- NULL
 
   # Coarsest cells first so that finer cells are drawn on top
   cells <- lapply(resolutions, function(res) {
@@ -323,12 +357,48 @@ plot.palaeoverse_bin_space <- function(
   # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
   # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
   for (centre in centres) {
-    centre <- rev(centre)
+    if (length(centre) == 2) {
+      if (is.null(base_grid)) {
+        base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
+        # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
+        class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
+      }
+      grid <- base_grid
+      area <- NULL
+      centre <- unname(centre[c("lon", "lat")])
+    } else {
+      # Densify the edges in planar lon/lat so that they follow parallels rather than great
+      # circles once the CRS is set
+      area <- sf::st_set_crs(
+        sf::st_segmentize(
+          sf::st_as_sfc(sf::st_bbox(centre[c("xmin", "ymin", "xmax", "ymax")])),
+          dfMaxLength = 1
+        ),
+        "EPSG:4326"
+      )
+      # `polygon_to_cells()` only returns cells whose centroid is in `area`, so add the cells of the
+      # edges and their neighbours to cover the whole area
+      grid_cells <- c(
+        unlist(h3jsr::polygon_to_cells(area, res = resolutions[1])),
+        h3jsr::point_to_cell(sf::st_cast(area, "POINT"), res = resolutions[1])
+      )
+      grid <- h3jsr::cell_to_polygon(
+        unique(unlist(h3jsr::get_disk(unique(grid_cells), ring_size = 1))),
+        simple = TRUE
+      )
+      centre <- c(
+        mean(centre[c("xmin", "xmax")]),
+        mean(centre[c("ymin", "ymax")])
+      )
+    }
     hemisphere <- sf::st_buffer(
       sf::st_sfc(sf::st_point(centre), crs = "EPSG:4326"),
       dist = 0.999 * pi / 2 * 6371008,
       max_cells = 10000
     )
+    if (!is.null(area)) {
+      hemisphere <- sf::st_intersection(hemisphere, area)
+    }
     project <- function(geom) {
       sf::st_transform(
         sf::st_intersection(geom, hemisphere),
@@ -340,7 +410,7 @@ plot.palaeoverse_bin_space <- function(
     do.call(
       plot,
       utils::modifyList(
-        list(project(base_grid), border = "grey80"),
+        list(project(grid), border = "grey80"),
         dots
       )
     )

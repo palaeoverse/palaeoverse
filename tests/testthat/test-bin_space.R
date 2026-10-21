@@ -250,20 +250,79 @@ test_that("bin_space plotting with custom colours works", {
 test_that("bin_space plotting with custom centres works", {
   skip_if_not_installed("rnaturalearthdata")
   occdf <- head(tetrapods, n = 100)
-  out <- suppressMessages(
-    bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
-  )
+  out <- bin_space(occdf = occdf, bins = space_bins(resolution = 1)) |>
+    suppressMessages()
 
   expect_doppelganger("bin_space-one-centre", function() {
-    plot(out, centres = list(c(45, 10)))
+    plot(out, centres = list(c(lat = 45, lon = 10)))
   })
   expect_doppelganger("bin_space-four-centres", function() {
-    plot(out, centres = list(c(0, 0), c(0, 180), c(90, 0), c(-90, 0)))
+    plot(
+      out,
+      centres = list(
+        c(lat = 0, lon = 0),
+        c(lat = 0, lon = 180),
+        c(lat = 90, lon = 0),
+        c(lat = -90, lon = 0)
+      )
+    )
   })
 
-  expect_snapshot(plot(out, centres = c(0, 0)), error = TRUE)
-  expect_snapshot(plot(out, centres = rep(list(c(0, 0)), 5)), error = TRUE)
-  expect_snapshot(plot(out, centres = list(c(100, 0))), error = TRUE)
+  expect_snapshot(plot(out, centres = c(lat = 0, lon = 0)), error = TRUE)
+  expect_snapshot(
+    plot(out, centres = rep(list(c(lat = 0, lon = 0)), 5)),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list(c(lat = 100, lon = 0))),
+    error = TRUE
+  )
+  expect_snapshot(plot(out, centres = list(c(45, 10))), error = TRUE)
+})
+
+test_that("bin_space plotting with bounding boxes works", {
+  skip_if_not_installed("rnaturalearthdata")
+  occdf <- head(tetrapods, n = 100)
+  out <- occdf |>
+    bin_space(bins = space_bins(resolution = 1)) |>
+    bin_space(bins = space_bins(resolution = 2)) |>
+    suppressMessages()
+
+  expect_doppelganger("bin_space-bbox", function() {
+    plot(
+      out,
+      centres = list(
+        c(lat = 45, lon = 10),
+        c(xmin = -10, xmax = 40, ymin = 30, ymax = 60),
+        c(xmin = -120, xmax = -60, ymin = 10, ymax = 40)
+      )
+    )
+  })
+
+  expect_doppelganger("bin_space-bbox-single", function() {
+    plot(
+      out,
+      centres = list(c(xmin = -120, xmax = -60, ymin = 10, ymax = 40))
+    )
+  })
+
+  expect_snapshot(
+    plot(out, centres = list(c(xmin = 40, xmax = -10, ymin = 30, ymax = 60))),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list(c(xmin = -10, xmax = 40, ymin = 60, ymax = 30))),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list(c(xmin = -10, xmax = 40, ymin = 30, ymax = 100))),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list(c(foo = -10, xmax = 40, ymin = 30, ymax = 80))),
+    error = TRUE
+  )
+  expect_snapshot(plot(out, centres = list(c(-10, 40, 30, 60))), error = TRUE)
 })
 
 test_that("plot is deprecated but still works", {

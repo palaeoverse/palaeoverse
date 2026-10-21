@@ -16,7 +16,12 @@ bin_space(
   return
 )
 
-\method{plot}{palaeoverse_bin_space}(x, ..., col = NULL, centres = list(c(0, 0), c(0, 180), c(23, -102)))
+\method{plot}{palaeoverse_bin_space}(
+  x,
+  ...,
+  col = NULL,
+  centres = list(c(lat = 0, lon = 0), c(lat = 0, lon = 180), c(lat = 23, lon = -102))
+)
 }
 \arguments{
 \item{occdf}{\code{data.frame}. A dataframe of the fossil occurrences (or
@@ -48,7 +53,7 @@ cells of every resolution are drawn on top of it. The world is shown as one or s
 antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
 the package \code{rnaturalearthdata}.}
 
-\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call to
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call for the
 first layer of each globe (which draws the grid), not to the following ones that fill the
 cells. By default, the grid is drawn with \code{border = "grey80"}. \code{main} is used as the title of
 the whole figure rather than of each globe. The following arguments are
@@ -59,9 +64,17 @@ all resolutions have the same colour) or of length equal to the number of resolu
 ordered from the least to the most precise resolution. By default, colours are taken in order
 from the colour-blind friendly Okabe-Ito palette (see \code{\link[grDevices:palette.colors]{grDevices::palette.colors()}}).}
 
-\item{centres}{\code{list}. Centres of the globes, each given as a numeric vector
-\code{c(latitude, longitude)} in decimal degrees. One globe is drawn per centre, with a maximum of
-four globes. By default, three globes are centred on longitude 0, longitude 180, and Mexico.}
+\item{centres}{\code{list}. Views to draw, with a maximum of four. Each element is a named numeric
+vector in decimal degrees, either:
+\itemize{
+\item \code{c(lat = , lon = )}: the whole globe centred on this point;
+\item \code{c(xmin = , xmax = , ymin = , ymax = )}: a bounding box (in longitude for \code{x} and latitude for
+\code{y}), centred on its midpoint. Only the grid cells in this box are drawn, which is faster than
+drawing the whole globe for fine resolutions. \code{xmin} must be lower than \code{xmax}, so boxes
+can't cross the antimeridian.
+}
+
+By default, three globes are centred on longitude 0, longitude 180, and Mexico.}
 }
 \value{
 A \code{data.frame} with the original input data and three new columns:
