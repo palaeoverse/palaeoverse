@@ -3,7 +3,7 @@
 **Authors:** [The Palaeoverse Development
 Team](https://palaeoverse.org/#about-us)
 
-**Last updated:** 2026-10-19
+**Last updated:** 2026-10-22
 
 ## Introduction
 
@@ -465,9 +465,9 @@ We will leave you to make your own conclusions…
 Hopefully this vignette has shown you the potential uses for
 `palaeoverse` functions and helped provide a workflow for your own
 analyses. If you have any questions about the package or its
-functionality, please feel free to join our [Palaeoverse Google
-group](https://groups.google.com/g/palaeoverse) and leave a question;
-we’ll aim to answer it as soon as possible!
+functionality, please feel free to join our [Zulip
+community](https://palaeoverse.org/zulip/join-zulip/) and leave a
+question; we’ll aim to answer it as soon as possible!
 
 ## References
 
