@@ -72,3 +72,39 @@ test_that("bin_lat error handling", {
     error = TRUE
   )
 })
+
+test_that("bin_lat() uses info set in as_palaeoverse()", {
+  bins <- lat_bins_degrees(size = 10)
+
+  dat <- tetrapods
+  names(dat)[names(dat) == "lat"] <- "my_lat"
+
+  # before as_palaeoverse(), error because we would need lat = "my_lat"
+  expect_snapshot(
+    bin_lat(occdf = dat, bins = bins),
+    error = TRUE
+  )
+
+  # after as_palaeoverse(), bin_lat() knows that it needs to check whether
+  # the data has an attribute for latitude
+  dat <- as_palaeoverse(dat, lat = "my_lat", lon = "lng")
+  expect_warning(
+    expect_no_error(bin_lat(occdf = dat, bins = bins)),
+    "Occurrences assigned to upper bin"
+  )
+
+  # even if the attribute is set, we prefer explicitly passed values (leading
+  # to an error here)
+  expect_snapshot(
+    bin_lat(occdf = dat, bins = bins, lat = "another_lat"),
+    error = TRUE
+  )
+
+  # If the attribute stored in the data disappeared then bin_lat() cannot
+  # recover it
+  attr(dat, "palaeoverse_lat") <- NULL
+  expect_snapshot(
+    bin_lat(occdf = dat, bins = bins),
+    error = TRUE
+  )
+})
