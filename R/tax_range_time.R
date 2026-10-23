@@ -223,9 +223,9 @@ tax_range_time <- function(
 #' and must not be specified here: `xlim`, `ylim`, `xaxt`, `yaxt`.
 #' @inheritParams lat_bins_area
 #' @param main `character`. The plot title.
-#' @param col.group `character`. The background colours to use when `x` has groups. Must of the same length
+#' @param col.group `character`. The background colours to use when `x` has groups. Must be of the same length
 #' as the number of unique groups.
-#' @param axis A function call drawing the x-axis, such as [`axis_geo()`]
+#' @param axis A function call drawing an axis, such as [`axis_geo()`]
 #' (default) to add the geological timescale at the bottom of the plot, or
 #' [graphics::axis()].
 #'
