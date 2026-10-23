@@ -242,11 +242,7 @@ tax_range_time <- function(
 plot.palaeoverse_tax_range_time <- function(
   x,
   ...,
-  axis = axis_geo(
-    side = 1,
-    intervals = "periods",
-    title = xlab
-  ),
+  axis = axis_geo(side = 1, intervals = "periods", title = xlab),
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",
