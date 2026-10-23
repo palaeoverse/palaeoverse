@@ -62,7 +62,7 @@ in \code{plot()} on the output of this function instead.}
 \item{...}{Extra graphical parameters (see Details). The following arguments are already set internally
 and must not be specified here: \code{xlim}, \code{ylim}, \code{xaxt}, \code{yaxt}.}
 
-\item{axis}{A function call drawing the x-axis, such as \code{\link[=axis_geo]{axis_geo()}}
+\item{axis}{A function call drawing an axis, such as \code{\link[=axis_geo]{axis_geo()}}
 (default) to add the geological timescale at the bottom of the plot, or
 \code{\link[graphics:axis]{graphics::axis()}}.}
 
@@ -72,7 +72,7 @@ and must not be specified here: \code{xlim}, \code{ylim}, \code{xaxt}, \code{yax
 
 \item{ylab}{\code{character}. The y-axis title.}
 
-\item{col.group}{\code{character}. The background colours to use when \code{x} has groups. Must of the same length
+\item{col.group}{\code{character}. The background colours to use when \code{x} has groups. Must be of the same length
 as the number of unique groups.}
 }
 \value{
