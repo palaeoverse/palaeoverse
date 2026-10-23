@@ -354,15 +354,16 @@ plot.palaeoverse_bin_space <- function(
     graphics::par(old_par)
   })
 
+  if (is.null(base_grid)) {
+    base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
+    # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
+    class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
+  }
+
   # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
   # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
   for (centre in centres) {
     if (length(centre) == 2) {
-      if (is.null(base_grid)) {
-        base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
-        # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
-        class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
-      }
       grid <- base_grid
       area <- NULL
       centre <- unname(centre[c("lon", "lat")])
