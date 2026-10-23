@@ -242,7 +242,7 @@ tax_range_time <- function(
 plot.palaeoverse_tax_range_time <- function(
   x,
   ...,
-  axis = palaeoverse::axis_geo(
+  axis = axis_geo(
     side = 1,
     intervals = "periods",
     title = xlab

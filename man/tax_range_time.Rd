@@ -20,7 +20,7 @@ tax_range_time(
 \method{plot}{palaeoverse_tax_range_time}(
   x,
   ...,
-  axis = palaeoverse::axis_geo(side = 1, intervals = "periods", title = xlab),
+  axis = axis_geo(side = 1, intervals = "periods", title = xlab),
   main = "Temporal range of taxa",
   xlab = "Time (Ma)",
   ylab = "Taxon",
