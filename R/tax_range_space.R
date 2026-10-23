@@ -166,7 +166,9 @@ tax_range_space <- function(
         c(lng, lat)
       ]
       # Calculate area of convex hull and convert to km^2
-      area <- geosphere::areaPolygon(tmp) / 1e+6
+      # Need `as.data.frame()` because `tmp` can be of class `palaeoverse_bin_space`, which
+      # doesn't have an S4 method for `areaPolygon()`.
+      area <- geosphere::areaPolygon(as.data.frame(tmp)) / 1e+6
       # Round to three decimal places
       area <- round(area, digits = 3)
       tmp <- cbind.data.frame(taxon, taxon_id, tmp, area)
