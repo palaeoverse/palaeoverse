@@ -2,6 +2,7 @@
 % Please edit documentation in R/tax_range_strat.R
 \name{tax_range_strat}
 \alias{tax_range_strat}
+\alias{plot.palaeoverse_tax_range_strat}
 \title{Generate a stratigraphic section plot}
 \usage{
 tax_range_strat(
@@ -11,10 +12,12 @@ tax_range_strat(
   group = NULL,
   certainty = NULL,
   by = "FAD",
-  plot_args = NULL,
-  x_args = NULL,
-  y_args = NULL
+  plot_args = deprecated(),
+  x_args = deprecated(),
+  y_args = deprecated()
 )
+
+\method{plot}{palaeoverse_tax_range_strat}(x, ..., col.group = c("grey85", "grey95"))
 }
 \arguments{
 \item{occdf}{\code{dataframe}. A dataframe of fossil occurrences containing
@@ -44,33 +47,35 @@ circle and joined with dashed lines.}
 (first appearance; default), "LAD" (last appearance), or "name"
 (alphabetically by taxon names).}
 
-\item{plot_args}{A list of optional arguments that are passed directly to
-\code{\link[graphics:plot]{graphics::plot()}}. Subsets of these arguments are also passed to
-\code{\link[graphics:segments]{graphics::segments()}} and \code{\link[graphics:points]{graphics::points()}} (see Details). Useful
-arguments include \code{xlab} (the x-axis label), \code{ylab} (the y-axis label,
-default is "Bed number"), \code{main} (the plot title), \code{xlim} (the x-axis
-limits), and \code{ylim} (the y-axis limits). The \code{axes} and \code{type} arguments
-are not supported and will be overridden.}
+\item{plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
+output of this function instead.}
 
-\item{x_args}{A list of optional arguments that are passed directly to
-\code{\link[=axis]{axis()}} when generating the x-axis. Useful arguments include \code{font} (e.g.,
-\code{3} is italic) and \code{las} (label orientation). The \code{side} argument is not
-supported and will be overridden. If the \code{at} and \code{labels} arguments are
-not specified, the x-axis tick labels will be set to the taxon names.}
+\item{x_args, y_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} These arguments have
+been removed. Use \code{plot()} on the output of this function instead.}
 
-\item{y_args}{A list of optional arguments that are passed directly to
-\code{\link[=axis]{axis()}} when generating the y-axis. Useful arguments include \code{font} (e.g.,
-\code{3} is italic) and \code{las} (label orientation). The \code{side} argument is not
-supported and will be overridden. If the \code{at} argument is not specified, it
-will be set to a vector of the unique values from the \code{level} column.}
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_strat"}
+created by \code{tax_range_strat()}.}
+
+\item{...}{Extra arguments passed to \code{\link[graphics:plot]{graphics::plot()}} (see Details).
+Useful arguments include \code{xlab} (the x-axis label), \code{ylab} (the y-axis
+label, default is "Bed number"), \code{main} (the plot title), \code{xlim} (the
+x-axis limits), and \code{ylim} (the y-axis limits). The following arguments
+are already set internally and must not be specified here: \code{y}, \code{axes},
+\code{type}, \code{xaxs}.}
+
+\item{col.group}{\code{character}. The background colours to use when \code{x} has
+groups. Must be of the same length as the number of unique groups.}
 }
 \value{
-Invisibly returns a \code{data.frame} of the calculated taxonomic
-stratigraphic ranges.
+A \code{data.frame} of the calculated taxonomic stratigraphic
+ranges.
 
-The function is usually used for its side effect, which is to create a plot
-showing the stratigraphic ranges of taxa in a section, with levels at which
-the taxon was sampled indicated with a point.
+Use \code{plot()} on it to create a plot showing the stratigraphic ranges of
+taxa in a section, with levels at which the taxon was sampled indicated
+with a point.
+
+This \code{data.frame} has attributes starting with
+\code{palaeoverse_tax_range_strat_} that are for internal use only.
 }
 \description{
 A function to plot the stratigraphic ranges of fossil taxa from occurrence
@@ -79,12 +84,12 @@ data.
 \details{
 Note that the default spacing for the x-axis title may cause it to
 overlap with the x-axis tick labels. To avoid this, you can call
-\code{\link[graphics:title]{graphics::title()}} after running \code{tax_range_strat()} and specify both
+\code{\link[graphics:title]{graphics::title()}} after running \code{plot()} and specify both
 \code{xlab} and \code{line} to add the x-axis title farther from the axis (see
 examples).
 
 The styling of the points and line segments can be adjusted by supplying
-named arguments to \code{plot_args}. \code{col} (segment and point color), \code{lwd}
+named arguments to \code{plot()}. \code{col} (segment and point color), \code{lwd}
 (segment width), \code{pch} (point symbol), \code{bg} (background point color for
 some values of \code{pch}), \code{lty} (segment line type), and \code{cex} (point size)
 are supported. In the case of a column being supplied to the \code{certainty}
@@ -128,13 +133,14 @@ occdf <- data.frame(taxon = tetrapod_names,
 # Plot stratigraphic ranges
 # Update margins for plotting
 par(mar = c(12, 5, 2, 2))
-tax_range_strat(occdf, name = "taxon")
-tax_range_strat(occdf, name = "taxon", certainty = "certainty",
-                plot_args = list(ylab = "Stratigraphic height (m)"))
+ex <- tax_range_strat(occdf, name = "taxon")
+plot(ex)
+ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty")
+plot(ex, ylab = "Stratigraphic height (m)")
 # Plot stratigraphic ranges with more labelling
-tax_range_strat(occdf, name = "taxon", certainty = "certainty", by = "name",
-                plot_args = list(main = "Section A",
-                                 ylab = "Stratigraphic height (m)"))
+ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty",
+                      by = "name")
+plot(ex, main = "Section A", ylab = "Stratigraphic height (m)")
 eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
                           max_age = c(0.5, 3.5),
                           min_age = c(3.5, 10.5),
@@ -146,9 +152,8 @@ par(mar = c(12, 5, 6, 2))
 # Pull class data
 occdf$class <- tetrapods$class[1:50]
 # Group stratigraphic ranges by class
-tax_range_strat(occdf, name = "taxon", group = "class",
-                certainty = "certainty", by = "name",
-                plot_args = list(main = "Section A",
-                                 ylab = "Stratigraphic height (m)"))
+ex <- tax_range_strat(occdf, name = "taxon", group = "class",
+                      certainty = "certainty", by = "name")
+plot(ex, main = "Section A", ylab = "Stratigraphic height (m)")
 
 }

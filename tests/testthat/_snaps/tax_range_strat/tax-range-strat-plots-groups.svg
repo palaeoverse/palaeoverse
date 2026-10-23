@@ -42,7 +42,7 @@
 <text x='374.40' y='41.76' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.02px' lengthAdjust='spacingAndGlyphs'>Reptilia</text>
 </g>
 <g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
-<rect x='479.52' y='-472.09' width='210.24' height='1095.11' style='stroke-width: 0.75;' />
+<rect x='479.52' y='-472.09' width='210.24' height='1095.11' style='stroke-width: 0.75; fill: #D9D9D9;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <line x1='584.64' y1='59.04' x2='584.64' y2='59.04' style='stroke-width: 0.75;' />

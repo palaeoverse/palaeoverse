@@ -266,3 +266,49 @@
       Error in `tax_range_strat()`:
       ! `by` must be a single string, not the number 1.
 
+# tax_range_strat plotting with extra args works
+
+    Code
+      plot(tax_range_strat(occdf, group = "class"), col.group = c("red", "blue"))
+    Condition
+      Error in `plot()`:
+      ! Length of `col.group` (2) must be equal to the number of unique groups in the data (3).
+
+---
+
+    Code
+      plot(tax_range_strat(occdf), y = 1, axes = TRUE, type = "l")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `y`, `axes`, and `type` when calling `plot()` on an object of class <palaeoverse_tax_range_strat>.
+      i These arguments are already set by `plot()` internally.
+
+# plot_args is deprecated but still works
+
+    Code
+      tax_range_strat(occdf, plot_args = 1)
+    Condition
+      Warning:
+      The `plot_args` argument of `tax_range_strat()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `tax_range_strat()`:
+      ! `plot_args` must be of class <list> or `NULL`, not the number 1.
+
+# arguments 'x_args' and 'y_args' are hard deprecated
+
+    Code
+      tax_range_strat(occdf, x_args = list(las = 1))
+    Condition
+      Error in `tax_range_strat()`:
+      ! The arguments `x_args` and `y_args` have been removed in palaeoverse 2.0.0.
+      i Use `plot()` on the output of this function instead.
+
+---
+
+    Code
+      tax_range_strat(occdf, y_args = list(las = 1))
+    Condition
+      Error in `tax_range_strat()`:
+      ! The arguments `x_args` and `y_args` have been removed in palaeoverse 2.0.0.
+      i Use `plot()` on the output of this function instead.
+
