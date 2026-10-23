@@ -54,7 +54,7 @@ antimeridian or cover the poles. Present-day continent borders are drawn on top,
 the package \code{rnaturalearthdata}.}
 
 \item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call for the
-first layer of each globe (which draws the grid), not to the following ones that fill the
+first layer of each globe (which draws the base grid), not to the following ones that fill the
 cells. By default, the grid is drawn with \code{border = "grey80"}. \code{main} is used as the title of
 the whole figure rather than of each globe. The following arguments are
 already set internally and must not be specified here: \code{add}.}
@@ -70,8 +70,8 @@ vector in decimal degrees, either:
 \item \code{c(lat = , lon = )}: the whole globe centred on this point;
 \item \code{c(xmin = , xmax = , ymin = , ymax = )}: a bounding box (in longitude for \code{x} and latitude for
 \code{y}), centred on its midpoint. Only the grid cells in this box are drawn, which is faster than
-drawing the whole globe for fine resolutions. \code{xmin} must be lower than \code{xmax}, so boxes
-can't cross the antimeridian.
+drawing the whole globe for fine resolutions. \code{xmax} must be greater than \code{xmin}, so boxes
+cannot cross the antimeridian.
 }
 
 By default, three globes are centred on longitude 0, longitude 180, and Mexico.}

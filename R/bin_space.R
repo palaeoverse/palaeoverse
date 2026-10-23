@@ -215,7 +215,7 @@ bin_space <- function(
 #' antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
 #' the package `rnaturalearthdata`.
 #' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call for the
-#' first layer of each globe (which draws the grid), not to the following ones that fill the
+#' first layer of each globe (which draws the base grid), not to the following ones that fill the
 #' cells. By default, the grid is drawn with `border = "grey80"`. `main` is used as the title of
 #' the whole figure rather than of each globe. The following arguments are
 #' already set internally and must not be specified here: `add`.
@@ -228,8 +228,8 @@ bin_space <- function(
 #' - `c(lat = , lon = )`: the whole globe centred on this point;
 #' - `c(xmin = , xmax = , ymin = , ymax = )`: a bounding box (in longitude for `x` and latitude for
 #'   `y`), centred on its midpoint. Only the grid cells in this box are drawn, which is faster than
-#'   drawing the whole globe for fine resolutions. `xmin` must be lower than `xmax`, so boxes
-#'   can't cross the antimeridian.
+#'   drawing the whole globe for fine resolutions. `xmax` must be greater than `xmin`, so boxes
+#'   cannot cross the antimeridian.
 #'
 #' By default, three globes are centred on longitude 0, longitude 180, and Mexico.
 #'
