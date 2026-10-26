@@ -300,6 +300,8 @@ test_that("bin_space plotting with bounding boxes works", {
     plot(
       out,
       centres = list(
+        c(lat = 45, lon = 10),
+        c(xmin = -10, xmax = 40, ymin = 30, ymax = 60),
         c(xmin = -120, xmax = -60, ymin = 10, ymax = 40)
       )
     )
