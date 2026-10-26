@@ -346,11 +346,9 @@ plot.palaeoverse_bin_space <- function(
 
   # Coarsest cells first so that finer cells are drawn on top
   cells <- lapply(resolutions, function(res) {
-    h3jsr::cell_to_polygon(
-      input = unique(x[[paste0("cell_ID_", res)]]),
-      simple = TRUE
-    )
+    h3jsr::cell_to_polygon(input = unique(x[[paste0("cell_ID_", res)]]))
   })
+
   if (missing(last_layer)) {
     last_layer <- sf::st_geometry(rnaturalearthdata::coastline110)
   } else {
@@ -377,10 +375,10 @@ plot.palaeoverse_bin_space <- function(
   # With three globes, two on top and one centred below
   graphics::layout(switch(
     length(centres),
-    matrix(1),
-    matrix(1:2, nrow = 1),
-    matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE),
-    matrix(1:4, nrow = 2, byrow = TRUE)
+    `1` = matrix(1),
+    `2` = matrix(1:2, nrow = 1),
+    `3` = matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE),
+    `4` = matrix(1:4, nrow = 2, byrow = TRUE)
   ))
   on.exit({
     graphics::layout(1)
