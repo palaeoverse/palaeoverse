@@ -146,7 +146,8 @@ plot(ex1)
 ex2 <- occdf |>
   bin_space(bins = space_bins(spacing = 1000)) |>
   bin_space(bins = space_bins(spacing = 250))
-plot(ex2)
+
+plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"))
 
 # EXAMPLE: rarefy
 # Load data
