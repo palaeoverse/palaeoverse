@@ -334,6 +334,23 @@ test_that("bin_space plotting with bounding boxes works", {
   )
 })
 
+test_that("plot() works with custom last layer", {
+  skip_if_not_installed("rnaturalearthdata")
+  occdf <- head(tetrapods, n = 100)
+
+  out <- suppressMessages(
+    bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
+  )
+  expect_doppelganger("bin_space-no-last-layer", function() {
+    plot(out, last_layer = NULL)
+  })
+
+  # TODO: find a custom shapefile for the last layer
+  # expect_doppelganger("bin_space-custom-last-layer", function() {
+  #   plot(out, last_layer = )
+  # })
+})
+
 test_that("plot is deprecated but still works", {
   skip_if_not_installed("rnaturalearthdata")
   occdf <- head(tetrapods, n = 100)

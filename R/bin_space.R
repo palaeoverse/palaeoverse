@@ -233,6 +233,11 @@ bin_space <- function(
 #'
 #' By default, three globes are centred on longitude 0, longitude 180, and Mexico.
 #'
+#' @param last_layer `sfc_LINESTRING`. An `sf` object indicating the first layer to be printed on
+#' each globe. If unspecified (default), it plots the modern coastlines with
+#' `sf::st_geometry(rnaturalearthdata::coastline110)`. Set `last_layer = NULL` to
+#' remove this layer.
+#'
 #' @name bin_space
 #' @export
 plot.palaeoverse_bin_space <- function(
@@ -243,7 +248,8 @@ plot.palaeoverse_bin_space <- function(
     c(lat = 0, lon = 0),
     c(lat = 0, lon = 180),
     c(lat = 23, lon = -102)
-  )
+  ),
+  last_layer
 ) {
   check_forbidden_plot_args(
     ...,
@@ -335,7 +341,9 @@ plot.palaeoverse_bin_space <- function(
       simple = TRUE
     )
   })
-  continents <- sf::st_geometry(rnaturalearthdata::coastline110)
+  if (missing(last_layer)) {
+    last_layer <- sf::st_geometry(rnaturalearthdata::coastline110)
+  }
 
   dots <- list(...)
   main <- dots$main
@@ -363,6 +371,13 @@ plot.palaeoverse_bin_space <- function(
     base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
     # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
     class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
+  }
+
+  project <- function(geom) {
+    sf::st_transform(
+      sf::st_intersection(geom, hemisphere),
+      crs = paste0("+proj=ortho +lon_0=", centre[1], " +lat_0=", centre[2])
+    )
   }
 
   # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
@@ -405,14 +420,7 @@ plot.palaeoverse_bin_space <- function(
     if (!is.null(area)) {
       hemisphere <- sf::st_intersection(hemisphere, area)
     }
-    project <- function(geom) {
-      sf::st_transform(
-        sf::st_intersection(geom, hemisphere),
-        crs = paste0("+proj=ortho +lon_0=", centre[1], " +lat_0=", centre[2])
-      )
-    }
 
-    # Light grid by default so that continents and occupied cells stand out
     do.call(
       plot,
       utils::modifyList(
@@ -423,7 +431,11 @@ plot.palaeoverse_bin_space <- function(
     for (i in seq_along(cells)) {
       plot(project(cells[[i]]), col = col[i], add = TRUE)
     }
-    plot(project(continents), add = TRUE)
+
+    # Plot this last, otherwise hexagons can cover borders
+    if (!is.null(last_layer)) {
+      plot(project(last_layer), add = TRUE)
+    }
   }
 
   if (!is.null(main)) {
