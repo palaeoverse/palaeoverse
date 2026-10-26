@@ -192,9 +192,10 @@
       plot(out, centres = list(c(lat = 100, lon = 0)))
     Condition
       Error in `plot()`:
-      ! Each element of `centres` must be either:
-      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
-      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
 
 ---
 
@@ -202,9 +203,10 @@
       plot(out, centres = list(c(45, 10)))
     Condition
       Error in `plot()`:
-      ! Each element of `centres` must be either:
-      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
-      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
 
 # bin_space plotting with bounding boxes works
 
@@ -228,9 +230,10 @@
       plot(out, centres = list(c(xmin = -10, xmax = 40, ymin = 30, ymax = 100)))
     Condition
       Error in `plot()`:
-      ! Each element of `centres` must be either:
-      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
-      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
 
 ---
 
@@ -238,9 +241,10 @@
       plot(out, centres = list(c(foo = -10, xmax = 40, ymin = 30, ymax = 80)))
     Condition
       Error in `plot()`:
-      ! Each element of `centres` must be either:
-      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
-      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
 
 ---
 
@@ -248,9 +252,21 @@
       plot(out, centres = list(c(-10, 40, 30, 60)))
     Condition
       Error in `plot()`:
-      ! Each element of `centres` must be either:
-      * a named numeric vector `c(lat = , lon = )`, with latitude between -90 and 90 and longitude between -180 and 180;
-      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`, with longitudes between -180 and 180 and latitudes between -90 and 90.
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
+
+---
+
+    Code
+      plot(out, centres = list("a", c(foo = -10, xmax = 40, ymin = 30, ymax = 80)))
+    Condition
+      Error in `plot()`:
+      ! Elements 1 and 2 of `centres` are invalid.
+      i They must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
 
 # plot is deprecated but still works
 

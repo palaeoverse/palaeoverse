@@ -323,6 +323,15 @@ test_that("bin_space plotting with bounding boxes works", {
     error = TRUE
   )
   expect_snapshot(plot(out, centres = list(c(-10, 40, 30, 60))), error = TRUE)
+
+  # Several `centres` elements are wrong
+  expect_snapshot(
+    plot(
+      out,
+      centres = list("a", c(foo = -10, xmax = 40, ymin = 30, ymax = 80))
+    ),
+    error = TRUE
+  )
 })
 
 test_that("plot is deprecated but still works", {

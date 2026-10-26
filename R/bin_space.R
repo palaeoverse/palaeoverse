@@ -273,6 +273,12 @@ plot.palaeoverse_bin_space <- function(
     )
   }
 
+  if (!is.list(centres)) {
+    cli::cli_abort(
+      "Argument {.arg centres} must be a list, not {.obj_type_friendly {centres}}."
+    )
+  }
+
   valid_centre <- function(centre) {
     if (!is.numeric(centre) || anyNA(centre) || is.null(names(centre))) {
       return(FALSE)
@@ -287,16 +293,15 @@ plot.palaeoverse_bin_space <- function(
       FALSE
     }
   }
-  if (!is.list(centres)) {
-    cli::cli_abort(
-      "Argument {.arg centres} must be a list, not {.obj_type_friendly {centres}}."
-    )
-  }
-  if (!all(vapply(centres, valid_centre, logical(1)))) {
+
+  invalid_centres <- !vapply(centres, valid_centre, logical(1))
+  if (any(invalid_centres)) {
+    len <- length(invalid_centres)
     cli::cli_abort(c(
-      "Each element of {.arg centres} must be either:",
-      "*" = "a named numeric vector {.code c(lat = , lon = )}, with latitude between -90 and 90 and longitude between -180 and 180;",
-      "*" = "a named numeric vector {.code c(xmin = , xmax = , ymin = , ymax = )}, with longitudes between -180 and 180 and latitudes between -90 and 90."
+      "{cli::qty(len)}Element{?s} {cli::cli_vec(which(invalid_centres))} of {.arg centres} {cli::qty(len)}{?is/are} invalid.",
+      "i" = "{cli::qty(len)}{?It/They} must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:",
+      "*" = "a named numeric vector {.code c(lat = , lon = )};",
+      "*" = "a named numeric vector {.code c(xmin = , xmax = , ymin = , ymax = )}."
     ))
   }
   bad_bbox <- vapply(
