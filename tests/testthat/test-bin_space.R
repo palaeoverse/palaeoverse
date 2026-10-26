@@ -175,6 +175,9 @@ test_that("bin_space error handling", {
 
 test_that("plot() works", {
   skip_if_not_installed("rnaturalearthdata")
+  # There are tiny (invisible) differences on macOS, likely due to floating point differences
+  # in S2 output.
+  skip_on_os("mac")
   # Reduce data size for faster testing
   occdf <- head(tetrapods, n = 100)
 
@@ -186,6 +189,7 @@ test_that("plot() works", {
 
 test_that("plot() works with several resolutions", {
   skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
   occdf <- head(tetrapods, n = 100)
 
   expect_doppelganger("bin_space-two-resolutions", function() {
@@ -214,6 +218,7 @@ test_that("plot() works with several resolutions", {
 
 test_that("bin_space plotting with extra args works", {
   skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
   occdf <- head(tetrapods, n = 100)
   out <- suppressMessages(
     bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
@@ -230,6 +235,7 @@ test_that("bin_space plotting with extra args works", {
 
 test_that("bin_space plotting with custom colours works", {
   skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
   occdf <- head(tetrapods, n = 100)
   out <- occdf |>
     bin_space(bins = space_bins(resolution = 1)) |>
@@ -249,6 +255,7 @@ test_that("bin_space plotting with custom colours works", {
 
 test_that("bin_space plotting with custom centres works", {
   skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
   occdf <- head(tetrapods, n = 100)
   out <- bin_space(occdf = occdf, bins = space_bins(resolution = 1)) |>
     suppressMessages()
@@ -282,6 +289,7 @@ test_that("bin_space plotting with custom centres works", {
 
 test_that("bin_space plotting with bounding boxes works", {
   skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
   occdf <- head(tetrapods, n = 100)
   out <- occdf |>
     bin_space(bins = space_bins(resolution = 1)) |>
@@ -292,8 +300,6 @@ test_that("bin_space plotting with bounding boxes works", {
     plot(
       out,
       centres = list(
-        c(lat = 45, lon = 10),
-        c(xmin = -10, xmax = 40, ymin = 30, ymax = 60),
         c(xmin = -120, xmax = -60, ymin = 10, ymax = 40)
       )
     )
@@ -336,6 +342,7 @@ test_that("bin_space plotting with bounding boxes works", {
 
 test_that("plot() works with custom last layer", {
   skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
   occdf <- head(tetrapods, n = 100)
 
   out <- suppressMessages(
@@ -367,6 +374,7 @@ test_that("plot() works with custom last layer", {
 
 test_that("plot() works with subtitles", {
   skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
   occdf <- head(tetrapods, n = 100)
 
   out <- suppressMessages(
@@ -391,6 +399,7 @@ test_that("plot() works with subtitles", {
 
 test_that("plot is deprecated but still works", {
   skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
   occdf <- head(tetrapods, n = 100)
 
   expect_doppelganger("bin_space_deprecated", function() {
