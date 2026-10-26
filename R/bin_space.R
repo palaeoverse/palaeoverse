@@ -420,7 +420,8 @@ plot.palaeoverse_bin_space <- function(
         "EPSG:4326"
       )
       # `polygon_to_cells()` only returns cells whose centroid is in `area`, so add the cells of the
-      # edges and their neighbours to cover the whole area
+      # edges and their neighbours to cover the whole area (`sf::st_cast(area, "POINT")` returns points
+      # on the edge of the bbox)
       grid_cells <- c(
         unlist(h3jsr::polygon_to_cells(area, res = resolutions[1])),
         h3jsr::point_to_cell(sf::st_cast(area, "POINT"), res = resolutions[1])
@@ -435,6 +436,7 @@ plot.palaeoverse_bin_space <- function(
       )
     }
 
+    # We don't want to display cells on the other side of the globe.
     hemisphere <- sf::st_buffer(
       sf::st_sfc(sf::st_point(centre), crs = "EPSG:4326"),
       dist = 0.999 * pi / 2 * 6371008,
