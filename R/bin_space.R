@@ -341,9 +341,6 @@ plot.palaeoverse_bin_space <- function(
     )
   }
 
-  # Only built if a globe needs it
-  base_grid <- NULL
-
   # Coarsest cells first so that finer cells are drawn on top
   cells <- lapply(resolutions, function(res) {
     h3jsr::cell_to_polygon(input = unique(x[[paste0("cell_ID_", res)]]))
@@ -385,11 +382,8 @@ plot.palaeoverse_bin_space <- function(
     graphics::par(old_par)
   })
 
-  if (is.null(base_grid)) {
-    base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
-    # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
-    class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
-  }
+  # Only built if a globe needs it
+  base_grid <- NULL
 
   project <- function(geom) {
     sf::st_transform(
@@ -402,7 +396,16 @@ plot.palaeoverse_bin_space <- function(
   # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
   for (k in seq_along(centres)) {
     centre <- centres[[k]]
+
+    # length(centre) == 2 means that we need to draw a globe. Otherwise we just need a subset
+    # of the grid.
+
     if (length(centre) == 2) {
+      if (is.null(base_grid)) {
+        base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
+        # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
+        class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
+      }
       grid <- base_grid
       area <- NULL
       centre <- unname(centre[c("lon", "lat")])
@@ -431,6 +434,7 @@ plot.palaeoverse_bin_space <- function(
         mean(centre[c("ymin", "ymax")])
       )
     }
+
     hemisphere <- sf::st_buffer(
       sf::st_sfc(sf::st_point(centre), crs = "EPSG:4326"),
       dist = 0.999 * pi / 2 * 6371008,
