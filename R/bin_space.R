@@ -228,8 +228,8 @@ bin_space <- function(
 #'
 #' @param subtitles `character`. Titles of each globe, in the same order as `centres`. Must be
 #' `NULL` (default, no subtitles) or of length equal to the number of elements in `centres`.
-#' @param last_layer `sfc_LINESTRING`. An `sf` object indicating the first layer to be printed on
-#' each globe. If unspecified (default), it plots the modern coastlines with
+#' @param last_layer `sfc_LINESTRING` or `sfc_MULTILINESTRING`. An `sf` object indicating the last
+#' layer to be printed on each globe. If unspecified (default), it plots the modern coastlines with
 #' `sf::st_geometry(rnaturalearthdata::coastline110)`. Set `last_layer = NULL` to
 #' remove this layer.
 #'

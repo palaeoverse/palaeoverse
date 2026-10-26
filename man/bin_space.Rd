@@ -73,8 +73,8 @@ By default, three globes are centred on longitude 0, longitude 180, and -102 (Me
 \item{subtitles}{\code{character}. Titles of each globe, in the same order as \code{centres}. Must be
 \code{NULL} (default, no subtitles) or of length equal to the number of elements in \code{centres}.}
 
-\item{last_layer}{\code{sfc_LINESTRING}. An \code{sf} object indicating the first layer to be printed on
-each globe. If unspecified (default), it plots the modern coastlines with
+\item{last_layer}{\code{sfc_LINESTRING} or \code{sfc_MULTILINESTRING}. An \code{sf} object indicating the last
+layer to be printed on each globe. If unspecified (default), it plots the modern coastlines with
 \code{sf::st_geometry(rnaturalearthdata::coastline110)}. Set \code{last_layer = NULL} to
 remove this layer.}
 }
