@@ -345,10 +345,24 @@ test_that("plot() works with custom last layer", {
     plot(out, last_layer = NULL)
   })
 
-  # TODO: find a custom shapefile for the last layer
-  # expect_doppelganger("bin_space-custom-last-layer", function() {
-  #   plot(out, last_layer = )
-  # })
+  # coastlines <- rgplates::reconstruct("coastlines", age = 65, model = "MERDITH2021")
+  # saveRDS(coastlines, file = testthat::test_path("test_dat", "coastlines_test.rds"))
+  coastlines <- readRDS(testthat::test_path("test_dat", "coastlines_test.rds"))
+
+  # rgplates returns a POLYGON instead of MULTILINESTRING
+  expect_snapshot(
+    plot(out, last_layer = coastlines),
+    error = TRUE
+  )
+  coastlines <- sf::st_cast(sf::st_geometry(coastlines), "MULTILINESTRING")
+  expect_doppelganger("bin_space-custom-last-layer", function() {
+    plot(out, last_layer = coastlines)
+  })
+
+  expect_snapshot(
+    plot(out, last_layer = 1),
+    error = TRUE
+  )
 })
 
 test_that("plot is deprecated but still works", {

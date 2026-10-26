@@ -343,6 +343,16 @@ plot.palaeoverse_bin_space <- function(
   })
   if (missing(last_layer)) {
     last_layer <- sf::st_geometry(rnaturalearthdata::coastline110)
+  } else {
+    if (
+      !is.null(last_layer) &&
+        (!inherits(last_layer, c("sfc", "sfg")) ||
+          !all(sf::st_is(last_layer, c("LINESTRING", "MULTILINESTRING"))))
+    ) {
+      cli::cli_abort(
+        "{.arg last_layer} must be a {.code LINESTRING} or {.code MULTILINESTRING} object from the package {.pkg sf}, or {.code NULL}."
+      )
+    }
   }
 
   dots <- list(...)

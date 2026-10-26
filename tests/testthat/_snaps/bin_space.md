@@ -268,6 +268,22 @@
       * a named numeric vector `c(lat = , lon = )`;
       * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
 
+# plot() works with custom last layer
+
+    Code
+      plot(out, last_layer = coastlines)
+    Condition
+      Error in `plot()`:
+      ! `last_layer` must be a `LINESTRING` or `MULTILINESTRING` object from the package sf, or `NULL`.
+
+---
+
+    Code
+      plot(out, last_layer = 1)
+    Condition
+      Error in `plot()`:
+      ! `last_layer` must be a `LINESTRING` or `MULTILINESTRING` object from the package sf, or `NULL`.
+
 # plot is deprecated but still works
 
     Code
