@@ -135,7 +135,7 @@ resolve_info <- function(data, arg) {
     if (!is.null(value_from_attr)) {
       cli::cli_inform(
         c(
-          "i" = "Using function input {.arg {arg_name}} ({.val {arg_val}}) instead of {.arg {arg_name}} value set in {.fn as_palaeoverse} ({.val {value_from_attr}})."
+          "i" = 'Using {.code {arg_name} = "{arg_val}"} instead of {.code {arg_name} = "{value_from_attr}"} set in {.fn as_palaeoverse}.'
         )
       )
     }

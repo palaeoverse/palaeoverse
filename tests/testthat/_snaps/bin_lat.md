@@ -112,7 +112,7 @@
     Code
       bin_lat(occdf = dat, bins = bins, lat = "another_lat")
     Message
-      i Using function input `lat` ("another_lat") instead of `lat` value set in `as_palaeoverse()` ("my_lat").
+      i Using `lat = "another_lat"` instead of `lat = "my_lat"` set in `as_palaeoverse()`.
     Condition
       Error in `bin_lat()`:
       ! Column "another_lat" not found in `occdf`.
