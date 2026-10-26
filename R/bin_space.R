@@ -210,20 +210,12 @@ bin_space <- function(
 }
 
 #' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
-#' The base grid uses the least precise resolution among the `cell_ID_*` columns, and the occupied
-#' cells of every resolution are drawn on top of it. The world is shown as one or several globes
-#' (see `centres`) using an orthographic projection, which avoids distorting cells that cross the
-#' antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
-#' the package `rnaturalearthdata`.
-#' @param ... Extra arguments passed to [`plot()`][base::plot]. These are passed to the call for the
-#' first layer of each globe (which draws the base grid), not to the following ones that fill the
-#' cells. By default, the grid is drawn with `border = "grey80"`. `main` is used as the title of
-#' the whole figure rather than of each globe. The following arguments are
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following argument are
 #' already set internally and must not be specified here: `add`.
 #' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
 #' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
-#' ordered from the least to the most precise resolution. By default, colours are taken in order
-#' from the colour-blind friendly Okabe-Ito palette (see [grDevices::palette.colors()]).
+#' ordered from the coarsest to the finest resolution. By default, colours are taken in order
+#' from the colour-blind friendly Okabe-Ito palette (see [`grDevices::palette.colors()`]).
 #' @param centres `list`. Views to draw, with a maximum of four. Each element is a named numeric
 #' vector in decimal degrees, either:
 #' - `c(lat = , lon = )`: the whole globe centred on this point;
@@ -232,7 +224,7 @@ bin_space <- function(
 #'   drawing the whole globe for fine resolutions. `xmax` must be greater than `xmin`, so boxes
 #'   cannot cross the antimeridian.
 #'
-#' By default, three globes are centred on longitude 0, longitude 180, and Mexico.
+#' By default, three globes are centred on longitude 0, longitude 180, and -102 (Mexico).
 #'
 #' @param subtitles `character`. Titles of each globe, in the same order as `centres`. Must be
 #' `NULL` (default, no subtitles) or of length equal to the number of elements in `centres`.
@@ -240,6 +232,13 @@ bin_space <- function(
 #' each globe. If unspecified (default), it plots the modern coastlines with
 #' `sf::st_geometry(rnaturalearthdata::coastline110)`. Set `last_layer = NULL` to
 #' remove this layer.
+#'
+#' @details
+#' The base grid uses the coarsest resolution among the `cell_ID_*` columns, and the occupied
+#' cells of every resolution are drawn on top of it. The world is shown as one or several globes
+#' (see `centres`) using an orthographic projection, which avoids distorting cells that cross the
+#' antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
+#' the package `rnaturalearthdata`.
 #'
 #' @name bin_space
 #' @export

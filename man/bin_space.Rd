@@ -48,22 +48,14 @@ this function instead.}
 are no longer used and don't have a replacement. Pass the output of \code{space_bins()}
 to the \code{bins} argument instead.}
 
-\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.
-The base grid uses the least precise resolution among the \verb{cell_ID_*} columns, and the occupied
-cells of every resolution are drawn on top of it. The world is shown as one or several globes
-(see \code{centres}) using an orthographic projection, which avoids distorting cells that cross the
-antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
-the package \code{rnaturalearthdata}.}
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.}
 
-\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call for the
-first layer of each globe (which draws the base grid), not to the following ones that fill the
-cells. By default, the grid is drawn with \code{border = "grey80"}. \code{main} is used as the title of
-the whole figure rather than of each globe. The following arguments are
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following argument are
 already set internally and must not be specified here: \code{add}.}
 
 \item{col}{\code{character}. Colour(s) of the occupied cells. Must be of length 1 (in which case
 all resolutions have the same colour) or of length equal to the number of resolutions in \code{x},
-ordered from the least to the most precise resolution. By default, colours are taken in order
+ordered from the coarsest to the finest resolution. By default, colours are taken in order
 from the colour-blind friendly Okabe-Ito palette (see \code{\link[grDevices:palette.colors]{grDevices::palette.colors()}}).}
 
 \item{centres}{\code{list}. Views to draw, with a maximum of four. Each element is a named numeric
@@ -76,7 +68,7 @@ drawing the whole globe for fine resolutions. \code{xmax} must be greater than \
 cannot cross the antimeridian.
 }
 
-By default, three globes are centred on longitude 0, longitude 180, and Mexico.}
+By default, three globes are centred on longitude 0, longitude 180, and -102 (Mexico).}
 
 \item{subtitles}{\code{character}. Titles of each globe, in the same order as \code{centres}. Must be
 \code{NULL} (default, no subtitles) or of length equal to the number of elements in \code{centres}.}
@@ -119,6 +111,12 @@ data is defined as EPSG:4326 (World Geodetic System
 1984). The user should transform their data accordingly if this is
 not appropriate. If you are unfamiliar with working with geographic data,
 we highly recommend checking out \href{https://r.geocompx.org/index.html}{Geocomputation with R}.
+
+The base grid uses the coarsest resolution among the \verb{cell_ID_*} columns, and the occupied
+cells of every resolution are drawn on top of it. The world is shown as one or several globes
+(see \code{centres}) using an orthographic projection, which avoids distorting cells that cross the
+antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
+the package \code{rnaturalearthdata}.
 }
 \section{Developer(s)}{
 
