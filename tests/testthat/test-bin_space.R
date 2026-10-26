@@ -373,7 +373,11 @@ test_that("plot() works with subtitles", {
     bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
   )
   expect_doppelganger("bin_space-subtitles", function() {
-    plot(out, main = "Tetrapods", subtitles = c("Africa", "Pacific", "Americas"))
+    plot(
+      out,
+      main = "Tetrapods",
+      subtitles = c("Africa", "Pacific", "Americas")
+    )
   })
 
   expect_snapshot(plot(out, subtitles = 1:3), error = TRUE)
