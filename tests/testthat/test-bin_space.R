@@ -365,6 +365,26 @@ test_that("plot() works with custom last layer", {
   )
 })
 
+test_that("plot() works with subtitles", {
+  skip_if_not_installed("rnaturalearthdata")
+  occdf <- head(tetrapods, n = 100)
+
+  out <- suppressMessages(
+    bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
+  )
+  expect_doppelganger("bin_space-subtitles", function() {
+    plot(out, main = "Tetrapods", subtitles = c("Africa", "Pacific", "Americas"))
+  })
+
+  expect_snapshot(plot(out, subtitles = 1:3), error = TRUE)
+  # Default `centres` has three elements
+  expect_snapshot(plot(out, subtitles = c("a", "b")), error = TRUE)
+  expect_snapshot(
+    plot(out, centres = list(c(lat = 0, lon = 0)), subtitles = c("a", "b")),
+    error = TRUE
+  )
+})
+
 test_that("plot is deprecated but still works", {
   skip_if_not_installed("rnaturalearthdata")
   occdf <- head(tetrapods, n = 100)

@@ -284,6 +284,30 @@
       Error in `plot()`:
       ! `last_layer` must be a `LINESTRING` or `MULTILINESTRING` object from the package sf, or `NULL`.
 
+# plot() works with subtitles
+
+    Code
+      plot(out, subtitles = 1:3)
+    Condition
+      Error in `plot()`:
+      ! Argument `subtitles` must be `NULL` or a <character> vector of length 3 (i.e. the number of elements in `centres`).
+
+---
+
+    Code
+      plot(out, subtitles = c("a", "b"))
+    Condition
+      Error in `plot()`:
+      ! Argument `subtitles` must be `NULL` or a <character> vector of length 3 (i.e. the number of elements in `centres`).
+
+---
+
+    Code
+      plot(out, centres = list(c(lat = 0, lon = 0)), subtitles = c("a", "b"))
+    Condition
+      Error in `plot()`:
+      ! Argument `subtitles` must be `NULL` or a <character> vector of length 1 (i.e. the number of elements in `centres`).
+
 # plot is deprecated but still works
 
     Code

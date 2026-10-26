@@ -233,6 +233,8 @@ bin_space <- function(
 #'
 #' By default, three globes are centred on longitude 0, longitude 180, and Mexico.
 #'
+#' @param subtitles `character`. Titles of each globe, in the same order as `centres`. Must be
+#' `NULL` (default, no subtitles) or of length equal to the number of elements in `centres`.
 #' @param last_layer `sfc_LINESTRING`. An `sf` object indicating the first layer to be printed on
 #' each globe. If unspecified (default), it plots the modern coastlines with
 #' `sf::st_geometry(rnaturalearthdata::coastline110)`. Set `last_layer = NULL` to
@@ -249,6 +251,7 @@ plot.palaeoverse_bin_space <- function(
     c(lat = 0, lon = 180),
     c(lat = 23, lon = -102)
   ),
+  subtitles = NULL,
   last_layer
 ) {
   check_forbidden_plot_args(
@@ -331,6 +334,15 @@ plot.palaeoverse_bin_space <- function(
     )
   }
 
+  if (
+    !is.null(subtitles) &&
+      (!is.character(subtitles) || length(subtitles) != length(centres))
+  ) {
+    cli::cli_abort(
+      "Argument {.arg subtitles} must be {.code NULL} or a {.cls character} vector of length {length(centres)} (i.e. the number of elements in {.arg centres})."
+    )
+  }
+
   # Only built if a globe needs it
   base_grid <- NULL
 
@@ -362,7 +374,7 @@ plot.palaeoverse_bin_space <- function(
   # Outer margin on top for the title of the whole figure, small inner margins to keep globes close
   old_par <- graphics::par(
     oma = c(0, 0, if (is.null(main)) 0 else 2, 0),
-    mar = rep(0.5, 4)
+    mar = c(0.5, 0.5, if (is.null(subtitles)) 0.5 else 2, 0.5)
   )
   # With three globes, two on top and one centred below
   graphics::layout(switch(
@@ -392,7 +404,8 @@ plot.palaeoverse_bin_space <- function(
 
   # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
   # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
-  for (centre in centres) {
+  for (k in seq_along(centres)) {
+    centre <- centres[[k]]
     if (length(centre) == 2) {
       grid <- base_grid
       area <- NULL
@@ -445,6 +458,10 @@ plot.palaeoverse_bin_space <- function(
     # Plot this last, otherwise hexagons can cover borders
     if (!is.null(last_layer)) {
       plot(project(last_layer), add = TRUE)
+    }
+
+    if (!is.null(subtitles)) {
+      graphics::title(main = subtitles[k], line = 0.5)
     }
   }
 

@@ -20,7 +20,9 @@ bin_space(
   x,
   ...,
   col = NULL,
-  centres = list(c(lat = 0, lon = 0), c(lat = 0, lon = 180), c(lat = 23, lon = -102))
+  centres = list(c(lat = 0, lon = 0), c(lat = 0, lon = 180), c(lat = 23, lon = -102)),
+  subtitles = NULL,
+  last_layer
 )
 }
 \arguments{
@@ -75,6 +77,14 @@ cannot cross the antimeridian.
 }
 
 By default, three globes are centred on longitude 0, longitude 180, and Mexico.}
+
+\item{subtitles}{\code{character}. Titles of each globe, in the same order as \code{centres}. Must be
+\code{NULL} (default, no subtitles) or of length equal to the number of elements in \code{centres}.}
+
+\item{last_layer}{\code{sfc_LINESTRING}. An \code{sf} object indicating the first layer to be printed on
+each globe. If unspecified (default), it plots the modern coastlines with
+\code{sf::st_geometry(rnaturalearthdata::coastline110)}. Set \code{last_layer = NULL} to
+remove this layer.}
 }
 \value{
 A \code{data.frame} with the original input data and three new columns:
