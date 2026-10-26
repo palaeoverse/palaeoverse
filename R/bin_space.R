@@ -216,15 +216,13 @@ bin_space <- function(
 #' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
 #' ordered from the coarsest to the finest resolution. By default, colours are taken in order
 #' from the colour-blind friendly Okabe-Ito palette (see [`grDevices::palette.colors()`]).
-#' @param centres `list`. Views to draw, with a maximum of four. Each element is a named numeric
-#' vector in decimal degrees, either:
+#' @param centres `list`. Views to display (at most four). These must be either:
 #' - `c(lat = , lon = )`: the whole globe centred on this point;
 #' - `c(xmin = , xmax = , ymin = , ymax = )`: a bounding box (in longitude for `x` and latitude for
-#'   `y`), centred on its midpoint. Only the grid cells in this box are drawn, which is faster than
-#'   drawing the whole globe for fine resolutions. `xmax` must be greater than `xmin`, so boxes
-#'   cannot cross the antimeridian.
+#'   `y`), centred on its midpoint. `xmax` must be greater than `xmin`, and `ymax` must be greater
+#'   than `ymin`.
 #'
-#' By default, three globes are centred on longitude 0, longitude 180, and -102 (Mexico).
+#' By default, three globes are centred on longitude 0, longitude 180, and -102.
 #'
 #' @param subtitles `character`. Titles of each globe, in the same order as `centres`. Must be
 #' `NULL` (default, no subtitles) or of length equal to the number of elements in `centres`.

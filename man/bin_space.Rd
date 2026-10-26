@@ -58,17 +58,15 @@ all resolutions have the same colour) or of length equal to the number of resolu
 ordered from the coarsest to the finest resolution. By default, colours are taken in order
 from the colour-blind friendly Okabe-Ito palette (see \code{\link[grDevices:palette.colors]{grDevices::palette.colors()}}).}
 
-\item{centres}{\code{list}. Views to draw, with a maximum of four. Each element is a named numeric
-vector in decimal degrees, either:
+\item{centres}{\code{list}. Views to display (at most four). These must be either:
 \itemize{
 \item \code{c(lat = , lon = )}: the whole globe centred on this point;
 \item \code{c(xmin = , xmax = , ymin = , ymax = )}: a bounding box (in longitude for \code{x} and latitude for
-\code{y}), centred on its midpoint. Only the grid cells in this box are drawn, which is faster than
-drawing the whole globe for fine resolutions. \code{xmax} must be greater than \code{xmin}, so boxes
-cannot cross the antimeridian.
+\code{y}), centred on its midpoint. \code{xmax} must be greater than \code{xmin}, and \code{ymax} must be greater
+than \code{ymin}.
 }
 
-By default, three globes are centred on longitude 0, longitude 180, and -102 (Mexico).}
+By default, three globes are centred on longitude 0, longitude 180, and -102.}
 
 \item{subtitles}{\code{character}. Titles of each globe, in the same order as \code{centres}. Must be
 \code{NULL} (default, no subtitles) or of length equal to the number of elements in \code{centres}.}
