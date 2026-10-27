@@ -80,26 +80,26 @@ occurrences: "mid", "majority", "all", "random", or "point". This
 calls the corresponding \verb{bin_time_*()} function.}
 }
 \value{
-For \code{bin_time_mid()}, \code{bin_time_majority()} and \code{bin_time_all()}, a
-\code{dataframe} of the original input \code{occdf} with the following
-appended columns is returned: occurrence id (\code{id}), number of bins that
-the occurrence age range covers (\code{n_bins}), bin assignment
-(\code{bin_assignment}), and bin midpoint (\code{bin_midpoint}). In the case of
-\code{bin_time_majority()}, an additional column of the majority percentage
-overlap (\code{overlap_percentage}) is also appended. For \code{bin_time_random()}
-and \code{bin_time_point()}, a \code{list} is returned
-(of length reps) with each element a copy of the \code{occdf} and appended
-columns (random: \code{bin_assignment} and \code{bin_midpoint}; point:
-\code{bin_assignment} and \code{point_estimates}).
+For \code{bin_time_mid()}, \code{bin_time_majority()} and \code{bin_time_all()}, a \code{dataframe}
+of the original input \code{occdf} with the following appended columns is returned:
+occurrence id (\code{id}), number of bins that the occurrence age range covers (\code{n_bins}),
+bin assignment (\code{bin_assignment}), and bin midpoint (\code{bin_midpoint}).
+
+For \code{bin_time_majority()}, an additional column of the majority percentage overlap
+(\code{overlap_percentage}) is also appended.
+
+For \code{bin_time_random()} and \code{bin_time_point()}, a list of length \code{reps}
+is returned with each element a copy of the \code{occdf} and appended columns (random:
+\code{bin_assignment} and \code{bin_midpoint}; point: \code{bin_assignment} and \code{point_estimates}).
 }
 \description{
 These functions assign fossil occurrences to specified time bins based on
 different approaches commonly applied in palaeobiology (see Details).
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{bin_time()} is deprecated, use one of
+the other \verb{bin_time_*()} functions instead.
 }
 \details{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{bin_time()} is deprecated, use one of
-the \verb{bin_time_*()} functions instead.
-
 Five approaches (methods) exist for assigning occurrences to time
 bins:
 \itemize{

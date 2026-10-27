@@ -1,10 +1,11 @@
 #' Assign fossil occurrences to time bins
 #'
+#' @description
 #' These functions assign fossil occurrences to specified time bins based on
 #' different approaches commonly applied in palaeobiology (see Details).
 #'
 #' `r lifecycle::badge("deprecated")` `bin_time()` is deprecated, use one of
-#' the `bin_time_*()` functions instead.
+#' the other `bin_time_*()` functions instead.
 #'
 #' @param occdf \code{dataframe}. A dataframe of the fossil occurrences you
 #'   wish to bin. This dataframe should contain at least two columns with
@@ -39,17 +40,19 @@
 #'   between 0 and 1, and function arguments should therefore be scaled to be
 #'   within these bounds.
 #'
-#' @return For `bin_time_mid()`, `bin_time_majority()` and `bin_time_all()`, a
-#'   \code{dataframe} of the original input `occdf` with the following
-#'   appended columns is returned: occurrence id (`id`), number of bins that
-#'   the occurrence age range covers (`n_bins`), bin assignment
-#'   (`bin_assignment`), and bin midpoint (`bin_midpoint`). In the case of
-#'   `bin_time_majority()`, an additional column of the majority percentage
-#'   overlap (`overlap_percentage`) is also appended. For `bin_time_random()`
-#'   and `bin_time_point()`, a \code{list} is returned
-#'   (of length reps) with each element a copy of the `occdf` and appended
-#'   columns (random: `bin_assignment` and `bin_midpoint`; point:
-#'   `bin_assignment` and `point_estimates`).
+#' @return
+#'
+#' For `bin_time_mid()`, `bin_time_majority()` and `bin_time_all()`, a \code{dataframe}
+#' of the original input `occdf` with the following appended columns is returned:
+#' occurrence id (`id`), number of bins that the occurrence age range covers (`n_bins`),
+#' bin assignment (`bin_assignment`), and bin midpoint (`bin_midpoint`).
+#'
+#' For `bin_time_majority()`, an additional column of the majority percentage overlap
+#' (`overlap_percentage`) is also appended.
+#'
+#' For `bin_time_random()` and `bin_time_point()`, a list of length \code{reps}
+#' is returned with each element a copy of the `occdf` and appended columns (random:
+#' `bin_assignment` and `bin_midpoint`; point: `bin_assignment` and `point_estimates`).
 #'
 #' @details Five approaches (methods) exist for assigning occurrences to time
 #'   bins:
@@ -264,7 +267,8 @@ bin_time_impl <- function(
   supp_args = NULL,
   call = rlang::caller_env()
 ) {
-  # Errors are reported as coming from the exported function
+  # Errors are reported as coming from the exported function. Without this line,
+  # error messages would report `bin_time_impl()`.
   rlang::local_error_call(call)
 
   check_data_frame(occdf)
