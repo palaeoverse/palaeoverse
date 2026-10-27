@@ -37,11 +37,6 @@
 #'   This \code{data.frame} has attributes starting with
 #'   `palaeoverse_tax_range_strat_` that are for internal use only.
 #'
-#' @details The stratigraphic range(s) of taxa are calculated by extracting
-#'   all unique taxa (`name` column) from the input `occdf`, and checking their
-#'   lowest and highest stratigraphic levels. If the input data columns
-#'   contain NAs, these must be removed prior to function call.
-#'
 #' @section Developer(s): Bethany Allen, William Gearty, Lewis A. Jones &
 #'   Alexander Dunhill
 #' @section Reviewer(s): William Gearty & Lewis A. Jones

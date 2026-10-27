@@ -99,11 +99,6 @@ A function to calculate the stratigraphic ranges of fossil taxa from occurrence
 data.
 }
 \details{
-The stratigraphic range(s) of taxa are calculated by extracting
-all unique taxa (\code{name} column) from the input \code{occdf}, and checking their
-lowest and highest stratigraphic levels. If the input data columns
-contain NAs, these must be removed prior to function call.
-
 The graphical parameters are reset when \code{plot()} exits. See 'Examples' to
 know how to add components to the plot.
 
