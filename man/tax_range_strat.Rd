@@ -141,21 +141,23 @@ certainty_sampled <- sample(x = 0:1, size = 50, replace = TRUE)
 occdf <- data.frame(taxon = tetrapod_names,
                     bed = beds_sampled,
                     certainty = certainty_sampled)
+
 # Plot stratigraphic ranges
 ex <- tax_range_strat(occdf, name = "taxon")
 plot(ex)
 ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty")
 plot(ex, ylab = "Stratigraphic height (m)")
+
 # Plot stratigraphic ranges with more labelling
 ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty",
                       by = "name")
-op <- par(plot(ex, main = "Section A", ylab = "Stratigraphic height (m)"))
 eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
                           max_age = c(0.5, 3.5),
                           min_age = c(3.5, 10.5),
                           color = c("#67C5CA", "#F2F91D"))
-axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
-par(op)
+plot(ex, main = "Section A", ylab = "Stratigraphic height (m)",
+     axis = axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE))
+
 # Update margins for plotting
 par(mar = c(5, 4, 6, 2))
 # Pull class data
