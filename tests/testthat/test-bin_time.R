@@ -56,7 +56,11 @@ test_that("bin_time() works with method 'mid'", {
   # occ3's midpoint (10) equals a bin boundary, which triggers a warning and
   # returns an NA assignment
   expect_warning(
-    bin_mid <- bin_time(occdf = test_occdf, bins = test_bins, method = bin_time_mid()),
+    bin_mid <- bin_time(
+      occdf = test_occdf,
+      bins = test_bins,
+      method = bin_time_mid()
+    ),
     "equivalent to a bin boundary"
   )
   expect_equal(
@@ -107,7 +111,11 @@ test_that("piping and not piping the first argument give the same result", {
 })
 
 test_that("bin_time() works with method 'all'", {
-  bin_all <- bin_time(occdf = test_occdf, bins = test_bins, method = bin_time_all())
+  bin_all <- bin_time(
+    occdf = test_occdf,
+    bins = test_bins,
+    method = bin_time_all()
+  )
   # Occurrences spanning several bins are duplicated, one row per bin
   # fmt: skip
   expect_equal(
@@ -347,11 +355,19 @@ test_that("wrong input for occdf", {
     error = TRUE
   )
   expect_snapshot(
-    bin_time(occdf = data.frame(), bins = data.frame(), method = bin_time_mid()),
+    bin_time(
+      occdf = data.frame(),
+      bins = data.frame(),
+      method = bin_time_mid()
+    ),
     error = TRUE
   )
   expect_snapshot(
-    bin_time(occdf = data.frame(), bins = data.frame(), method = bin_time_mid()),
+    bin_time(
+      occdf = data.frame(),
+      bins = data.frame(),
+      method = bin_time_mid()
+    ),
     error = TRUE
   )
   expect_snapshot(
@@ -437,7 +453,11 @@ test_that("method functions error outside of bin_time()", {
   )
   expect_error(bin_time_mid(), "must be used directly")
   expect_error(
-    bin_time(occdf = test_occdf, bins = test_bins, method = bin_time_random(reps = 0))
+    bin_time(
+      occdf = test_occdf,
+      bins = test_bins,
+      method = bin_time_random(reps = 0)
+    )
   )
   expect_error(bin_time_mid(), "must be used directly")
 })
