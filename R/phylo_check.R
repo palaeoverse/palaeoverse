@@ -4,7 +4,7 @@
 #' taxon names, and if desired, to trim the phylogeny to only include taxon
 #' names within the vector.
 #'
-#' @param tree \code{phylo}. A phylo object containing the phylogeny.
+#' @param data \code{phylo}. A phylo object containing the phylogeny.
 #' @param list \code{character}. A vector of taxon names. Binomials can be
 #' separated with either a space or an underscore. The names should not contain
 #' any other punctuation.
@@ -54,30 +54,30 @@
 #' "Triceratops_horridus", "Triceratops_prorsus")
 #'
 #' #Table of taxon names in list, tree or both
-#' ex1 <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs)
+#' ex1 <- phylo_check(data = ceratopsianTreeRaia, list = dinosaurs)
 #'
 #' #Counts of taxa in list, tree or both
-#' ex2 <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
+#' ex2 <- phylo_check(data = ceratopsianTreeRaia, list = dinosaurs,
 #'                    out = "counts")
 #'
 #' #Trim tree to tips in the list
-#' my_ceratopsians <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
+#' my_ceratopsians <- phylo_check(data = ceratopsianTreeRaia, list = dinosaurs,
 #' out = "tree")
 #' plot(my_ceratopsians)
 #' # reset user par
 #' par(oldpar)
 #' @export
 phylo_check <- function(
-  tree,
+  data,
   list,
   out = "full_table",
   sort = "presence"
 ) {
-  ensure_args_are_named(exceptions = "tree")
+  ensure_args_are_named(exceptions = "data")
 
-  if (!inherits(tree, "phylo")) {
+  if (!inherits(data, "phylo")) {
     cli::cli_abort(
-      "{.arg tree} must be of class {.cls phylo}, not {obj_type_friendly(tree)}."
+      "{.arg data} must be of class {.cls phylo}, not {obj_type_friendly(data)}."
     )
   }
 
@@ -123,20 +123,20 @@ phylo_check <- function(
   #Function
   #Replace any spaces in taxon names with underscores
   list <- gsub(" ", "_", list)
-  tree$tip.label <- gsub(" ", "_", tree$tip.label)
+  data$tip.label <- gsub(" ", "_", data$tip.label)
 
   #Give uniform capitalisation
   list <- gsub("^([a-z])", "\\U\\1", tolower(list), perl = TRUE)
-  tree$tip.label <- gsub(
+  data$tip.label <- gsub(
     "^([a-z])",
     "\\U\\1",
-    tolower(tree$tip.label),
+    tolower(data$tip.label),
     perl = TRUE
   )
 
   #Create vectors of names, those in tree and those in list
   if (out == "counts" || out == "full_table" || out == "diff_table") {
-    tip_names <- tree$tip.label
+    tip_names <- data$tip.label
     all_names <- unique(c(tip_names, list))
     names_in_tree <- (all_names %in% tip_names)
     names_in_list <- (all_names %in% list)
@@ -183,9 +183,9 @@ phylo_check <- function(
 
   #Trim names not in the list from the phylogeny
   if (out == "tree") {
-    list_in_tree <- match(tree$tip.label, list)
-    no_match <- tree$tip.label[which(is.na(list_in_tree))]
-    smaller_tree <- drop.tip(tree, no_match)
+    list_in_tree <- match(data$tip.label, list)
+    no_match <- data$tip.label[which(is.na(list_in_tree))]
+    smaller_tree <- drop.tip(data, no_match)
 
     return(smaller_tree)
   }
