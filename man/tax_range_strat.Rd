@@ -76,7 +76,9 @@ level.}
 \item{ylab}{\code{character}. The y-axis title.}
 
 \item{col.group}{\code{character}. The background colours to use when \code{x} has
-groups. Must be of the same length as the number of unique groups.}
+groups. Must be either a single colour used for all groups, or of the
+same length as the number of unique groups. If \code{NULL}, the group
+backgrounds are not coloured.}
 }
 \value{
 A \code{data.frame} containing the following columns: taxon ID

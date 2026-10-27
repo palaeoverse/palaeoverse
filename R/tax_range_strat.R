@@ -256,7 +256,9 @@ tax_range_strat <- function(
 #' @inheritParams lat_bins_area
 #' @param main `character`. The plot title.
 #' @param col.group `character`. The background colours to use when `x` has
-#'   groups. Must be of the same length as the number of unique groups.
+#'   groups. Must be either a single colour used for all groups, or of the
+#'   same length as the number of unique groups. If `NULL`, the group
+#'   backgrounds are not coloured.
 #' @param axis A function call drawing the y-axis, such as [graphics::axis()].
 #'   If `NULL` (default), the y-axis has a tick at each sampled stratigraphic
 #'   level.
@@ -331,9 +333,13 @@ plot.palaeoverse_tax_range_strat <- function(
 
   if (!is.null(group)) {
     n_groups <- length(unique(ranges[[group]]))
-    if (!missing(col.group) && length(col.group) != n_groups) {
+    if (
+      !missing(col.group) &&
+        !is.null(col.group) &&
+        !length(col.group) %in% c(1, n_groups)
+    ) {
       cli::cli_abort(
-        "Length of {.arg col.group} ({.val {length(col.group)}}) must be equal to the number of unique groups in the data ({.val {n_groups}})."
+        "Length of {.arg col.group} ({.val {length(col.group)}}) must be 1 or equal to the number of unique groups in the data ({.val {n_groups}})."
       )
     }
   }
@@ -416,7 +422,11 @@ plot.palaeoverse_tax_range_strat <- function(
     s <- split(x = ranges, f = ranges[, group])
     vals_rect <- lapply(s, function(x) cbind(min(x$ID), max(x$ID)))
     # Define colours
-    cols_rect <- rep_len(col.group, length(vals_rect))
+    cols_rect <- if (is.null(col.group)) {
+      NA
+    } else {
+      rep_len(col.group, length(vals_rect))
+    }
     # Run across number of groups
     lapply(seq_along(vals_rect), function(x) {
       # Add background rectangles

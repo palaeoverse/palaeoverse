@@ -272,7 +272,7 @@
       plot(tax_range_strat(occdf, group = "class"), col.group = c("red", "blue"))
     Condition
       Error in `plot()`:
-      ! Length of `col.group` (2) must be equal to the number of unique groups in the data (3).
+      ! Length of `col.group` (2) must be 1 or equal to the number of unique groups in the data (3).
 
 ---
 

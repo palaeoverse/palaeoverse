@@ -309,11 +309,23 @@ test_that("tax_range_strat plotting with extra args works", {
     )
   })
 
-  # `col.group` must be of the same length as the number of groups
+  # `col.group` must be of length 1 or the same length as the number of groups
   expect_doppelganger("tax_range_strat-col-group", function() {
     plot(
       tax_range_strat(occdf, group = "class"),
       col.group = c("red", "blue", "green")
+    )
+  })
+  expect_doppelganger("tax_range_strat-col-group-single", function() {
+    plot(
+      tax_range_strat(occdf, group = "class"),
+      col.group = "grey90"
+    )
+  })
+  expect_doppelganger("tax_range_strat-col-group-null", function() {
+    plot(
+      tax_range_strat(occdf, group = "class"),
+      col.group = NULL
     )
   })
   expect_snapshot(
