@@ -78,7 +78,6 @@ reference:
   - bin_lat
   - bin_space
   - bin_time
-  - bin_time_methods
 
 - title: Data summarisation
   desc: >

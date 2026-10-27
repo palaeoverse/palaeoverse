@@ -2,16 +2,39 @@
 % Please edit documentation in R/bin_time.R
 \name{bin_time}
 \alias{bin_time}
+\alias{bin_time_mid}
+\alias{bin_time_majority}
+\alias{bin_time_all}
+\alias{bin_time_random}
+\alias{bin_time_point}
 \title{Assign fossil occurrences to time bins}
 \usage{
+bin_time_mid(occdf, min_ma = "min_ma", max_ma = "max_ma", bins)
+
+bin_time_majority(occdf, min_ma = "min_ma", max_ma = "max_ma", bins)
+
+bin_time_all(occdf, min_ma = "min_ma", max_ma = "max_ma", bins)
+
+bin_time_random(occdf, min_ma = "min_ma", max_ma = "max_ma", bins, reps = 100)
+
+bin_time_point(
+  occdf,
+  min_ma = "min_ma",
+  max_ma = "max_ma",
+  bins,
+  reps = 100,
+  fun = dunif,
+  ...
+)
+
 bin_time(
   occdf,
   min_ma = "min_ma",
   max_ma = "max_ma",
   bins,
-  method = bin_time_mid(),
-  reps = deprecated(),
-  fun = deprecated(),
+  method = "mid",
+  reps = 100,
+  fun = dunif,
   ...
 )
 }
@@ -38,48 +61,61 @@ contain at least the following named columns: "bin" and those specified
 to \code{max_ma} (default: "max_ma") and \code{min_ma} (default: "min_ma").
 Columns \code{max_ma} and \code{min_ma} must be \code{numeric} values.}
 
-\item{method}{The method desired for binning fossil occurrences. This must
-be a call to one of \code{\link[=bin_time_mid]{bin_time_mid()}} (default), \code{\link[=bin_time_majority]{bin_time_majority()}},
-\code{\link[=bin_time_all]{bin_time_all()}}, \code{\link[=bin_time_random]{bin_time_random()}}, or \code{\link[=bin_time_point]{bin_time_point()}}, placed
-directly in this argument. See Details for a description of each.}
+\item{reps}{\code{numeric}. A positive whole number specifying the number
+of replications for sampling. Defaults to 100.}
 
-\item{reps, fun, ...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use the arguments
-of \code{\link[=bin_time_random]{bin_time_random()}} or \code{\link[=bin_time_point]{bin_time_point()}} instead.}
+\item{fun}{\code{function}. A probability density function from the
+stats package such as \link[stats]{dunif} or \link[stats]{dnorm}.}
+
+\item{...}{Additional arguments passed to \code{fun}. These arguments may be
+required for function arguments without default values, or if you wish
+to overwrite the default argument value (see examples). \code{x} input values
+are generated internally based on the age range of the fossil occurrence
+and should not be manually provided. Note that \code{x} input values range
+between 0 and 1, and function arguments should therefore be scaled to be
+within these bounds.}
+
+\item{method}{\code{character}. The method desired for binning fossil
+occurrences: "mid", "majority", "all", "random", or "point". This
+calls the corresponding \verb{bin_time_*()} function.}
 }
 \value{
-For \code{\link[=bin_time_mid]{bin_time_mid()}}, \code{\link[=bin_time_majority]{bin_time_majority()}} and \code{\link[=bin_time_all]{bin_time_all()}}, a
+For \code{bin_time_mid()}, \code{bin_time_majority()} and \code{bin_time_all()}, a
 \code{dataframe} of the original input \code{occdf} with the following
 appended columns is returned: occurrence id (\code{id}), number of bins that
 the occurrence age range covers (\code{n_bins}), bin assignment
 (\code{bin_assignment}), and bin midpoint (\code{bin_midpoint}). In the case of
-\code{\link[=bin_time_majority]{bin_time_majority()}}, an additional column of the majority percentage
-overlap (\code{overlap_percentage}) is also appended. For \code{\link[=bin_time_random]{bin_time_random()}}
-and \code{\link[=bin_time_point]{bin_time_point()}}, a \code{list} is returned
+\code{bin_time_majority()}, an additional column of the majority percentage
+overlap (\code{overlap_percentage}) is also appended. For \code{bin_time_random()}
+and \code{bin_time_point()}, a \code{list} is returned
 (of length reps) with each element a copy of the \code{occdf} and appended
 columns (random: \code{bin_assignment} and \code{bin_midpoint}; point:
 \code{bin_assignment} and \code{point_estimates}).
 }
 \description{
-A function to assign fossil occurrences to specified time bins based on
-different approaches commonly applied in palaeobiology.
+These functions assign fossil occurrences to specified time bins based on
+different approaches commonly applied in palaeobiology (see Details).
 }
 \details{
-Five approaches (methods) exist in the \code{bin_time()} function for
-assigning occurrences to time bins:
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{bin_time()} is deprecated, use one of
+the \verb{bin_time_*()} functions instead.
+
+Five approaches (methods) exist for assigning occurrences to time
+bins:
 \itemize{
-\item Midpoint: \code{\link[=bin_time_mid]{bin_time_mid()}} is the simplest approach and uses the midpoint
+\item Midpoint: \code{bin_time_mid()} is the simplest approach and uses the midpoint
 of the fossil occurrence age range to bin the occurrence.
-\item Majority: \code{\link[=bin_time_majority]{bin_time_majority()}} bins an occurrence into the bin which it
+\item Majority: \code{bin_time_majority()} bins an occurrence into the bin which it
 most overlaps with. As part of this implementation, the majority
 percentage overlap of the occurrence is also calculated and returned as
 an additional column in \code{occdf}. If desired, these percentages can be
 used to further filter an occurrence dataset.
-\item All: \code{\link[=bin_time_all]{bin_time_all()}} bins an occurrence into every bin its age range
+\item All: \code{bin_time_all()} bins an occurrence into every bin its age range
 covers. For occurrences with age ranges of more than one bin, the
 occurrence row is duplicated. Each occurrence is assigned an ID in the
 column \code{occdf$id} so that duplicates can be tracked. Additionally,
 \code{occdf$n_bins} records the number of bins each occurrence appears within.
-\item Random: \code{\link[=bin_time_random]{bin_time_random()}} randomly samples X amount of bins (with
+\item Random: \code{bin_time_random()} randomly samples X amount of bins (with
 replacement) from the bins that the fossil occurrence age range covers
 with equal probability regardless of bin length. Its \code{reps} argument
 determines the number of times the sample process is repeated. All
@@ -87,11 +123,11 @@ replications are stored as individual elements within the returned list
 with an appended \code{bin_assignment} and \code{bin_midpoint} column to the
 original input \code{occdf}. If desired, users can easily bind this list using
 \code{do.call(rbind, x)}.
-\item Point: \code{\link[=bin_time_point]{bin_time_point()}} randomly samples X (\code{reps}) amount of point age
+\item Point: \code{bin_time_point()} randomly samples X (\code{reps}) amount of point age
 estimates from the age range of the fossil occurrence. Sampling follows a
 user-input probability density function such
 as \link[stats]{dnorm} (see example 5). Users should also provide any
-additional arguments for the probability density function in \code{...}.
+additional arguments for the probability density function (see \code{...}).
 However, \code{x} (vector of quantiles) values should not be provided as these
 values are input from the age range of each occurrence. These values
 range between 0 and 1, and therefore function arguments should be scaled
@@ -117,20 +153,18 @@ occdf <- tetrapods[1:100, ]
 bins <- time_bins()
 
 #Assign via midpoint age of fossil occurrence data
-ex1 <- bin_time(occdf = occdf, bins = bins, method = bin_time_mid())
+ex1 <- bin_time_mid(occdf, bins = bins)
 
 #Assign to all bins that age range covers
-ex2 <- bin_time(occdf = occdf, bins = bins, method = bin_time_all())
+ex2 <- bin_time_all(occdf, bins = bins)
 
 #Assign via majority overlap based on fossil occurrence age range
-ex3 <- bin_time(occdf = occdf, bins = bins, method = bin_time_majority())
+ex3 <- bin_time_majority(occdf, bins = bins)
 
 #Assign randomly to overlapping bins based on fossil occurrence age range
-ex4 <- bin_time(occdf = occdf, bins = bins,
-                method = bin_time_random(reps = 5))
+ex4 <- bin_time_random(occdf, bins = bins, reps = 5)
 
 #Assign point estimates following a normal distribution
-ex5 <- bin_time(occdf = occdf, bins = bins,
-                method = bin_time_point(reps = 5, fun = dnorm,
-                                        mean = 0.5, sd = 0.25))
+ex5 <- bin_time_point(occdf, bins = bins, reps = 5, fun = dnorm,
+                      mean = 0.5, sd = 0.25)
 }

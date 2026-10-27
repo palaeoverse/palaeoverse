@@ -16,16 +16,18 @@ guidance to update existing code.
   and a new argument `bins` is added. The same functionality is made possible with
   the new `space_bins()` (see "New features") (#344).
 
-* In `bin_time()`, the `method` argument now takes a call to one of
-  `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`,
-  or `bin_time_point()` instead of a string. The arguments `reps`, `fun` and `...`
-  are defunct and must be passed to `bin_time_random()` or `bin_time_point()`
-  instead (e.g. `method = bin_time_point(reps = 10, fun = dnorm, mean = 0.5)`).
+* `bin_time()` is deprecated in favour of the new `bin_time_mid()`,
+  `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, and
+  `bin_time_point()` (see "New features").
 
 ## New features
 
 * New `space_bins()` to generate spatial bins. The output of this function can be passed
  to the `bins` argument of `bin_space()` (#344).
+
+* New `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`,
+  and `bin_time_point()` to assign occurrences to time bins with each method. They
+  replace `bin_time()`, which is now deprecated.
   
 ## Bug fixes
 
