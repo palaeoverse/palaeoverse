@@ -150,7 +150,12 @@ bin_time <- function(
   # flag is set, i.e. when `method` is forced here.
   in_bin_time <- the$in_bin_time
   the$in_bin_time <- TRUE
-  on.exit(the$in_bin_time <- in_bin_time, add = TRUE)
+  on.exit(
+    {
+      the$in_bin_time <- in_bin_time
+    },
+    add = TRUE
+  )
   force(method)
   the$in_bin_time <- in_bin_time
 
