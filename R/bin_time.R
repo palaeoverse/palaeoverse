@@ -21,68 +21,56 @@
 #'   contain at least the following named columns: "bin" and those specified
 #'   to `max_ma` (default: "max_ma") and `min_ma` (default: "min_ma").
 #'   Columns `max_ma` and `min_ma` must be `numeric` values.
-#' @param method \code{character}. The method desired for binning fossil
-#'   occurrences. Currently, five methods exist in this function: "mid",
-#'   "majority", "all", "random", and "point". See Details for a description
-#'   of each.
-#' @param reps \code{numeric}. A non-negative `numeric` specifying the number
-#'   of replications for sampling. This argument is only useful in the case of
-#'   the "random" or "point" method being specified in the `method` argument.
-#'   Defaults to 100.
-#' @param fun \code{function}. A probability density function from the
-#'   stats package such as \link[stats]{dunif} or \link[stats]{dnorm}.
-#'   This argument is only useful if the "point" method is specified in the
-#'   `method` argument.
-#' @param ... Additional arguments available in the called function (`fun`).
-#'   These arguments may be required for function arguments without default
-#'   values, or if you wish to overwrite the default argument value (see
-#'   example). `x` input values are generated internally based
-#'   on the age range of the fossil occurrence and should not be manually
-#'   provided. Note that `x` input values range between 0 and 1, and
-#'   function arguments should therefore be scaled to be within these bounds.
+#' @param method The method desired for binning fossil occurrences. This must
+#'   be a call to one of [bin_time_mid()] (default), [bin_time_majority()],
+#'   [bin_time_all()], [bin_time_random()], or [bin_time_point()], placed
+#'   directly in this argument. See Details for a description of each.
+#' @param reps,fun,... `r lifecycle::badge("deprecated")` Use the arguments
+#'   of [bin_time_random()] or [bin_time_point()] instead.
 #'
-#' @return For methods "mid", "majority" and "all", a \code{dataframe} of the
-#'   original input `occdf` with the following appended columns is returned:
-#'   occurrence id (`id`), number of bins that the occurrence age range covers
-#'   (`n_bins`), bin assignment (`bin_assignment`), and bin midpoint
-#'   (`bin_midpoint`). In the case of the "majority" method, an additional
-#'   column of the majority percentage overlap (`overlap_percentage`) is also
-#'   appended. For the "random" and "point" method, a \code{list} is returned
+#' @return For [bin_time_mid()], [bin_time_majority()] and [bin_time_all()], a
+#'   \code{dataframe} of the original input `occdf` with the following
+#'   appended columns is returned: occurrence id (`id`), number of bins that
+#'   the occurrence age range covers (`n_bins`), bin assignment
+#'   (`bin_assignment`), and bin midpoint (`bin_midpoint`). In the case of
+#'   [bin_time_majority()], an additional column of the majority percentage
+#'   overlap (`overlap_percentage`) is also appended. For [bin_time_random()]
+#'   and [bin_time_point()], a \code{list} is returned
 #'   (of length reps) with each element a copy of the `occdf` and appended
 #'   columns (random: `bin_assignment` and `bin_midpoint`; point:
 #'   `bin_assignment` and `point_estimates`).
 #'
 #' @details Five approaches (methods) exist in the `bin_time()` function for
 #'   assigning occurrences to time bins:
-#' - Midpoint: The "mid" method is the simplest approach and uses the midpoint
+#' - Midpoint: [bin_time_mid()] is the simplest approach and uses the midpoint
 #'   of the fossil occurrence age range to bin the occurrence.
-#' - Majority: The "majority" method bins an occurrence into the bin which it
+#' - Majority: [bin_time_majority()] bins an occurrence into the bin which it
 #'   most overlaps with. As part of this implementation, the majority
 #'   percentage overlap of the occurrence is also calculated and returned as
 #'   an additional column in `occdf`. If desired, these percentages can be
 #'   used to further filter an occurrence dataset.
-#' - All: The "all" method bins an occurrence into every bin its age range
+#' - All: [bin_time_all()] bins an occurrence into every bin its age range
 #'   covers. For occurrences with age ranges of more than one bin, the
 #'   occurrence row is duplicated. Each occurrence is assigned an ID in the
 #'   column `occdf$id` so that duplicates can be tracked. Additionally,
 #'   `occdf$n_bins` records the number of bins each occurrence appears within.
-#' - Random: The "random" method randomly samples X amount of bins (with
+#' - Random: [bin_time_random()] randomly samples X amount of bins (with
 #'   replacement) from the bins that the fossil occurrence age range covers
-#'   with equal probability regardless of bin length. The `reps` argument
+#'   with equal probability regardless of bin length. Its `reps` argument
 #'   determines the number of times the sample process is repeated. All
 #'   replications are stored as individual elements within the returned list
 #'   with an appended `bin_assignment` and `bin_midpoint` column to the
 #'   original input `occdf`. If desired, users can easily bind this list using
 #'   \code{do.call(rbind, x)}.
-#' - Point: The "point" method randomly samples X (`reps`) amount of point age
+#' - Point: [bin_time_point()] randomly samples X (`reps`) amount of point age
 #'   estimates from the age range of the fossil occurrence. Sampling follows a
 #'   user-input probability density function such
 #'   as \link[stats]{dnorm} (see example 5). Users should also provide any
-#'   additional arguments for the probability density function (see `...`).
+#'   additional arguments for the probability density function in `...`.
 #'   However, `x` (vector of quantiles) values should not be provided as these
-#'   values are input from the age range of each occurrence. These
-#'   values range between 0 and 1, and therefore function arguments should be
-#'   scaled to be within these bounds. The `reps` argument determines the
+#'   values are input from the age range of each occurrence. These values
+#'   range between 0 and 1, and therefore function arguments should be scaled
+#'   to be within these bounds. Its `reps` argument determines the
 #'   number of times the sample process is repeated. All replications are
 #'   stored as individual elements within the returned list with an appended
 #'   `bin_assignment` and `point_estimates` column to the original input
@@ -98,32 +86,48 @@
 #' bins <- time_bins()
 #'
 #' #Assign via midpoint age of fossil occurrence data
-#' ex1 <- bin_time(occdf = occdf, bins = bins, method = "mid")
+#' ex1 <- bin_time(occdf = occdf, bins = bins, method = bin_time_mid())
 #'
 #' #Assign to all bins that age range covers
-#' ex2 <- bin_time(occdf = occdf, bins = bins, method = "all")
+#' ex2 <- bin_time(occdf = occdf, bins = bins, method = bin_time_all())
 #'
 #' #Assign via majority overlap based on fossil occurrence age range
-#' ex3 <- bin_time(occdf = occdf, bins = bins, method = "majority")
+#' ex3 <- bin_time(occdf = occdf, bins = bins, method = bin_time_majority())
 #'
 #' #Assign randomly to overlapping bins based on fossil occurrence age range
-#' ex4 <- bin_time(occdf = occdf, bins = bins, method = "random", reps = 5)
+#' ex4 <- bin_time(occdf = occdf, bins = bins,
+#'                 method = bin_time_random(reps = 5))
 #'
 #' #Assign point estimates following a normal distribution
-#' ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5,
-#'                 fun = dnorm, mean = 0.5, sd = 0.25)
+#' ex5 <- bin_time(occdf = occdf, bins = bins,
+#'                 method = bin_time_point(reps = 5, fun = dnorm,
+#'                                         mean = 0.5, sd = 0.25))
 #' @export
 bin_time <- function(
   occdf,
   min_ma = "min_ma",
   max_ma = "max_ma",
   bins,
-  method = "mid",
-  reps = 100,
-  fun = dunif,
+  method = bin_time_mid(),
+  reps = deprecated(),
+  fun = deprecated(),
   ...
 ) {
   ensure_args_are_named(exceptions = "occdf")
+
+  if (lifecycle::is_present(reps)) {
+    lifecycle::deprecate_stop(
+      "2.0.0",
+      "bin_time(reps)",
+      details = "Use the `reps` argument of `bin_time_random()` or `bin_time_point()` instead."
+    )
+  }
+  if (lifecycle::is_present(fun)) {
+    lifecycle::deprecate_stop("2.0.0", "bin_time(fun)", "bin_time_point(fun)")
+  }
+  if (...length() > 0) {
+    lifecycle::deprecate_stop("2.0.0", "bin_time(...)", "bin_time_point(...)")
+  }
 
   check_data_frame(occdf)
   check_data_frame(bins)
@@ -142,12 +146,31 @@ bin_time <- function(
   check_class(occdf, max_ma, "numeric")
   check_min_lower_than_max(occdf, min_ma, max_ma)
 
-  method <- rlang::arg_match(
-    method,
-    values = c("mid", "majority", "all", "random", "point")
-  )
+  # The bin_time_*() constructors error if they are not evaluated while this
+  # flag is set, i.e. when `method` is forced here.
+  in_bin_time <- the$in_bin_time
+  the$in_bin_time <- TRUE
+  on.exit(the$in_bin_time <- in_bin_time, add = TRUE)
+  force(method)
+  the$in_bin_time <- in_bin_time
 
-  rlang::check_number_whole(reps, min = 1)
+  if (!inherits(method, "palaeoverse_bin_time_method")) {
+    cli::cli_abort(
+      c(
+        "{.arg method} must be a call to one of {.fn bin_time_mid}, {.fn bin_time_majority}, {.fn bin_time_all}, {.fn bin_time_random}, or {.fn bin_time_point}, not {obj_type_friendly(method)}.",
+        "i" = if (
+          rlang::is_string(method) &&
+            method %in% c("mid", "majority", "all", "random", "point")
+        ) {
+          "Use {.code method = bin_time_{method}()} instead."
+        }
+      )
+    )
+  }
+  reps <- method$reps
+  fun <- method$fun
+  supp_args <- method$args
+  method <- method$method
 
   bins_min_ma_vals <- bins[[min_ma]]
   bins_max_ma_vals <- bins[[max_ma]]
@@ -162,15 +185,6 @@ bin_time <- function(
   if (min(occdf_min_ma_vals) < min(bins_min_ma_vals)) {
     cli::cli_abort(
       "Minimum age of occurrence data ({.val {min(occdf_min_ma_vals)}}) is less than minimum age of bins ({.val {min(bins_min_ma_vals)}})."
-    )
-  }
-
-  if (method == "point" && !is.function(fun)) {
-    cli::cli_abort(
-      c(
-        "Setting {.code method = \"point\"} requires {.arg fun} to be a function.",
-        "x" = "Problem: {.arg fun} is {class(fun)}."
-      )
     )
   }
 
@@ -253,26 +267,6 @@ bin_time <- function(
 
   #--- Method 2: Point estimates ---
   if (method == "point") {
-    # Check for errors in inputs
-    supp_args <- list(...)
-    if (!("..." %in% names(formals(fun)))) {
-      indx <- which(!(names(supp_args) %in% names(formals(fun))))
-      if (length(indx) > 1) {
-        stop(paste(
-          paste0("`", names(supp_args)[indx], "`", collapse = "/"),
-          "are not valid arguments for the specified function"
-        ))
-      } else if (length(indx) == 1) {
-        stop(paste0(
-          "`",
-          names(supp_args)[indx],
-          "`",
-          " is not a valid argument for the specified function"
-        ))
-      } else if ("x" %in% names(supp_args)) {
-        stop("`x` should not be specified. This is generated internally.")
-      }
-    }
     # make occurrence list for filling with reps
     occ_list <- vector("list", length = nrow(occdf))
 
@@ -288,7 +282,7 @@ bin_time <- function(
       #generate x for input probability function
       x_prob <- seq(from = 0, to = 1, length.out = length(occ_seq))
       # Generate probabilities
-      prob <- fun(x_prob, ...)
+      prob <- do.call(fun, c(list(x_prob), supp_args))
       #if max/min ages are the same replicate age
       if (length(unique(occ_seq)) == 1) {
         occ_list[[i]] <- rep(occ_seq, times = reps)
@@ -425,4 +419,112 @@ bin_time <- function(
     }
     return(occ_df_list)
   }
+}
+
+the <- new.env(parent = emptyenv())
+the$in_bin_time <- FALSE
+
+#' Methods to assign fossil occurrences to time bins
+#'
+#' These functions specify the method used by [bin_time()] to assign fossil
+#' occurrences to time bins. They must be called directly in the `method`
+#' argument of [bin_time()] and error if they are used anywhere else. See the
+#' Details section of [bin_time()] for a description of each method.
+#'
+#' @param ... For `bin_time_point()`, additional arguments passed to `fun`.
+#'   These arguments may be required for function arguments without default
+#'   values, or if you wish to overwrite the default argument value (see
+#'   examples). `x` input values are generated internally based on the age
+#'   range of the fossil occurrence and should not be manually provided. Note
+#'   that `x` input values range between 0 and 1, and function arguments
+#'   should therefore be scaled to be within these bounds. For
+#'   `bin_time_random()`, these dots must be empty.
+#' @param reps \code{numeric}. A positive whole number specifying the number
+#'   of replications for sampling. Defaults to 100.
+#' @param fun \code{function}. A probability density function from the
+#'   stats package such as \link[stats]{dunif} or \link[stats]{dnorm}.
+#'
+#' @return An object of class `palaeoverse_bin_time_method`, only meant to be
+#'   used by [bin_time()].
+#'
+#' @name bin_time_methods
+#' @examples
+#' occdf <- tetrapods[1:100, ]
+#' bins <- time_bins()
+#'
+#' ex1 <- bin_time(occdf = occdf, bins = bins, method = bin_time_majority())
+#' ex2 <- bin_time(occdf = occdf, bins = bins,
+#'                 method = bin_time_point(reps = 5, fun = dnorm,
+#'                                         mean = 0.5, sd = 0.25))
+NULL
+
+#' @rdname bin_time_methods
+#' @export
+bin_time_mid <- function() {
+  bin_time_method("mid")
+}
+
+#' @rdname bin_time_methods
+#' @export
+bin_time_majority <- function() {
+  bin_time_method("majority")
+}
+
+#' @rdname bin_time_methods
+#' @export
+bin_time_all <- function() {
+  bin_time_method("all")
+}
+
+#' @rdname bin_time_methods
+#' @export
+bin_time_random <- function(..., reps = 100) {
+  out <- bin_time_method("random", reps = reps)
+  rlang::check_dots_empty()
+  rlang::check_number_whole(reps, min = 1)
+  out
+}
+
+#' @rdname bin_time_methods
+#' @export
+bin_time_point <- function(..., reps = 100, fun = dunif) {
+  # Arguments are only forced once the context is checked.
+  out <- bin_time_method("point", reps = reps, fun = fun, args = list(...))
+  rlang::check_number_whole(reps, min = 1)
+  check_function(fun)
+
+  supp_args <- out$args
+  if (!("..." %in% names(formals(fun)))) {
+    indx <- which(!(names(supp_args) %in% names(formals(fun))))
+    if (length(indx) >= 1) {
+      to_report <- cli::cli_vec(
+        names(supp_args)[indx],
+        list(`vec-last` = ", and ")
+      )
+      cli::cli_abort(
+        "{.code {to_report}} {?is/are} not {?a/} valid argument{?s} for {.arg fun}."
+      )
+    }
+  }
+  if ("x" %in% names(supp_args)) {
+    cli::cli_abort(
+      "{.arg x} must not be specified as it is generated internally."
+    )
+  }
+
+  out
+}
+
+bin_time_method <- function(method, reps = NULL, fun = NULL, args = NULL) {
+  call <- rlang::caller_env()
+  if (!isTRUE(the$in_bin_time)) {
+    cli::cli_abort(
+      "{.fn {rlang::call_name(rlang::frame_call(call))}} must be used directly in the {.arg method} argument of {.fn bin_time}.",
+      call = call
+    )
+  }
+  structure(
+    list(method = method, reps = reps, fun = fun, args = args),
+    class = "palaeoverse_bin_time_method"
+  )
 }

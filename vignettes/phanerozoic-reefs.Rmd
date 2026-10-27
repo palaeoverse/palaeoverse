@@ -128,20 +128,20 @@ colnames(reefs)[which(colnames(reefs) == "interval_min_ma")] <- "min_ma"
 # Five methods exist in bin_time for binning occurrence data
 # You can see details on each via ?bin_time
 # Bin by midpoint age
-bin_time(occdf = reefs, bins = bins, method = "mid")
+bin_time(occdf = reefs, bins = bins, method = bin_time_mid())
 # Bin by overlap majority
-bin_time(occdf = reefs, bins = bins, method = "majority")
+bin_time(occdf = reefs, bins = bins, method = bin_time_majority())
 # Bin into every bin within age range
-bin_time(occdf = reefs, bins = bins, method = "all")
+bin_time(occdf = reefs, bins = bins, method = bin_time_all())
 # Bin randomly into bins within age range (equal probability)
-bin_time(occdf = reefs, bins = bins, method = "random", reps = 10)
+bin_time(occdf = reefs, bins = bins, method = bin_time_random(reps = 10))
 # Bin randomly into bins within age range (uniform probability)
-bin_time(occdf = reefs, bins = bins, method = "point", reps = 10)
+bin_time(occdf = reefs, bins = bins, method = bin_time_point(reps = 10))
 ```
 
 ```{r echo = TRUE, eval = TRUE}
 # Let's go with "all" for this example!
-reefs <- bin_time(occdf = reefs, bins = bins, method = "all")
+reefs <- bin_time(occdf = reefs, bins = bins, method = bin_time_all())
 ```
 
 Note that the number of rows of `reefs` have now increased. This is because the "all" method in `bin_time` duplicates an occurrence for every bin the age range overlaps with.

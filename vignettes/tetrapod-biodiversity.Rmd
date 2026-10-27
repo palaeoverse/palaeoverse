@@ -120,7 +120,7 @@ colnames(tetrapods)[c(35, 37)] <- c("max_ma", "min_ma")
 # Generate time bins
 tetrapods <- bin_time(occdf = tetrapods,
                       bins = bins,
-                      method = "mid")
+                      method = bin_time_mid())
 ```
 
 Oh no! We've hit an error. This is because there's some occurrences that sit outside of the time intervals we're interested in. `bin_time` can't bin occurrences which sit outside of the time intervals you've chosen, so for it to work, we'll first have to remove these occurrences.
@@ -132,7 +132,7 @@ cp_tetrapods <- subset(tetrapods, min_ma > min(bins$min_ma))
 # Bin occurrences into chosen time bins
 mid_tetrapods <- bin_time(occdf = cp_tetrapods,
                           bins = bins,
-                          method = "mid")
+                          method = bin_time_mid())
 ```
 
 That's better! Let's see how our dataset has changed.
@@ -156,7 +156,7 @@ As you can see, only ~25% of the dataset can be assigned to just one bin - the o
 # Bin occurrences into chosen time bins
 maj_tetrapods <- bin_time(occdf = cp_tetrapods,
                           bins = bins,
-                          method = "majority")
+                          method = bin_time_majority())
 ```
 
 We'd recommend playing around with these different options and seeing how they impact your results!
