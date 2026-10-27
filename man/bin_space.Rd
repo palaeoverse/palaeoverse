@@ -6,19 +6,24 @@
 \usage{
 bin_space(
   data,
+  bins,
   lng = "lng",
   lat = "lat",
-  spacing = 100,
-  sub_grid = NULL,
-  return = FALSE,
-  plot = FALSE
+  plot = FALSE,
+  spacing,
+  sub_grid,
+  return
 )
 }
 \arguments{
-\item{data}{\code{dataframe}. A dataframe of the fossil occurrences (or
-localities) you wish to bin. This dataframe should contain the decimal
+\item{data}{\code{data.frame}. A dataframe of the fossil occurrences (or
+any set of coordinates) you wish to bin. This dataframe should contain the decimal
 degree coordinates of your occurrences, and they should be of
 class \code{numeric}.}
+
+\item{bins}{\code{sfc_POLYGON}. An object of class \code{palaeoverse_space_bins}
+created by \code{\link[=space_bins]{space_bins()}}, corresponding to the bins that you wish to allocate
+fossil occurrences to.}
 
 \item{lng}{\code{character}. The name of the column you wish to be treated
 as the input longitude (e.g. "lng" or "p_lng").}
@@ -26,29 +31,32 @@ as the input longitude (e.g. "lng" or "p_lng").}
 \item{lat}{\code{character}. The name of the column you wish to be treated
 as the input latitude (e.g. "lat" or "p_lat").}
 
-\item{spacing}{\code{numeric}. The desired spacing between the center of
-adjacent cells. This value should be provided in kilometres.}
-
-\item{sub_grid}{\code{numeric}. For an optional sub-grid, the desired
-spacing between the center of adjacent cells in the sub-grid.
-This value should be provided in kilometres.
-See details for information on sub-grid usage.}
-
-\item{return}{\code{logical}. Should the equal-area grid information and
-polygons be returned?}
-
 \item{plot}{\code{logical}. Should the occupied cells of the equal-area grid
 be plotted?}
+
+\item{spacing, sub_grid, return}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} These arguments
+are no longer used and don't have a replacement. Pass the output of \code{space_bins()}
+to the \code{bins} argument instead.}
 }
 \value{
-If the \code{return} argument is set to \code{FALSE}, a dataframe is
-returned of the original input \code{data} with cell information. If \code{return} is
-set to \code{TRUE}, a list is returned with both the input \code{data} and grid
-information and polygons.
+A \code{data.frame} with the original input data and three new columns:
+\itemize{
+\item \verb{cell_id_\{h3_resolution\}}: the ID of the H3 cell that contains the row's coordinates
+\item \verb{cell_centroid_lat_\{h3_resolution\}}: the latitude of the H3 cell's centroid
+\item \verb{cell_centroid_lng_\{h3_resolution\}}: the longitude of the H3 cell's centroid
+}
+
+In these three column names, \code{{h3_resolution}} corresponds to the H3 resolution that
+is used. For instance, using \code{bins = space_bins(spacing = 250)} results in an H3
+resolution equal to 2, so the column name for the cell ID will be \code{"cell_id_2"}.
+
+Note: calling \code{bin_space()} several times can overwrite existing cell columns if \code{bins}
+uses the same resolution as existing columns.
 }
 \description{
-A function to assign fossil occurrences (or localities) to spatial
-bins/samples using a hexagonal equal-area grid.
+A function to assign fossil occurrences (or any set of coordinates) to spatial
+bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
+\code{\link[=space_bins]{space_bins()}}, which creates the spatial bins required by the \code{bins} argument.
 }
 \details{
 This function assigns fossil occurrence data into
@@ -56,20 +64,7 @@ equal-area grid cells using discrete hexagonal grids via the
 \code{\link[h3jsr]{h3jsr}} package. This package relies on
 \href{https://h3geo.org/docs/}{Uber's H3} library, a geospatial indexing system
 that partitions the world into hexagonal cells. In H3, 16 different
-resolutions are available
-(\href{https://h3geo.org/docs/core-library/restable/}{see here}). In the
-implementation of the \code{bin_space()} function, the resolution is defined by
-the user-input \code{spacing} which represents the distance between the centroid
-of adjacent cells. Using this distance, the function identifies which
-resolution is most similar to the input \code{spacing}, and uses this resolution.
-
-Additional functionality allows the user to simultaneously assign occurrence
-data to equal-area grid cells of a finer-scale grid (i.e. a ‘sub-grid’)
-within the primary grid via the \code{sub_grid} argument. This might be desirable
-for users to evaluate the differences in the amount of area occupied by
-occurrences within their primary grid cells. This functionality also allows
-the user to easily rarefy across sub-grid cells within primary cells to
-further standardise spatial sampling (see example for basic implementation).
+resolutions are available (see the 'Details' section of \code{\link[=space_bins]{space_bins()}}).
 
 Note: prior to implementation, coordinate reference system (CRS) for input
 data is defined as EPSG:4326 (World Geodetic System
@@ -95,20 +90,24 @@ data("reefs")
 data <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
-ex1 <- bin_space(data = data, spacing = 500, plot = TRUE)
+ex1 <- bin_space(data = data, bins = space_bins(spacing = 500))
 
 # Bin data using a hexagonal equal-area grid and sub-grid
-ex2 <- bin_space(data = data, spacing = 1000, sub_grid = 250, plot = TRUE)
+ex2 <- data |>
+  bin_space(bins = space_bins(spacing = 1000)) |>
+  bin_space(bins = space_bins(spacing = 250))
 
 # EXAMPLE: rarefy
 # Load data
 data <- tetrapods[1:250, ]
 
-# Assign to spatial bin
-data <- bin_space(data = data, spacing = 1000, sub_grid = 250)
+# Assign to spatial bins and sub-bins
+data <- data |>
+  bin_space(bins = space_bins(spacing = 1000)) |>
+  bin_space(bins = space_bins(spacing = 250))
 
 # Get unique bins
-bins <- unique(data$cell_ID)
+bins <- unique(data$cell_ID_1)
 
 # n reps
 n <- 10
@@ -117,10 +116,10 @@ n <- 10
 # Returns a list with each element a bin with respective mean genus richness
 df <- lapply(bins, function(x) {
   # subset data for respective grid cell
-  tmp <- data[which(data$cell_ID == x), ]
+  tmp <- data[which(data$cell_ID_1 == x), ]
 
   # Which sub-grid cells are there within this bin?
-  sub_bin <- unique(tmp$cell_ID_sub)
+  sub_bin <- unique(tmp$cell_ID_2)
 
   # Sample 1 sub-grid cell n times
   s <- sample(sub_bin, size = n, replace = TRUE)
@@ -128,10 +127,14 @@ df <- lapply(bins, function(x) {
   # Count the number of unique genera within each sub_grid cell for each rep
   counts <- sapply(s, function(i) {
     # Number of unique genera within each sample
-    length(unique(tmp[which(tmp$cell_ID_sub == i), ]$genus))
+    length(unique(tmp[which(tmp$cell_ID_2 == i), ]$genus))
   })
 
   # Mean richness across subsamples
   mean(counts)
 })
+df
+}
+\seealso{
+\code{\link[=space_bins]{space_bins()}}
 }

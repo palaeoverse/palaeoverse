@@ -1,25 +1,21 @@
+# bin_space() overwrites existing cell columns
+
+    Code
+      out <- bin_space(bin_space(data, bins = space_bins(spacing = 1000)), bins = space_bins(
+        spacing = 900))
+    Message
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
+      Overwriting columns "cell_ID_1", "cell_centroid_lat_1", and "cell_centroid_lng_1".
+
 # bin_space errors with unnamed args
 
     Code
-      bin_space(data, "lng")
-    Condition
-      Error in `bin_space()`:
-      ! All arguments must be named (except for `data`).
-      i Currently, there is 1 argument that should be named.
-
----
-
-    Code
-      bin_space(data = data, "lng")
-    Condition
-      Error in `bin_space()`:
-      ! All arguments must be named (except for `data`).
-      i Currently, there is 1 argument that should be named.
-
----
-
-    Code
-      bin_space(data, "lng", "lat")
+      bin_space(data, space_bins(spacing = 1000), "lng")
     Condition
       Error in `bin_space()`:
       ! All arguments must be named (except for `data`).
@@ -28,11 +24,29 @@
 ---
 
     Code
-      bin_space(data, "lng", lat = "lat")
+      bin_space(data = data, space_bins(spacing = 1000), "lng")
     Condition
       Error in `bin_space()`:
       ! All arguments must be named (except for `data`).
-      i Currently, there is 1 argument that should be named.
+      i Currently, there are 2 arguments that should be named.
+
+---
+
+    Code
+      bin_space(data, space_bins(spacing = 1000), "lng", "lat")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named (except for `data`).
+      i Currently, there are 3 arguments that should be named.
+
+---
+
+    Code
+      bin_space(data, space_bins(spacing = 1000), "lng", lat = "lat")
+    Condition
+      Error in `bin_space()`:
+      ! All arguments must be named (except for `data`).
+      i Currently, there are 2 arguments that should be named.
 
 # bin_space error handling
 
@@ -45,79 +59,30 @@
 ---
 
     Code
-      bin_space(data = tetrapods, spacing = NA)
+      bin_space(data = tetrapods, bins = NA)
     Condition
       Error in `bin_space()`:
-      ! `spacing` must be a number, not `NA`.
+      ! `bins` must be of class <palaeoverse_space_bins>.
+      i Hint: use `space_bins()` to create the spatial bins.
 
 ---
 
     Code
-      bin_space(data = tetrapods, spacing = 1:2)
+      bin_space(data = tetrapods, bins = 1:2)
     Condition
       Error in `bin_space()`:
-      ! `spacing` must be a number, not an integer vector.
+      ! `bins` must be of class <palaeoverse_space_bins>.
+      i Hint: use `space_bins()` to create the spatial bins.
 
 ---
 
     Code
-      bin_space(data = tetrapods, spacing = -1)
-    Condition
-      Error in `bin_space()`:
-      ! `spacing` must be greater than 0.
-
----
-
-    Code
-      bin_space(data = tetrapods, spacing = 0)
-    Condition
-      Error in `bin_space()`:
-      ! `spacing` must be greater than 0.
-
----
-
-    Code
-      bin_space(data = tetrapods, sub_grid = 1:2)
-    Condition
-      Error in `bin_space()`:
-      ! `sub_grid` must be a number or `NULL`, not an integer vector.
-
----
-
-    Code
-      bin_space(data = tetrapods, spacing = 1000, sub_grid = NA)
-    Condition
-      Error in `bin_space()`:
-      ! `sub_grid` must be a number or `NULL`, not `NA`.
-
----
-
-    Code
-      bin_space(data = tetrapods, sub_grid = -1)
-    Condition
-      Error in `bin_space()`:
-      ! `sub_grid` must be greater than 0.
-
----
-
-    Code
-      bin_space(data = tetrapods, sub_grid = 0)
-    Condition
-      Error in `bin_space()`:
-      ! `sub_grid` must be greater than 0.
-
----
-
-    Code
-      bin_space(data = tetrapods, return = "TRUE")
-    Condition
-      Error in `bin_space()`:
-      ! `return` must be `TRUE` or `FALSE`, not the string "TRUE".
-
----
-
-    Code
-      bin_space(data = tetrapods, lng = "long", lat = "latit")
+      bin_space(data = tetrapods, bins = space_bins(spacing = 1000), lng = "long",
+      lat = "latit")
+    Message
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
     Condition
       Error in `bin_space()`:
       ! Column "latit" not found in `data`.
@@ -125,16 +90,11 @@
 ---
 
     Code
-      bin_space(data = tetrapods, spacing = 1000, sub_grid = 1000)
-    Condition
-      Error in `bin_space()`:
-      ! `spacing` and `sub_grid` values result in the same resolution.
-      i Update `spacing` and/or `sub_grid` accordingly.
-
----
-
-    Code
-      bin_space(data = data)
+      bin_space(data, bins = space_bins(spacing = 1000))
+    Message
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
     Condition
       Error in `bin_space()`:
       ! All values of column "lat" in `data` must be between -90 and 90.
@@ -143,7 +103,11 @@
 ---
 
     Code
-      bin_space(data = data)
+      bin_space(data, bins = space_bins(spacing = 1000))
+    Message
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
     Condition
       Error in `bin_space()`:
       ! Column "lat" in `data` must be of class <numeric>, not <character>.
@@ -151,7 +115,11 @@
 ---
 
     Code
-      bin_space(data = data)
+      bin_space(data, bins = space_bins(spacing = 1000))
+    Message
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
     Condition
       Error in `bin_space()`:
       ! All values of column "lng" in `data` must be between -180 and 180.
@@ -160,8 +128,75 @@
 ---
 
     Code
-      bin_space(data = data)
+      bin_space(data, bins = space_bins(spacing = 1000))
+    Message
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
     Condition
       Error in `bin_space()`:
       ! Column "lng" in `data` must be of class <numeric>, not <character>.
+
+# plot argument works
+
+    Code
+      bin_space(data = data, bins = space_bins(spacing = 1000), plot = "foo")
+    Message
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
+    Condition
+      Error in `bin_space()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "foo".
+
+---
+
+    Code
+      bin_space(data = data, bins = space_bins(spacing = 1000), plot = logical(0))
+    Message
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
+    Condition
+      Error in `bin_space()`:
+      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
+
+---
+
+    Code
+      bin_space(data = data, bins = space_bins(spacing = 1000), plot = 1)
+    Message
+      i H3 resolution: 1
+      i Average spacing between adjacent cells: 725.17 km.
+      i Average cell area: 609,788.4 sq. km.
+    Condition
+      Error in `bin_space()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the number 1.
+
+# spacing, sub_grid, and return give good error messages
+
+    Code
+      bin_space(data = data, spacing = 1000)
+    Condition
+      Error in `bin_space()`:
+      ! The `spacing` argument of `bin_space()` is no longer used as of palaeoverse 2.0.0.
+      i Pass the output of `space_bins()` to the `bins` argument instead.
+
+---
+
+    Code
+      bin_space(data = data, sub_grid = 1000)
+    Condition
+      Error in `bin_space()`:
+      ! The `sub_grid` argument of `bin_space()` is no longer used as of palaeoverse 2.0.0.
+      i Pass the output of `space_bins()` to the `bins` argument instead.
+
+---
+
+    Code
+      bin_space(data = data, bins = space_bins(spacing = 1000), return = TRUE)
+    Condition
+      Error in `bin_space()`:
+      ! The `return` argument of `bin_space()` is no longer used as of palaeoverse 2.0.0.
+      i Pass the output of `space_bins()` to the `bins` argument instead.
 

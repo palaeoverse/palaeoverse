@@ -2,6 +2,7 @@
 % Please edit documentation in R/tax_range_time.R
 \name{tax_range_time}
 \alias{tax_range_time}
+\alias{plot.palaeoverse_tax_range_time}
 \title{Calculate the temporal range of fossil taxa}
 \usage{
 tax_range_time(
@@ -11,9 +12,19 @@ tax_range_time(
   max_ma = "max_ma",
   group = NULL,
   by = "FAD",
-  plot = FALSE,
-  plot_args = NULL,
-  intervals = "periods"
+  plot = deprecated(),
+  plot_args = deprecated(),
+  intervals = deprecated()
+)
+
+\method{plot}{palaeoverse_tax_range_time}(
+  x,
+  ...,
+  axis = axis_geo(side = 1, intervals = "periods", title = xlab),
+  main = "Temporal range of taxa",
+  xlab = "Time (Ma)",
+  ylab = "Taxon",
+  col.group = c("grey85", "grey95")
 )
 }
 \arguments{
@@ -40,20 +51,29 @@ treated as a single group.}
 Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 or "name" (alphabetically by taxon names).}
 
-\item{plot}{\code{logical}. Should a plot of the ranges be generated?}
+\item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
+output of this function instead.}
 
-\item{plot_args}{\code{list}. A list of optional arguments relevant to
-plotting. See Details for options.}
+\item{intervals}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use the argument \code{axis}
+in \code{plot()} on the output of this function instead.}
 
-\item{intervals}{\code{character}. The time interval information used to
-plot the x-axis: either A) a \code{character} string indicating a rank of
-intervals from the built-in \code{\link{GTS2020}}, B) a \code{character}
-string indicating a \code{data.frame} hosted by
-\href{https://macrostrat.org}{Macrostrat} (see \code{\link{time_bins}}), or C)
-a custom \code{data.frame} of time interval boundaries (see \link{axis_geo}
-Details). A list of strings or data.frames can be supplied to add
-multiple time scales to the same side of the plot (see \link{axis_geo}
-Details). Defaults to "periods".}
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_time"} created by \code{tax_range_time()}.}
+
+\item{...}{Extra graphical parameters (see Details). The following arguments are already set internally
+and must not be specified here: \code{xlim}, \code{ylim}, \code{xaxt}, \code{yaxt}.}
+
+\item{axis}{A function call drawing an axis, such as \code{\link[=axis_geo]{axis_geo()}}
+(default) to add the geological timescale at the bottom of the plot, or
+\code{\link[graphics:axis]{graphics::axis()}}.}
+
+\item{main}{\code{character}. The plot title.}
+
+\item{xlab}{\code{character}. The x-axis title.}
+
+\item{ylab}{\code{character}. The y-axis title.}
+
+\item{col.group}{\code{character}. The background colours to use when \code{x} has groups. Must be of the same length
+as the number of unique groups.}
 }
 \value{
 A \code{data.frame} containing the following columns:
@@ -61,6 +81,12 @@ unique taxa (\code{taxon}), taxon ID (\code{taxon_id}), first appearance of taxo
 (\code{max_ma}), last appearance of taxon (\code{min_ma}), duration of temporal
 range (\code{range_myr}), and number of occurrences per taxon (\code{n_occ}) is
 returned.
+
+This \code{data.frame} has an attribute \code{palaeoverse_tax_range_time_group}
+that is for internal use only.
+
+\code{plot()} invisibly returns a list with the graphical parameters \code{mar}
+and \code{usr} used to draw the plot (see \code{\link[graphics:par]{graphics::par()}}).
 }
 \description{
 A function to calculate the temporal range of fossil taxa from occurrence
@@ -71,24 +97,21 @@ The temporal range(s) of taxa are calculated by extracting all
 unique taxa (\code{name} column) from the input \code{data}, and checking their
 first and last appearance. The temporal duration of each taxon is also
 calculated. If the input data columns contain NAs, these must be
-removed prior to function call. A plot of the temporal range of each
-taxon is also returned if \code{plot = TRUE}. Customisable argument options
-(i.e. \code{\link[graphics:par]{graphics::par()}}) to pass to \code{plot_args} as a list (and their
-defaults) for plotting include:
-\itemize{
-\item xlab = "Time (Ma)"
-\item ylab = "Taxon ID"
-\item col = "black"
-\item bg = "black"
-\item pch = 20
-\item cex = 1
-\item lty = 1
-\item lwd = 1
-}
+removed prior to function call.
 
 Note: this function provides output based solely on the user input data.
 The true duration of a taxon is likely confounded by uncertainty in
 dating occurrences, and incomplete sampling and preservation.
+
+The following graphical parameters have default values that differ from base R:
+\itemize{
+\item \code{bg = "black"}: the background (fill) colour of the points, only used for \code{pch} values 21 to 25.
+\item \code{pch = 20}: the symbol used for the first and last appearance points (see \code{\link[graphics:points]{graphics::points()}}).
+\item \code{yaxs = "i"}: the style of y-axis interval calculation (see \code{\link[graphics:par]{graphics::par()}}).
+}
+
+The graphical parameters are reset when \code{plot()} exits. See 'Examples' to know how to add
+components to the plot.
 }
 \section{Developer(s)}{
 
@@ -106,22 +129,28 @@ data <- tetrapods
 # Remove NAs
 data <- subset(data, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 # Temporal range
-ex <- tax_range_time(data = data, name = "order", plot = TRUE)
+ex <- tax_range_time(data = data, name = "order")
+plot(ex)
+
 # Temporal range ordered by class
 # Update margins for plotting
 par(mar = c(8, 5, 6, 6))
-ex <- tax_range_time(data = data, name = "order", group = "class",
-                     plot = TRUE)
+ex <- tax_range_time(data = data, name = "order", group = "class")
+plot(ex)
+
 # Customise appearance
-ex <- tax_range_time(data = data, name = "order", group = "class",
-                     plot = TRUE,
-                     plot_args = list(ylab = "Orders",
-                                      pch = 21, col = "black", bg = "blue",
-                                      lty = 2),
-                     intervals = list("periods", "eras"))
+ex <- tax_range_time(data = data, name = "order", group = "class")
+plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
+     axis = axis_geo(intervals = "eras", abbr = FALSE))
+
 # Control plotting order of groups
 data$class <- factor(x = data$class,
                       levels = c("Reptilia", "Osteichthyes"))
-ex <- tax_range_time(data = data, name = "order",
-                     group = "class", plot = TRUE)
+ex <- tax_range_time(data = data, name = "order", group = "class")
+plot(ex)
+
+# Add elements to the plot
+op <- par(plot(ex))
+abline(v = 290, lty = 2, col = "red")
+par(op)
 }

@@ -290,35 +290,97 @@
       Error in `tax_range_time()`:
       ! `by` must be a single string, not `NA`.
 
-# argument 'plot' works
+# tax_range_time plotting with extra args works
 
     Code
-      tax_range_time(data, plot = "test")
+      plot(tax_range_time(data, group = "family"), col.group = c("red", "blue"))
     Condition
-      Error in `tax_range_time()`:
-      ! `plot` must be `TRUE` or `FALSE`, not the string "test".
+      Error in `plot()`:
+      ! Length of `col.group` (2) must be equal to the number of unique groups in the data (3).
 
 ---
 
     Code
-      tax_range_time(data, plot = NA)
+      plot(tax_range_time(data), xlim = 1, ylim = 1, xaxt = 1, yaxt = 1, yaxs = 1)
     Condition
-      Error in `tax_range_time()`:
-      ! `plot` must be `TRUE` or `FALSE`, not `NA`.
+      Error in `plot()`:
+      ! Cannot pass arguments `xlim`, `ylim`, `xaxt`, and `yaxt` when calling `plot()` on an object of class <palaeoverse_tax_range_time>.
+      i These arguments are already set by `plot()` internally.
 
-# argument 'plot_args' works
+# plot is deprecated but still works
 
     Code
-      tax_range_time(data, plot_args = "test")
+      tax_range_time(data, plot = "6")
+    Condition
+      Warning:
+      The `plot` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `tax_range_time()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
+
+# plot_args is deprecated but still works
+
+    Code
+      tax_range_time(data, plot_args = 1)
+    Condition
+      Warning:
+      The `plot_args` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `tax_range_time()`:
+      ! `plot_args` must be of class <list> or `NULL`, not the number 1.
+
+# argument 'intervals' is hard deprecated
+
+    Code
+      tax_range_time(data, intervals = c("genus", "min_ma"))
     Condition
       Error in `tax_range_time()`:
-      ! `plot_args` must be of class <list> or `NULL`, not the string "test".
+      ! The argument `intervals` has been removed in palaeoverse 2.0.0.
+      i Use `plot(axis =)` on the output of this function instead.
+
+# plot argument 'axis' works
+
+    Code
+      plot(tax_range_time(data), axis = "periods")
+    Condition
+      Error in `plot()`:
+      ! `axis` must be a function call, not `"periods"`.
 
 ---
 
     Code
-      tax_range_time(data, plot_args = NA)
+      plot(tax_range_time(data), axis = axis_geo(intervals = "nonexistent"))
     Condition
-      Error in `tax_range_time()`:
-      ! `plot_args` must be of class <list> or `NULL`, not `NA`.
+      Error in `plot()`:
+      ! Error in `axis_geo(intervals = "nonexistent")`.
+      Caused by error:
+      ! `scale` must match a built-in or Macrostrat time scale.
+
+---
+
+    Code
+      plot(tax_range_time(data), axis = axis_geo(intervals = 1))
+    Condition
+      Error in `plot()`:
+      ! Error in `axis_geo(intervals = 1)`.
+      Caused by error in `time_bins()`:
+      ! `scale` must be one of the following, not the number 1:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale
+      * a <data.frame>
+      > See `time_bins()` (`?palaeoverse::time_bins()`) for more details.
+
+---
+
+    Code
+      plot(tax_range_time(data), axis = axis_geo(intervals = NA))
+    Condition
+      Error in `plot()`:
+      ! Error in `axis_geo(intervals = NA)`.
+      Caused by error in `time_bins()`:
+      ! `scale` must be one of the following, not `NA`:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale
+      * a <data.frame>
+      > See `time_bins()` (`?palaeoverse::time_bins()`) for more details.
 
