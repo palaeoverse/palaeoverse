@@ -356,7 +356,6 @@ plot.palaeoverse_tax_range_strat <- function(
     uncertain <- occdf[(occdf[, certainty, drop = TRUE] == 0), ]
   }
 
-  #=== Plotting ===
   # Create plot
   # use defaults if not set
   cols <- plot_args$col

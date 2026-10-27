@@ -277,10 +277,10 @@
 ---
 
     Code
-      plot(tax_range_strat(occdf), y = 1, axes = TRUE, type = "l")
+      plot(tax_range_strat(occdf), y = 1, axes = TRUE, type = "l", xaxs = "r")
     Condition
       Error in `plot()`:
-      ! Cannot pass arguments `y`, `axes`, and `type` when calling `plot()` on an object of class <palaeoverse_tax_range_strat>.
+      ! Cannot pass arguments `y`, `axes`, `type`, and `xaxs` when calling `plot()` on an object of class <palaeoverse_tax_range_strat>.
       i These arguments are already set by `plot()` internally.
 
 # plot argument 'axis' works

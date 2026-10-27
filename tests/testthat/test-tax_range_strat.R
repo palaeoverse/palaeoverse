@@ -323,7 +323,7 @@ test_that("tax_range_strat plotting with extra args works", {
 
   # forbidden args
   expect_snapshot(
-    plot(tax_range_strat(occdf), y = 1, axes = TRUE, type = "l"),
+    plot(tax_range_strat(occdf), y = 1, axes = TRUE, type = "l", xaxs = "r"),
     error = TRUE
   )
 })
