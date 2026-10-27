@@ -173,6 +173,8 @@ bin_time_point <- function(
   check_function(fun)
 
   supp_args <- list(...)
+  # If `fun` doesn't have `...` then we can properly check that arguments passed in our
+  # `...` exist in the definition of `fun`.
   if (!("..." %in% names(formals(fun)))) {
     indx <- which(!(names(supp_args) %in% names(formals(fun))))
     if (length(indx) >= 1) {
