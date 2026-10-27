@@ -301,24 +301,13 @@
       Caused by error in `axis()`:
       ! invalid axis number 5
 
-# plot_args is deprecated but still works
-
-    Code
-      tax_range_strat(occdf, plot_args = 1)
-    Condition
-      Warning:
-      The `plot_args` argument of `tax_range_strat()` is deprecated as of palaeoverse 2.0.0.
-      i Please use `plot()` on the output of this function instead.
-      Error in `tax_range_strat()`:
-      ! `plot_args` must be of class <list> or `NULL`, not the number 1.
-
-# arguments 'x_args' and 'y_args' are hard deprecated
+# arguments 'plot_args', 'x_args' and 'y_args' are hard deprecated
 
     Code
       tax_range_strat(occdf, x_args = list(las = 1))
     Condition
       Error in `tax_range_strat()`:
-      ! The arguments `x_args` and `y_args` have been removed in palaeoverse 2.0.0.
+      ! The arguments `x_args`, `y_args`, and `plot_args` have been removed in palaeoverse 2.0.0.
       i Use `plot()` on the output of this function instead.
 
 ---
@@ -327,6 +316,15 @@
       tax_range_strat(occdf, y_args = list(las = 1))
     Condition
       Error in `tax_range_strat()`:
-      ! The arguments `x_args` and `y_args` have been removed in palaeoverse 2.0.0.
+      ! The arguments `x_args`, `y_args`, and `plot_args` have been removed in palaeoverse 2.0.0.
+      i Use `plot()` on the output of this function instead.
+
+---
+
+    Code
+      tax_range_strat(occdf, plot_args = list(ylab = "Height (m)"))
+    Condition
+      Error in `tax_range_strat()`:
+      ! The arguments `x_args`, `y_args`, and `plot_args` have been removed in palaeoverse 2.0.0.
       i Use `plot()` on the output of this function instead.
 

@@ -55,10 +55,7 @@ circle and joined with dashed lines.}
 (first appearance; default), "LAD" (last appearance), or "name"
 (alphabetically by taxon names).}
 
-\item{plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
-output of this function instead.}
-
-\item{x_args, y_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} These arguments have
+\item{plot_args, x_args, y_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} These arguments have
 been removed. Use \code{plot()} on the output of this function instead.}
 
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_strat"}

@@ -24,9 +24,7 @@
 #' @param by \code{character}. How should the output be sorted? Either: "FAD"
 #'   (first appearance; default), "LAD" (last appearance), or "name"
 #'   (alphabetically by taxon names).
-#' @param plot_args `r lifecycle::badge("deprecated")` Use `plot()` on the
-#'   output of this function instead.
-#' @param x_args,y_args `r lifecycle::badge("deprecated")` These arguments have
+#' @param plot_args,x_args,y_args `r lifecycle::badge("deprecated")` These arguments have
 #'   been removed. Use `plot()` on the output of this function instead.
 #'
 #' @return A \code{data.frame} containing the following columns: taxon ID
@@ -138,26 +136,17 @@ tax_range_strat <- function(
   rlang::check_string(by)
   by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
 
-  if (lifecycle::is_present(x_args) || lifecycle::is_present(y_args)) {
+  if (
+    lifecycle::is_present(x_args) ||
+      lifecycle::is_present(y_args) ||
+      lifecycle::is_present(plot_args)
+  ) {
     cli::cli_abort(
       c(
-        "The arguments {.arg x_args} and {.arg y_args} have been removed in {.pkg palaeoverse} 2.0.0.",
+        "The arguments {.arg x_args}, {.arg y_args}, and {.arg plot_args} have been removed in {.pkg palaeoverse} 2.0.0.",
         "i" = "Use {.fn plot} on the output of this function instead."
       )
     )
-  }
-  if (lifecycle::is_present(plot_args)) {
-    lifecycle::deprecate_warn(
-      "2.0.0",
-      "tax_range_strat(plot_args)",
-      I("`plot()` on the output of this function"),
-      always = TRUE
-    )
-    if (!is.null(plot_args) && !is.list(plot_args)) {
-      cli::cli_abort(
-        "{.arg plot_args} must be of class {.cls list} or {.code NULL}, not {obj_type_friendly(plot_args)}."
-      )
-    }
   }
 
   # Create pseudo-group if not provided (enable group_apply with no groups)
@@ -254,10 +243,6 @@ tax_range_strat <- function(
   attr(ranges, "palaeoverse_tax_range_strat_occdf") <- occdf[,
     c("ID", level, certainty)
   ]
-
-  if (lifecycle::is_present(plot_args)) {
-    do.call("plot", c(list(x = ranges), plot_args))
-  }
 
   ranges
 }

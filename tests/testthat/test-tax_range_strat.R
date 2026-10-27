@@ -376,28 +376,7 @@ test_that("plot argument 'axis' works", {
   )
 })
 
-test_that("plot_args is deprecated but still works", {
-  # fmt: skip
-  occdf <- data.frame(
-    genus = c(
-      "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
-      "Edaphosaurus", "Procolophon"
-    ),
-    bed = c(1, 1, 2, 2, 2, 3, 3, 4)
-  )
-  expect_doppelganger("tax_range_strat-plot-args-deprecated", function() {
-    expect_warning(
-      tax_range_strat(occdf, plot_args = list(ylab = "Height (m)")),
-      "is deprecated as of palaeoverse 2.0.0",
-      fixed = TRUE
-    )
-  })
-
-  # still input checking
-  expect_snapshot(tax_range_strat(occdf, plot_args = 1), error = TRUE)
-})
-
-test_that("arguments 'x_args' and 'y_args' are hard deprecated", {
+test_that("arguments 'plot_args', 'x_args' and 'y_args' are hard deprecated", {
   # fmt: skip
   occdf <- data.frame(
     genus = c(
@@ -408,4 +387,8 @@ test_that("arguments 'x_args' and 'y_args' are hard deprecated", {
   )
   expect_snapshot(tax_range_strat(occdf, x_args = list(las = 1)), error = TRUE)
   expect_snapshot(tax_range_strat(occdf, y_args = list(las = 1)), error = TRUE)
+  expect_snapshot(
+    tax_range_strat(occdf, plot_args = list(ylab = "Height (m)")),
+    error = TRUE
+  )
 })
