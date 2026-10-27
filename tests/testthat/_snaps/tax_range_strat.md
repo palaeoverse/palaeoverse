@@ -294,16 +294,12 @@
 ---
 
     Code
-      plot(tax_range_strat(occdf), axis = axis_geo(intervals = 1))
+      plot(tax_range_strat(occdf), axis = axis(side = 5))
     Condition
       Error in `plot()`:
-      ! Error in `axis_geo(intervals = 1)`.
-      Caused by error in `time_bins()`:
-      ! `scale` must be one of the following, not the number 1:
-      * the name of an in-built time scale (e.g. "GTS2020")
-      * the name of a Macrostrat time scale
-      * a <data.frame>
-      > See `time_bins()` (`?palaeoverse::time_bins()`) for more details.
+      ! Error in `axis(side = 5)`.
+      Caused by error in `axis()`:
+      ! invalid axis number 5
 
 # plot_args is deprecated but still works
 

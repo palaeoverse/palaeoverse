@@ -273,8 +273,7 @@ tax_range_strat <- function(
 #' @param col.group `character`. The background colours to use when `x` has
 #'   groups. Must be of the same length as the number of unique groups.
 #' @param axis A function call drawing the y-axis, such as [graphics::axis()]
-#'   (default, with ticks at each sampled stratigraphic level) or
-#'   [`axis_geo()`] (e.g. to add custom stratigraphic units).
+#'   (default, with ticks at each sampled stratigraphic level).
 #'
 #' @details
 #' The graphical parameters are reset when `plot()` exits. See 'Examples' to

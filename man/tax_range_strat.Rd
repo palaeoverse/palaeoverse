@@ -69,8 +69,7 @@ arguments are already set internally and must not be specified here:
 \code{y}, \code{axes}, \code{type}, \code{xaxs}.}
 
 \item{axis}{A function call drawing the y-axis, such as \code{\link[graphics:axis]{graphics::axis()}}
-(default, with ticks at each sampled stratigraphic level) or
-\code{\link[=axis_geo]{axis_geo()}} (e.g. to add custom stratigraphic units).}
+(default, with ticks at each sampled stratigraphic level).}
 
 \item{main}{\code{character}. The plot title.}
 

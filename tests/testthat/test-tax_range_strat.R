@@ -351,15 +351,6 @@ test_that("plotting with custom axis call works", {
     genus = c("A", "A", "B", "B", "C"),
     bed = c(1, 2, 2, 4, 5)
   )
-  units <- data.frame(
-    name = c("Unit A", "Unit B"),
-    max_age = c(0.5, 3),
-    min_age = c(3, 5.5),
-    color = c("red", "blue")
-  )
-  expect_doppelganger("tax_range_strat-custom-axis-geo", function() {
-    plot(tax_range_strat(occdf), axis = axis_geo(side = 2, intervals = units))
-  })
   expect_doppelganger("tax_range_strat-custom-axis", function() {
     plot(
       tax_range_strat(occdf),
@@ -380,7 +371,7 @@ test_that("plot argument 'axis' works", {
     error = TRUE
   )
   expect_snapshot(
-    plot(tax_range_strat(occdf), axis = axis_geo(intervals = 1)),
+    plot(tax_range_strat(occdf), axis = axis(side = 5)),
     error = TRUE
   )
 })
