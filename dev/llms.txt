@@ -125,6 +125,7 @@ Functions to summarise occurrence-level data.
 - [`tax_range_space()`](https://palaeoverse.palaeoverse.org/dev/reference/tax_range_space.md)
   : Calculate the geographic range of fossil taxa
 - [`tax_range_time()`](https://palaeoverse.palaeoverse.org/dev/reference/tax_range_time.md)
+  [`plot(`*`<palaeoverse_tax_range_time>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/tax_range_time.md)
   : Calculate the temporal range of fossil taxa
 
 ## Data visualization

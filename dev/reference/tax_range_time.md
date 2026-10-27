@@ -13,9 +13,20 @@ tax_range_time(
   max_ma = "max_ma",
   group = NULL,
   by = "FAD",
-  plot = FALSE,
-  plot_args = NULL,
-  intervals = "periods"
+  plot = deprecated(),
+  plot_args = deprecated(),
+  intervals = deprecated()
+)
+
+# S3 method for class 'palaeoverse_tax_range_time'
+plot(
+  x,
+  ...,
+  axis = axis_geo(side = 1, intervals = "periods", title = xlab),
+  main = "Temporal range of taxa",
+  xlab = "Time (Ma)",
+  ylab = "Taxon",
+  col.group = c("grey85", "grey95")
 )
 ```
 
@@ -56,30 +67,52 @@ tax_range_time(
   (first-appearance date; default), "LAD" (last-appearance data), or
   "name" (alphabetically by taxon names).
 
-- plot:
+- plot, plot_args:
 
-  `logical`. Should a plot of the ranges be generated?
-
-- plot_args:
-
-  `list`. A list of optional arguments relevant to plotting. See Details
-  for options.
+  **\[deprecated\]** Use
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html) on the output
+  of this function instead.
 
 - intervals:
 
-  `character`. The time interval information used to plot the x-axis:
-  either A) a `character` string indicating a rank of intervals from the
-  built-in
-  [`GTS2020`](https://palaeoverse.palaeoverse.org/dev/reference/GTS2020.md), B)
-  a `character` string indicating a `data.frame` hosted by
-  [Macrostrat](https://macrostrat.org) (see
-  [`time_bins`](https://palaeoverse.palaeoverse.org/dev/reference/time_bins.md)),
-  or C) a custom `data.frame` of time interval boundaries (see
-  [axis_geo](https://palaeoverse.palaeoverse.org/dev/reference/axis_geo.md)
-  Details). A list of strings or data.frames can be supplied to add
-  multiple time scales to the same side of the plot (see
-  [axis_geo](https://palaeoverse.palaeoverse.org/dev/reference/axis_geo.md)
-  Details). Defaults to "periods".
+  **\[deprecated\]** Use the argument `axis` in
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html) on the output
+  of this function instead.
+
+- x:
+
+  `data.frame`. An object of class `"palaeoverse_tax_range_time"`
+  created by `tax_range_time()`.
+
+- ...:
+
+  Extra graphical parameters (see Details). The following arguments are
+  already set internally and must not be specified here: `xlim`, `ylim`,
+  `xaxt`, `yaxt`.
+
+- axis:
+
+  A function call drawing an axis, such as
+  [`axis_geo()`](https://palaeoverse.palaeoverse.org/dev/reference/axis_geo.md)
+  (default) to add the geological timescale at the bottom of the plot,
+  or [`graphics::axis()`](https://rdrr.io/r/graphics/axis.html).
+
+- main:
+
+  `character`. The plot title.
+
+- xlab:
+
+  `character`. The x-axis title.
+
+- ylab:
+
+  `character`. The y-axis title.
+
+- col.group:
+
+  `character`. The background colours to use when `x` has groups. Must
+  be of the same length as the number of unique groups.
 
 ## Value
 
@@ -89,36 +122,44 @@ appearance of taxon (`min_ma`), duration of temporal range
 (`range_myr`), and number of occurrences per taxon (`n_occ`) is
 returned.
 
+This `data.frame` has an attribute `palaeoverse_tax_range_time_group`
+that is for internal use only.
+
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) invisibly
+returns a list with the graphical parameters `mar` and `usr` used to
+draw the plot (see
+[`graphics::par()`](https://rdrr.io/r/graphics/par.html)).
+
 ## Details
 
 The temporal range(s) of taxa are calculated by extracting all unique
 taxa (`name` column) from the input `occdf`, and checking their first
 and last appearance. The temporal duration of each taxon is also
 calculated. If the input data columns contain NAs, these must be removed
-prior to function call. A plot of the temporal range of each taxon is
-also returned if `plot = TRUE`. Customisable argument options (i.e.
-[`graphics::par()`](https://rdrr.io/r/graphics/par.html)) to pass to
-`plot_args` as a list (and their defaults) for plotting include:
-
-- xlab = "Time (Ma)"
-
-- ylab = "Taxon ID"
-
-- col = "black"
-
-- bg = "black"
-
-- pch = 20
-
-- cex = 1
-
-- lty = 1
-
-- lwd = 1
+prior to function call.
 
 Note: this function provides output based solely on the user input data.
 The true duration of a taxon is likely confounded by uncertainty in
 dating occurrences, and incomplete sampling and preservation.
+
+The following graphical parameters have default values that differ from
+base R:
+
+- `bg = "black"`: the background (fill) colour of the points, only used
+  for `pch` values 21 to 25.
+
+- `pch = 20`: the symbol used for the first and last appearance points
+  (see [`graphics::points()`](https://rdrr.io/r/graphics/points.html)).
+
+- `yaxs = "i"`: the style of y-axis interval calculation (see
+  [`graphics::par()`](https://rdrr.io/r/graphics/par.html)).
+
+The graphical parameters are reset when
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) exits. To add
+elements to the plot, re-apply the parameters returned by
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) with
+`op <- par(plot(x))`, add the elements, and then restore the previous
+parameters with `par(op)` (see Examples).
 
 ## Developer(s)
 
@@ -136,25 +177,32 @@ occdf <- tetrapods
 # Remove NAs
 occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 # Temporal range
-ex <- tax_range_time(occdf = occdf, name = "order", plot = TRUE)
+ex <- tax_range_time(occdf = occdf, name = "order")
+plot(ex)
+
 
 # Temporal range ordered by class
 # Update margins for plotting
 par(mar = c(8, 5, 6, 6))
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-                     plot = TRUE)
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+plot(ex)
+
 
 # Customise appearance
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class",
-                     plot = TRUE,
-                     plot_args = list(ylab = "Orders",
-                                      pch = 21, col = "black", bg = "blue",
-                                      lty = 2),
-                     intervals = list("periods", "eras"))
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
+     axis = axis_geo(intervals = "eras", abbr = FALSE))
+
 
 # Control plotting order of groups
 occdf$class <- factor(x = occdf$class,
                       levels = c("Reptilia", "Osteichthyes"))
-ex <- tax_range_time(occdf = occdf, name = "order",
-                     group = "class", plot = TRUE)
+ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+plot(ex)
+
+# Add elements to the plot (here, the Carboniferous-Permian boundary)
+op <- par(plot(ex))
+abline(v = 298.9, lty = 2, col = "red")
+
+par(op)
 ```
