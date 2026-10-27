@@ -42,24 +42,6 @@
 #'   lowest and highest stratigraphic levels. If the input data columns
 #'   contain NAs, these must be removed prior to function call.
 #'
-#'   The styling of the points and line segments can be adjusted by supplying
-#'   named arguments to `plot()`. `col` (segment and point color), `lwd`
-#'   (segment width), `pch` (point symbol), `bg` (background point color for
-#'   some values of `pch`), `lty` (segment line type), and `cex` (point size)
-#'   are supported. In the case of a column being supplied to the `certainty`
-#'   argument, these arguments may be vectors of length two, in which case the
-#'   first value of the vector will be used for the "certain" points and
-#'   segments, and the second value of the vector will be used for the
-#'   "uncertain" points and segments. If only a single value is supplied, it
-#'   will be used for both. The default values for these arguments are as
-#'   follows:
-#'   - `col` = `c("black", "black")`
-#'   - `lwd` = `c(1.5, 1.5)`
-#'   - `pch` = `c(19, 21)`
-#'   - `bg` = `c("black", "white")`
-#'   - `lty` = `c(1, 2)`
-#'   - `cex` = `c(1, 1)`
-#'
 #' @section Developer(s): Bethany Allen, William Gearty, Lewis A. Jones &
 #'   Alexander Dunhill
 #' @section Reviewer(s): William Gearty & Lewis A. Jones
@@ -267,6 +249,18 @@ tax_range_strat <- function(
 #' The graphical parameters are reset when `plot()` exits. See 'Examples' to
 #' know how to add components to the plot.
 #'
+#' The styling of the points and line segments can be adjusted by supplying
+#' named arguments to `plot()`. `col` (segment and point color), `lwd`
+#' (segment width), `pch` (point symbol), `bg` (background point color for
+#' some values of `pch`), `lty` (segment line type), and `cex` (point size)
+#' are supported.
+#'
+#' If `x` contains information on certainty, these arguments may be vectors
+#' of length two, in which case the first value of the vector will be used
+#' for the "certain" points and segments, and the second value of the vector
+#' will be used for the "uncertain" points and segments. If only a single
+#' value is supplied, it will be used for both.
+#'
 #' @return `plot()` invisibly returns a list with the graphical parameters
 #'   `mar` and `usr` used to draw the plot (see [graphics::par()]).
 #'
@@ -294,11 +288,11 @@ plot.palaeoverse_tax_range_strat <- function(
   level <- attr(x, "palaeoverse_tax_range_strat_level")
   certainty <- attr(x, "palaeoverse_tax_range_strat_certainty")
   occdf <- attr(x, "palaeoverse_tax_range_strat_occdf")
-  sampled_levels <- unique(occdf[, level, drop = TRUE])
+  unique_levels <- unique(occdf[, level, drop = TRUE])
 
   axis_quo <- rlang::enquo(axis)
   if (rlang::quo_is_null(axis_quo)) {
-    axis_quo <- rlang::quo(graphics::axis(side = 2, at = sampled_levels))
+    axis_quo <- rlang::quo(graphics::axis(side = 2, at = unique_levels))
   }
   axis_expr <- rlang::quo_get_expr(axis_quo)
   if (!rlang::is_call(axis_expr)) {

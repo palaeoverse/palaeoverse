@@ -104,28 +104,20 @@ all unique taxa (\code{name} column) from the input \code{occdf}, and checking t
 lowest and highest stratigraphic levels. If the input data columns
 contain NAs, these must be removed prior to function call.
 
+The graphical parameters are reset when \code{plot()} exits. See 'Examples' to
+know how to add components to the plot.
+
 The styling of the points and line segments can be adjusted by supplying
 named arguments to \code{plot()}. \code{col} (segment and point color), \code{lwd}
 (segment width), \code{pch} (point symbol), \code{bg} (background point color for
 some values of \code{pch}), \code{lty} (segment line type), and \code{cex} (point size)
-are supported. In the case of a column being supplied to the \code{certainty}
-argument, these arguments may be vectors of length two, in which case the
-first value of the vector will be used for the "certain" points and
-segments, and the second value of the vector will be used for the
-"uncertain" points and segments. If only a single value is supplied, it
-will be used for both. The default values for these arguments are as
-follows:
-\itemize{
-\item \code{col} = \code{c("black", "black")}
-\item \code{lwd} = \code{c(1.5, 1.5)}
-\item \code{pch} = \code{c(19, 21)}
-\item \code{bg} = \code{c("black", "white")}
-\item \code{lty} = \code{c(1, 2)}
-\item \code{cex} = \code{c(1, 1)}
-}
+are supported.
 
-The graphical parameters are reset when \code{plot()} exits. See 'Examples' to
-know how to add components to the plot.
+If \code{x} contains information on certainty, these arguments may be vectors
+of length two, in which case the first value of the vector will be used
+for the "certain" points and segments, and the second value of the vector
+will be used for the "uncertain" points and segments. If only a single
+value is supplied, it will be used for both.
 }
 \section{Developer(s)}{
  Bethany Allen, William Gearty, Lewis A. Jones &
