@@ -20,7 +20,7 @@ tax_range_strat(
 \method{plot}{palaeoverse_tax_range_strat}(
   x,
   ...,
-  axis = graphics::axis(side = 2, at = sampled_levels),
+  axis = NULL,
   main = "Stratigraphic range of taxa",
   xlab = "Taxon",
   ylab = "Bed number",
@@ -65,7 +65,9 @@ created by \code{tax_range_strat()}.}
 arguments are already set internally and must not be specified here:
 \code{y}, \code{axes}, \code{type}, \code{xaxs}.}
 
-\item{axis}{A function call drawing the y-axis, such as \code{\link[graphics:axis]{graphics::axis()}}.}
+\item{axis}{A function call drawing the y-axis, such as \code{\link[graphics:axis]{graphics::axis()}}.
+If \code{NULL} (default), the y-axis has a tick at each sampled stratigraphic
+level.}
 
 \item{main}{\code{character}. The plot title.}
 

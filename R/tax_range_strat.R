@@ -258,6 +258,8 @@ tax_range_strat <- function(
 #' @param col.group `character`. The background colours to use when `x` has
 #'   groups. Must be of the same length as the number of unique groups.
 #' @param axis A function call drawing the y-axis, such as [graphics::axis()].
+#'   If `NULL` (default), the y-axis has a tick at each sampled stratigraphic
+#'   level.
 #'
 #' @details
 #' The graphical parameters are reset when `plot()` exits. See 'Examples' to
@@ -272,7 +274,7 @@ tax_range_strat <- function(
 plot.palaeoverse_tax_range_strat <- function(
   x,
   ...,
-  axis = graphics::axis(side = 2, at = sampled_levels),
+  axis = NULL,
   main = "Stratigraphic range of taxa",
   xlab = "Taxon",
   ylab = "Bed number",
@@ -293,6 +295,9 @@ plot.palaeoverse_tax_range_strat <- function(
   sampled_levels <- unique(occdf[, level, drop = TRUE])
 
   axis_quo <- rlang::enquo(axis)
+  if (rlang::quo_is_null(axis_quo)) {
+    axis_quo <- rlang::quo(graphics::axis(side = 2, at = sampled_levels))
+  }
   axis_expr <- rlang::quo_get_expr(axis_quo)
   if (!rlang::is_call(axis_expr)) {
     cli::cli_abort(
