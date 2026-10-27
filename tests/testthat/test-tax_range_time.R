@@ -355,6 +355,25 @@ test_that("tax_range_time plotting with extra args works", {
   )
 })
 
+test_that("plot resets par and returns the settings to add elements", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    max_ma = c(10, 8, 6, 5, 3),
+    min_ma = c(9, 7, 5, 4, 2)
+  )
+  expect_doppelganger("tax_range_time-add-elements", function() {
+    old_mar <- par("mar")
+    out <- plot(tax_range_time(occdf))
+    expect_identical(par("mar"), old_mar)
+    expect_named(out, c("mar", "usr"))
+    op <- par(out)
+    abline(v = 5, col = "red", lwd = 3)
+    points(x = 7, y = 2, pch = 4, cex = 3)
+    par(op)
+    expect_identical(par("mar"), old_mar)
+  })
+})
+
 test_that("plotting with custom axis_geo() call works", {
   occdf <- data.frame(
     genus = c("A", "A", "B", "B", "C"),

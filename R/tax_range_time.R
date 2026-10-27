@@ -73,6 +73,11 @@
 #'                       levels = c("Reptilia", "Osteichthyes"))
 #' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 #' plot(ex)
+#'
+#' # Add elements to the plot
+#' op <- par(plot(ex))
+#' abline(v = 290, lty = 2, col = "red")
+#' par(op)
 #' @export
 tax_range_time <- function(
   occdf,
@@ -236,6 +241,12 @@ tax_range_time <- function(
 #' - `pch = 20`: the symbol used for the first and last appearance points (see [graphics::points()]).
 #' - `yaxs = "i"`: the style of y-axis interval calculation (see [graphics::par()]).
 #'
+#' The graphical parameters are reset when `plot()` exits. See 'Examples' to know how to add
+#' components to the plot.
+#'
+#' @return `plot()` invisibly returns a list with the graphical parameters `mar`
+#' and `usr` used to draw the plot (see [graphics::par()]).
+#'
 #' @name tax_range_time
 #' @importFrom graphics points strwidth
 #' @export
@@ -308,6 +319,7 @@ plot.palaeoverse_tax_range_time <- function(
 
   # Collect usr par for resetting
   usrpar <- par(no.readonly = TRUE)
+  on.exit(par(usrpar))
   # Estimate max label width
   max_label_width <- max(strwidth(x$taxon, units = "inches"))
   # Convert inches to lines (approximate conversion factor: 0.2)
@@ -382,6 +394,6 @@ plot.palaeoverse_tax_range_time <- function(
   do.call(points, c(list(x = x$max_ma, y = x$taxon_id), points_args))
   do.call(points, c(list(x = x$min_ma, y = x$taxon_id), points_args))
   eval(axis_expr)
-  # Reset par
-  par(usrpar)
+  # Settings needed to add elements to the plot, `par` is reset on exit
+  invisible(par(c("mar", "usr")))
 }

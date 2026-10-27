@@ -84,6 +84,9 @@ returned.
 
 This \code{data.frame} has an attribute \code{palaeoverse_tax_range_time_group}
 that is for internal use only.
+
+\code{plot()} invisibly returns a list with the graphical parameters \code{mar}
+and \code{usr} used to draw the plot (see \code{\link[graphics:par]{graphics::par()}}).
 }
 \description{
 A function to calculate the temporal range of fossil taxa from occurrence
@@ -106,6 +109,11 @@ The following graphical parameters have default values that differ from base R:
 \item \code{pch = 20}: the symbol used for the first and last appearance points (see \code{\link[graphics:points]{graphics::points()}}).
 \item \code{yaxs = "i"}: the style of y-axis interval calculation (see \code{\link[graphics:par]{graphics::par()}}).
 }
+
+The graphical parameters are reset when \code{plot()} exits. To add elements to
+the plot, re-apply the parameters returned by \code{plot()} with
+\code{op <- par(plot(x))}, add the elements, and then restore the previous
+parameters with \code{par(op)} (see Examples).
 }
 \section{Developer(s)}{
 
@@ -142,4 +150,9 @@ occdf$class <- factor(x = occdf$class,
                       levels = c("Reptilia", "Osteichthyes"))
 ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 plot(ex)
+
+# Add elements to the plot (here, the Carboniferous-Permian boundary)
+op <- par(plot(ex))
+abline(v = 298.9, lty = 2, col = "red")
+par(op)
 }
