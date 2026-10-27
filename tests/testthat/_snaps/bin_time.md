@@ -126,7 +126,7 @@
       bin_time_point(occdf, bins = bins, fun = dnorm, x = 1)
     Condition
       Error in `bin_time_point()`:
-      ! `x` must not be specified as it is generated internally.
+      ! `x` must not be specified as it is already defined internally.
 
 ---
 

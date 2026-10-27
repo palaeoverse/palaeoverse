@@ -189,7 +189,7 @@ bin_time_point <- function(
   }
   if ("x" %in% names(supp_args)) {
     cli::cli_abort(
-      "{.arg x} must not be specified as it is generated internally."
+      "{.arg x} must not be specified as it is already defined internally."
     )
   }
 
