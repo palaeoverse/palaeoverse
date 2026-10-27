@@ -1,6 +1,6 @@
-#' Generate a stratigraphic section plot
+#' Calculate the stratigraphic ranges of fossil taxa
 #'
-#' A function to plot the stratigraphic ranges of fossil taxa from occurrence
+#' A function to calculate the stratigraphic ranges of fossil taxa from occurrence
 #' data.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing

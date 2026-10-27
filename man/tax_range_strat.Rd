@@ -3,7 +3,7 @@
 \name{tax_range_strat}
 \alias{tax_range_strat}
 \alias{plot.palaeoverse_tax_range_strat}
-\title{Generate a stratigraphic section plot}
+\title{Calculate the stratigraphic ranges of fossil taxa}
 \usage{
 tax_range_strat(
   occdf,
@@ -95,7 +95,7 @@ This \code{data.frame} has attributes starting with
 \code{mar} and \code{usr} used to draw the plot (see \code{\link[graphics:par]{graphics::par()}}).
 }
 \description{
-A function to plot the stratigraphic ranges of fossil taxa from occurrence
+A function to calculate the stratigraphic ranges of fossil taxa from occurrence
 data.
 }
 \details{
