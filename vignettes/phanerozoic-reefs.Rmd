@@ -126,7 +126,7 @@ colnames(reefs)[which(colnames(reefs) == "interval_min_ma")] <- "min_ma"
 
 ```{r echo = TRUE, eval = FALSE}
 # Five bin_time_*() functions exist for binning occurrence data
-# You can see details on each via ?bin_time_mid
+# You can see details on each via ?bin_time
 # Bin by midpoint age
 bin_time_mid(occdf = reefs, bins = bins)
 # Bin by overlap majority
