@@ -18,7 +18,84 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<text transform='translate(12.96,280.80) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='65.38px' lengthAdjust='spacingAndGlyphs'>Bed number</text>
+<text transform='translate(12.96,260.63) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='65.38px' lengthAdjust='spacingAndGlyphs'>Bed number</text>
+<text x='374.40' y='37.44' text-anchor='middle' style='font-size: 14.40px; font-weight: bold; font-family: sans;' textLength='168.91px' lengthAdjust='spacingAndGlyphs'>Stratigraphic range of taxa</text>
+</g>
+<defs>
+  <clipPath id='cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg=='>
+    <rect x='59.04' y='73.44' width='630.72' height='374.38' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg==)'>
+<rect x='59.04' y='-374.90' width='210.24' height='924.41' style='stroke-width: 0.75; fill: #D9D9D9;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<line x1='164.16' y1='73.44' x2='164.16' y2='73.44' style='stroke-width: 0.75;' />
+<line x1='164.16' y1='73.44' x2='164.16' y2='66.24' style='stroke-width: 0.75;' />
+<text x='164.16' y='56.16' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='69.39px' lengthAdjust='spacingAndGlyphs'>Osteichthyes</text>
+</g>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg==)'>
+<rect x='269.28' y='-374.90' width='210.24' height='924.41' style='stroke-width: 0.75; fill: #F2F2F2;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<line x1='374.40' y1='73.44' x2='374.40' y2='73.44' style='stroke-width: 0.75;' />
+<line x1='374.40' y1='73.44' x2='374.40' y2='66.24' style='stroke-width: 0.75;' />
+<text x='374.40' y='56.16' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.02px' lengthAdjust='spacingAndGlyphs'>Reptilia</text>
+</g>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg==)'>
+<rect x='479.52' y='-374.90' width='210.24' height='924.41' style='stroke-width: 0.75; fill: #D9D9D9;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<line x1='584.64' y1='73.44' x2='584.64' y2='73.44' style='stroke-width: 0.75;' />
+<line x1='584.64' y1='73.44' x2='584.64' y2='66.24' style='stroke-width: 0.75;' />
+<text x='584.64' y='56.16' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='56.04px' lengthAdjust='spacingAndGlyphs'>Saurischia</text>
+</g>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg==)'>
+<line x1='111.60' y1='433.96' x2='111.60' y2='318.41' style='stroke-width: 1.12;' />
+<line x1='216.72' y1='202.86' x2='216.72' y2='202.86' style='stroke-width: 1.12;' />
+<line x1='321.84' y1='433.96' x2='321.84' y2='87.31' style='stroke-width: 1.12;' />
+<line x1='426.96' y1='318.41' x2='426.96' y2='318.41' style='stroke-width: 1.12;' />
+<line x1='532.08' y1='318.41' x2='532.08' y2='318.41' style='stroke-width: 1.12;' />
+<line x1='637.20' y1='202.86' x2='637.20' y2='202.86' style='stroke-width: 1.12;' />
+<circle cx='111.60' cy='433.96' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='111.60' cy='318.41' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='426.96' cy='318.41' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='637.20' cy='318.41' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='426.96' cy='202.86' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='637.20' cy='202.86' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='216.72' cy='202.86' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='321.84' cy='433.96' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='532.08' cy='433.96' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='321.84' cy='318.41' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='532.08' cy='318.41' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='321.84' cy='87.31' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='532.08' cy='87.31' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<polygon points='59.04,447.82 689.76,447.82 689.76,73.44 59.04,73.44 ' style='stroke-width: 0.75; fill: none;' />
+<line x1='59.04' y1='433.96' x2='59.04' y2='87.31' style='stroke-width: 0.75;' />
+<line x1='59.04' y1='433.96' x2='51.84' y2='433.96' style='stroke-width: 0.75;' />
+<line x1='59.04' y1='318.41' x2='51.84' y2='318.41' style='stroke-width: 0.75;' />
+<line x1='59.04' y1='202.86' x2='51.84' y2='202.86' style='stroke-width: 0.75;' />
+<line x1='59.04' y1='87.31' x2='51.84' y2='87.31' style='stroke-width: 0.75;' />
+<text transform='translate(41.76,433.96) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>1</text>
+<text transform='translate(41.76,318.41) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>2</text>
+<text transform='translate(41.76,202.86) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>3</text>
+<text transform='translate(41.76,87.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>4</text>
+<line x1='111.60' y1='447.82' x2='637.20' y2='447.82' style='stroke-width: 0.75;' />
+<line x1='111.60' y1='447.82' x2='111.60' y2='455.02' style='stroke-width: 0.75;' />
+<line x1='216.72' y1='447.82' x2='216.72' y2='455.02' style='stroke-width: 0.75;' />
+<line x1='321.84' y1='447.82' x2='321.84' y2='455.02' style='stroke-width: 0.75;' />
+<line x1='426.96' y1='447.82' x2='426.96' y2='455.02' style='stroke-width: 0.75;' />
+<line x1='532.08' y1='447.82' x2='532.08' y2='455.02' style='stroke-width: 0.75;' />
+<line x1='637.20' y1='447.82' x2='637.20' y2='455.02' style='stroke-width: 0.75;' />
+<text transform='translate(117.44,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.73px' lengthAdjust='spacingAndGlyphs'>Anconastes</text>
+<text transform='translate(222.56,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='77.41px' lengthAdjust='spacingAndGlyphs'>Edaphosaurus</text>
+<text transform='translate(327.68,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='67.39px' lengthAdjust='spacingAndGlyphs'>Procolophon</text>
+<text transform='translate(432.80,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.04px' lengthAdjust='spacingAndGlyphs'>Araeoscelis</text>
+<text transform='translate(537.92,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='67.39px' lengthAdjust='spacingAndGlyphs'>Procolophon</text>
+<text transform='translate(643.04,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.04px' lengthAdjust='spacingAndGlyphs'>Araeoscelis</text>
+<text x='374.40' y='542.88' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='33.36px' lengthAdjust='spacingAndGlyphs'>Taxon</text>
 </g>
 <defs>
   <clipPath id='cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng=='>
@@ -26,73 +103,5 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
-<rect x='59.04' y='-472.09' width='210.24' height='1095.11' style='stroke-width: 0.75; fill: #D9D9D9;' />
-</g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<line x1='164.16' y1='59.04' x2='164.16' y2='59.04' style='stroke-width: 0.75;' />
-<line x1='164.16' y1='59.04' x2='164.16' y2='51.84' style='stroke-width: 0.75;' />
-<text x='164.16' y='41.76' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='69.39px' lengthAdjust='spacingAndGlyphs'>Osteichthyes</text>
-</g>
-<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
-<rect x='269.28' y='-472.09' width='210.24' height='1095.11' style='stroke-width: 0.75; fill: #F2F2F2;' />
-</g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<line x1='374.40' y1='59.04' x2='374.40' y2='59.04' style='stroke-width: 0.75;' />
-<line x1='374.40' y1='59.04' x2='374.40' y2='51.84' style='stroke-width: 0.75;' />
-<text x='374.40' y='41.76' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='40.02px' lengthAdjust='spacingAndGlyphs'>Reptilia</text>
-</g>
-<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
-<rect x='479.52' y='-472.09' width='210.24' height='1095.11' style='stroke-width: 0.75; fill: #D9D9D9;' />
-</g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<line x1='584.64' y1='59.04' x2='584.64' y2='59.04' style='stroke-width: 0.75;' />
-<line x1='584.64' y1='59.04' x2='584.64' y2='51.84' style='stroke-width: 0.75;' />
-<text x='584.64' y='41.76' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='56.04px' lengthAdjust='spacingAndGlyphs'>Saurischia</text>
-</g>
-<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
-<line x1='111.60' y1='486.13' x2='111.60' y2='349.24' style='stroke-width: 1.12;' />
-<line x1='216.72' y1='212.36' x2='216.72' y2='212.36' style='stroke-width: 1.12;' />
-<line x1='321.84' y1='486.13' x2='321.84' y2='75.47' style='stroke-width: 1.12;' />
-<line x1='426.96' y1='349.24' x2='426.96' y2='349.24' style='stroke-width: 1.12;' />
-<line x1='532.08' y1='349.24' x2='532.08' y2='349.24' style='stroke-width: 1.12;' />
-<line x1='637.20' y1='212.36' x2='637.20' y2='212.36' style='stroke-width: 1.12;' />
-<circle cx='111.60' cy='486.13' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='111.60' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='426.96' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='637.20' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='426.96' cy='212.36' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='637.20' cy='212.36' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='216.72' cy='212.36' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='321.84' cy='486.13' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='532.08' cy='486.13' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='321.84' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='532.08' cy='349.24' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='321.84' cy='75.47' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-<circle cx='532.08' cy='75.47' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
-</g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<line x1='59.04' y1='486.13' x2='59.04' y2='75.47' style='stroke-width: 0.75;' />
-<line x1='59.04' y1='486.13' x2='51.84' y2='486.13' style='stroke-width: 0.75;' />
-<line x1='59.04' y1='349.24' x2='51.84' y2='349.24' style='stroke-width: 0.75;' />
-<line x1='59.04' y1='212.36' x2='51.84' y2='212.36' style='stroke-width: 0.75;' />
-<line x1='59.04' y1='75.47' x2='51.84' y2='75.47' style='stroke-width: 0.75;' />
-<text transform='translate(41.76,486.13) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text transform='translate(41.76,349.24) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>2</text>
-<text transform='translate(41.76,212.36) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>3</text>
-<text transform='translate(41.76,75.47) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>4</text>
-<line x1='111.60' y1='502.56' x2='637.20' y2='502.56' style='stroke-width: 0.75;' />
-<line x1='111.60' y1='502.56' x2='111.60' y2='509.76' style='stroke-width: 0.75;' />
-<line x1='216.72' y1='502.56' x2='216.72' y2='509.76' style='stroke-width: 0.75;' />
-<line x1='321.84' y1='502.56' x2='321.84' y2='509.76' style='stroke-width: 0.75;' />
-<line x1='426.96' y1='502.56' x2='426.96' y2='509.76' style='stroke-width: 0.75;' />
-<line x1='532.08' y1='502.56' x2='532.08' y2='509.76' style='stroke-width: 0.75;' />
-<line x1='637.20' y1='502.56' x2='637.20' y2='509.76' style='stroke-width: 0.75;' />
-<text transform='translate(115.73,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.73px' lengthAdjust='spacingAndGlyphs'>Anconastes</text>
-<text transform='translate(220.85,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='77.41px' lengthAdjust='spacingAndGlyphs'>Edaphosaurus</text>
-<text transform='translate(325.97,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='67.39px' lengthAdjust='spacingAndGlyphs'>Procolophon</text>
-<text transform='translate(431.09,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.04px' lengthAdjust='spacingAndGlyphs'>Araeoscelis</text>
-<text transform='translate(536.21,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='67.39px' lengthAdjust='spacingAndGlyphs'>Procolophon</text>
-<text transform='translate(641.33,516.96) rotate(-90)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.04px' lengthAdjust='spacingAndGlyphs'>Araeoscelis</text>
-<polygon points='59.04,502.56 689.76,502.56 689.76,59.04 59.04,59.04 ' style='stroke-width: 0.75; fill: none;' />
 </g>
 </svg>

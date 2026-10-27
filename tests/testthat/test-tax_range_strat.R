@@ -328,6 +328,63 @@ test_that("tax_range_strat plotting with extra args works", {
   )
 })
 
+test_that("plot resets par and returns the settings to add elements", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    bed = c(1, 2, 2, 4, 5)
+  )
+  expect_doppelganger("tax_range_strat-add-elements", function() {
+    old_mar <- par("mar")
+    out <- plot(tax_range_strat(occdf))
+    expect_identical(par("mar"), old_mar)
+    expect_named(out, c("mar", "usr"))
+    op <- par(out)
+    abline(h = 3, col = "red", lwd = 3)
+    points(x = 2, y = 4, pch = 4, cex = 3)
+    par(op)
+    expect_identical(par("mar"), old_mar)
+  })
+})
+
+test_that("plotting with custom axis call works", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    bed = c(1, 2, 2, 4, 5)
+  )
+  units <- data.frame(
+    name = c("Unit A", "Unit B"),
+    max_age = c(0.5, 3),
+    min_age = c(3, 5.5),
+    color = c("red", "blue")
+  )
+  expect_doppelganger("tax_range_strat-custom-axis-geo", function() {
+    plot(tax_range_strat(occdf), axis = axis_geo(side = 2, intervals = units))
+  })
+  expect_doppelganger("tax_range_strat-custom-axis", function() {
+    plot(
+      tax_range_strat(occdf),
+      axis = axis(2, lty = "dashed", lwd = 5, col = "red")
+    )
+  })
+})
+
+test_that("plot argument 'axis' works", {
+  occdf <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    bed = c(1, 2, 2, 4, 5)
+  )
+
+  # input checks
+  expect_snapshot(
+    plot(tax_range_strat(occdf), axis = "periods"),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(tax_range_strat(occdf), axis = axis_geo(intervals = 1)),
+    error = TRUE
+  )
+})
+
 test_that("plot_args is deprecated but still works", {
   # fmt: skip
   occdf <- data.frame(

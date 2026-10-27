@@ -110,10 +110,8 @@ The following graphical parameters have default values that differ from base R:
 \item \code{yaxs = "i"}: the style of y-axis interval calculation (see \code{\link[graphics:par]{graphics::par()}}).
 }
 
-The graphical parameters are reset when \code{plot()} exits. To add elements to
-the plot, re-apply the parameters returned by \code{plot()} with
-\code{op <- par(plot(x))}, add the elements, and then restore the previous
-parameters with \code{par(op)} (see Examples).
+The graphical parameters are reset when \code{plot()} exits. See 'Examples' to know how to add
+components to the plot.
 }
 \section{Developer(s)}{
 
@@ -151,8 +149,8 @@ occdf$class <- factor(x = occdf$class,
 ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 plot(ex)
 
-# Add elements to the plot (here, the Carboniferous-Permian boundary)
+# Add elements to the plot
 op <- par(plot(ex))
-abline(v = 298.9, lty = 2, col = "red")
+abline(v = 290, lty = 2, col = "red")
 par(op)
 }

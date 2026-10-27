@@ -283,6 +283,28 @@
       ! Cannot pass arguments `y`, `axes`, and `type` when calling `plot()` on an object of class <palaeoverse_tax_range_strat>.
       i These arguments are already set by `plot()` internally.
 
+# plot argument 'axis' works
+
+    Code
+      plot(tax_range_strat(occdf), axis = "periods")
+    Condition
+      Error in `plot()`:
+      ! `axis` must be a function call, not `"periods"`.
+
+---
+
+    Code
+      plot(tax_range_strat(occdf), axis = axis_geo(intervals = 1))
+    Condition
+      Error in `plot()`:
+      ! Error in `axis_geo(intervals = 1)`.
+      Caused by error in `time_bins()`:
+      ! `scale` must be one of the following, not the number 1:
+      * the name of an in-built time scale (e.g. "GTS2020")
+      * the name of a Macrostrat time scale
+      * a <data.frame>
+      > See `time_bins()` (`?palaeoverse::time_bins()`) for more details.
+
 # plot_args is deprecated but still works
 
     Code

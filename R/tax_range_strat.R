@@ -29,21 +29,20 @@
 #' @param x_args,y_args `r lifecycle::badge("deprecated")` These arguments have
 #'   been removed. Use `plot()` on the output of this function instead.
 #'
-#' @return A \code{data.frame} of the calculated taxonomic stratigraphic
-#'   ranges.
-#'
-#'   Use `plot()` on it to create a plot showing the stratigraphic ranges of
-#'   taxa in a section, with levels at which the taxon was sampled indicated
-#'   with a point.
+#' @return A \code{data.frame} containing the following columns: taxon ID
+#'   (`ID`), unique taxa (`taxon`), lowest stratigraphic level of taxon
+#'   (`min_bin`), and highest stratigraphic level of taxon (`max_bin`). If
+#'   `certainty` is supplied, the lowest and highest stratigraphic levels of
+#'   the certain occurrences of each taxon (`min_bin_certain` and
+#'   `max_bin_certain`) are also returned.
 #'
 #'   This \code{data.frame} has attributes starting with
 #'   `palaeoverse_tax_range_strat_` that are for internal use only.
 #'
-#' @details Note that the default spacing for the x-axis title may cause it to
-#'   overlap with the x-axis tick labels. To avoid this, you can call
-#'   [graphics::title()] after running `plot()` and specify both
-#'   `xlab` and `line` to add the x-axis title farther from the axis (see
-#'   examples).
+#' @details The stratigraphic range(s) of taxa are calculated by extracting
+#'   all unique taxa (`name` column) from the input `occdf`, and checking their
+#'   lowest and highest stratigraphic levels. If the input data columns
+#'   contain NAs, these must be removed prior to function call.
 #'
 #'   The styling of the points and line segments can be adjusted by supplying
 #'   named arguments to `plot()`. `col` (segment and point color), `lwd`
@@ -82,8 +81,6 @@
 #'                     bed = beds_sampled,
 #'                     certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
-#' # Update margins for plotting
-#' par(mar = c(12, 5, 2, 2))
 #' ex <- tax_range_strat(occdf, name = "taxon")
 #' plot(ex)
 #' ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty")
@@ -91,15 +88,15 @@
 #' # Plot stratigraphic ranges with more labelling
 #' ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty",
 #'                       by = "name")
-#' plot(ex, main = "Section A", ylab = "Stratigraphic height (m)")
+#' op <- par(plot(ex, main = "Section A", ylab = "Stratigraphic height (m)"))
 #' eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
 #'                           max_age = c(0.5, 3.5),
 #'                           min_age = c(3.5, 10.5),
 #'                           color = c("#67C5CA", "#F2F91D"))
 #' axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
-#' title(xlab = "Taxon", line = 10.5)
+#' par(op)
 #' # Update margins for plotting
-#' par(mar = c(12, 5, 6, 2))
+#' par(mar = c(5, 4, 6, 2))
 #' # Pull class data
 #' occdf$class <- tetrapods$class[1:50]
 #' # Group stratigraphic ranges by class
@@ -268,20 +265,34 @@ tax_range_strat <- function(
 
 #' @param x `data.frame`. An object of class `"palaeoverse_tax_range_strat"`
 #'   created by `tax_range_strat()`.
-#' @param ... Extra arguments passed to [graphics::plot()] (see Details).
-#'   Useful arguments include `xlab` (the x-axis label), `ylab` (the y-axis
-#'   label, default is "Bed number"), `main` (the plot title), `xlim` (the
-#'   x-axis limits), and `ylim` (the y-axis limits). The following arguments
-#'   are already set internally and must not be specified here: `y`, `axes`,
-#'   `type`, `xaxs`.
+#' @param ... Extra graphical parameters (see Details). The following
+#'   arguments are already set internally and must not be specified here:
+#'   `y`, `axes`, `type`, `xaxs`.
+#' @inheritParams lat_bins_area
+#' @param main `character`. The plot title.
 #' @param col.group `character`. The background colours to use when `x` has
 #'   groups. Must be of the same length as the number of unique groups.
+#' @param axis A function call drawing the y-axis, such as [graphics::axis()]
+#'   (default, with ticks at each sampled stratigraphic level) or
+#'   [`axis_geo()`] (e.g. to add custom stratigraphic units).
+#'
+#' @details
+#' The graphical parameters are reset when `plot()` exits. See 'Examples' to
+#' know how to add components to the plot.
+#'
+#' @return `plot()` invisibly returns a list with the graphical parameters
+#'   `mar` and `usr` used to draw the plot (see [graphics::par()]).
 #'
 #' @name tax_range_strat
+#' @importFrom graphics strwidth
 #' @export
 plot.palaeoverse_tax_range_strat <- function(
   x,
   ...,
+  axis = graphics::axis(side = 2, at = sampled_levels),
+  main = "Stratigraphic range of taxa",
+  xlab = "Taxon",
+  ylab = "Bed number",
   col.group = c("grey85", "grey95")
 ) {
   check_forbidden_plot_args(
@@ -296,6 +307,39 @@ plot.palaeoverse_tax_range_strat <- function(
   level <- attr(x, "palaeoverse_tax_range_strat_level")
   certainty <- attr(x, "palaeoverse_tax_range_strat_certainty")
   occdf <- attr(x, "palaeoverse_tax_range_strat_occdf")
+  sampled_levels <- unique(occdf[, level, drop = TRUE])
+
+  axis_quo <- rlang::enquo(axis)
+  axis_expr <- rlang::quo_get_expr(axis_quo)
+  if (!rlang::is_call(axis_expr)) {
+    cli::cli_abort(
+      "{.arg axis} must be a function call, not {.code {rlang::expr_deparse(axis_expr)}}."
+    )
+  }
+
+  # Early check so that we can throw an error early instead of having some elements
+  # being plotted and then throw an error. The `axis` expression is evaluated
+  # on a throwaway device so that the promise itself is only forced on the final plot.
+  caller_env <- rlang::current_env()
+  tryCatch(
+    {
+      cur_dev <- grDevices::dev.cur()
+      grDevices::pdf(NULL)
+      plot.new()
+      axis
+    },
+    error = function(e) {
+      cli::cli_abort(
+        "Error in {.code {rlang::expr_deparse(axis_expr)}}.",
+        parent = e,
+        call = caller_env
+      )
+    },
+    finally = {
+      grDevices::dev.off()
+      if (cur_dev > 1) grDevices::dev.set(cur_dev)
+    }
+  )
 
   if (!is.null(group)) {
     n_groups <- length(unique(ranges[[group]]))
@@ -315,12 +359,6 @@ plot.palaeoverse_tax_range_strat <- function(
   #=== Plotting ===
   # Create plot
   # use defaults if not set
-  if (!("xlab" %in% names(plot_args))) {
-    plot_args$xlab <- ""
-  }
-  if (!("ylab" %in% names(plot_args))) {
-    plot_args$ylab <- "Bed number"
-  }
   cols <- plot_args$col
   if (is.null(cols)) {
     cols <- c("black", "black")
@@ -357,6 +395,18 @@ plot.palaeoverse_tax_range_strat <- function(
   } else {
     cexs <- rep_len(cexs, 2)
   }
+  # Collect usr par for resetting
+  usrpar <- par(no.readonly = TRUE)
+  on.exit(par(usrpar))
+  # Estimate max label width
+  max_label_width <- max(strwidth(ranges$taxon, units = "inches", font = 3))
+  # Convert inches to lines (approximate conversion factor: 0.2), labels are
+  # rotated by 45 degrees
+  extra_margin <- max_label_width * sin(pi / 4) / 0.2
+  # Update bottom margin (add extra space, default is 5) and top margin to fit
+  # the group labels below the title
+  extra_top <- if (is.null(group)) 0 else 1
+  par(mar = usrpar$mar + c(extra_margin, 0, extra_top, 0))
   do.call(
     plot,
     args = c(
@@ -365,11 +415,14 @@ plot.palaeoverse_tax_range_strat <- function(
         y = c(min(ranges$min_bin), max(ranges$max_bin)),
         axes = FALSE,
         type = "n",
-        xaxs = "i"
+        xaxs = "i",
+        xlab = NA,
+        ylab = ylab
       ),
       plot_args
     )
   )
+  title(main = main, line = if (is.null(group)) NA else 2.5)
   # Groups provided?
   if (!is.null(group)) {
     # Calculate plotting values for groups
@@ -459,8 +512,27 @@ plot.palaeoverse_tax_range_strat <- function(
       cex = cexs[2]
     )
   }
-  axis(2, at = unique(occdf[, level, drop = TRUE]))
-  axis(1, at = ranges$ID, labels = ranges$taxon, font = 3, las = 2)
   # Add frame
   box()
+  # Drawn after the frame so that it is on top of it
+  rlang::eval_tidy(axis_quo)
+  # Diagonal taxon labels, ending at their tick mark
+  axis(1, at = ranges$ID, labels = FALSE)
+  label_offset <- diff(grconvertY(
+    c(0, par("mgp")[2] * par("csi")),
+    from = "inches",
+    to = "user"
+  ))
+  text(
+    x = ranges$ID,
+    y = par("usr")[3] - label_offset,
+    labels = ranges$taxon,
+    font = 3,
+    srt = 45,
+    adj = c(1, 1),
+    xpd = NA
+  )
+  title(xlab = xlab, line = 2 + extra_margin)
+  # Settings needed to add elements to the plot, `par` is reset on exit
+  invisible(par(c("mar", "usr")))
 }
