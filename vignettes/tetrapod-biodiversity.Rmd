@@ -345,7 +345,7 @@ Amazing! Now we can clearly see that alpha diversity appears to be a lot higher 
 
 # Exploring range size/spatial issues through time
 
-Another factor that we can examine is how range size of taxa changed across the C/P boundary. We can examine this spatial distribution through time using the `tax_range_space` function, which provides several different methods for estimating the distribution of taxonomic occurrences. For now we'll use the method `con` which calculates the geographic range of taxa using a convex hull, but the rest of the methods are described in detail in the function documentation which can be accessed via `?tax_range_space`.
+Another factor that we can examine is how range size of taxa changed across the C/P boundary. We can examine this spatial distribution through time using the `tax_range_space_*()` functions, which provide several different methods for estimating the distribution of taxonomic occurrences. For now we'll use `tax_range_space_con()` which calculates the geographic range of taxa using a convex hull, but the rest of the methods are described in detail in the function documentation which can be accessed via `?tax_range_space`.
 
 We can use this in combination with `group_apply` to calculate the average for each time interval for our dataset:
 
@@ -356,17 +356,16 @@ space_tetrapods <- subset(maj_tetrapods, !is.na(genus))
 # Find temporal range of all genera
 space_tetrapods <- group_apply(occdf = space_tetrapods,
                                group = c("bin_midpoint"),
-                               fun = tax_range_space,
+                               fun = tax_range_space_con,
                                name = "genus",
                                lng = "p_lng",
-                               lat = "p_lat",
-                               method = "con")
+                               lat = "p_lat")
 
 # Have a look at the dataset
 head(space_tetrapods)
 ```
 
-As you can see, the combination of `group_apply` and `tax_range_space` produces a dataset with the area of geographic range for each taxon in kilometers squared for each time interval. Note that an area of zero here means that there is only one occurrence of that taxon in that time bin. From this information we can now plot how the average range size of tetrapods changed throughout the Carboniferous and Permian:
+As you can see, the combination of `group_apply` and `tax_range_space_con()` produces a dataset with the area of geographic range for each taxon in kilometers squared for each time interval. Note that an area of zero here means that there is only one occurrence of that taxon in that time bin. From this information we can now plot how the average range size of tetrapods changed throughout the Carboniferous and Permian:
 
 ```{r alpha-div-plot-3}
 # Find the average geographic range size for each time interval

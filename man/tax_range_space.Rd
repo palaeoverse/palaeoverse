@@ -2,8 +2,38 @@
 % Please edit documentation in R/tax_range_space.R
 \name{tax_range_space}
 \alias{tax_range_space}
+\alias{tax_range_space_con}
+\alias{tax_range_space_lat}
+\alias{tax_range_space_gcd}
+\alias{tax_range_space_occ}
 \title{Calculate the geographic range of fossil taxa}
 \usage{
+tax_range_space_con(
+  occdf,
+  name = "genus",
+  lng = "lng",
+  lat = "lat",
+  coords = FALSE
+)
+
+tax_range_space_lat(occdf, name = "genus", lng = "lng", lat = "lat")
+
+tax_range_space_gcd(
+  occdf,
+  name = "genus",
+  lng = "lng",
+  lat = "lat",
+  coords = FALSE
+)
+
+tax_range_space_occ(
+  occdf,
+  name = "genus",
+  lng = "lng",
+  lat = "lat",
+  spacing = 100
+)
+
 tax_range_space(
   occdf,
   name = "genus",
@@ -31,64 +61,66 @@ prior to function call.}
 as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
 prior to function call.}
 
-\item{method}{\code{character}. How should geographic range be calculated
-for each taxon in \code{occdf}? Four options exist in this function: "con",
-"lat", "gcd", and "occ". See Details for a description of each.}
+\item{coords}{\code{logical}. Should the output coordinates be returned?}
 
 \item{spacing}{\code{numeric}. The desired spacing (in km) between the
-center of adjacent grid cells. Only required if the \code{method} argument is
-set to "occ". The default is 100.}
+center of adjacent grid cells. The default is 100.}
 
-\item{coords}{\code{logical}. Should the output coordinates be returned for
-the "con" and "gcd" \code{method}?}
+\item{method}{\code{character}. How should geographic range be calculated
+for each taxon in \code{occdf}? Four options exist: "con", "lat", "gcd", and
+"occ". This calls the corresponding \verb{tax_range_space_*()} function.}
 }
 \value{
 A \code{dataframe} with method-specific columns:
 \itemize{
-\item For the "con" method, a \code{dataframe} with each unique taxa (\code{taxon})
+\item For \code{tax_range_space_con()}, a \code{dataframe} with each unique taxa (\code{taxon})
 and taxon ID (\code{taxon_id}) by convex hull coordinate (\code{lng} & \code{lat})
 combination, and area (\code{area}) in
 km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}} is returned.
-\item For the "lat" method, a \code{dataframe} with unique taxa (\code{taxon}),
+\item For \code{tax_range_space_lat()}, a \code{dataframe} with unique taxa (\code{taxon}),
 taxon ID (\code{taxon_id}), maximum latitude of occurrence (\code{max_lat}),
 minimum latitude of occurrence (\code{min_lat}), and latitudinal
 range (\code{range_lat}) is returned.
-\item For the "gcd" method, a \code{dataframe} with each unique taxa (\code{taxon})
+\item For \code{tax_range_space_gcd()}, a \code{dataframe} with each unique taxa (\code{taxon})
 and taxon ID (\code{taxon_id}) by coordinate combination (\code{lng} & \code{lat}) of the
 two most distant points, and the Great Circle Distance (\code{gcd}) between
 these points in km is returned.
-\item For the "occ" method, a \code{dataframe} with unique taxa (\code{taxon}), taxon
+\item For \code{tax_range_space_occ()}, a \code{dataframe} with unique taxa (\code{taxon}), taxon
 ID (\code{taxon_id}), the number of occupied cells (\code{n_cells}), proportion of
 occupied cells from all occupied by occurrences (\code{proportional_occ}),
 and the spacing between cells (\code{spacing}) in km is returned. Note: the number
 of occupied cells and proportion of occupied cells is highly dependent on
 the user-defined \code{spacing.}
-For the "con", "lat" and "gcd" method, values of zero indicate that the
+For \code{tax_range_space_con()}, \code{tax_range_space_lat()} and
+\code{tax_range_space_gcd()}, values of zero indicate that the
 respective taxon is a singleton (i.e. represented by only one occurrence).
 }
 }
 \description{
-A function to calculate the geographic range of fossil taxa from occurrence
-data. The function can calculate geographic range in four ways: convex
+These functions calculate the geographic range of fossil taxa from occurrence
+data. Geographic range can be calculated in four ways: convex
 hull, latitudinal range, maximum Great Circle Distance, and the number of
 occupied equal-area hexagonal grid cells.
 }
 \details{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{tax_range_space()} is deprecated, use
+one of the \verb{tax_range_space_*()} functions instead.
+
 Four commonly applied approaches (Darroch et al. 2020)
-are available using the \code{tax_range_space} function for calculating ranges:
+are available for calculating ranges:
 \itemize{
-\item Convex hull: the "con" method calculates the geographic range of taxa
+\item Convex hull: \code{tax_range_space_con()} calculates the geographic range of taxa
 using a convex hull for each taxon in \code{occdf}, and calculates the area of
 the convex hull (in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}) using
 \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}. The
 convex hull method works by creating a polygon that encompasses all
 occurrence points of the taxon.
-\item Latitudinal: the "lat" method calculates the palaeolatitudinal
+\item Latitudinal: \code{tax_range_space_lat()} calculates the palaeolatitudinal
 range of a taxon. It does so for each taxon in \code{occdf} by finding their
 maximum and minimum latitudinal occurrence (from input \code{lat}).
 The palaeolatitudinal range of each taxon is also calculated (i.e. the
 difference between the minimum and maximum latitude).
-\item Maximum Great Circle Distance: the "gcd" method calculates the maximum
+\item Maximum Great Circle Distance: \code{tax_range_space_gcd()} calculates the maximum
 Great Circle Distance between occurrences for each taxon in \code{occdf}. It does
 so using \code{\link[geosphere:distHaversine]{geosphere::distHaversine()}}.
 This function calculates Great Circle Distance using the Haversine method
@@ -96,14 +128,14 @@ with the radius of the Earth set to the 6378.137 km.
 Great Circle Distance represents the shortest distance between two
 points on the surface of a sphere. This is different from Euclidean Distance,
 which represents the distance between two points on a plane.
-\item Occupied cells: the "occ" method calculates the number and proportion of
+\item Occupied cells: \code{tax_range_space_occ()} calculates the number and proportion of
 occupied equal-area grid cells. It does so using discrete hexagonal grids
 via the \code{\link[h3jsr]{h3jsr}} package. This package relies on
 \href{https://h3geo.org/docs/}{Uber's H3} library, a geospatial indexing system
 that partitions the world into hexagonal cells. In H3, 16 different
 resolutions are available
 (\href{https://h3geo.org/docs/core-library/restable/}{see here}).
-In the implementation of the \code{tax_range_space()} function, the resolution is
+In the implementation of \code{tax_range_space_occ()}, the resolution is
 defined by the user-input \code{spacing} which represents the distance between
 the centroid of adjacent cells. Using this distance, the function identifies
 which resolution is most similar to the input \code{spacing}, and uses this
@@ -133,15 +165,13 @@ occdf <- tetrapods[1:100, ]
 # Remove NAs
 occdf <- subset(occdf, !is.na(genus))
 # Convex hull
-ex1 <- tax_range_space(occdf = occdf, name = "genus", method = "con")
+ex1 <- tax_range_space_con(occdf = occdf, name = "genus")
 # Latitudinal range
-ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
+ex2 <- tax_range_space_lat(occdf = occdf, name = "genus")
 # Great Circle Distance
-ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
+ex3 <- tax_range_space_gcd(occdf = occdf, name = "genus")
 # Occupied grid cells
-ex4 <- tax_range_space(occdf = occdf, name = "genus",
-                       method = "occ", spacing = 500)
+ex4 <- tax_range_space_occ(occdf = occdf, name = "genus", spacing = 500)
 # Convex hull with coordinates
-ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
-coords = TRUE)
+ex5 <- tax_range_space_con(occdf = occdf, name = "genus", coords = TRUE)
 }

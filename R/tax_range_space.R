@@ -1,9 +1,12 @@
 #' Calculate the geographic range of fossil taxa
 #'
-#' A function to calculate the geographic range of fossil taxa from occurrence
-#' data. The function can calculate geographic range in four ways: convex
+#' These functions calculate the geographic range of fossil taxa from occurrence
+#' data. Geographic range can be calculated in four ways: convex
 #' hull, latitudinal range, maximum Great Circle Distance, and the number of
 #' occupied equal-area hexagonal grid cells.
+#'
+#' `r lifecycle::badge("deprecated")` `tax_range_space()` is deprecated, use
+#' one of the `tax_range_space_*()` functions instead.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences. This
 #'   dataframe should contain at least three columns: names of taxa, longitude
@@ -18,50 +21,49 @@
 #'   as the input latitude (e.g. "lat" or "p_lat"). NA data should be removed
 #'   prior to function call.
 #' @param method \code{character}. How should geographic range be calculated
-#'   for each taxon in `occdf`? Four options exist in this function: "con",
-#'   "lat", "gcd", and "occ". See Details for a description of each.
+#'   for each taxon in `occdf`? Four options exist: "con", "lat", "gcd", and
+#'   "occ". This calls the corresponding `tax_range_space_*()` function.
 #' @param spacing \code{numeric}. The desired spacing (in km) between the
-#'   center of adjacent grid cells. Only required if the `method` argument is
-#'   set to "occ". The default is 100.
-#' @param coords \code{logical}. Should the output coordinates be returned for
-#'   the "con" and "gcd" `method`?
+#'   center of adjacent grid cells. The default is 100.
+#' @param coords \code{logical}. Should the output coordinates be returned?
 #'
 #' @return A \code{dataframe} with method-specific columns:
-#' - For the "con" method, a \code{dataframe} with each unique taxa (`taxon`)
+#' - For `tax_range_space_con()`, a \code{dataframe} with each unique taxa (`taxon`)
 #' and taxon ID (`taxon_id`) by convex hull coordinate (`lng` & `lat`)
 #' combination, and area (`area`) in
 #' km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}} is returned.
-#' - For the "lat" method, a \code{dataframe} with unique taxa (`taxon`),
+#' - For `tax_range_space_lat()`, a \code{dataframe} with unique taxa (`taxon`),
 #' taxon ID (`taxon_id`), maximum latitude of occurrence (`max_lat`),
 #' minimum latitude of occurrence (`min_lat`), and latitudinal
 #' range (`range_lat`) is returned.
-#' - For the "gcd" method, a \code{dataframe} with each unique taxa (`taxon`)
+#' - For `tax_range_space_gcd()`, a \code{dataframe} with each unique taxa (`taxon`)
 #' and taxon ID (`taxon_id`) by coordinate combination (`lng` & `lat`) of the
 #' two most distant points, and the Great Circle Distance (`gcd`) between
 #' these points in km is returned.
-#' - For the "occ" method, a \code{dataframe} with unique taxa (`taxon`), taxon
+#' - For `tax_range_space_occ()`, a \code{dataframe} with unique taxa (`taxon`), taxon
 #' ID (`taxon_id`), the number of occupied cells (`n_cells`), proportion of
 #' occupied cells from all occupied by occurrences (`proportional_occ`),
 #' and the spacing between cells (`spacing`) in km is returned. Note: the number
 #' of occupied cells and proportion of occupied cells is highly dependent on
 #' the user-defined `spacing.`
-#' For the "con", "lat" and "gcd" method, values of zero indicate that the
+#' For `tax_range_space_con()`, `tax_range_space_lat()` and
+#' `tax_range_space_gcd()`, values of zero indicate that the
 #' respective taxon is a singleton (i.e. represented by only one occurrence).
 #'
 #' @details Four commonly applied approaches (Darroch et al. 2020)
-#' are available using the `tax_range_space` function for calculating ranges:
-#' - Convex hull: the "con" method calculates the geographic range of taxa
+#' are available for calculating ranges:
+#' - Convex hull: `tax_range_space_con()` calculates the geographic range of taxa
 #' using a convex hull for each taxon in `occdf`, and calculates the area of
 #' the convex hull (in km\ifelse{html}{\out{<sup>2</sup>}}{\eqn{^2}}) using
 #' \code{\link[geosphere:areaPolygon]{geosphere::areaPolygon()}}. The
 #' convex hull method works by creating a polygon that encompasses all
 #' occurrence points of the taxon.
-#' - Latitudinal: the "lat" method calculates the palaeolatitudinal
+#' - Latitudinal: `tax_range_space_lat()` calculates the palaeolatitudinal
 #' range of a taxon. It does so for each taxon in `occdf` by finding their
 #' maximum and minimum latitudinal occurrence (from input `lat`).
 #' The palaeolatitudinal range of each taxon is also calculated (i.e. the
 #' difference between the minimum and maximum latitude).
-#' - Maximum Great Circle Distance: the "gcd" method calculates the maximum
+#' - Maximum Great Circle Distance: `tax_range_space_gcd()` calculates the maximum
 #' Great Circle Distance between occurrences for each taxon in `occdf`. It does
 #' so using \code{\link[geosphere:distHaversine]{geosphere::distHaversine()}}.
 #' This function calculates Great Circle Distance using the Haversine method
@@ -69,14 +71,14 @@
 #' Great Circle Distance represents the shortest distance between two
 #' points on the surface of a sphere. This is different from Euclidean Distance,
 #' which represents the distance between two points on a plane.
-#' - Occupied cells: the "occ" method calculates the number and proportion of
+#' - Occupied cells: `tax_range_space_occ()` calculates the number and proportion of
 #' occupied equal-area grid cells. It does so using discrete hexagonal grids
 #' via the \code{\link[h3jsr]{h3jsr}} package. This package relies on
 #' [Uber's H3](https://h3geo.org/docs/) library, a geospatial indexing system
 #' that partitions the world into hexagonal cells. In H3, 16 different
 #' resolutions are available
 #' ([see here](https://h3geo.org/docs/core-library/restable/)).
-#' In the implementation of the `tax_range_space()` function, the resolution is
+#' In the implementation of `tax_range_space_occ()`, the resolution is
 #' defined by the user-input `spacing` which represents the distance between
 #' the centroid of adjacent cells. Using this distance, the function identifies
 #' which resolution is most similar to the input `spacing`, and uses this
@@ -101,17 +103,73 @@
 #' # Remove NAs
 #' occdf <- subset(occdf, !is.na(genus))
 #' # Convex hull
-#' ex1 <- tax_range_space(occdf = occdf, name = "genus", method = "con")
+#' ex1 <- tax_range_space_con(occdf = occdf, name = "genus")
 #' # Latitudinal range
-#' ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
+#' ex2 <- tax_range_space_lat(occdf = occdf, name = "genus")
 #' # Great Circle Distance
-#' ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
+#' ex3 <- tax_range_space_gcd(occdf = occdf, name = "genus")
 #' # Occupied grid cells
-#' ex4 <- tax_range_space(occdf = occdf, name = "genus",
-#'                        method = "occ", spacing = 500)
+#' ex4 <- tax_range_space_occ(occdf = occdf, name = "genus", spacing = 500)
 #' # Convex hull with coordinates
-#' ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
-#' coords = TRUE)
+#' ex5 <- tax_range_space_con(occdf = occdf, name = "genus", coords = TRUE)
+#' @name tax_range_space
+NULL
+
+#' @rdname tax_range_space
+#' @export
+tax_range_space_con <- function(
+  occdf,
+  name = "genus",
+  lng = "lng",
+  lat = "lat",
+  coords = FALSE
+) {
+  ensure_args_are_named(exceptions = "occdf")
+  rlang::check_bool(coords)
+  tax_range_space_impl(occdf, name, lng, lat, method = "con", coords = coords)
+}
+
+#' @rdname tax_range_space
+#' @export
+tax_range_space_lat <- function(
+  occdf,
+  name = "genus",
+  lng = "lng",
+  lat = "lat"
+) {
+  ensure_args_are_named(exceptions = "occdf")
+  tax_range_space_impl(occdf, name, lng, lat, method = "lat")
+}
+
+#' @rdname tax_range_space
+#' @export
+tax_range_space_gcd <- function(
+  occdf,
+  name = "genus",
+  lng = "lng",
+  lat = "lat",
+  coords = FALSE
+) {
+  ensure_args_are_named(exceptions = "occdf")
+  rlang::check_bool(coords)
+  tax_range_space_impl(occdf, name, lng, lat, method = "gcd", coords = coords)
+}
+
+#' @rdname tax_range_space
+#' @export
+tax_range_space_occ <- function(
+  occdf,
+  name = "genus",
+  lng = "lng",
+  lat = "lat",
+  spacing = 100
+) {
+  ensure_args_are_named(exceptions = "occdf")
+  rlang::check_number_decimal(spacing)
+  tax_range_space_impl(occdf, name, lng, lat, method = "occ", spacing = spacing)
+}
+
+#' @rdname tax_range_space
 #' @export
 tax_range_space <- function(
   occdf,
@@ -123,6 +181,54 @@ tax_range_space <- function(
   coords = FALSE
 ) {
   ensure_args_are_named(exceptions = "occdf")
+  lifecycle::deprecate_soft(
+    "2.0.0",
+    "tax_range_space()",
+    details = "Use one of `tax_range_space_con()`, `tax_range_space_lat()`, `tax_range_space_gcd()`, or `tax_range_space_occ()` instead."
+  )
+
+  rlang::check_string(method)
+  method <- rlang::arg_match(method, values = c("lat", "con", "gcd", "occ"))
+
+  switch(
+    method,
+    con = tax_range_space_con(
+      occdf,
+      name = name,
+      lng = lng,
+      lat = lat,
+      coords = coords
+    ),
+    lat = tax_range_space_lat(occdf, name = name, lng = lng, lat = lat),
+    gcd = tax_range_space_gcd(
+      occdf,
+      name = name,
+      lng = lng,
+      lat = lat,
+      coords = coords
+    ),
+    occ = tax_range_space_occ(
+      occdf,
+      name = name,
+      lng = lng,
+      lat = lat,
+      spacing = spacing
+    )
+  )
+}
+
+tax_range_space_impl <- function(
+  occdf,
+  name,
+  lng,
+  lat,
+  method,
+  spacing = NULL,
+  coords = FALSE,
+  call = rlang::caller_env()
+) {
+  # Errors are reported as coming from the exported function
+  rlang::local_error_call(call)
 
   check_data_frame(occdf)
 
@@ -138,12 +244,6 @@ tax_range_space <- function(
   check_class(occdf, lng, "numeric")
   check_range(occdf, lat, -90, 90)
   check_range(occdf, lng, -180, 180)
-
-  rlang::check_number_decimal(spacing)
-  rlang::check_bool(coords)
-
-  rlang::check_string(method)
-  method <- rlang::arg_match(method, values = c("lat", "con", "gcd", "occ"))
 
   #=== Set-up ===
   unique_taxa <- unique(occdf[, name, drop = TRUE])
