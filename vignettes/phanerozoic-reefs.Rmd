@@ -176,9 +176,9 @@ When studying modern latitudinal trends (e.g. in biodiversity), researchers can 
 
 <!-- 
 The following four chunks are here to handle the absence or the presence of an RDS file
-containing the results of palaeorotate():
-- if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
-- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+containing the results of palaeorotate_point():
+- if the RDS is present, then we don't evaluate palaeorotate_point() and read the RDS instead
+- if the RDS is absent, then we evaluate palaeorotate_point() and save its output in the RDS 
 -->
 
 ```{r echo = FALSE, eval = TRUE}
@@ -187,8 +187,8 @@ rds_point_paleomap_reefs_exists <- file.exists("_data/palaeorotate_point_paleoma
 
 ```{r echo = TRUE, eval = !rds_point_paleomap_reefs_exists}
 # Palaeorotate occurrences
-reefs <- palaeorotate(occdf = reefs, age = "bin_midpoint",
-                      method = "point", model = "PALEOMAP")
+reefs <- palaeorotate_point(occdf = reefs, age = "bin_midpoint",
+                            model = "PALEOMAP")
 ```
 
 ```{r echo = FALSE, eval = !rds_point_paleomap_reefs_exists}
@@ -249,9 +249,9 @@ That's definitely much clearer! Should we stop there? Well... how about one last
 
 <!-- 
 The following four chunks are here to handle the absence or the presence of an RDS file
-containing the results of palaeorotate():
-- if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
-- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+containing the results of palaeorotate_point():
+- if the RDS is present, then we don't evaluate palaeorotate_point() and read the RDS instead
+- if the RDS is absent, then we evaluate palaeorotate_point() and save its output in the RDS 
 -->
 
 ```{r echo = FALSE, eval = TRUE}
@@ -263,8 +263,8 @@ rds_point_multi_models_exists <- file.exists("_data/palaeorotate_point_multi_mod
 # First, let's define the models...
 models <- c("GOLONKA", "PALEOMAP", "MERDITH2021")
 # And now palaeorotate!
-reefs <- palaeorotate(occdf = reefs, age = "bin_midpoint",
-                      method = "point", model = models)
+reefs <- palaeorotate_point(occdf = reefs, age = "bin_midpoint",
+                            model = models)
 ```
 
 ```{r echo = FALSE, eval = !rds_point_multi_models_exists}

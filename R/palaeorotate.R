@@ -1,10 +1,13 @@
 #' Palaeorotate fossil occurrences
 #'
-#' A function to estimate palaeocoordinates for fossil occurrence data
+#' These functions estimate palaeocoordinates for fossil occurrence data
 #' (i.e. reconstruct the geographic distribution of organisms'
 #' remains at time of deposition). Each occurrence is assigned
 #' palaeocoordinates based on its current geographic position and age
 #' estimate.
+#'
+#' `r lifecycle::badge("deprecated")` `palaeorotate()` is deprecated, use
+#' `palaeorotate_point()` or `palaeorotate_grid()` instead.
 #'
 #' @param occdf \code{data.frame}. Fossil occurrences to be
 #'   palaeogeographically reconstructed. \code{occdf} should contain columns
@@ -21,9 +24,10 @@
 #'   to be used to reconstruct palaeocoordinates. See details for available
 #'   models.
 #' @param method \code{character}. Method used to calculate palaeocoordinates
-#'   for fossil occurrences. Either "grid" to use reconstruction files, or
-#'   "point" (default) to use the GPlates API service. See details section for
-#'   specific details.
+#'   for fossil occurrences. Either "grid" to use reconstruction files
+#'   (`palaeorotate_grid()`), or "point" (default) to use the GPlates API
+#'   service (`palaeorotate_point()`). See details section for specific
+#'   details.
 #' @param uncertainty \code{logical}. Should the uncertainty in
 #'   palaeogeographic reconstructions be returned? If set to TRUE (default),
 #'   the palaeolatitudinal range and maximum geographic distance (in km)
@@ -31,14 +35,14 @@
 #'   relevant if more than one Global Plate Model is specified in `model`.
 #' @param round \code{numeric}. Numeric value indicating the number of decimal
 #'   places `lng`, `lat` and `age` should be rounded to. This functionality is
-#'   only relevant for the "point" `method`. Rounding can speed up
+#'   mostly relevant for `palaeorotate_point()`. Rounding can speed up
 #'   palaeorotation by reducing the number of unique coordinate pairs.
 #'   Defaults to a value of 3. If no rounding is desired, set this value to
 #'   `NULL`.
 #'
 #' @return A \code{data.frame} containing the original input occurrence
-#'   `data.frame` and the reconstructed coordinates (i.e. "p_lng", "p_lat"). The
-#'   "grid" `method` also returns the age of rotation ("rot_age") and the
+#'   `data.frame` and the reconstructed coordinates (i.e. "p_lng", "p_lat").
+#'   `palaeorotate_grid()` also returns the age of rotation ("rot_age") and the
 #'   reference coordinates rotated ("rot_lng" and "rot_lat"). If only one
 #'   model is requested, a column containing the rotation model used
 #'   ("rot_model") is also appended. Otherwise, the name of each model is
@@ -48,30 +52,30 @@
 #'   distance ("max_dist") in km between palaeocoordinates will also be
 #'   returned (the latter calculated via \code{\link[geosphere]{distGeo}}).
 #'
-#' @details This function can estimate palaeocoordinates using two different
-#'   approaches (`method`):
+#' @details Palaeocoordinates can be estimated using two different
+#'   approaches:
 #'
-#' - Reconstruction files: The "grid" `method` uses reconstruction files from
+#' - Reconstruction files: `palaeorotate_grid()` uses reconstruction files from
 #' Jones & Domeier (2024) to spatiotemporally link present-day geographic
 #' coordinates and age estimates with a discrete global grid rotated at one
 #' million-year time steps throughout the Phanerozoic (540--0 Ma). Here,
 #' resolution 3 (~119 km spacing) of the reconstruction files is used. All
 #' files, and the process used to generate them, are available and documented
 #' in Jones & Domeier (2024). If fine-scale spatial analyses are being
-#' conducted, use of the "point" `method` (see GPlates API below) may be
+#' conducted, use of `palaeorotate_point()` (see GPlates API below) may be
 #' preferred (particularly if occurrences are close to plate boundaries). When
-#' using the "grid" `method`, coordinates within the same grid cell will be
+#' using `palaeorotate_grid()`, coordinates within the same grid cell will be
 #' assigned equivalent palaeocoordinates due to spatial aggregation. However,
 #' this approach enables efficient estimation of the past distribution of
 #' fossil occurrences. Note: each reconstruction file is ~45 MB in size.
 #'
-#' - GPlates API: The "point" `method` uses the [GPlates Web Service](
+#' - GPlates API: `palaeorotate_point()` uses the [GPlates Web Service](
 #' https://gwsdoc.gplates.org) to reconstruct palaeocoordinates for point
-#' data. The use of this `method` is slower than the "grid" `method` if many
+#' data. It is slower than `palaeorotate_grid()` if many
 #' unique time intervals exist in your dataset. However, it provides
 #' palaeocoordinates with higher precision.
 #'
-#' Available models and timespan for each `method`:
+#' Available models and timespan for each method:
 #' - "MERDITH2021" (Merdith et al., 2021)
 #'   - 0--1000 Ma (point)
 #'   - 0--540 Ma (grid)
@@ -135,18 +139,17 @@
 #'                 age = c(88, 125, 200))
 #'
 #' #Calculate palaeocoordinates using reconstruction files
-#' ex1 <- palaeorotate(occdf = occdf, method = "grid")
+#' ex1 <- palaeorotate_grid(occdf = occdf)
 #'
 #' #Calculate palaeocoordinates using the GPlates API
-#' ex2 <- palaeorotate(occdf = occdf, method = "point")
+#' ex2 <- palaeorotate_point(occdf = occdf)
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
-#' ex3 <- palaeorotate(occdf = occdf,
-#'                     method = "grid",
-#'                     model = c("MERDITH2021",
-#'                               "GOLONKA",
-#'                               "PALEOMAP"),
-#'                     uncertainty = TRUE)
+#' ex3 <- palaeorotate_grid(occdf = occdf,
+#'                          model = c("MERDITH2021",
+#'                                    "GOLONKA",
+#'                                    "PALEOMAP"),
+#'                          uncertainty = TRUE)
 #'
 #' #Now with some real fossil occurrence data!
 #'
@@ -157,15 +160,67 @@
 #' tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 #'
 #' #Rotate the data
-#' ex3 <- palaeorotate(occdf = tetrapods)
+#' ex3 <- palaeorotate_point(occdf = tetrapods)
 #'
 #' #Calculate uncertainity in palaeocoordinates from models
-#' ex4 <- palaeorotate(occdf = tetrapods,
-#'                     model = c("MERDITH2021",
-#'                               "GOLONKA",
-#'                               "PALEOMAP"),
-#'                     uncertainty = TRUE)
+#' ex4 <- palaeorotate_point(occdf = tetrapods,
+#'                           model = c("MERDITH2021",
+#'                                     "GOLONKA",
+#'                                     "PALEOMAP"),
+#'                           uncertainty = TRUE)
 #' }
+#' @name palaeorotate
+NULL
+
+#' @rdname palaeorotate
+#' @export
+palaeorotate_point <- function(
+  occdf,
+  lng = "lng",
+  lat = "lat",
+  age = "age",
+  model = "MERDITH2021",
+  uncertainty = TRUE,
+  round = 3
+) {
+  ensure_args_are_named(exceptions = "occdf")
+  palaeorotate_impl(
+    occdf,
+    lng = lng,
+    lat = lat,
+    age = age,
+    model = model,
+    method = "point",
+    uncertainty = uncertainty,
+    round = round
+  )
+}
+
+#' @rdname palaeorotate
+#' @export
+palaeorotate_grid <- function(
+  occdf,
+  lng = "lng",
+  lat = "lat",
+  age = "age",
+  model = "MERDITH2021",
+  uncertainty = TRUE,
+  round = 3
+) {
+  ensure_args_are_named(exceptions = "occdf")
+  palaeorotate_impl(
+    occdf,
+    lng = lng,
+    lat = lat,
+    age = age,
+    model = model,
+    method = "grid",
+    uncertainty = uncertainty,
+    round = round
+  )
+}
+
+#' @rdname palaeorotate
 #' @export
 palaeorotate <- function(
   occdf,
@@ -178,11 +233,45 @@ palaeorotate <- function(
   round = 3
 ) {
   ensure_args_are_named(exceptions = "occdf")
+  lifecycle::deprecate_soft(
+    "2.0.0",
+    "palaeorotate()",
+    details = "Use `palaeorotate_point()` or `palaeorotate_grid()` instead."
+  )
+
+  rlang::check_string(method)
+  method <- rlang::arg_match(method, values = c("point", "grid"))
+
+  fn <- if (method == "point") palaeorotate_point else palaeorotate_grid
+  fn(
+    occdf,
+    lng = lng,
+    lat = lat,
+    age = age,
+    model = model,
+    uncertainty = uncertainty,
+    round = round
+  )
+}
+
+palaeorotate_impl <- function(
+  occdf,
+  lng,
+  lat,
+  age,
+  model,
+  method,
+  uncertainty,
+  round,
+  call = rlang::caller_env()
+) {
+  # Errors are reported as coming from the exported function
+  rlang::local_error_call(call)
 
   # This is used in error messages to report in which function call the error occurred. We save it
   # here so that we don't need to use e.g. `rlang::caller_env(4)` when running `cli::cli_abort()`
   # in `tryCatch()`.
-  caller_env <- rlang::current_env()
+  caller_env <- call
 
   check_data_frame(occdf)
 
@@ -197,8 +286,6 @@ palaeorotate <- function(
   check_range(occdf, lng, -180, 180)
   check_range(occdf, age, 0, Inf)
 
-  rlang::check_string(method)
-  method <- rlang::arg_match(method, values = c("point", "grid"))
   rlang::check_number_whole(round, allow_null = TRUE)
   rlang::check_bool(uncertainty)
 

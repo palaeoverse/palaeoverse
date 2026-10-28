@@ -10,15 +10,15 @@ test_that("arg 'occdf' works", {
 
   # A valid occdf returns the same number of rows
   vcr::use_cassette("palaeorotate-paleomap", {
-    paleomap <- palaeorotate(occdf = occdf, model = "PALEOMAP")
+    paleomap <- palaeorotate_point(occdf = occdf, model = "PALEOMAP")
   })
   expect_equal(nrow(paleomap), 3)
 
   # input checks
-  expect_snapshot(palaeorotate(occdf = 10), error = TRUE)
-  expect_snapshot(palaeorotate(occdf = NA), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf = 10), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf = NA), error = TRUE)
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = 10, lat = 5)),
+    palaeorotate_point(occdf = data.frame(lng = 10, lat = 5)),
     error = TRUE
   )
 })
@@ -34,21 +34,21 @@ test_that("piping and not piping the first argument give the same result", {
   )
 
   vcr::use_cassette("palaeorotate-paleomap", {
-    piped <- occdf |> palaeorotate(model = "PALEOMAP")
+    piped <- occdf |> palaeorotate_point(model = "PALEOMAP")
   })
   vcr::use_cassette("palaeorotate-paleomap", {
-    not_piped <- palaeorotate(occdf, model = "PALEOMAP")
+    not_piped <- palaeorotate_point(occdf, model = "PALEOMAP")
   })
 
   expect_equal(piped, not_piped)
 })
 
-test_that("palaeorotate errors with unnamed args", {
+test_that("palaeorotate_point() errors with unnamed args", {
   occdf <- data.frame(lng = c(2, -103), lat = c(46, 35), age = c(88, 125))
-  expect_snapshot(palaeorotate(occdf, "lng"), error = TRUE)
-  expect_snapshot(palaeorotate(occdf = occdf, "lng"), error = TRUE)
-  expect_snapshot(palaeorotate(occdf, "lng", "lat"), error = TRUE)
-  expect_snapshot(palaeorotate(occdf, "lng", lat = "lat"), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf, "lng"), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf = occdf, "lng"), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf, "lng", "lat"), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf, "lng", lat = "lat"), error = TRUE)
 })
 
 test_that("Large occdf inputs are chunked before being sent to the API", {
@@ -63,7 +63,7 @@ test_that("Large occdf inputs are chunked before being sent to the API", {
   )
   expect_warning(
     vcr::use_cassette("palaeorotate-paleomap-chunksize", {
-      paleomap <- palaeorotate(occdf = big_occdf, model = "PALEOMAP")
+      paleomap <- palaeorotate_point(occdf = big_occdf, model = "PALEOMAP")
     }),
     regexp = "Palaeocoordinates"
   )
@@ -72,45 +72,45 @@ test_that("Large occdf inputs are chunked before being sent to the API", {
 
 test_that("input checks for longitude", {
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = 210, lat = 40, age = 25)),
+    palaeorotate_point(occdf = data.frame(lng = 210, lat = 40, age = 25)),
     error = TRUE
   )
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = NA, lat = 40, age = 25)),
+    palaeorotate_point(occdf = data.frame(lng = NA, lat = 40, age = 25)),
     error = TRUE
   )
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = "a", lat = 40, age = 25)),
+    palaeorotate_point(occdf = data.frame(lng = "a", lat = 40, age = 25)),
     error = TRUE
   )
 })
 
 test_that("input checks for latitude", {
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = 160, lat = 200, age = 25)),
+    palaeorotate_point(occdf = data.frame(lng = 160, lat = 200, age = 25)),
     error = TRUE
   )
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = 40, lat = NA, age = 25)),
+    palaeorotate_point(occdf = data.frame(lng = 40, lat = NA, age = 25)),
     error = TRUE
   )
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = 40, lat = "a", age = 25)),
+    palaeorotate_point(occdf = data.frame(lng = 40, lat = "a", age = 25)),
     error = TRUE
   )
 })
 
 test_that("input checks values for age", {
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = -1)),
+    palaeorotate_point(occdf = data.frame(lng = 160, lat = 40, age = -1)),
     error = TRUE
   )
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = NA)),
+    palaeorotate_point(occdf = data.frame(lng = 160, lat = 40, age = NA)),
     error = TRUE
   )
   expect_snapshot(
-    palaeorotate(occdf = data.frame(lng = 160, lat = 40, age = "a")),
+    palaeorotate_point(occdf = data.frame(lng = 160, lat = 40, age = "a")),
     error = TRUE
   )
 })
@@ -126,7 +126,7 @@ test_that("arg 'lng' works", {
   )
 
   vcr::use_cassette("palaeorotate-custom-lng", {
-    out <- palaeorotate(occdf = occdf, lng = "longitude")
+    out <- palaeorotate_point(occdf = occdf, lng = "longitude")
   })
   expect_equal(nrow(out), 3)
 })
@@ -142,7 +142,7 @@ test_that("arg 'lat' works", {
   )
 
   vcr::use_cassette("palaeorotate-custom-lat", {
-    out <- palaeorotate(occdf = occdf, lat = "latitude")
+    out <- palaeorotate_point(occdf = occdf, lat = "latitude")
   })
   expect_equal(nrow(out), 3)
 })
@@ -158,7 +158,7 @@ test_that("arg 'age' works", {
   )
 
   vcr::use_cassette("palaeorotate-custom-age", {
-    out <- palaeorotate(occdf = occdf, age = "custom_age")
+    out <- palaeorotate_point(occdf = occdf, age = "custom_age")
   })
   expect_equal(nrow(out), 3)
 })
@@ -178,7 +178,7 @@ test_that("arg 'model' works", {
   # --- point method ---
   # Multiple models return one set of palaeocoordinates per model
   vcr::use_cassette("palaeorotate-multi", {
-    multi <- palaeorotate(occdf = occdf, model = c("PALEOMAP", "GOLONKA"))
+    multi <- palaeorotate_point(occdf = occdf, model = c("PALEOMAP", "GOLONKA"))
   })
   # fmt: skip
   expect_named(
@@ -200,7 +200,7 @@ test_that("arg 'model' works", {
   )
   expect_warning(
     vcr::use_cassette("palaeorotate-temporal", {
-      paleomap <- palaeorotate(occdf = outside, model = "GOLONKA")$p_lng
+      paleomap <- palaeorotate_point(occdf = outside, model = "GOLONKA")$p_lng
     }),
     regexp = "Palaeocoordinates"
   )
@@ -214,9 +214,8 @@ test_that("arg 'model' works", {
   )
   expect_warning(
     vcr::use_cassette("palaeorotate-multi-point", {
-      palaeorotate(
+      palaeorotate_point(
         occdf = occdf_old,
-        method = "point",
         model = c("GOLONKA", "PALEOMAP")
       )
     }),
@@ -227,9 +226,8 @@ test_that("arg 'model' works", {
   # Multiple models return one set of palaeocoordinates per model.
   # This live call also caches the reconstruction files used by the
   # cassette-backed test below.
-  grid_multi <- palaeorotate(
+  grid_multi <- palaeorotate_grid(
     occdf = occdf,
-    method = "grid",
     model = c("PALEOMAP", "GOLONKA")
   )
   # fmt: skip
@@ -249,10 +247,9 @@ test_that("arg 'model' works", {
   )
   expect_warning(
     vcr::use_cassette("palaeorotate-grid-temporal", {
-      grid_temporal <- palaeorotate(
+      grid_temporal <- palaeorotate_grid(
         occdf = occdf_grid,
-        model = "GOLONKA",
-        method = "grid"
+        model = "GOLONKA"
       )
     }),
     regexp = "Palaeocoordinates"
@@ -261,27 +258,27 @@ test_that("arg 'model' works", {
 
   # input checks
   expect_snapshot(
-    palaeorotate(occdf = occdf, method = "point", model = NA),
+    palaeorotate_point(occdf = occdf, model = NA),
     error = TRUE
   )
   expect_snapshot(
-    palaeorotate(occdf = occdf, method = "point", model = character(0)),
+    palaeorotate_point(occdf = occdf, model = character(0)),
     error = TRUE
   )
 
   # Previously available models have been removed
   expect_snapshot(
-    palaeorotate(occdf = occdf, method = "point", model = "MULLER2022"),
+    palaeorotate_point(occdf = occdf, model = "MULLER2022"),
     error = TRUE
   )
   # Unknown models are rejected
   expect_snapshot(
-    palaeorotate(occdf = occdf, method = "point", model = "GPlates"),
+    palaeorotate_point(occdf = occdf, model = "GPlates"),
     error = TRUE
   )
 })
 
-test_that("arg 'method' works", {
+test_that("palaeorotate() is deprecated but still works", {
   skip_if_offline(host = "gws.gplates.org")
   skip_if_offline(host = "zenodo.org")
   skip_on_cran()
@@ -293,27 +290,40 @@ test_that("arg 'method' works", {
     age = c(88, 125, 300)
   )
 
-  # The "point" method returns the same number of rows
+  # The "point" method calls palaeorotate_point()
   vcr::use_cassette("palaeorotate-paleomap", {
-    point <- palaeorotate(occdf = occdf, model = "PALEOMAP", method = "point")
+    lifecycle::expect_deprecated(
+      old <- palaeorotate(occdf = occdf, model = "PALEOMAP", method = "point")
+    )
   })
-  expect_equal(nrow(point), 3)
+  vcr::use_cassette("palaeorotate-paleomap", {
+    new <- palaeorotate_point(occdf = occdf, model = "PALEOMAP")
+  })
+  expect_equal(old, new)
 
-  # The "grid" method returns the same number of rows
+  # The "grid" method calls palaeorotate_grid()
   expect_equal(
-    nrow(palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid")),
-    3
+    suppressWarnings(
+      palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid")
+    ),
+    palaeorotate_grid(occdf = occdf, model = "PALEOMAP")
   )
 
   # input checks
-  expect_snapshot(palaeorotate(occdf = occdf, method = "foo"), error = TRUE)
-  expect_snapshot(palaeorotate(occdf = occdf, method = NA), error = TRUE)
   expect_snapshot(
-    palaeorotate(occdf = occdf, method = character(0)),
+    suppressWarnings(palaeorotate(occdf = occdf, method = "foo")),
     error = TRUE
   )
   expect_snapshot(
-    palaeorotate(occdf = occdf, method = c("point", "grid")),
+    suppressWarnings(palaeorotate(occdf = occdf, method = NA)),
+    error = TRUE
+  )
+  expect_snapshot(
+    suppressWarnings(palaeorotate(occdf = occdf, method = character(0))),
+    error = TRUE
+  )
+  expect_snapshot(
+    suppressWarnings(palaeorotate(occdf = occdf, method = c("point", "grid"))),
     error = TRUE
   )
 })
@@ -336,7 +346,7 @@ test_that("arg 'uncertainty' works", {
   )
   expect_warning(
     vcr::use_cassette("palaeorotate-multi-outside-range", {
-      paleomap <- palaeorotate(
+      paleomap <- palaeorotate_point(
         occdf = outside,
         model = c("PALEOMAP", "GOLONKA"),
         uncertainty = TRUE
@@ -353,17 +363,15 @@ test_that("arg 'uncertainty' works", {
     age = rep(700, 3)
   )
   # Ensure reconstruction files are cached before the cassette-backed call
-  # invisible(palaeorotate(
+  # invisible(palaeorotate_grid(
   #   occdf = data.frame(lng = c(2, -103), lat = c(46, 35), age = c(88, 125)),
-  #   model = c("PALEOMAP", "GOLONKA"),
-  #   method = "grid"
+  #   model = c("PALEOMAP", "GOLONKA")
   # ))
   expect_warning(
     vcr::use_cassette("palaeorotate-grid-temporal-outside-range", {
-      grid_temporal <- palaeorotate(
+      grid_temporal <- palaeorotate_grid(
         occdf = occdf_grid,
         model = c("PALEOMAP", "GOLONKA"),
-        method = "grid",
         uncertainty = TRUE
       )
     }),
@@ -374,14 +382,14 @@ test_that("arg 'uncertainty' works", {
   # input checks
   dat <- data.frame(lng = 110, lat = 40, age = 25)
   expect_snapshot(
-    palaeorotate(occdf = dat, uncertainty = "GOONTHEN"),
+    palaeorotate_point(occdf = dat, uncertainty = "GOONTHEN"),
     error = TRUE
   )
   expect_snapshot(
-    palaeorotate(occdf = dat, uncertainty = character(0)),
+    palaeorotate_point(occdf = dat, uncertainty = character(0)),
     error = TRUE
   )
-  expect_snapshot(palaeorotate(occdf = dat, uncertainty = 1), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf = dat, uncertainty = 1), error = TRUE)
 })
 
 test_that("arg 'round' works", {
@@ -396,15 +404,15 @@ test_that("arg 'round' works", {
 
   # Disabling rounding still returns palaeocoordinates for every occurrence
   vcr::use_cassette("palaeorotate-paleomap", {
-    paleomap <- palaeorotate(occdf = occdf, model = "PALEOMAP", round = NULL)
+    paleomap <- palaeorotate_point(occdf = occdf, model = "PALEOMAP", round = NULL)
   })
   expect_equal(nrow(paleomap), 3)
 
   # input checks
-  expect_snapshot(palaeorotate(occdf = occdf, round = TRUE), error = TRUE)
-  expect_snapshot(palaeorotate(occdf = occdf, round = NA), error = TRUE)
-  expect_snapshot(palaeorotate(occdf = occdf, round = numeric(0)), error = TRUE)
-  expect_snapshot(palaeorotate(occdf = occdf, round = 1:2), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf = occdf, round = TRUE), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf = occdf, round = NA), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf = occdf, round = numeric(0)), error = TRUE)
+  expect_snapshot(palaeorotate_point(occdf = occdf, round = 1:2), error = TRUE)
 })
 
 test_that("good error message if GPlates or Zenodo are not available", {
@@ -420,12 +428,12 @@ test_that("good error message if GPlates or Zenodo are not available", {
   )
   # GPlates
   expect_snapshot(
-    palaeorotate(occdf = occdf, model = "PALEOMAP"),
+    palaeorotate_point(occdf = occdf, model = "PALEOMAP"),
     error = TRUE
   )
   # Zenodo
   expect_snapshot(
-    palaeorotate(occdf = occdf, model = "PALEOMAP", method = "grid"),
+    palaeorotate_grid(occdf = occdf, model = "PALEOMAP"),
     error = TRUE
   )
 })
