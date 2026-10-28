@@ -119,6 +119,8 @@ tax_range_time <- function(
       "tax_range_time(sort)",
       always = TRUE
     )
+    rlang::check_exclusive(by, sort)
+
     rlang::check_string(by)
     by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
     sort <- by

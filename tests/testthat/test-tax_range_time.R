@@ -294,6 +294,12 @@ test_that("argument 'by' is deprecated but still works", {
     "deprecated as of palaeoverse 2.0.0"
   )
 
+  # can't have both sort and by
+  expect_snapshot(
+    tax_range_time(occdf, by = "LAD", sort = "LAD"),
+    error = TRUE
+  )
+
   # still doing input checks
   expect_snapshot(
     tax_range_time(occdf, by = c("genus", "min_ma")),

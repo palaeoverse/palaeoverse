@@ -293,6 +293,17 @@
 # argument 'by' is deprecated but still works
 
     Code
+      tax_range_time(occdf, by = "LAD", sort = "LAD")
+    Condition
+      Warning:
+      The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
+      i Please use the `sort` argument instead.
+      Error in `tax_range_time()`:
+      ! Exactly one of `by` or `sort` must be supplied.
+
+---
+
+    Code
       tax_range_time(occdf, by = c("genus", "min_ma"))
     Condition
       Warning:
