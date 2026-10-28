@@ -389,7 +389,10 @@ test_that("arg 'uncertainty' works", {
     palaeorotate_point(occdf = dat, uncertainty = character(0)),
     error = TRUE
   )
-  expect_snapshot(palaeorotate_point(occdf = dat, uncertainty = 1), error = TRUE)
+  expect_snapshot(
+    palaeorotate_point(occdf = dat, uncertainty = 1),
+    error = TRUE
+  )
 })
 
 test_that("arg 'round' works", {
@@ -404,14 +407,21 @@ test_that("arg 'round' works", {
 
   # Disabling rounding still returns palaeocoordinates for every occurrence
   vcr::use_cassette("palaeorotate-paleomap", {
-    paleomap <- palaeorotate_point(occdf = occdf, model = "PALEOMAP", round = NULL)
+    paleomap <- palaeorotate_point(
+      occdf = occdf,
+      model = "PALEOMAP",
+      round = NULL
+    )
   })
   expect_equal(nrow(paleomap), 3)
 
   # input checks
   expect_snapshot(palaeorotate_point(occdf = occdf, round = TRUE), error = TRUE)
   expect_snapshot(palaeorotate_point(occdf = occdf, round = NA), error = TRUE)
-  expect_snapshot(palaeorotate_point(occdf = occdf, round = numeric(0)), error = TRUE)
+  expect_snapshot(
+    palaeorotate_point(occdf = occdf, round = numeric(0)),
+    error = TRUE
+  )
   expect_snapshot(palaeorotate_point(occdf = occdf, round = 1:2), error = TRUE)
 })
 
