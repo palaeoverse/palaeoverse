@@ -258,11 +258,46 @@
       Error in `tax_range_time()`:
       ! `group` must be a single string, not `NA`.
 
-# argument 'by' works
+# argument 'sort' works
+
+    Code
+      tax_range_time(occdf, sort = c("genus", "min_ma"))
+    Condition
+      Error in `tax_range_time()`:
+      ! `sort` must be a single string, not a character vector.
+
+---
+
+    Code
+      tax_range_time(occdf, sort = "nonexistent")
+    Condition
+      Error in `tax_range_time()`:
+      ! `sort` must be one of "FAD", "LAD", or "name", not "nonexistent".
+
+---
+
+    Code
+      tax_range_time(occdf, sort = 1)
+    Condition
+      Error in `tax_range_time()`:
+      ! `sort` must be a single string, not the number 1.
+
+---
+
+    Code
+      tax_range_time(occdf, sort = NA)
+    Condition
+      Error in `tax_range_time()`:
+      ! `sort` must be a single string, not `NA`.
+
+# argument 'by' is deprecated but still works
 
     Code
       tax_range_time(occdf, by = c("genus", "min_ma"))
     Condition
+      Warning:
+      The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
+      i Please use the `sort` argument instead.
       Error in `tax_range_time()`:
       ! `by` must be a single string, not a character vector.
 
@@ -271,6 +306,9 @@
     Code
       tax_range_time(occdf, by = "nonexistent")
     Condition
+      Warning:
+      The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
+      i Please use the `sort` argument instead.
       Error in `tax_range_time()`:
       ! `by` must be one of "FAD", "LAD", or "name", not "nonexistent".
 
@@ -279,6 +317,9 @@
     Code
       tax_range_time(occdf, by = 1)
     Condition
+      Warning:
+      The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
+      i Please use the `sort` argument instead.
       Error in `tax_range_time()`:
       ! `by` must be a single string, not the number 1.
 
@@ -287,6 +328,9 @@
     Code
       tax_range_time(occdf, by = NA)
     Condition
+      Warning:
+      The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
+      i Please use the `sort` argument instead.
       Error in `tax_range_time()`:
       ! `by` must be a single string, not `NA`.
 

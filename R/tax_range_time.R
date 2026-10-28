@@ -17,9 +17,10 @@
 #' @param group \code{character}. The name of the column you wish to be treated
 #' as the grouping variable, e.g. "family". If not supplied, all taxa are
 #'   treated as a single group.
-#' @param by \code{character}. How should the output be sorted?
+#' @param sort \code{character}. How should the output be sorted?
 #' Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 #' or "name" (alphabetically by taxon names).
+#' @param by `r lifecycle::badge("deprecated")` Use `sort` instead.
 #' @param plot,plot_args `r lifecycle::badge("deprecated")` Use `plot()` on the
 #'   output of this function instead.
 #' @param intervals `r lifecycle::badge("deprecated")` Use the argument `axis`
@@ -85,7 +86,8 @@ tax_range_time <- function(
   min_ma = "min_ma",
   max_ma = "max_ma",
   group = NULL,
-  by = "FAD",
+  sort = "FAD",
+  by = deprecated(),
   plot = deprecated(),
   plot_args = deprecated(),
   intervals = deprecated()
@@ -110,8 +112,20 @@ tax_range_time <- function(
     check_column_presence(occdf, group)
   }
 
-  rlang::check_string(by)
-  by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
+  if (lifecycle::is_present(by)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "tax_range_time(by)",
+      "tax_range_time(sort)",
+      always = TRUE
+    )
+    rlang::check_string(by)
+    by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
+    sort <- by
+  }
+
+  rlang::check_string(sort)
+  sort <- rlang::arg_match(sort, values = c("FAD", "LAD", "name"))
 
   if (lifecycle::is_present(intervals)) {
     cli::cli_abort(
@@ -182,9 +196,9 @@ tax_range_time <- function(
         temp_df$n_occ[i] <- length(vec)
       }
       # Should data be ordered by FAD, LAD, or name?
-      if (by == "FAD") {
+      if (sort == "FAD") {
         temp_df <- temp_df[order(temp_df$max_ma), ]
-      } else if (by == "LAD") {
+      } else if (sort == "LAD") {
         temp_df <- temp_df[order(temp_df$min_ma), ]
       }
       # Return dataframe
