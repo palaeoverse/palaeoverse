@@ -41,6 +41,7 @@ concurrency:
 jobs:
   R-CMD-check-hard:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

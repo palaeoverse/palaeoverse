@@ -2,8 +2,30 @@
 % Please edit documentation in R/palaeorotate.R
 \name{palaeorotate}
 \alias{palaeorotate}
+\alias{palaeorotate_point}
+\alias{palaeorotate_grid}
 \title{Palaeorotate fossil occurrences}
 \usage{
+palaeorotate_point(
+  occdf,
+  lng = "lng",
+  lat = "lat",
+  age = "age",
+  model = "MERDITH2021",
+  uncertainty = TRUE,
+  round = 3
+)
+
+palaeorotate_grid(
+  occdf,
+  lng = "lng",
+  lat = "lat",
+  age = "age",
+  model = "MERDITH2021",
+  uncertainty = TRUE,
+  round = 3
+)
+
 palaeorotate(
   occdf,
   lng = "lng",
@@ -35,11 +57,6 @@ as the age for rotation (defaults to "age").}
 to be used to reconstruct palaeocoordinates. See details for available
 models.}
 
-\item{method}{\code{character}. Method used to calculate palaeocoordinates
-for fossil occurrences. Either "grid" to use reconstruction files, or
-"point" (default) to use the GPlates API service. See details section for
-specific details.}
-
 \item{uncertainty}{\code{logical}. Should the uncertainty in
 palaeogeographic reconstructions be returned? If set to TRUE (default),
 the palaeolatitudinal range and maximum geographic distance (in km)
@@ -48,15 +65,21 @@ relevant if more than one Global Plate Model is specified in \code{model}.}
 
 \item{round}{\code{numeric}. Numeric value indicating the number of decimal
 places \code{lng}, \code{lat} and \code{age} should be rounded to. This functionality is
-only relevant for the "point" \code{method}. Rounding can speed up
+mostly relevant for \code{palaeorotate_point()}. Rounding can speed up
 palaeorotation by reducing the number of unique coordinate pairs.
 Defaults to a value of 3. If no rounding is desired, set this value to
 \code{NULL}.}
+
+\item{method}{\code{character}. Method used to calculate palaeocoordinates
+for fossil occurrences. Either "grid" to use reconstruction files
+(\code{palaeorotate_grid()}), or "point" (default) to use the GPlates API
+service (\code{palaeorotate_point()}). See details section for specific
+details.}
 }
 \value{
 A \code{data.frame} containing the original input occurrence
-\code{data.frame} and the reconstructed coordinates (i.e. "p_lng", "p_lat"). The
-"grid" \code{method} also returns the age of rotation ("rot_age") and the
+\code{data.frame} and the reconstructed coordinates (i.e. "p_lng", "p_lat").
+\code{palaeorotate_grid()} also returns the age of rotation ("rot_age") and the
 reference coordinates rotated ("rot_lng" and "rot_lat"). If only one
 model is requested, a column containing the rotation model used
 ("rot_model") is also appended. Otherwise, the name of each model is
@@ -67,36 +90,39 @@ distance ("max_dist") in km between palaeocoordinates will also be
 returned (the latter calculated via \code{\link[geosphere]{distGeo}}).
 }
 \description{
-A function to estimate palaeocoordinates for fossil occurrence data
+These functions estimate palaeocoordinates for fossil occurrence data
 (i.e. reconstruct the geographic distribution of organisms'
 remains at time of deposition). Each occurrence is assigned
 palaeocoordinates based on its current geographic position and age
 estimate.
 }
 \details{
-This function can estimate palaeocoordinates using two different
-approaches (\code{method}):
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{palaeorotate()} is deprecated, use
+\code{palaeorotate_point()} or \code{palaeorotate_grid()} instead.
+
+Palaeocoordinates can be estimated using two different
+approaches:
 \itemize{
-\item Reconstruction files: The "grid" \code{method} uses reconstruction files from
+\item Reconstruction files: \code{palaeorotate_grid()} uses reconstruction files from
 Jones & Domeier (2024) to spatiotemporally link present-day geographic
 coordinates and age estimates with a discrete global grid rotated at one
 million-year time steps throughout the Phanerozoic (540--0 Ma). Here,
 resolution 3 (~119 km spacing) of the reconstruction files is used. All
 files, and the process used to generate them, are available and documented
 in Jones & Domeier (2024). If fine-scale spatial analyses are being
-conducted, use of the "point" \code{method} (see GPlates API below) may be
+conducted, use of \code{palaeorotate_point()} (see GPlates API below) may be
 preferred (particularly if occurrences are close to plate boundaries). When
-using the "grid" \code{method}, coordinates within the same grid cell will be
+using \code{palaeorotate_grid()}, coordinates within the same grid cell will be
 assigned equivalent palaeocoordinates due to spatial aggregation. However,
 this approach enables efficient estimation of the past distribution of
 fossil occurrences. Note: each reconstruction file is ~45 MB in size.
-\item GPlates API: The "point" \code{method} uses the \href{https://gwsdoc.gplates.org}{GPlates Web Service} to reconstruct palaeocoordinates for point
-data. The use of this \code{method} is slower than the "grid" \code{method} if many
+\item GPlates API: \code{palaeorotate_point()} uses the \href{https://gwsdoc.gplates.org}{GPlates Web Service} to reconstruct palaeocoordinates for point
+data. It is slower than \code{palaeorotate_grid()} if many
 unique time intervals exist in your dataset. However, it provides
 palaeocoordinates with higher precision.
 }
 
-Available models and timespan for each \code{method}:
+Available models and timespan for each method:
 \itemize{
 \item "MERDITH2021" (Merdith et al., 2021)
 \itemize{
@@ -168,18 +194,17 @@ occdf <- data.frame(lng = c(2, -103, -66),
                 age = c(88, 125, 200))
 
 #Calculate palaeocoordinates using reconstruction files
-ex1 <- palaeorotate(occdf = occdf, method = "grid")
+ex1 <- palaeorotate_grid(occdf = occdf)
 
 #Calculate palaeocoordinates using the GPlates API
-ex2 <- palaeorotate(occdf = occdf, method = "point")
+ex2 <- palaeorotate_point(occdf = occdf)
 
 #Calculate uncertainity in palaeocoordinates from models
-ex3 <- palaeorotate(occdf = occdf,
-                    method = "grid",
-                    model = c("MERDITH2021",
-                              "GOLONKA",
-                              "PALEOMAP"),
-                    uncertainty = TRUE)
+ex3 <- palaeorotate_grid(occdf = occdf,
+                         model = c("MERDITH2021",
+                                   "GOLONKA",
+                                   "PALEOMAP"),
+                         uncertainty = TRUE)
 
 #Now with some real fossil occurrence data!
 
@@ -190,13 +215,13 @@ data(tetrapods)
 tetrapods$age <- (tetrapods$max_ma + tetrapods$min_ma)/2
 
 #Rotate the data
-ex3 <- palaeorotate(occdf = tetrapods)
+ex3 <- palaeorotate_point(occdf = tetrapods)
 
 #Calculate uncertainity in palaeocoordinates from models
-ex4 <- palaeorotate(occdf = tetrapods,
-                    model = c("MERDITH2021",
-                              "GOLONKA",
-                              "PALEOMAP"),
-                    uncertainty = TRUE)
+ex4 <- palaeorotate_point(occdf = tetrapods,
+                          model = c("MERDITH2021",
+                                    "GOLONKA",
+                                    "PALEOMAP"),
+                          uncertainty = TRUE)
 }
 }

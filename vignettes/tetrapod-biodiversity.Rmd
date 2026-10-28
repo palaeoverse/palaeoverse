@@ -162,9 +162,9 @@ Next, we'll also bin our occurrences spatially. We need a couple of functions to
 
 <!-- 
 The following four chunks are here to handle the absence or the presence of an RDS file
-containing the results of palaeorotate():
-- if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
-- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+containing the results of palaeorotate_point():
+- if the RDS is present, then we don't evaluate palaeorotate_point() and read the RDS instead
+- if the RDS is absent, then we evaluate palaeorotate_point() and save its output in the RDS 
 -->
 
 ```{r echo = FALSE, eval = TRUE}
@@ -173,8 +173,8 @@ rds_point_paleomap_tetrapods_exists <- file.exists("_data/palaeorotate_point_pal
 
 ```{r echo = TRUE, eval = !rds_point_paleomap_tetrapods_exists}
 # Palaeorotate occurrences
-maj_tetrapods <- palaeorotate(occdf = maj_tetrapods, age = "bin_midpoint",
-                              method = "point", model = "PALEOMAP")
+maj_tetrapods <- palaeorotate_point(occdf = maj_tetrapods, age = "bin_midpoint",
+                                    model = "PALEOMAP")
 ```
 
 ```{r echo = FALSE, eval = !rds_point_paleomap_tetrapods_exists}
