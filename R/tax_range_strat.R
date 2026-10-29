@@ -223,7 +223,7 @@ tax_range_strat <- function(
     c("ID", level, certainty)
   ]
 
-  ranges
+  return(ranges)
 }
 
 
