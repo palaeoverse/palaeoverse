@@ -73,7 +73,7 @@ By default, three globes are centred on longitude 0, longitude 180, and -102.}
 
 \item{first_layer}{\code{sf}, \code{sfc}, or \code{sfg}. An object from the package \code{sf} (e.g. lines, polygons,
 or points) indicating the first layer to be printed on each globe. Polygons (such as continents)
-are filled in light grey to distinguish them from oceans. If unspecified (default), it plots the
+are filled in dark grey to distinguish them from oceans. If unspecified (default), it plots the
 modern coastlines with \code{sf::st_geometry(rnaturalearthdata::coastline110)}. Set
 \code{first_layer = NULL} to remove this layer.}
 }
