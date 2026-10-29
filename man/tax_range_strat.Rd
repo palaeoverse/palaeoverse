@@ -154,7 +154,7 @@ plot(ex, main = "Section A", ylab = "Stratigraphic height (m)",
      axis = axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE))
 
 # Update margins for plotting
-par(mar = c(5, 4, 6, 2))
+par(mar = c(5, 6, 6, 2))
 # Pull class data
 occdf$class <- tetrapods$class[1:50]
 # Group stratigraphic ranges by class
