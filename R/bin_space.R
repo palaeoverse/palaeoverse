@@ -229,10 +229,11 @@ bin_space <- function(
 #'
 #' @param subtitles `character`. Titles of each globe, in the same order as `centres`. Must be
 #' `NULL` (default, no subtitles) or of length equal to the number of elements in `centres`.
-#' @param first_layer `sfc_LINESTRING` or `sfc_MULTILINESTRING`. An `sf` object indicating the
-#' first layer to be printed on each globe. If unspecified (default), it plots the modern coastlines
-#' with `sf::st_geometry(rnaturalearthdata::coastline110)`. Set `first_layer = NULL` to remove this
-#' layer.
+#' @param first_layer `sf`, `sfc`, or `sfg`. An object from the package `sf` (e.g. lines, polygons,
+#' or points) indicating the first layer to be printed on each globe. Polygons (such as continents)
+#' are filled in light grey to distinguish them from oceans. If unspecified (default), it plots the
+#' modern coastlines with `sf::st_geometry(rnaturalearthdata::coastline110)`. Set
+#' `first_layer = NULL` to remove this layer.
 #'
 #' @details
 #' The base grid uses the coarsest resolution among the `cell_ID_*` columns, and the occupied
@@ -351,16 +352,18 @@ plot.palaeoverse_bin_space <- function(
 
   if (missing(first_layer)) {
     first_layer <- sf::st_geometry(rnaturalearthdata::coastline110)
-  } else {
-    if (
-      !is.null(first_layer) &&
-        (!inherits(first_layer, c("sfc", "sfg")) ||
-          !all(sf::st_is(first_layer, c("LINESTRING", "MULTILINESTRING"))))
-    ) {
+  } else if (!is.null(first_layer)) {
+    if (!inherits(first_layer, c("sf", "sfc", "sfg"))) {
       cli::cli_abort(
-        "{.arg first_layer} must be a {.code LINESTRING} or {.code MULTILINESTRING} object from the package {.pkg sf}, or {.code NULL}."
+        "{.arg first_layer} must be an object from the package {.pkg sf}, or {.code NULL}."
       )
     }
+    # Some polygons (e.g. `rnaturalearthdata::countries110`) are invalid on the sphere, which
+    # breaks `st_intersection()`
+    first_layer <- sf::st_make_valid(
+      sf::st_geometry(first_layer),
+      split_crossing_edges = TRUE
+    )
   }
 
   dots <- list(...)
@@ -457,8 +460,16 @@ plot.palaeoverse_bin_space <- function(
       # Draw an invisible grid first so that the grid sets the plot dimensions
       do.call(plot, utils::modifyList(grid_args, list(border = NA)))
 
-      # Then add the first layer
-      plot(project(first_layer), add = TRUE)
+      # Then add the first layer, filling polygons (e.g. continents) to distinguish them from oceans
+      layer <- project(first_layer)
+      is_polygon <- sf::st_is(layer, c("POLYGON", "MULTIPOLYGON"))
+      plot(
+        layer,
+        col = ifelse(is_polygon, "grey65", "black"),
+        border = "grey40",
+        pch = 16,
+        add = TRUE
+      )
       grid_args$add <- TRUE
     }
     do.call(plot, grid_args)

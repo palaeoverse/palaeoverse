@@ -271,18 +271,10 @@
 # plot() works with custom first layer
 
     Code
-      plot(out, first_layer = coastlines)
-    Condition
-      Error in `plot()`:
-      ! `first_layer` must be a `LINESTRING` or `MULTILINESTRING` object from the package sf, or `NULL`.
-
----
-
-    Code
       plot(out, first_layer = 1)
     Condition
       Error in `plot()`:
-      ! `first_layer` must be a `LINESTRING` or `MULTILINESTRING` object from the package sf, or `NULL`.
+      ! `first_layer` must be an object from the package sf, or `NULL`.
 
 # plot() works with subtitles
 

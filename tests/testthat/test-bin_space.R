@@ -358,14 +358,26 @@ test_that("plot() works with custom first layer", {
   # saveRDS(coastlines, file = testthat::test_path("test_dat", "coastlines_test.rds"))
   coastlines <- readRDS(testthat::test_path("test_dat", "coastlines_test.rds"))
 
-  # rgplates returns a POLYGON instead of MULTILINESTRING
-  expect_snapshot(
-    plot(out, first_layer = coastlines),
-    error = TRUE
-  )
-  coastlines <- sf::st_cast(sf::st_geometry(coastlines), "MULTILINESTRING")
-  expect_doppelganger("bin_space-custom-first-layer", function() {
+  # rgplates returns a POLYGON
+  expect_doppelganger("bin_space-custom-first-layer-polygon", function() {
     plot(out, first_layer = coastlines)
+  })
+
+  coastlines <- sf::st_cast(sf::st_geometry(coastlines), "MULTILINESTRING")
+  expect_doppelganger(
+    "bin_space-custom-first-layer-multilinestring",
+    function() {
+      plot(out, first_layer = coastlines)
+    }
+  )
+
+  points <- sf::st_as_sf(
+    data.frame(lng = c(-120, 0, 30, 150), lat = c(40, -10, 60, -30)),
+    coords = c("lng", "lat"),
+    crs = "EPSG:4326"
+  )
+  expect_doppelganger("bin_space-custom-first-layer-points", function() {
+    plot(out, first_layer = points)
   })
 
   expect_snapshot(
