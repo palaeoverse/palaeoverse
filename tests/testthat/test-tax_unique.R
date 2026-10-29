@@ -13,7 +13,7 @@ test_that("basic behaviour works", {
   # fmt: skip
   expect_equal(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       species = "species",
       genus = "genus",
       family = "family",
@@ -84,7 +84,7 @@ test_that("piping and not piping the first argument give the same result", {
 
   expect_equal(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       species = "species",
       genus = "genus",
       family = "family",
@@ -154,14 +154,14 @@ test_that("arg 'binomial' works", {
   # `species` and `genus` columns.
   expect_equal(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       binomial = "binomial",
       family = "family",
       order = "order",
       class = "class"
     ),
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       species = "species",
       genus = "genus",
       family = "family",
@@ -176,7 +176,7 @@ test_that("arg 'binomial' works", {
   # dinosaurs$binomial <- gsub(" ", "_", dinosaurs$binomial)
   # expect_equal(
   #   tax_unique(
-  #     occdf = dinosaurs,
+  #     data = dinosaurs,
   #     binomial = "binomial",
   #     family = "family",
   #     order = "order",
@@ -206,7 +206,7 @@ test_that("arg 'name' works", {
 
   expect_equal(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       genus = "genus",
       family = "family",
       class = "class",
@@ -275,7 +275,7 @@ test_that("higher taxonomic levels supplied via `...` work", {
 
   # at least one higher level is required
   expect_snapshot(
-    tax_unique(occdf = dinosaurs, species = "species", genus = "genus"),
+    tax_unique(data = dinosaurs, species = "species", genus = "genus"),
     error = TRUE
   )
 
@@ -324,7 +324,7 @@ test_that("arg 'resolution' works", {
   # higher-level-only occurrences are still retained as cryptic diversity.
   expect_equal(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       binomial = "binomial",
       family = "family",
       order = "order",
@@ -348,7 +348,7 @@ test_that("arg 'resolution' works", {
   # a `genus` column alone (no `binomial`) is enough at genus resolution
   expect_equal(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       genus = "genus",
       family = "family",
       order = "order",
@@ -366,7 +366,7 @@ test_that("arg 'resolution' works", {
   # input checks
   expect_snapshot(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       species = "species",
       genus = "genus",
       family = "family",
@@ -376,7 +376,7 @@ test_that("arg 'resolution' works", {
   )
   expect_snapshot(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       species = "species",
       genus = "genus",
       family = "family",
@@ -386,7 +386,7 @@ test_that("arg 'resolution' works", {
   )
   expect_snapshot(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       species = "species",
       genus = "genus",
       family = "family",
@@ -409,7 +409,7 @@ test_that("arg 'append' works", {
 
   expect_equal(
     tax_unique(
-      occdf = dinosaurs,
+      data = dinosaurs,
       species = "species",
       genus = "genus",
       family = "family",
@@ -480,7 +480,7 @@ test_that("taxonomic columns must not contain punctuation", {
 
   expect_snapshot(
     tax_unique(
-      occdf = tetrapods,
+      data = tetrapods,
       genus = "identified_name",
       family = "family",
       resolution = "genus"
@@ -489,7 +489,7 @@ test_that("taxonomic columns must not contain punctuation", {
   )
   expect_snapshot(
     tax_unique(
-      occdf = tetrapods,
+      data = tetrapods,
       genus = "genus",
       family = "identified_name",
       resolution = "genus"
@@ -498,7 +498,7 @@ test_that("taxonomic columns must not contain punctuation", {
   )
   expect_snapshot(
     tax_unique(
-      occdf = tetrapods,
+      data = tetrapods,
       species = "identified_name",
       genus = "genus",
       family = "family",

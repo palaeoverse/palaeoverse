@@ -4,7 +4,7 @@
       phylo_check(data.frame())
     Condition
       Error in `phylo_check()`:
-      ! `tree` must be of class <phylo>, not a <data.frame> object.
+      ! `data` must be of class <phylo>, not a <data.frame> object.
 
 ---
 
@@ -12,7 +12,7 @@
       phylo_check(1)
     Condition
       Error in `phylo_check()`:
-      ! `tree` must be of class <phylo>, not the number 1.
+      ! `data` must be of class <phylo>, not the number 1.
 
 ---
 
@@ -20,7 +20,7 @@
       phylo_check(NA)
     Condition
       Error in `phylo_check()`:
-      ! `tree` must be of class <phylo>, not `NA`.
+      ! `data` must be of class <phylo>, not `NA`.
 
 ---
 
@@ -28,7 +28,7 @@
       phylo_check()
     Condition
       Error in `phylo_check()`:
-      ! argument "tree" is missing, with no default
+      ! argument "data" is missing, with no default
 
 # phylo_check errors with unnamed args
 
@@ -36,7 +36,7 @@
       phylo_check(1, "a", "full_table")
     Condition
       Error in `phylo_check()`:
-      ! All arguments must be named (except for `tree`).
+      ! All arguments must be named (except for `data`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -45,7 +45,7 @@
       phylo_check(1, list = "a", out = "full_table")
     Condition
       Error in `phylo_check()`:
-      ! `tree` must be of class <phylo>, not the number 1.
+      ! `data` must be of class <phylo>, not the number 1.
 
 # arg 'list' works
 

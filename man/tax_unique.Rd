@@ -5,7 +5,7 @@
 \title{Filter occurrences to unique taxa}
 \usage{
 tax_unique(
-  occdf,
+  data,
   binomial = NULL,
   species = NULL,
   genus = NULL,
@@ -16,28 +16,28 @@ tax_unique(
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe containing information on the
+\item{data}{\code{dataframe}. A dataframe containing information on the
 occurrences or taxa to filter.}
 
-\item{binomial}{\code{character}. The name of the column in \code{occdf}
+\item{binomial}{\code{character}. The name of the column in \code{data}
 containing the genus and species names of the occurrences, either in the
 form "genus species" or "genus_species".}
 
-\item{species}{\code{character}. The name of the column in \code{occdf}
+\item{species}{\code{character}. The name of the column in \code{data}
 containing the species-level identifications (i.e. the specific epithet).}
 
-\item{genus}{\code{character}. The name of the column in \code{occdf}
+\item{genus}{\code{character}. The name of the column in \code{data}
 containing the genus-level identifications.}
 
 \item{...}{\code{character}. Other named arguments specifying columns of
 higher levels of taxonomy (e.g. subfamily, order, superclass). The names of
 the arguments will be the column names of the output, and the values of the
-arguments correspond to the columns of \code{occdf}. The given order of the
+arguments correspond to the columns of \code{data}. The given order of the
 arguments is the order in which they are filtered. Therefore, these arguments
 must be in ascending order from lowest to highest taxonomic rank (see
 examples below). At least one higher level of taxonomy must be specified.}
 
-\item{name}{\code{character}. The name of the column in \code{occdf}
+\item{name}{\code{character}. The name of the column in \code{data}
 containing the taxonomic names at mixed taxonomic levels; the data column
 "accepted_name" in a \href{https://paleobiodb.org/#/}{Paleobiology Database}
 occurrence dataframe is of this type.}
@@ -53,7 +53,7 @@ A \code{dataframe} of taxa, with each row corresponding to a unique
 "species" or "genus" in the dataset (depending on the chosen resolution).
 The dataframe will include the taxonomic information provided into the
 function, as well as a column providing the 'unique' names of each taxon. If
-\code{append} is \code{TRUE}, the original dataframe (\code{occdf}) will be
+\code{append} is \code{TRUE}, the original dataframe (\code{data}) will be
 returned with these 'unique' names appended as a new column. Occurrences that
 are identified to a coarse taxonomic resolution and belong to a clade which
 is already represented within the dataset will have their 'unique' names
@@ -133,27 +133,27 @@ Lewis A. Jones & William Gearty
 
 \examples{
 #Retain unique species
-occdf <- tetrapods[1:100, ]
-species <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+data <- tetrapods[1:100, ]
+species <- tax_unique(data = data, genus = "genus", family = "family",
 order = "order", class = "class", name = "accepted_name")
 
 #Retain unique genera
-genera <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+genera <- tax_unique(data = data, genus = "genus", family = "family",
 order = "order", class = "class", resolution = "genus")
 
 #Append unique names to the original occurrences
-genera_append <- tax_unique(occdf = occdf, genus = "genus", family = "family",
+genera_append <- tax_unique(data = data, genus = "genus", family = "family",
 order = "order", class = "class", resolution = "genus", append = TRUE)
 
 #Create dataframe from lists
-occdf2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
+data2 <- data.frame(species = c("rex", "aegyptiacus", NA), genus =
 c("Tyrannosaurus", "Spinosaurus", NA), family = c("Tyrannosauridae",
 "Spinosauridae", "Diplodocidae"))
-dinosaur_species <- tax_unique(occdf = occdf2, species = "species", genus =
+dinosaur_species <- tax_unique(data = data2, species = "species", genus =
 "genus", family = "family")
 
 #Retain unique genera per collection with group_apply
-genera <- group_apply(occdf = occdf,
+genera <- group_apply(data = data,
                      group = c("collection_no"),
                      fun = tax_unique,
                      genus = "genus",
