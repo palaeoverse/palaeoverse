@@ -1,11 +1,11 @@
 test_that("basic behaviour works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
 
-  out <- tax_range_time(occdf)
+  out <- tax_range_time(data)
   expect_equal(
     out,
     data.frame(
@@ -21,48 +21,48 @@ test_that("basic behaviour works", {
   expect_s3_class(out, "palaeoverse_tax_range_time")
 
   # input checks
-  expect_snapshot(tax_range_time(occdf = data.frame()), error = TRUE)
-  expect_snapshot(tax_range_time(occdf = NULL), error = TRUE)
-  expect_snapshot(tax_range_time(occdf = NA), error = TRUE)
-  expect_snapshot(tax_range_time(occdf = "a"), error = TRUE)
+  expect_snapshot(tax_range_time(data = data.frame()), error = TRUE)
+  expect_snapshot(tax_range_time(data = NULL), error = TRUE)
+  expect_snapshot(tax_range_time(data = NA), error = TRUE)
+  expect_snapshot(tax_range_time(data = "a"), error = TRUE)
 })
 
 test_that("piping and not piping the first argument give the same result", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
 
   expect_equal(
-    occdf |> tax_range_time(name = "genus"),
-    tax_range_time(occdf, name = "genus")
+    data |> tax_range_time(name = "genus"),
+    tax_range_time(data, name = "genus")
   )
 })
 
 test_that("tax_range_time errors with unnamed args", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B"),
     max_ma = c(10, 8, 6),
     min_ma = c(9, 7, 5)
   )
-  expect_snapshot(tax_range_time(occdf, "genus"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, "genus", "min_ma"), error = TRUE)
+  expect_snapshot(tax_range_time(data, "genus"), error = TRUE)
+  expect_snapshot(tax_range_time(data, "genus", "min_ma"), error = TRUE)
   expect_snapshot(
-    tax_range_time(occdf, "genus", min_ma = "min_ma"),
+    tax_range_time(data, "genus", min_ma = "min_ma"),
     error = TRUE
   )
 })
 
 test_that("argument 'name' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     species = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
 
   expect_equal(
-    tax_range_time(occdf, name = "species"),
+    tax_range_time(data, name = "species"),
     data.frame(
       taxon = c("C", "B", "A"),
       taxon_id = 1:3,
@@ -75,7 +75,7 @@ test_that("argument 'name' works", {
   )
 
   # the "name" column must not contain NA values
-  nadf <- occdf
+  nadf <- data
   nadf$species[1] <- NA
   expect_snapshot(
     tax_range_time(nadf, name = "species"),
@@ -84,27 +84,27 @@ test_that("argument 'name' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_time(occdf, name = c("Species", "max_ma")),
+    tax_range_time(data, name = c("Species", "max_ma")),
     error = TRUE
   )
-  expect_snapshot(tax_range_time(occdf, name = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, name = 1), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, name = NA), error = TRUE)
+  expect_snapshot(tax_range_time(data, name = "nonexistent"), error = TRUE)
+  expect_snapshot(tax_range_time(data, name = 1), error = TRUE)
+  expect_snapshot(tax_range_time(data, name = NA), error = TRUE)
 
   # Snapshot is slightly different with R < 4.3
   skip_if(getRversion() < "4.3.0")
-  expect_snapshot(tax_range_time(occdf, name = NULL), error = TRUE)
+  expect_snapshot(tax_range_time(data, name = NULL), error = TRUE)
 })
 
 test_that("argument 'max_ma' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     p_max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
 
   expect_equal(
-    tax_range_time(occdf, max_ma = "p_max_ma"),
+    tax_range_time(data, max_ma = "p_max_ma"),
     data.frame(
       taxon = c("C", "B", "A"),
       taxon_id = 1:3,
@@ -118,13 +118,13 @@ test_that("argument 'max_ma' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_time(occdf, max_ma = c("Species", "max_ma")),
+    tax_range_time(data, max_ma = c("Species", "max_ma")),
     error = TRUE
   )
-  expect_snapshot(tax_range_time(occdf, max_ma = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, max_ma = 1), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, max_ma = NA), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, max_ma = NULL), error = TRUE)
+  expect_snapshot(tax_range_time(data, max_ma = "nonexistent"), error = TRUE)
+  expect_snapshot(tax_range_time(data, max_ma = 1), error = TRUE)
+  expect_snapshot(tax_range_time(data, max_ma = NA), error = TRUE)
+  expect_snapshot(tax_range_time(data, max_ma = NULL), error = TRUE)
 
   # the "max_ma" column must be numeric
   chardf <- data.frame(genus = "a", max_ma = "10", min_ma = 5)
@@ -141,14 +141,14 @@ test_that("argument 'max_ma' works", {
 })
 
 test_that("argument 'min_ma' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     p_min_ma = c(9, 7, 5, 4, 2)
   )
 
   expect_equal(
-    tax_range_time(occdf, min_ma = "p_min_ma"),
+    tax_range_time(data, min_ma = "p_min_ma"),
     data.frame(
       taxon = c("C", "B", "A"),
       taxon_id = 1:3,
@@ -162,13 +162,13 @@ test_that("argument 'min_ma' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_time(occdf, min_ma = c("Species", "min_ma")),
+    tax_range_time(data, min_ma = c("Species", "min_ma")),
     error = TRUE
   )
-  expect_snapshot(tax_range_time(occdf, min_ma = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, min_ma = 1), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, min_ma = NA), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, min_ma = NULL), error = TRUE)
+  expect_snapshot(tax_range_time(data, min_ma = "nonexistent"), error = TRUE)
+  expect_snapshot(tax_range_time(data, min_ma = 1), error = TRUE)
+  expect_snapshot(tax_range_time(data, min_ma = NA), error = TRUE)
+  expect_snapshot(tax_range_time(data, min_ma = NULL), error = TRUE)
 
   # the "min_ma" column must be numeric
   chardf <- data.frame(genus = "a", max_ma = 10, min_ma = "5")
@@ -185,16 +185,16 @@ test_that("argument 'min_ma' works", {
 })
 
 test_that("max ages must be larger than or equal to min ages", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "B", "C"),
     max_ma = c(150, 100, 30),
     min_ma = c(110, 110, 40)
   )
-  expect_snapshot(tax_range_time(occdf), error = TRUE)
+  expect_snapshot(tax_range_time(data), error = TRUE)
 })
 
 test_that("argument 'group' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2),
@@ -202,7 +202,7 @@ test_that("argument 'group' works", {
   )
 
   expect_equal(
-    tax_range_time(occdf, group = "family"),
+    tax_range_time(data, group = "family"),
     data.frame(
       taxon = c("B", "A", "C", "B"),
       taxon_id = 1:4,
@@ -217,23 +217,23 @@ test_that("argument 'group' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_time(occdf, group = c("genus", "min_ma")),
+    tax_range_time(data, group = c("genus", "min_ma")),
     error = TRUE
   )
-  expect_snapshot(tax_range_time(occdf, group = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, group = 1), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, group = NA), error = TRUE)
+  expect_snapshot(tax_range_time(data, group = "nonexistent"), error = TRUE)
+  expect_snapshot(tax_range_time(data, group = 1), error = TRUE)
+  expect_snapshot(tax_range_time(data, group = NA), error = TRUE)
 })
 
 test_that("argument 'sort' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
 
   expect_equal(
-    tax_range_time(occdf),
+    tax_range_time(data),
     data.frame(
       taxon = c("C", "B", "A"),
       taxon_id = 1:3,
@@ -245,7 +245,7 @@ test_that("argument 'sort' works", {
     ignore_attr = TRUE
   )
   expect_equal(
-    tax_range_time(occdf, sort = "LAD"),
+    tax_range_time(data, sort = "LAD"),
     data.frame(
       taxon = c("C", "B", "A"),
       taxon_id = 1:3,
@@ -257,7 +257,7 @@ test_that("argument 'sort' works", {
     ignore_attr = TRUE
   )
   expect_equal(
-    tax_range_time(occdf, sort = "name"),
+    tax_range_time(data, sort = "name"),
     data.frame(
       taxon = c("A", "B", "C"),
       taxon_id = 1:3,
@@ -271,16 +271,16 @@ test_that("argument 'sort' works", {
 
   # input checks
   expect_snapshot(
-    tax_range_time(occdf, sort = c("genus", "min_ma")),
+    tax_range_time(data, sort = c("genus", "min_ma")),
     error = TRUE
   )
-  expect_snapshot(tax_range_time(occdf, sort = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, sort = 1), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, sort = NA), error = TRUE)
+  expect_snapshot(tax_range_time(data, sort = "nonexistent"), error = TRUE)
+  expect_snapshot(tax_range_time(data, sort = 1), error = TRUE)
+  expect_snapshot(tax_range_time(data, sort = NA), error = TRUE)
 })
 
 test_that("argument 'by' is deprecated but still works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
@@ -288,30 +288,30 @@ test_that("argument 'by' is deprecated but still works", {
 
   expect_warning(
     expect_equal(
-      tax_range_time(occdf, by = "LAD"),
-      tax_range_time(occdf, sort = "LAD")
+      tax_range_time(data, by = "LAD"),
+      tax_range_time(data, sort = "LAD")
     ),
     "deprecated as of palaeoverse 2.0.0"
   )
 
   # can't have both sort and by
   expect_snapshot(
-    tax_range_time(occdf, by = "LAD", sort = "LAD"),
+    tax_range_time(data, by = "LAD", sort = "LAD"),
     error = TRUE
   )
 
   # still doing input checks
   expect_snapshot(
-    tax_range_time(occdf, by = c("genus", "min_ma")),
+    tax_range_time(data, by = c("genus", "min_ma")),
     error = TRUE
   )
-  expect_snapshot(tax_range_time(occdf, by = "nonexistent"), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, by = 1), error = TRUE)
-  expect_snapshot(tax_range_time(occdf, by = NA), error = TRUE)
+  expect_snapshot(tax_range_time(data, by = "nonexistent"), error = TRUE)
+  expect_snapshot(tax_range_time(data, by = 1), error = TRUE)
+  expect_snapshot(tax_range_time(data, by = NA), error = TRUE)
 })
 
 test_that("plotting works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2),
@@ -319,21 +319,21 @@ test_that("plotting works", {
   )
 
   expect_doppelganger("tax_range_time() works", function() {
-    plot(tax_range_time(occdf))
+    plot(tax_range_time(data))
   })
   expect_doppelganger("tax_range_time() works with LAD sorting", function() {
-    plot(tax_range_time(occdf, by = "LAD"))
+    plot(tax_range_time(data, by = "LAD"))
   })
   expect_doppelganger("tax_range_time() works with name sorting", function() {
-    plot(tax_range_time(occdf, by = "name"))
+    plot(tax_range_time(data, by = "name"))
   })
   expect_doppelganger("tax_range_time() works with group", function() {
-    plot(tax_range_time(occdf, group = "family"))
+    plot(tax_range_time(data, group = "family"))
   })
 })
 
 test_that("tax_range_time plotting with extra args works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2),
@@ -341,7 +341,7 @@ test_that("tax_range_time plotting with extra args works", {
   )
   expect_doppelganger("tax_range_time-many-args", function() {
     plot(
-      tax_range_time(occdf),
+      tax_range_time(data),
       xlab = "x axis",
       ylab = "y axis",
       col = "red",
@@ -357,25 +357,25 @@ test_that("tax_range_time plotting with extra args works", {
 
   # `cex.main` is passed through `...`
   expect_doppelganger("tax_range_time-dots", function() {
-    plot(tax_range_time(occdf), cex.main = 4)
+    plot(tax_range_time(data), cex.main = 4)
   })
 
   # `col.group` must be of the same length as the number of groups
   expect_doppelganger("tax_range_time-col-group", function() {
     plot(
-      tax_range_time(occdf, group = "family"),
+      tax_range_time(data, group = "family"),
       col.group = c("red", "blue", "green")
     )
   })
   expect_snapshot(
-    plot(tax_range_time(occdf, group = "family"), col.group = c("red", "blue")),
+    plot(tax_range_time(data, group = "family"), col.group = c("red", "blue")),
     error = TRUE
   )
 
   # forbidden args
   expect_snapshot(
     plot(
-      tax_range_time(occdf),
+      tax_range_time(data),
       xlim = 1,
       ylim = 1,
       xaxt = 1,
@@ -387,14 +387,14 @@ test_that("tax_range_time plotting with extra args works", {
 })
 
 test_that("plot resets par and returns the settings to add elements", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
   expect_doppelganger("tax_range_time-add-elements", function() {
     old_mar <- par("mar")
-    out <- plot(tax_range_time(occdf))
+    out <- plot(tax_range_time(data))
     expect_identical(par("mar"), old_mar)
     expect_named(out, c("mar", "usr"))
     op <- par(out)
@@ -406,27 +406,27 @@ test_that("plot resets par and returns the settings to add elements", {
 })
 
 test_that("plotting with custom axis_geo() call works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
   expect_doppelganger("tax_range_time-custom-axis-geo", function() {
     plot(
-      tax_range_time(occdf),
+      tax_range_time(data),
       axis = axis_geo(intervals = "epoch", fill = "red", abbr = FALSE)
     )
   })
   expect_doppelganger("tax_range_time-custom-axis", function() {
     plot(
-      tax_range_time(occdf),
+      tax_range_time(data),
       axis = axis(1, lty = "dashed", lwd = 5, col = "red")
     )
   })
 })
 
 test_that("plot is deprecated but still works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2),
@@ -434,25 +434,25 @@ test_that("plot is deprecated but still works", {
   )
   expect_doppelganger("tax_range_time-plot-deprecated", function() {
     expect_warning(
-      tax_range_time(occdf, plot = TRUE),
+      tax_range_time(data, plot = TRUE),
       "is deprecated as of palaeoverse 2.0.0",
       fixed = TRUE
     )
   })
   expect_doppelganger("tax_range_time()-plot-deprecated-group", function() {
     expect_warning(
-      tax_range_time(occdf, group = "family", plot = TRUE),
+      tax_range_time(data, group = "family", plot = TRUE),
       "is deprecated as of palaeoverse 2.0.0",
       fixed = TRUE
     )
   })
 
   # still input checking
-  expect_snapshot(tax_range_time(occdf, plot = "6"), error = TRUE)
+  expect_snapshot(tax_range_time(data, plot = "6"), error = TRUE)
 })
 
 test_that("plot_args is deprecated but still works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
@@ -461,7 +461,7 @@ test_that("plot_args is deprecated but still works", {
     expect_warning(
       expect_warning(
         tax_range_time(
-          occdf,
+          data,
           plot = TRUE,
           plot_args = list(xlab = "x axis", ylab = "y axis")
         ),
@@ -474,24 +474,24 @@ test_that("plot_args is deprecated but still works", {
   })
 
   # still input checking
-  expect_snapshot(tax_range_time(occdf, plot_args = 1), error = TRUE)
+  expect_snapshot(tax_range_time(data, plot_args = 1), error = TRUE)
 })
 
 test_that("argument 'intervals' is hard deprecated", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
   )
 
   expect_snapshot(
-    tax_range_time(occdf, intervals = c("genus", "min_ma")),
+    tax_range_time(data, intervals = c("genus", "min_ma")),
     error = TRUE
   )
 })
 
 test_that("plot argument 'axis' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
     min_ma = c(9, 7, 5, 4, 2)
@@ -499,22 +499,22 @@ test_that("plot argument 'axis' works", {
 
   # input checks
   expect_snapshot(
-    plot(tax_range_time(occdf), axis = "periods"),
+    plot(tax_range_time(data), axis = "periods"),
     error = TRUE
   )
   expect_snapshot(
     plot(
-      tax_range_time(occdf),
+      tax_range_time(data),
       axis = axis_geo(intervals = "nonexistent")
     ),
     error = TRUE
   )
   expect_snapshot(
-    plot(tax_range_time(occdf), axis = axis_geo(intervals = 1)),
+    plot(tax_range_time(data), axis = axis_geo(intervals = 1)),
     error = TRUE
   )
   expect_snapshot(
-    plot(tax_range_time(occdf), axis = axis_geo(intervals = NA)),
+    plot(tax_range_time(data), axis = axis_geo(intervals = NA)),
     error = TRUE
   )
 })
