@@ -29,6 +29,7 @@ Functions for binning occurrence data.
 - [`bin_lat()`](https://palaeoverse.palaeoverse.org/dev/reference/bin_lat.md)
   : Assign fossil occurrences to latitudinal bins
 - [`bin_space()`](https://palaeoverse.palaeoverse.org/dev/reference/bin_space.md)
+  [`plot(`*`<palaeoverse_bin_space>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/bin_space.md)
   : Assign fossil occurrences to spatial bins
 - [`bin_time()`](https://palaeoverse.palaeoverse.org/dev/reference/bin_time.md)
   : Assign fossil occurrences to time bins

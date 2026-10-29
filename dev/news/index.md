@@ -28,6 +28,11 @@ for guidance to update existing code.
   (see “New features”)
   ([\#344](https://github.com/palaeoverse/palaeoverse/issues/344)).
 
+- In
+  [`tax_range_time()`](https://palaeoverse.palaeoverse.org/dev/reference/tax_range_time.md),
+  the argument `by` is deprecated and replaced by `sort`
+  ([\#383](https://github.com/palaeoverse/palaeoverse/issues/383)).
+
 ### New features
 
 - New

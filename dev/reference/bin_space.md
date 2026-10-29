@@ -14,10 +14,20 @@ bin_space(
   bins,
   lng = "lng",
   lat = "lat",
-  plot = FALSE,
+  plot = deprecated(),
   spacing,
   sub_grid,
   return
+)
+
+# S3 method for class 'palaeoverse_bin_space'
+plot(
+  x,
+  ...,
+  col = NULL,
+  centres = list(c(lat = 0, lon = 0), c(lat = 0, lon = 180), c(lat = 23, lon = -102)),
+  subtitles = NULL,
+  first_layer
 )
 ```
 
@@ -49,8 +59,9 @@ bin_space(
 
 - plot:
 
-  `logical`. Should the occupied cells of the equal-area grid be
-  plotted?
+  **\[deprecated\]** Use
+  [`plot()`](https://rdrr.io/r/graphics/plot.default.html) on the output
+  of this function instead.
 
 - spacing, sub_grid, return:
 
@@ -58,6 +69,56 @@ bin_space(
   replacement. Pass the output of
   [`space_bins()`](https://palaeoverse.palaeoverse.org/dev/reference/space_bins.md)
   to the `bins` argument instead.
+
+- x:
+
+  `data.frame`. An object of class `"palaeoverse_bin_space"` created by
+  `bin_space()`.
+
+- ...:
+
+  Extra arguments passed to
+  [`plot()`](https://rdrr.io/r/base/plot.html). The following argument
+  is already set internally and must not be specified here: `add`.
+
+- col:
+
+  `character`. Colour(s) of the occupied cells. Must be of length 1 (in
+  which case all resolutions have the same colour) or of length equal to
+  the number of resolutions in `x`, ordered from the coarsest to the
+  finest resolution. By default, colours are taken in order from the
+  colour-blind friendly Okabe-Ito palette (see
+  [`grDevices::palette.colors()`](https://rdrr.io/r/grDevices/palette.html)).
+
+- centres:
+
+  `list`. Views to display (at most four). These must be either:
+
+  - `c(lat = , lon = )`: the whole globe centred on this point;
+
+  - `c(xmin = , xmax = , ymin = , ymax = )`: a bounding box (in
+    longitude for `x` and latitude for `y`), centred on its midpoint.
+    `xmax` must be greater than `xmin`, and `ymax` must be greater than
+    `ymin`.
+
+  By default, three globes are centred on longitude 0, longitude 180,
+  and -102.
+
+- subtitles:
+
+  `character`. Titles of each globe, in the same order as `centres`.
+  Must be `NULL` (default, no subtitles) or of length equal to the
+  number of elements in `centres`.
+
+- first_layer:
+
+  `sf`, `sfc`, or `sfg`. An object from the package `sf` (e.g. lines,
+  polygons, or points) indicating the first layer to be printed on each
+  globe. Polygons (such as continents) are filled in dark grey to
+  distinguish them from oceans. If unspecified (default), it plots the
+  modern coastlines with
+  `sf::st_geometry(rnaturalearthdata::coastline110)`. Set
+  `first_layer = NULL` to remove this layer.
 
 ## Value
 
@@ -98,6 +159,13 @@ If you are unfamiliar with working with geographic data, we highly
 recommend checking out [Geocomputation with
 R](https://r.geocompx.org/index.html).
 
+The base grid uses the coarsest resolution among the `cell_ID_*`
+columns, and the occupied cells of every resolution are drawn on top of
+it. The world is shown as one or several globes (see `centres`) using an
+orthographic projection, which avoids distorting cells that cross the
+antimeridian or cover the poles. Present-day coastlines are drawn as the
+first layer, which requires the package `rnaturalearthdata`.
+
 ## Developer(s)
 
 Lewis A. Jones
@@ -124,6 +192,12 @@ ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
 #> ℹ H3 resolution: 1
 #> ℹ Average spacing between adjacent cells: 725.17 km.
 #> ℹ Average cell area: 609,788.4 sq. km.
+plot(ex1)
+
+
+# Make filled hexagons slightly transparent
+plot(ex1, col = adjustcolor("#E69F00", alpha.f = 0.5))
+
 
 # Bin data using a hexagonal equal-area grid and sub-grid
 ex2 <- occdf |>
@@ -135,6 +209,9 @@ ex2 <- occdf |>
 #> ℹ H3 resolution: 2
 #> ℹ Average spacing between adjacent cells: 274.09 km.
 #> ℹ Average cell area: 86,801.78 sq. km.
+
+plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"))
+
 
 # EXAMPLE: rarefy
 # Load data

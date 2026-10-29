@@ -12,7 +12,8 @@ tax_range_time(
   min_ma = "min_ma",
   max_ma = "max_ma",
   group = NULL,
-  by = "FAD",
+  sort = "FAD",
+  by = deprecated(),
   plot = deprecated(),
   plot_args = deprecated(),
   intervals = deprecated()
@@ -61,11 +62,15 @@ plot(
   grouping variable, e.g. "family". If not supplied, all taxa are
   treated as a single group.
 
-- by:
+- sort:
 
   `character`. How should the output be sorted? Either: "FAD"
   (first-appearance date; default), "LAD" (last-appearance data), or
   "name" (alphabetically by taxon names).
+
+- by:
+
+  **\[deprecated\]** Use `sort` instead.
 
 - plot, plot_args:
 
@@ -155,11 +160,8 @@ base R:
   [`graphics::par()`](https://rdrr.io/r/graphics/par.html)).
 
 The graphical parameters are reset when
-[`plot()`](https://rdrr.io/r/graphics/plot.default.html) exits. To add
-elements to the plot, re-apply the parameters returned by
-[`plot()`](https://rdrr.io/r/graphics/plot.default.html) with
-`op <- par(plot(x))`, add the elements, and then restore the previous
-parameters with `par(op)` (see Examples).
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) exits. See
+'Examples' to know how to add components to the plot.
 
 ## Developer(s)
 
@@ -200,9 +202,9 @@ occdf$class <- factor(x = occdf$class,
 ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 plot(ex)
 
-# Add elements to the plot (here, the Carboniferous-Permian boundary)
+# Add elements to the plot
 op <- par(plot(ex))
-abline(v = 298.9, lty = 2, col = "red")
+abline(v = 290, lty = 2, col = "red")
 
 par(op)
 ```

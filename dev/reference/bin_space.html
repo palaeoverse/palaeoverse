@@ -71,10 +71,20 @@ bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
 <span>  <span class="va">bins</span>,</span>
 <span>  lng <span class="op">=</span> <span class="st">"lng"</span>,</span>
 <span>  lat <span class="op">=</span> <span class="st">"lat"</span>,</span>
-<span>  plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">spacing</span>,</span>
 <span>  <span class="va">sub_grid</span>,</span>
 <span>  <span class="va">return</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'palaeoverse_bin_space'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  centres <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">0</span>, lon <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">0</span>, lon <span class="op">=</span> <span class="fl">180</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="fl">23</span>, lon <span class="op">=</span> <span class="op">-</span><span class="fl">102</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  subtitles <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">first_layer</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -106,14 +116,51 @@ as the input latitude (e.g. "lat" or "p_lat").</p></dd>
 
 
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
-<dd><p><code>logical</code>. Should the occupied cells of the equal-area grid
-be plotted?</p></dd>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> on the output of
+this function instead.</p></dd>
 
 
 <dt id="arg-spacing-sub-grid-return">spacing, sub_grid, return<a class="anchor" aria-label="anchor" href="#arg-spacing-sub-grid-return"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> These arguments
 are no longer used and don't have a replacement. Pass the output of <code><a href="space_bins.html">space_bins()</a></code>
 to the <code>bins</code> argument instead.</p></dd>
+
+
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p><code>data.frame</code>. An object of class <code>"palaeoverse_bin_space"</code> created by <code>bin_space()</code>.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Extra arguments passed to <code><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot()</a></code>. The following argument is
+already set internally and must not be specified here: <code>add</code>.</p></dd>
+
+
+<dt id="arg-col">col<a class="anchor" aria-label="anchor" href="#arg-col"></a></dt>
+<dd><p><code>character</code>. Colour(s) of the occupied cells. Must be of length 1 (in which case
+all resolutions have the same colour) or of length equal to the number of resolutions in <code>x</code>,
+ordered from the coarsest to the finest resolution. By default, colours are taken in order
+from the colour-blind friendly Okabe-Ito palette (see <code><a href="https://rdrr.io/r/grDevices/palette.html" class="external-link">grDevices::palette.colors()</a></code>).</p></dd>
+
+
+<dt id="arg-centres">centres<a class="anchor" aria-label="anchor" href="#arg-centres"></a></dt>
+<dd><p><code>list</code>. Views to display (at most four). These must be either:</p><ul><li><p><code>c(lat = , lon = )</code>: the whole globe centred on this point;</p></li>
+<li><p><code>c(xmin = , xmax = , ymin = , ymax = )</code>: a bounding box (in longitude for <code>x</code> and latitude for
+<code>y</code>), centred on its midpoint. <code>xmax</code> must be greater than <code>xmin</code>, and <code>ymax</code> must be greater
+than <code>ymin</code>.</p></li>
+</ul><p>By default, three globes are centred on longitude 0, longitude 180, and -102.</p></dd>
+
+
+<dt id="arg-subtitles">subtitles<a class="anchor" aria-label="anchor" href="#arg-subtitles"></a></dt>
+<dd><p><code>character</code>. Titles of each globe, in the same order as <code>centres</code>. Must be
+<code>NULL</code> (default, no subtitles) or of length equal to the number of elements in <code>centres</code>.</p></dd>
+
+
+<dt id="arg-first-layer">first_layer<a class="anchor" aria-label="anchor" href="#arg-first-layer"></a></dt>
+<dd><p><code>sf</code>, <code>sfc</code>, or <code>sfg</code>. An object from the package <code>sf</code> (e.g. lines, polygons,
+or points) indicating the first layer to be printed on each globe. Polygons (such as continents)
+are filled in dark grey to distinguish them from oceans. If unspecified (default), it plots the
+modern coastlines with <code>sf::st_geometry(rnaturalearthdata::coastline110)</code>. Set
+<code>first_layer = NULL</code> to remove this layer.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -140,6 +187,11 @@ data is defined as EPSG:4326 (World Geodetic System
 1984). The user should transform their data accordingly if this is
 not appropriate. If you are unfamiliar with working with geographic data,
 we highly recommend checking out <a href="https://r.geocompx.org/index.html" class="external-link">Geocomputation with R</a>.</p>
+<p>The base grid uses the coarsest resolution among the <code>cell_ID_*</code> columns, and the occupied
+cells of every resolution are drawn on top of it. The world is shown as one or several globes
+(see <code>centres</code>) using an orthographic projection, which avoids distorting cells that cross the
+antimeridian or cover the poles. Present-day coastlines are drawn as the first layer, which
+requires the package <code>rnaturalearthdata</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="developer-s-">Developer(s)<a class="anchor" aria-label="anchor" href="#developer-s-"></a></h2>
@@ -171,6 +223,12 @@ we highly recommend checking out <a href="https://r.geocompx.org/index.html" cla
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> H3 resolution: 1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Average spacing between adjacent cells: 725.17 km.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Average cell area: 609,788.4 sq. km.</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ex1</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="bin_space-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make filled hexagons slightly transparent</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ex1</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html" class="external-link">adjustcolor</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, alpha.f <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="bin_space-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Bin data using a hexagonal equal-area grid and sub-grid</span></span></span>
 <span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="va">occdf</span> <span class="op">|&gt;</span></span></span>
@@ -182,6 +240,9 @@ we highly recommend checking out <a href="https://r.geocompx.org/index.html" cla
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> H3 resolution: 2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Average spacing between adjacent cells: 274.09 km.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Average cell area: 86,801.78 sq. km.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ex2</span>, main <span class="op">=</span> <span class="st">"Reefs"</span>, subtitles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Africa"</span>, <span class="st">"Pacific"</span>, <span class="st">"Americas"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="bin_space-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># EXAMPLE: rarefy</span></span></span>
 <span class="r-in"><span><span class="co"># Load data</span></span></span>
