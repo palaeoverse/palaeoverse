@@ -6,12 +6,12 @@ bins.
 ## Usage
 
 ``` r
-bin_lat(occdf, bins, lat = "lat", boundary = FALSE)
+bin_lat(data, bins, lat = "lat", boundary = FALSE)
 ```
 
 ## Arguments
 
-- occdf:
+- data:
 
   `dataframe`. A dataframe of the fossil occurrences you wish to bin.
   This dataframe should contain a column with the latitudinal
@@ -42,7 +42,7 @@ bin_lat(occdf, bins, lat = "lat", boundary = FALSE)
 
 ## Value
 
-A dataframe of the original input `occdf` with appended columns
+A dataframe of the original input `data` with appended columns
 containing respective latitudinal bin information.
 
 ## Developer(s)
@@ -57,11 +57,11 @@ Sofia Galvan
 
 ``` r
 # Load occurrence data
-occdf <- tetrapods
+data <- tetrapods
 # Generate latitudinal bins
 bins <- lat_bins_degrees(size = 10)
 # Bin data
-occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
+data <- bin_lat(data = data, bins = bins, lat = "lat")
 #> Warning: Presence of occurrences falling on boundaries detected.
 #> ℹ Occurrences assigned to upper bin.
 ```

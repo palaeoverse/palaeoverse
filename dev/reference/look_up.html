@@ -70,7 +70,7 @@ user-defined intervals, to fossil occurrences.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">look_up</span><span class="op">(</span></span>
-<span>  <span class="va">occdf</span>,</span>
+<span>  <span class="va">data</span>,</span>
 <span>  early_interval <span class="op">=</span> <span class="st">"early_interval"</span>,</span>
 <span>  late_interval <span class="op">=</span> <span class="st">"late_interval"</span>,</span>
 <span>  int_key <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -83,20 +83,20 @@ user-defined intervals, to fossil occurrences.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-occdf">occdf<a class="anchor" aria-label="anchor" href="#arg-occdf"></a></dt>
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p><code>data.frame</code>. A dataframe of fossil occurrences or other
 geological data, with columns of class <code>character</code> specifying the
 earliest and the latest possible interval associated with each occurrence.</p></dd>
 
 
 <dt id="arg-early-interval">early_interval<a class="anchor" aria-label="anchor" href="#arg-early-interval"></a></dt>
-<dd><p><code>character</code>. Name of the column in <code>occdf</code> that
+<dd><p><code>character</code>. Name of the column in <code>data</code> that
 contains the earliest interval from which the occurrences are from. Defaults
 to "early_interval".</p></dd>
 
 
 <dt id="arg-late-interval">late_interval<a class="anchor" aria-label="anchor" href="#arg-late-interval"></a></dt>
-<dd><p><code>character</code>. Name of the column in <code>occdf</code> that
+<dd><p><code>character</code>. Name of the column in <code>data</code> that
 contains the latest interval from which the occurrences are from. Defaults
 to "late_interval".</p></dd>
 
@@ -106,7 +106,7 @@ to "late_interval".</p></dd>
 international geological stage names from the ICS, or other, user-defined
 intervals.
 This dataframe should contain the following named columns containing
-<code>character</code> values: <br></p><ul><li><p><code>interval_name</code> contains the names to be matched from <code>occdf</code> <br></p></li>
+<code>character</code> values: <br></p><ul><li><p><code>interval_name</code> contains the names to be matched from <code>data</code> <br></p></li>
 <li><p><code>early_stage</code> contains the names of the earliest stages
 corresponding to the intervals <br></p></li>
 <li><p><code>late_stage</code> contains the latest stage corresponding to the
@@ -176,39 +176,39 @@ The table corresponding to this key can be loaded with
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Just use GTS2020 (default):</span></span></span>
 <span class="r-in"><span><span class="co"># create exemplary dataframe</span></span></span>
-<span class="r-in"><span><span class="va">taxdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>early_interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Maastrichtian"</span>, <span class="st">"Campanian"</span>, <span class="st">"Sinemurian"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>late_interval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Maastrichtian"</span>, <span class="st">"Campanian"</span>, <span class="st">"Bartonian"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># assign stages and numerical ages</span></span></span>
-<span class="r-in"><span><span class="va">taxdf</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">taxdf</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Use exemplary int_key</span></span></span>
 <span class="r-in"><span><span class="co"># Get internal reef data</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="va">reefs</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">reefs</span></span></span>
 <span class="r-in"><span> <span class="co"># assign stages and numerical ages</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>,</span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">data</span>,</span></span>
 <span class="r-in"><span>                early_interval <span class="op">=</span> <span class="st">"interval"</span>,</span></span>
 <span class="r-in"><span>                late_interval <span class="op">=</span> <span class="st">"interval"</span>,</span></span>
 <span class="r-in"><span>                int_key <span class="op">=</span> <span class="va">interval_key</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Use exemplary int_key and return unassigned</span></span></span>
 <span class="r-in"><span><span class="co"># Get internal tetrapod data</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span></span></span>
 <span class="r-in"><span><span class="co"># assign stages and numerical ages</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>, int_key <span class="op">=</span> <span class="fu">palaeoverse</span><span class="fu">::</span><span class="va"><a href="interval_key.html">interval_key</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">data</span>, int_key <span class="op">=</span> <span class="fu">palaeoverse</span><span class="fu">::</span><span class="va"><a href="interval_key.html">interval_key</a></span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`NA`, <span style="color: #0000BB;">""</span> or <span style="color: #0000BB;">" "</span> entries from `late_interval` have been filled in with the</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> corresponding `early_interval` entries.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following intervals could not be matched with intervals from `int_key` or</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> GTS: <span style="color: #0000BB;">"Early Triassic"</span>, <span style="color: #0000BB;">"Late Pennsylvanian"</span>, <span style="color: #0000BB;">"Vokhmian"</span>.</span>
 <span class="r-in"><span><span class="co"># return unassigned intervals</span></span></span>
-<span class="r-in"><span><span class="va">unassigned</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>, int_key <span class="op">=</span> <span class="fu">palaeoverse</span><span class="fu">::</span><span class="va"><a href="interval_key.html">interval_key</a></span>,</span></span>
+<span class="r-in"><span><span class="va">unassigned</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">data</span>, int_key <span class="op">=</span> <span class="fu">palaeoverse</span><span class="fu">::</span><span class="va"><a href="interval_key.html">interval_key</a></span>,</span></span>
 <span class="r-in"><span>                      return_unassigned <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`NA`, <span style="color: #0000BB;">""</span> or <span style="color: #0000BB;">" "</span> entries from `late_interval` have been filled in with the</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> corresponding `early_interval` entries.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Use own key and GTS2012:</span></span></span>
 <span class="r-in"><span><span class="co"># create example data</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  stage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"any Permian"</span>, <span class="st">"first Permian stage"</span>,</span></span>
 <span class="r-in"><span>            <span class="st">"any Permian"</span>, <span class="st">"Roadian"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># create example key</span></span></span>
@@ -217,7 +217,7 @@ The table corresponding to this key can be loaded with
 <span class="r-in"><span>  early_stage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Asselian"</span>, <span class="st">"Asselian"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  late_stage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Changhsingian"</span>, <span class="st">"Asselian"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># assign stages and numerical ages:</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">occdf</span>,</span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">look_up</span><span class="op">(</span><span class="va">data</span>,</span></span>
 <span class="r-in"><span>                 early_interval <span class="op">=</span> <span class="st">"stage"</span>, late_interval <span class="op">=</span> <span class="st">"stage"</span>,</span></span>
 <span class="r-in"><span>                 int_key <span class="op">=</span> <span class="va">interval_key</span>, assign_with_GTS <span class="op">=</span> <span class="st">"GTS2012"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

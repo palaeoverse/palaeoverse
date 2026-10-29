@@ -10,7 +10,7 @@ which creates the spatial bins required by the `bins` argument.
 
 ``` r
 bin_space(
-  occdf,
+  data,
   bins,
   lng = "lng",
   lat = "lat",
@@ -33,7 +33,7 @@ plot(
 
 ## Arguments
 
-- occdf:
+- data:
 
   `data.frame`. A dataframe of the fossil occurrences (or any set of
   coordinates) you wish to bin. This dataframe should contain the
@@ -185,10 +185,10 @@ Bethany Allen & Kilian Eichenseer
 data("reefs")
 
 # Reduce data for plotting
-occdf <- reefs[1:250, ]
+data <- reefs[1:250, ]
 
 # Bin data using a hexagonal equal-area grid
-ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
+ex1 <- bin_space(data = data, bins = space_bins(spacing = 500))
 #> ℹ H3 resolution: 1
 #> ℹ Average spacing between adjacent cells: 725.17 km.
 #> ℹ Average cell area: 609,788.4 sq. km.
@@ -200,7 +200,7 @@ plot(ex1, col = adjustcolor("#E69F00", alpha.f = 0.5))
 
 
 # Bin data using a hexagonal equal-area grid and sub-grid
-ex2 <- occdf |>
+ex2 <- data |>
   bin_space(bins = space_bins(spacing = 1000)) |>
   bin_space(bins = space_bins(spacing = 250))
 #> ℹ H3 resolution: 1
@@ -215,10 +215,10 @@ plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"))
 
 # EXAMPLE: rarefy
 # Load data
-occdf <- tetrapods[1:250, ]
+data <- tetrapods[1:250, ]
 
 # Assign to spatial bins and sub-bins
-occdf <- occdf |>
+data <- data |>
   bin_space(bins = space_bins(spacing = 1000)) |>
   bin_space(bins = space_bins(spacing = 250))
 #> ℹ H3 resolution: 1
@@ -229,7 +229,7 @@ occdf <- occdf |>
 #> ℹ Average cell area: 86,801.78 sq. km.
 
 # Get unique bins
-bins <- unique(occdf$cell_ID_1)
+bins <- unique(data$cell_ID_1)
 
 # n reps
 n <- 10
@@ -237,8 +237,8 @@ n <- 10
 # Rarefy data across sub-grid grid cells
 # Returns a list with each element a bin with respective mean genus richness
 df <- lapply(bins, function(x) {
-  # subset occdf for respective grid cell
-  tmp <- occdf[which(occdf$cell_ID_1 == x), ]
+  # subset data for respective grid cell
+  tmp <- data[which(data$cell_ID_1 == x), ]
 
   # Which sub-grid cells are there within this bin?
   sub_bin <- unique(tmp$cell_ID_2)

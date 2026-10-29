@@ -64,7 +64,7 @@ different approaches commonly applied in palaeobiology.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bin_time</span><span class="op">(</span></span>
-<span>  <span class="va">occdf</span>,</span>
+<span>  <span class="va">data</span>,</span>
 <span>  min_ma <span class="op">=</span> <span class="st">"min_ma"</span>,</span>
 <span>  max_ma <span class="op">=</span> <span class="st">"max_ma"</span>,</span>
 <span>  <span class="va">bins</span>,</span>
@@ -79,7 +79,7 @@ different approaches commonly applied in palaeobiology.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-occdf">occdf<a class="anchor" aria-label="anchor" href="#arg-occdf"></a></dt>
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p><code>dataframe</code>. A dataframe of the fossil occurrences you
 wish to bin. This dataframe should contain at least two columns with
 <code>numeric</code> values: maximum age of occurrence and minimum age of
@@ -90,13 +90,13 @@ generated from interval names via the
 
 <dt id="arg-min-ma">min_ma<a class="anchor" aria-label="anchor" href="#arg-min-ma"></a></dt>
 <dd><p><code>character</code>. The name of the column you wish to be
-treated as the minimum age for <code>occdf</code> and <code>bins</code>, e.g. "min_ma"
+treated as the minimum age for <code>data</code> and <code>bins</code>, e.g. "min_ma"
 (default).</p></dd>
 
 
 <dt id="arg-max-ma">max_ma<a class="anchor" aria-label="anchor" href="#arg-max-ma"></a></dt>
 <dd><p><code>character</code>. The name of the column you wish to be
-treated as the maximum age for <code>occdf</code> and <code>bins</code>, e.g. "max_ma"
+treated as the maximum age for <code>data</code> and <code>bins</code>, e.g. "max_ma"
 (default).</p></dd>
 
 
@@ -143,13 +143,13 @@ function arguments should therefore be scaled to be within these bounds.</p></dd
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>For methods "mid", "majority" and "all", a <code>dataframe</code> of the
-original input <code>occdf</code> with the following appended columns is returned:
+original input <code>data</code> with the following appended columns is returned:
 occurrence id (<code>id</code>), number of bins that the occurrence age range covers
 (<code>n_bins</code>), bin assignment (<code>bin_assignment</code>), and bin midpoint
 (<code>bin_midpoint</code>). In the case of the "majority" method, an additional
 column of the majority percentage overlap (<code>overlap_percentage</code>) is also
 appended. For the "random" and "point" method, a <code>list</code> is returned
-(of length reps) with each element a copy of the <code>occdf</code> and appended
+(of length reps) with each element a copy of the <code>data</code> and appended
 columns (random: <code>bin_assignment</code> and <code>bin_midpoint</code>; point:
 <code>bin_assignment</code> and <code>point_estimates</code>).</p>
     </div>
@@ -161,20 +161,20 @@ of the fossil occurrence age range to bin the occurrence.</p></li>
 <li><p>Majority: The "majority" method bins an occurrence into the bin which it
 most overlaps with. As part of this implementation, the majority
 percentage overlap of the occurrence is also calculated and returned as
-an additional column in <code>occdf</code>. If desired, these percentages can be
+an additional column in <code>data</code>. If desired, these percentages can be
 used to further filter an occurrence dataset.</p></li>
 <li><p>All: The "all" method bins an occurrence into every bin its age range
 covers. For occurrences with age ranges of more than one bin, the
 occurrence row is duplicated. Each occurrence is assigned an ID in the
-column <code>occdf$id</code> so that duplicates can be tracked. Additionally,
-<code>occdf$n_bins</code> records the number of bins each occurrence appears within.</p></li>
+column <code>data$id</code> so that duplicates can be tracked. Additionally,
+<code>data$n_bins</code> records the number of bins each occurrence appears within.</p></li>
 <li><p>Random: The "random" method randomly samples X amount of bins (with
 replacement) from the bins that the fossil occurrence age range covers
 with equal probability regardless of bin length. The <code>reps</code> argument
 determines the number of times the sample process is repeated. All
 replications are stored as individual elements within the returned list
 with an appended <code>bin_assignment</code> and <code>bin_midpoint</code> column to the
-original input <code>occdf</code>. If desired, users can easily bind this list using
+original input <code>data</code>. If desired, users can easily bind this list using
 <code>do.call(rbind, x)</code>.</p></li>
 <li><p>Point: The "point" method randomly samples X (<code>reps</code>) amount of point age
 estimates from the age range of the fossil occurrence. Sampling follows a
@@ -188,7 +188,7 @@ scaled to be within these bounds. The <code>reps</code> argument determines the
 number of times the sample process is repeated. All replications are
 stored as individual elements within the returned list with an appended
 <code>bin_assignment</code> and <code>point_estimates</code> column to the original input
-<code>occdf</code>. If desired, users can easily bind this list using
+<code>data</code>. If desired, users can easily bind this list using
 <code>do.call(rbind, x)</code>.</p></li>
 </ul></div>
     <div class="section level2">
@@ -203,24 +203,24 @@ stored as individual elements within the returned list with an appended
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Grab internal tetrapod data</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="time_bins.html">time_bins</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Assign via midpoint age of fossil occurrence data</span></span></span>
-<span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"mid"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>One or more occurrences have a midpoint age equivalent to a bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.</span>
+<span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"mid"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>One or more occurrences have a midpoint age equivalent to a bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(data$bin_assignment))`.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Assign to all bins that age range covers</span></span></span>
-<span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Assign via majority overlap based on fossil occurrence age range</span></span></span>
-<span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"majority"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"majority"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Assign randomly to overlapping bins based on fossil occurrence age range</span></span></span>
-<span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"random"</span>, reps <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"random"</span>, reps <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Assign point estimates following a normal distribution</span></span></span>
-<span class="r-in"><span><span class="va">ex5</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"point"</span>, reps <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span><span class="va">ex5</span> <span class="op">&lt;-</span> <span class="fu">bin_time</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"point"</span>, reps <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>                fun <span class="op">=</span> <span class="va">dnorm</span>, mean <span class="op">=</span> <span class="fl">0.5</span>, sd <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>

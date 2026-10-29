@@ -8,12 +8,12 @@ Details for screening values).
 ## Usage
 
 ``` r
-tax_certainty(taxdf, name, terms = NULL, certainty = c(1, 0), append = TRUE)
+tax_certainty(data, name, terms = NULL, certainty = c(1, 0), append = TRUE)
 ```
 
 ## Arguments
 
-- taxdf:
+- data:
 
   `data.frame`. A `data.frame` with a named column containing the
   taxonomic names to be checked.
@@ -42,14 +42,14 @@ tax_certainty(taxdf, name, terms = NULL, certainty = c(1, 0), append = TRUE)
 - append:
 
   `logical`. If `TRUE` (default), the returned object is a `data.frame`
-  consisting of the input `taxdf` with a column denoting the taxonomic
+  consisting of the input `data` with a column denoting the taxonomic
   "certainty" appended. If `FALSE`, a two-column `data.frame` containing
   the input `name` and the taxonomic identification certainty status is
   returned.
 
 ## Value
 
-When `append` is `TRUE`, the input `taxdf` with an appended "certainty"
+When `append` is `TRUE`, the input `data` with an appended "certainty"
 column classifying each taxon (default). When `append` is `FALSE`, a
 two-column `data.frame` with input `name` and 'certainty' column
 classifying each taxon.
@@ -128,16 +128,16 @@ Lewis A. Jones, Bethany J. Allen, & William Gearty
 ``` r
 # Get internal data
 data(tetrapods)
-occdf <- tetrapods[1:100, ]
+data <- tetrapods[1:100, ]
 # Summarise taxonomic certainty
-certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+certainty <- tax_certainty(data = data, name = "identified_name",
                            append = FALSE)
 # Append uncertainty to dataframe
-certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+certainty <- tax_certainty(data = data, name = "identified_name",
                            certainty = c("certain", "uncertain"),
                            append = TRUE)
 # Turn off subspecies- and species-level screening terms (genus-level data)
-certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+certainty <- tax_certainty(data = data, name = "identified_name",
                            terms = list(subspecies = NULL, species = NULL),
                            certainty = c("certain", "uncertain"),
                            append = FALSE)

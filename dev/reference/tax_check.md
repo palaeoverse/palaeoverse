@@ -8,7 +8,7 @@ same taxon. Spelling variations are checked within alphabetical groups
 
 ``` r
 tax_check(
-  taxdf,
+  data,
   name = "genus",
   group = NULL,
   dis = 0.05,
@@ -19,7 +19,7 @@ tax_check(
 
 ## Arguments
 
-- taxdf:
+- data:
 
   `data.frame`. A dataframe with named columns containing taxon names
   (e.g. "species", "genus"). An optional column containing the groups
@@ -35,8 +35,8 @@ tax_check(
 - group:
 
   `character`. The column name of the higher taxonomic assignments in
-  `taxdf` you wish to group by. If `NULL` (default), name comparison
-  will be conducted within alphabetical groups.
+  `data` you wish to group by. If `NULL` (default), name comparison will
+  be conducted within alphabetical groups.
 
 - dis:
 
@@ -116,9 +116,9 @@ if (FALSE) { # \dontrun{
 # load occurrence data
 data("tetrapods")
 # Check taxon names alphabetically
-ex1 <- tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
+ex1 <- tax_check(data = tetrapods, name = "genus", dis = 0.1)
 # Check taxon names by group
-ex2 <- tax_check(taxdf = tetrapods, name = "genus",
+ex2 <- tax_check(data = tetrapods, name = "genus",
                  group = "family", dis = 0.1)
 } # }
 ```

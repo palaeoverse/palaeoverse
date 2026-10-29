@@ -229,7 +229,7 @@ colnames(tetrapods)[9:10] <- c("old_max_ma", "old_min_ma")
 colnames(tetrapods)[c(35, 37)] <- c("max_ma", "min_ma")
 
 # Generate time bins
-tetrapods <- bin_time(occdf = tetrapods,
+tetrapods <- bin_time(data = tetrapods,
                       bins = bins,
                       method = "mid")
 ```
@@ -249,14 +249,14 @@ so for it to work, we’ll first have to remove these occurrences.
 cp_tetrapods <- subset(tetrapods, min_ma > min(bins$min_ma))
 
 # Bin occurrences into chosen time bins
-mid_tetrapods <- bin_time(occdf = cp_tetrapods,
+mid_tetrapods <- bin_time(data = cp_tetrapods,
                           bins = bins,
                           method = "mid")
 ```
 
-    ## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or
+    ## Warning in bin_time(data = cp_tetrapods, bins = bins, method = "mid"): One or
     ## more occurrences have a midpoint age equivalent to a bin boundary. Binning
-    ## skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.
+    ## skipped for these occurrences. Hint: `which(is.na(data$bin_assignment))`.
 
 That’s better! Let’s see how our dataset has changed.
 
@@ -319,7 +319,7 @@ the bin which covers the majority of their potential time range.
 ``` r
 
 # Bin occurrences into chosen time bins
-maj_tetrapods <- bin_time(occdf = cp_tetrapods,
+maj_tetrapods <- bin_time(data = cp_tetrapods,
                           bins = bins,
                           method = "majority")
 ```
@@ -334,7 +334,7 @@ dataset. We can use the `palaeorotate` function to do this.
 ``` r
 
 # Palaeorotate occurrences
-maj_tetrapods <- palaeorotate(occdf = maj_tetrapods, age = "bin_midpoint",
+maj_tetrapods <- palaeorotate(data = maj_tetrapods, age = "bin_midpoint",
                               method = "point", model = "PALEOMAP")
 ```
 
@@ -363,7 +363,7 @@ system](https://h3geo.org/)).
 ``` r
 
 # Make a table of potential number of bins
-maj_tetrapods <- bin_space(occdf = maj_tetrapods,
+maj_tetrapods <- bin_space(data = maj_tetrapods,
                            lng = "p_lng",
                            lat = "p_lat",
                            bins = space_bins(spacing = 100))
@@ -464,7 +464,7 @@ it to genus-level.
 ``` r
 
 # Filter to genus-level:
-tet_genera <- tax_unique(occdf = maj_tetrapods, genus = "genus", family = "family",
+tet_genera <- tax_unique(data = maj_tetrapods, genus = "genus", family = "family",
                          order = "order", class = "class", resolution = "genus")
 ```
 
@@ -509,7 +509,7 @@ collection (=locality) with `group_apply`:
 ``` r
 
 # Use group_apply along with tax_unique:
-coll_genera <- group_apply(occdf = maj_tetrapods,
+coll_genera <- group_apply(data = maj_tetrapods,
                            group = c("collection_no"),
                            fun = tax_unique,
                            genus = "genus",
@@ -647,7 +647,7 @@ average for each time interval for our dataset:
 space_tetrapods <- subset(maj_tetrapods, !is.na(genus))
 
 # Find temporal range of all genera
-space_tetrapods <- group_apply(occdf = space_tetrapods,
+space_tetrapods <- group_apply(data = space_tetrapods,
                                group = c("bin_midpoint"),
                                fun = tax_range_space,
                                name = "genus",

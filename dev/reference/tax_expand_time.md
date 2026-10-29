@@ -13,7 +13,7 @@ be replicated for each interval through which the taxon persisted.
 
 ``` r
 tax_expand_time(
-  taxdf,
+  data,
   max_ma = "max_ma",
   min_ma = "min_ma",
   bins = NULL,
@@ -25,7 +25,7 @@ tax_expand_time(
 
 ## Arguments
 
-- taxdf:
+- data:
 
   `dataframe`. A dataframe of taxa (such as that produced by
   [`tax_range_time`](https://palaeoverse.palaeoverse.org/dev/reference/tax_range_time.md))
@@ -95,11 +95,11 @@ Lewis A. Jones
 ## Examples
 
 ``` r
-taxdf <- data.frame(name = c("A", "B", "C"),
+data <- data.frame(name = c("A", "B", "C"),
                     max_ma = c(150, 60, 30),
                     min_ma = c(110, 20, 0))
-ex <- tax_expand_time(taxdf)
+ex <- tax_expand_time(data)
 
 bins <- time_bins(scale = "GTS2012", rank = "stage")
-ex2 <- tax_expand_time(taxdf, bins = bins)
+ex2 <- tax_expand_time(data, bins = bins)
 ```

@@ -7,12 +7,12 @@ include taxon names within the vector.
 ## Usage
 
 ``` r
-phylo_check(tree, list, out = "full_table", sort = "presence")
+phylo_check(data, list, out = "full_table", sort = "presence")
 ```
 
 ## Arguments
 
-- tree:
+- data:
 
   `phylo`. A phylo object containing the phylogeny.
 
@@ -90,14 +90,14 @@ dinosaurs <- c("Nasutoceratops_titusi", "Diabloceratops_eatoni",
 "Triceratops_horridus", "Triceratops_prorsus")
 
 #Table of taxon names in list, tree or both
-ex1 <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs)
+ex1 <- phylo_check(data = ceratopsianTreeRaia, list = dinosaurs)
 
 #Counts of taxa in list, tree or both
-ex2 <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
+ex2 <- phylo_check(data = ceratopsianTreeRaia, list = dinosaurs,
                    out = "counts")
 
 #Trim tree to tips in the list
-my_ceratopsians <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
+my_ceratopsians <- phylo_check(data = ceratopsianTreeRaia, list = dinosaurs,
 out = "tree")
 plot(my_ceratopsians)
 

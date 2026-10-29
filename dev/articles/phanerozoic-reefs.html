@@ -201,7 +201,7 @@ subsets of data.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># How many reefs per interval?</span></span>
 <span><span class="co"># Let's group by the interval column to test</span></span>
-<span><span class="va">reef_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, group <span class="op">=</span> <span class="st">"interval"</span>, fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span>
+<span><span class="va">reef_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, group <span class="op">=</span> <span class="st">"interval"</span>, fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">reef_counts</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   nrow                interval</span></span>
 <span><span class="co">## 1    2       (early?) Toarcian</span></span>
@@ -230,7 +230,7 @@ assign international geological stage names and numeric ages.</p>
 <code class="sourceCode R"><span><span class="co"># Load the interval key</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"interval_key"</span><span class="op">)</span></span>
 <span><span class="co"># Assign a common time scale based on an interval key</span></span>
-<span><span class="va">reefs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/look_up.html">look_up</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>,</span>
+<span><span class="va">reefs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/look_up.html">look_up</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>,</span>
 <span>                 early_interval <span class="op">=</span> <span class="st">"interval"</span>,</span>
 <span>                 late_interval <span class="op">=</span> <span class="st">"interval"</span>,</span>
 <span>                 int_key <span class="op">=</span> <span class="va">interval_key</span><span class="op">)</span></span>
@@ -268,18 +268,18 @@ functions.</p>
 <code class="sourceCode R"><span><span class="co"># Five methods exist in bin_time for binning occurrence data</span></span>
 <span><span class="co"># You can see details on each via ?bin_time</span></span>
 <span><span class="co"># Bin by midpoint age</span></span>
-<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"mid"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"mid"</span><span class="op">)</span></span>
 <span><span class="co"># Bin by overlap majority</span></span>
-<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"majority"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"majority"</span><span class="op">)</span></span>
 <span><span class="co"># Bin into every bin within age range</span></span>
-<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
 <span><span class="co"># Bin randomly into bins within age range (equal probability)</span></span>
-<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"random"</span>, reps <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"random"</span>, reps <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co"># Bin randomly into bins within age range (uniform probability)</span></span>
-<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"point"</span>, reps <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"point"</span>, reps <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Let's go with "all" for this example!</span></span>
-<span><span class="va">reefs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">reefs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, bins <span class="op">=</span> <span class="va">bins</span>, method <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that the number of rows of <code>reefs</code> have now
 increased. This is because the “all” method in <code>bin_time</code>
 duplicates an occurrence for every bin the age range overlaps with.</p>
@@ -287,7 +287,7 @@ duplicates an occurrence for every bin the age range overlaps with.</p>
 data:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Count number of occurrences per interval</span></span>
-<span><span class="va">reefs_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, group <span class="op">=</span> <span class="st">"interval_mid_ma"</span>, fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span>
+<span><span class="va">reefs_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, group <span class="op">=</span> <span class="st">"interval_mid_ma"</span>, fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span>
 <span><span class="co"># Check output</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">reefs_time</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   nrow interval_mid_ma</span></span>
@@ -331,15 +331,15 @@ documentation</a>). The second approach uses reconstruction files of
 pre-generated palaeocoordinates to spatiotemporally link occurrences’
 modern coordinates and age estimates with their respective
 palaeocoordinates. Let’s give it a shot:</p>
-<!-- 
+<!--
 The following four chunks are here to handle the absence or the presence of an RDS file
 containing the results of palaeorotate():
 - if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
-- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS
 -->
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Palaeorotate occurrences</span></span>
-<span><span class="va">reefs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/palaeorotate.html">palaeorotate</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, age <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
+<span><span class="va">reefs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/palaeorotate.html">palaeorotate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, age <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
 <span>                      method <span class="op">=</span> <span class="st">"point"</span>, model <span class="op">=</span> <span class="st">"PALEOMAP"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check palaeocoordinates</span></span>
@@ -397,18 +397,18 @@ one last thing… let’s consider how plate rotation model choice might
 impact these results using three different models: GOLONKA, PALEOMAP,
 and MERDITH2021 (Wright et al. 2013; Scotese &amp; Wright, 2018; Merdith
 et al. 2021).</p>
-<!-- 
+<!--
 The following four chunks are here to handle the absence or the presence of an RDS file
 containing the results of palaeorotate():
 - if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
-- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS
 -->
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># We can call multiple models at once with palaeorotate</span></span>
 <span><span class="co"># First, let's define the models...</span></span>
 <span><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GOLONKA"</span>, <span class="st">"PALEOMAP"</span>, <span class="st">"MERDITH2021"</span><span class="op">)</span></span>
 <span><span class="co"># And now palaeorotate!</span></span>
-<span><span class="va">reefs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/palaeorotate.html">palaeorotate</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>, age <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
+<span><span class="va">reefs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/palaeorotate.html">palaeorotate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>, age <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
 <span>                      method <span class="op">=</span> <span class="st">"point"</span>, model <span class="op">=</span> <span class="va">models</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check palaeocoordinates</span></span>
@@ -436,14 +436,14 @@ and calculate the most poleward reef occurrence for each model.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Let's code a little helper function to begin with.</span></span>
 <span><span class="co"># This is generally useful when repeating code several times!</span></span>
-<span><span class="va">p_lat_max</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">occdf</span>, <span class="va">midpoint</span>, <span class="va">p_lat</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="va">p_lat_max</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">midpoint</span>, <span class="va">p_lat</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Get absolute palaeolatitudes</span></span>
-<span>  <span class="va">occdf</span><span class="op">[</span>, <span class="va">p_lat</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">occdf</span><span class="op">[</span>, <span class="va">p_lat</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">data</span><span class="op">[</span>, <span class="va">p_lat</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span>, <span class="va">p_lat</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="co"># Extract unique bin midpoints</span></span>
-<span>  <span class="va">midpoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">occdf</span><span class="op">[</span>, <span class="va">midpoint</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">midpoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span>, <span class="va">midpoint</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="co"># Calculate maximum palaeolatitude for each bin</span></span>
 <span>  <span class="va">lat_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">midpoints</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">occdf</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">occdf</span><span class="op">[</span>, <span class="va">midpoint</span><span class="op">]</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span>, <span class="op">]</span><span class="op">[</span>, <span class="va">p_lat</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span>, <span class="va">midpoint</span><span class="op">]</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span>, <span class="op">]</span><span class="op">[</span>, <span class="va">p_lat</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span>  <span class="co"># Bind data</span></span>
 <span>  <span class="va">lat_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind.data.frame</a></span><span class="op">(</span><span class="va">midpoints</span>, <span class="va">lat_max</span><span class="op">)</span></span>
@@ -451,13 +451,13 @@ and calculate the most poleward reef occurrence for each model.</p>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">lat_max</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="co"># Calculate maximum palaeolatitude of reefs for each time bin for each model</span></span>
-<span><span class="va">paleomap</span> <span class="op">&lt;-</span> <span class="fu">p_lat_max</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>,</span>
+<span><span class="va">paleomap</span> <span class="op">&lt;-</span> <span class="fu">p_lat_max</span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>,</span>
 <span>                      midpoint <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
 <span>                      p_lat <span class="op">=</span> <span class="st">"p_lat_PALEOMAP"</span><span class="op">)</span></span>
-<span><span class="va">golonka</span> <span class="op">&lt;-</span> <span class="fu">p_lat_max</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>,</span>
+<span><span class="va">golonka</span> <span class="op">&lt;-</span> <span class="fu">p_lat_max</span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>,</span>
 <span>                     midpoint <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
 <span>                     p_lat <span class="op">=</span> <span class="st">"p_lat_GOLONKA"</span><span class="op">)</span></span>
-<span><span class="va">merdith</span> <span class="op">&lt;-</span> <span class="fu">p_lat_max</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">reefs</span>,</span>
+<span><span class="va">merdith</span> <span class="op">&lt;-</span> <span class="fu">p_lat_max</span><span class="op">(</span>data <span class="op">=</span> <span class="va">reefs</span>,</span>
 <span>                     midpoint <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
 <span>                     p_lat <span class="op">=</span> <span class="st">"p_lat_MERDITH2021"</span><span class="op">)</span></span>
 <span><span class="co"># Set up plot</span></span>

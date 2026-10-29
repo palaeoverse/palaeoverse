@@ -9,7 +9,7 @@ the number of occupied equal-area hexagonal grid cells.
 
 ``` r
 tax_range_space(
-  occdf,
+  data,
   name = "genus",
   lng = "lng",
   lat = "lat",
@@ -21,7 +21,7 @@ tax_range_space(
 
 ## Arguments
 
-- occdf:
+- data:
 
   `dataframe`. A dataframe of fossil occurrences. This dataframe should
   contain at least three columns: names of taxa, longitude and latitude
@@ -48,7 +48,7 @@ tax_range_space(
 - method:
 
   `character`. How should geographic range be calculated for each taxon
-  in `occdf`? Four options exist in this function: "con", "lat", "gcd",
+  in `data`? Four options exist in this function: "con", "lat", "gcd",
   and "occ". See Details for a description of each.
 
 - spacing:
@@ -96,21 +96,21 @@ Four commonly applied approaches (Darroch et al. 2020) are available
 using the `tax_range_space` function for calculating ranges:
 
 - Convex hull: the "con" method calculates the geographic range of taxa
-  using a convex hull for each taxon in `occdf`, and calculates the area
+  using a convex hull for each taxon in `data`, and calculates the area
   of the convex hull (in km²) using
   [`geosphere::areaPolygon()`](https://rdrr.io/pkg/geosphere/man/area.html).
   The convex hull method works by creating a polygon that encompasses
   all occurrence points of the taxon.
 
 - Latitudinal: the "lat" method calculates the palaeolatitudinal range
-  of a taxon. It does so for each taxon in `occdf` by finding their
+  of a taxon. It does so for each taxon in `data` by finding their
   maximum and minimum latitudinal occurrence (from input `lat`). The
   palaeolatitudinal range of each taxon is also calculated (i.e. the
   difference between the minimum and maximum latitude).
 
 - Maximum Great Circle Distance: the "gcd" method calculates the maximum
-  Great Circle Distance between occurrences for each taxon in `occdf`.
-  It does so using
+  Great Circle Distance between occurrences for each taxon in `data`. It
+  does so using
   [`geosphere::distHaversine()`](https://rdrr.io/pkg/geosphere/man/distHaversine.html).
   This function calculates Great Circle Distance using the Haversine
   method with the radius of the Earth set to the 6378.137 km. Great
@@ -150,19 +150,19 @@ Bethany Allen & Christopher D. Dean
 
 ``` r
 # Grab internal data
-occdf <- tetrapods[1:100, ]
+data <- tetrapods[1:100, ]
 # Remove NAs
-occdf <- subset(occdf, !is.na(genus))
+data <- subset(data, !is.na(genus))
 # Convex hull
-ex1 <- tax_range_space(occdf = occdf, name = "genus", method = "con")
+ex1 <- tax_range_space(data = data, name = "genus", method = "con")
 # Latitudinal range
-ex2 <- tax_range_space(occdf = occdf, name = "genus", method = "lat")
+ex2 <- tax_range_space(data = data, name = "genus", method = "lat")
 # Great Circle Distance
-ex3 <- tax_range_space(occdf = occdf, name = "genus", method = "gcd")
+ex3 <- tax_range_space(data = data, name = "genus", method = "gcd")
 # Occupied grid cells
-ex4 <- tax_range_space(occdf = occdf, name = "genus",
+ex4 <- tax_range_space(data = data, name = "genus",
                        method = "occ", spacing = 500)
 # Convex hull with coordinates
-ex5 <- tax_range_space(occdf = occdf, name = "genus", method = "con",
+ex5 <- tax_range_space(data = data, name = "genus", method = "con",
 coords = TRUE)
 ```

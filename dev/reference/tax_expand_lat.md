@@ -12,12 +12,12 @@ be replicated for each latitudinal bin through which the taxon ranges.
 ## Usage
 
 ``` r
-tax_expand_lat(taxdf, bins, max_lat = "max_lat", min_lat = "min_lat")
+tax_expand_lat(data, bins, max_lat = "max_lat", min_lat = "min_lat")
 ```
 
 ## Arguments
 
-- taxdf:
+- data:
 
   `dataframe`. A dataframe of taxa (such as the output of the 'lat'
   method in
@@ -66,10 +66,10 @@ Christopher D. Dean
 
 ``` r
 bins <- lat_bins_degrees()
-taxdf <- data.frame(name = c("A", "B", "C"),
+data <- data.frame(name = c("A", "B", "C"),
                     max_lat = c(60, 20, -10),
                     min_lat = c(20, -40, -60))
-ex <- tax_expand_lat(taxdf = taxdf,
+ex <- tax_expand_lat(data = data,
                      bins = bins,
                      max_lat = "max_lat",
                      min_lat = "min_lat")

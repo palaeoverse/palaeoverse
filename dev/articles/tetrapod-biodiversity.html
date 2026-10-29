@@ -288,7 +288,7 @@ we’ll talk about this more in a minute.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">tetrapods</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">37</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"max_ma"</span>, <span class="st">"min_ma"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate time bins</span></span>
-<span><span class="va">tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">tetrapods</span>,</span>
+<span><span class="va">tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">tetrapods</span>,</span>
 <span>                      bins <span class="op">=</span> <span class="va">bins</span>,</span>
 <span>                      method <span class="op">=</span> <span class="st">"mid"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `bin_time()`:</span></span></span>
@@ -304,12 +304,12 @@ remove these occurrences.</p>
 <span><span class="va">cp_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">tetrapods</span>, <span class="va">min_ma</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">bins</span><span class="op">$</span><span class="va">min_ma</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Bin occurrences into chosen time bins</span></span>
-<span><span class="va">mid_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">cp_tetrapods</span>,</span>
+<span><span class="va">mid_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cp_tetrapods</span>,</span>
 <span>                          bins <span class="op">=</span> <span class="va">bins</span>,</span>
 <span>                          method <span class="op">=</span> <span class="st">"mid"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in bin_time(occdf = cp_tetrapods, bins = bins, method = "mid"): One or</span></span>
+<pre><code><span><span class="co">## Warning in bin_time(data = cp_tetrapods, bins = bins, method = "mid"): One or</span></span>
 <span><span class="co">## more occurrences have a midpoint age equivalent to a bin boundary. Binning</span></span>
-<span><span class="co">## skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.</span></span></code></pre>
+<span><span class="co">## skipped for these occurrences. Hint: `which(is.na(data$bin_assignment))`.</span></span></code></pre>
 <p>That’s better! Let’s see how our dataset has changed.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Examine the dataset columns</span></span>
@@ -357,7 +357,7 @@ occurrences in the bin which covers the majority of their potential time
 range.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Bin occurrences into chosen time bins</span></span>
-<span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">cp_tetrapods</span>,</span>
+<span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_time.html">bin_time</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cp_tetrapods</span>,</span>
 <span>                          bins <span class="op">=</span> <span class="va">bins</span>,</span>
 <span>                          method <span class="op">=</span> <span class="st">"majority"</span><span class="op">)</span></span></code></pre></div>
 <p>We’d recommend playing around with these different options and seeing
@@ -366,15 +366,15 @@ how they impact your results!</p>
 functions to do this. Firstly, we need to add palaeocoordinates to our
 dataset. We can use the <code>palaeorotate</code> function to do
 this.</p>
-<!-- 
+<!--
 The following four chunks are here to handle the absence or the presence of an RDS file
 containing the results of palaeorotate():
 - if the RDS is present, then we don't evaluate palaeorotate() and read the RDS instead
-- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS 
+- if the RDS is absent, then we evaluate palaeorotate() and save its output in the RDS
 -->
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Palaeorotate occurrences</span></span>
-<span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/palaeorotate.html">palaeorotate</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">maj_tetrapods</span>, age <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
+<span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/palaeorotate.html">palaeorotate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">maj_tetrapods</span>, age <span class="op">=</span> <span class="st">"bin_midpoint"</span>,</span>
 <span>                              method <span class="op">=</span> <span class="st">"point"</span>, model <span class="op">=</span> <span class="st">"PALEOMAP"</span><span class="op">)</span></span></code></pre></div>
 <p>Now let’s check that it’s worked…</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
@@ -393,7 +393,7 @@ occurrences, we can put them into spatial bins. We can do this using the
 many discrete equal-area hexagonal grid cells (based on <a href="https://h3geo.org/" class="external-link">Uber’s H3 system</a>).</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Make a table of potential number of bins</span></span>
-<span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_space.html">bin_space</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">maj_tetrapods</span>,</span>
+<span><span class="va">maj_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bin_space.html">bin_space</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">maj_tetrapods</span>,</span>
 <span>                           lng <span class="op">=</span> <span class="st">"p_lng"</span>,</span>
 <span>                           lat <span class="op">=</span> <span class="st">"p_lat"</span>,</span>
 <span>                           bins <span class="op">=</span> <span class="fu"><a href="../reference/space_bins.html">space_bins</a></span><span class="op">(</span>spacing <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -479,7 +479,7 @@ diversity (local richness). Let’s apply it to our dataset by filtering
 it to genus-level.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Filter to genus-level:</span></span>
-<span><span class="va">tet_genera</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tax_unique.html">tax_unique</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">maj_tetrapods</span>, genus <span class="op">=</span> <span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span>,</span>
+<span><span class="va">tet_genera</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tax_unique.html">tax_unique</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">maj_tetrapods</span>, genus <span class="op">=</span> <span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span>,</span>
 <span>                         order <span class="op">=</span> <span class="st">"order"</span>, class <span class="op">=</span> <span class="st">"class"</span>, resolution <span class="op">=</span> <span class="st">"genus"</span><span class="op">)</span></span></code></pre></div>
 <p>We can compare this to the genera from the original dataset to see
 how many genera were added by using <code><a href="../reference/tax_unique.html">tax_unique()</a></code>:</p>
@@ -505,7 +505,7 @@ look at row 718, which records an indeterminate occurrence of the family
 collection (=locality) with <code>group_apply</code>:</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Use group_apply along with tax_unique:</span></span>
-<span><span class="va">coll_genera</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">maj_tetrapods</span>,</span>
+<span><span class="va">coll_genera</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">maj_tetrapods</span>,</span>
 <span>                           group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"collection_no"</span><span class="op">)</span>,</span>
 <span>                           fun <span class="op">=</span> <span class="va">tax_unique</span>,</span>
 <span>                           genus <span class="op">=</span> <span class="st">"genus"</span>,</span>
@@ -617,7 +617,7 @@ calculate the average for each time interval for our dataset:</p>
 <span><span class="va">space_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">maj_tetrapods</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">genus</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Find temporal range of all genera</span></span>
-<span><span class="va">space_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">space_tetrapods</span>,</span>
+<span><span class="va">space_tetrapods</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_apply.html">group_apply</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">space_tetrapods</span>,</span>
 <span>                               group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bin_midpoint"</span><span class="op">)</span>,</span>
 <span>                               fun <span class="op">=</span> <span class="va">tax_range_space</span>,</span>
 <span>                               name <span class="op">=</span> <span class="st">"genus"</span>,</span>

@@ -7,7 +7,7 @@ different approaches commonly applied in palaeobiology.
 
 ``` r
 bin_time(
-  occdf,
+  data,
   min_ma = "min_ma",
   max_ma = "max_ma",
   bins,
@@ -20,7 +20,7 @@ bin_time(
 
 ## Arguments
 
-- occdf:
+- data:
 
   `dataframe`. A dataframe of the fossil occurrences you wish to bin.
   This dataframe should contain at least two columns with `numeric`
@@ -33,12 +33,12 @@ bin_time(
 - min_ma:
 
   `character`. The name of the column you wish to be treated as the
-  minimum age for `occdf` and `bins`, e.g. "min_ma" (default).
+  minimum age for `data` and `bins`, e.g. "min_ma" (default).
 
 - max_ma:
 
   `character`. The name of the column you wish to be treated as the
-  maximum age for `occdf` and `bins`, e.g. "max_ma" (default).
+  maximum age for `data` and `bins`, e.g. "max_ma" (default).
 
 - bins:
 
@@ -83,15 +83,15 @@ bin_time(
 ## Value
 
 For methods "mid", "majority" and "all", a `dataframe` of the original
-input `occdf` with the following appended columns is returned:
-occurrence id (`id`), number of bins that the occurrence age range
-covers (`n_bins`), bin assignment (`bin_assignment`), and bin midpoint
+input `data` with the following appended columns is returned: occurrence
+id (`id`), number of bins that the occurrence age range covers
+(`n_bins`), bin assignment (`bin_assignment`), and bin midpoint
 (`bin_midpoint`). In the case of the "majority" method, an additional
 column of the majority percentage overlap (`overlap_percentage`) is also
 appended. For the "random" and "point" method, a `list` is returned (of
-length reps) with each element a copy of the `occdf` and appended
-columns (random: `bin_assignment` and `bin_midpoint`; point:
-`bin_assignment` and `point_estimates`).
+length reps) with each element a copy of the `data` and appended columns
+(random: `bin_assignment` and `bin_midpoint`; point: `bin_assignment`
+and `point_estimates`).
 
 ## Details
 
@@ -104,14 +104,14 @@ assigning occurrences to time bins:
 - Majority: The "majority" method bins an occurrence into the bin which
   it most overlaps with. As part of this implementation, the majority
   percentage overlap of the occurrence is also calculated and returned
-  as an additional column in `occdf`. If desired, these percentages can
+  as an additional column in `data`. If desired, these percentages can
   be used to further filter an occurrence dataset.
 
 - All: The "all" method bins an occurrence into every bin its age range
   covers. For occurrences with age ranges of more than one bin, the
   occurrence row is duplicated. Each occurrence is assigned an ID in the
-  column `occdf$id` so that duplicates can be tracked. Additionally,
-  `occdf$n_bins` records the number of bins each occurrence appears
+  column `data$id` so that duplicates can be tracked. Additionally,
+  `data$n_bins` records the number of bins each occurrence appears
   within.
 
 - Random: The "random" method randomly samples X amount of bins (with
@@ -120,8 +120,8 @@ assigning occurrences to time bins:
   determines the number of times the sample process is repeated. All
   replications are stored as individual elements within the returned
   list with an appended `bin_assignment` and `bin_midpoint` column to
-  the original input `occdf`. If desired, users can easily bind this
-  list using `do.call(rbind, x)`.
+  the original input `data`. If desired, users can easily bind this list
+  using `do.call(rbind, x)`.
 
 - Point: The "point" method randomly samples X (`reps`) amount of point
   age estimates from the age range of the fossil occurrence. Sampling
@@ -135,8 +135,8 @@ assigning occurrences to time bins:
   bounds. The `reps` argument determines the number of times the sample
   process is repeated. All replications are stored as individual
   elements within the returned list with an appended `bin_assignment`
-  and `point_estimates` column to the original input `occdf`. If
-  desired, users can easily bind this list using `do.call(rbind, x)`.
+  and `point_estimates` column to the original input `data`. If desired,
+  users can easily bind this list using `do.call(rbind, x)`.
 
 ## Developer(s)
 
@@ -150,23 +150,23 @@ William Gearty
 
 ``` r
 #Grab internal tetrapod data
-occdf <- tetrapods[1:100, ]
+data <- tetrapods[1:100, ]
 bins <- time_bins()
 
 #Assign via midpoint age of fossil occurrence data
-ex1 <- bin_time(occdf = occdf, bins = bins, method = "mid")
-#> Warning: One or more occurrences have a midpoint age equivalent to a bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(occdf$bin_assignment))`.
+ex1 <- bin_time(data = data, bins = bins, method = "mid")
+#> Warning: One or more occurrences have a midpoint age equivalent to a bin boundary. Binning skipped for these occurrences. Hint: `which(is.na(data$bin_assignment))`.
 
 #Assign to all bins that age range covers
-ex2 <- bin_time(occdf = occdf, bins = bins, method = "all")
+ex2 <- bin_time(data = data, bins = bins, method = "all")
 
 #Assign via majority overlap based on fossil occurrence age range
-ex3 <- bin_time(occdf = occdf, bins = bins, method = "majority")
+ex3 <- bin_time(data = data, bins = bins, method = "majority")
 
 #Assign randomly to overlapping bins based on fossil occurrence age range
-ex4 <- bin_time(occdf = occdf, bins = bins, method = "random", reps = 5)
+ex4 <- bin_time(data = data, bins = bins, method = "random", reps = 5)
 
 #Assign point estimates following a normal distribution
-ex5 <- bin_time(occdf = occdf, bins = bins, method = "point", reps = 5,
+ex5 <- bin_time(data = data, bins = bins, method = "point", reps = 5,
                 fun = dnorm, mean = 0.5, sd = 0.25)
 ```

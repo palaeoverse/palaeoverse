@@ -7,7 +7,7 @@ occurrence data.
 
 ``` r
 tax_range_time(
-  occdf,
+  data,
   name = "genus",
   min_ma = "min_ma",
   max_ma = "max_ma",
@@ -33,7 +33,7 @@ plot(
 
 ## Arguments
 
-- occdf:
+- data:
 
   `dataframe`. A dataframe of fossil occurrences containing at least
   three columns: names of taxa, minimum age and maximum age (see `name`,
@@ -138,10 +138,10 @@ draw the plot (see
 ## Details
 
 The temporal range(s) of taxa are calculated by extracting all unique
-taxa (`name` column) from the input `occdf`, and checking their first
-and last appearance. The temporal duration of each taxon is also
-calculated. If the input data columns contain NAs, these must be removed
-prior to function call.
+taxa (`name` column) from the input `data`, and checking their first and
+last appearance. The temporal duration of each taxon is also calculated.
+If the input data columns contain NAs, these must be removed prior to
+function call.
 
 Note: this function provides output based solely on the user input data.
 The true duration of a taxon is likely confounded by uncertainty in
@@ -175,31 +175,31 @@ Bethany Allen, Christopher D. Dean & Kilian Eichenseer
 
 ``` r
 # Grab internal data
-occdf <- tetrapods
+data <- tetrapods
 # Remove NAs
-occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
+data <- subset(data, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 # Temporal range
-ex <- tax_range_time(occdf = occdf, name = "order")
+ex <- tax_range_time(data = data, name = "order")
 plot(ex)
 
 
 # Temporal range ordered by class
 # Update margins for plotting
 par(mar = c(8, 5, 6, 6))
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+ex <- tax_range_time(data = data, name = "order", group = "class")
 plot(ex)
 
 
 # Customise appearance
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+ex <- tax_range_time(data = data, name = "order", group = "class")
 plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
      axis = axis_geo(intervals = "eras", abbr = FALSE))
 
 
 # Control plotting order of groups
-occdf$class <- factor(x = occdf$class,
+data$class <- factor(x = data$class,
                       levels = c("Reptilia", "Osteichthyes"))
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+ex <- tax_range_time(data = data, name = "order", group = "class")
 plot(ex)
 
 # Add elements to the plot

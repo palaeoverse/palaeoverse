@@ -76,7 +76,7 @@ diversity" (e.g. Mannion et al. 2011).</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tax_unique</span><span class="op">(</span></span>
-<span>  <span class="va">occdf</span>,</span>
+<span>  <span class="va">data</span>,</span>
 <span>  binomial <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  species <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  genus <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -91,24 +91,24 @@ diversity" (e.g. Mannion et al. 2011).</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-occdf">occdf<a class="anchor" aria-label="anchor" href="#arg-occdf"></a></dt>
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p><code>dataframe</code>. A dataframe containing information on the
 occurrences or taxa to filter.</p></dd>
 
 
 <dt id="arg-binomial">binomial<a class="anchor" aria-label="anchor" href="#arg-binomial"></a></dt>
-<dd><p><code>character</code>. The name of the column in <code>occdf</code>
+<dd><p><code>character</code>. The name of the column in <code>data</code>
 containing the genus and species names of the occurrences, either in the
 form "genus species" or "genus_species".</p></dd>
 
 
 <dt id="arg-species">species<a class="anchor" aria-label="anchor" href="#arg-species"></a></dt>
-<dd><p><code>character</code>. The name of the column in <code>occdf</code>
+<dd><p><code>character</code>. The name of the column in <code>data</code>
 containing the species-level identifications (i.e. the specific epithet).</p></dd>
 
 
 <dt id="arg-genus">genus<a class="anchor" aria-label="anchor" href="#arg-genus"></a></dt>
-<dd><p><code>character</code>. The name of the column in <code>occdf</code>
+<dd><p><code>character</code>. The name of the column in <code>data</code>
 containing the genus-level identifications.</p></dd>
 
 
@@ -116,14 +116,14 @@ containing the genus-level identifications.</p></dd>
 <dd><p><code>character</code>. Other named arguments specifying columns of
 higher levels of taxonomy (e.g. subfamily, order, superclass). The names of
 the arguments will be the column names of the output, and the values of the
-arguments correspond to the columns of <code>occdf</code>. The given order of the
+arguments correspond to the columns of <code>data</code>. The given order of the
 arguments is the order in which they are filtered. Therefore, these arguments
 must be in ascending order from lowest to highest taxonomic rank (see
 examples below). At least one higher level of taxonomy must be specified.</p></dd>
 
 
 <dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
-<dd><p><code>character</code>. The name of the column in <code>occdf</code>
+<dd><p><code>character</code>. The name of the column in <code>data</code>
 containing the taxonomic names at mixed taxonomic levels; the data column
 "accepted_name" in a <a href="https://paleobiodb.org/#/" class="external-link">Paleobiology Database</a>
 occurrence dataframe is of this type.</p></dd>
@@ -145,7 +145,7 @@ the unique names appended as a new column?</p></dd>
 "species" or "genus" in the dataset (depending on the chosen resolution).
 The dataframe will include the taxonomic information provided into the
 function, as well as a column providing the 'unique' names of each taxon. If
-<code>append</code> is <code>TRUE</code>, the original dataframe (<code>occdf</code>) will be
+<code>append</code> is <code>TRUE</code>, the original dataframe (<code>data</code>) will be
 returned with these 'unique' names appended as a new column. Occurrences that
 are identified to a coarse taxonomic resolution and belong to a clade which
 is already represented within the dataset will have their 'unique' names
@@ -217,27 +217,27 @@ Biological Reviews, 86, 157-181. <a href="https://doi.org/10.1111/j.1469-185X.20
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#Retain unique species</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">species</span> <span class="op">&lt;-</span> <span class="fu">tax_unique</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, genus <span class="op">=</span> <span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span>,</span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">species</span> <span class="op">&lt;-</span> <span class="fu">tax_unique</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, genus <span class="op">=</span> <span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span>,</span></span>
 <span class="r-in"><span>order <span class="op">=</span> <span class="st">"order"</span>, class <span class="op">=</span> <span class="st">"class"</span>, name <span class="op">=</span> <span class="st">"accepted_name"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Retain unique genera</span></span></span>
-<span class="r-in"><span><span class="va">genera</span> <span class="op">&lt;-</span> <span class="fu">tax_unique</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, genus <span class="op">=</span> <span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span>,</span></span>
+<span class="r-in"><span><span class="va">genera</span> <span class="op">&lt;-</span> <span class="fu">tax_unique</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, genus <span class="op">=</span> <span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span>,</span></span>
 <span class="r-in"><span>order <span class="op">=</span> <span class="st">"order"</span>, class <span class="op">=</span> <span class="st">"class"</span>, resolution <span class="op">=</span> <span class="st">"genus"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Append unique names to the original occurrences</span></span></span>
-<span class="r-in"><span><span class="va">genera_append</span> <span class="op">&lt;-</span> <span class="fu">tax_unique</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, genus <span class="op">=</span> <span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span>,</span></span>
+<span class="r-in"><span><span class="va">genera_append</span> <span class="op">&lt;-</span> <span class="fu">tax_unique</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, genus <span class="op">=</span> <span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span>,</span></span>
 <span class="r-in"><span>order <span class="op">=</span> <span class="st">"order"</span>, class <span class="op">=</span> <span class="st">"class"</span>, resolution <span class="op">=</span> <span class="st">"genus"</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Create dataframe from lists</span></span></span>
-<span class="r-in"><span><span class="va">occdf2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rex"</span>, <span class="st">"aegyptiacus"</span>, <span class="cn">NA</span><span class="op">)</span>, genus <span class="op">=</span></span></span>
+<span class="r-in"><span><span class="va">data2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rex"</span>, <span class="st">"aegyptiacus"</span>, <span class="cn">NA</span><span class="op">)</span>, genus <span class="op">=</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tyrannosaurus"</span>, <span class="st">"Spinosaurus"</span>, <span class="cn">NA</span><span class="op">)</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tyrannosauridae"</span>,</span></span>
 <span class="r-in"><span><span class="st">"Spinosauridae"</span>, <span class="st">"Diplodocidae"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dinosaur_species</span> <span class="op">&lt;-</span> <span class="fu">tax_unique</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf2</span>, species <span class="op">=</span> <span class="st">"species"</span>, genus <span class="op">=</span></span></span>
+<span class="r-in"><span><span class="va">dinosaur_species</span> <span class="op">&lt;-</span> <span class="fu">tax_unique</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data2</span>, species <span class="op">=</span> <span class="st">"species"</span>, genus <span class="op">=</span></span></span>
 <span class="r-in"><span><span class="st">"genus"</span>, family <span class="op">=</span> <span class="st">"family"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Retain unique genera per collection with group_apply</span></span></span>
-<span class="r-in"><span><span class="va">genera</span> <span class="op">&lt;-</span> <span class="fu"><a href="group_apply.html">group_apply</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>,</span></span>
+<span class="r-in"><span><span class="va">genera</span> <span class="op">&lt;-</span> <span class="fu"><a href="group_apply.html">group_apply</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,</span></span>
 <span class="r-in"><span>                     group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"collection_no"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                     fun <span class="op">=</span> <span class="va">tax_unique</span>,</span></span>
 <span class="r-in"><span>                     genus <span class="op">=</span> <span class="st">"genus"</span>,</span></span>

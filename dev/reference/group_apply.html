@@ -69,14 +69,14 @@ used.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">group_apply</span><span class="op">(</span><span class="va">occdf</span>, <span class="va">group</span>, <span class="va">fun</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">group_apply</span><span class="op">(</span><span class="va">data</span>, <span class="va">group</span>, <span class="va">fun</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-occdf">occdf<a class="anchor" aria-label="anchor" href="#arg-occdf"></a></dt>
+<dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p><code>dataframe</code>. A dataframe of fossil occurrences or taxa,
 as relevant to the desired function.
 This dataframe must contain the grouping variables and the necessary
@@ -93,7 +93,7 @@ unique combination of values.</p></dd>
 
 <dt id="arg-fun">fun<a class="anchor" aria-label="anchor" href="#arg-fun"></a></dt>
 <dd><p><code>function</code>. The function you wish to apply to
-<code>occdf</code>. See details for compatible functions.</p></dd>
+<code>data</code>. See details for compatible functions.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -150,13 +150,13 @@ same taxon per grouping variable. Note: <code>verbose</code> needs to be set to 
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Examples</span></span></span>
 <span class="r-in"><span><span class="co"># Get tetrapods data</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">tetrapods</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="op">]</span></span></span>
 <span class="r-in"><span><span class="co"># Remove NA data</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">occdf</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">genus</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">genus</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Count number of occurrences from each country</span></span></span>
-<span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, group <span class="op">=</span> <span class="st">"cc"</span>, fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, group <span class="op">=</span> <span class="st">"cc"</span>, fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Unique genera per collection with group_apply and input arguments</span></span></span>
-<span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>,</span></span>
+<span class="r-in"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,</span></span>
 <span class="r-in"><span>                   group <span class="op">=</span> <span class="st">"collection_no"</span>,</span></span>
 <span class="r-in"><span>                   fun <span class="op">=</span> <span class="va">tax_unique</span>,</span></span>
 <span class="r-in"><span>                   genus <span class="op">=</span> <span class="st">"genus"</span>,</span></span>
@@ -165,16 +165,16 @@ same taxon per grouping variable. Note: <code>verbose</code> needs to be set to 
 <span class="r-in"><span>                   class <span class="op">=</span> <span class="st">"class"</span>,</span></span>
 <span class="r-in"><span>                   resolution <span class="op">=</span> <span class="st">"genus"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Use multiple variables (number of occurrences per collection and formation)</span></span></span>
-<span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>,</span></span>
+<span class="r-in"><span><span class="va">ex3</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,</span></span>
 <span class="r-in"><span>                   group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"collection_no"</span>, <span class="st">"formation"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                   fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Compute counts of occurrences per latitudinal bin</span></span></span>
 <span class="r-in"><span><span class="co"># Set up lat bins</span></span></span>
 <span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="lat_bins_degrees.html">lat_bins_degrees</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># bin occurrences</span></span></span>
-<span class="r-in"><span><span class="va">occdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="bin_lat.html">bin_lat</a></span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, bins <span class="op">=</span> <span class="va">bins</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="bin_lat.html">bin_lat</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, bins <span class="op">=</span> <span class="va">bins</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Calculate number of occurrences per bin</span></span></span>
-<span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>occdf <span class="op">=</span> <span class="va">occdf</span>, group <span class="op">=</span> <span class="st">"lat_bin"</span>, fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ex4</span> <span class="op">&lt;-</span> <span class="fu">group_apply</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, group <span class="op">=</span> <span class="st">"lat_bin"</span>, fun <span class="op">=</span> <span class="va">nrow</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

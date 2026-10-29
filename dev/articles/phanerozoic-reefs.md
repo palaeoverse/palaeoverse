@@ -134,7 +134,7 @@ function across subsets of data.
 
 # How many reefs per interval?
 # Let's group by the interval column to test
-reef_counts <- group_apply(occdf = reefs, group = "interval", fun = nrow)
+reef_counts <- group_apply(data = reefs, group = "interval", fun = nrow)
 head(reef_counts)
 ```
 
@@ -168,7 +168,7 @@ assign international geological stage names and numeric ages.
 # Load the interval key
 data("interval_key")
 # Assign a common time scale based on an interval key
-reefs <- look_up(occdf = reefs,
+reefs <- look_up(data = reefs,
                  early_interval = "interval",
                  late_interval = "interval",
                  int_key = interval_key)
@@ -213,21 +213,21 @@ colnames(reefs)[which(colnames(reefs) == "interval_min_ma")] <- "min_ma"
 # Five methods exist in bin_time for binning occurrence data
 # You can see details on each via ?bin_time
 # Bin by midpoint age
-bin_time(occdf = reefs, bins = bins, method = "mid")
+bin_time(data = reefs, bins = bins, method = "mid")
 # Bin by overlap majority
-bin_time(occdf = reefs, bins = bins, method = "majority")
+bin_time(data = reefs, bins = bins, method = "majority")
 # Bin into every bin within age range
-bin_time(occdf = reefs, bins = bins, method = "all")
+bin_time(data = reefs, bins = bins, method = "all")
 # Bin randomly into bins within age range (equal probability)
-bin_time(occdf = reefs, bins = bins, method = "random", reps = 10)
+bin_time(data = reefs, bins = bins, method = "random", reps = 10)
 # Bin randomly into bins within age range (uniform probability)
-bin_time(occdf = reefs, bins = bins, method = "point", reps = 10)
+bin_time(data = reefs, bins = bins, method = "point", reps = 10)
 ```
 
 ``` r
 
 # Let's go with "all" for this example!
-reefs <- bin_time(occdf = reefs, bins = bins, method = "all")
+reefs <- bin_time(data = reefs, bins = bins, method = "all")
 ```
 
 Note that the number of rows of `reefs` have now increased. This is
@@ -239,7 +239,7 @@ Let’s check those reef numbers through time again using our binned data:
 ``` r
 
 # Count number of occurrences per interval
-reefs_time <- group_apply(occdf = reefs, group = "interval_mid_ma", fun = nrow)
+reefs_time <- group_apply(data = reefs, group = "interval_mid_ma", fun = nrow)
 # Check output
 head(reefs_time)
 ```
@@ -295,7 +295,7 @@ with their respective palaeocoordinates. Let’s give it a shot:
 ``` r
 
 # Palaeorotate occurrences
-reefs <- palaeorotate(occdf = reefs, age = "bin_midpoint",
+reefs <- palaeorotate(data = reefs, age = "bin_midpoint",
                       method = "point", model = "PALEOMAP")
 ```
 
@@ -375,7 +375,7 @@ al. 2021).
 # First, let's define the models...
 models <- c("GOLONKA", "PALEOMAP", "MERDITH2021")
 # And now palaeorotate!
-reefs <- palaeorotate(occdf = reefs, age = "bin_midpoint",
+reefs <- palaeorotate(data = reefs, age = "bin_midpoint",
                       method = "point", model = models)
 ```
 
@@ -411,14 +411,14 @@ calculate the most poleward reef occurrence for each model.
 
 # Let's code a little helper function to begin with.
 # This is generally useful when repeating code several times!
-p_lat_max <- function(occdf, midpoint, p_lat) {
+p_lat_max <- function(data, midpoint, p_lat) {
   # Get absolute palaeolatitudes
-  occdf[, p_lat] <- abs(occdf[, p_lat])
+  data[, p_lat] <- abs(data[, p_lat])
   # Extract unique bin midpoints
-  midpoints <- sort(unique(occdf[, midpoint]))
+  midpoints <- sort(unique(data[, midpoint]))
   # Calculate maximum palaeolatitude for each bin
   lat_max <- sapply(X = midpoints, FUN = function(x) {
-    max(occdf[which(occdf[, midpoint] == x), ][, p_lat], na.rm = TRUE)
+    max(data[which(data[, midpoint] == x), ][, p_lat], na.rm = TRUE)
   })
   # Bind data
   lat_max <- cbind.data.frame(midpoints, lat_max)
@@ -426,13 +426,13 @@ p_lat_max <- function(occdf, midpoint, p_lat) {
   return(lat_max)
 }
 # Calculate maximum palaeolatitude of reefs for each time bin for each model
-paleomap <- p_lat_max(occdf = reefs,
+paleomap <- p_lat_max(data = reefs,
                       midpoint = "bin_midpoint",
                       p_lat = "p_lat_PALEOMAP")
-golonka <- p_lat_max(occdf = reefs,
+golonka <- p_lat_max(data = reefs,
                      midpoint = "bin_midpoint",
                      p_lat = "p_lat_GOLONKA")
-merdith <- p_lat_max(occdf = reefs,
+merdith <- p_lat_max(data = reefs,
                      midpoint = "bin_midpoint",
                      p_lat = "p_lat_MERDITH2021")
 # Set up plot

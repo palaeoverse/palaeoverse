@@ -259,13 +259,14 @@ line with available functions in `palaeoverse`. For example, all
 functions that bin data, whether it be by time or space, start with
 `bin_`, whereas taxonomic-related functions start with `tax_`
 (e.g. `tax_unique`, `tax_check`). Where possible, argument names should
-also consist with functions in the package. For example, if a function
-requires an occurrence dataframe as input, the argument name should be
-`occdf`. It is difficult to give a complete static summary of all the
-conventions as `palaeoverse` will undoubtedly evolve over time. We also
-wish to remain flexible for contributors, provided that it does not
-compromise the user-friendliness of the package. We welcome contributors
-to check through the source code of `palaeoverse` for function examples.
+also be consistent with other functions in the package. For example, if
+a function requires an occurrence dataframe as input, the argument name
+should be `data`. It is difficult to give a complete static summary of
+all the conventions as `palaeoverse` will undoubtedly evolve over time.
+We also wish to remain flexible for contributors, provided that it does
+not compromise the user-friendliness of the package. We welcome
+contributors to check through the source code of `palaeoverse` for
+function examples.
 
 ### Documentation
 

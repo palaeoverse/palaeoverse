@@ -7,7 +7,7 @@ occurrence data.
 
 ``` r
 tax_range_strat(
-  occdf,
+  data,
   name = "genus",
   level = "bed",
   group = NULL,
@@ -21,7 +21,7 @@ tax_range_strat(
 
 ## Arguments
 
-- occdf:
+- data:
 
   `dataframe`. A dataframe of fossil occurrences containing at least two
   columns: names of taxa, and their stratigraphic position (see `name`
@@ -151,19 +151,19 @@ beds_sampled <- sample.int(n = 10, size = 50, replace = TRUE)
 # Simulate certainty values
 certainty_sampled <- sample(x = 0:1, size = 50, replace = TRUE)
 # Combine into data frame
-occdf <- data.frame(taxon = tetrapod_names,
+data <- data.frame(taxon = tetrapod_names,
                     bed = beds_sampled,
                     certainty = certainty_sampled)
 # Plot stratigraphic ranges
 # Update margins for plotting
 par(mar = c(12, 5, 2, 2))
-tax_range_strat(occdf, name = "taxon")
+tax_range_strat(data, name = "taxon")
 
-tax_range_strat(occdf, name = "taxon", certainty = "certainty",
+tax_range_strat(data, name = "taxon", certainty = "certainty",
                 plot_args = list(ylab = "Stratigraphic height (m)"))
 
 # Plot stratigraphic ranges with more labelling
-tax_range_strat(occdf, name = "taxon", certainty = "certainty", by = "name",
+tax_range_strat(data, name = "taxon", certainty = "certainty", by = "name",
                 plot_args = list(main = "Section A",
                                  ylab = "Stratigraphic height (m)"))
 eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
@@ -176,9 +176,9 @@ title(xlab = "Taxon", line = 10.5)
 # Update margins for plotting
 par(mar = c(12, 5, 6, 2))
 # Pull class data
-occdf$class <- tetrapods$class[1:50]
+data$class <- tetrapods$class[1:50]
 # Group stratigraphic ranges by class
-tax_range_strat(occdf, name = "taxon", group = "class",
+tax_range_strat(data, name = "taxon", group = "class",
                 certainty = "certainty", by = "name",
                 plot_args = list(main = "Section A",
                                  ylab = "Stratigraphic height (m)"))
