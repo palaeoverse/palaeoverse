@@ -77,3 +77,103 @@ test_that("H3 resolution table used by space_bins() is unchanged", {
     tolerance = 1e-8
   )
 })
+
+test_that("plot() works", {
+  skip_if_not_installed("rnaturalearthdata")
+  # There are tiny (invisible) differences on macOS, likely due to floating point differences
+  # in S2 output.
+  skip_on_os("mac")
+  out <- suppressMessages(space_bins(resolution = 1))
+
+  expect_doppelganger("space_bins", function() plot(out))
+  # `main` is passed through `...`
+  expect_doppelganger("space_bins-dots", function() {
+    plot(out, main = "hello there")
+  })
+
+  # forbidden args
+  expect_snapshot(plot(out, add = TRUE), error = TRUE)
+})
+
+test_that("space_bins plotting with custom centres works", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  out <- suppressMessages(space_bins(resolution = 1))
+
+  expect_doppelganger("space_bins-four-centres", function() {
+    plot(
+      out,
+      centres = list(
+        c(lat = 0, lon = 0),
+        c(lat = 0, lon = 180),
+        c(lat = 90, lon = 0),
+        c(lat = -90, lon = 0)
+      )
+    )
+  })
+  expect_doppelganger("space_bins-bbox", function() {
+    plot(
+      out,
+      centres = list(
+        c(lat = 45, lon = 10),
+        c(xmin = -10, xmax = 40, ymin = 30, ymax = 60),
+        c(xmin = -120, xmax = -60, ymin = 10, ymax = 40)
+      )
+    )
+  })
+
+  expect_snapshot(plot(out, centres = c(lat = 0, lon = 0)), error = TRUE)
+  expect_snapshot(
+    plot(out, centres = rep(list(c(lat = 0, lon = 0)), 5)),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list("a", c(foo = -10, xmax = 40, ymin = 30, ymax = 80))),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list(c(xmin = 40, xmax = -10, ymin = 30, ymax = 60))),
+    error = TRUE
+  )
+})
+
+test_that("space_bins plotting with custom first layer and subtitles works", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  out <- suppressMessages(space_bins(resolution = 1))
+
+  expect_doppelganger("space_bins-no-first-layer", function() {
+    plot(out, first_layer = NULL)
+  })
+
+  coastlines <- readRDS(testthat::test_path("test_dat", "coastlines_test.rds"))
+
+  # rgplates returns a POLYGON
+  expect_doppelganger("space_bins-custom-first-layer-polygon", function() {
+    plot(out, first_layer = coastlines)
+  })
+
+  coastlines <- sf::st_cast(sf::st_geometry(coastlines), "MULTILINESTRING")
+  expect_doppelganger(
+    "space_bins-custom-first-layer-multilinestring",
+    function() {
+      plot(out, first_layer = coastlines)
+    }
+  )
+
+  points <- sf::st_as_sf(
+    data.frame(lng = c(-120, 0, 30, 150), lat = c(40, -10, 60, -30)),
+    coords = c("lng", "lat"),
+    crs = "EPSG:4326"
+  )
+  expect_doppelganger("space_bins-custom-first-layer-points", function() {
+    plot(out, first_layer = points)
+  })
+
+  expect_doppelganger("space_bins-subtitles", function() {
+    plot(out, main = "Grid", subtitles = c("Africa", "Pacific", "Americas"))
+  })
+
+  expect_snapshot(plot(out, first_layer = 1), error = TRUE)
+  expect_snapshot(plot(out, subtitles = c("a", "b")), error = TRUE)
+})
