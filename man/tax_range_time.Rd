@@ -11,7 +11,8 @@ tax_range_time(
   min_ma = "min_ma",
   max_ma = "max_ma",
   group = NULL,
-  by = "FAD",
+  sort = "FAD",
+  by = deprecated(),
   plot = deprecated(),
   plot_args = deprecated(),
   intervals = deprecated()
@@ -47,9 +48,11 @@ as the maximum limit of the age range, e.g. "max_ma" (default).}
 as the grouping variable, e.g. "family". If not supplied, all taxa are
 treated as a single group.}
 
-\item{by}{\code{character}. How should the output be sorted?
+\item{sort}{\code{character}. How should the output be sorted?
 Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 or "name" (alphabetically by taxon names).}
+
+\item{by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{sort} instead.}
 
 \item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
 output of this function instead.}
@@ -110,10 +113,8 @@ The following graphical parameters have default values that differ from base R:
 \item \code{yaxs = "i"}: the style of y-axis interval calculation (see \code{\link[graphics:par]{graphics::par()}}).
 }
 
-The graphical parameters are reset when \code{plot()} exits. To add elements to
-the plot, re-apply the parameters returned by \code{plot()} with
-\code{op <- par(plot(x))}, add the elements, and then restore the previous
-parameters with \code{par(op)} (see Examples).
+The graphical parameters are reset when \code{plot()} exits. See 'Examples' to know how to add
+components to the plot.
 }
 \section{Developer(s)}{
 
@@ -151,8 +152,8 @@ occdf$class <- factor(x = occdf$class,
 ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
 plot(ex)
 
-# Add elements to the plot (here, the Carboniferous-Permian boundary)
+# Add elements to the plot
 op <- par(plot(ex))
-abline(v = 298.9, lty = 2, col = "red")
+abline(v = 290, lty = 2, col = "red")
 par(op)
 }
