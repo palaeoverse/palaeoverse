@@ -35,7 +35,7 @@
 #'   `max_bin_certain`) are also returned.
 #'
 #'   This \code{data.frame} has attributes starting with
-#'   `palaeoverse_tax_range_strat_` that are for internal use only.
+#'   `palaeoverse_tax_range_strat_*` that are for internal use only.
 #'
 #' @section Developer(s): Bethany Allen, William Gearty, Lewis A. Jones &
 #'   Alexander Dunhill
@@ -238,7 +238,7 @@ tax_range_strat <- function(
 #'   groups. Must be either a single colour used for all groups, or of the
 #'   same length as the number of unique groups. If `NULL`, the group
 #'   backgrounds are not coloured.
-#' @param axis A function call drawing the y-axis, such as [graphics::axis()].
+#' @param axis A function call drawing an axis, such as [axis_geo()] or [graphics::axis()].
 #'   If `NULL` (default), the y-axis has a tick at each sampled stratigraphic
 #'   level.
 #'

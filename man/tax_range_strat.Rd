@@ -65,7 +65,7 @@ created by \code{tax_range_strat()}.}
 arguments are already set internally and must not be specified here:
 \code{y}, \code{axes}, \code{type}, \code{xaxs}.}
 
-\item{axis}{A function call drawing the y-axis, such as \code{\link[graphics:axis]{graphics::axis()}}.
+\item{axis}{A function call drawing an axis, such as \code{\link[=axis_geo]{axis_geo()}} or \code{\link[graphics:axis]{graphics::axis()}}.
 If \code{NULL} (default), the y-axis has a tick at each sampled stratigraphic
 level.}
 
@@ -89,7 +89,7 @@ the certain occurrences of each taxon (\code{min_bin_certain} and
 \code{max_bin_certain}) are also returned.
 
 This \code{data.frame} has attributes starting with
-\code{palaeoverse_tax_range_strat_} that are for internal use only.
+\verb{palaeoverse_tax_range_strat_*} that are for internal use only.
 
 \code{plot()} invisibly returns a list with the graphical parameters
 \code{mar} and \code{usr} used to draw the plot (see \code{\link[graphics:par]{graphics::par()}}).
