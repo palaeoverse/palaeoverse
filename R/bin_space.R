@@ -71,7 +71,10 @@
 #'   bin_space(bins = space_bins(spacing = 1000)) |>
 #'   bin_space(bins = space_bins(spacing = 250))
 #'
-#' plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"))
+#' # Customise the plot to have title and subtitles, and to make filled hexagons
+#' # slightly transparent
+#' plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"),
+#'      col = adjustcolor("red", alpha.f = 0.5))
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
