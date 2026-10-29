@@ -173,15 +173,259 @@ test_that("bin_space error handling", {
   )
 })
 
-test_that("plot argument works", {
+test_that("plot() works", {
+  skip_if_not_installed("rnaturalearthdata")
+  # There are tiny (invisible) differences on macOS, likely due to floating point differences
+  # in S2 output.
+  skip_on_os("mac")
   # Reduce data size for faster testing
   data <- head(tetrapods, n = 100)
 
-  expect_doppelganger("bin_space", {
-    out <- bin_space(
-      data = data,
-      bins = space_bins(spacing = 1000),
-      plot = TRUE
+  out <- suppressMessages(
+    bin_space(data = data, bins = space_bins(spacing = 1000))
+  )
+  expect_doppelganger("bin_space", function() plot(out))
+})
+
+test_that("plot() works with several resolutions", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  data <- head(tetrapods, n = 100)
+
+  expect_doppelganger("bin_space-two-resolutions", function() {
+    data |>
+      bin_space(bins = space_bins(resolution = 2)) |>
+      bin_space(bins = space_bins(resolution = 1)) |>
+      suppressMessages() |>
+      plot()
+  })
+  expect_doppelganger("bin_space-three-resolutions", function() {
+    data |>
+      bin_space(bins = space_bins(resolution = 1)) |>
+      bin_space(bins = space_bins(resolution = 2)) |>
+      bin_space(bins = space_bins(resolution = 3)) |>
+      suppressMessages() |>
+      plot()
+  })
+
+  # No cell columns
+  out <- suppressMessages(
+    bin_space(data = data, bins = space_bins(resolution = 1))
+  )
+  out$cell_ID_1 <- NULL
+  expect_snapshot(plot(out), error = TRUE)
+})
+
+test_that("bin_space plotting with extra args works", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  data <- head(tetrapods, n = 100)
+  out <- suppressMessages(
+    bin_space(data = data, bins = space_bins(spacing = 1000))
+  )
+
+  # `main` is passed through `...`
+  expect_doppelganger("bin_space-dots", function() {
+    plot(out, main = "hello there")
+  })
+
+  # forbidden args
+  expect_snapshot(plot(out, add = TRUE), error = TRUE)
+})
+
+test_that("bin_space plotting with custom colours works", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  data <- head(tetrapods, n = 100)
+  out <- data |>
+    bin_space(bins = space_bins(resolution = 1)) |>
+    bin_space(bins = space_bins(resolution = 2)) |>
+    suppressMessages()
+
+  expect_doppelganger("bin_space-colour", function() {
+    plot(out, col = "red")
+  })
+  expect_doppelganger("bin_space-colour-vector", function() {
+    plot(out, col = c("red", "blue"))
+  })
+
+  expect_snapshot(plot(out, col = c("red", "blue", "green")), error = TRUE)
+  expect_snapshot(plot(out, col = 1), error = TRUE)
+})
+
+test_that("bin_space plotting with custom centres works", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  data <- head(tetrapods, n = 100)
+  out <- bin_space(data = data, bins = space_bins(resolution = 1)) |>
+    suppressMessages()
+
+  expect_doppelganger("bin_space-one-centre", function() {
+    plot(out, centres = list(c(lat = 45, lon = 10)))
+  })
+  expect_doppelganger("bin_space-four-centres", function() {
+    plot(
+      out,
+      centres = list(
+        c(lat = 0, lon = 0),
+        c(lat = 0, lon = 180),
+        c(lat = 90, lon = 0),
+        c(lat = -90, lon = 0)
+      )
+    )
+  })
+
+  expect_snapshot(plot(out, centres = c(lat = 0, lon = 0)), error = TRUE)
+  expect_snapshot(
+    plot(out, centres = rep(list(c(lat = 0, lon = 0)), 5)),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list(c(lat = 100, lon = 0))),
+    error = TRUE
+  )
+  expect_snapshot(plot(out, centres = list(c(45, 10))), error = TRUE)
+})
+
+test_that("bin_space plotting with bounding boxes works", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  data <- head(tetrapods, n = 100)
+  out <- data |>
+    bin_space(bins = space_bins(resolution = 1)) |>
+    bin_space(bins = space_bins(resolution = 2)) |>
+    suppressMessages()
+
+  expect_doppelganger("bin_space-bbox", function() {
+    plot(
+      out,
+      centres = list(
+        c(lat = 45, lon = 10),
+        c(xmin = -10, xmax = 40, ymin = 30, ymax = 60),
+        c(xmin = -120, xmax = -60, ymin = 10, ymax = 40)
+      )
+    )
+  })
+
+  expect_doppelganger("bin_space-bbox-single", function() {
+    plot(
+      out,
+      centres = list(c(xmin = -120, xmax = -60, ymin = 10, ymax = 40))
+    )
+  })
+
+  expect_snapshot(
+    plot(out, centres = list(c(xmin = 40, xmax = -10, ymin = 30, ymax = 60))),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list(c(xmin = -10, xmax = 40, ymin = 60, ymax = 30))),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list(c(xmin = -10, xmax = 40, ymin = 30, ymax = 100))),
+    error = TRUE
+  )
+  expect_snapshot(
+    plot(out, centres = list(c(foo = -10, xmax = 40, ymin = 30, ymax = 80))),
+    error = TRUE
+  )
+  expect_snapshot(plot(out, centres = list(c(-10, 40, 30, 60))), error = TRUE)
+
+  # Several `centres` elements are wrong
+  expect_snapshot(
+    plot(
+      out,
+      centres = list("a", c(foo = -10, xmax = 40, ymin = 30, ymax = 80))
+    ),
+    error = TRUE
+  )
+})
+
+test_that("plot() works with custom first layer", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  data <- head(tetrapods, n = 100)
+
+  out <- suppressMessages(
+    bin_space(data = data, bins = space_bins(spacing = 1000))
+  )
+  expect_doppelganger("bin_space-no-first-layer", function() {
+    plot(out, first_layer = NULL)
+  })
+
+  # coastlines <- rgplates::reconstruct("coastlines", age = 65, model = "MERDITH2021")
+  # saveRDS(coastlines, file = testthat::test_path("test_dat", "coastlines_test.rds"))
+  coastlines <- readRDS(testthat::test_path("test_dat", "coastlines_test.rds"))
+
+  # rgplates returns a POLYGON
+  expect_doppelganger("bin_space-custom-first-layer-polygon", function() {
+    plot(out, first_layer = coastlines)
+  })
+
+  coastlines <- sf::st_cast(sf::st_geometry(coastlines), "MULTILINESTRING")
+  expect_doppelganger(
+    "bin_space-custom-first-layer-multilinestring",
+    function() {
+      plot(out, first_layer = coastlines)
+    }
+  )
+
+  points <- sf::st_as_sf(
+    data.frame(lng = c(-120, 0, 30, 150), lat = c(40, -10, 60, -30)),
+    coords = c("lng", "lat"),
+    crs = "EPSG:4326"
+  )
+  expect_doppelganger("bin_space-custom-first-layer-points", function() {
+    plot(out, first_layer = points)
+  })
+
+  expect_snapshot(
+    plot(out, first_layer = 1),
+    error = TRUE
+  )
+})
+
+test_that("plot() works with subtitles", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  data <- head(tetrapods, n = 100)
+
+  out <- suppressMessages(
+    bin_space(data = data, bins = space_bins(spacing = 1000))
+  )
+  expect_doppelganger("bin_space-subtitles", function() {
+    plot(
+      out,
+      main = "Tetrapods",
+      subtitles = c("Africa", "Pacific", "Americas")
+    )
+  })
+
+  expect_snapshot(plot(out, subtitles = 1:3), error = TRUE)
+  # Default `centres` has three elements
+  expect_snapshot(plot(out, subtitles = c("a", "b")), error = TRUE)
+  expect_snapshot(
+    plot(out, centres = list(c(lat = 0, lon = 0)), subtitles = c("a", "b")),
+    error = TRUE
+  )
+})
+
+test_that("plot is deprecated but still works", {
+  skip_if_not_installed("rnaturalearthdata")
+  skip_on_os("mac")
+  data <- head(tetrapods, n = 100)
+
+  expect_doppelganger("bin_space_deprecated", function() {
+    expect_warning(
+      bin_space(
+        data = data,
+        bins = space_bins(spacing = 1000),
+        plot = TRUE
+      ) |>
+        suppressMessages(),
+      "is deprecated as of palaeoverse 2.0.0",
+      fixed = TRUE
     )
   })
 

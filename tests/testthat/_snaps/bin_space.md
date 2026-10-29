@@ -137,7 +137,170 @@
       Error in `bin_space()`:
       ! Column "lng" in `data` must be of class <numeric>, not <character>.
 
-# plot argument works
+# plot() works with several resolutions
+
+    Code
+      plot(out)
+    Condition
+      Error in `plot()`:
+      ! `x` must contain at least one column named "cell_ID_<resolution>".
+
+# bin_space plotting with extra args works
+
+    Code
+      plot(out, add = TRUE)
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `add` when calling `plot()` on an object of class <palaeoverse_bin_space>.
+      i This argument is already set by `plot()` internally.
+
+# bin_space plotting with custom colours works
+
+    Code
+      plot(out, col = c("red", "blue", "green"))
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be of class <character> and of length 1 or 2 (i.e. the number of resolutions in `x`).
+
+---
+
+    Code
+      plot(out, col = 1)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be of class <character> and of length 1 or 2 (i.e. the number of resolutions in `x`).
+
+# bin_space plotting with custom centres works
+
+    Code
+      plot(out, centres = c(lat = 0, lon = 0))
+    Condition
+      Error in `plot()`:
+      ! Argument `centres` must be a list, not a double vector.
+
+---
+
+    Code
+      plot(out, centres = rep(list(c(lat = 0, lon = 0)), 5))
+    Condition
+      Error in `plot()`:
+      ! Argument `centres` can take 4 points at most (currently it has 5).
+
+---
+
+    Code
+      plot(out, centres = list(c(lat = 100, lon = 0)))
+    Condition
+      Error in `plot()`:
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
+
+---
+
+    Code
+      plot(out, centres = list(c(45, 10)))
+    Condition
+      Error in `plot()`:
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
+
+# bin_space plotting with bounding boxes works
+
+    Code
+      plot(out, centres = list(c(xmin = 40, xmax = -10, ymin = 30, ymax = 60)))
+    Condition
+      Error in `plot()`:
+      ! Bounding boxes in `centres` must have `xmin < xmax` and `ymin < ymax`.
+
+---
+
+    Code
+      plot(out, centres = list(c(xmin = -10, xmax = 40, ymin = 60, ymax = 30)))
+    Condition
+      Error in `plot()`:
+      ! Bounding boxes in `centres` must have `xmin < xmax` and `ymin < ymax`.
+
+---
+
+    Code
+      plot(out, centres = list(c(xmin = -10, xmax = 40, ymin = 30, ymax = 100)))
+    Condition
+      Error in `plot()`:
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
+
+---
+
+    Code
+      plot(out, centres = list(c(foo = -10, xmax = 40, ymin = 30, ymax = 80)))
+    Condition
+      Error in `plot()`:
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
+
+---
+
+    Code
+      plot(out, centres = list(c(-10, 40, 30, 60)))
+    Condition
+      Error in `plot()`:
+      ! Element 1 of `centres` is invalid.
+      i It must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
+
+---
+
+    Code
+      plot(out, centres = list("a", c(foo = -10, xmax = 40, ymin = 30, ymax = 80)))
+    Condition
+      Error in `plot()`:
+      ! Elements 1 and 2 of `centres` are invalid.
+      i They must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
+
+# plot() works with custom first layer
+
+    Code
+      plot(out, first_layer = 1)
+    Condition
+      Error in `plot()`:
+      ! `first_layer` must be an object from the package sf, or `NULL`.
+
+# plot() works with subtitles
+
+    Code
+      plot(out, subtitles = 1:3)
+    Condition
+      Error in `plot()`:
+      ! Argument `subtitles` must be `NULL` or a <character> vector of length 3 (i.e. the number of elements in `centres`).
+
+---
+
+    Code
+      plot(out, subtitles = c("a", "b"))
+    Condition
+      Error in `plot()`:
+      ! Argument `subtitles` must be `NULL` or a <character> vector of length 3 (i.e. the number of elements in `centres`).
+
+---
+
+    Code
+      plot(out, centres = list(c(lat = 0, lon = 0)), subtitles = c("a", "b"))
+    Condition
+      Error in `plot()`:
+      ! Argument `subtitles` must be `NULL` or a <character> vector of length 1 (i.e. the number of elements in `centres`).
+
+# plot is deprecated but still works
 
     Code
       bin_space(data = data, bins = space_bins(spacing = 1000), plot = "foo")
@@ -146,6 +309,9 @@
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
     Condition
+      Warning:
+      The `plot` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not the string "foo".
 
@@ -158,6 +324,9 @@
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
     Condition
+      Warning:
+      The `plot` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
 
@@ -170,6 +339,9 @@
       i Average spacing between adjacent cells: 725.17 km.
       i Average cell area: 609,788.4 sq. km.
     Condition
+      Warning:
+      The `plot` argument of `bin_space()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
       Error in `bin_space()`:
       ! `plot` must be `TRUE` or `FALSE`, not the number 1.
 

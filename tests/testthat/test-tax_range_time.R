@@ -225,7 +225,7 @@ test_that("argument 'group' works", {
   expect_snapshot(tax_range_time(data, group = NA), error = TRUE)
 })
 
-test_that("argument 'by' works", {
+test_that("argument 'sort' works", {
   data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     max_ma = c(10, 8, 6, 5, 3),
@@ -245,7 +245,7 @@ test_that("argument 'by' works", {
     ignore_attr = TRUE
   )
   expect_equal(
-    tax_range_time(data, by = "LAD"),
+    tax_range_time(data, sort = "LAD"),
     data.frame(
       taxon = c("C", "B", "A"),
       taxon_id = 1:3,
@@ -257,7 +257,7 @@ test_that("argument 'by' works", {
     ignore_attr = TRUE
   )
   expect_equal(
-    tax_range_time(data, by = "name"),
+    tax_range_time(data, sort = "name"),
     data.frame(
       taxon = c("A", "B", "C"),
       taxon_id = 1:3,
@@ -270,6 +270,37 @@ test_that("argument 'by' works", {
   )
 
   # input checks
+  expect_snapshot(
+    tax_range_time(data, sort = c("genus", "min_ma")),
+    error = TRUE
+  )
+  expect_snapshot(tax_range_time(data, sort = "nonexistent"), error = TRUE)
+  expect_snapshot(tax_range_time(data, sort = 1), error = TRUE)
+  expect_snapshot(tax_range_time(data, sort = NA), error = TRUE)
+})
+
+test_that("argument 'by' is deprecated but still works", {
+  data <- data.frame(
+    genus = c("A", "A", "B", "B", "C"),
+    max_ma = c(10, 8, 6, 5, 3),
+    min_ma = c(9, 7, 5, 4, 2)
+  )
+
+  expect_warning(
+    expect_equal(
+      tax_range_time(data, by = "LAD"),
+      tax_range_time(data, sort = "LAD")
+    ),
+    "deprecated as of palaeoverse 2.0.0"
+  )
+
+  # can't have both sort and by
+  expect_snapshot(
+    tax_range_time(data, by = "LAD", sort = "LAD"),
+    error = TRUE
+  )
+
+  # still doing input checks
   expect_snapshot(
     tax_range_time(data, by = c("genus", "min_ma")),
     error = TRUE

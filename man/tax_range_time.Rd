@@ -11,7 +11,8 @@ tax_range_time(
   min_ma = "min_ma",
   max_ma = "max_ma",
   group = NULL,
-  by = "FAD",
+  sort = "FAD",
+  by = deprecated(),
   plot = deprecated(),
   plot_args = deprecated(),
   intervals = deprecated()
@@ -47,9 +48,11 @@ as the maximum limit of the age range, e.g. "max_ma" (default).}
 as the grouping variable, e.g. "family". If not supplied, all taxa are
 treated as a single group.}
 
-\item{by}{\code{character}. How should the output be sorted?
+\item{sort}{\code{character}. How should the output be sorted?
 Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 or "name" (alphabetically by taxon names).}
+
+\item{by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{sort} instead.}
 
 \item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
 output of this function instead.}
