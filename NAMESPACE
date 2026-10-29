@@ -51,13 +51,15 @@ importFrom(graphics,
   mtext,
   par,
   plot,
+  plot.new,
   points,
   polygon,
   rect,
   segments,
   strheight,
   strwidth,
-  text
+  text,
+  title
 )
 importFrom(h3jsr,
   cell_to_point,
