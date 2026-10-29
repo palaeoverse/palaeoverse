@@ -110,7 +110,7 @@ tetrapods[1:5, 35:37]
 
 As you can see we've got some new columns with updated interval ages. Handy!
 
-Now we're ready to bin the occurrences into these time bins using `bin_time`. For now, we'll go with the 'mid' method, but we'll talk about this more in a minute.
+Now we're ready to bin the occurrences into these time bins using `bin_time_mid()`. For now, we'll go with the 'mid' method, but we'll talk about this more in a minute.
 
 ```{r, error = TRUE}
 # Rename columns so that new intervals are used for binning
@@ -118,21 +118,19 @@ colnames(tetrapods)[9:10] <- c("old_max_ma", "old_min_ma")
 colnames(tetrapods)[c(35, 37)] <- c("max_ma", "min_ma")
 
 # Generate time bins
-tetrapods <- bin_time(occdf = tetrapods,
-                      bins = bins,
-                      method = "mid")
+tetrapods <- bin_time_mid(occdf = tetrapods,
+                          bins = bins)
 ```
 
-Oh no! We've hit an error. This is because there's some occurrences that sit outside of the time intervals we're interested in. `bin_time` can't bin occurrences which sit outside of the time intervals you've chosen, so for it to work, we'll first have to remove these occurrences.
+Oh no! We've hit an error. This is because there's some occurrences that sit outside of the time intervals we're interested in. `bin_time_mid()` can't bin occurrences which sit outside of the time intervals you've chosen, so for it to work, we'll first have to remove these occurrences.
 
 ```{r}
 # Remove occurrences that are younger than the time intervals we're interested in
 cp_tetrapods <- subset(tetrapods, min_ma > min(bins$min_ma))
 
 # Bin occurrences into chosen time bins
-mid_tetrapods <- bin_time(occdf = cp_tetrapods,
-                          bins = bins,
-                          method = "mid")
+mid_tetrapods <- bin_time_mid(occdf = cp_tetrapods,
+                              bins = bins)
 ```
 
 That's better! Let's see how our dataset has changed.
@@ -150,13 +148,12 @@ table(mid_tetrapods$n_bins) # raw counts
 table(mid_tetrapods$n_bins) / nrow(mid_tetrapods) # proportions
 ```
 
-As you can see, only ~25% of the dataset can be assigned to just one bin - the other occurrences can't be confidently assigned to an individual time interval. This is where the other methods for the `bin_time` function come in handy. They provide the user with different options when assigning occurrences to bins. Instead of the 'mid' method, let's try the 'majority' method instead, which places the occurrences in the bin which covers the majority of their potential time range.
+As you can see, only ~25% of the dataset can be assigned to just one bin - the other occurrences can't be confidently assigned to an individual time interval. This is where the other `bin_time_*()` functions come in handy. They provide the user with different options when assigning occurrences to bins. Instead of the 'mid' method, let's try the 'majority' method instead, which places the occurrences in the bin which covers the majority of their potential time range.
 
 ```{r}
 # Bin occurrences into chosen time bins
-maj_tetrapods <- bin_time(occdf = cp_tetrapods,
-                          bins = bins,
-                          method = "majority")
+maj_tetrapods <- bin_time_majority(occdf = cp_tetrapods,
+                                   bins = bins)
 ```
 
 We'd recommend playing around with these different options and seeing how they impact your results!

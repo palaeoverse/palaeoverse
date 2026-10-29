@@ -109,7 +109,7 @@ reefs <- look_up(occdf = reefs,
 reefs[100:110, 15:19]
 ```
 
-Great! We now have a common time scale and numeric ages. However, some of our reefs seem to range through several stages and we can't count just by the early or late stage. Our data still need to be binned. Let's check out the `time_bins` and `bin_time` functions.
+Great! We now have a common time scale and numeric ages. However, some of our reefs seem to range through several stages and we can't count just by the early or late stage. Our data still need to be binned. Let's check out the `time_bins()` and `bin_time_*()` functions.
 
 ```{r echo = TRUE, eval = TRUE}
 # Now we have numeric ages for our data, we can easily
@@ -118,33 +118,33 @@ reefs <- subset(reefs, interval_max_ma <= 541)
 # Extract Phanerozoic stage-level stages for time bins
 bins <- time_bins(interval = "Phanerozoic", rank = "stage")
 # Bin data
-# bin_time requires "max_ma" and "min_ma" columns
+# bin_time_*() functions require "max_ma" and "min_ma" columns
 # Rename columns in reefs
 colnames(reefs)[which(colnames(reefs) == "interval_max_ma")] <- "max_ma"
 colnames(reefs)[which(colnames(reefs) == "interval_min_ma")] <- "min_ma"
 ```
 
 ```{r echo = TRUE, eval = FALSE}
-# Five methods exist in bin_time for binning occurrence data
+# Five bin_time_*() functions exist for binning occurrence data
 # You can see details on each via ?bin_time
 # Bin by midpoint age
-bin_time(occdf = reefs, bins = bins, method = "mid")
+bin_time_mid(occdf = reefs, bins = bins)
 # Bin by overlap majority
-bin_time(occdf = reefs, bins = bins, method = "majority")
+bin_time_majority(occdf = reefs, bins = bins)
 # Bin into every bin within age range
-bin_time(occdf = reefs, bins = bins, method = "all")
+bin_time_all(occdf = reefs, bins = bins)
 # Bin randomly into bins within age range (equal probability)
-bin_time(occdf = reefs, bins = bins, method = "random", reps = 10)
+bin_time_random(occdf = reefs, bins = bins, reps = 10)
 # Bin randomly into bins within age range (uniform probability)
-bin_time(occdf = reefs, bins = bins, method = "point", reps = 10)
+bin_time_point(occdf = reefs, bins = bins, reps = 10)
 ```
 
 ```{r echo = TRUE, eval = TRUE}
 # Let's go with "all" for this example!
-reefs <- bin_time(occdf = reefs, bins = bins, method = "all")
+reefs <- bin_time_all(occdf = reefs, bins = bins)
 ```
 
-Note that the number of rows of `reefs` have now increased. This is because the "all" method in `bin_time` duplicates an occurrence for every bin the age range overlaps with.
+Note that the number of rows of `reefs` have now increased. This is because `bin_time_all()` duplicates an occurrence for every bin the age range overlaps with.
 
 Let's check those reef numbers through time again using our binned data:
 
