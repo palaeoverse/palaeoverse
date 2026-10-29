@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' data-engine-version='2.0' width='720.00pt' height='576.00pt' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA='>
+    <rect x='0.00' y='0.00' width='720.00' height='576.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<text transform='translate(12.96,260.63) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='65.38px' lengthAdjust='spacingAndGlyphs'>Bed number</text>
+<text x='374.40' y='37.44' text-anchor='middle' style='font-size: 14.40px; font-weight: bold; font-family: sans;' textLength='168.91px' lengthAdjust='spacingAndGlyphs'>Stratigraphic range of taxa</text>
+</g>
+<defs>
+  <clipPath id='cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg=='>
+    <rect x='59.04' y='73.44' width='630.72' height='374.38' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg==)'>
+<rect x='59.04' y='-374.90' width='252.29' height='924.41' style='stroke-width: 0.75;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<line x1='185.18' y1='73.44' x2='185.18' y2='73.44' style='stroke-width: 0.75;' />
+<line x1='185.18' y1='73.44' x2='185.18' y2='66.24' style='stroke-width: 0.75;' />
+<text x='185.18' y='56.16' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>A</text>
+</g>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg==)'>
+<rect x='311.33' y='-374.90' width='126.14' height='924.41' style='stroke-width: 0.75;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<line x1='374.40' y1='73.44' x2='374.40' y2='73.44' style='stroke-width: 0.75;' />
+<line x1='374.40' y1='73.44' x2='374.40' y2='66.24' style='stroke-width: 0.75;' />
+<text x='374.40' y='56.16' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.01px' lengthAdjust='spacingAndGlyphs'>B</text>
+</g>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg==)'>
+<rect x='437.47' y='-374.90' width='252.29' height='924.41' style='stroke-width: 0.75;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<line x1='563.62' y1='73.44' x2='563.62' y2='73.44' style='stroke-width: 0.75;' />
+<line x1='563.62' y1='73.44' x2='563.62' y2='66.24' style='stroke-width: 0.75;' />
+<text x='563.62' y='56.16' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='8.67px' lengthAdjust='spacingAndGlyphs'>C</text>
+</g>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDczLjQ0fDQ0Ny44Mg==)'>
+<line x1='122.11' y1='433.96' x2='122.11' y2='433.96' style='stroke-width: 1.12;' />
+<line x1='248.26' y1='433.96' x2='248.26' y2='318.41' style='stroke-width: 1.12;' />
+<line x1='374.40' y1='318.41' x2='374.40' y2='87.31' style='stroke-width: 1.12;' />
+<line x1='500.54' y1='318.41' x2='500.54' y2='202.86' style='stroke-width: 1.12;' />
+<line x1='626.69' y1='202.86' x2='626.69' y2='202.86' style='stroke-width: 1.12;' />
+<circle cx='248.26' cy='433.96' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='248.26' cy='318.41' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='500.54' cy='318.41' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='500.54' cy='202.86' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='626.69' cy='202.86' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='122.11' cy='433.96' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='374.40' cy='433.96' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='122.11' cy='318.41' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='374.40' cy='318.41' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='122.11' cy='87.31' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+<circle cx='374.40' cy='87.31' r='2.70' style='stroke-width: 0.75; fill: #000000;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<polygon points='59.04,447.82 689.76,447.82 689.76,73.44 59.04,73.44 ' style='stroke-width: 0.75; fill: none;' />
+<line x1='59.04' y1='433.96' x2='59.04' y2='87.31' style='stroke-width: 0.75;' />
+<line x1='59.04' y1='433.96' x2='51.84' y2='433.96' style='stroke-width: 0.75;' />
+<line x1='59.04' y1='318.41' x2='51.84' y2='318.41' style='stroke-width: 0.75;' />
+<line x1='59.04' y1='202.86' x2='51.84' y2='202.86' style='stroke-width: 0.75;' />
+<line x1='59.04' y1='87.31' x2='51.84' y2='87.31' style='stroke-width: 0.75;' />
+<text transform='translate(41.76,433.96) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>1</text>
+<text transform='translate(41.76,318.41) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>2</text>
+<text transform='translate(41.76,202.86) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>3</text>
+<text transform='translate(41.76,87.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>4</text>
+<line x1='122.11' y1='447.82' x2='626.69' y2='447.82' style='stroke-width: 0.75;' />
+<line x1='122.11' y1='447.82' x2='122.11' y2='455.02' style='stroke-width: 0.75;' />
+<line x1='248.26' y1='447.82' x2='248.26' y2='455.02' style='stroke-width: 0.75;' />
+<line x1='374.40' y1='447.82' x2='374.40' y2='455.02' style='stroke-width: 0.75;' />
+<line x1='500.54' y1='447.82' x2='500.54' y2='455.02' style='stroke-width: 0.75;' />
+<line x1='626.69' y1='447.82' x2='626.69' y2='455.02' style='stroke-width: 0.75;' />
+<text transform='translate(127.95,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='67.39px' lengthAdjust='spacingAndGlyphs'>Procolophon</text>
+<text transform='translate(254.10,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.73px' lengthAdjust='spacingAndGlyphs'>Anconastes</text>
+<text transform='translate(380.24,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='67.39px' lengthAdjust='spacingAndGlyphs'>Procolophon</text>
+<text transform='translate(506.38,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='62.04px' lengthAdjust='spacingAndGlyphs'>Araeoscelis</text>
+<text transform='translate(632.53,468.06) rotate(-45)' text-anchor='end' style='font-size: 12.00px; font-style: italic; font-family: sans;' textLength='77.41px' lengthAdjust='spacingAndGlyphs'>Edaphosaurus</text>
+<text x='374.40' y='542.88' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='33.36px' lengthAdjust='spacingAndGlyphs'>Taxon</text>
+</g>
+<defs>
+  <clipPath id='cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng=='>
+    <rect x='59.04' y='59.04' width='630.72' height='443.52' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNTkuMDR8Njg5Ljc2fDU5LjA0fDUwMi41Ng==)'>
+</g>
+</svg>

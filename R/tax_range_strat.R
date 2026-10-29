@@ -1,6 +1,6 @@
-#' Generate a stratigraphic section plot
+#' Calculate the stratigraphic ranges of fossil taxa
 #'
-#' A function to plot the stratigraphic ranges of fossil taxa from occurrence
+#' A function to calculate the stratigraphic ranges of fossil taxa from occurrence
 #' data.
 #'
 #' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing
@@ -24,54 +24,18 @@
 #' @param by \code{character}. How should the output be sorted? Either: "FAD"
 #'   (first appearance; default), "LAD" (last appearance), or "name"
 #'   (alphabetically by taxon names).
-#' @param plot_args A list of optional arguments that are passed directly to
-#'   [graphics::plot()]. Subsets of these arguments are also passed to
-#'   [graphics::segments()] and [graphics::points()] (see Details). Useful
-#'   arguments include `xlab` (the x-axis label), `ylab` (the y-axis label,
-#'   default is "Bed number"), `main` (the plot title), `xlim` (the x-axis
-#'   limits), and `ylim` (the y-axis limits). The `axes` and `type` arguments
-#'   are not supported and will be overridden.
-#' @param x_args A list of optional arguments that are passed directly to
-#'   [axis()] when generating the x-axis. Useful arguments include `font` (e.g.,
-#'   `3` is italic) and `las` (label orientation). The `side` argument is not
-#'   supported and will be overridden. If the `at` and `labels` arguments are
-#'   not specified, the x-axis tick labels will be set to the taxon names.
-#' @param y_args A list of optional arguments that are passed directly to
-#'   [axis()] when generating the y-axis. Useful arguments include `font` (e.g.,
-#'   `3` is italic) and `las` (label orientation). The `side` argument is not
-#'   supported and will be overridden. If the `at` argument is not specified, it
-#'   will be set to a vector of the unique values from the `level` column.
+#' @param plot_args,x_args,y_args `r lifecycle::badge("deprecated")` These arguments have
+#'   been removed. Use `plot()` on the output of this function instead.
 #'
-#' @return Invisibly returns a \code{data.frame} of the calculated taxonomic
-#'   stratigraphic ranges.
+#' @return A \code{data.frame} containing the following columns: taxon ID
+#'   (`ID`), unique taxa (`taxon`), lowest stratigraphic level of taxon
+#'   (`min_bin`), and highest stratigraphic level of taxon (`max_bin`). If
+#'   `certainty` is supplied, the lowest and highest stratigraphic levels of
+#'   the certain occurrences of each taxon (`min_bin_certain` and
+#'   `max_bin_certain`) are also returned.
 #'
-#'   The function is usually used for its side effect, which is to create a plot
-#'   showing the stratigraphic ranges of taxa in a section, with levels at which
-#'   the taxon was sampled indicated with a point.
-#'
-#' @details Note that the default spacing for the x-axis title may cause it to
-#'   overlap with the x-axis tick labels. To avoid this, you can call
-#'   [graphics::title()] after running `tax_range_strat()` and specify both
-#'   `xlab` and `line` to add the x-axis title farther from the axis (see
-#'   examples).
-#'
-#'   The styling of the points and line segments can be adjusted by supplying
-#'   named arguments to `plot_args`. `col` (segment and point color), `lwd`
-#'   (segment width), `pch` (point symbol), `bg` (background point color for
-#'   some values of `pch`), `lty` (segment line type), and `cex` (point size)
-#'   are supported. In the case of a column being supplied to the `certainty`
-#'   argument, these arguments may be vectors of length two, in which case the
-#'   first value of the vector will be used for the "certain" points and
-#'   segments, and the second value of the vector will be used for the
-#'   "uncertain" points and segments. If only a single value is supplied, it
-#'   will be used for both. The default values for these arguments are as
-#'   follows:
-#'   - `col` = `c("black", "black")`
-#'   - `lwd` = `c(1.5, 1.5)`
-#'   - `pch` = `c(19, 21)`
-#'   - `bg` = `c("black", "white")`
-#'   - `lty` = `c(1, 2)`
-#'   - `cex` = `c(1, 1)`
+#'   This \code{data.frame} has attributes starting with
+#'   `palaeoverse_tax_range_strat_*` that are for internal use only.
 #'
 #' @section Developer(s): Bethany Allen, William Gearty, Lewis A. Jones &
 #'   Alexander Dunhill
@@ -91,31 +55,31 @@
 #' occdf <- data.frame(taxon = tetrapod_names,
 #'                     bed = beds_sampled,
 #'                     certainty = certainty_sampled)
+#'
 #' # Plot stratigraphic ranges
-#' # Update margins for plotting
-#' par(mar = c(12, 5, 2, 2))
-#' tax_range_strat(occdf, name = "taxon")
-#' tax_range_strat(occdf, name = "taxon", certainty = "certainty",
-#'                 plot_args = list(ylab = "Stratigraphic height (m)"))
+#' ex <- tax_range_strat(occdf, name = "taxon")
+#' plot(ex)
+#' ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty")
+#' plot(ex, ylab = "Stratigraphic height (m)")
+#'
 #' # Plot stratigraphic ranges with more labelling
-#' tax_range_strat(occdf, name = "taxon", certainty = "certainty", by = "name",
-#'                 plot_args = list(main = "Section A",
-#'                                  ylab = "Stratigraphic height (m)"))
+#' ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty",
+#'                       by = "name")
 #' eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
 #'                           max_age = c(0.5, 3.5),
 #'                           min_age = c(3.5, 10.5),
 #'                           color = c("#67C5CA", "#F2F91D"))
-#' axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE)
-#' title(xlab = "Taxon", line = 10.5)
+#' plot(ex, main = "Section A", ylab = "Stratigraphic height (m)",
+#'      axis = axis_geo(side = 4, intervals = eras_custom, tick_labels = FALSE))
+#'
 #' # Update margins for plotting
-#' par(mar = c(12, 5, 6, 2))
+#' par(mar = c(5, 6, 6, 2))
 #' # Pull class data
 #' occdf$class <- tetrapods$class[1:50]
 #' # Group stratigraphic ranges by class
-#' tax_range_strat(occdf, name = "taxon", group = "class",
-#'                 certainty = "certainty", by = "name",
-#'                 plot_args = list(main = "Section A",
-#'                                  ylab = "Stratigraphic height (m)"))
+#' ex <- tax_range_strat(occdf, name = "taxon", group = "class",
+#'                       certainty = "certainty", by = "name")
+#' plot(ex, main = "Section A", ylab = "Stratigraphic height (m)")
 #'
 #' @export
 tax_range_strat <- function(
@@ -125,9 +89,9 @@ tax_range_strat <- function(
   group = NULL,
   certainty = NULL,
   by = "FAD",
-  plot_args = NULL,
-  x_args = NULL,
-  y_args = NULL
+  plot_args = deprecated(),
+  x_args = deprecated(),
+  y_args = deprecated()
 ) {
   ensure_args_are_named(exceptions = "occdf")
 
@@ -150,6 +114,19 @@ tax_range_strat <- function(
 
   rlang::check_string(by)
   by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
+
+  if (
+    lifecycle::is_present(x_args) ||
+      lifecycle::is_present(y_args) ||
+      lifecycle::is_present(plot_args)
+  ) {
+    cli::cli_abort(
+      c(
+        "The arguments {.arg x_args}, {.arg y_args}, and {.arg plot_args} have been removed in {.pkg palaeoverse} 2.0.0.",
+        "i" = "Use {.fn plot} on the output of this function instead."
+      )
+    )
+  }
 
   # Create pseudo-group if not provided (enable group_apply with no groups)
   if (is.null(group)) {
@@ -233,25 +210,139 @@ tax_range_strat <- function(
   # Join to occdf
   occdf <- merge(occdf, labels, by.x = name, by.y = "taxon")
 
+  # Tidy up
+  if (!is.null(group)) {
+    ranges$group <- NULL
+  }
+
+  class(ranges) <- c("palaeoverse_tax_range_strat", class(ranges))
+  attr(ranges, "palaeoverse_tax_range_strat_group") <- group
+  attr(ranges, "palaeoverse_tax_range_strat_level") <- level
+  attr(ranges, "palaeoverse_tax_range_strat_certainty") <- certainty
+  attr(ranges, "palaeoverse_tax_range_strat_occdf") <- occdf[,
+    c("ID", level, certainty)
+  ]
+
+  return(ranges)
+}
+
+
+#' @param x `data.frame`. An object of class `"palaeoverse_tax_range_strat"`
+#'   created by `tax_range_strat()`.
+#' @param ... Extra [graphical parameters][graphics::par()] (see Details).
+#'   The following arguments are already set internally and must not be specified
+#'   here: `y`, `axes`, `type`, `xaxs`.
+#' @inheritParams lat_bins_area
+#' @param main `character`. The plot title.
+#' @param col.group `character`. The background colours to use when `x` has
+#'   groups. Must be either a single colour used for all groups, or of the
+#'   same length as the number of unique groups. If `NULL`, the group
+#'   backgrounds are not coloured.
+#' @param axis A function call drawing an axis, such as [axis_geo()] or [graphics::axis()].
+#'   If `NULL` (default), the y-axis has a tick at each sampled stratigraphic
+#'   level.
+#'
+#' @details
+#' The graphical parameters are reset when `plot()` exits. See 'Examples' to
+#' know how to add components to the plot.
+#'
+#' The styling of the points and line segments can be adjusted by supplying
+#' named arguments to `plot()`. `col` (segment and point color), `lwd`
+#' (segment width), `pch` (point symbol), `bg` (background point color for
+#' some values of `pch`), `lty` (segment line type), and `cex` (point size)
+#' are supported.
+#'
+#' If `x` contains information on certainty, these arguments may be vectors
+#' of length two, in which case the first value of the vector will be used
+#' for the "certain" points and segments, and the second value of the vector
+#' will be used for the "uncertain" points and segments. If only a single
+#' value is supplied, it will be used for both.
+#'
+#' @return `plot()` invisibly returns a list with the graphical parameters
+#'   `mar` and `usr` used to draw the plot (see [graphics::par()]).
+#'
+#' @name tax_range_strat
+#' @importFrom graphics strwidth
+#' @export
+plot.palaeoverse_tax_range_strat <- function(
+  x,
+  ...,
+  axis = NULL,
+  main = "Stratigraphic range of taxa",
+  xlab = "Taxon",
+  ylab = "Bed number",
+  col.group = c("grey85", "grey95")
+) {
+  check_forbidden_plot_args(
+    ...,
+    forbidden = c("y", "axes", "type", "xaxs"),
+    class = "palaeoverse_tax_range_strat"
+  )
+
+  ranges <- x
+  plot_args <- list(...)
+  group <- attr(x, "palaeoverse_tax_range_strat_group")
+  level <- attr(x, "palaeoverse_tax_range_strat_level")
+  certainty <- attr(x, "palaeoverse_tax_range_strat_certainty")
+  occdf <- attr(x, "palaeoverse_tax_range_strat_occdf")
+  unique_levels <- unique(occdf[, level, drop = TRUE])
+
+  axis_quo <- rlang::enquo(axis)
+  if (rlang::quo_is_null(axis_quo)) {
+    axis_quo <- rlang::quo(graphics::axis(side = 2, at = unique_levels))
+  }
+  axis_expr <- rlang::quo_get_expr(axis_quo)
+  if (!rlang::is_call(axis_expr)) {
+    cli::cli_abort(
+      "{.arg axis} must be a function call, not {.code {rlang::expr_deparse(axis_expr)}}."
+    )
+  }
+
+  # Early check so that we can throw an error early instead of having some elements
+  # being plotted and then throw an error. The `axis` expression is evaluated
+  # on a throwaway device so that the promise itself is only forced on the final plot.
+  caller_env <- rlang::current_env()
+  tryCatch(
+    {
+      cur_dev <- grDevices::dev.cur()
+      grDevices::pdf(NULL)
+      plot.new()
+      axis
+    },
+    error = function(e) {
+      cli::cli_abort(
+        "Error in {.code {rlang::expr_deparse(axis_expr)}}.",
+        parent = e,
+        call = caller_env
+      )
+    },
+    finally = {
+      grDevices::dev.off()
+      if (cur_dev > 1) grDevices::dev.set(cur_dev)
+    }
+  )
+
+  if (!is.null(group)) {
+    n_groups <- length(unique(ranges[[group]]))
+    if (
+      !missing(col.group) &&
+        !is.null(col.group) &&
+        !length(col.group) %in% c(1, n_groups)
+    ) {
+      cli::cli_abort(
+        "Length of {.arg col.group} ({.val {length(col.group)}}) must be 1 or equal to the number of unique groups in the data ({.val {n_groups}})."
+      )
+    }
+  }
+
   # Obtain uncertain occurrences
   if (!is.null(certainty)) {
     certain <- occdf[(occdf[, certainty, drop = TRUE] != 0), ]
     uncertain <- occdf[(occdf[, certainty, drop = TRUE] == 0), ]
   }
 
-  #=== Plotting ===
   # Create plot
-  dump <- c("x", "y", "axes", "type")
-  if (any(names(plot_args) %in% dump)) {
-    plot_args <- plot_args[-which(names(plot_args) %in% dump)]
-  }
   # use defaults if not set
-  if (!("xlab" %in% names(plot_args))) {
-    plot_args$xlab <- ""
-  }
-  if (!("ylab" %in% names(plot_args))) {
-    plot_args$ylab <- "Bed number"
-  }
   cols <- plot_args$col
   if (is.null(cols)) {
     cols <- c("black", "black")
@@ -288,6 +379,18 @@ tax_range_strat <- function(
   } else {
     cexs <- rep_len(cexs, 2)
   }
+  # Collect usr par for resetting
+  usrpar <- par(no.readonly = TRUE)
+  on.exit(par(usrpar))
+  # Estimate max label width
+  max_label_width <- max(strwidth(ranges$taxon, units = "inches", font = 3))
+  # Convert inches to lines (approximate conversion factor: 0.2), labels are
+  # rotated by 45 degrees
+  extra_margin <- max_label_width * sin(pi / 4) / 0.2
+  # Update bottom margin (add extra space, default is 5) and top margin to fit
+  # the group labels below the title
+  extra_top <- if (is.null(group)) 0 else 1
+  par(mar = usrpar$mar + c(extra_margin, 0, extra_top, 0))
   do.call(
     plot,
     args = c(
@@ -296,18 +399,25 @@ tax_range_strat <- function(
         y = c(min(ranges$min_bin), max(ranges$max_bin)),
         axes = FALSE,
         type = "n",
-        xaxs = "i"
+        xaxs = "i",
+        xlab = NA,
+        ylab = ylab
       ),
       plot_args
     )
   )
+  title(main = main, line = if (is.null(group)) NA else 2.5)
   # Groups provided?
   if (!is.null(group)) {
     # Calculate plotting values for groups
     s <- split(x = ranges, f = ranges[, group])
     vals_rect <- lapply(s, function(x) cbind(min(x$ID), max(x$ID)))
     # Define colours
-    cols_rect <- rep(c("grey85", "grey95"), times = length(vals_rect) / 2)
+    cols_rect <- if (is.null(col.group)) {
+      NA
+    } else {
+      rep_len(col.group, length(vals_rect))
+    }
     # Run across number of groups
     lapply(seq_along(vals_rect), function(x) {
       # Add background rectangles
@@ -390,40 +500,27 @@ tax_range_strat <- function(
       cex = cexs[2]
     )
   }
-  # Plot y-axis
-  if ("side" %in% names(y_args)) {
-    y_args <- y_args[-which(names(y_args) == "side")]
-  }
-  # Use defaults if not set
-  if (!("at" %in% names(y_args))) {
-    y_args$at <- unique(occdf$bed)
-  }
-  do.call(axis, args = c(list(side = 2), y_args))
-  # Plot x-axis
-  if ("side" %in% names(x_args)) {
-    x_args <- x_args[-which(names(x_args) == "side")]
-  }
-  # Use defaults if not set
-  if (!("font" %in% names(x_args))) {
-    x_args$font <- 3
-  }
-  if (!("las" %in% names(x_args))) {
-    x_args$las <- 2
-  }
-  if (!("at" %in% names(x_args))) {
-    x_args$at <- ranges$ID
-  }
-  if (!("labels" %in% names(x_args))) {
-    x_args$labels <- ranges$taxon
-  }
-  # Add names
-  do.call(axis, args = c(list(side = 1), x_args))
   # Add frame
   box()
-  # Tidy up
-  if (!is.null(group)) {
-    ranges$group <- NULL
-  }
-  # Return invisibly (still unsure about this)
-  invisible(ranges)
+  # Drawn after the frame so that it is on top of it
+  rlang::eval_tidy(axis_quo)
+  # Diagonal taxon labels, ending at their tick mark
+  axis(1, at = ranges$ID, labels = FALSE)
+  label_offset <- diff(grconvertY(
+    c(0, par("mgp")[2] * par("csi")),
+    from = "inches",
+    to = "user"
+  ))
+  text(
+    x = ranges$ID,
+    y = par("usr")[3] - label_offset,
+    labels = ranges$taxon,
+    font = 3,
+    srt = 45,
+    adj = c(1, 1),
+    xpd = NA
+  )
+  title(xlab = xlab, line = 2 + extra_margin)
+  # Settings needed to add elements to the plot, `par` is reset on exit
+  invisible(par(c("mar", "usr")))
 }

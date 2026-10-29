@@ -266,3 +266,65 @@
       Error in `tax_range_strat()`:
       ! `by` must be a single string, not the number 1.
 
+# tax_range_strat plotting with extra args works
+
+    Code
+      plot(tax_range_strat(occdf, group = "class"), col.group = c("red", "blue"))
+    Condition
+      Error in `plot()`:
+      ! Length of `col.group` (2) must be 1 or equal to the number of unique groups in the data (3).
+
+---
+
+    Code
+      plot(tax_range_strat(occdf), y = 1, axes = TRUE, type = "l", xaxs = "r")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `y`, `axes`, `type`, and `xaxs` when calling `plot()` on an object of class <palaeoverse_tax_range_strat>.
+      i These arguments are already set by `plot()` internally.
+
+# plot argument 'axis' works
+
+    Code
+      plot(tax_range_strat(occdf), axis = "periods")
+    Condition
+      Error in `plot()`:
+      ! `axis` must be a function call, not `"periods"`.
+
+---
+
+    Code
+      plot(tax_range_strat(occdf), axis = axis(side = 5))
+    Condition
+      Error in `plot()`:
+      ! Error in `axis(side = 5)`.
+      Caused by error in `axis()`:
+      ! invalid axis number 5
+
+# arguments 'plot_args', 'x_args' and 'y_args' are hard deprecated
+
+    Code
+      tax_range_strat(occdf, x_args = list(las = 1))
+    Condition
+      Error in `tax_range_strat()`:
+      ! The arguments `x_args`, `y_args`, and `plot_args` have been removed in palaeoverse 2.0.0.
+      i Use `plot()` on the output of this function instead.
+
+---
+
+    Code
+      tax_range_strat(occdf, y_args = list(las = 1))
+    Condition
+      Error in `tax_range_strat()`:
+      ! The arguments `x_args`, `y_args`, and `plot_args` have been removed in palaeoverse 2.0.0.
+      i Use `plot()` on the output of this function instead.
+
+---
+
+    Code
+      tax_range_strat(occdf, plot_args = list(ylab = "Height (m)"))
+    Condition
+      Error in `tax_range_strat()`:
+      ! The arguments `x_args`, `y_args`, and `plot_args` have been removed in palaeoverse 2.0.0.
+      i Use `plot()` on the output of this function instead.
+
