@@ -139,7 +139,7 @@ ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
 plot(ex1)
 
 # Make filled hexagons slightly transparent
-plot(ex1, col = adjustcolor("red", alpha.f = 0.5))
+plot(ex1, col = adjustcolor("#E69F00", alpha.f = 0.5))
 
 # Bin data using a hexagonal equal-area grid and sub-grid
 ex2 <- occdf |>
