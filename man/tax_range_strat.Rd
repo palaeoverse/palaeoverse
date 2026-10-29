@@ -61,9 +61,9 @@ been removed. Use \code{plot()} on the output of this function instead.}
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_tax_range_strat"}
 created by \code{tax_range_strat()}.}
 
-\item{...}{Extra graphical parameters (see Details). The following
-arguments are already set internally and must not be specified here:
-\code{y}, \code{axes}, \code{type}, \code{xaxs}.}
+\item{...}{Extra \link[graphics:par]{graphical parameters} (see Details).
+The following arguments are already set internally and must not be specified
+here: \code{y}, \code{axes}, \code{type}, \code{xaxs}.}
 
 \item{axis}{A function call drawing an axis, such as \code{\link[=axis_geo]{axis_geo()}} or \code{\link[graphics:axis]{graphics::axis()}}.
 If \code{NULL} (default), the y-axis has a tick at each sampled stratigraphic

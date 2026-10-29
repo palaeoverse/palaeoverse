@@ -229,9 +229,9 @@ tax_range_strat <- function(
 
 #' @param x `data.frame`. An object of class `"palaeoverse_tax_range_strat"`
 #'   created by `tax_range_strat()`.
-#' @param ... Extra graphical parameters (see Details). The following
-#'   arguments are already set internally and must not be specified here:
-#'   `y`, `axes`, `type`, `xaxs`.
+#' @param ... Extra [graphical parameters][graphics::par()] (see Details).
+#'   The following arguments are already set internally and must not be specified
+#'   here: `y`, `axes`, `type`, `xaxs`.
 #' @inheritParams lat_bins_area
 #' @param main `character`. The plot title.
 #' @param col.group `character`. The background colours to use when `x` has
