@@ -16,6 +16,8 @@ guidance to update existing code.
   and a new argument `bins` is added. The same functionality is made possible with
   the new `space_bins()` (see "New features") (#344).
 
+* In `tax_range_time()`, the argument `by` is deprecated and replaced by `sort` (#383).
+
 ## New features
 
 * New `space_bins()` to generate spatial bins. The output of this function can be passed
