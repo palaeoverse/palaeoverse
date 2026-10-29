@@ -66,15 +66,15 @@
 #' ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
 #' plot(ex1)
 #'
+#' # Make filled hexagons slightly transparent
+#' plot(ex1, col = adjustcolor("red", alpha.f = 0.5))
+#'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
 #' ex2 <- occdf |>
 #'   bin_space(bins = space_bins(spacing = 1000)) |>
 #'   bin_space(bins = space_bins(spacing = 250))
 #'
-#' # Customise the plot to have title and subtitles, and to make filled hexagons
-#' # slightly transparent
-#' plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"),
-#'      col = adjustcolor("red", alpha.f = 0.5))
+#' plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"))
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
