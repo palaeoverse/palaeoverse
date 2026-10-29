@@ -226,10 +226,10 @@ bin_space <- function(
 #'
 #' @param subtitles `character`. Titles of each globe, in the same order as `centres`. Must be
 #' `NULL` (default, no subtitles) or of length equal to the number of elements in `centres`.
-#' @param last_layer `sfc_LINESTRING` or `sfc_MULTILINESTRING`. An `sf` object indicating the last
-#' layer to be printed on each globe. If unspecified (default), it plots the modern coastlines with
-#' `sf::st_geometry(rnaturalearthdata::coastline110)`. Set `last_layer = NULL` to
-#' remove this layer.
+#' @param first_layer `sfc_LINESTRING` or `sfc_MULTILINESTRING`. An `sf` object indicating the
+#' first layer to be printed on each globe. If unspecified (default), it plots the modern coastlines
+#' with `sf::st_geometry(rnaturalearthdata::coastline110)`. Set `first_layer = NULL` to remove this
+#' layer.
 #'
 #' @details
 #' The base grid uses the coarsest resolution among the `cell_ID_*` columns, and the occupied
@@ -250,7 +250,7 @@ plot.palaeoverse_bin_space <- function(
     c(lat = 23, lon = -102)
   ),
   subtitles = NULL,
-  last_layer
+  first_layer
 ) {
   check_forbidden_plot_args(
     ...,
@@ -346,16 +346,16 @@ plot.palaeoverse_bin_space <- function(
     h3jsr::cell_to_polygon(input = unique(x[[paste0("cell_ID_", res)]]))
   })
 
-  if (missing(last_layer)) {
-    last_layer <- sf::st_geometry(rnaturalearthdata::coastline110)
+  if (missing(first_layer)) {
+    first_layer <- sf::st_geometry(rnaturalearthdata::coastline110)
   } else {
     if (
-      !is.null(last_layer) &&
-        (!inherits(last_layer, c("sfc", "sfg")) ||
-          !all(sf::st_is(last_layer, c("LINESTRING", "MULTILINESTRING"))))
+      !is.null(first_layer) &&
+        (!inherits(first_layer, c("sfc", "sfg")) ||
+          !all(sf::st_is(first_layer, c("LINESTRING", "MULTILINESTRING"))))
     ) {
       cli::cli_abort(
-        "{.arg last_layer} must be a {.code LINESTRING} or {.code MULTILINESTRING} object from the package {.pkg sf}, or {.code NULL}."
+        "{.arg first_layer} must be a {.code LINESTRING} or {.code MULTILINESTRING} object from the package {.pkg sf}, or {.code NULL}."
       )
     }
   }
@@ -446,20 +446,21 @@ plot.palaeoverse_bin_space <- function(
       hemisphere <- sf::st_intersection(hemisphere, area)
     }
 
-    do.call(
-      plot,
-      utils::modifyList(
-        list(project(grid), border = "grey80"),
-        dots
-      )
+    grid_args <- utils::modifyList(
+      list(project(grid), border = "grey80"),
+      dots
     )
+    if (!is.null(first_layer)) {
+      # Draw an invisible grid first so that the grid sets the plot dimensions
+      do.call(plot, utils::modifyList(grid_args, list(border = NA)))
+
+      # Then add the first layer
+      plot(project(first_layer), add = TRUE)
+      grid_args$add <- TRUE
+    }
+    do.call(plot, grid_args)
     for (i in seq_along(cells)) {
       plot(project(cells[[i]]), col = col[i], add = TRUE)
-    }
-
-    # Plot this last, otherwise hexagons can cover borders
-    if (!is.null(last_layer)) {
-      plot(project(last_layer), add = TRUE)
     }
 
     if (!is.null(subtitles)) {

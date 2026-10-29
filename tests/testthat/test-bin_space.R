@@ -342,7 +342,7 @@ test_that("bin_space plotting with bounding boxes works", {
   )
 })
 
-test_that("plot() works with custom last layer", {
+test_that("plot() works with custom first layer", {
   skip_if_not_installed("rnaturalearthdata")
   skip_on_os("mac")
   occdf <- head(tetrapods, n = 100)
@@ -350,8 +350,8 @@ test_that("plot() works with custom last layer", {
   out <- suppressMessages(
     bin_space(occdf = occdf, bins = space_bins(spacing = 1000))
   )
-  expect_doppelganger("bin_space-no-last-layer", function() {
-    plot(out, last_layer = NULL)
+  expect_doppelganger("bin_space-no-first-layer", function() {
+    plot(out, first_layer = NULL)
   })
 
   # coastlines <- rgplates::reconstruct("coastlines", age = 65, model = "MERDITH2021")
@@ -360,16 +360,16 @@ test_that("plot() works with custom last layer", {
 
   # rgplates returns a POLYGON instead of MULTILINESTRING
   expect_snapshot(
-    plot(out, last_layer = coastlines),
+    plot(out, first_layer = coastlines),
     error = TRUE
   )
   coastlines <- sf::st_cast(sf::st_geometry(coastlines), "MULTILINESTRING")
-  expect_doppelganger("bin_space-custom-last-layer", function() {
-    plot(out, last_layer = coastlines)
+  expect_doppelganger("bin_space-custom-first-layer", function() {
+    plot(out, first_layer = coastlines)
   })
 
   expect_snapshot(
-    plot(out, last_layer = 1),
+    plot(out, first_layer = 1),
     error = TRUE
   )
 })
