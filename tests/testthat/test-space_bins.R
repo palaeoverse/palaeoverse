@@ -128,7 +128,10 @@ test_that("space_bins plotting with custom centres works", {
     error = TRUE
   )
   expect_snapshot(
-    plot(out, centres = list("a", c(foo = -10, xmax = 40, ymin = 30, ymax = 80))),
+    plot(
+      out,
+      centres = list("a", c(foo = -10, xmax = 40, ymin = 30, ymax = 80))
+    ),
     error = TRUE
   )
   expect_snapshot(
