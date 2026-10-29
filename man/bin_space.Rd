@@ -16,7 +16,14 @@ bin_space(
   return
 )
 
-\method{plot}{palaeoverse_bin_space}(x, ..., col = NULL)
+\method{plot}{palaeoverse_bin_space}(
+  x,
+  ...,
+  col = NULL,
+  centres = list(c(lat = 0, lon = 0), c(lat = 0, lon = 180), c(lat = 23, lon = -102)),
+  subtitles = NULL,
+  first_layer
+)
 }
 \arguments{
 \item{occdf}{\code{data.frame}. A dataframe of the fossil occurrences (or
@@ -41,28 +48,39 @@ this function instead.}
 are no longer used and don't have a replacement. Pass the output of \code{space_bins()}
 to the \code{bins} argument instead.}
 
-\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.
-The base grid uses the least precise resolution among the \verb{cell_ID_*} columns, and the occupied
-cells of every resolution are drawn on top of it. The world is shown as three globes (centred on
-longitude 0, longitude 180, and Mexico) using an orthographic projection, which avoids
-distorting cells that cross the antimeridian or cover the poles. Present-day continent borders
-are drawn on top, which requires the package \code{rnaturalearthdata}.}
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.}
 
-\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. These are passed to the call to
-first layer of each globe (which draws the grid), not to the following ones that fill the
-cells. By default, the grid is drawn with \code{border = "grey80"}. \code{main} is used as the title of
-the whole figure rather than of each globe. The following arguments are
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following argument is
 already set internally and must not be specified here: \code{add}.}
 
 \item{col}{\code{character}. Colour(s) of the occupied cells. Must be of length 1 (in which case
 all resolutions have the same colour) or of length equal to the number of resolutions in \code{x},
-ordered from the least to the most precise resolution. By default, colours are taken in order
+ordered from the coarsest to the finest resolution. By default, colours are taken in order
 from the colour-blind friendly Okabe-Ito palette (see \code{\link[grDevices:palette.colors]{grDevices::palette.colors()}}).}
+
+\item{centres}{\code{list}. Views to display (at most four). These must be either:
+\itemize{
+\item \code{c(lat = , lon = )}: the whole globe centred on this point;
+\item \code{c(xmin = , xmax = , ymin = , ymax = )}: a bounding box (in longitude for \code{x} and latitude for
+\code{y}), centred on its midpoint. \code{xmax} must be greater than \code{xmin}, and \code{ymax} must be greater
+than \code{ymin}.
+}
+
+By default, three globes are centred on longitude 0, longitude 180, and -102.}
+
+\item{subtitles}{\code{character}. Titles of each globe, in the same order as \code{centres}. Must be
+\code{NULL} (default, no subtitles) or of length equal to the number of elements in \code{centres}.}
+
+\item{first_layer}{\code{sf}, \code{sfc}, or \code{sfg}. An object from the package \code{sf} (e.g. lines, polygons,
+or points) indicating the first layer to be printed on each globe. Polygons (such as continents)
+are filled in dark grey to distinguish them from oceans. If unspecified (default), it plots the
+modern coastlines with \code{sf::st_geometry(rnaturalearthdata::coastline110)}. Set
+\code{first_layer = NULL} to remove this layer.}
 }
 \value{
 A \code{data.frame} with the original input data and three new columns:
 \itemize{
-\item \verb{cell_id_\{h3_resolution\}}: the ID of the H3 cell that contains the row coordinates
+\item \verb{cell_id_\{h3_resolution\}}: the ID of the H3 cell that contains the row's coordinates
 \item \verb{cell_centroid_lat_\{h3_resolution\}}: the latitude of the H3 cell's centroid
 \item \verb{cell_centroid_lng_\{h3_resolution\}}: the longitude of the H3 cell's centroid
 }
@@ -77,7 +95,7 @@ uses the same resolution as existing columns.
 \description{
 A function to assign fossil occurrences (or any set of coordinates) to spatial
 bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
-\code{\link[=space_bins]{space_bins()}}, which creates the spatial bins required in the \code{bins} argument.
+\code{\link[=space_bins]{space_bins()}}, which creates the spatial bins required by the \code{bins} argument.
 }
 \details{
 This function assigns fossil occurrence data into
@@ -92,6 +110,12 @@ data is defined as EPSG:4326 (World Geodetic System
 1984). The user should transform their data accordingly if this is
 not appropriate. If you are unfamiliar with working with geographic data,
 we highly recommend checking out \href{https://r.geocompx.org/index.html}{Geocomputation with R}.
+
+The base grid uses the coarsest resolution among the \verb{cell_ID_*} columns, and the occupied
+cells of every resolution are drawn on top of it. The world is shown as one or several globes
+(see \code{centres}) using an orthographic projection, which avoids distorting cells that cross the
+antimeridian or cover the poles. Present-day coastlines are drawn as the first layer, which
+requires the package \code{rnaturalearthdata}.
 }
 \section{Developer(s)}{
 
@@ -104,6 +128,7 @@ Bethany Allen & Kilian Eichenseer
 }
 
 \examples{
+\dontshow{if (requireNamespace("rnaturalearthdata", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Get internal data
 data("reefs")
 
@@ -114,11 +139,15 @@ occdf <- reefs[1:250, ]
 ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
 plot(ex1)
 
+# Make filled hexagons slightly transparent
+plot(ex1, col = adjustcolor("#E69F00", alpha.f = 0.5))
+
 # Bin data using a hexagonal equal-area grid and sub-grid
 ex2 <- occdf |>
   bin_space(bins = space_bins(spacing = 1000)) |>
   bin_space(bins = space_bins(spacing = 250))
-plot(ex2)
+
+plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"))
 
 # EXAMPLE: rarefy
 # Load data
@@ -157,6 +186,7 @@ df <- lapply(bins, function(x) {
   mean(counts)
 })
 df
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=space_bins]{space_bins()}}
