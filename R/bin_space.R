@@ -213,7 +213,7 @@ bin_space <- function(
 }
 
 #' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
-#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following argument are
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following argument is
 #' already set internally and must not be specified here: `add`.
 #' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
 #' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
@@ -238,8 +238,8 @@ bin_space <- function(
 #' The base grid uses the coarsest resolution among the `cell_ID_*` columns, and the occupied
 #' cells of every resolution are drawn on top of it. The world is shown as one or several globes
 #' (see `centres`) using an orthographic projection, which avoids distorting cells that cross the
-#' antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
-#' the package `rnaturalearthdata`.
+#' antimeridian or cover the poles. Present-day coastlines are drawn as the first layer, which
+#' requires the package `rnaturalearthdata`.
 #'
 #' @name bin_space
 #' @export

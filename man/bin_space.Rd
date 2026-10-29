@@ -50,7 +50,7 @@ to the \code{bins} argument instead.}
 
 \item{x}{\code{data.frame}. An object of class \code{"palaeoverse_bin_space"} created by \code{bin_space()}.}
 
-\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following argument are
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following argument is
 already set internally and must not be specified here: \code{add}.}
 
 \item{col}{\code{character}. Colour(s) of the occupied cells. Must be of length 1 (in which case
@@ -113,8 +113,8 @@ we highly recommend checking out \href{https://r.geocompx.org/index.html}{Geocom
 The base grid uses the coarsest resolution among the \verb{cell_ID_*} columns, and the occupied
 cells of every resolution are drawn on top of it. The world is shown as one or several globes
 (see \code{centres}) using an orthographic projection, which avoids distorting cells that cross the
-antimeridian or cover the poles. Present-day continent borders are drawn on top, which requires
-the package \code{rnaturalearthdata}.
+antimeridian or cover the poles. Present-day coastlines are drawn as the first layer, which
+requires the package \code{rnaturalearthdata}.
 }
 \section{Developer(s)}{
 
