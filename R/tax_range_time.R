@@ -264,7 +264,7 @@ tax_range_time <- function(
 #' and `usr` used to draw the plot (see [graphics::par()]).
 #'
 #' @name tax_range_time
-#' @importFrom graphics points strwidth
+#' @importFrom graphics points strwidth plot.new title
 #' @export
 plot.palaeoverse_tax_range_time <- function(
   x,
