@@ -8,6 +8,7 @@ on:
 jobs:
   check-spelling:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes

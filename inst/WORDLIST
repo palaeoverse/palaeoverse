@@ -83,7 +83,6 @@ bg
 butitsuremakesthingseasiertoread
 center
 centered
-cex
 cf
 cfr
 codecov
@@ -120,8 +119,6 @@ labeled
 lat
 lintr
 lng
-lty
-lwd
 myr
 nomina
 occ
@@ -135,7 +132,6 @@ palaeorotation
 palaeoverse's
 paleobiology
 paleogeographic
-pch
 phylo
 pmag
 problematica
@@ -155,7 +151,5 @@ th
 tibble
 tidyverse
 ultrametric
-xlab
-ylab
 youtube
 zenodo
