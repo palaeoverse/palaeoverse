@@ -228,6 +228,11 @@ plot.palaeoverse_space_bins <- function(
     )
   }
 
+  # These attributes only exist when this plotting method is called from `plot.palaeoverse_bin_space()`.
+  # In this case, this plotting method is also in charge of plotting the filled cells.
+  resolution <- attr(x, "h3_resolution")
+  filled_cells <- attr(x, "filled_cells")
+
   # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
   class(x) <- setdiff(class(x), "palaeoverse_space_bins")
 
@@ -281,9 +286,10 @@ plot.palaeoverse_space_bins <- function(
   for (k in seq_along(centres)) {
     centre <- centres[[k]]
 
-    # length(centre) == 2 means that we need to draw a globe. Otherwise we only keep the part of
-    # the grid inside the bounding box.
+    # length(centre) == 2 means that we need to draw a globe. Otherwise we just need a subset
+    # of the grid.
     if (length(centre) == 2) {
+      grid <- x
       area <- NULL
       centre <- unname(centre[c("lon", "lat")])
     } else {
@@ -295,6 +301,17 @@ plot.palaeoverse_space_bins <- function(
           dfMaxLength = 1
         ),
         "EPSG:4326"
+      )
+      # `polygon_to_cells()` only returns cells whose centroid is in `area`, so add the cells of the
+      # edges and their neighbours to cover the whole area (`sf::st_cast(area, "POINT")` returns points
+      # on the edge of the bbox)
+      grid_cells <- c(
+        unlist(h3jsr::polygon_to_cells(area, res = resolution)),
+        h3jsr::point_to_cell(sf::st_cast(area, "POINT"), res = resolution)
+      )
+      grid <- h3jsr::cell_to_polygon(
+        unique(unlist(h3jsr::get_disk(unique(grid_cells), ring_size = 1))),
+        simple = TRUE
       )
       centre <- c(
         mean(centre[c("xmin", "xmax")]),
@@ -313,7 +330,7 @@ plot.palaeoverse_space_bins <- function(
     }
 
     grid_args <- utils::modifyList(
-      list(project(x), border = "grey80"),
+      list(project(grid), border = "grey80"),
       dots
     )
     if (!is.null(first_layer)) {
@@ -333,6 +350,13 @@ plot.palaeoverse_space_bins <- function(
       grid_args$add <- TRUE
     }
     do.call(plot, grid_args)
+    for (i in seq_along(filled_cells$cells)) {
+      plot(
+        project(filled_cells$cells[[i]]),
+        col = filled_cells$col[i],
+        add = TRUE
+      )
+    }
 
     if (!is.null(subtitles)) {
       graphics::title(main = subtitles[k], line = 0.5)

@@ -284,205 +284,23 @@ plot.palaeoverse_bin_space <- function(
     )
   }
 
-  if (!is.list(centres)) {
-    cli::cli_abort(
-      "Argument {.arg centres} must be a list, not {.obj_type_friendly {centres}}."
-    )
-  }
-
-  valid_centre <- function(centre) {
-    if (!is.numeric(centre) || anyNA(centre) || is.null(names(centre))) {
-      return(FALSE)
-    }
-    nms <- sort(names(centre))
-    if (identical(nms, c("lat", "lon"))) {
-      abs(centre[["lat"]]) <= 90 && abs(centre[["lon"]]) <= 180
-    } else if (identical(nms, c("xmax", "xmin", "ymax", "ymin"))) {
-      all(abs(centre[c("xmin", "xmax")]) <= 180) &&
-        all(abs(centre[c("ymin", "ymax")]) <= 90)
-    } else {
-      FALSE
-    }
-  }
-
-  invalid_centres <- !vapply(centres, valid_centre, logical(1))
-  if (any(invalid_centres)) {
-    len <- length(invalid_centres)
-    cli::cli_abort(c(
-      "{cli::qty(len)}Element{?s} {cli::cli_vec(which(invalid_centres))} of {.arg centres} {cli::qty(len)}{?is/are} invalid.",
-      "i" = "{cli::qty(len)}{?It/They} must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:",
-      "*" = "a named numeric vector {.code c(lat = , lon = )};",
-      "*" = "a named numeric vector {.code c(xmin = , xmax = , ymin = , ymax = )}."
-    ))
-  }
-  bad_bbox <- vapply(
-    centres,
-    function(centre) {
-      length(centre) == 4 &&
-        (centre[["xmin"]] >= centre[["xmax"]] ||
-          centre[["ymin"]] >= centre[["ymax"]])
-    },
-    logical(1)
+  # `base_grid` is a `space_bins` object. We add info on the filled cells and call plot.palaeoverse_space_bins(),
+  # which is then in charge of plotting everything. This avoids duplicating most of the plotting logic across
+  # these two methods.
+  base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
+  attr(base_grid, "filled_cells") <- list(
+    # Coarsest cells first so that finer cells are drawn on top
+    cells = lapply(resolutions, function(res) {
+      h3jsr::cell_to_polygon(input = unique(x[[paste0("cell_ID_", res)]]))
+    }),
+    col = col
   )
-  if (any(bad_bbox)) {
-    cli::cli_abort(
-      "Bounding boxes in {.arg centres} must have {.code xmin < xmax} and {.code ymin < ymax}."
-    )
-  }
 
-  if (!(length(centres) %in% 1:4)) {
-    cli::cli_abort(
-      "Argument {.arg centres} can take 4 points at most (currently it has {length(centres)})."
-    )
-  }
-
-  if (
-    !is.null(subtitles) &&
-      (!is.character(subtitles) || length(subtitles) != length(centres))
-  ) {
-    cli::cli_abort(
-      "Argument {.arg subtitles} must be {.code NULL} or a {.cls character} vector of length {length(centres)} (i.e. the number of elements in {.arg centres})."
-    )
-  }
-
-  # Coarsest cells first so that finer cells are drawn on top
-  cells <- lapply(resolutions, function(res) {
-    h3jsr::cell_to_polygon(input = unique(x[[paste0("cell_ID_", res)]]))
-  })
-
-  if (missing(first_layer)) {
-    first_layer <- sf::st_geometry(rnaturalearthdata::coastline110)
-  } else if (!is.null(first_layer)) {
-    if (!inherits(first_layer, c("sf", "sfc", "sfg"))) {
-      cli::cli_abort(
-        "{.arg first_layer} must be an object from the package {.pkg sf}, or {.code NULL}."
-      )
-    }
-    # Some polygons (e.g. `rnaturalearthdata::countries110`) are invalid on the sphere, which
-    # breaks `st_intersection()`
-    first_layer <- sf::st_make_valid(
-      sf::st_geometry(first_layer),
-      split_crossing_edges = TRUE
-    )
-  }
-
-  dots <- list(...)
-  main <- dots$main
-  dots$main <- NULL
-
-  # Outer margin on top for the title of the whole figure, small inner margins to keep globes close
-  old_par <- graphics::par(
-    oma = c(0, 0, if (is.null(main)) 0 else 2, 0),
-    mar = c(0.5, 0.5, if (is.null(subtitles)) 0.5 else 2, 0.5)
+  plot(
+    base_grid,
+    ...,
+    centres = centres,
+    subtitles = subtitles,
+    first_layer = first_layer
   )
-  # With three globes, two on top and one centred below
-  graphics::layout(switch(
-    length(centres),
-    `1` = matrix(1),
-    `2` = matrix(1:2, nrow = 1),
-    `3` = matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE),
-    `4` = matrix(1:4, nrow = 2, byrow = TRUE)
-  ))
-  on.exit({
-    graphics::layout(1)
-    graphics::par(old_par)
-  })
-
-  # Only built if a globe needs it
-  base_grid <- NULL
-
-  project <- function(geom) {
-    sf::st_transform(
-      sf::st_intersection(geom, hemisphere),
-      crs = paste0("+proj=ortho +lon_0=", centre[1], " +lat_0=", centre[2])
-    )
-  }
-
-  # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
-  # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
-  for (k in seq_along(centres)) {
-    centre <- centres[[k]]
-
-    # length(centre) == 2 means that we need to draw a globe. Otherwise we just need a subset
-    # of the grid.
-
-    if (length(centre) == 2) {
-      if (is.null(base_grid)) {
-        base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
-        # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
-        class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
-      }
-      grid <- base_grid
-      area <- NULL
-      centre <- unname(centre[c("lon", "lat")])
-    } else {
-      # Densify the edges in planar lon/lat so that they follow parallels rather than great
-      # circles once the CRS is set
-      area <- sf::st_set_crs(
-        sf::st_segmentize(
-          sf::st_as_sfc(sf::st_bbox(centre[c("xmin", "ymin", "xmax", "ymax")])),
-          dfMaxLength = 1
-        ),
-        "EPSG:4326"
-      )
-      # `polygon_to_cells()` only returns cells whose centroid is in `area`, so add the cells of the
-      # edges and their neighbours to cover the whole area (`sf::st_cast(area, "POINT")` returns points
-      # on the edge of the bbox)
-      grid_cells <- c(
-        unlist(h3jsr::polygon_to_cells(area, res = resolutions[1])),
-        h3jsr::point_to_cell(sf::st_cast(area, "POINT"), res = resolutions[1])
-      )
-      grid <- h3jsr::cell_to_polygon(
-        unique(unlist(h3jsr::get_disk(unique(grid_cells), ring_size = 1))),
-        simple = TRUE
-      )
-      centre <- c(
-        mean(centre[c("xmin", "xmax")]),
-        mean(centre[c("ymin", "ymax")])
-      )
-    }
-
-    # We don't want to display cells on the other side of the globe.
-    hemisphere <- sf::st_buffer(
-      sf::st_sfc(sf::st_point(centre), crs = "EPSG:4326"),
-      dist = 0.999 * pi / 2 * 6371008,
-      max_cells = 10000
-    )
-    if (!is.null(area)) {
-      hemisphere <- sf::st_intersection(hemisphere, area)
-    }
-
-    grid_args <- utils::modifyList(
-      list(project(grid), border = "grey80"),
-      dots
-    )
-    if (!is.null(first_layer)) {
-      # Draw an invisible grid first so that the grid sets the plot dimensions
-      do.call(plot, utils::modifyList(grid_args, list(border = NA)))
-
-      # Then add the first layer, filling polygons (e.g. continents) to distinguish them from oceans
-      layer <- project(first_layer)
-      is_polygon <- sf::st_is(layer, c("POLYGON", "MULTIPOLYGON"))
-      plot(
-        layer,
-        col = ifelse(is_polygon, "grey65", "black"),
-        border = "grey40",
-        pch = 16,
-        add = TRUE
-      )
-      grid_args$add <- TRUE
-    }
-    do.call(plot, grid_args)
-    for (i in seq_along(cells)) {
-      plot(project(cells[[i]]), col = col[i], add = TRUE)
-    }
-
-    if (!is.null(subtitles)) {
-      graphics::title(main = subtitles[k], line = 0.5)
-    }
-  }
-
-  if (!is.null(main)) {
-    graphics::title(main = main, outer = TRUE)
-  }
 }
