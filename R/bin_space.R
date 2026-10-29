@@ -213,27 +213,11 @@ bin_space <- function(
 }
 
 #' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
-#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following argument is
-#' already set internally and must not be specified here: `add`.
 #' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
 #' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
 #' ordered from the coarsest to the finest resolution. By default, colours are taken in order
 #' from the colour-blind friendly Okabe-Ito palette (see [`grDevices::palette.colors()`]).
-#' @param centres `list`. Views to display (at most four). These must be either:
-#' - `c(lat = , lon = )`: the whole globe centred on this point;
-#' - `c(xmin = , xmax = , ymin = , ymax = )`: a bounding box (in longitude for `x` and latitude for
-#'   `y`), centred on its midpoint. `xmax` must be greater than `xmin`, and `ymax` must be greater
-#'   than `ymin`.
-#'
-#' By default, three globes are centred on longitude 0, longitude 180, and -102.
-#'
-#' @param subtitles `character`. Titles of each globe, in the same order as `centres`. Must be
-#' `NULL` (default, no subtitles) or of length equal to the number of elements in `centres`.
-#' @param first_layer `sf`, `sfc`, or `sfg`. An object from the package `sf` (e.g. lines, polygons,
-#' or points) indicating the first layer to be printed on each globe. Polygons (such as continents)
-#' are filled in dark grey to distinguish them from oceans. If unspecified (default), it plots the
-#' modern coastlines with `sf::st_geometry(rnaturalearthdata::coastline110)`. Set
-#' `first_layer = NULL` to remove this layer.
+#' @inheritParams space_bins
 #'
 #' @details
 #' The base grid uses the coarsest resolution among the `cell_ID_*` columns, and the occupied

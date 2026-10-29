@@ -142,8 +142,23 @@ space_bins <- function(resolution, spacing, area) {
 }
 
 #' @param x An object of class `"palaeoverse_space_bins"` created by `space_bins()`.
-#' @inheritParams bin_space
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following argument is
+#' already set internally and must not be specified here: `add`.
+#' @param centres `list`. Views to display (at most four). These must be either:
+#' - `c(lat = , lon = )`: the whole globe centred on this point;
+#' - `c(xmin = , xmax = , ymin = , ymax = )`: a bounding box (in longitude for `x` and latitude for
+#'   `y`), centred on its midpoint. `xmax` must be greater than `xmin`, and `ymax` must be greater
+#'   than `ymin`.
 #'
+#' By default, three globes are centred on longitude 0, longitude 180, and -102.
+#'
+#' @param subtitles `character`. Titles of each globe, in the same order as `centres`. Must be
+#' `NULL` (default, no subtitles) or of length equal to the number of elements in `centres`.
+#' @param first_layer `sf`, `sfc`, or `sfg`. An object from the package `sf` (e.g. lines, polygons,
+#' or points) indicating the first layer to be printed on each globe. Polygons (such as continents)
+#' are filled in dark grey to distinguish them from oceans. If unspecified (default), it plots the
+#' modern coastlines with `sf::st_geometry(rnaturalearthdata::coastline110)`. Set
+#' `first_layer = NULL` to remove this layer.
 #' @name space_bins
 #' @export
 plot.palaeoverse_space_bins <- function(
