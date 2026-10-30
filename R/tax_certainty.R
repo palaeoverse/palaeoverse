@@ -5,7 +5,7 @@
 #' denoting the certainty of taxonomic identifications (see Details for
 #' screening values).
 #'
-#' @param taxdf \code{data.frame}. A \code{data.frame} with a named column
+#' @param data \code{data.frame}. A \code{data.frame} with a named column
 #'   containing the taxonomic names to be checked.
 #' @param name \code{character}. The column name of the taxonomic names you
 #'   wish to check (e.g. "identified_name").
@@ -20,12 +20,12 @@
 #'   "certain" status (default: 1), while the second denotes "uncertain"
 #'   status (default: 0).
 #' @param append \code{logical}. If \code{TRUE} (default), the returned object
-#'   is a \code{data.frame} consisting of the input \code{taxdf} with a column
+#'   is a \code{data.frame} consisting of the input \code{data} with a column
 #'   denoting the taxonomic "certainty" appended. If \code{FALSE}, a two-column
 #'   \code{data.frame} containing the input `name` and the taxonomic
 #'   identification certainty status is returned.
 #'
-#' @return When `append` is \code{TRUE}, the input \code{taxdf} with an
+#' @return When `append` is \code{TRUE}, the input \code{data} with an
 #'   appended "certainty" column classifying each taxon (default). When
 #'   \code{append} is `FALSE`, a two-column \code{data.frame} with input `name`
 #'   and 'certainty' column classifying each taxon.
@@ -81,31 +81,31 @@
 #' @examples
 #' # Get internal data
 #' data(tetrapods)
-#' occdf <- tetrapods[1:100, ]
+#' data <- tetrapods[1:100, ]
 #' # Summarise taxonomic certainty
-#' certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+#' certainty <- tax_certainty(data = data, name = "identified_name",
 #'                            append = FALSE)
 #' # Append uncertainty to dataframe
-#' certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+#' certainty <- tax_certainty(data = data, name = "identified_name",
 #'                            certainty = c("certain", "uncertain"),
 #'                            append = TRUE)
 #' # Turn off subspecies- and species-level screening terms (genus-level data)
-#' certainty <- tax_certainty(taxdf = occdf, name = "identified_name",
+#' certainty <- tax_certainty(data = data, name = "identified_name",
 #'                            terms = list(subspecies = NULL, species = NULL),
 #'                            certainty = c("certain", "uncertain"),
 #'                            append = FALSE)
 #' @export
 tax_certainty <- function(
-  taxdf,
+  data,
   name,
   terms = NULL,
   certainty = c(1, 0),
   append = TRUE
 ) {
-  ensure_args_are_named(exceptions = "taxdf")
-  check_data_frame(taxdf)
-  check_column_presence(taxdf, name)
-  check_class(taxdf, name, "character")
+  ensure_args_are_named(exceptions = "data")
+  check_data_frame(data)
+  check_column_presence(data, name)
+  check_class(data, name, "character")
 
   if (!is.null(terms) && !is.list(terms)) {
     cli::cli_abort(
@@ -114,13 +114,13 @@ tax_certainty <- function(
   }
   rlang::check_bool(append)
 
-  # Create temporary taxdf column to not replace original values
-  taxdf$certainty <- taxdf[[name]]
+  # Create temporary data column to not replace original values
+  data$certainty <- data[[name]]
   # Replace empty rows with NA
-  taxdf$certainty <- gsub(
+  data$certainty <- gsub(
     pattern = "^$|^\\s+$",
     replacement = NA_character_,
-    x = taxdf$certainty
+    x = data$certainty
   )
   # Terms to screen for
   screen <- list(
@@ -150,11 +150,11 @@ tax_certainty <- function(
   screen <- screen[!unlist(lapply(screen, is.null))]
   # Identify taxonomic certainty
   matches <- lapply(screen, function(x) {
-    sapply(x, grepl, taxdf$certainty, ignore.case = TRUE, perl = TRUE)
+    sapply(x, grepl, data$certainty, ignore.case = TRUE, perl = TRUE)
   })
   matches <- do.call(cbind, matches)
   # Explicitly test NA
-  matches <- cbind(matches, is.na = is.na(taxdf$certainty))
+  matches <- cbind(matches, is.na = is.na(data$certainty))
   # Calculate row sums (1 (or more) = match/uncertain, 0 = no match/certain)
   matches <- rowSums(matches)
   # Match user definitions
@@ -165,10 +165,10 @@ tax_certainty <- function(
   # Extract certainty
   classif <- certainty[matches]
   # Add certainty
-  taxdf$certainty <- classif
+  data$certainty <- classif
   # Extract only names and certainty
   if (!append) {
-    taxdf <- taxdf[, c(name, "certainty")]
+    data <- data[, c(name, "certainty")]
   }
-  return(taxdf)
+  return(data)
 }

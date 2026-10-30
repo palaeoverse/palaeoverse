@@ -100,6 +100,7 @@ reference:
   - lat_bins
   - lat_bins_area
   - lat_bins_degrees
+  - space_bins
   - time_bins
   - group_apply
 

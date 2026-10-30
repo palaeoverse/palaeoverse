@@ -3,7 +3,7 @@
 #' A function to plot the stratigraphic ranges of fossil taxa from occurrence
 #' data.
 #'
-#' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing
+#' @param data \code{dataframe}. A dataframe of fossil occurrences containing
 #'   at least two columns: names of taxa, and their stratigraphic position (see
 #'   `name` and `level` arguments).
 #' @param name \code{character}. The name of the column you wish to be treated
@@ -88,17 +88,17 @@
 #' # Simulate certainty values
 #' certainty_sampled <- sample(x = 0:1, size = 50, replace = TRUE)
 #' # Combine into data frame
-#' occdf <- data.frame(taxon = tetrapod_names,
+#' data <- data.frame(taxon = tetrapod_names,
 #'                     bed = beds_sampled,
 #'                     certainty = certainty_sampled)
 #' # Plot stratigraphic ranges
 #' # Update margins for plotting
 #' par(mar = c(12, 5, 2, 2))
-#' tax_range_strat(occdf, name = "taxon")
-#' tax_range_strat(occdf, name = "taxon", certainty = "certainty",
+#' tax_range_strat(data, name = "taxon")
+#' tax_range_strat(data, name = "taxon", certainty = "certainty",
 #'                 plot_args = list(ylab = "Stratigraphic height (m)"))
 #' # Plot stratigraphic ranges with more labelling
-#' tax_range_strat(occdf, name = "taxon", certainty = "certainty", by = "name",
+#' tax_range_strat(data, name = "taxon", certainty = "certainty", by = "name",
 #'                 plot_args = list(main = "Section A",
 #'                                  ylab = "Stratigraphic height (m)"))
 #' eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
@@ -110,16 +110,16 @@
 #' # Update margins for plotting
 #' par(mar = c(12, 5, 6, 2))
 #' # Pull class data
-#' occdf$class <- tetrapods$class[1:50]
+#' data$class <- tetrapods$class[1:50]
 #' # Group stratigraphic ranges by class
-#' tax_range_strat(occdf, name = "taxon", group = "class",
+#' tax_range_strat(data, name = "taxon", group = "class",
 #'                 certainty = "certainty", by = "name",
 #'                 plot_args = list(main = "Section A",
 #'                                  ylab = "Stratigraphic height (m)"))
 #'
 #' @export
 tax_range_strat <- function(
-  occdf,
+  data,
   name = "genus",
   level = "bed",
   group = NULL,
@@ -129,23 +129,23 @@ tax_range_strat <- function(
   x_args = NULL,
   y_args = NULL
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(occdf)
-  check_column_presence(occdf, name)
-  check_column_presence(occdf, level)
+  check_data_frame(data)
+  check_column_presence(data, name)
+  check_column_presence(data, level)
 
-  check_class(occdf, level, "numeric")
-  check_na(occdf, name)
-  check_na(occdf, level)
+  check_class(data, level, "numeric")
+  check_na(data, name)
+  check_na(data, level)
 
   if (!is.null(group)) {
-    check_column_presence(occdf, group)
+    check_column_presence(data, group)
   }
 
   if (!is.null(certainty)) {
-    check_column_presence(occdf, certainty)
-    check_na(occdf, certainty)
+    check_column_presence(data, certainty)
+    check_na(data, certainty)
   }
 
   rlang::check_string(by)
@@ -153,18 +153,18 @@ tax_range_strat <- function(
 
   # Create pseudo-group if not provided (enable group_apply with no groups)
   if (is.null(group)) {
-    occdf$tmp_group <- 1
+    data$tmp_group <- 1
     g <- "tmp_group"
   } else {
     g <- group
   }
   # Calculate ranges
   ranges <- group_apply(
-    occdf,
+    data,
     group = g,
-    fun = function(occdf, name, level) {
+    fun = function(data, name, level) {
       #=== Set-up ===
-      unique_taxa <- unique(occdf[, name, drop = TRUE])
+      unique_taxa <- unique(data[, name, drop = TRUE])
       # Order taxa by name
       unique_taxa <- sort(unique_taxa)
 
@@ -189,7 +189,7 @@ tax_range_strat <- function(
       }
       # Run for loop across unique taxa
       for (i in seq_along(unique_taxa)) {
-        occ_filter <- occdf[(occdf[, name, drop = TRUE] == unique_taxa[i]), ]
+        occ_filter <- data[(data[, name, drop = TRUE] == unique_taxa[i]), ]
         ranges[i, 3] <- min(occ_filter[level])
         ranges[i, 4] <- max(occ_filter[level])
         if (!is.null(group)) {
@@ -230,13 +230,13 @@ tax_range_strat <- function(
   row.names(ranges) <- NULL
   # Get labels
   labels <- ranges[, c("taxon", "ID")]
-  # Join to occdf
-  occdf <- merge(occdf, labels, by.x = name, by.y = "taxon")
+  # Join to data
+  data <- merge(data, labels, by.x = name, by.y = "taxon")
 
   # Obtain uncertain occurrences
   if (!is.null(certainty)) {
-    certain <- occdf[(occdf[, certainty, drop = TRUE] != 0), ]
-    uncertain <- occdf[(occdf[, certainty, drop = TRUE] == 0), ]
+    certain <- data[(data[, certainty, drop = TRUE] != 0), ]
+    uncertain <- data[(data[, certainty, drop = TRUE] == 0), ]
   }
 
   #=== Plotting ===
@@ -365,8 +365,8 @@ tax_range_strat <- function(
   # Add points
   if (is.null(certainty)) {
     points(
-      y = occdf[, level, drop = TRUE],
-      x = occdf$ID,
+      y = data[, level, drop = TRUE],
+      x = data$ID,
       pch = pchs[1],
       col = cols[1],
       bg = bgs[1],
@@ -396,7 +396,7 @@ tax_range_strat <- function(
   }
   # Use defaults if not set
   if (!("at" %in% names(y_args))) {
-    y_args$at <- unique(occdf$bed)
+    y_args$at <- unique(data$bed)
   }
   do.call(axis, args = c(list(side = 2), y_args))
   # Plot x-axis

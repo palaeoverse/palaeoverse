@@ -13,7 +13,7 @@
       tax_check(data.frame())
     Condition
       Error in `tax_check()`:
-      ! Column "genus" not found in `taxdf`.
+      ! Column "genus" not found in `data`.
 
 ---
 
@@ -21,7 +21,7 @@
       tax_check(1)
     Condition
       Error in `tax_check()`:
-      ! `taxdf` must be of class <data.frame>, not the number 1.
+      ! `data` must be of class <data.frame>, not the number 1.
 
 ---
 
@@ -29,7 +29,7 @@
       tax_check(data.frame(genus = c(NA, "")))
     Condition
       Error in `tax_check()`:
-      ! Column "genus" in `taxdf` must have at least one entry that is not NA or empty.
+      ! Column "genus" in `data` must have at least one entry that is not NA or empty.
 
 # tax_check errors with unnamed args
 
@@ -37,16 +37,16 @@
       tax_check(dat, "genus")
     Condition
       Error in `tax_check()`:
-      ! All arguments must be named (except for `taxdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 ---
 
     Code
-      tax_check(taxdf = dat, "genus")
+      tax_check(data = dat, "genus")
     Condition
       Error in `tax_check()`:
-      ! All arguments must be named (except for `taxdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 ---
@@ -55,7 +55,7 @@
       tax_check(dat, "genus", NULL)
     Condition
       Error in `tax_check()`:
-      ! All arguments must be named (except for `taxdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there are 2 arguments that should be named.
 
 ---
@@ -64,7 +64,7 @@
       tax_check(dat, "genus", group = NULL)
     Condition
       Error in `tax_check()`:
-      ! All arguments must be named (except for `taxdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 # arg 'name' works
@@ -73,7 +73,7 @@
       tax_check(dat)
     Condition
       Error in `tax_check()`:
-      ! Column "genus" not found in `taxdf`.
+      ! Column "genus" not found in `data`.
 
 ---
 
@@ -81,7 +81,7 @@
       tax_check(dat, name = "nonexistent")
     Condition
       Error in `tax_check()`:
-      ! Column "nonexistent" not found in `taxdf`.
+      ! Column "nonexistent" not found in `data`.
 
 ---
 
@@ -113,7 +113,7 @@
       tax_check(dat, name = "")
     Condition
       Error in `tax_check()`:
-      ! Column "" not found in `taxdf`.
+      ! Column "" not found in `data`.
 
 # arg 'group' works
 
@@ -131,7 +131,7 @@
       tax_check(dat, group = "nonexistent")
     Condition
       Error in `tax_check()`:
-      ! Column "nonexistent" not found in `taxdf`.
+      ! Column "nonexistent" not found in `data`.
 
 ---
 
@@ -155,7 +155,7 @@
       tax_check(dat, group = "")
     Condition
       Error in `tax_check()`:
-      ! Column "" not found in `taxdf`.
+      ! Column "" not found in `data`.
 
 # arg 'dis' works
 

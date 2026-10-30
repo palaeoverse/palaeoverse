@@ -2,6 +2,7 @@
 % Please edit documentation in R/lat_bins_area.R
 \name{lat_bins_area}
 \alias{lat_bins_area}
+\alias{plot.palaeoverse_lat_bins_area}
 \title{Generate equal-area latitudinal bins}
 \usage{
 lat_bins_area(
@@ -9,8 +10,16 @@ lat_bins_area(
   min = -90,
   max = 90,
   r = 6371,
-  plot = FALSE,
+  plot = deprecated(),
   n = deprecated()
+)
+
+\method{plot}{palaeoverse_lat_bins_area}(
+  x,
+  ...,
+  col = c("#01665e", "#80cdc1"),
+  xlab = "Longitude (°)",
+  ylab = "Latitude (°)"
 )
 }
 \arguments{
@@ -28,10 +37,21 @@ of the latitudinal range (defaults to 90).}
 the volumetric mean radius of the Earth (6371 km). Other user-specified
 \code{r} values are accepted (e.g. equatorial radius 6378 km).}
 
-\item{plot}{\code{logical}. Should a plot of the latitudinal bins be
-generated? If \code{TRUE}, a plot is generated. Defaults to \code{FALSE}.}
+\item{plot}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the output of
+this function instead.}
 
 \item{n}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{n_bins} instead.}
+
+\item{x}{\code{data.frame}. An object of class \code{"palaeoverse_lat_bins_area"} created by \code{lat_bins_area()}.}
+
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following arguments are
+already set internally and must not be specified here: \code{type}, \code{xlim}, \code{ylim}.}
+
+\item{col}{\code{character}. A character vector of length 2 indicating the colours to use for the bins.}
+
+\item{xlab}{\code{character}. The x-axis title.}
+
+\item{ylab}{\code{character}. The y-axis title.}
 }
 \value{
 A \code{data.frame} of user-defined number of latitudinal bins. The
@@ -59,11 +79,13 @@ Kilian Eichenseer & Bethany Allen
 
 \examples{
 # Generate 12 latitudinal bins
-bins <- lat_bins_area(n_bins = 12)
+lat_bins_area(n_bins = 12)
+
 # Generate latitudinal bins for just the (sub-)tropics
-bins <- lat_bins_area(n_bins = 6, min = -30, max = 30)
+lat_bins_area(n_bins = 6, min = -30, max = 30)
+
 # Generate latitudinal bins and a plot
-bins <- lat_bins_area(n_bins = 24, plot = TRUE)
+plot(lat_bins_area(n_bins = 24))
 }
 \seealso{
 For bins with unequal area, but equal latitudinal range, see

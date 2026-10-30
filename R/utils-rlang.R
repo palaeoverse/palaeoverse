@@ -3,8 +3,8 @@
 # - argument names are wrapped in backticks, e.g. `dis` should be greater than 1
 #   This requires using {.arg }.
 #
-# - column names are wrapped in double quotations marks, e.g. Column "foo" not found in `occdf`
-#   (occdf is the argument name so is in backticks).
+# - column names are wrapped in double quotations marks, e.g. Column "foo" not found in `data`
+#   (data is the argument name so is in backticks).
 #   This requires using {.val }.
 #
 # - classes are wrapped in `<>`, e.g. `dis` must be of class <numeric>
@@ -71,7 +71,7 @@ check_class <- function(data, column, class) {
   }
   if (cond) {
     # We don't want to use `{obj_type_friendly(values)}` here, to avoid e.g.
-    # `Column "max_ma" in `occdf` must be of class <numeric>, not a character vector.`,
+    # `Column "max_ma" in `data` must be of class <numeric>, not a character vector.`,
     # which would be less clear.
     cli::cli_abort(
       "Column {.val {column}} in {.arg {rlang::caller_arg(data)}} must be of class {.cls {class}}, not {.cls {class(values)}}.",
@@ -168,5 +168,36 @@ check_min_lower_than_max <- function(data, min_column, max_column) {
       ),
       call = rlang::caller_env()
     )
+  }
+}
+
+#' Check whether a call to one of our `plot()` methods contains forbidden arguments
+#'
+#' These arguments are forbidden because we use them internally in the `plot()` method
+#' and changing them would completely change the output.
+#'
+#' @param ... `plot()` arguments passed by the user that we don't explicitly handle in
+#' our `plot()` method.
+#' @param forbidden Character vector indicating which `plot` arguments cannot be
+#' specified by the user.
+#' @param class Name of the class to use in the error message. This is the class that the
+#' `plot()` method uses, e.g. if this function is called in `plot.xyz()` then this argument
+#' should be `"xyz"`.
+#'
+#' @noRd
+check_forbidden_plot_args <- function(..., forbidden, class) {
+  dots <- list(...)
+  if (length(dots) > 0) {
+    nms <- names(dots)
+    forbidden <- nms[nms %in% forbidden]
+    if (length(forbidden) > 0) {
+      cli::cli_abort(
+        c(
+          "{cli::qty(forbidden)} Cannot pass argument{?s} {.arg {forbidden}} when calling {.fn plot} on an object of class {.cls {class}}.",
+          "i" = "{cli::qty(forbidden)}{?This/These} argument{?s} {?is/are} already set by {.fn plot} internally."
+        ),
+        call = rlang::caller_env()
+      )
+    }
   }
 }

@@ -67,6 +67,7 @@ Suggests:
     paleotree,
     phytools,
     rmarkdown,
+    rnaturalearthdata,
     testthat (>= 3.0.0),
     vcr,
     vdiffr (>= 1.0.0)

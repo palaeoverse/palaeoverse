@@ -1,28 +1,3 @@
-# lat_bins_degrees() basic usage works
-
-    Code
-      lat_bins_degrees()
-    Output
-         bin min mid max
-      1    1  80  85  90
-      2    2  70  75  80
-      3    3  60  65  70
-      4    4  50  55  60
-      5    5  40  45  50
-      6    6  30  35  40
-      7    7  20  25  30
-      8    8  10  15  20
-      9    9   0   5  10
-      10  10 -10  -5   0
-      11  11 -20 -15 -10
-      12  12 -30 -25 -20
-      13  13 -40 -35 -30
-      14  14 -50 -45 -40
-      15  15 -60 -55 -50
-      16  16 -70 -65 -60
-      17  17 -80 -75 -70
-      18  18 -90 -85 -80
-
 # argument 'size' works
 
     Code
@@ -175,38 +150,6 @@
       Error in `lat_bins_degrees()`:
       ! `fit` must be `TRUE` or `FALSE`, not a logical vector.
 
-# argument 'plot' works
-
-    Code
-      lat_bins_degrees(plot = 100)
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must be `TRUE` or `FALSE`, not the number 100.
-
----
-
-    Code
-      lat_bins_degrees(plot = logical(0))
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must be `TRUE` or `FALSE`, not an empty logical vector.
-
----
-
-    Code
-      lat_bins_degrees(plot = NA)
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must be `TRUE` or `FALSE`, not `NA`.
-
----
-
-    Code
-      lat_bins_degrees(plot = c(TRUE, TRUE))
-    Condition
-      Error in `lat_bins_degrees()`:
-      ! `plot` must be `TRUE` or `FALSE`, not a logical vector.
-
 # lat_bins errors with unnamed args
 
     Code
@@ -242,4 +185,48 @@
       Error in `lat_bins_degrees()`:
       ! All arguments must be named.
       i Currently, there are 2 arguments that should be named.
+
+# lat_bins_degrees plotting with extra args works
+
+    Code
+      plot(lat_bins_degrees(size = 40), col = "foo")
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not the string "foo".
+
+---
+
+    Code
+      plot(lat_bins_degrees(size = 40), col = 1)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not the number 1.
+
+---
+
+    Code
+      plot(lat_bins_degrees(size = 40), col = NA)
+    Condition
+      Error in `plot()`:
+      ! Argument `col` must be an object of class <character> of length 2, not `NA`.
+
+---
+
+    Code
+      plot(lat_bins_degrees(size = 40), type = "foo", xlim = "foo", ylim = "foo")
+    Condition
+      Error in `plot()`:
+      ! Cannot pass arguments `type`, `xlim`, and `ylim` when calling `plot()` on an object of class <palaeoverse_lat_bins_degrees>.
+      i These arguments are already set by `plot()` internally.
+
+# plot is deprecated but still works
+
+    Code
+      lat_bins_degrees(plot = "6")
+    Condition
+      Warning:
+      The `plot` argument of `lat_bins_degrees()` is deprecated as of palaeoverse 2.0.0.
+      i Please use `plot()` on the output of this function instead.
+      Error in `lat_bins_degrees()`:
+      ! `plot` must be `TRUE` or `FALSE`, not the string "6".
 
