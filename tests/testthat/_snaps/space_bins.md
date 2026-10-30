@@ -266,3 +266,63 @@
       ! Argument names must be fully written.
       i Partially matched argument name: `sp`
 
+# plot() works
+
+    Code
+      plot(out, add = TRUE)
+    Condition
+      Error in `plot()`:
+      ! Cannot pass argument `add` when calling `plot()` on an object of class <palaeoverse_space_bins>.
+      i This argument is already set by `plot()` internally.
+
+# space_bins plotting with custom centres works
+
+    Code
+      plot(out, centres = c(lat = 0, lon = 0))
+    Condition
+      Error in `plot()`:
+      ! Argument `centres` must be a list, not a double vector.
+
+---
+
+    Code
+      plot(out, centres = rep(list(c(lat = 0, lon = 0)), 5))
+    Condition
+      Error in `plot()`:
+      ! Argument `centres` can take 4 points at most (currently it has 5).
+
+---
+
+    Code
+      plot(out, centres = list("a", c(foo = -10, xmax = 40, ymin = 30, ymax = 80)))
+    Condition
+      Error in `plot()`:
+      ! Elements 1 and 2 of `centres` are invalid.
+      i They must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:
+      * a named numeric vector `c(lat = , lon = )`;
+      * a named numeric vector `c(xmin = , xmax = , ymin = , ymax = )`.
+
+---
+
+    Code
+      plot(out, centres = list(c(xmin = 40, xmax = -10, ymin = 30, ymax = 60)))
+    Condition
+      Error in `plot()`:
+      ! Bounding boxes in `centres` must have `xmin < xmax` and `ymin < ymax`.
+
+# space_bins plotting with custom first layer and subtitles works
+
+    Code
+      plot(out, first_layer = 1)
+    Condition
+      Error in `plot()`:
+      ! `first_layer` must be an object from the package sf, or `NULL`.
+
+---
+
+    Code
+      plot(out, subtitles = c("a", "b"))
+    Condition
+      Error in `plot()`:
+      ! Argument `subtitles` must be `NULL` or a <character> vector of length 3 (i.e. the number of elements in `centres`).
+
