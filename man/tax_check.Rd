@@ -5,7 +5,7 @@
 \title{Taxonomic spell check}
 \usage{
 tax_check(
-  taxdf,
+  data,
   name = "genus",
   group = deprecated(),
   dis = 0.05,
@@ -14,7 +14,7 @@ tax_check(
 )
 }
 \arguments{
-\item{taxdf}{\code{data.frame}. A dataframe with named columns containing
+\item{data}{\code{data.frame}. A dataframe with named columns containing
 taxon names (e.g. "species", "genus").
 NA values or empty strings in the name column (i.e. "" and " ")
 are ignored.}
@@ -99,10 +99,10 @@ Lewis A. Jones, Kilian Eichenseer & Christopher D. Dean
 # load occurrence data
 data("tetrapods")
 # Check taxon names alphabetically
-ex1 <- tax_check(taxdf = tetrapods, name = "genus", dis = 0.1)
+ex1 <- tax_check(data = tetrapods, name = "genus", dis = 0.1)
 # Check taxon names within each family
-occdf <- subset(tetrapods, !is.na(genus))
-ex2 <- group_apply(occdf = occdf, group = "family", fun = tax_check,
+data <- subset(tetrapods, !is.na(genus))
+ex2 <- group_apply(data = data, group = "family", fun = tax_check,
                    name = "genus", dis = 0.1, verbose = FALSE)
 }
 }

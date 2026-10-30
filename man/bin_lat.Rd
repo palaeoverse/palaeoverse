@@ -4,10 +4,10 @@
 \alias{bin_lat}
 \title{Assign fossil occurrences to latitudinal bins}
 \usage{
-bin_lat(occdf, bins, lat = "lat", boundary = FALSE)
+bin_lat(data, bins, lat = "lat", boundary = FALSE)
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of the fossil occurrences you
+\item{data}{\code{dataframe}. A dataframe of the fossil occurrences you
 wish to bin. This dataframe should contain a column with the
 latitudinal coordinates of occurrence data.}
 
@@ -27,7 +27,7 @@ If \code{FALSE}, occurrences will be binned into the upper bin
 only (i.e. highest row number).}
 }
 \value{
-A dataframe of the original input \code{occdf} with appended
+A dataframe of the original input \code{data} with appended
 columns containing respective latitudinal bin information.
 }
 \description{
@@ -45,10 +45,10 @@ Sofia Galvan
 
 \examples{
 # Load occurrence data
-occdf <- tetrapods
+data <- tetrapods
 # Generate latitudinal bins
 bins <- lat_bins_degrees(size = 10)
 # Bin data
-occdf <- bin_lat(occdf = occdf, bins = bins, lat = "lat")
+data <- bin_lat(data = data, bins = bins, lat = "lat")
 
 }

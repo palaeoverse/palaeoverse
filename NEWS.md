@@ -15,6 +15,17 @@ guidance to update existing code.
 * In `tax_check()`, `tax_range_strat()` and `tax_range_time()`, the argument
   `group` is deprecated. Use `group_apply()` with these functions instead.
 
+* In `bin_space()`, the arguments `spacing`, `sub_grid`, and `return` are deprecated. 
+  and a new argument `bins` is added. The same functionality is made possible with
+  the new `space_bins()` (see "New features") (#344).
+
+* In `tax_range_time()`, the argument `by` is deprecated and replaced by `sort` (#383).
+
+## New features
+
+* New `space_bins()` to generate spatial bins. The output of this function can be passed
+ to the `bins` argument of `bin_space()` (#344).
+  
 ## Bug fixes
 
 * `lat_bins_area()` now errors if `r` is negative or if `min == max` (#321).

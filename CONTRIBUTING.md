@@ -42,7 +42,7 @@ Reviewers may have questions while reviewing your pull request. You are expected
 
 ## Community space
 
-We appreciate that GitHub is not a platform for everyone and have set up a [Google Group](https://groups.google.com/g/palaeoverse) where the `palaeoverse` R package can also be discussed and issues raised.
+We appreciate that GitHub is not a platform for everyone and have set up a [Zulip community](https://palaeoverse.org/zulip/join-zulip/) where the `palaeoverse` R package can also be discussed and issues raised.
 
 ## Code of Conduct
 

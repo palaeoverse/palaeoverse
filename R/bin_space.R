@@ -1,51 +1,45 @@
 #' Assign fossil occurrences to spatial bins
 #'
-#' A function to assign fossil occurrences (or localities) to spatial
-#' bins/samples using a hexagonal equal-area grid.
+#' A function to assign fossil occurrences (or any set of coordinates) to spatial
+#' bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
+#' [`space_bins()`], which creates the spatial bins required by the `bins` argument.
 #'
-#' @param occdf \code{dataframe}. A dataframe of the fossil occurrences (or
-#' localities) you wish to bin. This dataframe should contain the decimal
+#' @param data \code{data.frame}. A dataframe of the fossil occurrences (or
+#' any set of coordinates) you wish to bin. This dataframe should contain the decimal
 #' degree coordinates of your occurrences, and they should be of
 #' class `numeric`.
+#' @param bins \code{sfc_POLYGON}. An object of class \code{palaeoverse_space_bins}
+#' created by [`space_bins()`], corresponding to the bins that you wish to allocate
+#' fossil occurrences to.
 #' @param lng \code{character}. The name of the column you wish to be treated
 #' as the input longitude (e.g. "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat").
-#' @param spacing \code{numeric}. The desired spacing between the center of
-#' adjacent cells. This value should be provided in kilometres.
-#' @param sub_grid \code{numeric}. For an optional sub-grid, the desired
-#' spacing between the center of adjacent cells in the sub-grid.
-#' This value should be provided in kilometres.
-#' See details for information on sub-grid usage.
-#' @param return \code{logical}. Should the equal-area grid information and
-#' polygons be returned?
-#' @param plot \code{logical}. Should the occupied cells of the equal-area grid
-#' be plotted?
+#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
+#' this function instead.
+#' @param spacing,sub_grid,return `r lifecycle::badge("deprecated")` These arguments
+#' are no longer used and don't have a replacement. Pass the output of `space_bins()`
+#' to the `bins` argument instead.
 #'
-#' @return If the `return` argument is set to `FALSE`, a dataframe is
-#' returned of the original input `occdf` with cell information. If `return` is
-#' set to `TRUE`, a list is returned with both the input `occdf` and grid
-#' information and polygons.
+#' @return A `data.frame` with the original input data and three new columns:
+#'
+#' - `cell_id_{h3_resolution}`: the ID of the H3 cell that contains the row's coordinates
+#' - `cell_centroid_lat_{h3_resolution}`: the latitude of the H3 cell's centroid
+#' - `cell_centroid_lng_{h3_resolution}`: the longitude of the H3 cell's centroid
+#'
+#' In these three column names, `{h3_resolution}` corresponds to the H3 resolution that
+#' is used. For instance, using `bins = space_bins(spacing = 250)` results in an H3
+#' resolution equal to 2, so the column name for the cell ID will be `"cell_id_2"`.
+#'
+#' Note: calling `bin_space()` several times can overwrite existing cell columns if `bins`
+#' uses the same resolution as existing columns.
 #'
 #' @details This function assigns fossil occurrence data into
 #' equal-area grid cells using discrete hexagonal grids via the
 #' \code{\link[h3jsr]{h3jsr}} package. This package relies on
 #' [Uber's H3](https://h3geo.org/docs/) library, a geospatial indexing system
 #' that partitions the world into hexagonal cells. In H3, 16 different
-#' resolutions are available
-#' ([see here](https://h3geo.org/docs/core-library/restable/)). In the
-#' implementation of the `bin_space()` function, the resolution is defined by
-#' the user-input `spacing` which represents the distance between the centroid
-#' of adjacent cells. Using this distance, the function identifies which
-#' resolution is most similar to the input `spacing`, and uses this resolution.
-#'
-#' Additional functionality allows the user to simultaneously assign occurrence
-#' data to equal-area grid cells of a finer-scale grid (i.e. a ‘sub-grid’)
-#' within the primary grid via the `sub_grid` argument. This might be desirable
-#' for users to evaluate the differences in the amount of area occupied by
-#' occurrences within their primary grid cells. This functionality also allows
-#' the user to easily rarefy across sub-grid cells within primary cells to
-#' further standardise spatial sampling (see example for basic implementation).
+#' resolutions are available (see the 'Details' section of [`space_bins()`]).
 #'
 #' Note: prior to implementation, coordinate reference system (CRS) for input
 #' data is defined as EPSG:4326 (World Geodetic System
@@ -60,28 +54,39 @@
 #' Bethany Allen & Kilian Eichenseer
 #' @importFrom sf st_as_sf st_drop_geometry
 #' @importFrom h3jsr point_to_cell cell_to_point cell_to_polygon
-#' @examples
+#' @seealso [`space_bins()`]
+#' @examplesIf requireNamespace("rnaturalearthdata", quietly = TRUE)
 #' # Get internal data
 #' data("reefs")
 #'
 #' # Reduce data for plotting
-#' occdf <- reefs[1:250, ]
+#' data <- reefs[1:250, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_space(occdf = occdf, spacing = 500, plot = TRUE)
+#' ex1 <- bin_space(data = data, bins = space_bins(spacing = 500))
+#' plot(ex1)
+#'
+#' # Make filled hexagons slightly transparent
+#' plot(ex1, col = adjustcolor("#E69F00", alpha.f = 0.5))
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250, plot = TRUE)
+#' ex2 <- data |>
+#'   bin_space(bins = space_bins(spacing = 1000)) |>
+#'   bin_space(bins = space_bins(spacing = 250))
+#'
+#' plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"))
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
-#' occdf <- tetrapods[1:250, ]
+#' data <- tetrapods[1:250, ]
 #'
-#' # Assign to spatial bin
-#' occdf <- bin_space(occdf = occdf, spacing = 1000, sub_grid = 250)
+#' # Assign to spatial bins and sub-bins
+#' data <- data |>
+#'   bin_space(bins = space_bins(spacing = 1000)) |>
+#'   bin_space(bins = space_bins(spacing = 250))
 #'
 #' # Get unique bins
-#' bins <- unique(occdf$cell_ID)
+#' bins <- unique(data$cell_ID_1)
 #'
 #' # n reps
 #' n <- 10
@@ -89,11 +94,11 @@
 #' # Rarefy data across sub-grid grid cells
 #' # Returns a list with each element a bin with respective mean genus richness
 #' df <- lapply(bins, function(x) {
-#'   # subset occdf for respective grid cell
-#'   tmp <- occdf[which(occdf$cell_ID == x), ]
+#'   # subset data for respective grid cell
+#'   tmp <- data[which(data$cell_ID_1 == x), ]
 #'
 #'   # Which sub-grid cells are there within this bin?
-#'   sub_bin <- unique(tmp$cell_ID_sub)
+#'   sub_bin <- unique(tmp$cell_ID_2)
 #'
 #'   # Sample 1 sub-grid cell n times
 #'   s <- sample(sub_bin, size = n, replace = TRUE)
@@ -101,166 +106,383 @@
 #'   # Count the number of unique genera within each sub_grid cell for each rep
 #'   counts <- sapply(s, function(i) {
 #'     # Number of unique genera within each sample
-#'     length(unique(tmp[which(tmp$cell_ID_sub == i), ]$genus))
+#'     length(unique(tmp[which(tmp$cell_ID_2 == i), ]$genus))
 #'   })
 #'
 #'   # Mean richness across subsamples
 #'   mean(counts)
 #' })
+#' df
 #' @export
 bin_space <- function(
-  occdf,
+  data,
+  bins,
   lng = "lng",
   lat = "lat",
-  spacing = 100,
-  sub_grid = NULL,
-  return = FALSE,
-  plot = FALSE
+  plot = deprecated(),
+  spacing,
+  sub_grid,
+  return
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(occdf)
-  check_column_presence(occdf, lat)
-  check_column_presence(occdf, lng)
-
-  check_class(occdf, lat, "numeric")
-  check_class(occdf, lng, "numeric")
-  check_range(occdf, lat, -90, 90)
-  check_range(occdf, lng, -180, 180)
-
-  rlang::check_number_decimal(spacing)
-  if (spacing <= 0) {
-    cli::cli_abort("{.arg spacing} must be greater than 0.")
+  for (arg in c("return", "spacing", "sub_grid")) {
+    if (arg %in% names(match.call())) {
+      cli::cli_abort(
+        c(
+          "The {.arg {arg}} argument of {.fn bin_space} is no longer used as of {.pkg palaeoverse} 2.0.0.",
+          "i" = "Pass the output of {.fn space_bins} to the {.arg bins} argument instead."
+        )
+      )
+    }
   }
-  rlang::check_number_decimal(sub_grid, allow_null = TRUE)
-  if (!is.null(sub_grid) && sub_grid <= 0) {
-    cli::cli_abort("{.arg sub_grid} must be greater than 0.")
+
+  check_data_frame(data)
+
+  if (!inherits(bins, "palaeoverse_space_bins")) {
+    cli::cli_abort(
+      c(
+        "{.arg bins} must be of class {.cls palaeoverse_space_bins}.",
+        "i" = "Hint: use {.fn space_bins} to create the spatial bins."
+      )
+    )
   }
-  rlang::check_bool(return)
-  rlang::check_bool(plot)
+
+  check_column_presence(data, lat)
+  check_column_presence(data, lng)
+
+  check_class(data, lat, "numeric")
+  check_class(data, lng, "numeric")
+  check_range(data, lat, -90, 90)
+  check_range(data, lng, -180, 180)
+
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "bin_space(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   #=== Set-up ===
   # Convert to sf object and add CRS
-  occdf <- sf::st_as_sf(
-    occdf,
+  data <- sf::st_as_sf(
+    data,
     coords = c(lng, lat),
     remove = FALSE,
     crs = "EPSG:4326"
   )
 
+  h3_resolution <- attr(bins, "h3_resolution", exact = TRUE)
+
   #=== Grid binning  ===
-  # Generate equal area hexagonal grid
-  # Which resolution should be used based on input distance/spacing?
-  # Use the h3jsr::h3_info_table to calculate resolution
-  grid <- h3jsr::h3_info_table[
-    which.min(abs(h3jsr::h3_info_table$avg_cendist_km - spacing)),
-  ]
-  # Add column grid specification
-  grid$grid <- c("primary")
-
   # Extract cell ID
-  occdf$cell_ID <- h3jsr::point_to_cell(occdf, res = grid$h3_resolution)
+  cell_name <- paste0("cell_ID_", h3_resolution)
+  cent_lat_name <- paste0("cell_centroid_lat_", h3_resolution)
+  cent_lon_name <- paste0("cell_centroid_lng_", h3_resolution)
 
-  # Extract cell centroids
-  occdf$cell_centroid_lng <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
-  )[, c("X")]
-  occdf$cell_centroid_lat <- sf::st_coordinates(
-    h3jsr::cell_to_point(h3_address = occdf$cell_ID)
-  )[, c("Y")]
-
-  # Sub-grid desired?
-  if (!is.null(sub_grid)) {
-    s_grid <- h3jsr::h3_info_table[
-      which.min(abs(h3jsr::h3_info_table$avg_cendist_km - sub_grid)),
-    ]
-    # Throw error if grids are the same
-    if (grid$h3_resolution == s_grid$h3_resolution) {
-      cli::cli_abort(
-        c(
-          "{.arg spacing} and {.arg sub_grid} values result in the same resolution.",
-          "i" = "Update {.arg spacing} and/or {.arg sub_grid} accordingly."
-        )
-      )
-    }
-
-    # Add column grid specification
-    s_grid$grid <- c("sub-grid")
-    # Extract cell ID
-    occdf$cell_ID_sub <- h3jsr::point_to_cell(occdf, res = s_grid$h3_resolution)
-
-    # Extract cell centroids
-    occdf$cell_centroid_lng_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
-    )[, c("X")]
-    occdf$cell_centroid_lat_sub <- sf::st_coordinates(
-      h3jsr::cell_to_point(h3_address = occdf$cell_ID_sub)
-    )[, c("Y")]
+  overwritten <- intersect(
+    c(cell_name, cent_lat_name, cent_lon_name),
+    names(data)
+  )
+  if (length(overwritten) > 0) {
+    cli::cli_inform("Overwriting column{?s} {.val {overwritten}}.")
   }
 
-  # Drop geometries column
-  occdf <- sf::st_drop_geometry(occdf)
-  # Format to dataframe
-  occdf <- data.frame(occdf)
-  # Get base grid
-  all_cells <- h3jsr::get_res0()
-  # Get children at desired resolution
-  children <- h3jsr::get_children(
-    h3_address = all_cells,
-    res = grid$h3_resolution,
-    simple = TRUE
+  # Point -> cell
+  # Cell -> find centroid
+  # Add centroid coords to the data
+  data[[cell_name]] <- h3jsr::point_to_cell(data, res = h3_resolution)
+  coords <- sf::st_coordinates(h3jsr::cell_to_point(
+    h3_address = data[[cell_name]]
+  ))
+  data[[cent_lon_name]] <- coords[, "X"]
+  data[[cent_lat_name]] <- coords[, "Y"]
+
+  data <- sf::st_drop_geometry(data)
+  data <- data.frame(data)
+  class(data) <- c("palaeoverse_bin_space", class(data))
+
+  if (isTRUE(plot)) {
+    plot(data)
+  }
+
+  data
+}
+
+#' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
+#' @param ... Extra arguments passed to [`plot()`][base::plot]. The following argument is
+#' already set internally and must not be specified here: `add`.
+#' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
+#' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
+#' ordered from the coarsest to the finest resolution. By default, colours are taken in order
+#' from the colour-blind friendly Okabe-Ito palette (see [`grDevices::palette.colors()`]).
+#' @param centres `list`. Views to display (at most four). These must be either:
+#' - `c(lat = , lon = )`: the whole globe centred on this point;
+#' - `c(xmin = , xmax = , ymin = , ymax = )`: a bounding box (in longitude for `x` and latitude for
+#'   `y`), centred on its midpoint. `xmax` must be greater than `xmin`, and `ymax` must be greater
+#'   than `ymin`.
+#'
+#' By default, three globes are centred on longitude 0, longitude 180, and -102.
+#'
+#' @param subtitles `character`. Titles of each globe, in the same order as `centres`. Must be
+#' `NULL` (default, no subtitles) or of length equal to the number of elements in `centres`.
+#' @param first_layer `sf`, `sfc`, or `sfg`. An object from the package `sf` (e.g. lines, polygons,
+#' or points) indicating the first layer to be printed on each globe. Polygons (such as continents)
+#' are filled in dark grey to distinguish them from oceans. If unspecified (default), it plots the
+#' modern coastlines with `sf::st_geometry(rnaturalearthdata::coastline110)`. Set
+#' `first_layer = NULL` to remove this layer.
+#'
+#' @details
+#' The base grid uses the coarsest resolution among the `cell_ID_*` columns, and the occupied
+#' cells of every resolution are drawn on top of it. The world is shown as one or several globes
+#' (see `centres`) using an orthographic projection, which avoids distorting cells that cross the
+#' antimeridian or cover the poles. Present-day coastlines are drawn as the first layer, which
+#' requires the package `rnaturalearthdata`.
+#'
+#' @name bin_space
+#' @export
+plot.palaeoverse_bin_space <- function(
+  x,
+  ...,
+  col = NULL,
+  centres = list(
+    c(lat = 0, lon = 0),
+    c(lat = 0, lon = 180),
+    c(lat = 23, lon = -102)
+  ),
+  subtitles = NULL,
+  first_layer
+) {
+  check_forbidden_plot_args(
+    ...,
+    forbidden = "add",
+    class = "palaeoverse_bin_space"
   )
-  # Get base cells
-  base_grid <- h3jsr::cell_to_polygon(input = children, simple = TRUE)
+  rlang::check_installed(
+    "rnaturalearthdata",
+    reason = "to plot the output of `bin_space()`."
+  )
 
-  # Get occupied cells
-  primary <- h3jsr::cell_to_polygon(input = occdf$cell_ID, simple = TRUE)
+  cell_cols <- grep("^cell_ID_([0-9]|1[0-5])$", names(x), value = TRUE)
+  if (length(cell_cols) == 0) {
+    cli::cli_abort(
+      "{.arg x} must contain at least one column named {.val cell_ID_<resolution>}."
+    )
+  }
+  resolutions <- sort(as.integer(sub("cell_ID_", "", cell_cols, fixed = TRUE)))
+  n_res <- length(resolutions)
 
-  # Plot data?
-  if (plot) {
-    plot(
-      base_grid,
-      setParUsrBB = TRUE,
-      xlab = "Longitude",
-      ylab = "Latitude",
-      axes = TRUE
+  if (is.null(col)) {
+    # Drop black, which is the first colour of Okabe-Ito
+    col <- unname(grDevices::palette.colors(palette = "Okabe-Ito"))[-1]
+  } else if (!(length(col) %in% c(1, n_res)) || !is.character(col)) {
+    cli::cli_abort(
+      "Argument {.arg col} must be of class {.cls character} and of length 1 or {n_res} (i.e. the number of resolutions in {.arg x})."
     )
-    plot(
-      primary,
-      col = "#feb24c",
-      axes = TRUE,
-      ylab = "Latitude",
-      xlab = "Longitude",
-      add = TRUE
+  }
+
+  if (!is.list(centres)) {
+    cli::cli_abort(
+      "Argument {.arg centres} must be a list, not {.obj_type_friendly {centres}}."
     )
-    if (!is.null(sub_grid)) {
-      secondary <- h3jsr::cell_to_polygon(
-        input = occdf$cell_ID_sub,
+  }
+
+  valid_centre <- function(centre) {
+    if (!is.numeric(centre) || anyNA(centre) || is.null(names(centre))) {
+      return(FALSE)
+    }
+    nms <- sort(names(centre))
+    if (identical(nms, c("lat", "lon"))) {
+      abs(centre[["lat"]]) <= 90 && abs(centre[["lon"]]) <= 180
+    } else if (identical(nms, c("xmax", "xmin", "ymax", "ymin"))) {
+      all(abs(centre[c("xmin", "xmax")]) <= 180) &&
+        all(abs(centre[c("ymin", "ymax")]) <= 90)
+    } else {
+      FALSE
+    }
+  }
+
+  invalid_centres <- !vapply(centres, valid_centre, logical(1))
+  if (any(invalid_centres)) {
+    len <- length(invalid_centres)
+    cli::cli_abort(c(
+      "{cli::qty(len)}Element{?s} {cli::cli_vec(which(invalid_centres))} of {.arg centres} {cli::qty(len)}{?is/are} invalid.",
+      "i" = "{cli::qty(len)}{?It/They} must have latitudes between -90 and 90 and longitudes between -180 and 180, and be either:",
+      "*" = "a named numeric vector {.code c(lat = , lon = )};",
+      "*" = "a named numeric vector {.code c(xmin = , xmax = , ymin = , ymax = )}."
+    ))
+  }
+  bad_bbox <- vapply(
+    centres,
+    function(centre) {
+      length(centre) == 4 &&
+        (centre[["xmin"]] >= centre[["xmax"]] ||
+          centre[["ymin"]] >= centre[["ymax"]])
+    },
+    logical(1)
+  )
+  if (any(bad_bbox)) {
+    cli::cli_abort(
+      "Bounding boxes in {.arg centres} must have {.code xmin < xmax} and {.code ymin < ymax}."
+    )
+  }
+
+  if (!(length(centres) %in% 1:4)) {
+    cli::cli_abort(
+      "Argument {.arg centres} can take 4 points at most (currently it has {length(centres)})."
+    )
+  }
+
+  if (
+    !is.null(subtitles) &&
+      (!is.character(subtitles) || length(subtitles) != length(centres))
+  ) {
+    cli::cli_abort(
+      "Argument {.arg subtitles} must be {.code NULL} or a {.cls character} vector of length {length(centres)} (i.e. the number of elements in {.arg centres})."
+    )
+  }
+
+  # Coarsest cells first so that finer cells are drawn on top
+  cells <- lapply(resolutions, function(res) {
+    h3jsr::cell_to_polygon(input = unique(x[[paste0("cell_ID_", res)]]))
+  })
+
+  if (missing(first_layer)) {
+    first_layer <- sf::st_geometry(rnaturalearthdata::coastline110)
+  } else if (!is.null(first_layer)) {
+    if (!inherits(first_layer, c("sf", "sfc", "sfg"))) {
+      cli::cli_abort(
+        "{.arg first_layer} must be an object from the package {.pkg sf}, or {.code NULL}."
+      )
+    }
+    # Some polygons (e.g. `rnaturalearthdata::countries110`) are invalid on the sphere, which
+    # breaks `st_intersection()`
+    first_layer <- sf::st_make_valid(
+      sf::st_geometry(first_layer),
+      split_crossing_edges = TRUE
+    )
+  }
+
+  dots <- list(...)
+  main <- dots$main
+  dots$main <- NULL
+
+  # Outer margin on top for the title of the whole figure, small inner margins to keep globes close
+  old_par <- graphics::par(
+    oma = c(0, 0, if (is.null(main)) 0 else 2, 0),
+    mar = c(0.5, 0.5, if (is.null(subtitles)) 0.5 else 2, 0.5)
+  )
+  # With three globes, two on top and one centred below
+  graphics::layout(switch(
+    length(centres),
+    `1` = matrix(1),
+    `2` = matrix(1:2, nrow = 1),
+    `3` = matrix(c(1, 1, 2, 2, 0, 3, 3, 0), nrow = 2, byrow = TRUE),
+    `4` = matrix(1:4, nrow = 2, byrow = TRUE)
+  ))
+  on.exit({
+    graphics::layout(1)
+    graphics::par(old_par)
+  })
+
+  # Only built if a globe needs it
+  base_grid <- NULL
+
+  project <- function(geom) {
+    sf::st_transform(
+      sf::st_intersection(geom, hemisphere),
+      crs = paste0("+proj=ortho +lon_0=", centre[1], " +lat_0=", centre[2])
+    )
+  }
+
+  # Keep only the visible hemisphere before projecting so that the far side isn't drawn. The
+  # radius is slightly less than a quarter of the Earth's circumference to stay on the near side.
+  for (k in seq_along(centres)) {
+    centre <- centres[[k]]
+
+    # length(centre) == 2 means that we need to draw a globe. Otherwise we just need a subset
+    # of the grid.
+
+    if (length(centre) == 2) {
+      if (is.null(base_grid)) {
+        base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
+        # `st_intersection()` doesn't support the `palaeoverse_space_bins` subclass
+        class(base_grid) <- setdiff(class(base_grid), "palaeoverse_space_bins")
+      }
+      grid <- base_grid
+      area <- NULL
+      centre <- unname(centre[c("lon", "lat")])
+    } else {
+      # Densify the edges in planar lon/lat so that they follow parallels rather than great
+      # circles once the CRS is set
+      area <- sf::st_set_crs(
+        sf::st_segmentize(
+          sf::st_as_sfc(sf::st_bbox(centre[c("xmin", "ymin", "xmax", "ymax")])),
+          dfMaxLength = 1
+        ),
+        "EPSG:4326"
+      )
+      # `polygon_to_cells()` only returns cells whose centroid is in `area`, so add the cells of the
+      # edges and their neighbours to cover the whole area (`sf::st_cast(area, "POINT")` returns points
+      # on the edge of the bbox)
+      grid_cells <- c(
+        unlist(h3jsr::polygon_to_cells(area, res = resolutions[1])),
+        h3jsr::point_to_cell(sf::st_cast(area, "POINT"), res = resolutions[1])
+      )
+      grid <- h3jsr::cell_to_polygon(
+        unique(unlist(h3jsr::get_disk(unique(grid_cells), ring_size = 1))),
         simple = TRUE
       )
-      plot(secondary, col = "#1d91c0", add = TRUE)
+      centre <- c(
+        mean(centre[c("xmin", "xmax")]),
+        mean(centre[c("ymin", "ymax")])
+      )
     }
-  }
-  # Should the grid be returned?
-  if (return) {
-    if (!is.null(sub_grid)) {
-      grid <- rbind.data.frame(grid, s_grid)
-      occdf <- list(occdf, grid, base_grid, primary, secondary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid", "sub_grid")
-    } else {
-      occdf <- list(occdf, grid, base_grid, primary)
-      names(occdf) <- c("occdf", "grid_info", "grid_base", "grid")
-    }
-  }
-  cli::cli_inform(
-    c(
-      paste0(
-        "Average spacing between adjacent cells in the primary grid was set to ",
-        round(grid$avg_cendist_km[1], digits = 2),
-        " km. "
-      ),
-      "i" = paste0("\nH3 resolution: ", grid$h3_resolution[1])
+
+    # We don't want to display cells on the other side of the globe.
+    hemisphere <- sf::st_buffer(
+      sf::st_sfc(sf::st_point(centre), crs = "EPSG:4326"),
+      dist = 0.999 * pi / 2 * 6371008,
+      max_cells = 10000
     )
-  )
-  return(occdf)
+    if (!is.null(area)) {
+      hemisphere <- sf::st_intersection(hemisphere, area)
+    }
+
+    grid_args <- utils::modifyList(
+      list(project(grid), border = "grey80"),
+      dots
+    )
+    if (!is.null(first_layer)) {
+      # Draw an invisible grid first so that the grid sets the plot dimensions
+      do.call(plot, utils::modifyList(grid_args, list(border = NA)))
+
+      # Then add the first layer, filling polygons (e.g. continents) to distinguish them from oceans
+      layer <- project(first_layer)
+      is_polygon <- sf::st_is(layer, c("POLYGON", "MULTIPOLYGON"))
+      plot(
+        layer,
+        col = ifelse(is_polygon, "grey65", "black"),
+        border = "grey40",
+        pch = 16,
+        add = TRUE
+      )
+      grid_args$add <- TRUE
+    }
+    do.call(plot, grid_args)
+    for (i in seq_along(cells)) {
+      plot(project(cells[[i]]), col = col[i], add = TRUE)
+    }
+
+    if (!is.null(subtitles)) {
+      graphics::title(main = subtitles[k], line = 0.5)
+    }
+  }
+
+  if (!is.null(main)) {
+    graphics::title(main = main, outer = TRUE)
+  }
 }
