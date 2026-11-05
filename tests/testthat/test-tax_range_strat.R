@@ -372,35 +372,35 @@ test_that("plotting with custom axis call works", {
 })
 
 test_that("plot argument 'axis' works", {
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c("A", "A", "B", "B", "C"),
     bed = c(1, 2, 2, 4, 5)
   )
 
   # input checks
   expect_snapshot(
-    plot(tax_range_strat(occdf), axis = "periods"),
+    plot(tax_range_strat(data), axis = "periods"),
     error = TRUE
   )
   expect_snapshot(
-    plot(tax_range_strat(occdf), axis = axis(side = 5)),
+    plot(tax_range_strat(data), axis = axis(side = 5)),
     error = TRUE
   )
 })
 
 test_that("arguments 'plot_args', 'x_args' and 'y_args' are hard deprecated", {
   # fmt: skip
-  occdf <- data.frame(
+  data <- data.frame(
     genus = c(
       "Anconastes", "Procolophon", "Procolophon", "Anconastes", "Araeoscelis", "Araeoscelis", 
       "Edaphosaurus", "Procolophon"
     ),
     bed = c(1, 1, 2, 2, 2, 3, 3, 4)
   )
-  expect_snapshot(tax_range_strat(occdf, x_args = list(las = 1)), error = TRUE)
-  expect_snapshot(tax_range_strat(occdf, y_args = list(las = 1)), error = TRUE)
+  expect_snapshot(tax_range_strat(data, x_args = list(las = 1)), error = TRUE)
+  expect_snapshot(tax_range_strat(data, y_args = list(las = 1)), error = TRUE)
   expect_snapshot(
-    tax_range_strat(occdf, plot_args = list(ylab = "Height (m)")),
+    tax_range_strat(data, plot_args = list(ylab = "Height (m)")),
     error = TRUE
   )
 })

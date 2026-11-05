@@ -219,7 +219,7 @@ tax_range_strat <- function(
   attr(ranges, "palaeoverse_tax_range_strat_group") <- group
   attr(ranges, "palaeoverse_tax_range_strat_level") <- level
   attr(ranges, "palaeoverse_tax_range_strat_certainty") <- certainty
-  attr(ranges, "palaeoverse_tax_range_strat_occdf") <- occdf[,
+  attr(ranges, "palaeoverse_tax_range_strat_data") <- data[,
     c("ID", level, certainty)
   ]
 
@@ -284,8 +284,8 @@ plot.palaeoverse_tax_range_strat <- function(
   group <- attr(x, "palaeoverse_tax_range_strat_group")
   level <- attr(x, "palaeoverse_tax_range_strat_level")
   certainty <- attr(x, "palaeoverse_tax_range_strat_certainty")
-  occdf <- attr(x, "palaeoverse_tax_range_strat_occdf")
-  unique_levels <- unique(occdf[, level, drop = TRUE])
+  data <- attr(x, "palaeoverse_tax_range_strat_data")
+  unique_levels <- unique(data[, level, drop = TRUE])
 
   axis_quo <- rlang::enquo(axis)
   if (rlang::quo_is_null(axis_quo)) {
