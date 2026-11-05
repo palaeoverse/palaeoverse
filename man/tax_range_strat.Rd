@@ -6,7 +6,7 @@
 \title{Calculate the stratigraphic ranges of fossil taxa}
 \usage{
 tax_range_strat(
-  occdf,
+  data,
   name = "genus",
   level = "bed",
   group = NULL,
@@ -28,7 +28,7 @@ tax_range_strat(
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences containing
+\item{data}{\code{dataframe}. A dataframe of fossil occurrences containing
 at least two columns: names of taxa, and their stratigraphic position (see
 \code{name} and \code{level} arguments).}
 
@@ -133,18 +133,18 @@ beds_sampled <- sample.int(n = 10, size = 50, replace = TRUE)
 # Simulate certainty values
 certainty_sampled <- sample(x = 0:1, size = 50, replace = TRUE)
 # Combine into data frame
-occdf <- data.frame(taxon = tetrapod_names,
+data <- data.frame(taxon = tetrapod_names,
                     bed = beds_sampled,
                     certainty = certainty_sampled)
 
 # Plot stratigraphic ranges
-ex <- tax_range_strat(occdf, name = "taxon")
+ex <- tax_range_strat(data, name = "taxon")
 plot(ex)
-ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty")
+ex <- tax_range_strat(data, name = "taxon", certainty = "certainty")
 plot(ex, ylab = "Stratigraphic height (m)")
 
 # Plot stratigraphic ranges with more labelling
-ex <- tax_range_strat(occdf, name = "taxon", certainty = "certainty",
+ex <- tax_range_strat(data, name = "taxon", certainty = "certainty",
                       by = "name")
 eras_custom <- data.frame(name = c("Mesozoic", "Cenozoic"),
                           max_age = c(0.5, 3.5),
@@ -156,9 +156,9 @@ plot(ex, main = "Section A", ylab = "Stratigraphic height (m)",
 # Update margins for plotting
 par(mar = c(5, 6, 6, 2))
 # Pull class data
-occdf$class <- tetrapods$class[1:50]
+data$class <- tetrapods$class[1:50]
 # Group stratigraphic ranges by class
-ex <- tax_range_strat(occdf, name = "taxon", group = "class",
+ex <- tax_range_strat(data, name = "taxon", group = "class",
                       certainty = "certainty", by = "name")
 plot(ex, main = "Section A", ylab = "Stratigraphic height (m)")
 
