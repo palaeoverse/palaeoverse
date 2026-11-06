@@ -4,7 +4,7 @@
 #' bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
 #' [`space_bins()`], which creates the spatial bins required by the `bins` argument.
 #'
-#' @param occdf \code{data.frame}. A dataframe of the fossil occurrences (or
+#' @param data \code{data.frame}. A dataframe of the fossil occurrences (or
 #' any set of coordinates) you wish to bin. This dataframe should contain the decimal
 #' degree coordinates of your occurrences, and they should be of
 #' class `numeric`.
@@ -60,17 +60,17 @@
 #' data("reefs")
 #'
 #' # Reduce data for plotting
-#' occdf <- reefs[1:250, ]
+#' data <- reefs[1:250, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
+#' ex1 <- bin_space(data = data, bins = space_bins(spacing = 500))
 #' plot(ex1)
 #'
 #' # Make filled hexagons slightly transparent
 #' plot(ex1, col = adjustcolor("#E69F00", alpha.f = 0.5))
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- occdf |>
+#' ex2 <- data |>
 #'   bin_space(bins = space_bins(spacing = 1000)) |>
 #'   bin_space(bins = space_bins(spacing = 250))
 #'
@@ -78,15 +78,15 @@
 #'
 #' # EXAMPLE: rarefy
 #' # Load data
-#' occdf <- tetrapods[1:250, ]
+#' data <- tetrapods[1:250, ]
 #'
 #' # Assign to spatial bins and sub-bins
-#' occdf <- occdf |>
+#' data <- data |>
 #'   bin_space(bins = space_bins(spacing = 1000)) |>
 #'   bin_space(bins = space_bins(spacing = 250))
 #'
 #' # Get unique bins
-#' bins <- unique(occdf$cell_ID_1)
+#' bins <- unique(data$cell_ID_1)
 #'
 #' # n reps
 #' n <- 10
@@ -94,8 +94,8 @@
 #' # Rarefy data across sub-grid grid cells
 #' # Returns a list with each element a bin with respective mean genus richness
 #' df <- lapply(bins, function(x) {
-#'   # subset occdf for respective grid cell
-#'   tmp <- occdf[which(occdf$cell_ID_1 == x), ]
+#'   # subset data for respective grid cell
+#'   tmp <- data[which(data$cell_ID_1 == x), ]
 #'
 #'   # Which sub-grid cells are there within this bin?
 #'   sub_bin <- unique(tmp$cell_ID_2)
@@ -115,7 +115,7 @@
 #' df
 #' @export
 bin_space <- function(
-  occdf,
+  data,
   bins,
   lng = "lng",
   lat = "lat",
@@ -124,7 +124,7 @@ bin_space <- function(
   sub_grid,
   return
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
   for (arg in c("return", "spacing", "sub_grid")) {
     if (arg %in% names(match.call())) {
@@ -137,7 +137,7 @@ bin_space <- function(
     }
   }
 
-  check_data_frame(occdf)
+  check_data_frame(data)
 
   if (!inherits(bins, "palaeoverse_space_bins")) {
     cli::cli_abort(
@@ -148,13 +148,13 @@ bin_space <- function(
     )
   }
 
-  check_column_presence(occdf, lat)
-  check_column_presence(occdf, lng)
+  check_column_presence(data, lat)
+  check_column_presence(data, lng)
 
-  check_class(occdf, lat, "numeric")
-  check_class(occdf, lng, "numeric")
-  check_range(occdf, lat, -90, 90)
-  check_range(occdf, lng, -180, 180)
+  check_class(data, lat, "numeric")
+  check_class(data, lng, "numeric")
+  check_range(data, lat, -90, 90)
+  check_range(data, lng, -180, 180)
 
   if (lifecycle::is_present(plot)) {
     lifecycle::deprecate_warn(
@@ -168,8 +168,8 @@ bin_space <- function(
 
   #=== Set-up ===
   # Convert to sf object and add CRS
-  occdf <- sf::st_as_sf(
-    occdf,
+  data <- sf::st_as_sf(
+    data,
     coords = c(lng, lat),
     remove = FALSE,
     crs = "EPSG:4326"
@@ -185,7 +185,7 @@ bin_space <- function(
 
   overwritten <- intersect(
     c(cell_name, cent_lat_name, cent_lon_name),
-    names(occdf)
+    names(data)
   )
   if (length(overwritten) > 0) {
     cli::cli_inform("Overwriting column{?s} {.val {overwritten}}.")
@@ -194,22 +194,22 @@ bin_space <- function(
   # Point -> cell
   # Cell -> find centroid
   # Add centroid coords to the data
-  occdf[[cell_name]] <- h3jsr::point_to_cell(occdf, res = h3_resolution)
+  data[[cell_name]] <- h3jsr::point_to_cell(data, res = h3_resolution)
   coords <- sf::st_coordinates(h3jsr::cell_to_point(
-    h3_address = occdf[[cell_name]]
+    h3_address = data[[cell_name]]
   ))
-  occdf[[cent_lon_name]] <- coords[, "X"]
-  occdf[[cent_lat_name]] <- coords[, "Y"]
+  data[[cent_lon_name]] <- coords[, "X"]
+  data[[cent_lat_name]] <- coords[, "Y"]
 
-  occdf <- sf::st_drop_geometry(occdf)
-  occdf <- data.frame(occdf)
-  class(occdf) <- c("palaeoverse_bin_space", class(occdf))
+  data <- sf::st_drop_geometry(data)
+  data <- data.frame(data)
+  class(data) <- c("palaeoverse_bin_space", class(data))
 
   if (isTRUE(plot)) {
-    plot(occdf)
+    plot(data)
   }
 
-  occdf
+  data
 }
 
 #' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.

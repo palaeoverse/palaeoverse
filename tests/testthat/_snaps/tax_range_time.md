@@ -1,60 +1,60 @@
 # basic behaviour works
 
     Code
-      tax_range_time(occdf = data.frame())
+      tax_range_time(data = data.frame())
     Condition
       Error in `tax_range_time()`:
-      ! Column "genus" not found in `occdf`.
+      ! Column "genus" not found in `data`.
 
 ---
 
     Code
-      tax_range_time(occdf = NULL)
+      tax_range_time(data = NULL)
     Condition
       Error in `tax_range_time()`:
-      ! `occdf` must be of class <data.frame>, not `NULL`.
+      ! `data` must be of class <data.frame>, not `NULL`.
 
 ---
 
     Code
-      tax_range_time(occdf = NA)
+      tax_range_time(data = NA)
     Condition
       Error in `tax_range_time()`:
-      ! `occdf` must be of class <data.frame>, not `NA`.
+      ! `data` must be of class <data.frame>, not `NA`.
 
 ---
 
     Code
-      tax_range_time(occdf = "a")
+      tax_range_time(data = "a")
     Condition
       Error in `tax_range_time()`:
-      ! `occdf` must be of class <data.frame>, not the string "a".
+      ! `data` must be of class <data.frame>, not the string "a".
 
 # tax_range_time errors with unnamed args
 
     Code
-      tax_range_time(occdf, "genus")
+      tax_range_time(data, "genus")
     Condition
       Error in `tax_range_time()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 ---
 
     Code
-      tax_range_time(occdf, "genus", "min_ma")
+      tax_range_time(data, "genus", "min_ma")
     Condition
       Error in `tax_range_time()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there are 2 arguments that should be named.
 
 ---
 
     Code
-      tax_range_time(occdf, "genus", min_ma = "min_ma")
+      tax_range_time(data, "genus", min_ma = "min_ma")
     Condition
       Error in `tax_range_time()`:
-      ! All arguments must be named (except for `occdf`).
+      ! All arguments must be named (except for `data`).
       i Currently, there is 1 argument that should be named.
 
 # argument 'name' works
@@ -63,12 +63,12 @@
       tax_range_time(nadf, name = "species")
     Condition
       Error in `tax_range_time()`:
-      ! Column "species" in `occdf` must not have missing values.
+      ! Column "species" in `data` must not have missing values.
 
 ---
 
     Code
-      tax_range_time(occdf, name = c("Species", "max_ma"))
+      tax_range_time(data, name = c("Species", "max_ma"))
     Condition
       Error in `tax_range_time()`:
       ! `name` must be a single string, not a character vector.
@@ -76,15 +76,15 @@
 ---
 
     Code
-      tax_range_time(occdf, name = "nonexistent")
+      tax_range_time(data, name = "nonexistent")
     Condition
       Error in `tax_range_time()`:
-      ! Column "nonexistent" not found in `occdf`.
+      ! Column "nonexistent" not found in `data`.
 
 ---
 
     Code
-      tax_range_time(occdf, name = 1)
+      tax_range_time(data, name = 1)
     Condition
       Error in `tax_range_time()`:
       ! `name` must be a single string, not the number 1.
@@ -92,7 +92,7 @@
 ---
 
     Code
-      tax_range_time(occdf, name = NA)
+      tax_range_time(data, name = NA)
     Condition
       Error in `tax_range_time()`:
       ! `name` must be a single string, not `NA`.
@@ -100,7 +100,7 @@
 ---
 
     Code
-      tax_range_time(occdf, name = NULL)
+      tax_range_time(data, name = NULL)
     Condition
       Error in `tax_range_time()`:
       ! `name` must be a single string, not `NULL`.
@@ -108,7 +108,7 @@
 # argument 'max_ma' works
 
     Code
-      tax_range_time(occdf, max_ma = c("Species", "max_ma"))
+      tax_range_time(data, max_ma = c("Species", "max_ma"))
     Condition
       Error in `tax_range_time()`:
       ! `max_ma` must be a single string, not a character vector.
@@ -116,15 +116,15 @@
 ---
 
     Code
-      tax_range_time(occdf, max_ma = "nonexistent")
+      tax_range_time(data, max_ma = "nonexistent")
     Condition
       Error in `tax_range_time()`:
-      ! Column "nonexistent" not found in `occdf`.
+      ! Column "nonexistent" not found in `data`.
 
 ---
 
     Code
-      tax_range_time(occdf, max_ma = 1)
+      tax_range_time(data, max_ma = 1)
     Condition
       Error in `tax_range_time()`:
       ! `max_ma` must be a single string, not the number 1.
@@ -132,7 +132,7 @@
 ---
 
     Code
-      tax_range_time(occdf, max_ma = NA)
+      tax_range_time(data, max_ma = NA)
     Condition
       Error in `tax_range_time()`:
       ! `max_ma` must be a single string, not `NA`.
@@ -140,7 +140,7 @@
 ---
 
     Code
-      tax_range_time(occdf, max_ma = NULL)
+      tax_range_time(data, max_ma = NULL)
     Condition
       Error in `tax_range_time()`:
       ! `max_ma` must be a single string, not `NULL`.
@@ -151,7 +151,7 @@
       tax_range_time(chardf)
     Condition
       Error in `tax_range_time()`:
-      ! Column "max_ma" in `occdf` must be of class <numeric>, not <character>.
+      ! Column "max_ma" in `data` must be of class <numeric>, not <character>.
 
 ---
 
@@ -159,12 +159,12 @@
       tax_range_time(nadf)
     Condition
       Error in `tax_range_time()`:
-      ! Column "max_ma" in `occdf` must not have missing values.
+      ! Column "max_ma" in `data` must not have missing values.
 
 # argument 'min_ma' works
 
     Code
-      tax_range_time(occdf, min_ma = c("Species", "min_ma"))
+      tax_range_time(data, min_ma = c("Species", "min_ma"))
     Condition
       Error in `tax_range_time()`:
       ! `min_ma` must be a single string, not a character vector.
@@ -172,15 +172,15 @@
 ---
 
     Code
-      tax_range_time(occdf, min_ma = "nonexistent")
+      tax_range_time(data, min_ma = "nonexistent")
     Condition
       Error in `tax_range_time()`:
-      ! Column "nonexistent" not found in `occdf`.
+      ! Column "nonexistent" not found in `data`.
 
 ---
 
     Code
-      tax_range_time(occdf, min_ma = 1)
+      tax_range_time(data, min_ma = 1)
     Condition
       Error in `tax_range_time()`:
       ! `min_ma` must be a single string, not the number 1.
@@ -188,7 +188,7 @@
 ---
 
     Code
-      tax_range_time(occdf, min_ma = NA)
+      tax_range_time(data, min_ma = NA)
     Condition
       Error in `tax_range_time()`:
       ! `min_ma` must be a single string, not `NA`.
@@ -196,7 +196,7 @@
 ---
 
     Code
-      tax_range_time(occdf, min_ma = NULL)
+      tax_range_time(data, min_ma = NULL)
     Condition
       Error in `tax_range_time()`:
       ! `min_ma` must be a single string, not `NULL`.
@@ -207,7 +207,7 @@
       tax_range_time(chardf)
     Condition
       Error in `tax_range_time()`:
-      ! Column "min_ma" in `occdf` must be of class <numeric>, not <character>.
+      ! Column "min_ma" in `data` must be of class <numeric>, not <character>.
 
 ---
 
@@ -215,21 +215,21 @@
       tax_range_time(nadf)
     Condition
       Error in `tax_range_time()`:
-      ! Column "min_ma" in `occdf` must not have missing values.
+      ! Column "min_ma" in `data` must not have missing values.
 
 # max ages must be larger than or equal to min ages
 
     Code
-      tax_range_time(occdf)
+      tax_range_time(data)
     Condition
       Error in `tax_range_time()`:
       ! Maximum age must be larger than or equal to minimum age.
-      i Row(s) of `occdf` where "max_ma" is smaller than "min_ma": 2, 3.
+      i Row(s) of `data` where "max_ma" is smaller than "min_ma": 2, 3.
 
 # argument 'group' works
 
     Code
-      tax_range_time(occdf, group = c("genus", "min_ma"))
+      tax_range_time(data, group = c("genus", "min_ma"))
     Condition
       Error in `tax_range_time()`:
       ! `group` must be a single string, not a character vector.
@@ -237,15 +237,15 @@
 ---
 
     Code
-      tax_range_time(occdf, group = "nonexistent")
+      tax_range_time(data, group = "nonexistent")
     Condition
       Error in `tax_range_time()`:
-      ! Column "nonexistent" not found in `occdf`.
+      ! Column "nonexistent" not found in `data`.
 
 ---
 
     Code
-      tax_range_time(occdf, group = 1)
+      tax_range_time(data, group = 1)
     Condition
       Error in `tax_range_time()`:
       ! `group` must be a single string, not the number 1.
@@ -253,7 +253,7 @@
 ---
 
     Code
-      tax_range_time(occdf, group = NA)
+      tax_range_time(data, group = NA)
     Condition
       Error in `tax_range_time()`:
       ! `group` must be a single string, not `NA`.
@@ -261,7 +261,7 @@
 # argument 'sort' works
 
     Code
-      tax_range_time(occdf, sort = c("genus", "min_ma"))
+      tax_range_time(data, sort = c("genus", "min_ma"))
     Condition
       Error in `tax_range_time()`:
       ! `sort` must be a single string, not a character vector.
@@ -269,7 +269,7 @@
 ---
 
     Code
-      tax_range_time(occdf, sort = "nonexistent")
+      tax_range_time(data, sort = "nonexistent")
     Condition
       Error in `tax_range_time()`:
       ! `sort` must be one of "FAD", "LAD", or "name", not "nonexistent".
@@ -277,7 +277,7 @@
 ---
 
     Code
-      tax_range_time(occdf, sort = 1)
+      tax_range_time(data, sort = 1)
     Condition
       Error in `tax_range_time()`:
       ! `sort` must be a single string, not the number 1.
@@ -285,7 +285,7 @@
 ---
 
     Code
-      tax_range_time(occdf, sort = NA)
+      tax_range_time(data, sort = NA)
     Condition
       Error in `tax_range_time()`:
       ! `sort` must be a single string, not `NA`.
@@ -293,7 +293,7 @@
 # argument 'by' is deprecated but still works
 
     Code
-      tax_range_time(occdf, by = "LAD", sort = "LAD")
+      tax_range_time(data, by = "LAD", sort = "LAD")
     Condition
       Warning:
       The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
@@ -304,7 +304,7 @@
 ---
 
     Code
-      tax_range_time(occdf, by = c("genus", "min_ma"))
+      tax_range_time(data, by = c("genus", "min_ma"))
     Condition
       Warning:
       The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
@@ -315,7 +315,7 @@
 ---
 
     Code
-      tax_range_time(occdf, by = "nonexistent")
+      tax_range_time(data, by = "nonexistent")
     Condition
       Warning:
       The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
@@ -326,7 +326,7 @@
 ---
 
     Code
-      tax_range_time(occdf, by = 1)
+      tax_range_time(data, by = 1)
     Condition
       Warning:
       The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
@@ -337,7 +337,7 @@
 ---
 
     Code
-      tax_range_time(occdf, by = NA)
+      tax_range_time(data, by = NA)
     Condition
       Warning:
       The `by` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
@@ -348,7 +348,7 @@
 # tax_range_time plotting with extra args works
 
     Code
-      plot(tax_range_time(occdf, group = "family"), col.group = c("red", "blue"))
+      plot(tax_range_time(data, group = "family"), col.group = c("red", "blue"))
     Condition
       Error in `plot()`:
       ! Length of `col.group` (2) must be equal to the number of unique groups in the data (3).
@@ -356,7 +356,7 @@
 ---
 
     Code
-      plot(tax_range_time(occdf), xlim = 1, ylim = 1, xaxt = 1, yaxt = 1, yaxs = 1)
+      plot(tax_range_time(data), xlim = 1, ylim = 1, xaxt = 1, yaxt = 1, yaxs = 1)
     Condition
       Error in `plot()`:
       ! Cannot pass arguments `xlim`, `ylim`, `xaxt`, and `yaxt` when calling `plot()` on an object of class <palaeoverse_tax_range_time>.
@@ -365,7 +365,7 @@
 # plot is deprecated but still works
 
     Code
-      tax_range_time(occdf, plot = "6")
+      tax_range_time(data, plot = "6")
     Condition
       Warning:
       The `plot` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
@@ -376,7 +376,7 @@
 # plot_args is deprecated but still works
 
     Code
-      tax_range_time(occdf, plot_args = 1)
+      tax_range_time(data, plot_args = 1)
     Condition
       Warning:
       The `plot_args` argument of `tax_range_time()` is deprecated as of palaeoverse 2.0.0.
@@ -387,7 +387,7 @@
 # argument 'intervals' is hard deprecated
 
     Code
-      tax_range_time(occdf, intervals = c("genus", "min_ma"))
+      tax_range_time(data, intervals = c("genus", "min_ma"))
     Condition
       Error in `tax_range_time()`:
       ! The argument `intervals` has been removed in palaeoverse 2.0.0.
@@ -396,7 +396,7 @@
 # plot argument 'axis' works
 
     Code
-      plot(tax_range_time(occdf), axis = "periods")
+      plot(tax_range_time(data), axis = "periods")
     Condition
       Error in `plot()`:
       ! `axis` must be a function call, not `"periods"`.
@@ -404,7 +404,7 @@
 ---
 
     Code
-      plot(tax_range_time(occdf), axis = axis_geo(intervals = "nonexistent"))
+      plot(tax_range_time(data), axis = axis_geo(intervals = "nonexistent"))
     Condition
       Error in `plot()`:
       ! Error in `axis_geo(intervals = "nonexistent")`.
@@ -414,7 +414,7 @@
 ---
 
     Code
-      plot(tax_range_time(occdf), axis = axis_geo(intervals = 1))
+      plot(tax_range_time(data), axis = axis_geo(intervals = 1))
     Condition
       Error in `plot()`:
       ! Error in `axis_geo(intervals = 1)`.
@@ -428,7 +428,7 @@
 ---
 
     Code
-      plot(tax_range_time(occdf), axis = axis_geo(intervals = NA))
+      plot(tax_range_time(data), axis = axis_geo(intervals = NA))
     Condition
       Error in `plot()`:
       ! Error in `axis_geo(intervals = NA)`.

@@ -4,10 +4,10 @@
 \alias{tax_expand_lat}
 \title{Generate pseudo-occurrences from latitudinal range data}
 \usage{
-tax_expand_lat(taxdf, bins, max_lat = "max_lat", min_lat = "min_lat")
+tax_expand_lat(data, bins, max_lat = "max_lat", min_lat = "min_lat")
 }
 \arguments{
-\item{taxdf}{\code{dataframe}. A dataframe of taxa (such as the
+\item{data}{\code{dataframe}. A dataframe of taxa (such as the
 output of the 'lat' method in \code{\link{tax_range_space}}) with columns
 containing latitudinal range data (maximum and minimum latitude). Column
 names are assumed to be "max_lat" and "min_lat", but may be updated via the
@@ -55,10 +55,10 @@ Christopher D. Dean
 
 \examples{
 bins <- lat_bins_degrees()
-taxdf <- data.frame(name = c("A", "B", "C"),
+data <- data.frame(name = c("A", "B", "C"),
                     max_lat = c(60, 20, -10),
                     min_lat = c(20, -40, -60))
-ex <- tax_expand_lat(taxdf = taxdf,
+ex <- tax_expand_lat(data = data,
                      bins = bins,
                      max_lat = "max_lat",
                      min_lat = "min_lat")
