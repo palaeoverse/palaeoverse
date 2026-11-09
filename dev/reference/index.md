@@ -52,7 +52,8 @@ Functions to aid in the visualisation of data and analysis results.
   [`axis_geo_phylo()`](https://palaeoverse.palaeoverse.org/dev/reference/axis_geo.md)
   : Add an axis with a geological timescale
 - [`tax_range_strat()`](https://palaeoverse.palaeoverse.org/dev/reference/tax_range_strat.md)
-  : Generate a stratigraphic section plot
+  [`plot(`*`<palaeoverse_tax_range_strat>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/tax_range_strat.md)
+  : Calculate the stratigraphic ranges of fossil taxa
 
 ## Auxiliary functions
 
@@ -67,6 +68,7 @@ Functions to support further functionality.
   [`plot(`*`<palaeoverse_lat_bins_degrees>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/lat_bins_degrees.md)
   : Generate equal-width latitudinal bins
 - [`space_bins()`](https://palaeoverse.palaeoverse.org/dev/reference/space_bins.md)
+  [`plot(`*`<palaeoverse_space_bins>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/space_bins.md)
   : Generate H3 spatial bins
 - [`time_bins()`](https://palaeoverse.palaeoverse.org/dev/reference/time_bins.md)
   [`plot(`*`<palaeoverse_time_bins>`*`)`](https://palaeoverse.palaeoverse.org/dev/reference/time_bins.md)

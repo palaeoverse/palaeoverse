@@ -10,6 +10,15 @@ to assign fossil occurrences (or localities) to spatial bins.
 
 ``` r
 space_bins(resolution, spacing, area)
+
+# S3 method for class 'palaeoverse_space_bins'
+plot(
+  x,
+  ...,
+  centres = list(c(lat = 0, lon = 0), c(lat = 0, lon = 180), c(lat = 23, lon = -102)),
+  subtitles = NULL,
+  first_layer
+)
 ```
 
 ## Arguments
@@ -30,6 +39,47 @@ space_bins(resolution, spacing, area)
   `numeric`. The desired area of each cell. This value should be
   provided in square kilometres. Cannot be used if `resolution` or
   `spacing` is used.
+
+- x:
+
+  An object of class `"palaeoverse_space_bins"` created by
+  `space_bins()`.
+
+- ...:
+
+  Extra arguments passed to
+  [`plot()`](https://rdrr.io/r/base/plot.html). The following argument
+  is already set internally and must not be specified here: `add`.
+
+- centres:
+
+  `list`. Views to display (at most four). These must be either:
+
+  - `c(lat = , lon = )`: the whole globe centred on this point;
+
+  - `c(xmin = , xmax = , ymin = , ymax = )`: a bounding box (in
+    longitude for `x` and latitude for `y`), centred on its midpoint.
+    `xmax` must be greater than `xmin`, and `ymax` must be greater than
+    `ymin`.
+
+  By default, three globes are centred on longitude 0, longitude 180,
+  and -102.
+
+- subtitles:
+
+  `character`. Titles of each globe, in the same order as `centres`.
+  Must be `NULL` (default, no subtitles) or of length equal to the
+  number of elements in `centres`.
+
+- first_layer:
+
+  `sf`, `sfc`, or `sfg`. An object from the package `sf` (e.g. lines,
+  polygons, or points) indicating the first layer to be printed on each
+  globe. Polygons (such as continents) are filled in dark grey to
+  distinguish them from oceans. If unspecified (default), it plots the
+  modern coastlines with
+  `sf::st_geometry(rnaturalearthdata::coastline110)`. Set
+  `first_layer = NULL` to remove this layer.
 
 ## Value
 
@@ -135,4 +185,13 @@ space_bins(area = 100000)
 #> POLYGON ((48.58085 76.68007, 55.65377 76.66744,...
 #> POLYGON ((46.68072 79.52276, 55.75077 79.55833,...
 #> POLYGON ((29.20747 75.65094, 35.20921 76.15221,...
+
+grid <- space_bins(resolution = 1)
+#> ℹ H3 resolution: 1
+#> ℹ Average spacing between adjacent cells: 725.17 km.
+#> ℹ Average cell area: 609,788.4 sq. km.
+plot(grid)
+
+
+plot(grid, main = "H3 grid", subtitles = c("Africa", "Pacific", "Americas"))
 ```
