@@ -125,22 +125,19 @@ bin_time_mid <- function(occdf, min_ma = "min_ma", max_ma = "max_ma", bins) {
   occdf <- prep$occdf
   bins <- prep$bins
 
-  # If no mid point is present for occurrence age range, add one in a
-  # new column.
+  # If no mid point is present for occurrence age range, add one in a new column.
   rmcol <- FALSE
   if (!("mid_ma" %in% colnames(occdf))) {
-    occdf$mid_ma <- (occdf[, max_ma, drop = TRUE] +
-      occdf[, min_ma, drop = TRUE]) /
-      2
+    # fmt: skip
+    occdf$mid_ma <- (occdf[, max_ma, drop = TRUE] + occdf[, min_ma, drop = TRUE]) / 2
     rmcol <- TRUE
   }
   # Check if mid_ma equivalent to any bin boundaries
   if (any(occdf$mid_ma %in% bins$mid_ma)) {
-    warning(paste(
-      "One or more occurrences have a midpoint age",
-      "equivalent to a bin boundary. Binning skipped for",
-      "these occurrences.",
-      "Hint: `which(is.na(occdf$bin_assignment))`."
+    cli::cli_warn(c(
+      "!" = "One or more occurrences have a midpoint age equivalent to a bin boundary.",
+      "x" = "Binning is skipped for these occurrences.",
+      "i" = "Hint: {.code which(is.na(occdf$bin_assignment))}."
     ))
   }
 
@@ -156,7 +153,7 @@ bin_time_mid <- function(occdf, min_ma = "min_ma", max_ma = "max_ma", bins) {
 
   # Remove mid_ma for fossil occurrences (if not already present as input)
   if (rmcol) {
-    occdf <- occdf[, -which(colnames(occdf) == "mid_ma")]
+    occdf[["mid_ma"]] <- NULL
   }
 
   occdf
@@ -399,10 +396,11 @@ bin_time <- function(
   ...
 ) {
   ensure_args_are_named(exceptions = "occdf")
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     "2.0.0",
     "bin_time()",
-    details = "Use one of `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, or `bin_time_point()` instead."
+    details = "Use one of `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, or `bin_time_point()` instead.",
+    always = TRUE
   )
 
   method <- rlang::arg_match(
