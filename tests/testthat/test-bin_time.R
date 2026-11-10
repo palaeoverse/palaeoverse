@@ -56,7 +56,7 @@ test_that("bin_time_mid() works", {
   # occ3's midpoint (10) equals a bin boundary, which triggers a warning and
   # returns an NA assignment
   expect_warning(
-    bin_mid <- bin_time_mid(test_data, bins = test_bins),
+    bin_mid <- bin_time_mid(data = test_data, bins = test_bins),
     "equivalent to a bin boundary"
   )
   expect_equal(
@@ -78,7 +78,7 @@ test_that("bin_time_mid() works", {
 })
 
 test_that("bin_time_majority() works", {
-  bin_majority <- bin_time_majority(test_data, bins = test_bins)
+  bin_majority <- bin_time_majority(data = test_data, bins = test_bins)
   # occ3 is a 50/50 tie, resolved to the first bin (bin 1)
   expect_equal(
     bin_majority,
@@ -98,12 +98,12 @@ test_that("bin_time_majority() works", {
 test_that("piping and not piping the first argument give the same result", {
   expect_equal(
     test_data |> bin_time_majority(bins = test_bins),
-    bin_time_majority(test_data, bins = test_bins)
+    bin_time_majority(data = test_data, bins = test_bins)
   )
 })
 
 test_that("bin_time_all() works", {
-  bin_all <- bin_time_all(test_data, bins = test_bins)
+  bin_all <- bin_time_all(data = test_data, bins = test_bins)
   # Occurrences spanning several bins are duplicated, one row per bin
   # fmt: skip
   expect_equal(
@@ -125,7 +125,7 @@ test_that("bin_time_all() works", {
 
 test_that("bin_time_random() works", {
   set.seed(1234)
-  bin_random <- bin_time_random(test_data, bins = test_bins, reps = 5)
+  bin_random <- bin_time_random(data = test_data, bins = test_bins, reps = 5)
 
   # We test that:
   # - all elements have the correct column names and columns
@@ -183,7 +183,7 @@ test_that("bin_time_random() works", {
 
 test_that("bin_time_point() works", {
   set.seed(1234)
-  bin_point <- bin_time_point(test_data, bins = test_bins, reps = 5)
+  bin_point <- bin_time_point(data = test_data, bins = test_bins, reps = 5)
 
   # We test that:
   # - all elements have the correct column names and columns
@@ -471,7 +471,7 @@ test_that("bin_time_*() functions error with unnamed args", {
     bin_time_majority(data = test_data, test_bins),
     error = TRUE
   )
-  expect_snapshot(bin_time_majority(test_data, test_bins), error = TRUE)
+  expect_snapshot(bin_time_majority(data = test_data, test_bins), error = TRUE)
 
   # Can't pass extra unnamed args
   expect_snapshot(
@@ -504,15 +504,20 @@ test_that("bin_time() is deprecated but still works", {
       )
     } else {
       lifecycle::expect_deprecated(
-        old <- bin_time(test_data, bins = test_bins, method = method, reps = 5)
+        old <- bin_time(
+          data = test_data,
+          bins = test_bins,
+          method = method,
+          reps = 5
+        )
       )
     }
     set.seed(1234)
     new <- suppressWarnings(
       if (method %in% c("random", "point")) {
-        fn(test_data, bins = test_bins, reps = 5)
+        fn(data = test_data, bins = test_bins, reps = 5)
       } else {
-        fn(test_data, bins = test_bins)
+        fn(data = test_data, bins = test_bins)
       }
     )
     expect_equal(old, new)
@@ -544,12 +549,16 @@ test_that("bin_time() is deprecated but still works", {
 
   # Default method is "mid"
   expect_equal(
-    suppressWarnings(bin_time(test_data, bins = test_bins)),
-    suppressWarnings(bin_time_mid(test_data, bins = test_bins))
+    suppressWarnings(bin_time(data = test_data, bins = test_bins)),
+    suppressWarnings(bin_time_mid(data = test_data, bins = test_bins))
   )
 
   expect_snapshot(
-    suppressWarnings(bin_time(test_data, bins = test_bins, method = "foo")),
+    suppressWarnings(bin_time(
+      data = test_data,
+      bins = test_bins,
+      method = "foo"
+    )),
     error = TRUE
   )
 })
