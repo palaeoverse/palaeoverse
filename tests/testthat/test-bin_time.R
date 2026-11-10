@@ -363,7 +363,7 @@ test_that("wrong input for data", {
     min_ma = c(0, 8, 10),
     max_ma = c(10, 9, 15)
   )
-  expect_snapshot(bin_time_mid(data, bins = bins), error = TRUE)
+  expect_snapshot(bin_time_mid(data = data, bins = bins), error = TRUE)
 
   data <- data.frame(
     name = c("occ1", "occ2", "occ3"),
@@ -375,7 +375,7 @@ test_that("wrong input for data", {
     min_ma = c(0, 10, 5),
     max_ma = c(10, 9, 3)
   )
-  expect_snapshot(bin_time_mid(data, bins = bins), error = TRUE)
+  expect_snapshot(bin_time_mid(data = data, bins = bins), error = TRUE)
 })
 
 test_that("wrong input for reps", {
@@ -387,13 +387,25 @@ test_that("wrong input for reps", {
   )
 
   expect_snapshot(
-    bin_time_random(data, bins = bins, reps = TRUE),
+    bin_time_random(data = data, bins = bins, reps = TRUE),
     error = TRUE
   )
-  expect_snapshot(bin_time_random(data, bins = bins, reps = 0), error = TRUE)
-  expect_snapshot(bin_time_random(data, bins = bins, reps = 1.5), error = TRUE)
-  expect_snapshot(bin_time_random(data, bins = bins, reps = NA), error = TRUE)
-  expect_snapshot(bin_time_point(data, bins = bins, reps = 0), error = TRUE)
+  expect_snapshot(
+    bin_time_random(data = data, bins = bins, reps = 0),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_time_random(data = data, bins = bins, reps = 1.5),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_time_random(data = data, bins = bins, reps = NA),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_time_point(data = data, bins = bins, reps = 0),
+    error = TRUE
+  )
 })
 
 test_that("wrong input for fun", {
@@ -405,24 +417,30 @@ test_that("wrong input for fun", {
   )
 
   # "fun" must be a function
-  expect_snapshot(bin_time_point(data, bins = bins, fun = NULL), error = TRUE)
-  expect_snapshot(bin_time_point(data, bins = bins, fun = 1), error = TRUE)
+  expect_snapshot(
+    bin_time_point(data = data, bins = bins, fun = NULL),
+    error = TRUE
+  )
+  expect_snapshot(
+    bin_time_point(data = data, bins = bins, fun = 1),
+    error = TRUE
+  )
 
   # "x" shouldn't be provided
   expect_snapshot(
-    bin_time_point(data, bins = bins, fun = dnorm, x = 1),
+    bin_time_point(data = data, bins = bins, fun = dnorm, x = 1),
     error = TRUE
   )
 
   # "test" is an invalid arg
   expect_snapshot(
-    bin_time_point(data, bins = bins, fun = dnorm, test = 1),
+    bin_time_point(data = data, bins = bins, fun = dnorm, test = 1),
     error = TRUE
   )
 
   # multiple invalid args
   expect_snapshot(
-    bin_time_point(data, bins = bins, fun = dnorm, test1 = 1, test2 = 1),
+    bin_time_point(data = data, bins = bins, fun = dnorm, test1 = 1, test2 = 1),
     error = TRUE
   )
 })
@@ -437,15 +455,15 @@ test_that("errors in data for min and max age", {
 
   # Min age in data cannot be less than min age of bins
   data$min_ma[1] <- -5000
-  expect_snapshot(bin_time_mid(data, bins = bins), error = TRUE)
+  expect_snapshot(bin_time_mid(data = data, bins = bins), error = TRUE)
 
   # Max age in data cannot be less than max age of bins
   data$max_ma[1] <- 5000
-  expect_snapshot(bin_time_mid(data, bins = bins), error = TRUE)
+  expect_snapshot(bin_time_mid(data = data, bins = bins), error = TRUE)
 
   # Min or max age cannot have missing values
   data$max_ma[1] <- NA
-  expect_snapshot(bin_time_mid(data, bins = bins), error = TRUE)
+  expect_snapshot(bin_time_mid(data = data, bins = bins), error = TRUE)
 })
 
 test_that("bin_time_*() functions error with unnamed args", {
