@@ -4,10 +4,10 @@
 \alias{phylo_check}
 \title{Check phylogeny tip names}
 \usage{
-phylo_check(tree, list, out = "full_table", sort = "presence")
+phylo_check(data, list, out = "full_table", sort = "presence")
 }
 \arguments{
-\item{tree}{\code{phylo}. A phylo object containing the phylogeny.}
+\item{data}{\code{phylo}. A phylo object containing the phylogeny.}
 
 \item{list}{\code{character}. A vector of taxon names. Binomials can be
 separated with either a space or an underscore. The names should not contain
@@ -75,14 +75,14 @@ dinosaurs <- c("Nasutoceratops_titusi", "Diabloceratops_eatoni",
 "Triceratops_horridus", "Triceratops_prorsus")
 
 #Table of taxon names in list, tree or both
-ex1 <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs)
+ex1 <- phylo_check(data = ceratopsianTreeRaia, list = dinosaurs)
 
 #Counts of taxa in list, tree or both
-ex2 <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
+ex2 <- phylo_check(data = ceratopsianTreeRaia, list = dinosaurs,
                    out = "counts")
 
 #Trim tree to tips in the list
-my_ceratopsians <- phylo_check(tree = ceratopsianTreeRaia, list = dinosaurs,
+my_ceratopsians <- phylo_check(data = ceratopsianTreeRaia, list = dinosaurs,
 out = "tree")
 plot(my_ceratopsians)
 # reset user par

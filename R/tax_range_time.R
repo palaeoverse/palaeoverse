@@ -3,7 +3,7 @@
 #' A function to calculate the temporal range of fossil taxa from occurrence
 #' data.
 #'
-#' @param occdf \code{dataframe}. A dataframe of fossil occurrences containing
+#' @param data \code{dataframe}. A dataframe of fossil occurrences containing
 #' at least three columns: names of taxa, minimum age and maximum age
 #' (see `name`, `min_ma`, and `max_ma` arguments).
 #' These ages should constrain the age range of the fossil occurrence
@@ -17,9 +17,10 @@
 #' @param group \code{character}. The name of the column you wish to be treated
 #' as the grouping variable, e.g. "family". If not supplied, all taxa are
 #'   treated as a single group.
-#' @param by \code{character}. How should the output be sorted?
+#' @param sort \code{character}. How should the output be sorted?
 #' Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 #' or "name" (alphabetically by taxon names).
+#' @param by `r lifecycle::badge("deprecated")` Use `sort` instead.
 #' @param plot,plot_args `r lifecycle::badge("deprecated")` Use `plot()` on the
 #'   output of this function instead.
 #' @param intervals `r lifecycle::badge("deprecated")` Use the argument `axis`
@@ -35,7 +36,7 @@
 #' that is for internal use only.
 #'
 #' @details The temporal range(s) of taxa are calculated by extracting all
-#'   unique taxa (`name` column) from the input `occdf`, and checking their
+#'   unique taxa (`name` column) from the input `data`, and checking their
 #'   first and last appearance. The temporal duration of each taxon is also
 #'   calculated. If the input data columns contain NAs, these must be
 #'   removed prior to function call.
@@ -50,28 +51,28 @@
 #' Bethany Allen, Christopher D. Dean & Kilian Eichenseer
 #' @examples
 #' # Grab internal data
-#' occdf <- tetrapods
+#' data <- tetrapods
 #' # Remove NAs
-#' occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
+#' data <- subset(data, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 #' # Temporal range
-#' ex <- tax_range_time(occdf = occdf, name = "order")
+#' ex <- tax_range_time(data = data, name = "order")
 #' plot(ex)
 #'
 #' # Temporal range ordered by class
 #' # Update margins for plotting
 #' par(mar = c(8, 5, 6, 6))
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+#' ex <- tax_range_time(data = data, name = "order", group = "class")
 #' plot(ex)
 #'
 #' # Customise appearance
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+#' ex <- tax_range_time(data = data, name = "order", group = "class")
 #' plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
 #'      axis = axis_geo(intervals = "eras", abbr = FALSE))
 #'
 #' # Control plotting order of groups
-#' occdf$class <- factor(x = occdf$class,
+#' data$class <- factor(x = data$class,
 #'                       levels = c("Reptilia", "Osteichthyes"))
-#' ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+#' ex <- tax_range_time(data = data, name = "order", group = "class")
 #' plot(ex)
 #'
 #' # Add elements to the plot
@@ -80,38 +81,53 @@
 #' par(op)
 #' @export
 tax_range_time <- function(
-  occdf,
+  data,
   name = "genus",
   min_ma = "min_ma",
   max_ma = "max_ma",
   group = NULL,
-  by = "FAD",
+  sort = "FAD",
+  by = deprecated(),
   plot = deprecated(),
   plot_args = deprecated(),
   intervals = deprecated()
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
-  check_data_frame(occdf)
+  check_data_frame(data)
 
-  check_column_presence(occdf, name)
-  check_column_presence(occdf, min_ma)
-  check_column_presence(occdf, max_ma)
+  check_column_presence(data, name)
+  check_column_presence(data, min_ma)
+  check_column_presence(data, max_ma)
 
-  check_na(occdf, name)
-  check_na(occdf, min_ma)
-  check_na(occdf, max_ma)
+  check_na(data, name)
+  check_na(data, min_ma)
+  check_na(data, max_ma)
 
-  check_class(occdf, min_ma, "numeric")
-  check_class(occdf, max_ma, "numeric")
-  check_min_lower_than_max(occdf, min_ma, max_ma)
+  check_class(data, min_ma, "numeric")
+  check_class(data, max_ma, "numeric")
+  check_min_lower_than_max(data, min_ma, max_ma)
 
   if (!is.null(group)) {
-    check_column_presence(occdf, group)
+    check_column_presence(data, group)
   }
 
-  rlang::check_string(by)
-  by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
+  if (lifecycle::is_present(by)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "tax_range_time(by)",
+      "tax_range_time(sort)",
+      always = TRUE
+    )
+    rlang::check_exclusive(by, sort)
+
+    rlang::check_string(by)
+    by <- rlang::arg_match(by, values = c("FAD", "LAD", "name"))
+    sort <- by
+  }
+
+  rlang::check_string(sort)
+  sort <- rlang::arg_match(sort, values = c("FAD", "LAD", "name"))
 
   if (lifecycle::is_present(intervals)) {
     cli::cli_abort(
@@ -148,18 +164,18 @@ tax_range_time <- function(
 
   # Create pseudo-group if not provided (enable group_apply with no groups)
   if (is.null(group)) {
-    occdf$tmp_group <- 1
+    data$tmp_group <- 1
     g <- "tmp_group"
   } else {
     g <- group
   }
   # Calculate ranges
   temp_df <- group_apply(
-    occdf,
+    data,
     group = g,
-    fun = function(occdf, name, min_ma, max_ma) {
+    fun = function(data, name, min_ma, max_ma) {
       #=== Set-up ===
-      unique_taxa <- unique(occdf[, name, drop = TRUE])
+      unique_taxa <- unique(data[, name, drop = TRUE])
       # Order taxa by name
       unique_taxa <- sort(unique_taxa)
 
@@ -175,16 +191,16 @@ tax_range_time <- function(
       )
       # Run for loop across unique taxa
       for (i in seq_along(unique_taxa)) {
-        vec <- which(occdf[, name, drop = TRUE] == unique_taxa[i])
-        temp_df$max_ma[i] <- max(occdf[vec, max_ma])
-        temp_df$min_ma[i] <- min(occdf[vec, min_ma])
+        vec <- which(data[, name, drop = TRUE] == unique_taxa[i])
+        temp_df$max_ma[i] <- max(data[vec, max_ma])
+        temp_df$min_ma[i] <- min(data[vec, min_ma])
         temp_df$range_myr[i] <- temp_df$max_ma[i] - temp_df$min_ma[i]
         temp_df$n_occ[i] <- length(vec)
       }
       # Should data be ordered by FAD, LAD, or name?
-      if (by == "FAD") {
+      if (sort == "FAD") {
         temp_df <- temp_df[order(temp_df$max_ma), ]
-      } else if (by == "LAD") {
+      } else if (sort == "LAD") {
         temp_df <- temp_df[order(temp_df$min_ma), ]
       }
       # Return dataframe
@@ -248,7 +264,7 @@ tax_range_time <- function(
 #' and `usr` used to draw the plot (see [graphics::par()]).
 #'
 #' @name tax_range_time
-#' @importFrom graphics points strwidth
+#' @importFrom graphics points strwidth plot.new title
 #' @export
 plot.palaeoverse_tax_range_time <- function(
   x,
