@@ -142,17 +142,11 @@ bin_time_mid <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
 
   # Generate id column for data (this is for tracking duplicate rows).
   data$id <- seq_len(nrow(data))
-  data$n_bins <- 0
+  data$n_bins <- lengths(compute_overlaps(data, bins, min_ma, max_ma))
   data$bin_assignment <- NA
   data$bin_midpoint <- NA
 
   for (i in seq_len(nrow(bins))) {
-    # Count the bins that the age range of each occurrence overlaps with
-    overlaps <- data[[max_ma]] > bins[i, min_ma, drop = TRUE] &
-      data[[min_ma]] < bins[i, max_ma, drop = TRUE]
-    data$n_bins[overlaps] <- data$n_bins[overlaps] + 1
-
-    # Assign bin based on midpoint age of the age range
     v <- which(
       data$mid_ma > bins[i, min_ma, drop = TRUE] &
         data$mid_ma < bins[i, max_ma, drop = TRUE]
@@ -191,7 +185,6 @@ bin_time_majority <- function(
   data$bin_midpoint <- NA
   data$overlap_percentage <- NA
 
-  # Run across bin list
   for (i in seq_along(overlaps)) {
     # Dataframe of bins occurrence known to occur in
     tmpbin <- bins[bins$bin %in% overlaps[[i]], ]
