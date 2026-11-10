@@ -123,17 +123,13 @@ bin_time_mid <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
   ensure_args_are_named(exceptions = "data")
   check_bin_time(data, min_ma, max_ma, bins)
 
-  # If no mid point is present for occurrence age range, add one in a new column.
   rmcol <- FALSE
   if (!("mid_ma" %in% colnames(data))) {
-    # fmt: skip
-    data$mid_ma <- (data[, max_ma, drop = TRUE] + data[, min_ma, drop = TRUE]) / 2
+    data$mid_ma <- (data[[max_ma]] + data[[min_ma]]) / 2
     rmcol <- TRUE
   }
   if (!("mid_ma" %in% colnames(bins))) {
-    bins$mid_ma <- (bins[, max_ma, drop = TRUE] +
-      bins[, min_ma, drop = TRUE]) /
-      2
+    bins$mid_ma <- (bins[[max_ma]] + bins[[min_ma]]) / 2
   }
 
   # Check if mid_ma equivalent to any bin boundaries
