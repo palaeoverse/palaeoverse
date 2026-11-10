@@ -132,8 +132,14 @@ bin_time_mid <- function(occdf, min_ma = "min_ma", max_ma = "max_ma", bins) {
     occdf$mid_ma <- (occdf[, max_ma, drop = TRUE] + occdf[, min_ma, drop = TRUE]) / 2
     rmcol <- TRUE
   }
+  if (!("mid_ma" %in% colnames(bins))) {
+    bins$mid_ma <- (bins[, max_ma, drop = TRUE] +
+      bins[, min_ma, drop = TRUE]) /
+      2
+  }
+
   # Check if mid_ma equivalent to any bin boundaries
-  if (any(occdf$mid_ma %in% bins$mid_ma)) {
+  if (any(occdf$mid_ma %in% c(bins[[min_ma]], bins[[max_ma]]))) {
     cli::cli_warn(c(
       "!" = "One or more occurrences have a midpoint age equivalent to a bin boundary.",
       "x" = "Binning is skipped for these occurrences.",
@@ -141,15 +147,24 @@ bin_time_mid <- function(occdf, min_ma = "min_ma", max_ma = "max_ma", bins) {
     ))
   }
 
+  # Generate id column for data (this is for tracking duplicate rows).
+  occdf$id <- seq_len(nrow(occdf))
+
   # Assign bin based on midpoint age of the age range
-  for (i in seq_len(nrow(bins))) {
-    v <- which(
-      occdf$mid_ma > bins[i, min_ma, drop = TRUE] &
-        occdf$mid_ma < bins[i, max_ma, drop = TRUE]
-    )
-    occdf$bin_assignment[v] <- bins$bin[i]
-    occdf$bin_midpoint[v] <- bins$mid_ma[i]
-  }
+  ord <- order(bins[[min_ma]])
+  breaks <- c(bins[[min_ma]][ord], max(bins[[max_ma]]))
+  idx <- findInterval(occdf$mid_ma, breaks, left.open = TRUE)
+  # Strict inequalities in the loop mean boundary values stay unassigned
+  idx[idx == 0 | idx == length(breaks) | occdf$mid_ma %in% breaks] <- NA
+
+  # Number of bins the age range overlaps: bins starting before the range ends,
+  # minus bins that end at or before the range starts
+  occdf$n_bins <-
+    findInterval(occdf[[max_ma]], sort(bins[[min_ma]]), left.open = TRUE) -
+    findInterval(occdf[[min_ma]], sort(bins[[max_ma]]))
+
+  occdf$bin_assignment <- bins$bin[ord][idx]
+  occdf$bin_midpoint <- bins$mid_ma[ord][idx]
 
   # Remove mid_ma for fossil occurrences (if not already present as input)
   if (rmcol) {
@@ -484,33 +499,34 @@ bin_time_prepare <- function(
     )
   }
 
-  # Make an empty list that's the length of the occurrence dataframe.
-  bin_list <- vector("list", length = nrow(occdf))
+  # # Make an empty list that's the length of the occurrence dataframe.
+  # bin_list <- vector("list", length = nrow(occdf))
 
-  # For each occurrence, find all the bins that it is present within, and
-  # add as elements to that part of the list.
-  for (i in seq_len(nrow(bins))) {
-    v <- which(
-      occdf[, max_ma, drop = TRUE] > bins[i, min_ma, drop = TRUE] &
-        occdf[, min_ma, drop = TRUE] < bins[i, max_ma, drop = TRUE]
-    )
-    for (j in v) {
-      bin_list[[j]] <- append(bin_list[[j]], bins$bin[i])
-    }
-  }
+  # # For each occurrence, find all the bins that it is present within, and
+  # # add as elements to that part of the list.
+  # for (i in seq_len(nrow(bins))) {
+  #   v <- which(
+  #     occdf[, max_ma, drop = TRUE] > bins[i, min_ma, drop = TRUE] &
+  #       occdf[, min_ma, drop = TRUE] < bins[i, max_ma, drop = TRUE]
+  #   )
+  #   for (j in v) {
+  #     bin_list[[j]] <- append(bin_list[[j]], bins$bin[i])
+  #   }
+  # }
 
-  # Generate id column for data (this is for tracking duplicate rows).
-  occdf$id <- seq_len(nrow(occdf))
+  # # Generate id column for data (this is for tracking duplicate rows).
+  # occdf$id <- seq_len(nrow(occdf))
 
-  # Generate empty columns for the new bin allocation and midpoint.
-  occdf$n_bins <- lengths(bin_list)
-  occdf$bin_assignment <- NA
-  occdf$bin_midpoint <- NA
+  # # Generate empty columns for the new bin allocation and midpoint.
+  # occdf$n_bins <- lengths(bin_list)
+  # occdf$bin_assignment <- NA
+  # occdf$bin_midpoint <- NA
 
-  # Generate midpoint ages of bins
-  bins$mid_ma <- (bins[, max_ma, drop = TRUE] +
-    bins[, min_ma, drop = TRUE]) /
-    2
+  # # Generate midpoint ages of bins
+  # bins$mid_ma <- (bins[, max_ma, drop = TRUE] +
+  #   bins[, min_ma, drop = TRUE]) /
+  #   2
 
-  list(occdf = occdf, bins = bins, bin_list = bin_list)
+  # list(occdf = occdf, bins = bins, bin_list = bin_list)
+  list(occdf = occdf, bins = bins)
 }
