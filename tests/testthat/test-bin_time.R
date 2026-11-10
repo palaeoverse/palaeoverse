@@ -561,4 +561,8 @@ test_that("bin_time() is deprecated but still works", {
     )),
     error = TRUE
   )
+
+  # Input errors are reported from `bin_time()`, not the method it dispatches to
+  test_data[["max_ma"]] <- test_data[["max_ma"]] + 1000
+  expect_snapshot(bin_time(data = test_data, bins = test_bins), error = TRUE)
 })

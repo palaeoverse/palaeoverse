@@ -203,3 +203,14 @@
       Error in `bin_time()`:
       ! `method` must be one of "mid", "majority", "all", "random", or "point", not "foo".
 
+---
+
+    Code
+      bin_time(data = test_data, bins = test_bins)
+    Condition
+      Warning:
+      `bin_time()` was deprecated in palaeoverse 2.0.0.
+      i Use one of `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, or `bin_time_point()` instead.
+      Error in `bin_time()`:
+      ! Maximum age of occurrence data (1050) surpasses maximum age of bins (50).
+

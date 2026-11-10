@@ -138,6 +138,8 @@ bin_time <- function(
     values = c("mid", "majority", "all", "random", "point")
   )
 
+  check_bin_time_args(data, min_ma, max_ma, bins)
+
   switch(
     method,
     mid = bin_time_mid(data, min_ma = min_ma, max_ma = max_ma, bins = bins),
