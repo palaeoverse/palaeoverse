@@ -507,9 +507,13 @@ check_bin_time_args <- function(
 # max age of the occurrence.
 # In other words, each list element records the bins each occurrence appears within.
 compute_overlaps <- function(data, bins, min_ma, max_ma) {
+  data_max_ma <- data[[max_ma]]
+  data_min_ma <- data[[min_ma]]
+  bins_max_ma <- bins[[max_ma]]
+  bins_min_ma <- bins[[min_ma]]
   lapply(seq_len(nrow(data)), function(i) {
     bins$bin[
-      data[[max_ma]][i] > bins[[min_ma]] & data[[min_ma]][i] < bins[[max_ma]]
+      data_max_ma[i] > bins_min_ma & data_min_ma[i] < bins_max_ma
     ]
   })
 }
