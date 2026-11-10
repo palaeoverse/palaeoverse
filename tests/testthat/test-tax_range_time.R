@@ -322,10 +322,10 @@ test_that("plotting works", {
     plot(tax_range_time(data))
   })
   expect_doppelganger("tax_range_time() works with LAD sorting", function() {
-    plot(tax_range_time(data, by = "LAD"))
+    plot(tax_range_time(data, sort = "LAD"))
   })
   expect_doppelganger("tax_range_time() works with name sorting", function() {
-    plot(tax_range_time(data, by = "name"))
+    plot(tax_range_time(data, sort = "name"))
   })
   expect_doppelganger("tax_range_time() works with group", function() {
     plot(tax_range_time(data, group = "family"))
