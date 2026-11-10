@@ -50,8 +50,8 @@
 #' (`overlap_percentage`) is also appended.
 #'
 #' For `bin_time_random()` and `bin_time_point()`, a list of length \code{reps}
-#' is returned with each element a copy of the `data` and appended columns (random:
-#' `bin_assignment` and `bin_midpoint`; point: `bin_assignment` and `point_estimates`).
+#' is returned with each element a copy of the `data` and appended columns (random method:
+#' `bin_assignment` and `bin_midpoint`; point method: `bin_assignment` and `point_estimates`).
 #'
 #' @details Five approaches (methods) exist for assigning occurrences to time
 #'   bins:
@@ -131,7 +131,6 @@ bin_time_mid <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
     bins$mid_ma <- (bins[[max_ma]] + bins[[min_ma]]) / 2
   }
 
-  # Check if mid_ma equivalent to any bin boundaries
   if (any(data$mid_ma %in% c(bins[[min_ma]], bins[[max_ma]]))) {
     cli::cli_warn(c(
       "!" = "One or more occurrences have a midpoint age equivalent to a bin boundary.",
@@ -155,7 +154,6 @@ bin_time_mid <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
     data$bin_midpoint[v] <- bins$mid_ma[i]
   }
 
-  # Remove mid_ma for fossil occurrences (if not already present as input)
   if (rmcol) {
     data[["mid_ma"]] <- NULL
   }
@@ -366,11 +364,11 @@ bin_time_point <- function(
       to = data[i, max_ma, drop = TRUE],
       by = 0.001
     )
-    #generate x for input probability function
+    # Generate x for input probability function
     x_prob <- seq(from = 0, to = 1, length.out = length(occ_seq))
     # Generate probabilities
     prob <- do.call(fun, c(list(x_prob), supp_args))
-    #if max/min ages are the same replicate age
+    # If max/min ages are the same replicate age
     if (length(unique(occ_seq)) == 1) {
       occ_list[[i]] <- rep(occ_seq, times = reps)
       next
@@ -389,7 +387,7 @@ bin_time_point <- function(
 
   data_list <- vector("list", length = reps)
 
-  #add point estimates to each dataframe
+  # Add point estimates to each dataframe
   for (i in seq_len(reps)) {
     data$point_estimates <- do.call(rbind, occ_list)[, i]
     for (j in seq_len(nrow(bins))) {

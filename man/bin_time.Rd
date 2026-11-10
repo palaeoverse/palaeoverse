@@ -89,8 +89,8 @@ For \code{bin_time_majority()}, an additional column of the majority percentage 
 (\code{overlap_percentage}) is also appended.
 
 For \code{bin_time_random()} and \code{bin_time_point()}, a list of length \code{reps}
-is returned with each element a copy of the \code{data} and appended columns (random:
-\code{bin_assignment} and \code{bin_midpoint}; point: \code{bin_assignment} and \code{point_estimates}).
+is returned with each element a copy of the \code{data} and appended columns (random method:
+\code{bin_assignment} and \code{bin_midpoint}; point method: \code{bin_assignment} and \code{point_estimates}).
 }
 \description{
 These functions assign fossil occurrences to specified time bins based on
