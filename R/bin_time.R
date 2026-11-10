@@ -198,14 +198,21 @@ bin_time_mid <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
   data$bin_assignment <- NA
   data$bin_midpoint <- NA
 
-  for (i in seq_len(nrow(bins))) {
-    v <- which(
-      data$mid_ma > bins[i, min_ma, drop = TRUE] &
-        data$mid_ma < bins[i, max_ma, drop = TRUE]
-    )
-    data$bin_assignment[v] <- bins$bin[i]
-    data$bin_midpoint[v] <- bins$mid_ma[i]
-  }
+  # Assign bin based on midpoint age of the age range
+  ord <- order(bins[[min_ma]])
+  breaks <- c(bins[[min_ma]][ord], max(bins[[max_ma]]))
+  idx <- findInterval(data$mid_ma, breaks, left.open = TRUE)
+  # Strict inequalities in the loop mean boundary values stay unassigned
+  idx[idx == 0 | idx == length(breaks) | data$mid_ma %in% breaks] <- NA
+
+  # Number of bins the age range overlaps: bins starting before the range ends,
+  # minus bins that end at or before the range starts
+  data$n_bins <-
+    findInterval(data[[max_ma]], sort(bins[[min_ma]]), left.open = TRUE) -
+    findInterval(data[[min_ma]], sort(bins[[max_ma]]))
+
+  data$bin_assignment <- bins$bin[ord][idx]
+  data$bin_midpoint <- bins$mid_ma[ord][idx]
 
   if (rmcol) {
     data[["mid_ma"]] <- NULL
@@ -346,18 +353,12 @@ bin_time_random <- function(
     }
   }
 
+  occ_mat <- do.call(rbind, occ_list)
+
   #add point estimates to each dataframe
   for (i in 1:reps) {
-    data$bin_assignment <- do.call(rbind, occ_list)[, i]
-    data$bin_midpoint <- bins$mid_ma[
-      sapply(
-        data$bin_assignment,
-        function(x) {
-          which(bins$bin == x)
-        },
-        simplify = TRUE
-      )
-    ]
+    data$bin_assignment <- occ_mat[, i]
+    data$bin_midpoint <- bins$mid_ma[match(data$bin_assignment, bins$bin)]
     data_list[[i]] <- data
   }
   data_list
@@ -439,10 +440,11 @@ bin_time_point <- function(
   data$point_estimates <- NA
 
   data_list <- vector("list", length = reps)
+  occ_mat <- do.call(rbind, occ_list)
 
   # Add point estimates to each dataframe
   for (i in seq_len(reps)) {
-    data$point_estimates <- do.call(rbind, occ_list)[, i]
+    data$point_estimates <- occ_mat[, i]
     for (j in seq_len(nrow(bins))) {
       vec <- which(
         data$point_estimates <= bins[j, max_ma, drop = TRUE] &
