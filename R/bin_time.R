@@ -188,9 +188,19 @@ bin_time_majority <- function(
   prep <- bin_time_prepare(occdf, min_ma, max_ma, bins)
   occdf <- prep$occdf
   bins <- prep$bins
-  bin_list <- prep$bin_list
 
-  # Setup column for calculating overlap of age range with bin
+  # Bins that the age range of each occurrence overlaps with
+  bin_list <- lapply(seq_len(nrow(occdf)), function(i) {
+    bins$bin[
+      occdf[[max_ma]][i] > bins[[min_ma]] & occdf[[min_ma]][i] < bins[[max_ma]]
+    ]
+  })
+  bins$mid_ma <- (bins[[max_ma]] + bins[[min_ma]]) / 2
+
+  occdf$id <- seq_len(nrow(occdf))
+  occdf$n_bins <- lengths(bin_list)
+  occdf$bin_assignment <- NA
+  occdf$bin_midpoint <- NA
   occdf$overlap_percentage <- NA
 
   # Run across bin list
@@ -231,7 +241,19 @@ bin_time_all <- function(occdf, min_ma = "min_ma", max_ma = "max_ma", bins) {
   prep <- bin_time_prepare(occdf, min_ma, max_ma, bins)
   occdf <- prep$occdf
   bins <- prep$bins
-  bin_list <- prep$bin_list
+
+  # Bins that the age range of each occurrence overlaps with
+  bin_list <- lapply(seq_len(nrow(occdf)), function(i) {
+    bins$bin[
+      occdf[[max_ma]][i] > bins[[min_ma]] & occdf[[min_ma]][i] < bins[[max_ma]]
+    ]
+  })
+  bins$mid_ma <- (bins[[max_ma]] + bins[[min_ma]]) / 2
+
+  occdf$id <- seq_len(nrow(occdf))
+  occdf$n_bins <- lengths(bin_list)
+  occdf$bin_assignment <- NA
+  occdf$bin_midpoint <- NA
 
   # Duplicate rows by number of bins.
   occdf <- occdf[rep(seq_len(dim(occdf)[1]), occdf$n_bins), ]
@@ -268,7 +290,19 @@ bin_time_random <- function(
   prep <- bin_time_prepare(occdf, min_ma, max_ma, bins)
   occdf <- prep$occdf
   bins <- prep$bins
-  bin_list <- prep$bin_list
+
+  # Bins that the age range of each occurrence overlaps with
+  bin_list <- lapply(seq_len(nrow(occdf)), function(i) {
+    bins$bin[
+      occdf[[max_ma]][i] > bins[[min_ma]] & occdf[[min_ma]][i] < bins[[max_ma]]
+    ]
+  })
+  bins$mid_ma <- (bins[[max_ma]] + bins[[min_ma]]) / 2
+
+  occdf$id <- seq_len(nrow(occdf))
+  occdf$n_bins <- lengths(bin_list)
+  occdf$bin_assignment <- NA
+  occdf$bin_midpoint <- NA
 
   # Generate empty lists for populating
   occ_list <- vector("list", length = nrow(occdf))
@@ -347,6 +381,21 @@ bin_time_point <- function(
   occdf <- prep$occdf
   bins <- prep$bins
 
+  # Number of bins that the age range of each occurrence overlaps with
+  n_bins <- vapply(
+    seq_len(nrow(occdf)),
+    function(i) {
+      sum(
+        occdf[[max_ma]][i] > bins[[min_ma]] &
+          occdf[[min_ma]][i] < bins[[max_ma]]
+      )
+    },
+    integer(1)
+  )
+  occdf$id <- seq_len(nrow(occdf))
+  occdf$n_bins <- n_bins
+  occdf$bin_assignment <- NA
+
   # make occurrence list for filling with reps
   occ_list <- vector("list", length = nrow(occdf))
 
@@ -379,8 +428,6 @@ bin_time_point <- function(
   }
 
   occdf$point_estimates <- NA
-  #drop cols that are not needed
-  occdf <- occdf[, -which(colnames(occdf) == "bin_midpoint")]
 
   occ_df_list <- vector("list", length = reps)
 
@@ -501,33 +548,5 @@ bin_time_prepare <- function(
     )
   }
 
-  # Make an empty list that's the length of the occurrence dataframe.
-  bin_list <- vector("list", length = nrow(occdf))
-
-  # For each occurrence, find all the bins that it is present within, and
-  # add as elements to that part of the list.
-  for (i in seq_len(nrow(bins))) {
-    v <- which(
-      occdf[, max_ma, drop = TRUE] > bins[i, min_ma, drop = TRUE] &
-        occdf[, min_ma, drop = TRUE] < bins[i, max_ma, drop = TRUE]
-    )
-    for (j in v) {
-      bin_list[[j]] <- append(bin_list[[j]], bins$bin[i])
-    }
-  }
-
-  # Generate id column for data (this is for tracking duplicate rows).
-  occdf$id <- seq_len(nrow(occdf))
-
-  # Generate empty columns for the new bin allocation and midpoint.
-  occdf$n_bins <- lengths(bin_list)
-  occdf$bin_assignment <- NA
-  occdf$bin_midpoint <- NA
-
-  # Generate midpoint ages of bins
-  bins$mid_ma <- (bins[, max_ma, drop = TRUE] +
-    bins[, min_ma, drop = TRUE]) /
-    2
-
-  list(occdf = occdf, bins = bins, bin_list = bin_list)
+  list(occdf = occdf, bins = bins)
 }
