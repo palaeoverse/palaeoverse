@@ -181,24 +181,21 @@ bin_time_majority <- function(
   ensure_args_are_named(exceptions = "data")
   check_bin_time(data, min_ma, max_ma, bins)
 
-  # Bins that the age range of each occurrence overlaps with
-  bin_list <- lapply(seq_len(nrow(data)), function(i) {
-    bins$bin[
-      data[[max_ma]][i] > bins[[min_ma]] & data[[min_ma]][i] < bins[[max_ma]]
-    ]
-  })
+  # For each observation in occurrence data, get the indices of bins that completely
+  # fall in the `min_ma` - `max_ma` interval of this observation.
+  overlaps <- compute_overlaps(data, bins, min_ma, max_ma)
   bins$mid_ma <- (bins[[max_ma]] + bins[[min_ma]]) / 2
 
   data$id <- seq_len(nrow(data))
-  data$n_bins <- lengths(bin_list)
+  data$n_bins <- lengths(overlaps)
   data$bin_assignment <- NA
   data$bin_midpoint <- NA
   data$overlap_percentage <- NA
 
   # Run across bin list
-  for (i in seq_along(bin_list)) {
+  for (i in seq_along(overlaps)) {
     # Dataframe of bins occurrence known to occur in
-    tmpbin <- bins[bins$bin %in% bin_list[[i]], ]
+    tmpbin <- bins[bins$bin %in% overlaps[[i]], ]
 
     # Generate sequence of length 10000 for percentage calculations
     occ_seq <- seq(
@@ -232,16 +229,13 @@ bin_time_all <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
   ensure_args_are_named(exceptions = "data")
   check_bin_time(data, min_ma, max_ma, bins)
 
-  # Bins that the age range of each occurrence overlaps with
-  bin_list <- lapply(seq_len(nrow(data)), function(i) {
-    bins$bin[
-      data[[max_ma]][i] > bins[[min_ma]] & data[[min_ma]][i] < bins[[max_ma]]
-    ]
-  })
+  # For each observation in occurrence data, get the indices of bins that completely
+  # fall in the `min_ma` - `max_ma` interval.
+  overlaps <- compute_overlaps(data, bins, min_ma, max_ma)
   bins$mid_ma <- (bins[[max_ma]] + bins[[min_ma]]) / 2
 
   data$id <- seq_len(nrow(data))
-  data$n_bins <- lengths(bin_list)
+  data$n_bins <- lengths(overlaps)
   data$bin_assignment <- NA
   data$bin_midpoint <- NA
 
@@ -249,9 +243,9 @@ bin_time_all <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
   data <- data[rep(seq_len(dim(data)[1]), data$n_bins), ]
 
   # Use id to track unique rows and update bin numbers.
-  for (i in seq_along(bin_list)) {
+  for (i in seq_along(overlaps)) {
     id_vec <- which(data$id == i)
-    data$bin_assignment[id_vec] <- bin_list[[i]]
+    data$bin_assignment[id_vec] <- overlaps[[i]]
   }
   # Add bin midpoints to dataframe
   for (i in seq_len(nrow(bins))) {
@@ -279,16 +273,13 @@ bin_time_random <- function(
   rlang::check_number_whole(reps, min = 1)
   check_bin_time(data, min_ma, max_ma, bins)
 
-  # Bins that the age range of each occurrence overlaps with
-  bin_list <- lapply(seq_len(nrow(data)), function(i) {
-    bins$bin[
-      data[[max_ma]][i] > bins[[min_ma]] & data[[min_ma]][i] < bins[[max_ma]]
-    ]
-  })
+  # For each observation in occurrence data, get the indices of bins that completely
+  # fall in the `min_ma` - `max_ma` interval.
+  overlaps <- compute_overlaps(data, bins, min_ma, max_ma)
   bins$mid_ma <- (bins[[max_ma]] + bins[[min_ma]]) / 2
 
   data$id <- seq_len(nrow(data))
-  data$n_bins <- lengths(bin_list)
+  data$n_bins <- lengths(overlaps)
   data$bin_assignment <- NA
   data$bin_midpoint <- NA
 
@@ -298,13 +289,13 @@ bin_time_random <- function(
 
   # Randomly sample from the list of bins that occurrence appears in, and
   # add to the bin column for the occurrence.
-  for (i in seq_along(bin_list)) {
+  for (i in seq_along(overlaps)) {
     # Dataframe of bins occurrence known to occur in
-    tmpbin <- bins[bins$bin %in% bin_list[[i]], ]
+    tmpbin <- bins[bins$bin %in% overlaps[[i]], ]
 
     # If occurrence only appears in one bin, assign bin
-    if (length(bin_list[[i]]) == 1) {
-      occ_list[[i]] <- rep(x = bin_list[[i]], times = reps)
+    if (length(overlaps[[i]]) == 1) {
+      occ_list[[i]] <- rep(x = overlaps[[i]], times = reps)
       next
     } else {
       # Randomly sample from possible bins
@@ -367,7 +358,8 @@ bin_time_point <- function(
 
   check_bin_time(data, min_ma, max_ma, bins)
 
-  # Number of bins that the age range of each occurrence overlaps with
+  # For each observation in occurrence data, get the indices of bins that completely
+  # fall in the `min_ma` - `max_ma` interval.
   n_bins <- vapply(
     seq_len(nrow(data)),
     function(i) {
@@ -531,4 +523,16 @@ check_bin_time <- function(
       "Minimum age of occurrence data ({.val {min(data_min_ma_vals)}}) is less than minimum age of bins ({.val {min(bins_min_ma_vals)}})."
     )
   }
+}
+
+# Create a list of overlaps between occurrence data and bins. For each observation in the
+# occurrence data, we get the indices of the bins that fall completely between the min and
+# max age of the occurrence.
+# In other words, each list element records the bins each occurrence appears within.
+compute_overlaps <- function(data, bins, min_ma, max_ma) {
+  lapply(seq_len(nrow(data)), function(i) {
+    bins$bin[
+      data[[max_ma]][i] > bins[[min_ma]] & data[[min_ma]][i] < bins[[max_ma]]
+    ]
+  })
 }
