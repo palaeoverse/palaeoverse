@@ -71,10 +71,10 @@ test_that("bin_time_mid() works", {
       bin_midpoint = c(5, 15, NA, 15, 15, 25, 5, 15)
     )
   )
-  # TODO: regression test for https://github.com/palaeoverse/palaeoverse/issues/236
-  # expect_silent(
-  #   bin_time_mid(test_occdf[5, ], bins = test_bins)
-  # )
+  # Regression test for https://github.com/palaeoverse/palaeoverse/issues/236
+  expect_silent(
+    bin_time_mid(test_occdf[5, ], bins = test_bins)
+  )
 })
 
 test_that("bin_time_majority() works", {
@@ -473,12 +473,22 @@ test_that("bin_time() is deprecated but still works", {
   for (method in c("mid", "majority", "all", "random", "point")) {
     fn <- get(paste0("bin_time_", method))
     set.seed(1234)
-    lifecycle::expect_deprecated(
-      old <- suppressWarnings(
-        bin_time(test_occdf, bins = test_bins, method = method, reps = 5),
-        classes = "simpleWarning"
+    if (method == "mid") {
+      expect_warning(
+        lifecycle::expect_deprecated(
+          old <- bin_time(
+            test_occdf,
+            bins = test_bins,
+            method = method,
+            reps = 5
+          )
+        )
       )
-    )
+    } else {
+      lifecycle::expect_deprecated(
+        old <- bin_time(test_occdf, bins = test_bins, method = method, reps = 5)
+      )
+    }
     set.seed(1234)
     new <- suppressWarnings(
       if (method %in% c("random", "point")) {

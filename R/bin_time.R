@@ -125,27 +125,41 @@ bin_time_mid <- function(occdf, min_ma = "min_ma", max_ma = "max_ma", bins) {
   occdf <- prep$occdf
   bins <- prep$bins
 
-  # If no mid point is present for occurrence age range, add one in a
-  # new column.
+  # If no mid point is present for occurrence age range, add one in a new column.
   rmcol <- FALSE
   if (!("mid_ma" %in% colnames(occdf))) {
-    occdf$mid_ma <- (occdf[, max_ma, drop = TRUE] +
-      occdf[, min_ma, drop = TRUE]) /
-      2
+    # fmt: skip
+    occdf$mid_ma <- (occdf[, max_ma, drop = TRUE] + occdf[, min_ma, drop = TRUE]) / 2
     rmcol <- TRUE
   }
+  if (!("mid_ma" %in% colnames(bins))) {
+    bins$mid_ma <- (bins[, max_ma, drop = TRUE] +
+      bins[, min_ma, drop = TRUE]) /
+      2
+  }
+
   # Check if mid_ma equivalent to any bin boundaries
-  if (any(occdf$mid_ma %in% bins$mid_ma)) {
-    warning(paste(
-      "One or more occurrences have a midpoint age",
-      "equivalent to a bin boundary. Binning skipped for",
-      "these occurrences.",
-      "Hint: `which(is.na(occdf$bin_assignment))`."
+  if (any(occdf$mid_ma %in% c(bins[[min_ma]], bins[[max_ma]]))) {
+    cli::cli_warn(c(
+      "!" = "One or more occurrences have a midpoint age equivalent to a bin boundary.",
+      "x" = "Binning is skipped for these occurrences.",
+      "i" = "Hint: {.code which(is.na(occdf$bin_assignment))}."
     ))
   }
 
-  # Assign bin based on midpoint age of the age range
+  # Generate id column for data (this is for tracking duplicate rows).
+  occdf$id <- seq_len(nrow(occdf))
+  occdf$n_bins <- 0
+  occdf$bin_assignment <- NA
+  occdf$bin_midpoint <- NA
+
   for (i in seq_len(nrow(bins))) {
+    # Count the bins that the age range of each occurrence overlaps with
+    overlaps <- occdf[[max_ma]] > bins[i, min_ma, drop = TRUE] &
+      occdf[[min_ma]] < bins[i, max_ma, drop = TRUE]
+    occdf$n_bins[overlaps] <- occdf$n_bins[overlaps] + 1
+
+    # Assign bin based on midpoint age of the age range
     v <- which(
       occdf$mid_ma > bins[i, min_ma, drop = TRUE] &
         occdf$mid_ma < bins[i, max_ma, drop = TRUE]
@@ -156,7 +170,7 @@ bin_time_mid <- function(occdf, min_ma = "min_ma", max_ma = "max_ma", bins) {
 
   # Remove mid_ma for fossil occurrences (if not already present as input)
   if (rmcol) {
-    occdf <- occdf[, -which(colnames(occdf) == "mid_ma")]
+    occdf[["mid_ma"]] <- NULL
   }
 
   occdf
@@ -399,10 +413,11 @@ bin_time <- function(
   ...
 ) {
   ensure_args_are_named(exceptions = "occdf")
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     "2.0.0",
     "bin_time()",
-    details = "Use one of `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, or `bin_time_point()` instead."
+    details = "Use one of `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, or `bin_time_point()` instead.",
+    always = TRUE
   )
 
   method <- rlang::arg_match(
