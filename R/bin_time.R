@@ -121,9 +121,7 @@ NULL
 #' @export
 bin_time_mid <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
   ensure_args_are_named(exceptions = "data")
-  prep <- bin_time_prepare(data, min_ma, max_ma, bins)
-  data <- prep$data
-  bins <- prep$bins
+  check_bin_time(data, min_ma, max_ma, bins)
 
   # If no mid point is present for occurrence age range, add one in a new column.
   rmcol <- FALSE
@@ -185,9 +183,7 @@ bin_time_majority <- function(
   bins
 ) {
   ensure_args_are_named(exceptions = "data")
-  prep <- bin_time_prepare(data, min_ma, max_ma, bins)
-  data <- prep$data
-  bins <- prep$bins
+  check_bin_time(data, min_ma, max_ma, bins)
 
   # Bins that the age range of each occurrence overlaps with
   bin_list <- lapply(seq_len(nrow(data)), function(i) {
@@ -238,9 +234,7 @@ bin_time_majority <- function(
 #' @export
 bin_time_all <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
   ensure_args_are_named(exceptions = "data")
-  prep <- bin_time_prepare(data, min_ma, max_ma, bins)
-  data <- prep$data
-  bins <- prep$bins
+  check_bin_time(data, min_ma, max_ma, bins)
 
   # Bins that the age range of each occurrence overlaps with
   bin_list <- lapply(seq_len(nrow(data)), function(i) {
@@ -287,9 +281,7 @@ bin_time_random <- function(
 ) {
   ensure_args_are_named(exceptions = "data")
   rlang::check_number_whole(reps, min = 1)
-  prep <- bin_time_prepare(data, min_ma, max_ma, bins)
-  data <- prep$data
-  bins <- prep$bins
+  check_bin_time(data, min_ma, max_ma, bins)
 
   # Bins that the age range of each occurrence overlaps with
   bin_list <- lapply(seq_len(nrow(data)), function(i) {
@@ -377,9 +369,7 @@ bin_time_point <- function(
     )
   }
 
-  prep <- bin_time_prepare(data, min_ma, max_ma, bins)
-  data <- prep$data
-  bins <- prep$bins
+  check_bin_time(data, min_ma, max_ma, bins)
 
   # Number of bins that the age range of each occurrence overlaps with
   n_bins <- vapply(
@@ -501,10 +491,8 @@ bin_time <- function(
   )
 }
 
-# Validates inputs and computes what all `bin_time_*()` methods share: the
-# appended columns of `data`, bin midpoints, and the list of bins each
-# occurrence overlaps with.
-bin_time_prepare <- function(
+# Input checks shared by all "bin_time" methods.
+check_bin_time <- function(
   data,
   min_ma,
   max_ma,
@@ -512,7 +500,7 @@ bin_time_prepare <- function(
   call = rlang::caller_env()
 ) {
   # Errors are reported as coming from the exported function. Without this line,
-  # error messages would report `bin_time_prepare()`.
+  # error messages would report `check_bin_time()`.
   rlang::local_error_call(call)
 
   check_data_frame(data)
@@ -547,6 +535,4 @@ bin_time_prepare <- function(
       "Minimum age of occurrence data ({.val {min(data_min_ma_vals)}}) is less than minimum age of bins ({.val {min(bins_min_ma_vals)}})."
     )
   }
-
-  list(data = data, bins = bins)
 }
