@@ -302,18 +302,12 @@ bin_time_random <- function(
     }
   }
 
+  occ_mat <- do.call(rbind, occ_list)
+
   #add point estimates to each dataframe
   for (i in 1:reps) {
-    data$bin_assignment <- do.call(rbind, occ_list)[, i]
-    data$bin_midpoint <- bins$mid_ma[
-      sapply(
-        data$bin_assignment,
-        function(x) {
-          which(bins$bin == x)
-        },
-        simplify = TRUE
-      )
-    ]
+    data$bin_assignment <- occ_mat[, i]
+    data$bin_midpoint <- bins$mid_ma[match(data$bin_assignment, bins$bin)]
     data_list[[i]] <- data
   }
   data_list
@@ -395,10 +389,11 @@ bin_time_point <- function(
   data$point_estimates <- NA
 
   data_list <- vector("list", length = reps)
+  occ_mat <- do.call(rbind, occ_list)
 
   #add point estimates to each dataframe
   for (i in seq_len(reps)) {
-    data$point_estimates <- do.call(rbind, occ_list)[, i]
+    data$point_estimates <- occ_mat[, i]
     for (j in seq_len(nrow(bins))) {
       vec <- which(
         data$point_estimates <= bins[j, max_ma, drop = TRUE] &
