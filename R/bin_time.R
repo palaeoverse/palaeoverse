@@ -350,20 +350,8 @@ bin_time_point <- function(
 
   check_bin_time_args(data, min_ma, max_ma, bins)
 
-  # For each observation in occurrence data, get the indices of bins that completely
-  # fall in the `min_ma` - `max_ma` interval.
-  n_bins <- vapply(
-    seq_len(nrow(data)),
-    function(i) {
-      sum(
-        data[[max_ma]][i] > bins[[min_ma]] &
-          data[[min_ma]][i] < bins[[max_ma]]
-      )
-    },
-    integer(1)
-  )
   data$id <- seq_len(nrow(data))
-  data$n_bins <- n_bins
+  data$n_bins <- lengths(compute_overlaps(data, bins, min_ma, max_ma))
   data$bin_assignment <- NA
 
   # make occurrence list for filling with reps
@@ -480,7 +468,7 @@ check_bin_time_args <- function(
   call = rlang::caller_env()
 ) {
   # Errors are reported as coming from the exported function. Without this line,
-  # error messages would report `check_bin_time()`.
+  # error messages would report `check_bin_time_args()`.
   rlang::local_error_call(call)
 
   check_data_frame(data)
