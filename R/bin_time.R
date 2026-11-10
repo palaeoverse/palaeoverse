@@ -50,8 +50,8 @@
 #' (`overlap_percentage`) is also appended.
 #'
 #' For `bin_time_random()` and `bin_time_point()`, a list of length \code{reps}
-#' is returned with each element a copy of the `data` and appended columns (random:
-#' `bin_assignment` and `bin_midpoint`; point: `bin_assignment` and `point_estimates`).
+#' is returned with each element a copy of the `data` and appended columns (random method:
+#' `bin_assignment` and `bin_midpoint`; point method: `bin_assignment` and `point_estimates`).
 #'
 #' @details Five approaches (methods) exist for assigning occurrences to time
 #'   bins:
@@ -114,7 +114,60 @@
 #' ex5 <- bin_time_point(data = data, bins = bins, reps = 5, fun = dnorm,
 #'                       mean = 0.5, sd = 0.25)
 #' @name bin_time
-NULL
+#' @export
+bin_time <- function(
+  data,
+  min_ma = "min_ma",
+  max_ma = "max_ma",
+  bins,
+  method = "mid",
+  reps = 100,
+  fun = dunif,
+  ...
+) {
+  ensure_args_are_named(exceptions = "data")
+  lifecycle::deprecate_warn(
+    "2.0.0",
+    "bin_time()",
+    details = "Use one of `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, or `bin_time_point()` instead.",
+    always = TRUE
+  )
+
+  method <- rlang::arg_match(
+    method,
+    values = c("mid", "majority", "all", "random", "point")
+  )
+
+  check_bin_time_args(data, min_ma, max_ma, bins)
+
+  switch(
+    method,
+    mid = bin_time_mid(data, min_ma = min_ma, max_ma = max_ma, bins = bins),
+    majority = bin_time_majority(
+      data,
+      min_ma = min_ma,
+      max_ma = max_ma,
+      bins = bins
+    ),
+    all = bin_time_all(data, min_ma = min_ma, max_ma = max_ma, bins = bins),
+    random = bin_time_random(
+      data,
+      min_ma = min_ma,
+      max_ma = max_ma,
+      bins = bins,
+      reps = reps
+    ),
+    point = bin_time_point(
+      data,
+      min_ma = min_ma,
+      max_ma = max_ma,
+      bins = bins,
+      reps = reps,
+      fun = fun,
+      ...
+    )
+  )
+}
 
 #' @rdname bin_time
 #' @export
@@ -131,7 +184,6 @@ bin_time_mid <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
     bins$mid_ma <- (bins[[max_ma]] + bins[[min_ma]]) / 2
   }
 
-  # Check if mid_ma equivalent to any bin boundaries
   if (any(data$mid_ma %in% c(bins[[min_ma]], bins[[max_ma]]))) {
     cli::cli_warn(c(
       "!" = "One or more occurrences have a midpoint age equivalent to a bin boundary.",
@@ -162,7 +214,6 @@ bin_time_mid <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
   data$bin_assignment <- bins$bin[ord][idx]
   data$bin_midpoint <- bins$mid_ma[ord][idx]
 
-  # Remove mid_ma for fossil occurrences (if not already present as input)
   if (rmcol) {
     data[["mid_ma"]] <- NULL
   }
@@ -367,11 +418,11 @@ bin_time_point <- function(
       to = data[i, max_ma, drop = TRUE],
       by = 0.001
     )
-    #generate x for input probability function
+    # Generate x for input probability function
     x_prob <- seq(from = 0, to = 1, length.out = length(occ_seq))
     # Generate probabilities
     prob <- do.call(fun, c(list(x_prob), supp_args))
-    #if max/min ages are the same replicate age
+    # If max/min ages are the same replicate age
     if (length(unique(occ_seq)) == 1) {
       occ_list[[i]] <- rep(occ_seq, times = reps)
       next
@@ -391,7 +442,7 @@ bin_time_point <- function(
   data_list <- vector("list", length = reps)
   occ_mat <- do.call(rbind, occ_list)
 
-  #add point estimates to each dataframe
+  # Add point estimates to each dataframe
   for (i in seq_len(reps)) {
     data$point_estimates <- occ_mat[, i]
     for (j in seq_len(nrow(bins))) {
@@ -405,60 +456,6 @@ bin_time_point <- function(
   }
 
   data_list
-}
-
-#' @rdname bin_time
-#' @export
-bin_time <- function(
-  data,
-  min_ma = "min_ma",
-  max_ma = "max_ma",
-  bins,
-  method = "mid",
-  reps = 100,
-  fun = dunif,
-  ...
-) {
-  ensure_args_are_named(exceptions = "data")
-  lifecycle::deprecate_warn(
-    "2.0.0",
-    "bin_time()",
-    details = "Use one of `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, or `bin_time_point()` instead.",
-    always = TRUE
-  )
-
-  method <- rlang::arg_match(
-    method,
-    values = c("mid", "majority", "all", "random", "point")
-  )
-
-  switch(
-    method,
-    mid = bin_time_mid(data, min_ma = min_ma, max_ma = max_ma, bins = bins),
-    majority = bin_time_majority(
-      data,
-      min_ma = min_ma,
-      max_ma = max_ma,
-      bins = bins
-    ),
-    all = bin_time_all(data, min_ma = min_ma, max_ma = max_ma, bins = bins),
-    random = bin_time_random(
-      data,
-      min_ma = min_ma,
-      max_ma = max_ma,
-      bins = bins,
-      reps = reps
-    ),
-    point = bin_time_point(
-      data,
-      min_ma = min_ma,
-      max_ma = max_ma,
-      bins = bins,
-      reps = reps,
-      fun = fun,
-      ...
-    )
-  )
 }
 
 # Input checks shared by all "bin_time" methods.

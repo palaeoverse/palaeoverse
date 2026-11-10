@@ -9,6 +9,17 @@
 \alias{bin_time_point}
 \title{Assign fossil occurrences to time bins}
 \usage{
+bin_time(
+  data,
+  min_ma = "min_ma",
+  max_ma = "max_ma",
+  bins,
+  method = "mid",
+  reps = 100,
+  fun = dunif,
+  ...
+)
+
 bin_time_mid(data, min_ma = "min_ma", max_ma = "max_ma", bins)
 
 bin_time_majority(data, min_ma = "min_ma", max_ma = "max_ma", bins)
@@ -22,17 +33,6 @@ bin_time_point(
   min_ma = "min_ma",
   max_ma = "max_ma",
   bins,
-  reps = 100,
-  fun = dunif,
-  ...
-)
-
-bin_time(
-  data,
-  min_ma = "min_ma",
-  max_ma = "max_ma",
-  bins,
-  method = "mid",
   reps = 100,
   fun = dunif,
   ...
@@ -61,6 +61,10 @@ contain at least the following named columns: "bin" and those specified
 to \code{max_ma} (default: "max_ma") and \code{min_ma} (default: "min_ma").
 Columns \code{max_ma} and \code{min_ma} must be \code{numeric} values.}
 
+\item{method}{\code{character}. The method desired for binning fossil
+occurrences: "mid", "majority", "all", "random", or "point". This
+calls the corresponding \verb{bin_time_*()} function.}
+
 \item{reps}{\code{numeric}. A positive whole number specifying the number
 of replications for sampling. Defaults to 100.}
 
@@ -74,10 +78,6 @@ are generated internally based on the age range of the fossil occurrence
 and should not be manually provided. Note that \code{x} input values range
 between 0 and 1, and function arguments should therefore be scaled to be
 within these bounds.}
-
-\item{method}{\code{character}. The method desired for binning fossil
-occurrences: "mid", "majority", "all", "random", or "point". This
-calls the corresponding \verb{bin_time_*()} function.}
 }
 \value{
 For \code{bin_time_mid()}, \code{bin_time_majority()} and \code{bin_time_all()}, a \code{dataframe}
@@ -89,8 +89,8 @@ For \code{bin_time_majority()}, an additional column of the majority percentage 
 (\code{overlap_percentage}) is also appended.
 
 For \code{bin_time_random()} and \code{bin_time_point()}, a list of length \code{reps}
-is returned with each element a copy of the \code{data} and appended columns (random:
-\code{bin_assignment} and \code{bin_midpoint}; point: \code{bin_assignment} and \code{point_estimates}).
+is returned with each element a copy of the \code{data} and appended columns (random method:
+\code{bin_assignment} and \code{bin_midpoint}; point method: \code{bin_assignment} and \code{point_estimates}).
 }
 \description{
 These functions assign fossil occurrences to specified time bins based on
