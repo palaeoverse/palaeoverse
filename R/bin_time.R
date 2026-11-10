@@ -114,7 +114,58 @@
 #' ex5 <- bin_time_point(data = data, bins = bins, reps = 5, fun = dnorm,
 #'                       mean = 0.5, sd = 0.25)
 #' @name bin_time
-NULL
+#' @export
+bin_time <- function(
+  data,
+  min_ma = "min_ma",
+  max_ma = "max_ma",
+  bins,
+  method = "mid",
+  reps = 100,
+  fun = dunif,
+  ...
+) {
+  ensure_args_are_named(exceptions = "data")
+  lifecycle::deprecate_warn(
+    "2.0.0",
+    "bin_time()",
+    details = "Use one of `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, or `bin_time_point()` instead.",
+    always = TRUE
+  )
+
+  method <- rlang::arg_match(
+    method,
+    values = c("mid", "majority", "all", "random", "point")
+  )
+
+  switch(
+    method,
+    mid = bin_time_mid(data, min_ma = min_ma, max_ma = max_ma, bins = bins),
+    majority = bin_time_majority(
+      data,
+      min_ma = min_ma,
+      max_ma = max_ma,
+      bins = bins
+    ),
+    all = bin_time_all(data, min_ma = min_ma, max_ma = max_ma, bins = bins),
+    random = bin_time_random(
+      data,
+      min_ma = min_ma,
+      max_ma = max_ma,
+      bins = bins,
+      reps = reps
+    ),
+    point = bin_time_point(
+      data,
+      min_ma = min_ma,
+      max_ma = max_ma,
+      bins = bins,
+      reps = reps,
+      fun = fun,
+      ...
+    )
+  )
+}
 
 #' @rdname bin_time
 #' @export
@@ -401,60 +452,6 @@ bin_time_point <- function(
   }
 
   data_list
-}
-
-#' @rdname bin_time
-#' @export
-bin_time <- function(
-  data,
-  min_ma = "min_ma",
-  max_ma = "max_ma",
-  bins,
-  method = "mid",
-  reps = 100,
-  fun = dunif,
-  ...
-) {
-  ensure_args_are_named(exceptions = "data")
-  lifecycle::deprecate_warn(
-    "2.0.0",
-    "bin_time()",
-    details = "Use one of `bin_time_mid()`, `bin_time_majority()`, `bin_time_all()`, `bin_time_random()`, or `bin_time_point()` instead.",
-    always = TRUE
-  )
-
-  method <- rlang::arg_match(
-    method,
-    values = c("mid", "majority", "all", "random", "point")
-  )
-
-  switch(
-    method,
-    mid = bin_time_mid(data, min_ma = min_ma, max_ma = max_ma, bins = bins),
-    majority = bin_time_majority(
-      data,
-      min_ma = min_ma,
-      max_ma = max_ma,
-      bins = bins
-    ),
-    all = bin_time_all(data, min_ma = min_ma, max_ma = max_ma, bins = bins),
-    random = bin_time_random(
-      data,
-      min_ma = min_ma,
-      max_ma = max_ma,
-      bins = bins,
-      reps = reps
-    ),
-    point = bin_time_point(
-      data,
-      min_ma = min_ma,
-      max_ma = max_ma,
-      bins = bins,
-      reps = reps,
-      fun = fun,
-      ...
-    )
-  )
 }
 
 # Input checks shared by all "bin_time" methods.
