@@ -2,9 +2,18 @@
 % Please edit documentation in R/space_bins.R
 \name{space_bins}
 \alias{space_bins}
+\alias{plot.palaeoverse_space_bins}
 \title{Generate H3 spatial bins}
 \usage{
 space_bins(resolution, spacing, area)
+
+\method{plot}{palaeoverse_space_bins}(
+  x,
+  ...,
+  centres = list(c(lat = 0, lon = 0), c(lat = 0, lon = 180), c(lat = 23, lon = -102)),
+  subtitles = NULL,
+  first_layer
+)
 }
 \arguments{
 \item{resolution}{\code{numeric}. The desired H3 resolution. Must be a whole
@@ -17,6 +26,30 @@ if \code{resolution} or \code{area} is used.}
 \item{area}{\code{numeric}. The desired area of each cell. This value should
 be provided in square kilometres. Cannot be used if \code{resolution} or \code{spacing}
 is used.}
+
+\item{x}{An object of class \code{"palaeoverse_space_bins"} created by \code{space_bins()}.}
+
+\item{...}{Extra arguments passed to \code{\link[base:plot]{plot()}}. The following argument is
+already set internally and must not be specified here: \code{add}.}
+
+\item{centres}{\code{list}. Views to display (at most four). These must be either:
+\itemize{
+\item \code{c(lat = , lon = )}: the whole globe centred on this point;
+\item \code{c(xmin = , xmax = , ymin = , ymax = )}: a bounding box (in longitude for \code{x} and latitude for
+\code{y}), centred on its midpoint. \code{xmax} must be greater than \code{xmin}, and \code{ymax} must be greater
+than \code{ymin}.
+}
+
+By default, three globes are centred on longitude 0, longitude 180, and -102.}
+
+\item{subtitles}{\code{character}. Titles of each globe, in the same order as \code{centres}. Must be
+\code{NULL} (default, no subtitles) or of length equal to the number of elements in \code{centres}.}
+
+\item{first_layer}{\code{sf}, \code{sfc}, or \code{sfg}. An object from the package \code{sf} (e.g. lines, polygons,
+or points) indicating the first layer to be printed on each globe. Polygons (such as continents)
+are filled in dark grey to distinguish them from oceans. If unspecified (default), it plots the
+modern coastlines with \code{sf::st_geometry(rnaturalearthdata::coastline110)}. Set
+\code{first_layer = NULL} to remove this layer.}
 }
 \value{
 An object of class \code{palaeoverse_space_bins}. This object can be passed
@@ -69,6 +102,13 @@ space_bins(resolution = 1)
 space_bins(spacing = 1000)
 
 space_bins(area = 100000)
+
+\dontshow{if (requireNamespace("rnaturalearthdata", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+grid <- space_bins(resolution = 1)
+plot(grid)
+
+plot(grid, main = "H3 grid", subtitles = c("Africa", "Pacific", "Americas"))
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=bin_space]{bin_space()}}
