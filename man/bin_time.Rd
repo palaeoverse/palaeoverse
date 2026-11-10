@@ -153,18 +153,18 @@ data <- tetrapods[1:100, ]
 bins <- time_bins()
 
 #Assign via midpoint age of fossil occurrence data
-ex1 <- bin_time_mid(data, bins = bins)
+ex1 <- bin_time_mid(data = data, bins = bins)
 
 #Assign to all bins that age range covers
-ex2 <- bin_time_all(data, bins = bins)
+ex2 <- bin_time_all(data = data, bins = bins)
 
 #Assign via majority overlap based on fossil occurrence age range
-ex3 <- bin_time_majority(data, bins = bins)
+ex3 <- bin_time_majority(data = data, bins = bins)
 
 #Assign randomly to overlapping bins based on fossil occurrence age range
-ex4 <- bin_time_random(data, bins = bins, reps = 5)
+ex4 <- bin_time_random(data = data, bins = bins, reps = 5)
 
 #Assign point estimates following a normal distribution
-ex5 <- bin_time_point(data, bins = bins, reps = 5, fun = dnorm,
+ex5 <- bin_time_point(data = data, bins = bins, reps = 5, fun = dnorm,
                       mean = 0.5, sd = 0.25)
 }

@@ -41,7 +41,6 @@
 #'   within these bounds.
 #'
 #' @return
-#'
 #' For `bin_time_mid()`, `bin_time_majority()` and `bin_time_all()`, a \code{dataframe}
 #' of the original input `data` with the following appended columns is returned:
 #' occurrence id (`id`), number of bins that the occurrence age range covers (`n_bins`),
@@ -100,19 +99,19 @@
 #' bins <- time_bins()
 #'
 #' #Assign via midpoint age of fossil occurrence data
-#' ex1 <- bin_time_mid(data, bins = bins)
+#' ex1 <- bin_time_mid(data = data, bins = bins)
 #'
 #' #Assign to all bins that age range covers
-#' ex2 <- bin_time_all(data, bins = bins)
+#' ex2 <- bin_time_all(data = data, bins = bins)
 #'
 #' #Assign via majority overlap based on fossil occurrence age range
-#' ex3 <- bin_time_majority(data, bins = bins)
+#' ex3 <- bin_time_majority(data = data, bins = bins)
 #'
 #' #Assign randomly to overlapping bins based on fossil occurrence age range
-#' ex4 <- bin_time_random(data, bins = bins, reps = 5)
+#' ex4 <- bin_time_random(data = data, bins = bins, reps = 5)
 #'
 #' #Assign point estimates following a normal distribution
-#' ex5 <- bin_time_point(data, bins = bins, reps = 5, fun = dnorm,
+#' ex5 <- bin_time_point(data = data, bins = bins, reps = 5, fun = dnorm,
 #'                       mean = 0.5, sd = 0.25)
 #' @name bin_time
 NULL
@@ -121,7 +120,7 @@ NULL
 #' @export
 bin_time_mid <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
   ensure_args_are_named(exceptions = "data")
-  check_bin_time(data, min_ma, max_ma, bins)
+  check_bin_time_args(data, min_ma, max_ma, bins)
 
   rmcol <- FALSE
   if (!("mid_ma" %in% colnames(data))) {
@@ -179,7 +178,7 @@ bin_time_majority <- function(
   bins
 ) {
   ensure_args_are_named(exceptions = "data")
-  check_bin_time(data, min_ma, max_ma, bins)
+  check_bin_time_args(data, min_ma, max_ma, bins)
 
   # For each observation in occurrence data, get the indices of bins that completely
   # fall in the `min_ma` - `max_ma` interval of this observation.
@@ -227,7 +226,7 @@ bin_time_majority <- function(
 #' @export
 bin_time_all <- function(data, min_ma = "min_ma", max_ma = "max_ma", bins) {
   ensure_args_are_named(exceptions = "data")
-  check_bin_time(data, min_ma, max_ma, bins)
+  check_bin_time_args(data, min_ma, max_ma, bins)
 
   # For each observation in occurrence data, get the indices of bins that completely
   # fall in the `min_ma` - `max_ma` interval.
@@ -271,7 +270,7 @@ bin_time_random <- function(
 ) {
   ensure_args_are_named(exceptions = "data")
   rlang::check_number_whole(reps, min = 1)
-  check_bin_time(data, min_ma, max_ma, bins)
+  check_bin_time_args(data, min_ma, max_ma, bins)
 
   # For each observation in occurrence data, get the indices of bins that completely
   # fall in the `min_ma` - `max_ma` interval.
@@ -356,7 +355,7 @@ bin_time_point <- function(
     )
   }
 
-  check_bin_time(data, min_ma, max_ma, bins)
+  check_bin_time_args(data, min_ma, max_ma, bins)
 
   # For each observation in occurrence data, get the indices of bins that completely
   # fall in the `min_ma` - `max_ma` interval.
@@ -480,7 +479,7 @@ bin_time <- function(
 }
 
 # Input checks shared by all "bin_time" methods.
-check_bin_time <- function(
+check_bin_time_args <- function(
   data,
   min_ma,
   max_ma,
