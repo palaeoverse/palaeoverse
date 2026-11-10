@@ -4,7 +4,7 @@
 #' bins (i.e. cells) using a hexagonal equal-area grid. This function is related to
 #' [`space_bins()`], which creates the spatial bins required by the `bins` argument.
 #'
-#' @param occdf \code{data.frame}. A dataframe of the fossil occurrences (or
+#' @param data \code{data.frame}. A dataframe of the fossil occurrences (or
 #' any set of coordinates) you wish to bin. This dataframe should contain the decimal
 #' degree coordinates of your occurrences, and they should be of
 #' class `numeric`.
@@ -15,8 +15,8 @@
 #' as the input longitude (e.g. "lng" or "p_lng").
 #' @param lat \code{character}. The name of the column you wish to be treated
 #' as the input latitude (e.g. "lat" or "p_lat").
-#' @param plot \code{logical}. Should the occupied cells of the equal-area grid
-#' be plotted?
+#' @param plot `r lifecycle::badge("deprecated")` Use `plot()` on the output of
+#' this function instead.
 #' @param spacing,sub_grid,return `r lifecycle::badge("deprecated")` These arguments
 #' are no longer used and don't have a replacement. Pass the output of `space_bins()`
 #' to the `bins` argument instead.
@@ -55,32 +55,38 @@
 #' @importFrom sf st_as_sf st_drop_geometry
 #' @importFrom h3jsr point_to_cell cell_to_point cell_to_polygon
 #' @seealso [`space_bins()`]
-#' @examples
+#' @examplesIf requireNamespace("rnaturalearthdata", quietly = TRUE)
 #' # Get internal data
 #' data("reefs")
 #'
 #' # Reduce data for plotting
-#' occdf <- reefs[1:250, ]
+#' data <- reefs[1:250, ]
 #'
 #' # Bin data using a hexagonal equal-area grid
-#' ex1 <- bin_space(occdf = occdf, bins = space_bins(spacing = 500))
+#' ex1 <- bin_space(data = data, bins = space_bins(spacing = 500))
+#' plot(ex1)
+#'
+#' # Make filled hexagons slightly transparent
+#' plot(ex1, col = adjustcolor("#E69F00", alpha.f = 0.5))
 #'
 #' # Bin data using a hexagonal equal-area grid and sub-grid
-#' ex2 <- occdf |>
+#' ex2 <- data |>
 #'   bin_space(bins = space_bins(spacing = 1000)) |>
 #'   bin_space(bins = space_bins(spacing = 250))
 #'
+#' plot(ex2, main = "Reefs", subtitles = c("Africa", "Pacific", "Americas"))
+#'
 #' # EXAMPLE: rarefy
 #' # Load data
-#' occdf <- tetrapods[1:250, ]
+#' data <- tetrapods[1:250, ]
 #'
 #' # Assign to spatial bins and sub-bins
-#' occdf <- occdf |>
+#' data <- data |>
 #'   bin_space(bins = space_bins(spacing = 1000)) |>
 #'   bin_space(bins = space_bins(spacing = 250))
 #'
 #' # Get unique bins
-#' bins <- unique(occdf$cell_ID_1)
+#' bins <- unique(data$cell_ID_1)
 #'
 #' # n reps
 #' n <- 10
@@ -88,8 +94,8 @@
 #' # Rarefy data across sub-grid grid cells
 #' # Returns a list with each element a bin with respective mean genus richness
 #' df <- lapply(bins, function(x) {
-#'   # subset occdf for respective grid cell
-#'   tmp <- occdf[which(occdf$cell_ID_1 == x), ]
+#'   # subset data for respective grid cell
+#'   tmp <- data[which(data$cell_ID_1 == x), ]
 #'
 #'   # Which sub-grid cells are there within this bin?
 #'   sub_bin <- unique(tmp$cell_ID_2)
@@ -109,16 +115,16 @@
 #' df
 #' @export
 bin_space <- function(
-  occdf,
+  data,
   bins,
   lng = "lng",
   lat = "lat",
-  plot = FALSE,
+  plot = deprecated(),
   spacing,
   sub_grid,
   return
 ) {
-  ensure_args_are_named(exceptions = "occdf")
+  ensure_args_are_named(exceptions = "data")
 
   for (arg in c("return", "spacing", "sub_grid")) {
     if (arg %in% names(match.call())) {
@@ -131,7 +137,7 @@ bin_space <- function(
     }
   }
 
-  check_data_frame(occdf)
+  check_data_frame(data)
 
   if (!inherits(bins, "palaeoverse_space_bins")) {
     cli::cli_abort(
@@ -142,20 +148,28 @@ bin_space <- function(
     )
   }
 
-  check_column_presence(occdf, lat)
-  check_column_presence(occdf, lng)
+  check_column_presence(data, lat)
+  check_column_presence(data, lng)
 
-  check_class(occdf, lat, "numeric")
-  check_class(occdf, lng, "numeric")
-  check_range(occdf, lat, -90, 90)
-  check_range(occdf, lng, -180, 180)
+  check_class(data, lat, "numeric")
+  check_class(data, lng, "numeric")
+  check_range(data, lat, -90, 90)
+  check_range(data, lng, -180, 180)
 
-  rlang::check_bool(plot)
+  if (lifecycle::is_present(plot)) {
+    lifecycle::deprecate_warn(
+      "2.0.0",
+      "bin_space(plot)",
+      I("`plot()` on the output of this function"),
+      always = TRUE
+    )
+    rlang::check_bool(plot)
+  }
 
   #=== Set-up ===
   # Convert to sf object and add CRS
-  occdf <- sf::st_as_sf(
-    occdf,
+  data <- sf::st_as_sf(
+    data,
     coords = c(lng, lat),
     remove = FALSE,
     crs = "EPSG:4326"
@@ -171,7 +185,7 @@ bin_space <- function(
 
   overwritten <- intersect(
     c(cell_name, cent_lat_name, cent_lon_name),
-    names(occdf)
+    names(data)
   )
   if (length(overwritten) > 0) {
     cli::cli_inform("Overwriting column{?s} {.val {overwritten}}.")
@@ -180,34 +194,97 @@ bin_space <- function(
   # Point -> cell
   # Cell -> find centroid
   # Add centroid coords to the data
-  occdf[[cell_name]] <- h3jsr::point_to_cell(occdf, res = h3_resolution)
+  data[[cell_name]] <- h3jsr::point_to_cell(data, res = h3_resolution)
   coords <- sf::st_coordinates(h3jsr::cell_to_point(
-    h3_address = occdf[[cell_name]]
+    h3_address = data[[cell_name]]
   ))
-  occdf[[cent_lon_name]] <- coords[, "X"]
-  occdf[[cent_lat_name]] <- coords[, "Y"]
+  data[[cent_lon_name]] <- coords[, "X"]
+  data[[cent_lat_name]] <- coords[, "Y"]
 
-  # Plot data?
-  if (plot) {
-    plot(
-      bins,
-      setParUsrBB = TRUE,
-      xlab = "Longitude",
-      ylab = "Latitude",
-      axes = TRUE
+  data <- sf::st_drop_geometry(data)
+  data <- data.frame(data)
+  class(data) <- c("palaeoverse_bin_space", class(data))
+
+  if (isTRUE(plot)) {
+    plot(data)
+  }
+
+  data
+}
+
+#' @param x `data.frame`. An object of class `"palaeoverse_bin_space"` created by `bin_space()`.
+#' @param col `character`. Colour(s) of the occupied cells. Must be of length 1 (in which case
+#' all resolutions have the same colour) or of length equal to the number of resolutions in `x`,
+#' ordered from the coarsest to the finest resolution. By default, colours are taken in order
+#' from the colour-blind friendly Okabe-Ito palette (see [`grDevices::palette.colors()`]).
+#' @inheritParams space_bins
+#'
+#' @details
+#' The base grid uses the coarsest resolution among the `cell_ID_*` columns, and the occupied
+#' cells of every resolution are drawn on top of it. The world is shown as one or several globes
+#' (see `centres`) using an orthographic projection, which avoids distorting cells that cross the
+#' antimeridian or cover the poles. Present-day coastlines are drawn as the first layer, which
+#' requires the package `rnaturalearthdata`.
+#'
+#' @name bin_space
+#' @export
+plot.palaeoverse_bin_space <- function(
+  x,
+  ...,
+  col = NULL,
+  centres = list(
+    c(lat = 0, lon = 0),
+    c(lat = 0, lon = 180),
+    c(lat = 23, lon = -102)
+  ),
+  subtitles = NULL,
+  first_layer
+) {
+  check_forbidden_plot_args(
+    ...,
+    forbidden = "add",
+    class = "palaeoverse_bin_space"
+  )
+  rlang::check_installed(
+    "rnaturalearthdata",
+    reason = "to plot the output of `bin_space()`."
+  )
+
+  cell_cols <- grep("^cell_ID_([0-9]|1[0-5])$", names(x), value = TRUE)
+  if (length(cell_cols) == 0) {
+    cli::cli_abort(
+      "{.arg x} must contain at least one column named {.val cell_ID_<resolution>}."
     )
-    primary <- h3jsr::cell_to_polygon(input = occdf[[cell_name]], simple = TRUE)
-    plot(
-      primary,
-      col = "#feb24c",
-      axes = TRUE,
-      ylab = "Latitude",
-      xlab = "Longitude",
-      add = TRUE
+  }
+  resolutions <- sort(as.integer(sub("cell_ID_", "", cell_cols, fixed = TRUE)))
+  n_res <- length(resolutions)
+
+  if (is.null(col)) {
+    # Drop black, which is the first colour of Okabe-Ito
+    col <- unname(grDevices::palette.colors(palette = "Okabe-Ito"))[-1]
+  } else if (!(length(col) %in% c(1, n_res)) || !is.character(col)) {
+    cli::cli_abort(
+      "Argument {.arg col} must be of class {.cls character} and of length 1 or {n_res} (i.e. the number of resolutions in {.arg x})."
     )
   }
 
-  occdf <- sf::st_drop_geometry(occdf)
-  occdf <- data.frame(occdf)
-  occdf
+  # `base_grid` is a `space_bins` object. We add info on the filled cells and call plot.palaeoverse_space_bins(),
+  # which is then in charge of plotting everything. This avoids duplicating most of the plotting logic across
+  # these two methods.
+  base_grid <- suppressMessages(space_bins(resolution = resolutions[1]))
+  attr(base_grid, "filled_cells") <- list(
+    # Coarsest cells first so that finer cells are drawn on top
+    cells = lapply(resolutions, function(res) {
+      h3jsr::cell_to_polygon(input = unique(x[[paste0("cell_ID_", res)]]))
+    }),
+    col = col
+  )
+
+  plot(
+    base_grid,
+    ...,
+    centres = centres,
+    subtitles = subtitles,
+    first_layer = first_layer
+  )
 }

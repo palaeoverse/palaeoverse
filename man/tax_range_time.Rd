@@ -6,12 +6,13 @@
 \title{Calculate the temporal range of fossil taxa}
 \usage{
 tax_range_time(
-  occdf,
+  data,
   name = "genus",
   min_ma = "min_ma",
   max_ma = "max_ma",
   group = NULL,
-  by = "FAD",
+  sort = "FAD",
+  by = deprecated(),
   plot = deprecated(),
   plot_args = deprecated(),
   intervals = deprecated()
@@ -28,7 +29,7 @@ tax_range_time(
 )
 }
 \arguments{
-\item{occdf}{\code{dataframe}. A dataframe of fossil occurrences containing
+\item{data}{\code{dataframe}. A dataframe of fossil occurrences containing
 at least three columns: names of taxa, minimum age and maximum age
 (see \code{name}, \code{min_ma}, and \code{max_ma} arguments).
 These ages should constrain the age range of the fossil occurrence
@@ -47,9 +48,11 @@ as the maximum limit of the age range, e.g. "max_ma" (default).}
 as the grouping variable, e.g. "family". If not supplied, all taxa are
 treated as a single group.}
 
-\item{by}{\code{character}. How should the output be sorted?
+\item{sort}{\code{character}. How should the output be sorted?
 Either: "FAD" (first-appearance date; default), "LAD" (last-appearance data),
 or "name" (alphabetically by taxon names).}
+
+\item{by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{sort} instead.}
 
 \item{plot, plot_args}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{plot()} on the
 output of this function instead.}
@@ -94,7 +97,7 @@ data.
 }
 \details{
 The temporal range(s) of taxa are calculated by extracting all
-unique taxa (\code{name} column) from the input \code{occdf}, and checking their
+unique taxa (\code{name} column) from the input \code{data}, and checking their
 first and last appearance. The temporal duration of each taxon is also
 calculated. If the input data columns contain NAs, these must be
 removed prior to function call.
@@ -125,28 +128,28 @@ Bethany Allen, Christopher D. Dean & Kilian Eichenseer
 
 \examples{
 # Grab internal data
-occdf <- tetrapods
+data <- tetrapods
 # Remove NAs
-occdf <- subset(occdf, !is.na(order) & order != "NO_ORDER_SPECIFIED")
+data <- subset(data, !is.na(order) & order != "NO_ORDER_SPECIFIED")
 # Temporal range
-ex <- tax_range_time(occdf = occdf, name = "order")
+ex <- tax_range_time(data = data, name = "order")
 plot(ex)
 
 # Temporal range ordered by class
 # Update margins for plotting
 par(mar = c(8, 5, 6, 6))
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+ex <- tax_range_time(data = data, name = "order", group = "class")
 plot(ex)
 
 # Customise appearance
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+ex <- tax_range_time(data = data, name = "order", group = "class")
 plot(ex, ylab = "Orders", pch = 21, col = "black", bg = "blue", lty = 2,
      axis = axis_geo(intervals = "eras", abbr = FALSE))
 
 # Control plotting order of groups
-occdf$class <- factor(x = occdf$class,
+data$class <- factor(x = data$class,
                       levels = c("Reptilia", "Osteichthyes"))
-ex <- tax_range_time(occdf = occdf, name = "order", group = "class")
+ex <- tax_range_time(data = data, name = "order", group = "class")
 plot(ex)
 
 # Add elements to the plot
