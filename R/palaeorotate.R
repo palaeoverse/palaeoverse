@@ -454,7 +454,7 @@ palaeorotate <- function(
           req$time <- i
           req$model <- m
           req$lats <- paste(x[[lat]], sep = ",", collapse = ",")
-          req$lons <- paste(x[[lat]], sep = ",", collapse = ",")
+          req$lons <- paste(x[[lng]], sep = ",", collapse = ",")
           return(req)
         })
         # Call API and extract coordinates
