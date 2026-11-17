@@ -1,31 +1,39 @@
-test_that("group_apply() basic behavior", {
-  data <- tetrapods[1:50, ]
+data_types <- data.frame(.test_name = c("data.frame", "tibble"))
+data_types$as_input <- list(identity, tibble::as_tibble)
 
-  expect_equal(
-    group_apply(data = data, group = "cc", fun = nrow),
-    data.frame(
-      nrow = c(1, 5, 6, 35, 3),
-      cc = c("CA", "RU", "UK", "US", "ZA")
-    ),
-    # TODO: this is necessary because the first column is a named vector but
-    # I guess this should be a simple vector instead.
-    ignore_attr = TRUE
-  )
+patrick::with_parameters_test_that(
+  "group_apply() basic behavior",
+  .cases = data_types,
+  {
+    data <- as_input(tetrapods[1:50, ])
 
-  # several groups
-  # fmt: skip
-  expect_equal(
-    group_apply(data = data, group = c("collection_no", "cc"), fun = nrow),
-    data.frame(
-      nrow = c(1, 5, 4, 2, 1, 1, 1, 1, 1, 9, 6, 6, 3, 6, 1, 1, 1),
-      collection_no = c(
-        "13219", "22644", "22725", "22726", "12943", "13044", "13046", "13048", "13049",
-        "13080", "13257", "13947", "22635", "22714", "13004", "13043", "13083"
-      ),
-      cc = c("CA", "RU", "UK", "UK", rep("US", 10), "ZA", "ZA", "ZA")
+    expect_equal(
+      group_apply(data = data, group = "cc", fun = nrow),
+      as_input(data.frame(
+        nrow = c(1, 5, 6, 35, 3),
+        cc = c("CA", "RU", "UK", "US", "ZA")
+      )),
+      # TODO: this is necessary because the first column is a named vector but
+      # I guess this should be a simple vector instead.
+      ignore_attr = TRUE
     )
+
+    # several groups
+    # fmt: skip
+    expect_equal(
+      group_apply(data = data, group = c("collection_no", "cc"), fun = nrow),
+      as_input(data.frame(
+        nrow = c(1, 5, 4, 2, 1, 1, 1, 1, 1, 9, 6, 6, 3, 6, 1, 1, 1),
+        collection_no = c(
+          "13219", "22644", "22725", "22726", "12943", "13044", "13046", "13048", "13049",
+          "13080", "13257", "13947", "22635", "22714", "13004", "13043", "13083"
+        ),
+        cc = c("CA", "RU", "UK", "UK", rep("US", 10), "ZA", "ZA", "ZA")
+      )),
+      ignore_attr = TRUE
   )
-})
+  }
+)
 
 test_that("error handling for argument 'data'", {
   # Snapshots are slightly different in older versions of R
@@ -45,14 +53,18 @@ test_that("error handling for argument 'data'", {
   )
 })
 
-test_that("piping and not piping the first argument give the same result", {
-  data <- tetrapods[1:50, ]
+patrick::with_parameters_test_that(
+  "piping and not piping the first argument give the same result",
+  .cases = data_types,
+  {
+    data <- as_input(tetrapods[1:50, ])
 
-  expect_equal(
-    group_apply(data, group = "cc", fun = nrow),
-    data |> group_apply(group = "cc", fun = nrow)
-  )
-})
+    expect_equal(
+      group_apply(data, group = "cc", fun = nrow),
+      data |> group_apply(group = "cc", fun = nrow)
+    )
+  }
+)
 
 test_that("group_apply errors with unnamed args", {
   data <- tetrapods[1:50, ]
@@ -71,94 +83,102 @@ test_that("group_apply errors with unnamed args", {
   )
 })
 
-test_that("group_apply() accepts functions that return less or more rows than in the input", {
-  data <- tetrapods[1:100, ]
-  data <- subset(data, !is.na(genus))
-  expect_equal(
-    nrow(group_apply(data = data, group = "cc", fun = tax_range_time)),
-    48
-  )
-  expect_equal(
-    nrow(
+patrick::with_parameters_test_that(
+  "group_apply() accepts functions that return less or more rows than in the input",
+  .cases = data_types,
+  {
+    data <- as_input(tetrapods[1:100, ])
+    data <- subset(data, !is.na(genus))
+    expect_equal(
+      nrow(group_apply(data = data, group = "cc", fun = tax_range_time)),
+      48
+    )
+    expect_equal(
+      nrow(
+        group_apply(
+          data = data,
+          group = "cc",
+          fun = tax_range_time,
+          name = "family"
+        )
+      ),
+      35
+    )
+    expect_equal(
+      nrow(
+        group_apply(
+          data = data,
+          group = c("collection_no", "cc"),
+          fun = tax_range_time
+        )
+      ),
+      80
+    )
+
+    # can return no rows at all
+    expect_null(
       group_apply(
         data = data,
-        group = "cc",
-        fun = tax_range_time,
-        name = "family"
+        group = "collection_no",
+        fun = tax_check,
+        verbose = FALSE
       )
-    ),
-    35
-  )
-  expect_equal(
-    nrow(
+    )
+  }
+)
+
+patrick::with_parameters_test_that(
+  "group_apply() puts groups last",
+  .cases = data_types,
+  {
+    data <- as_input(tetrapods[1:100, ])
+    data <- subset(data, !is.na(genus))
+
+    # Single group
+    expect_named(
+      group_apply(data = data, group = "cc", fun = nrow),
+      c("nrow", "cc")
+    )
+
+    # Several groups
+    expect_named(
+      group_apply(data = data, group = c("cc", "formation"), fun = nrow),
+      c("nrow", "cc", "formation")
+    )
+
+    # Hits the "list" branch in group_apply()
+    expect_named(
       group_apply(
         data = data,
-        group = c("collection_no", "cc"),
+        group = "collection_no",
+        fun = tax_unique,
+        genus = "genus",
+        family = "family",
+        order = "order",
+        class = "class",
+        resolution = "genus"
+      ),
+      c("class", "order", "family", "genus", "unique_name", "collection_no")
+    )
+    expect_named(
+      group_apply(
+        data = data,
+        group = c("cc", "formation"),
         fun = tax_range_time
+      ),
+      c(
+        "taxon",
+        "taxon_id",
+        "max_ma",
+        "min_ma",
+        "range_myr",
+        "n_occ",
+        "cc",
+        "formation"
       )
-    ),
-    80
-  )
-
-  # can return no rows at all
-  expect_null(
-    group_apply(
-      data = data,
-      group = "collection_no",
-      fun = tax_check,
-      verbose = FALSE
     )
-  )
-})
-
-test_that("group_apply() puts groups last", {
-  data <- tetrapods[1:100, ]
-  data <- subset(data, !is.na(genus))
-
-  # Single group
-  expect_named(
-    group_apply(data = data, group = "cc", fun = nrow),
-    c("nrow", "cc")
-  )
-
-  # Several groups
-  expect_named(
-    group_apply(data = data, group = c("cc", "formation"), fun = nrow),
-    c("nrow", "cc", "formation")
-  )
-
-  # Hits the "list" branch in group_apply()
-  expect_named(
-    group_apply(
-      data = data,
-      group = "collection_no",
-      fun = tax_unique,
-      genus = "genus",
-      family = "family",
-      order = "order",
-      class = "class",
-      resolution = "genus"
-    ),
-    c("class", "order", "family", "genus", "unique_name", "collection_no")
-  )
-  expect_named(
-    group_apply(
-      data = data,
-      group = c("cc", "formation"),
-      fun = tax_range_time
-    ),
-    c(
-      "taxon",
-      "taxon_id",
-      "max_ma",
-      "min_ma",
-      "range_myr",
-      "n_occ",
-      "cc",
-      "formation"
-    )
-  )
-})
+  }
+)
 
 test_that("error handling for argument 'group'", {
   # Snapshots are slightly different in older versions of R
