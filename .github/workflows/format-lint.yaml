@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install Air
-        uses: posit-dev/setup-air@c4114380d9ee04ea23d9fda3f329843cf4cf57c2 # v1.0.1
+        uses: posit-dev/setup-air@482cb5912394878ab5a63b75db0f9d19cc6df5ba # v1.0.1
       - name: Check
         id: check
         run: air format . --check
