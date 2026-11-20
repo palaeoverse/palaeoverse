@@ -65,10 +65,12 @@ Suggests:
     covr,
     knitr,
     paleotree,
+    patrick,
     phytools,
     rmarkdown,
     rnaturalearthdata,
     testthat (>= 3.0.0),
+    tibble,
     vcr,
     vdiffr (>= 1.0.0)
 VignetteBuilder: knitr
