@@ -31,6 +31,26 @@ test_that("tax_certainty() basic behavior", {
   )
 })
 
+test_that("tax_certainty() handles single-row and zero-row data frames", {
+  one_certain <- data.frame(identified_name = "Tyrannosaurus rex")
+  expect_equal(
+    tax_certainty(data = one_certain, name = "identified_name"),
+    cbind(one_certain, data.frame(certainty = 1))
+  )
+
+  one_uncertain <- data.frame(identified_name = "Tyrannosaurus sp.")
+  expect_equal(
+    tax_certainty(data = one_uncertain, name = "identified_name"),
+    cbind(one_uncertain, data.frame(certainty = 0))
+  )
+
+  zero_rows <- data.frame(identified_name = character())
+  expect_equal(
+    tax_certainty(data = zero_rows, name = "identified_name"),
+    data.frame(identified_name = character(), certainty = numeric())
+  )
+})
+
 test_that("arg 'name' works", {
   data("tetrapods")
   data <- tetrapods[1:5, "identified_name", drop = FALSE]

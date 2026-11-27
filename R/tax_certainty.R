@@ -149,9 +149,14 @@ tax_certainty <- function(
   # Drop NULL screening terms if present
   screen <- screen[!unlist(lapply(screen, is.null))]
   # Identify taxonomic certainty
-  matches <- lapply(screen, function(x) {
-    sapply(x, grepl, data$certainty, ignore.case = TRUE, perl = TRUE)
-  })
+  patterns <- unlist(screen, use.names = FALSE)
+  matches <- lapply(
+    patterns,
+    grepl,
+    x = data$certainty,
+    ignore.case = TRUE,
+    perl = TRUE
+  )
   matches <- do.call(cbind, matches)
   # Explicitly test NA
   matches <- cbind(matches, is.na = is.na(data$certainty))
